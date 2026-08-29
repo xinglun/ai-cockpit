@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=294 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=511 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=298 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=507 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、292 `implemented-different-by-design`、1
@@ -814,3 +814,23 @@ Rust-native documentation boundary を継承しますが、repository fact、Wor
 knowledge、snapshot は明示的な `--repo` の下で分離されます。WI-386 後の ledger は 4,262
 `generated-history`、294 `implemented-different-by-design`、1 `implemented-equivalent`、4
 `not-applicable`、47 `reference-only`、511 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-387 — reference documentation batch 20
+
+WI-387 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の次の security / supply-chain
+文書 4 件を一つずつ比較します。責務は Rust-native security、trust-flow、release-evidence、distribution
+文書で表現します。本 batch は bounded な repository-governance response と外部 control boundary を保持し、
+general prompt-injection detector、signature、SBOM、provenance、provider assurance を Runtime が提供すると
+主張しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/security/injection-boundary.ja.md` | implemented-different-by-design | `docs/security/adversarial-validation.ja.md`、`docs/reference/input-trust-dataflow.ja.md`、`docs/reference/operation-time-policy-reevaluation.ja.md` が日本語の injection boundary、operation-time fail-closed review、外部 control 制限を保持します。 |
+| `docs/security/injection-boundary.md` | implemented-different-by-design | `docs/security/adversarial-validation.md`、`docs/reference/input-trust-dataflow.md`、`docs/reference/operation-time-policy-reevaluation.md` が bounded repository-governance response を保持します。untrusted text は data のままで、source page を general detector claim としてコピーしません。 |
+| `docs/security/injection-boundary.zh-CN.md` | implemented-different-by-design | `docs/security/adversarial-validation.zh-CN.md`、`docs/reference/input-trust-dataflow.zh-CN.md`、`docs/reference/operation-time-policy-reevaluation.zh-CN.md` が中国語の boundary、deterministic fail-closed handling、non-claims を保持します。 |
+| `docs/security/supply-chain.md` | implemented-different-by-design | `docs/security/threat-model.md`、`docs/reference/ci-release-evidence.md`、`docs/release/distribution.md`、`docs/getting-started/security-release-verification.md` が delegated supply-chain evidence ownership と exact artifact binding を保持し、external trust root は Runtime 外に残します。 |
+
+WI-387 後の ledger は 4,262 `generated-history`、298 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、47 `reference-only`、507 `deferred-next-batch`、
+`migrate-gap` は 0 です。すべての attach 済み object/adopter project は同じ Rust-native security / supply-chain
+boundary を継承し、repository fact と evidence は明示的な `--repo` context で分離されます。

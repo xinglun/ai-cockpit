@@ -32444,34 +32444,51 @@
       ],
       "reason": "The target carries the source trust/authority separation, deterministic fail-closed classification, high-risk re-evaluation, and explicit limitations through Rust-native security and reference docs. The source classifier implementation and Python/Make commands are not copied."
     },
-    {
-      "referencePath": "docs/security/injection-boundary.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
-    },
-    {
-      "referencePath": "docs/security/injection-boundary.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
-    },
-    {
-      "referencePath": "docs/security/injection-boundary.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
-    },
-    {
-      "referencePath": "docs/security/supply-chain.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
-    },
+  {
+    "referencePath": "docs/security/injection-boundary.ja.md",
+    "batch": "WI-387",
+    "classification": "implemented-different-by-design",
+    "rustCounterparts": [
+      "docs/security/adversarial-validation.ja.md",
+      "docs/reference/input-trust-dataflow.ja.md",
+      "docs/reference/operation-time-policy-reevaluation.ja.md"
+    ],
+    "reason": "Rust-native Japanese security and trust-flow documents preserve the bounded repository-governance injection response, fail-closed operation-time checks, and explicit external-control boundary; the source page is not copied as a detector claim."
+  },
+  {
+    "referencePath": "docs/security/injection-boundary.md",
+    "batch": "WI-387",
+    "classification": "implemented-different-by-design",
+    "rustCounterparts": [
+      "docs/security/adversarial-validation.md",
+      "docs/reference/input-trust-dataflow.md",
+      "docs/reference/operation-time-policy-reevaluation.md"
+    ],
+    "reason": "Rust-native security and trust-flow documents preserve the bounded repository-governance injection response, fail-closed operation-time checks, and explicit external-control boundary; the source page is not copied as a general detector claim."
+  },
+  {
+    "referencePath": "docs/security/injection-boundary.zh-CN.md",
+    "batch": "WI-387",
+    "classification": "implemented-different-by-design",
+    "rustCounterparts": [
+      "docs/security/adversarial-validation.zh-CN.md",
+      "docs/reference/input-trust-dataflow.zh-CN.md",
+      "docs/reference/operation-time-policy-reevaluation.zh-CN.md"
+    ],
+    "reason": "Rust-native Chinese security and trust-flow documents preserve the bounded repository-governance injection response, fail-closed operation-time checks, and explicit external-control boundary; the source page is not copied as a general detector claim."
+  },
+  {
+    "referencePath": "docs/security/supply-chain.md",
+    "batch": "WI-387",
+    "classification": "implemented-different-by-design",
+    "rustCounterparts": [
+      "docs/security/threat-model.md",
+      "docs/reference/ci-release-evidence.md",
+      "docs/release/distribution.md",
+      "docs/getting-started/security-release-verification.md"
+    ],
+    "reason": "Rust-native security, CI evidence, distribution, and security-release docs preserve delegated supply-chain evidence ownership, exact artifact binding, and external trust-root limits; AI Cockpit does not generate signatures, SBOM, provenance, or provider controls."
+  },
     {
       "referencePath": "docs/security/threat-model.md",
       "batch": "later-batch",

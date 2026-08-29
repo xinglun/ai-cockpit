@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "四个 pinned reference 文件均在 e5acb677 上逐个读取并记录语义结论",
+    "每条 inventory 记录分类明确且 migrate-gap 保持为零",
+    "comparison parity 与 Work Item 三语内容同步并说明对象工程继承边界",
+    "不复制源命令或历史治理真值，Rust-native 对应与 non-claims 明确",
+    "文档验收 inventory consistency governance gate 与 installed Runtime verification 全部通过"
+  ],
+  "createdAt": "2026-08-29T07:27:55Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f0a43ae2f41939330fd80737997ad138cab76430e2d10844481b5be668e00628",
+  "evidenceRefs": [
+    ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bae252956cb605448ca45bbd37786b626569e885023469c2af1ea93f7fdd209c",
+      "workItemId": "WI-387-reference-documentation-batch-20"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-387-reference-documentation-batch-20.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-387-reference-documentation-batch-20.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-387-reference-documentation-batch-20.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-387-reference-documentation-batch-20.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-387-reference-documentation-batch-20.contract.json"
+          ],
+          "inference": false,
+          "text": "完成四个 pinned reference 文件的语义对比，更新三语 comparison/parity/inventory 与 Work Item 记录，不复制 V1 命令或历史治理真值。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-387-reference-documentation-batch-20.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-387-reference-documentation-batch-20"
+  },
+  "taskReportDigest": "sha256:d8375076c5b08f097cf49cb6c31c431a7af752e7c9fd2bcf3ebdbebfd2b3f0e0",
+  "taskReportMarkdownDigest": "sha256:3bab678f25d7c66e776a3cae022453abd0b3f4d6b6f4b49eceb66caab2595fbf",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-387-reference-documentation-batch-20"
+}
