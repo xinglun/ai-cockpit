@@ -32401,31 +32401,48 @@
     },
     {
       "referencePath": "docs/review-final-evidence.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-documentation-batch-19",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/final-replacement-acceptance.md",
+        "docs/reference/ci-release-evidence.md",
+        ".ai/work-items/archive/"
+      ],
+      "reason": "The pinned source is a generated R11 evidence index tied to source-specific make commands and historical review state. It is retained as reference-only; current release/adopter acceptance and Work Item evidence are generated from the Rust-native Runtime and must not copy a historical GO/NO-GO claim."
     },
     {
       "referencePath": "docs/review-remediation-backlog.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-documentation-batch-19",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/repository-workflow.md",
+        "docs/reference/governance-integrity-gate.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "The pinned source is an internal R0-R11 remediation backlog bound to historical Python/Make orchestration. It is not current authority and is not copied; the Rust-native lifecycle, governance gate, and comparison ledger provide the maintained boundary."
     },
     {
       "referencePath": "docs/roadmap.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-documentation-batch-19",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/philosophy.md",
+        "docs/architecture.md",
+        "docs/capabilities.md"
+      ],
+      "reason": "The target preserves the source mission, evidence governance, intent, human decision, repository intelligence, and organization-policy direction in Rust-native philosophy/architecture/capability docs. Historical V1-V4 milestone claims and source roadmap wording are deliberately not copied or presented as shipped capability."
     },
     {
       "referencePath": "docs/security-boundaries.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-documentation-batch-19",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/security/threat-model.md",
+        "docs/reference/input-trust-dataflow.md",
+        "docs/reference/operation-time-policy-reevaluation.md",
+        "docs/security/adversarial-validation.md"
+      ],
+      "reason": "The target carries the source trust/authority separation, deterministic fail-closed classification, high-risk re-evaluation, and explicit limitations through Rust-native security and reference docs. The source classifier implementation and Python/Make commands are not copied."
     },
     {
       "referencePath": "docs/security/injection-boundary.ja.md",

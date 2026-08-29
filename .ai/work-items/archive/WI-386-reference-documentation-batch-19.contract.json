@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "四个固定参考文件均在 e5acb677 上逐文件读取并记录语义结论与边界",
+    "每条 inventory 记录分类为 implemented-different-by-design 或 reference-only，rustCounterparts 与理由明确，migrate-gap 保持为零",
+    "comparison 与 parity 三语内容同步，记录四文件的来源、对应目标能力、不可迁移原因和对象工程继承边界",
+    "不复制 source review backlog、roadmap 历史进度或 security 文档代码；现有 Rust-native 文档明确承接安全/架构/治理语义",
+    "文档验收、inventory 计数、work-item status consistency、governance integrity gate 和 installed Runtime verification 全部通过"
+  ],
+  "authority": "authorized",
+  "baseRevision": "30e70a2044ef6c3e1265d66bbfed038a29fc9ee0",
+  "createdAt": "2026-08-29T06:39:08Z",
+  "goal": "将 docs/review-final-evidence.md、docs/review-remediation-backlog.md、docs/roadmap.md、docs/security-boundaries.md 的比较结果写入三语 comparison/parity/inventory 记录，确保无遗漏且不复制不适用的源实现。",
+  "intent": "完成参考源固定提交中下一组四个 deferred 文档的逐文件语义比对，保留内部历史边界并把可迁移语义绑定到当前 Rust-native 文档。",
+  "mode": "documentation",
+  "outOfScope": [
+    "Runtime代码、协议、CLI、CI、发布产物、Agent/MCP全局配置、业务工程代码、复制参考源内部脚本或历史证据",
+    "其他 deferred 文件及架构拆分"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c73807c2076d5de4ed4a15486e47447d9ea94c73a19c4d4e397e86c66152fc9e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-386-reference-documentation-batch-19",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/350",
+    "worktree": "/private/tmp/ai-cockpit-wi386-reference-documentation-batch-19"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-386-reference-documentation-batch-19.md",
+    "docs/work-items/WI-386-reference-documentation-batch-19.zh-CN.md",
+    "docs/work-items/WI-386-reference-documentation-batch-19.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-386-reference-documentation-batch-19"
+}

@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=292 implemented-equivalent=1 not-applicable=4 reference-only=45 deferred-next-batch=515 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=294 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=511 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、292 `implemented-different-by-design`、1
@@ -792,3 +792,25 @@ compatibility ではありません。object/adopter boundary は shared Runtime
 WI-379 後の ledger は 4,262 `generated-history`、292 `implemented-different-by-design`、
 1 `implemented-equivalent`、4 `not-applicable`、45 `reference-only`、515
 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-386 — reference documentation batch 19
+
+WI-386 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の deferred
+4 文書を一つずつ比較しました。歴史/内部文書 2 件は `reference-only` のまま保持し、
+Roadmap と Security Boundary の責務は現在の Rust-native documentation で表現します。
+source Python、Make command、provider configuration、historical GO/NO-GO claim、未来の
+roadmap milestone はコピーせず、出荷済み能力として主張しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/review-final-evidence.md` | reference-only | source 固有の `make` check と歴史的 review state に束縛された生成 R11 evidence index。current `final-replacement-acceptance.md`、`ci-release-evidence.md`、repository-local Work Item evidence が新しい identity-bound truth を生成し、過去の GO/NO-GO はコピーしません。 |
+| `docs/review-remediation-backlog.md` | reference-only | 内部 R0–R11 remediation backlog と Python/Make execution plan。current boundary は `repository-workflow.md`、`governance-integrity-gate.md`、この比較台帳で維持し、source plan は current authority ではありません。 |
+| `docs/roadmap.md` | implemented-different-by-design | `docs/philosophy.md`、`docs/architecture.md`、`docs/capabilities.md` が mission、evidence governance、intent、human control、repository intelligence、organization-policy direction を保持します。歴史的 V1–V4 milestone と source wording は shipped capability claim ではありません。 |
+| `docs/security-boundaries.md` | implemented-different-by-design | `docs/security/threat-model.md`、`docs/reference/input-trust-dataflow.md`、`docs/reference/operation-time-policy-reevaluation.md`、`docs/security/adversarial-validation.md` が content/authority separation、deterministic fail-closed、高 risk reevaluation、limitations を保持します。source classifier implementation はコピーしません。 |
+
+これは semantic/documentation parity であり、source command、JSON-wire、provider state の
+compatibility ではありません。すべての object/adopter project は shared Runtime からこの
+Rust-native documentation boundary を継承しますが、repository fact、Work Item、evidence、
+knowledge、snapshot は明示的な `--repo` の下で分離されます。WI-386 後の ledger は 4,262
+`generated-history`、294 `implemented-different-by-design`、1 `implemented-equivalent`、4
+`not-applicable`、47 `reference-only`、511 `deferred-next-batch`、`migrate-gap` は 0 です。

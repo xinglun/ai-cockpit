@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=292 implemented-equivalent=1 not-applicable=4 reference-only=45 deferred-next-batch=515 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=294 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=511 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、292 条 `implemented-different-by-design`、1 条
@@ -746,3 +746,23 @@ WI-379 在固定参考提交上逐一比较下一批十个 deferred 路径。八
 knowledge、snapshot。WI-379 后台账为 4,262 条 `generated-history`、292 条
 `implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、
 45 条 `reference-only`、515 条 `deferred-next-batch`；`migrate-gap` 仍为 0。
+
+## WI-386：参考文档第 19 批
+
+WI-386 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较了四个 deferred 文档。
+其中两个历史/内部文档保持 `reference-only`；Roadmap 与 Security Boundary 的责任由当前 Rust-native
+文档承载。本批不复制源 Python、Make 命令、Provider 配置、历史 GO/NO-GO 结论，也不把未来路线
+里程碑当作已发布能力。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/review-final-evidence.md` | reference-only | 绑定源专用 `make` 检查和历史审查状态的生成 R11 证据索引。当前由 `final-replacement-acceptance.md`、`ci-release-evidence.md` 与仓库本地 Work Item evidence 生成新的身份绑定事实，不复制历史 GO/NO-GO。 |
+| `docs/review-remediation-backlog.md` | reference-only | 内部 R0–R11 整改清单及 Python/Make 执行计划。当前边界由 `repository-workflow.md`、`governance-integrity-gate.md` 和本比较台账维护；源计划不是当前 authority。 |
+| `docs/roadmap.md` | implemented-different-by-design | `docs/philosophy.md`、`docs/architecture.md`、`docs/capabilities.md` 保留使命、证据治理、Intent、人类控制、Repository Intelligence 与组织策略方向。历史 V1–V4 里程碑和源文案不作为已发布能力声明。 |
+| `docs/security-boundaries.md` | implemented-different-by-design | `docs/security/threat-model.md`、`docs/reference/input-trust-dataflow.md`、`docs/reference/operation-time-policy-reevaluation.md`、`docs/security/adversarial-validation.md` 保留内容/权限分离、确定性 fail-closed、高风险重评估和限制。源 classifier 实现不复制。 |
+
+这是语义/文档 parity，不是源命令、JSON-wire 或 Provider 状态兼容。所有对象/adopter 工程从共享
+Runtime 继承 Rust-native 文档边界，但 repository facts、Work Item、evidence、knowledge 和 snapshot
+仍在显式 `--repo` 下隔离。WI-386 后台账为 4,262 条 `generated-history`、294 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、4 条 `not-applicable`、47 条
+`reference-only`、511 条 `deferred-next-batch`；`migrate-gap` 仍为 0。
