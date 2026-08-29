@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-performance-retry",
+  "decidedAt": "2026-08-29T18:15:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-402-rust-performance-extreme.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/366"
+  ],
+  "policyRefs": [
+    "AGENTS.md:premerge-finalization-before-close",
+    "docs/reference/resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:e225291b2d0aa833abc2c738b6d8f236df48a4c8ef04bbd94f611a493d321dfc",
+  "predecessorEventsDigest": "sha256:9faf418c94e691f7dc791966c676b8711565f5091297762a8860359e071212ab",
+  "predecessorOutcomeDigest": "sha256:9dbd2931ff4e4c5c605c0cad73cf424fdc88fc2a4921d84d9541d864f4b30907",
+  "predecessorSummaryDigest": "sha256:444ed3afbd5c914195f453ef217799fe1a5e9fc7e0151246e0afee0b04a65c26",
+  "predecessorWorkItemId": "WI-402-rust-performance-extreme",
+  "reason": "The reviewed PR resource context changed the Contract identity after the first verification; retry is required to bind fresh evidence before finish without rewriting the previous attempt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and verification with the bound PR context, then finish, archive, obtain hosted CI review, merge, finalize-verify, close, and remove the exact branch/worktree.",
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-402-rust-performance-extreme"
+}

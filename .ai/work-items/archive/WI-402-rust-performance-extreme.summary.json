@@ -1,0 +1,186 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "ten-iteration cold/warm benchmark on macOS arm64; before/after values are recorded in the Work Item document",
+          "path": "tests/performance/runtime_benchmark.sh",
+          "type": "measurement",
+          "verification": "baseline: /tmp/wi402-baseline-10.json; candidate: /tmp/wi402-candidate-10.json"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "source-only identity and session metadata regression",
+          "path": "crates/cockpit-repository/tests/verification_context.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-repository --test verification_context -- --nocapture"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "full workspace quality and performance gate",
+          "path": "tests/performance/regression_gate_test.sh",
+          "type": "test",
+          "verification": "cargo fmt --all -- --check; cargo clippy --locked --workspace --all-targets --all-features -- -D warnings; cargo test --locked --workspace; bash tests/performance/regression_gate_test.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "fresh adopter inherits shared Runtime behavior without state sharing",
+          "path": "docs/reference/governance-performance-budget.md",
+          "type": "documentation",
+          "verification": "installed v0.2.40 explicit --repo benchmark and adopter acceptance boundary"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T16:46:55Z",
+  "checkpointContractDigest": "sha256:e225291b2d0aa833abc2c738b6d8f236df48a4c8ef04bbd94f611a493d321dfc",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:fa1a1baafc4a65f08cd55ba8e746744a290b50fdd7bc455e2c0831860289b783",
+      "recorded": true,
+      "recordedAt": "2026-08-29T16:46:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5512c1f65d12e5728370b67e580833e9bc2eb896dde56de175f8be94c6de4f98",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-402-rust-performance-extreme"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:d94a19d7f4f70102108e8315115f703f0a68706cefc2ca16fd2b3b07808078b9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fa1a1baafc4a65f08cd55ba8e746744a290b50fdd7bc455e2c0831860289b783",
+      "previousContractHash": "sha256:fa1a1baafc4a65f08cd55ba8e746744a290b50fdd7bc455e2c0831860289b783",
+      "reason": "Replace unsupported wildcard file patterns with explicit tri-language paths so Runtime scope matching remains deterministic and fail-closed.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T18:03:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6e3f31f6107ab4eb6351b9a3cc5e7613f8561818060726cffd341d3ede8d4a3b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-402-rust-performance-extreme"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e225291b2d0aa833abc2c738b6d8f236df48a4c8ef04bbd94f611a493d321dfc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fa1a1baafc4a65f08cd55ba8e746744a290b50fdd7bc455e2c0831860289b783",
+      "previousContractHash": "sha256:d94a19d7f4f70102108e8315115f703f0a68706cefc2ca16fd2b3b07808078b9",
+      "reason": "Bind the reviewed PR resource context before the final verification rerun required by the Runtime lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T18:12:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:233aa8ac8c9335cd7141e4a48af9830f83a99c8d94f7944e30b43f6b064d0cb3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-402-rust-performance-extreme"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:233aa8ac8c9335cd7141e4a48af9830f83a99c8d94f7944e30b43f6b064d0cb3",
+  "createdAt": "2026-08-29T16:44:40Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "Cargo.toml",
+      "tests/performance/runtime_benchmark.sh"
+    ],
+    "reason": "The measured Rust changes reduce avoidable identity/reuse and release-startup cost without changing governance truth or repository isolation.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-29T18:16:20Z",
+  "preflightContractDigest": "sha256:e225291b2d0aa833abc2c738b6d8f236df48a4c8ef04bbd94f611a493d321dfc",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:233aa8ac8c9335cd7141e4a48af9830f83a99c8d94f7944e30b43f6b064d0cb3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/performance/runtime_benchmark.sh",
+        "docs/work-items/WI-402-rust-performance-extreme.md"
+      ],
+      "expected": "Cold and warm inspect/status/doctor/observe measurements are reproducible and preserve identical governance facts.",
+      "required": true,
+      "scenario": "cold and warm repository observation",
+      "status": "verified",
+      "verificationPlan": "Run runtime_benchmark.sh ten times against the same attached repository with installed baseline and candidate external binaries."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "crates/cockpit-repository/tests/verification_service.rs"
+      ],
+      "expected": "Exact identity matches may reuse safe observations, while any mismatch executes the required check and reports the reason.",
+      "required": true,
+      "scenario": "dynamic verification reuse and fail-closed fallback",
+      "status": "verified",
+      "verificationPlan": "Run verification_context integration tests and full workspace tests."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/tests/parallel_boundary.rs",
+        "crates/cockpit-verification/tests/physical_execution.rs"
+      ],
+      "expected": "Independent Work Items can run concurrently without shared repository state, evidence, leases, or nondeterministic output.",
+      "required": true,
+      "scenario": "independent parallel Work Item isolation",
+      "status": "verified",
+      "verificationPlan": "Run repository-context, parallel-boundary, execution, and physical-execution regression suites."
+    },
+    {
+      "evidence": [
+        "docs/reference/governance-performance-budget.md",
+        "tests/release/adopter_acceptance.sh"
+      ],
+      "expected": "A fresh attached adopter receives the same optimized behavior and fail-closed boundaries without copying Runtime state.",
+      "required": true,
+      "scenario": "fresh adopter inheritance",
+      "status": "verified",
+      "verificationPlan": "Run the installed Runtime with explicit --repo against an isolated adopter and retain Runtime/repository identity evidence."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T18:16:24Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-402-rust-performance-extreme"
+}

@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T18:16:42Z",
+  "files": {
+    "approachDigest": "sha256:aeb7d670b05f9f37ec576761bb6cfdb4f91e68d28ab8e84d3bec15064e9b226f",
+    "approachPath": ".ai/work-items/archive/WI-402-rust-performance-extreme.approach.json",
+    "contractDigest": "sha256:5f9f922cd9993d1baea6e603fb289e438f280d4ea99111179767628b11827c99",
+    "contractPath": ".ai/work-items/archive/WI-402-rust-performance-extreme.contract.json",
+    "eventsDigest": "sha256:a662373d63cc96b0ad706d86344eee9820a096ba76d283c5c6961edd5bbcb28f",
+    "eventsPath": ".ai/work-items/archive/WI-402-rust-performance-extreme.events.jsonl",
+    "outcomeDigest": "sha256:05a5247edc5eb8fabf3892d940ae6f34423a7a0c01d747a9f815557810a7ec99",
+    "outcomePath": ".ai/work-items/archive/WI-402-rust-performance-extreme.outcome.json",
+    "summaryDigest": "sha256:cbc841a2899c0658168b628bc7ae2bb4c2a59176670803e5eb010cbf376cdf15",
+    "summaryPath": ".ai/work-items/archive/WI-402-rust-performance-extreme.summary.json",
+    "taskReportDigest": "sha256:2f908b2afbb5899d314037b3c08f2deb3d76717068bc1eb8c928560964d23ae4",
+    "taskReportMarkdownDigest": "sha256:9ccad675bdde482f060880d38393fbeb4c9909075ae7bbd86b70d488e944a087",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-402-rust-performance-extreme.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-402-rust-performance-extreme.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-402-rust-performance-extreme"
+}

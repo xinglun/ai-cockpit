@@ -1,0 +1,96 @@
+{
+  "acceptanceCriteria": [
+    "Collect reproducible cold/warm baselines for inspect/status/doctor/observe and single/parallel Work Item paths on the Cockpit repository.",
+    "Profile and identify measured hotspots before changing code; record telemetry and benchmark environment.",
+    "Implement only semantics-preserving optimizations with request-scoped identity keys, deterministic ordering, and fail-closed fallback when reuse or parallel safety is uncertain.",
+    "Preserve evidence, repository/runtime identity, Outcome markers and human-readable handoff semantics; no global active repository or shared project state.",
+    "Add regression/performance tests proving current repository and a fresh attached adopter inherit the same behavior and isolation.",
+    "Run fmt, clippy, workspace tests, performance gate, and release/adopter checks; no performance claim without measured before/after data."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c9a38e32d70e5e8892fca2c88e063ee615b84062",
+  "createdAt": "2026-08-29T16:44:40Z",
+  "goal": "Reduce avoidable latency and resource cost for cold and warm single-Work-Item and independent parallel-Work-Item flows while preserving fail-closed governance, repository isolation, evidence integrity, deterministic outputs, and object-project inheritance.",
+  "intent": "Improve Rust Runtime performance through measured, semantics-preserving, request-scoped and dynamic verification optimization for both the Cockpit repository and attached adopter repositories.",
+  "mode": "implementation",
+  "outOfScope": [
+    "lib.rs architecture split",
+    "new governance semantics or weaker fail-closed behavior",
+    "scheduler/parallel-slot/dependency planner redesign",
+    "CI release/adopter workflow redesign",
+    "Python Make V1 runtime copy"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bf1e02e2c83cb245442c6beba4c2b3d19a59422bc5e9b0679fea717d163ce4c4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-402-rust-performance-extreme",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/366",
+    "worktree": "/private/tmp/ai-cockpit-wi402-rust-performance-extreme"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Cold and warm inspect/status/doctor/observe measurements are reproducible and preserve identical governance facts.",
+      "required": true,
+      "scenario": "cold and warm repository observation",
+      "status": "unverified",
+      "verificationPlan": "Run the bounded performance harness against the Cockpit repository and retain identity-bound baseline evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "Exact identity matches may reuse safe observations, while any mismatch executes the required check and reports the reason.",
+      "required": true,
+      "scenario": "dynamic verification reuse and fail-closed fallback",
+      "status": "unverified",
+      "verificationPlan": "Exercise matching and mismatching repository, snapshot, profile, runtime, command, scope, stage, runner, dependency and policy identities."
+    },
+    {
+      "evidence": [],
+      "expected": "Independent Work Items can run concurrently without shared repository state, evidence, leases, or nondeterministic output.",
+      "required": true,
+      "scenario": "independent parallel Work Item isolation",
+      "status": "unverified",
+      "verificationPlan": "Run isolated single- and parallel-Work-Item measurements and compare repository identity, evidence bindings, output ordering and cleanup."
+    },
+    {
+      "evidence": [],
+      "expected": "A fresh attached adopter receives the same optimized behavior and fail-closed boundaries without copying Runtime state.",
+      "required": true,
+      "scenario": "fresh adopter inheritance",
+      "status": "unverified",
+      "verificationPlan": "Run the public installed Runtime against a temporary adopter repository and retain the adopter acceptance receipt."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-cli/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-verification/**",
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-core/**",
+    "tests/performance/**",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.zh-CN.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/work-items/WI-402-rust-performance-extreme.md",
+    "docs/work-items/WI-402-rust-performance-extreme.zh-CN.md",
+    "docs/work-items/WI-402-rust-performance-extreme.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "Cargo.toml",
+    "Cargo.lock"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-402-rust-performance-extreme"
+}
