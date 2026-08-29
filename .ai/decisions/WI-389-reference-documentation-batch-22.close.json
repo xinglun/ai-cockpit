@@ -1,0 +1,134 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-389-reference-documentation-batch-22.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c09283b11629deb87fac61e56b7b233f34a048aafa6f953b994b9dfb550a0f05",
+      "workItemId": "WI-389-reference-documentation-batch-22"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-389-reference-documentation-batch-22.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-389-reference-documentation-batch-22.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-389-reference-documentation-batch-22.verification.json",
+            ".ai/decisions/WI-389-reference-documentation-batch-22.finalize.json",
+            ".ai/decisions/WI-389-reference-documentation-batch-22.finalize.b22804ee16ad3895f3bb0d41c77d4d85bdf2cf114f236cb7708e32422284399d.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-29T08:24:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-389-reference-documentation-batch-22.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-389-reference-documentation-batch-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-389-reference-documentation-batch-22.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-389-reference-documentation-batch-22.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-389-reference-documentation-batch-22.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the semantic comparison batch for uninstall and upgrade guidance and synchronize tri-language comparison, parity, inventory, and Work Item records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-389-reference-documentation-batch-22.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-389-reference-documentation-batch-22"
+  },
+  "finalReportDigest": "sha256:e042a48839d8c97af146b923b03f9645a959c451089835496086c367cab15222",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1e6bec19ae59ee2f59110e7a4362317f2b11f0be1833657e7d2d5aecf1833513",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-389-reference-documentation-batch-22.finalize.b22804ee16ad3895f3bb0d41c77d4d85bdf2cf114f236cb7708e32422284399d.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-29T08:24:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-389-reference-documentation-batch-22.verification.json",
+      ".ai/decisions/WI-389-reference-documentation-batch-22.finalize.json",
+      ".ai/decisions/WI-389-reference-documentation-batch-22.finalize.b22804ee16ad3895f3bb0d41c77d4d85bdf2cf114f236cb7708e32422284399d.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "Reviewed PR #353 merged with all hosted checks passed; uninstall and upgrade reference comparison is complete and resource finalization is verified.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-29T08:24:15Z",
+  "workItemId": "WI-389-reference-documentation-batch-22"
+}
