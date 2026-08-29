@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-395-runtime-performance-extreme.contract.json",
-    ".ai/work-items/active/WI-395-runtime-performance-extreme.summary.json"
+    ".ai/work-items/archive/WI-395-runtime-performance-extreme.contract.json",
+    ".ai/work-items/archive/WI-395-runtime-performance-extreme.summary.json"
   ],
   "checkpointAt": "2026-08-29T10:48:14Z",
-  "checkpointContractDigest": "sha256:93d6bc1893ec517b79e921bbdd25c9e0ff48d6cf7ed0d71f9b7afcf3edb09426",
+  "checkpointContractDigest": "sha256:a56571239dedae4b4bcbed1c7c21f3c334bd70582dcd45d0074ddb9e22d0f46c",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -120,23 +120,82 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-395-runtime-performance-extreme"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:a56571239dedae4b4bcbed1c7c21f3c334bd70582dcd45d0074ddb9e22d0f46c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3d05392d8b6668c6e13c130419553070caf9744b16d1f8bac60ab481beaf1df4",
+      "previousContractHash": "sha256:93d6bc1893ec517b79e921bbdd25c9e0ff48d6cf7ed0d71f9b7afcf3edb09426",
+      "reason": "Register the tri-language reference parity ledger before the evidence record so the CI lifecycle-order gate can prove this Work Item was documented before archive.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T11:57:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:062696b3798354dd0c62ab228104f15600df89925018f933af835dd7e68ea16f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-395-runtime-performance-extreme"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:4687d0ba3eca128e73ee2cf49d8868346eeca3564f0ffb360ae41b4717af4ac1",
+  "checkpointRepositorySnapshotDigest": "sha256:062696b3798354dd0c62ab228104f15600df89925018f933af835dd7e68ea16f",
   "createdAt": "2026-08-29T10:44:22Z",
   "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+    ],
+    "state": "resolved"
+  },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-29T11:36:43Z",
-  "preflightContractDigest": "sha256:93d6bc1893ec517b79e921bbdd25c9e0ff48d6cf7ed0d71f9b7afcf3edb09426",
+  "preflightAt": "2026-08-29T12:13:29Z",
+  "preflightContractDigest": "sha256:a56571239dedae4b4bcbed1c7c21f3c334bd70582dcd45d0074ddb9e22d0f46c",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:4687d0ba3eca128e73ee2cf49d8868346eeca3564f0ffb360ae41b4717af4ac1",
+  "preflightRepositorySnapshotDigest": "sha256:062696b3798354dd0c62ab228104f15600df89925018f933af835dd7e68ea16f",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-29T11:36:49Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+      ],
+      "required": true,
+      "scenario": "warm status and observation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+      ],
+      "required": true,
+      "scenario": "changed or unknown repository input",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+      ],
+      "required": true,
+      "scenario": "parallel independent Work Items",
+      "status": "verified"
+    },
+    {
+      "evidence": [],
+      "reason": "Post-release immutable artifact acceptance is a separate gate; this pre-release implementation cannot claim published-binary adopter evidence.",
+      "required": true,
+      "scenario": "adopter inheritance and installation boundary",
+      "status": "not_applicable"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T12:13:57Z",
   "verification": [
     {
       "check": "project-command-0",

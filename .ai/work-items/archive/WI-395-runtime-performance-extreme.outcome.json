@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "Capture a reproducible identity-bound baseline and candidate for status warm startup, medium repository observation, and one Work Item verification route; report samples, median, filesRead/filesHashed, gitCalls, executed/reused nodes, workers, and elapsedMs without claiming provider or enterprise performance.",
+    "Reduce measured Rust Runtime cost through request-scoped reuse, bounded memoization, or equivalent Rust-native changes while preserving repository isolation, snapshot identity, Contract semantics, required gates, evidence binding, and fail-closed behavior; a Git snapshot must not re-enumerate the same source tree for its derived digest.",
+    "The performance fixture reaches the documented status <50 ms and observation <100 ms targets on the declared local platform, or records an explicit bounded gap and fails the performance gate rather than weakening governance; no unmeasured speedup claim is accepted.",
+    "Repeated requests for the same repository snapshot reuse only matching identity-bound observations/verification results; changed or unknown inputs execute the declared checks and record the reason.",
+    "Independent Work Items may execute in parallel only with disjoint repository scopes and receive separate Work Item evidence receipts; no cross-Work-Item receipt or global current-repository state is introduced.",
+    "Performance regression, repository isolation, lifecycle, and full workspace tests pass; tri-language performance documentation states the installation boundary as shared external Runtime plus explicit --repo and does not copy reference installers, Make/Python, SDK, or V1 runtime behavior.",
+    "Adopter-facing performance guidance and acceptance steps are reproducible with the published/installed Runtime and preserve per-repository Runtime and evidence identities."
+  ],
+  "createdAt": "2026-08-29T12:13:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9dafccde99754a0590ab9f4925b1c42daae6c19a0af3c4deb0277ba9c8863d79",
+  "evidenceRefs": [
+    ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:062696b3798354dd0c62ab228104f15600df89925018f933af835dd7e68ea16f",
+      "workItemId": "WI-395-runtime-performance-extreme"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-395-runtime-performance-extreme.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-395-runtime-performance-extreme.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-395-runtime-performance-extreme.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-395-runtime-performance-extreme.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-395-runtime-performance-extreme.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-395-runtime-performance-extreme.contract.json"
+          ],
+          "inference": false,
+          "text": "Push Rust Runtime execution efficiency toward the measured limits without weakening governance or object-project inheritance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-395-runtime-performance-extreme.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-395-runtime-performance-extreme"
+  },
+  "taskReportDigest": "sha256:9efeba5436f8beeb9c49738b56366320eb1a1aa0114cfefc073252c6e5dd847a",
+  "taskReportMarkdownDigest": "sha256:c9fbdb425f8d1f0616aa165e78d5537f34d2c5721debeec4f91b8754dc515cd3",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-395-runtime-performance-extreme.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-395-runtime-performance-extreme"
+}

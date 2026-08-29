@@ -33,7 +33,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-395-runtime-performance-extreme",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/359",
     "worktree": "/private/tmp/ai-cockpit-wi395-runtime-performance-extreme"
   },
   "risk": "high",
@@ -90,6 +90,9 @@
     "docs/reference/README.md",
     "docs/reference/README.zh-CN.md",
     "docs/reference/README.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-395-runtime-performance-extreme.md",
     "docs/work-items/WI-395-runtime-performance-extreme.zh-CN.md",
     "docs/work-items/WI-395-runtime-performance-extreme.ja.md"
