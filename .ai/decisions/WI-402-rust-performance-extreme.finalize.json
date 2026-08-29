@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "985e9a6f95cb976cf3835925f5ee883a0ac9e583",
+    "name": "codex/wi-402-rust-performance-extreme",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5f9f922cd9993d1baea6e603fb289e438f280d4ea99111179767628b11827c99",
+  "operationId": "github-pr-366-delete-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c9a38e32d70e5e8892fca2c88e063ee615b84062",
+    "headRevision": "985e9a6f95cb976cf3835925f5ee883a0ac9e583",
+    "mergeCommit": "07d99782abbe55992e9e22ac48c50f473148c4bd",
+    "number": 366,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/366"
+  },
+  "reason": "PR #366 passed hosted quality, Windows runtime, V1 behavioral oracle, and task-list checks, merged as 07d99782; the exact dedicated branch and worktree were removed after synchronizing main.",
+  "receiptId": "ai-cockpit-WI-402-rust-performance-extreme-deleted-20260830",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-402-rust-performance-extreme",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/366",
+    "worktree": "/private/tmp/ai-cockpit-wi402-rust-performance-extreme"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T03:38:13+09:00",
+  "workItemId": "WI-402-rust-performance-extreme",
+  "worktree": {
+    "branch": "codex/wi-402-rust-performance-extreme",
+    "headRevision": "985e9a6f95cb976cf3835925f5ee883a0ac9e583",
+    "path": "/private/tmp/ai-cockpit-wi402-rust-performance-extreme",
+    "worktreeId": "WI-402-rust-performance-extreme"
+  }
+}
