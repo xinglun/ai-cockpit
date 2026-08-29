@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T05:30:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-404-release-docs-terminal-promotion.outcome.json",
+    ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
+  "predecessorEventsDigest": "sha256:d0dddc2c148db3fb86d9df2bfde6dd50fc3341eeb753f8403d4fe06d4532d109",
+  "predecessorOutcomeDigest": "sha256:3ce408121fe3a4e33963b085b212b19a87d3fb84983ee2fa0775fa8fa1f33740",
+  "predecessorSummaryDigest": "sha256:06520bb4a99c8d2c78ffcc64d204477e86775937534bf4f9e32138aa1caf33df",
+  "predecessorWorkItemId": "WI-404-release-docs-terminal-promotion",
+  "reason": "Retry from the clean committed source snapshot so the verification digest is identical in local and hosted CI checkouts.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence matches the current Contract, clean repository snapshot, and Runtime identity.",
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-404-release-docs-terminal-promotion"
+}

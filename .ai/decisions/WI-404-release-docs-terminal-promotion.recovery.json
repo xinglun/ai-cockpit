@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T04:31:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-404-release-docs-terminal-promotion.outcome.json",
+    ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
+  "predecessorEventsDigest": "sha256:71007e8a5d682c4e3cd45cabad86c62fb51e79967e61a87453e52ba921d590bf",
+  "predecessorOutcomeDigest": "sha256:1ae42d868304d49b0a7ae6629e35e2143a10a271dde2471f8229472fac1dd530",
+  "predecessorSummaryDigest": "sha256:9a403a066de847e5b3ffa9ffc2c861053f6ce00f3c751178c5a8c8636ea0aca7",
+  "predecessorWorkItemId": "WI-404-release-docs-terminal-promotion",
+  "reason": "Retry after finish rejected a stale terminal report artifact; preserve the failed Outcome and rerun the lifecycle with a fresh verification projection.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh non-red preflight and verification evidence match the current Contract, repository snapshot, and Runtime identity.",
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-404-release-docs-terminal-promotion"
+}

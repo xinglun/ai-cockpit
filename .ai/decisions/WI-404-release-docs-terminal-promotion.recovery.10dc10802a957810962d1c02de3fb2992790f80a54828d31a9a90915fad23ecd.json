@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T04:45:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-404-release-docs-terminal-promotion.outcome.json",
+    ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
+  "predecessorEventsDigest": "sha256:2abb4431c2b2adbca63765d2b8d8510e05f9e95632f3c68d8f958b5023506ad4",
+  "predecessorOutcomeDigest": "sha256:006f60fe7a08f327a91ff2cec024c5fcaad1341b615d8b61fdec136530cc8c82",
+  "predecessorSummaryDigest": "sha256:fa968e00f089198561e9b9d09b32a033b9353632df9534e028e23157a2db159c",
+  "predecessorWorkItemId": "WI-404-release-docs-terminal-promotion",
+  "reason": "Retry after the documentation projection changed the source snapshot; preserve prior Outcomes and rerun verification against the current Contract and snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence matches the current Contract, repository snapshot, and Runtime identity.",
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-404-release-docs-terminal-promotion"
+}

@@ -1,0 +1,81 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T19:14:09Z",
+  "checkpointContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:3b362114ffdf5667e3c79d6617c3fc6c404d7892a44e3594dc3da5133bd87db8",
+      "recorded": true,
+      "recordedAt": "2026-08-29T19:14:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3df6aa59e3ea446e8707bc664fbf50ff8fca789499c37a6c5c5c95aa5b1eb45a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-404-release-docs-terminal-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:1d4765c057953b6c41f6ecefcafdcf4ef5c7334ba831c0dadb15c9758a29cd0b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b362114ffdf5667e3c79d6617c3fc6c404d7892a44e3594dc3da5133bd87db8",
+      "previousContractHash": "sha256:3b362114ffdf5667e3c79d6617c3fc6c404d7892a44e3594dc3da5133bd87db8",
+      "reason": "发布质量门发现已关闭 WI-402 的三语 Work Item 文档仍为 in_progress，且 reference-parity 三语行未晋级为终态；将相关 parity projection 纳入当前文档修复范围并重新验证。",
+      "recorded": true,
+      "recordedAt": "2026-08-29T19:15:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:808e033d5d1c4907248cad67d549b07c3ce07b8a089115d261d7cb4e00fd692f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-404-release-docs-terminal-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b362114ffdf5667e3c79d6617c3fc6c404d7892a44e3594dc3da5133bd87db8",
+      "previousContractHash": "sha256:1d4765c057953b6c41f6ecefcafdcf4ef5c7334ba831c0dadb15c9758a29cd0b",
+      "reason": "质量门指出活动 WI 必须具备三语 Work Item 文档与三语 parity 预登记；补齐 WI-404 自身文档入口及其 pre-archive parity 行。",
+      "recorded": true,
+      "recordedAt": "2026-08-29T19:29:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:32c5607b6644bb517bd990ec061625e638d5ff9635381f743f0e8b4138abcdfb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-404-release-docs-terminal-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
+  "createdAt": "2026-08-29T19:13:57Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T20:08:42Z",
+  "preflightContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T20:08:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-404-release-docs-terminal-promotion"
+}

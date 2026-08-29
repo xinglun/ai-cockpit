@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T05:10:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-404-release-docs-terminal-promotion.outcome.json",
+    ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
+  "predecessorEventsDigest": "sha256:fd071be895f557aa5622c46ed5d078e8c1245a0245331f54ffd3fe55e81dcdc3",
+  "predecessorOutcomeDigest": "sha256:f8d3c977d3b02f0dc241334cb800af3bae6e9d2e27ed3a292f53dee94c0c318b",
+  "predecessorSummaryDigest": "sha256:e53bfa0c52e823b4862aa4cb3a2b1d3ea8fb599558c0fb4e1fd1db55c8881e1b",
+  "predecessorWorkItemId": "WI-404-release-docs-terminal-promotion",
+  "reason": "Retry after parity registration validation found an incomplete pre-archive row; preserve the previous Outcome and rerun verification against the corrected current source snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence matches the current Contract, repository snapshot, and Runtime identity.",
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-404-release-docs-terminal-promotion"
+}
