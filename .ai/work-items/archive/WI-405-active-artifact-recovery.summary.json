@@ -1,12 +1,12 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-405-active-artifact-recovery.contract.json",
-    ".ai/work-items/active/WI-405-active-artifact-recovery.summary.json"
+    ".ai/work-items/archive/WI-405-active-artifact-recovery.contract.json",
+    ".ai/work-items/archive/WI-405-active-artifact-recovery.summary.json"
   ],
   "checkpointAt": "2026-08-29T20:27:24Z",
-  "checkpointContractDigest": "sha256:72757278dfde412007b07e37f030519b9fd5a63f9cbbf99cc6f3d2a2f40b0091",
+  "checkpointContractDigest": "sha256:fbb03f53c4d862c37ffb6cb797b4a6d24f57289ce575875d2d0d7d54a095b558",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
+  "checkpointRepositorySnapshotDigest": "sha256:7d9a876a58b27c9acaf3c69259eb4fe077452bbb3a9f043b3a9cba2752e416f1",
   "createdAt": "2026-08-29T20:22:54Z",
   "intentAlignment": {
     "evidence": [
@@ -16,11 +16,11 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-08-29T20:27:21Z",
-  "preflightContractDigest": "sha256:72757278dfde412007b07e37f030519b9fd5a63f9cbbf99cc6f3d2a2f40b0091",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-29T20:56:42Z",
+  "preflightContractDigest": "sha256:fbb03f53c4d862c37ffb6cb797b4a6d24f57289ce575875d2d0d7d54a095b558",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7d9a876a58b27c9acaf3c69259eb4fe077452bbb3a9f043b3a9cba2752e416f1",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -71,7 +71,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-29T20:50:54.829155+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T20:56:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-405-active-artifact-recovery"
 }

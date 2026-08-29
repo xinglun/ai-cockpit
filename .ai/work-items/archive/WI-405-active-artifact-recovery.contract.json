@@ -28,57 +28,57 @@
     "repository-context",
     "archive-manifest"
   ],
-  "scenarioCoverage": [
-    {
-      "scenario": "archive_variant_relocation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Normal archive preserves and relocates recognized failed-attempt variants.",
-      "verificationPlan": "Repository archive regression test with outcome/event variants."
-    },
-    {
-      "scenario": "superseded_variant_relocation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Superseded archive does not leave recognized variants in active.",
-      "verificationPlan": "Recovery/supersession regression test with manifest digest checks."
-    },
-    {
-      "scenario": "orphan_variant_reconciliation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "An already archived Work Item can reconcile residual variants without deletion.",
-      "verificationPlan": "Identity-bound reconciliation test against an existing archive manifest."
-    },
-    {
-      "scenario": "status_orphan_visibility",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Status distinguishes valid active Contracts from orphaned active artifacts.",
-      "verificationPlan": "Repository status projection regression test."
-    },
-    {
-      "scenario": "repository_isolation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Two repositories cannot move or report each other's Work Item artifacts.",
-      "verificationPlan": "Parallel two-repository isolation regression test and installed Runtime smoke."
-    }
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-405-active-artifact-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/370",
     "worktree": "/private/tmp/ai-cockpit-wi-405-active-artifact-recovery"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Normal archive preserves and relocates recognized failed-attempt variants.",
+      "required": true,
+      "scenario": "archive_variant_relocation",
+      "status": "unverified",
+      "verificationPlan": "Repository archive regression test with outcome/event variants."
+    },
+    {
+      "evidence": [],
+      "expected": "Superseded archive does not leave recognized variants in active.",
+      "required": true,
+      "scenario": "superseded_variant_relocation",
+      "status": "unverified",
+      "verificationPlan": "Recovery/supersession regression test with manifest digest checks."
+    },
+    {
+      "evidence": [],
+      "expected": "An already archived Work Item can reconcile residual variants without deletion.",
+      "required": true,
+      "scenario": "orphan_variant_reconciliation",
+      "status": "unverified",
+      "verificationPlan": "Identity-bound reconciliation test against an existing archive manifest."
+    },
+    {
+      "evidence": [],
+      "expected": "Status distinguishes valid active Contracts from orphaned active artifacts.",
+      "required": true,
+      "scenario": "status_orphan_visibility",
+      "status": "unverified",
+      "verificationPlan": "Repository status projection regression test."
+    },
+    {
+      "evidence": [],
+      "expected": "Two repositories cannot move or report each other's Work Item artifacts.",
+      "required": true,
+      "scenario": "repository_isolation",
+      "status": "unverified",
+      "verificationPlan": "Parallel two-repository isolation regression test and installed Runtime smoke."
+    }
+  ],
   "scope": [
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/tests/archive_integrity.rs",

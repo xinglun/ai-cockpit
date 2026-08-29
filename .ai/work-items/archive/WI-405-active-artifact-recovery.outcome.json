@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "Normal archive moves canonical artifacts and all recognized failed-attempt outcome/event variants, preserving bytes and manifest digests.",
+    "Superseded archive applies the same variant handling and never leaves recognized Work Item artifacts in active.",
+    "Existing orphan variants with an already archived Work Item have an explicit, identity-bound reconciliation path; no manual deletion is required.",
+    "Status/doctor expose orphaned active artifacts separately from valid active Work Items; activeWorkItems count remains contract-based and cannot hide residue.",
+    "Archive manifests validate historical variant paths and digests while remaining backward compatible with existing manifests.",
+    "Two repositories remain isolated; object/adopter acceptance proves the same behavior using the installed Runtime.",
+    "Three-language documentation explains active staging, failed-attempt history, archive, and close boundaries."
+  ],
+  "createdAt": "2026-08-29T20:56:51Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d5647b749e8a36446b39de8b8a980762dc441c52c35789df366963a967e20ae0",
+  "evidenceRefs": [
+    ".ai/evidence/WI-405-active-artifact-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-405-active-artifact-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-405-active-artifact-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7d9a876a58b27c9acaf3c69259eb4fe077452bbb3a9f043b3a9cba2752e416f1",
+      "workItemId": "WI-405-active-artifact-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-405-active-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-405-active-artifact-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-405-active-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-405-active-artifact-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-405-active-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-405-active-artifact-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-405-active-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-405-active-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-405-active-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-405-active-artifact-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "归档并可审计地整理失败尝试产物，准确暴露 active 残留，避免新 Work Item 在不清洁状态下启动。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-405-active-artifact-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-405-active-artifact-recovery"
+  },
+  "taskReportDigest": "sha256:92a04725658ef736eb49a901e1bf596abe47f2b1d47f86d68ed7cbdc167a66ee",
+  "taskReportMarkdownDigest": "sha256:04b4f84755accf0eb314fc5f2d4294f195b1a16ebc2827dd12f5f2f6d8478671",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-405-active-artifact-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-405-active-artifact-recovery"
+}
