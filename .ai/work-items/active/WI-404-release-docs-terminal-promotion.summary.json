@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-08-29T19:14:09Z",
-  "checkpointContractDigest": "sha256:857666ba83bdbab92d4f94ea6072da631d35089248300ecaf82f992e53706fa8",
+  "checkpointContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,20 +37,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-404-release-docs-terminal-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b362114ffdf5667e3c79d6617c3fc6c404d7892a44e3594dc3da5133bd87db8",
+      "previousContractHash": "sha256:1d4765c057953b6c41f6ecefcafdcf4ef5c7334ba831c0dadb15c9758a29cd0b",
+      "reason": "质量门指出活动 WI 必须具备三语 Work Item 文档与三语 parity 预登记；补齐 WI-404 自身文档入口及其 pre-archive parity 行。",
+      "recorded": true,
+      "recordedAt": "2026-08-29T19:29:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:32c5607b6644bb517bd990ec061625e638d5ff9635381f743f0e8b4138abcdfb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-404-release-docs-terminal-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:c8be58df3347c07c034cfb97cd53d23d8f3ec6662c76f85ea4b2c93006555560",
+  "checkpointRepositorySnapshotDigest": "sha256:32c5607b6644bb517bd990ec061625e638d5ff9635381f743f0e8b4138abcdfb",
   "createdAt": "2026-08-29T19:13:57Z",
   "mode": "implementation",
-  "preflightAt": "2026-08-29T19:23:13Z",
-  "preflightContractDigest": "sha256:857666ba83bdbab92d4f94ea6072da631d35089248300ecaf82f992e53706fa8",
+  "preflightAt": "2026-08-29T19:35:14Z",
+  "preflightContractDigest": "sha256:cfd985437de0f28b918fb89b9878c9cddbd77622f455568eb6f94f8046e5e43a",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:c8be58df3347c07c034cfb97cd53d23d8f3ec6662c76f85ea4b2c93006555560",
+  "preflightRepositorySnapshotDigest": "sha256:32c5607b6644bb517bd990ec061625e638d5ff9635381f743f0e8b4138abcdfb",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-08-29T19:23:14Z",
+  "updatedAt": "2026-08-29T19:35:14Z",
   "verification": [
     {
       "check": "project-command-0",
