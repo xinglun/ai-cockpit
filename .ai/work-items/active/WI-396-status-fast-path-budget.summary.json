@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-396-status-fast-path-budget.contract.json",
+    ".ai/work-items/active/WI-396-status-fast-path-budget.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T12:35:24Z",
+  "checkpointContractDigest": "sha256:3ee58e559242b2de2f650968f160147b37ff7460eeec5a94d3d0f4ab19307cd4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:35a4899e21a552f941eada5eb596251413e79721611ed5558089d2d65c02f3a2",
+  "createdAt": "2026-08-29T12:33:41Z",
+  "mode": "code",
+  "preflightAt": "2026-08-29T12:35:14Z",
+  "preflightContractDigest": "sha256:3ee58e559242b2de2f650968f160147b37ff7460eeec5a94d3d0f4ab19307cd4",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:35a4899e21a552f941eada5eb596251413e79721611ed5558089d2d65c02f3a2",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-29T12:35:24Z",
+  "workItemId": "WI-396-status-fast-path-budget"
+}

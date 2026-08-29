@@ -271,7 +271,14 @@ impl GitRepository {
             .ok()
             .map(|value| value.trim().to_owned());
         let status = self.run(["status", "--porcelain=v1", "--untracked-files=all"])?;
-        let diff = if head.is_some() {
+        // A clean status proves that the equivalent diff is empty, so avoid
+        // spawning a fourth Git process on the hot status path. Dirty or
+        // otherwise uncertain input retains the full patch inspection path.
+        let mut git_calls = 3;
+        let diff = if status.is_empty() {
+            String::new()
+        } else if head.is_some() {
+            git_calls += 1;
             self.run([
                 "-c",
                 "core.quotePath=false",
@@ -282,6 +289,7 @@ impl GitRepository {
                 "--unified=0",
             ])?
         } else {
+            git_calls += 1;
             self.run([
                 "-c",
                 "core.quotePath=false",
@@ -433,7 +441,7 @@ impl GitRepository {
             head: head.filter(|value| !value.is_empty()),
             changed_paths,
             change_evidence: change_evidence.into_values().collect(),
-            git_calls: 4,
+            git_calls,
             tree_digest: digest(tree.as_bytes()),
             diff_digest: format!("sha256:{}", hex::encode(changed_hasher.finalize())),
             dependency_fingerprint: format!("sha256:{}", hex::encode(dependency_hasher.finalize())),
