@@ -1,0 +1,93 @@
+{
+  "acceptanceCriteria": [
+    "Each selected pinned reference path has one evidence-backed classification and an explicit Rust counterpart or reference-only decision.",
+    "Required reader-facing routes are present in English, Simplified Chinese, and Japanese when applicable and preserve semantic/non-wire boundaries.",
+    "Inventory and tri-language parity records agree with the same source commit counts and Work Item evidence.",
+    "Documentation and inventory checks pass using the installed Runtime and no migrate-gap or untracked path is introduced.",
+    "Contract language and source governance facts remain unchanged by presentation localization."
+  ],
+  "authority": "human:release-acceptance",
+  "baseRevision": "39fd198ab95150a72dba784d482d136a46abb7e5",
+  "createdAt": "2026-08-29T03:42:27Z",
+  "goal": "对 pinned reference inventory 下一批十个路径完成证据支持的分类与文档映射，不复制 Python、Make 或 V1 runtime",
+  "intent": "完成下一批参考源文件的逐文件语义比对并补齐面向对象工程的 Rust-native 三语文档路由",
+  "mode": "documentation",
+  "outOfScope": [
+    "Runtime code changes",
+    "CI or release changes",
+    "Source Python, Make, provider configuration, or V1 copying",
+    "Historical source audit bytes as executable authority",
+    "Unrelated deferred reference paths"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b3180acb3c22d73791183960c011e9d8e5514cd6f35bc6af1574db4b07f573fa",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-379-reference-docs-batch-18",
+    "provider": "github",
+    "pullRequest": "pending",
+    "worktree": "/private/tmp/ai-cockpit-wi379-reference-docs"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/upgrade.md",
+    "docs/reference/upgrade.zh-CN.md",
+    "docs/reference/upgrade.ja.md",
+    "docs/reference/verification-evidence-reuse-runtime.md",
+    "docs/reference/verification-evidence-reuse-runtime.zh-CN.md",
+    "docs/reference/verification-evidence-reuse-runtime.ja.md",
+    "docs/reference/verification-evidence-reuse.md",
+    "docs/reference/verification-evidence-reuse.zh-CN.md",
+    "docs/reference/verification-evidence-reuse.ja.md",
+    "docs/reference/verification-fixture-boundary.md",
+    "docs/reference/verification-fixture-boundary.zh-CN.md",
+    "docs/reference/verification-fixture-boundary.ja.md",
+    "docs/reference/wi01-wi20-bidirectional-traceability-audit.json",
+    "docs/reference/wi01-wi20-bidirectional-traceability-audit.md",
+    "docs/reference/wiii-v2-integration-audit.md",
+    "docs/reference/wiii-v2-integration-audit.zh-CN.md",
+    "docs/reference/wiii-v2-integration-audit.ja.md",
+    "docs/reference/work-item-intelligence-performance-baseline.md",
+    "docs/reference/work-item-intelligence-performance-baseline.zh-CN.md",
+    "docs/reference/work-item-intelligence-performance-baseline.ja.md",
+    "docs/reference/work-item-lifecycle-closure.ja.md",
+    "docs/reference/work-item-lifecycle-closure.md"
+    ,"docs/reference/work-item-lifecycle-closure.zh-CN.md"
+    ,"docs/reference/reference-file-comparison.md"
+    ,"docs/reference/reference-file-comparison.zh-CN.md"
+    ,"docs/reference/reference-file-comparison.ja.md"
+    ,"docs/reference/reference-parity.md"
+    ,"docs/reference/reference-parity.zh-CN.md"
+    ,"docs/reference/reference-parity.ja.md"
+    ,"docs/reference/README.md"
+    ,"docs/reference/README.zh-CN.md"
+    ,"docs/reference/README.ja.md"
+    ,"tests/conformance/reference_file_inventory.json"
+    ,"docs/work-items/WI-379-reference-documentation-batch-18.md"
+    ,"docs/work-items/WI-379-reference-documentation-batch-18.zh-CN.md"
+    ,"docs/work-items/WI-379-reference-documentation-batch-18.ja.md"
+    ,".ai/decisions/**"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.*",
+    "docs/reference/reference-parity.*"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-379-reference-documentation-batch-18"
+}

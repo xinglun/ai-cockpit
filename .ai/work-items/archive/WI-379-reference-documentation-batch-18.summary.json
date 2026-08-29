@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-379-reference-documentation-batch-18.contract.json",
+    ".ai/work-items/archive/WI-379-reference-documentation-batch-18.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T03:46:22Z",
+  "checkpointContractDigest": "sha256:391b7d75a50a74176668eca256fa1ac39211e043e1f635f7db9f7035b5c374db",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b13b4673f3f1795b04122510596827342268eb80b6c51771edd6ce5789f83d22",
+      "recorded": true,
+      "recordedAt": "2026-08-29T03:46:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b3180acb3c22d73791183960c011e9d8e5514cd6f35bc6af1574db4b07f573fa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-379-reference-documentation-batch-18"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:391b7d75a50a74176668eca256fa1ac39211e043e1f635f7db9f7035b5c374db",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b13b4673f3f1795b04122510596827342268eb80b6c51771edd6ce5789f83d22",
+      "previousContractHash": "sha256:b13b4673f3f1795b04122510596827342268eb80b6c51771edd6ce5789f83d22",
+      "reason": "Bounded documentation comparison requires explicit tri-language counterparts, inventory/parity ledgers, index routes, source bindings, and repository-local verification commands.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T03:47:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b3180acb3c22d73791183960c011e9d8e5514cd6f35bc6af1574db4b07f573fa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-379-reference-documentation-batch-18"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7ea481ac930f77823d3fa0aba833344191f441016a572e2942c4c4a26a78dc37",
+  "createdAt": "2026-08-29T03:42:27Z",
+  "mode": "documentation",
+  "preflightAt": "2026-08-29T04:00:58Z",
+  "preflightContractDigest": "sha256:391b7d75a50a74176668eca256fa1ac39211e043e1f635f7db9f7035b5c374db",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:7ea481ac930f77823d3fa0aba833344191f441016a572e2942c4c4a26a78dc37",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T04:01:02Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-379-reference-documentation-batch-18"
+}
