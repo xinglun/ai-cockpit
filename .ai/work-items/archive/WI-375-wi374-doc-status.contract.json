@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-374 documents report implemented status and link archive, verification, finalization, and close receipts.",
+    "Documentation acceptance, status consistency, and governance integrity gates pass.",
+    "The reviewed PR is merged and exact branch/worktree cleanup is recorded."
+  ],
+  "authority": "authorized",
+  "baseRevision": "74b5da1c1ba1c57471a9d21e6ca37c01f4204f8c",
+  "createdAt": "2026-08-28T23:58:51Z",
+  "goal": "Publish a consistent terminal documentation projection for WI-374 without changing runtime or historical evidence.",
+  "intent": "Synchronize the tri-language WI-374 documentation with its verified closed lifecycle so repository status and docs remain truthful.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime code",
+    " release assets",
+    " historical evidence bytes",
+    " global Agent/MCP configuration",
+    " and post-release adopter acceptance."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:840a6f46601cc58666ce83ed2deb165a68d1149366e24b7f93aad39f706b3747",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-375-wi374-doc-status",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/338",
+    "worktree": "/private/tmp/ai-cockpit-wi375-wi374-doc-status"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-374-release-v0-2-39.md",
+    "docs/work-items/WI-374-release-v0-2-39.zh-CN.md",
+    "docs/work-items/WI-374-release-v0-2-39.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-375-wi374-doc-status.md",
+    "docs/work-items/WI-375-wi374-doc-status.zh-CN.md",
+    "docs/work-items/WI-375-wi374-doc-status.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-375-wi374-doc-status"
+}
