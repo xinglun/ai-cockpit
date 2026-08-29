@@ -6,17 +6,23 @@
   "checkpointAt": "2026-08-29T09:58:52Z",
   "checkpointContractDigest": "sha256:b029757f59e2a6b979570d299e0e1edddffdb56b92ecd0e55ed7253670135655",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:6c58310b3dec1862531276a9e799c5cf40089cfe25822727f038832e90ac90b8",
+  "checkpointRepositorySnapshotDigest": "sha256:716db836d4988da665761651c550ba0e6de77af83f026c0743551883de0d95f0",
   "createdAt": "2026-08-29T09:52:35Z",
   "mode": "docs",
-  "preflightAt": "2026-08-29T09:58:45Z",
+  "preflightAt": "2026-08-29T10:04:15Z",
   "preflightContractDigest": "sha256:b029757f59e2a6b979570d299e0e1edddffdb56b92ecd0e55ed7253670135655",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:6c58310b3dec1862531276a9e799c5cf40089cfe25822727f038832e90ac90b8",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:716db836d4988da665761651c550ba0e6de77af83f026c0743551883de0d95f0",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-08-29T09:58:52Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-393-reference-flutter-fixture"
 }
