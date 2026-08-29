@@ -6,8 +6,12 @@ description: ガバナンスを弱めず、重複する snapshot と Work Item s
 type: implementation
 audience: [adopter, contributor, maintainer, reviewer]
 authority: human-authorized
-status: in_progress
+status: implemented
 lastVerifiedBy: WI-395-runtime-performance-extreme
+terminalArchive: .ai/work-items/archive/WI-395-runtime-performance-extreme.contract.json
+terminalVerification: .ai/evidence/WI-395-runtime-performance-extreme.verification.json
+terminalFinalization: .ai/decisions/WI-395-runtime-performance-extreme.finalize.json
+terminalDecision: .ai/decisions/WI-395-runtime-performance-extreme.close.json
 ---
 
 # WI-395 — Rust Runtime パフォーマンス最適化

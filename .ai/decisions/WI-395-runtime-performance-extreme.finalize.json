@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "14a03946ace9993199c71143caec2dcf118c953f",
+    "name": "codex/wi-395-runtime-performance-extreme",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:a6936a70723a62c936778094afc6a3f068e54473a696a3fe29e5dfce07328f81",
+  "operationId": "github-pr-359-delete-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "ebf446c64c2c1cc7dbe26237d67a2489aa5cae05",
+    "headRevision": "14a03946ace9993199c71143caec2dcf118c953f",
+    "mergeCommit": "0d3ce167c3b51295c30d90769c7b3054aa2350de",
+    "number": 359,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/359"
+  },
+  "reason": "PR #359 merged as 0d3ce167c3b51295c30d90769c7b3054aa2350de; the exact remote branch and dedicated worktree were removed after clean-state verification.",
+  "receiptId": "ai-cockpit-WI-395-runtime-performance-extreme-deleted-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-395-runtime-performance-extreme",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/359",
+    "worktree": "/private/tmp/ai-cockpit-wi395-runtime-performance-extreme"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T12:24:53Z",
+  "workItemId": "WI-395-runtime-performance-extreme",
+  "worktree": {
+    "branch": "codex/wi-395-runtime-performance-extreme",
+    "headRevision": "14a03946ace9993199c71143caec2dcf118c953f",
+    "path": "/private/tmp/ai-cockpit-wi395-runtime-performance-extreme",
+    "worktreeId": "WI-395-runtime-performance-extreme"
+  }
+}
