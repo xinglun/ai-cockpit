@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json
-- Changed path: .ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json
+- Changed path: .ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json
+- Changed path: .ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json
 
 ## Findings
 

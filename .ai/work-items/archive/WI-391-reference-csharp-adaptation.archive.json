@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T09:21:42Z",
+  "files": {
+    "approachDigest": "sha256:f415f22b50a3b2249a9175a16ebf29eef4bd44bdde8a2093baa01d9c7d6cb745",
+    "approachPath": ".ai/work-items/archive/WI-391-reference-csharp-adaptation.approach.json",
+    "contractDigest": "sha256:d8b9be0d44dcc297a7d36bf87f9558f461787040e4d8c80a16a20e339f9daefa",
+    "contractPath": ".ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json",
+    "eventsDigest": "sha256:465026386411f9e7abb01b1b86daf6023fb4a9c21ec3ee77e1485dfd6dad8da5",
+    "eventsPath": ".ai/work-items/archive/WI-391-reference-csharp-adaptation.events.jsonl",
+    "outcomeDigest": "sha256:aebf70feaa513c526f4b0be32c6e0d52fc04c14ba454b334bf7277b346523938",
+    "outcomePath": ".ai/work-items/archive/WI-391-reference-csharp-adaptation.outcome.json",
+    "summaryDigest": "sha256:a7214b6cda057627f9f0ec1f30b869f4203c44513530104b70519f3363c1114b",
+    "summaryPath": ".ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json",
+    "taskReportDigest": "sha256:2520deff19ef1c5910399e586eb16457d1b0458fa03d9456949bcaac76cedd68",
+    "taskReportMarkdownDigest": "sha256:d93f36cbeb6af1e9a9a33a16216ba9fad88f3ac0c90c84283c4ade4fc499a849",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-391-reference-csharp-adaptation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-391-reference-csharp-adaptation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-391-reference-csharp-adaptation"
+}

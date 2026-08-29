@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+            ".ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+            ".ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+            ".ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
           ],
           "inference": false,
           "text": "Provide an auditable C# stack adaptation guide for adopters without copying the reference installer, Makefile, Python/runtime implementation, or legacy wire schema."
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+            ".ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-391-reference-csharp-adaptation"
   },
-  "taskReportDigest": "sha256:2a354039fe3edaf0c61a04a8294a4154493f73479ff13e53cbf21d85f8683bd7",
-  "taskReportMarkdownDigest": "sha256:08c3112b72ce2a2ff48c4e8e74b6921d9eb2a50c26a0427e2186819c73371351",
+  "taskReportDigest": "sha256:2520deff19ef1c5910399e586eb16457d1b0458fa03d9456949bcaac76cedd68",
+  "taskReportMarkdownDigest": "sha256:d93f36cbeb6af1e9a9a33a16216ba9fad88f3ac0c90c84283c4ade4fc499a849",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

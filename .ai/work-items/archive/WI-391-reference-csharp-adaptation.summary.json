@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json",
-    ".ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+    ".ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json",
+    ".ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
   ],
   "checkpointAt": "2026-08-29T09:04:41Z",
   "checkpointContractDigest": "sha256:ff9b0baa9df1a681b517ce4ae6e2779d69d88b70feda8cf3d3c6801d573ce226",

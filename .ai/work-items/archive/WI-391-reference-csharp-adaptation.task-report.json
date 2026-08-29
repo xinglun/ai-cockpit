@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+          ".ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+          ".ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+          ".ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
         ],
         "inference": false,
         "text": "Provide an auditable C# stack adaptation guide for adopters without copying the reference installer, Makefile, Python/runtime implementation, or legacy wire schema."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+          ".ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
