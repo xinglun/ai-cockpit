@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "三语 parity 行均引用 WI-379 archive、verification、canonical recovery 与 versioned supersede recovery decision。",
+    "治理完整性门不再报告 WI-379 missing_parity_decision；原始 archive/evidence bytes 摘要保持不变。"
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "9bedc6b03dc07d72c917f7239a056209b70ed1da",
+  "createdAt": "2026-08-29T04:45:49Z",
+  "goal": "使已关闭的 predecessor/successor recovery 链在三语文档中完整绑定 canonical archive、verification 和实际 versioned supersede decision 路径，同时保持历史 bytes 不变。",
+  "intent": "补齐 WI-379 历史替代决定在三语 parity ledger 中的机器可读引用，消除治理门 missing_parity_decision。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime code",
+    ".ai generated records",
+    "release artifacts",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b384aa0abf423e1f882b68137f58784db5f0afd569651a3ec24d569eea3b5987",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-381-reference-parity-decision-link-fix",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi381-parity-decision"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-381-reference-parity-decision-link-fix.md",
+    "docs/work-items/WI-381-reference-parity-decision-link-fix.zh-CN.md",
+    "docs/work-items/WI-381-reference-parity-decision-link-fix.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-381-reference-parity-decision-link-fix"
+}
