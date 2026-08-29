@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "954ea03f70ae44c352c157a251a2ba946a8cc87f",
+    "name": "codex/wi-407-knowledge-materialization-boundary",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e03c35aa969657ecbc781f768ab6ed43273fb8098ea0b62d64301ab42a3e0be6",
+  "operationId": "github-pr-372-delete-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "79e999392e0666faf31edef62dcce5240cb04490",
+    "headRevision": "954ea03f70ae44c352c157a251a2ba946a8cc87f",
+    "mergeCommit": "1245f318c59cbdcca54f758b7961830b863ac99e",
+    "number": 372,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/372"
+  },
+  "reason": "PR #372 passed hosted checks and was merged; the exact dedicated branch and worktree were removed after synchronizing main.",
+  "receiptId": "ai-cockpit-WI-407-knowledge-materialization-boundary-deleted-20260830",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-407-knowledge-materialization-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/372",
+    "worktree": "/private/tmp/ai-cockpit-wi407-knowledge-materialization-boundary"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T01:30:00Z",
+  "workItemId": "WI-407-knowledge-materialization-boundary",
+  "worktree": {
+    "branch": "codex/wi-407-knowledge-materialization-boundary",
+    "headRevision": "954ea03f70ae44c352c157a251a2ba946a8cc87f",
+    "path": "/private/tmp/ai-cockpit-wi407-knowledge-materialization-boundary",
+    "worktreeId": "WI-407-knowledge-materialization-boundary"
+  }
+}
