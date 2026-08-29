@@ -1,0 +1,81 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-28T23:59:00Z",
+  "checkpointContractDigest": "sha256:3367c7b345ae4685e80ed7bfe7e0610cc881be3370681020d42b730c2b897c59",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:e538a41a72da0f72dc29f1ca93cfb5092511187a0b97e2ec23e6343b1cd2d328",
+      "recorded": true,
+      "recordedAt": "2026-08-28T23:59:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:840a6f46601cc58666ce83ed2deb165a68d1149366e24b7f93aad39f706b3747",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-375-wi374-doc-status"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:7557ec191fc01d76701fe4b92b64f99833e13f5cdb1ce23f31d3bb4e7503e596",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e538a41a72da0f72dc29f1ca93cfb5092511187a0b97e2ec23e6343b1cd2d328",
+      "previousContractHash": "sha256:e538a41a72da0f72dc29f1ca93cfb5092511187a0b97e2ec23e6343b1cd2d328",
+      "reason": "The terminal-status correction must update the three parity ledgers as well as the three language Work Item projections; add only those repository-local documentation paths.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T00:01:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:01f4677d05524d20e13c846b345b372a830561e9dcab85566d6309027a4319ff",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-375-wi374-doc-status"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:99e423a98701df2e3758b8eaea7bdbe87d781d8c7e0c8c6c4a6e27914b1c1fbb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e538a41a72da0f72dc29f1ca93cfb5092511187a0b97e2ec23e6343b1cd2d328",
+      "previousContractHash": "sha256:7557ec191fc01d76701fe4b92b64f99833e13f5cdb1ce23f31d3bb4e7503e596",
+      "reason": "Include the current Work Item tri-language documentation so its own prearchive parity registration is governed by the same terminal promotion helper.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T00:05:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c077adc3801533e86b3c0643ac3ddf45724d8402d0b0f60d030c3e17928dd017",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-375-wi374-doc-status"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2707414d37a28986ed85e1ce3990f3fd652a50a467ad0f65b7c9530db4b0f36c",
+  "createdAt": "2026-08-28T23:58:51Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T00:16:42Z",
+  "preflightContractDigest": "sha256:3367c7b345ae4685e80ed7bfe7e0610cc881be3370681020d42b730c2b897c59",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2707414d37a28986ed85e1ce3990f3fd652a50a467ad0f65b7c9530db4b0f36c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T00:16:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-375-wi374-doc-status"
+}

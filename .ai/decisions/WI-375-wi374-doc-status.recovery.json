@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T00:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-375-wi374-doc-status.contract.json",
+    ".ai/work-items/active/WI-375-wi374-doc-status.summary.json",
+    ".ai/evidence/WI-375-wi374-doc-status.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:retry-recovery"
+  ],
+  "predecessorContractDigest": "sha256:3367c7b345ae4685e80ed7bfe7e0610cc881be3370681020d42b730c2b897c59",
+  "predecessorSummaryDigest": "sha256:026f6cd9cf8bfd82fd6a7456cfdb0e37f69f2f6833a554b6d53fcbef499a55f2",
+  "predecessorWorkItemId": "WI-375-wi374-doc-status",
+  "reason": "Retry after finalize-plan changed the Contract binding and invalidated the previous verification; preserve the prior evidence and run fresh preflight and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight, verify, finish, archive, and the reviewed PR lifecycle against the finalized Contract.",
+  "runtimeDigest": "sha256:af238d00182cdc108cbb95e3b18c8ed4ad07bc40289a1e970da47d09d12e5f86",
+  "runtimeVersion": "0.2.38",
+  "schemaVersion": 1,
+  "workItemId": "WI-375-wi374-doc-status"
+}
