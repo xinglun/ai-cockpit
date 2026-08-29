@@ -14,6 +14,13 @@ members = [
     "crates/cockpit-release",
 ]
 
+# Keep release startup and hot paths optimized as a single binary while
+# retaining normal unwind behavior for user-facing error handling.
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+
 [workspace.package]
 version = "0.2.40"
 edition = "2024"

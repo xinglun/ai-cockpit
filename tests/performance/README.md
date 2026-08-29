@@ -42,3 +42,11 @@ existing Git index read, resolves remote default metadata with one bounded
 query, and avoids repeated recursive sorting during observation. The
 optimization is request-scoped and identity-bound: it does
 not create a global repository cache or copy the reference install flow.
+
+The portable `runtime_benchmark.sh <binary> <repo> <output.json> [iterations]
+[work-item-id] [budgets.json]` harness measures cold and warm process latency for
+`inspect`, `status`, `doctor`, `observe`, and (when selected) Work Item status and
+diagnosis. It requires an external executable regular file, records both the
+Runtime-reported and file SHA-256 identities, writes atomically, and never builds
+or runs a source fallback. Its output is measurement evidence only; use
+`regression_gate.sh` with an explicitly reviewed budget file for a release gate.

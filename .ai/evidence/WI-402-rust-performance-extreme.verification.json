@@ -1,0 +1,128 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:e225291b2d0aa833abc2c738b6d8f236df48a4c8ef04bbd94f611a493d321dfc",
+  "createdAt": "2026-08-29T18:16:15Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 119332,
+      "executionElapsedMs": 118998,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+      "runtimeVersion": "0.2.40",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 119332,
+    "executionElapsedMs": 118998,
+    "filesHashed": 10,
+    "filesRead": 13,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "c9a38e32d70e5e8892fca2c88e063ee615b84062",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 118998,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:233aa8ac8c9335cd7141e4a48af9830f83a99c8d94f7944e30b43f6b064d0cb3",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-402-rust-performance-extreme"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [
+      {
+        "context": {
+          "commandDigest": "sha256:f8b8f9c45d9365858ddcf065220e85d8b3ed280656b020c55b2209770785e284",
+          "contentDigest": "sha256:29f81ba092fae430bb60adc47add89bb163731e3363e970ce2a672ef8ad1dfae",
+          "diff": {
+            "baseCommit": "acb3c386b6c249be3ca4da54151d1f418cf120e8",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "acb3c386b6c249be3ca4da54151d1f418cf120e8"
+          },
+          "environmentDigest": "sha256:159f543a22c15687f626f6a8f549507d783e4d07b5b3d9746793d8e1aa53303c",
+          "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
+          "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+          "profileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+          "runner": "local",
+          "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+          "stage": "task",
+          "toolchainDigest": "sha256:31c039974179ea3ab5172bc0c4e32ddd9296937823c3530cc81a84ae81e2110d"
+        },
+        "createdAtEpochSeconds": 1788027255,
+        "expiresAtEpochSeconds": 1788113655,
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:cbd7caa336a231c899cab855d9688c82dd2b45d7e924c5aa9836d33636dac8d7",
+        "passed": true,
+        "receiptId": "sha256:5a3e74a3f5bf9a3874ac70a082575f19b16b13b0064ba64c2baf48f338f4c08e",
+        "schemaVersion": 2
+      }
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 1,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:cbd7caa336a231c899cab855d9688c82dd2b45d7e924c5aa9836d33636dac8d7",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "binding_mismatch",
+        "receiptId": "sha256:5a3e74a3f5bf9a3874ac70a082575f19b16b13b0064ba64c2baf48f338f4c08e",
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "stale",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+    "runtimeVersion": "0.2.40",
+    "workItemId": "WI-402-rust-performance-extreme"
+  },
+  "receiptDigest": "sha256:8280523fdcef87a0103b69ff95fd4c56027dde745d9b3e2266bad6e177eecc32",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:233aa8ac8c9335cd7141e4a48af9830f83a99c8d94f7944e30b43f6b064d0cb3",
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "workItemId": "WI-402-rust-performance-extreme"
+}

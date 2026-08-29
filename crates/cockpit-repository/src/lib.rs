@@ -847,10 +847,13 @@ fn assess_verification_reuse_measured(
     scope.dedup();
 
     let context = cockpit_evidence::EvidenceContext {
-        content_digest: digest_value(
-            &(snapshot.tree_digest.as_str(), snapshot.diff_digest.as_str()),
-            &snapshot.root,
-        )?,
+        // Reuse is bound to source state, not to the governance receipts that
+        // this request itself writes.  The raw diff digest includes `.ai/`
+        // records, so using it here would make every successful verification
+        // invalidate its own reusable receipt.  `snapshot_digest` filters
+        // governance-only paths while retaining source and working-tree
+        // identity and remains request-scoped.
+        content_digest: snapshot_digest(snapshot)?.to_string(),
         diff: cockpit_evidence::DiffIdentity {
             base_commit,
             head_commit: head.clone(),
@@ -967,10 +970,7 @@ fn refresh_verification_context(
         return Ok(None);
     }
     let mut context = authorization.context.clone();
-    context.content_digest = digest_value(
-        &(snapshot.tree_digest.as_str(), snapshot.diff_digest.as_str()),
-        &snapshot.root,
-    )?;
+    context.content_digest = snapshot_digest(snapshot)?.to_string();
     context.diff = cockpit_evidence::DiffIdentity {
         base_commit,
         head_commit: head.clone(),
@@ -1546,7 +1546,24 @@ fn is_executable_file(path: &Path) -> bool {
 }
 
 fn execution_environment_digest(path: &Path) -> Result<String, ObserverError> {
-    let mut values = std::env::vars_os()
+    execution_environment_digest_from_values(std::env::vars_os(), path)
+}
+
+fn execution_environment_digest_from_values<I>(
+    values: I,
+    path: &Path,
+) -> Result<String, ObserverError>
+where
+    I: IntoIterator<Item = (std::ffi::OsString, std::ffi::OsString)>,
+{
+    let mut values = values
+        .into_iter()
+        // Shell/mise and Agent host session bookkeeping values do not describe
+        // the command's execution inputs. Including them makes an otherwise
+        // exact receipt stale whenever a new shell or Agent turn is entered.
+        // Keep all actual command/toolchain variables (PATH, PWD, TMPDIR,
+        // CARGO_HOME, RUSTFLAGS, etc.) in the identity below.
+        .filter(|(name, _)| !volatile_environment_key(name.as_encoded_bytes()))
         .map(|(name, value)| {
             (
                 name.as_encoded_bytes().to_vec(),
@@ -1556,6 +1573,18 @@ fn execution_environment_digest(path: &Path) -> Result<String, ObserverError> {
         .collect::<Vec<_>>();
     values.sort();
     digest_value(&values, path)
+}
+
+fn volatile_environment_key(name: &[u8]) -> bool {
+    // `_`, `OLDPWD`, and `SHLVL` are shell bookkeeping rather than stable
+    // command inputs. mise's entire `__MISE_*` namespace and the Agent's
+    // `CODEX_*` namespace are session state. PATH and explicit toolchain
+    // identities remain authoritative.
+    name == b"_"
+        || name == b"OLDPWD"
+        || name == b"SHLVL"
+        || name.starts_with(b"__MISE_")
+        || name.starts_with(b"CODEX_")
 }
 
 pub fn load_reusable_receipt(
@@ -14956,4 +14985,55 @@ fn collect_files(
         }
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod environment_identity_tests {
+    use super::execution_environment_digest_from_values;
+    use std::{ffi::OsString, path::Path};
+
+    fn digest(values: &[(&str, &str)]) -> String {
+        execution_environment_digest_from_values(
+            values
+                .iter()
+                .map(|(name, value)| (OsString::from(name), OsString::from(value))),
+            Path::new("/tmp/ai-cockpit-environment-test"),
+        )
+        .expect("environment digest")
+        .to_string()
+    }
+
+    #[test]
+    fn mise_session_metadata_does_not_invalidate_exact_reuse() {
+        let first = digest(&[
+            ("PATH", "/usr/bin"),
+            ("PWD", "/repo"),
+            ("_", "/usr/bin/time"),
+            ("OLDPWD", "/repo-a"),
+            ("SHLVL", "2"),
+            ("__MISE_SESSION", "session-a"),
+            ("__MISE_ORIG_PATH", "/usr/bin"),
+            ("CODEX_SESSION_ID", "turn-a"),
+            ("CODEX_THREAD_ID", "thread-a"),
+        ]);
+        let second = digest(&[
+            ("PATH", "/usr/bin"),
+            ("PWD", "/repo"),
+            ("_", "/usr/bin/env"),
+            ("OLDPWD", "/repo-b"),
+            ("SHLVL", "3"),
+            ("__MISE_SESSION", "session-b"),
+            ("__MISE_ORIG_PATH", "/opt/bin"),
+            ("CODEX_SESSION_ID", "turn-b"),
+            ("CODEX_THREAD_ID", "thread-b"),
+        ]);
+        assert_eq!(first, second);
+    }
+
+    #[test]
+    fn command_environment_changes_still_invalidate_exact_reuse() {
+        let first = digest(&[("PATH", "/usr/bin"), ("PWD", "/repo")]);
+        let second = digest(&[("PATH", "/opt/toolchain"), ("PWD", "/repo")]);
+        assert_ne!(first, second);
+    }
 }

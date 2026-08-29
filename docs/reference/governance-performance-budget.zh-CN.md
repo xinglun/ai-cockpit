@@ -33,6 +33,11 @@ tests/performance/regression_gate.sh baseline.json candidate.json
 
 检测到的 Work Item 命令与独立的自动检测验证使用同一 profile-authorized reuse 路径。只有 repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency 和 policy identity 全部匹配时，规划器才会复用结果。任何不匹配或影响未知都会执行声明的命令并记录原因，不会静默扩大复用范围或降低必需检查。显式自定义命令保持 fresh；未来若要复用，必须由操作者明确声明新的自定义命令复用 Contract。
 
+WI-402 让可复用身份跨 shell 和 Agent 会话保持稳定，只排除会话 bookkeeping（`_`、`OLDPWD`、
+`SHLVL`、mise 元数据和 `CODEX_*`）；命令与工具链输入仍然绑定。内容 key 只面向源代码：Runtime
+生成的 `.ai/` receipt 不会使自己的复用结果失效，但源代码或非 `.ai` 变更仍会失效。回归测试覆盖
+首次执行后第二次精确复用。
+
 ## Rust 原生优化边界
 
 WI-395 从 request-scoped status 和聚合 Work Item status 投影中移除重复的

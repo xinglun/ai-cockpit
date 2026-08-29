@@ -1,5 +1,6 @@
 use cockpit_repository::{
-    VerificationContextInput, VerificationReuseAssessment, assess_verification_reuse,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, VerificationContextInput,
+    VerificationReuseAssessment, assess_verification_reuse, run_repository_verification,
 };
 use std::{
     fs,
@@ -71,6 +72,14 @@ fn input() -> VerificationContextInput {
         runner: "local".into(),
         runtime_digest: digest('b'),
         base_commit: None,
+    }
+}
+
+fn successful_command() -> (&'static str, Vec<String>) {
+    if cfg!(windows) {
+        ("cmd.exe", vec!["/C".into(), "exit".into(), "0".into()])
+    } else {
+        ("true", Vec::new())
     }
 }
 
@@ -157,6 +166,64 @@ fn source_runtime_and_scope_changes_invalidate_their_context_dimensions() {
     scope_input.scope = vec!["tests/**".into()];
     let scope_context = authorized_context(&root, &changed, &scope_input);
     assert_ne!(changed_context.scope_digest, scope_context.scope_digest);
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn governance_only_receipts_do_not_invalidate_source_content_identity() {
+    let root = repository("governance-only", true);
+    cockpit_repository::attach(&root).expect("attach");
+    cockpit_repository::confirm_profile_update(
+        &root,
+        "cargo",
+        &["test".into(), "--workspace".into()],
+    )
+    .expect("confirm profile");
+    let git = cockpit_git::GitRepository::discover(&root).expect("git");
+    let clean = git.snapshot().expect("snapshot");
+    let baseline = authorized_context(&root, &clean, &input());
+
+    fs::create_dir_all(root.join(".ai/notes")).expect("notes directory");
+    fs::write(root.join(".ai/notes/observation.json"), b"{}\n").expect("receipt");
+    let governance_changed = git.snapshot().expect("governance snapshot");
+    let after = authorized_context(&root, &governance_changed, &input());
+
+    assert_eq!(baseline.content_digest, after.content_digest);
+    assert_eq!(
+        baseline.diff.changed_paths_digest,
+        after.diff.changed_paths_digest
+    );
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn profile_authorized_verification_reuses_exact_receipt_without_source_changes() {
+    let root = repository("hot-reuse", true);
+    cockpit_repository::attach(&root).expect("attach");
+    let (program, args) = successful_command();
+    cockpit_repository::confirm_profile_update(&root, program, &args).expect("confirm profile");
+    let request = RepositoryVerificationRequest {
+        node_id: "project-command-0".into(),
+        program: program.into(),
+        args,
+        scope: vec!["**".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: digest('b'),
+        base_commit: None,
+        workers: 1,
+        policy: RepositoryVerificationPolicy::ProfileAuthorized,
+    };
+
+    let first = run_repository_verification(&root, &request).expect("first verification");
+    assert_eq!(first.receipt.nodes_executed, 1);
+    assert_eq!(first.receipt.nodes_reused, 0);
+
+    let second = run_repository_verification(&root, &request).expect("reused verification");
+    assert_eq!(second.receipt.nodes_executed, 0);
+    assert_eq!(second.receipt.nodes_reused, 1);
+    assert_eq!(second.receipt.execution_elapsed_ms, 0);
+
     fs::remove_dir_all(root).expect("cleanup");
 }
 
