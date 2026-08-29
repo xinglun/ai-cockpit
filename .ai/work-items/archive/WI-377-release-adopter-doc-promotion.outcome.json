@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "WI-376 tri-language documentation is promoted to status implemented and remains bound to its close, finalization, archive, and verification receipts.",
+    "Documentation acceptance, closed Work Item promotion, status consistency, governance integrity, and release quality gates pass on the synchronized main branch.",
+    "The post-close promotion command and cleanup order are explicitly documented so a closed Work Item cannot leave completed documentation on main.",
+    "No Runtime, release truth, or historical evidence bytes are changed."
+  ],
+  "createdAt": "2026-08-29T02:24:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7892f1b5aae599695c2dc2dc10ede3f1ca3b4b04d83627fd5cc0455966362fd6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3b05ef9813036626aa49cf8cff17a09f8a751826d441d044b9f846a129b46d47",
+      "workItemId": "WI-377-release-adopter-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-377-release-adopter-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-377-release-adopter-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Restore the main quality gate without changing Runtime or immutable release/adopter evidence, and document the deterministic closed-Work-Item promotion boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-377-release-adopter-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-377-release-adopter-doc-promotion"
+  },
+  "taskReportDigest": "sha256:0801e70c3c22165f91fc325a4b0cc17db44c751653cc745ad5ece4aabcba2220",
+  "taskReportMarkdownDigest": "sha256:0cafd516034e0e07ab8951b6cece11cc0e2a5c0a4692ab80e403a1beb7589f31",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-377-release-adopter-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-377-release-adopter-doc-promotion"
+}

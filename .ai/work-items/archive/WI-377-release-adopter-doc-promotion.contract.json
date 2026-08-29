@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "WI-376 tri-language documentation is promoted to status implemented and remains bound to its close, finalization, archive, and verification receipts.",
+    "Documentation acceptance, closed Work Item promotion, status consistency, governance integrity, and release quality gates pass on the synchronized main branch.",
+    "The post-close promotion command and cleanup order are explicitly documented so a closed Work Item cannot leave completed documentation on main.",
+    "No Runtime, release truth, or historical evidence bytes are changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "cbbe875ab73c1f2a03d2746d43ea8913fccd6e1c",
+  "createdAt": "2026-08-29T02:17:25Z",
+  "goal": "Restore the main quality gate without changing Runtime or immutable release/adopter evidence, and document the deterministic closed-Work-Item promotion boundary.",
+  "intent": "Synchronize the tri-language WI-376 documentation with its verified closed lifecycle and make the post-close promotion step explicit so release CI remains truthful.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source code and binary behavior",
+    "Release assets",
+    " tags",
+    " and immutable adopter acceptance evidence",
+    "Global Agent or MCP configuration",
+    "Historical Work Item evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d4cc6945d193b3f0cb1872fcadbd55fa6102ad60846caf5d925213fe7cd41ee1",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-377-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/341",
+    "worktree": "/private/tmp/ai-cockpit-wi377-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-376-release-adopter-acceptance.md",
+    "docs/work-items/WI-376-release-adopter-acceptance.zh-CN.md",
+    "docs/work-items/WI-376-release-adopter-acceptance.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-377-release-adopter-doc-promotion.md",
+    "docs/work-items/WI-377-release-adopter-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-377-release-adopter-doc-promotion.ja.md",
+    "AGENTS.md",
+    ".ai/README.md",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "tests/docs/promote_closed_work_item_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-377-release-adopter-doc-promotion"
+}
