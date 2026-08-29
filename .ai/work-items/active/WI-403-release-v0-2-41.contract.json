@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "Cargo package metadata and lockfile advance exactly from v0.2.40 to v0.2.41 without rewriting prior release tags.",
+    "The reviewed main commit produces an immutable public v0.2.41 Release with archive, SBOM, provenance, and SHA-256 identity.",
+    "The downloaded public v0.2.41 binary is installed and verified in the current project with explicit repository context; no source or workspace fallback is used.",
+    "A fresh isolated adopter completes attach, scaffold, lifecycle, evidence reuse, and cleanup checks; first-adopter-smoke remains not_ready.",
+    "Runtime identity, repository identity, artifact digests, acceptance output, isolation manifests, and cleanup truth are retained as auditable evidence.",
+    "Tri-language release and parity documentation is synchronized, and main is ready_on_base after reviewed merge and exact cleanup."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "6eb3ccf9fa4ec54c94370f10dea6e1b38112978a",
+  "createdAt": "2026-08-29T18:40:56Z",
+  "goal": "从 reviewed main 生成 v0.2.41，完成公开 Release、安装升级、adopter 生命周期验收与隔离证明，然后回到主线继续参考源逐文件比对。",
+  "intent": "发布性能优化后的 Rust Runtime v0.2.41，并用不可变公开制品完成当前工程与全新 adopter 验收。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime semantics",
+    " reference-source parity implementation",
+    " object-project business code",
+    " global Agent/MCP configuration",
+    " Python/Make/V1 runtime copy."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3df6aa59e3ea446e8707bc664fbf50ff8fca789499c37a6c5c5c95aa5b1eb45a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-403-release-v0-2-41",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi403-release-v0-2-41"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-403-release-v0-2-41.md",
+    "docs/work-items/WI-403-release-v0-2-41.zh-CN.md",
+    "docs/work-items/WI-403-release-v0-2-41.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-403-release-v0-2-41"
+}
