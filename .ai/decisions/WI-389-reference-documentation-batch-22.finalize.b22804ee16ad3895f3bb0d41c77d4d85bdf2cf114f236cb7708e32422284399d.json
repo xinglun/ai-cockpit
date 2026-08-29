@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:d0ff8a6ce0e80332e7de8d1e31d9107de6b2d0b5daf57b408502404253315a66",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "e7ee06610861ed806f3a698b0cffbdce937806b2",
+      "name": "codex/wi-389-reference-documentation-batch-22",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:f96028186d950ae4ed211f4d51e49e901e0556ec0c2009b305d80dcae51b8c67",
+    "operationId": "github-pr-353-merge-cleanup-20260829",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "12dc153ed080595160a5aa3458944a9c6acd0587",
+      "headRevision": "e7ee06610861ed806f3a698b0cffbdce937806b2",
+      "mergeCommit": "823fa6db2824511d06d83571839f898c3ef1a064",
+      "number": 353,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/353"
+    },
+    "reason": "PR #353 merged and the exact WI-389 branch and worktree were removed after the retained finalization receipt was verified.",
+    "receiptId": "ai-cockpit-WI-389-reference-documentation-batch-22-deleted-20260829",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-389-reference-documentation-batch-22",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/353",
+      "worktree": "/private/tmp/ai-cockpit-wi389-reference-documentation-batch-22"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+    "runtimeVersion": "0.2.39",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-29T08:24:10Z",
+    "workItemId": "WI-389-reference-documentation-batch-22",
+    "worktree": {
+      "branch": "codex/wi-389-reference-documentation-batch-22",
+      "headRevision": "e7ee06610861ed806f3a698b0cffbdce937806b2",
+      "path": "/private/tmp/ai-cockpit-wi389-reference-documentation-batch-22",
+      "worktreeId": "WI-389-reference-documentation-batch-22"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-389-reference-documentation-batch-22-resources-deleted"
+}
