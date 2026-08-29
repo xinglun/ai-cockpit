@@ -13,6 +13,8 @@ authority: human-authorized
 lastVerifiedBy: WI-407-knowledge-materialization-boundary
 terminalArchive: .ai/work-items/archive/WI-407-knowledge-materialization-boundary.contract.json
 terminalVerification: .ai/evidence/WI-407-knowledge-materialization-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-407-knowledge-materialization-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-407-knowledge-materialization-boundary.close.json
 ---
 
 # WI-407 — Knowledge projection materialization boundary
