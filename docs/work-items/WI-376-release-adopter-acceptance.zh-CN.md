@@ -6,6 +6,7 @@ workItemId: WI-376-release-adopter-acceptance
 audience: [maintainer, reviewer]
 status: completed
 authority: human-authorized
+lastVerifiedBy: WI-376-release-adopter-acceptance
 capabilityClaims: [release_acceptance, repository_isolation, evidence_reuse]
 ---
 
