@@ -31,11 +31,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-392-reference-android-fixture",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/356",
     "worktree": "/private/tmp/ai-cockpit-wi392-reference-android-fixture"
   },
   "risk": "normal",
