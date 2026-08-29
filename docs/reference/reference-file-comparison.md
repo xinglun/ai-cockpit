@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=275 implemented-equivalent=1 not-applicable=4 reference-only=42 deferred-next-batch=535 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=284 implemented-equivalent=1 not-applicable=4 reference-only=43 deferred-next-batch=525 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 275 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 42 `reference-only`, and 535
+4,262 `generated-history`, 284 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 43 `reference-only`, and 525
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -875,3 +875,30 @@ that a static reference-impact scanner exists. The source adversarial language
 pages disagree on named-case count; the target follows the manifest as machine
 truth and keeps that discrepancy visible. This is semantic parity and explicit
 boundary documentation, not source command or JSON-wire compatibility.
+
+## WI-378 reference documentation batch 17
+
+WI-378 compares the next ten deferred reference paths individually at the
+pinned source commit. Nine responsibilities are represented by Rust-native
+tri-language documentation and existing Runtime/tests; one generated plan
+trace is reference-only. The batch does not copy source Python, Make, provider
+configuration, or historical remediation decisions.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/remediation-instruction-traceability.json` | reference-only | `docs/reference/instruction-traceability.md` and the machine inventory explain the current traceability boundary; the source's generated historical plan directives are not target authority. |
+| `docs/reference/repository-workflow.ja.md` | implemented-different-by-design | Tri-language `docs/reference/repository-workflow.*`, `.ai/README.md`, and `AGENTS.md` preserve explicit repository context, serial Work Item, reviewed PR, close, and cleanup semantics. |
+| `docs/reference/schemas.md` | implemented-different-by-design | Tri-language `schemas.*`, typed Protocol/repository validators, and immutable evidence/decision boundaries map the record families without source wire compatibility. |
+| `docs/reference/test-architecture.md` | implemented-different-by-design | Tri-language `test-architecture.*`, CI quality routing, conformance manifest, release/adopter harnesses, and negative-first tests describe layered evidence and external limits. |
+| `docs/reference/test-weakening-guard.ja.md` | implemented-different-by-design | Japanese Rust-native weakening route plus snapshot-derived governance signals and regressions; source Python/Make surface is not shipped. |
+| `docs/reference/test-weakening-guard.md` | implemented-different-by-design | English Rust-native weakening route, conservative path handling, dynamic profile boundary, and recovery conditions. |
+| `docs/reference/test-weakening-guard.zh-CN.md` | implemented-different-by-design | Chinese Rust-native weakening route with fail-closed unknowns, proportional analysis, and explicit non-claims. |
+| `docs/reference/troubleshooting.ja.md` | implemented-different-by-design | Japanese stop-state/recovery route, command reference, installed-lifecycle boundary, and documentation checks replace source wizard/Make instructions. |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design | English stop-state/recovery route with explicit toolchain, adopter, active-Work-Item, and evidence-preservation boundaries. |
+| `docs/reference/upgrade.ja.md` | implemented-different-by-design | Japanese Runtime-upgrade versus repository-migration route with immutable Release, rollback, and history-preservation rules. |
+
+The updated ledger remains 5,119 records: 4,262 `generated-history`, 284
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 43 `reference-only`, and 525 `deferred-next-batch`; there are
+zero `migrate-gap` records. The deferred set remains scheduled comparison work,
+not a parity claim.

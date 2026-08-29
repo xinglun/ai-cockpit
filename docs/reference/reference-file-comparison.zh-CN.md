@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=275 implemented-equivalent=1 not-applicable=4 reference-only=42 deferred-next-batch=535 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=284 implemented-equivalent=1 not-applicable=4 reference-only=43 deferred-next-batch=525 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、275 条 `implemented-different-by-design`、1 条
@@ -699,3 +699,25 @@ WI-368 在固定提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比�
 本批还修正了 Standard profile 的措辞，不再暗示存在静态 reference-impact scanner。
 参考源荒诞测试三语页面对命名场景数量不一致；目标以 manifest 作为机器事实并保留差异。
 这是语义 parity 与明确边界文档，不是源命令或 JSON-wire 兼容。
+
+## WI-378：参考文档第 17 批
+
+WI-378 在固定参考提交上逐一比较了下一批十个 deferred 路径。其中九项责任由 Rust-native 三语文档和现有 Runtime/测试承担；一个生成的计划追溯文件保持 `reference-only`。本批不复制源 Python、Make、Provider 配置或历史修复决定。
+
+| 固定参考路径 | 分类 | Rust 对应/边界决定 |
+| --- | --- | --- |
+| `docs/reference/remediation-instruction-traceability.json` | reference-only | `docs/reference/instruction-traceability.md` 和机器 inventory 说明当前追溯边界；源生成的历史计划指令不是目标 authority。 |
+| `docs/reference/repository-workflow.ja.md` | implemented-different-by-design | 三语 `docs/reference/repository-workflow.*`、`.ai/README.md`、`AGENTS.md` 保留显式仓库上下文、串行 Work Item、评审 PR、close 和清理语义。 |
+| `docs/reference/schemas.md` | implemented-different-by-design | 三语 `schemas.*`、typed Protocol/repository validators 和不可变 evidence/decision 边界映射记录族，不宣称源 wire 兼容。 |
+| `docs/reference/test-architecture.md` | implemented-different-by-design | 三语 `test-architecture.*`、CI quality route、conformance manifest、release/adopter harness 和负向优先测试说明分层证据与外部限制。 |
+| `docs/reference/test-weakening-guard.ja.md` | implemented-different-by-design | 日语 Rust-native weakening 路由、基于 snapshot 的治理 Signal 与回归；不发布源 Python/Make surface。 |
+| `docs/reference/test-weakening-guard.md` | implemented-different-by-design | 英语 Rust-native weakening 路由、保守路径处理、动态 profile 边界和恢复条件。 |
+| `docs/reference/test-weakening-guard.zh-CN.md` | implemented-different-by-design | 中文 Rust-native weakening 路由、fail-closed unknown、按比例分析和明确非声明。 |
+| `docs/reference/troubleshooting.ja.md` | implemented-different-by-design | 日语 stop-state/recovery、命令参考、installed-lifecycle 边界和文档检查替代源 wizard/Make 指令。 |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design | 英语 stop-state/recovery 路由，明确 toolchain、adopter、active Work Item 和证据保留边界。 |
+| `docs/reference/upgrade.ja.md` | implemented-different-by-design | 日语 Runtime upgrade 与 repository migration 的区分、不可变 Release、回滚和历史保留规则。 |
+
+更新后的台账仍为 5,119 条：4,262 条 `generated-history`、284 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、4 条
+`not-applicable`、43 条 `reference-only`、525 条 `deferred-next-batch`；
+`migrate-gap` 为 0。Deferred 集合仍是计划中的比较，不是 parity 声明。

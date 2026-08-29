@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T12:06:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-378-reference-documentation-batch-17.verification.json",
+    ".ai/work-items/active/WI-378-reference-documentation-batch-17.summary.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:d2a599e88eadb0b7d088748571030b08f11bb215332c518829c52f4dfc7a9253",
+  "predecessorEventsDigest": "sha256:48e72c74fa1db93bafe478e69621ecf4e497c829a75a275d8e1f137e88369b12",
+  "predecessorOutcomeDigest": "sha256:390b1029272d0754958d139764f4a0b59d9fca1ba3b2f25face55afc53957fb4",
+  "predecessorSummaryDigest": "sha256:2d8d0b98536063956dd832cba758bff2c43bbf6d96c13fa44509ae82f083b1ff",
+  "predecessorWorkItemId": "WI-378-reference-documentation-batch-17",
+  "reason": "Retry after finalize-plan changed the repository-bound resource context and invalidated the earlier verification; preserve the failed attempt and collect fresh evidence against the current Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and installed-Runtime verification against the current Contract and PR context before finish.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "workItemId": "WI-378-reference-documentation-batch-17"
+}

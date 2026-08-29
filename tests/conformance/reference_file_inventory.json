@@ -32029,17 +32029,25 @@
     },
     {
       "referencePath": "docs/reference/remediation-instruction-traceability.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/instruction-traceability.md",
+        "tests/conformance/reference_file_inventory.json"
+      ],
+      "reason": "The source file is a generated trace of the reference repository's historical remediation plan. The target keeps a current inventory and reader-facing traceability boundary, but source plan directives and historical acceptance claims are not portable Runtime authority."
     },
     {
       "referencePath": "docs/reference/repository-workflow.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/repository-workflow.ja.md",
+        "docs/reference/repository-workflow.md",
+        ".ai/README.md",
+        "AGENTS.md"
+      ],
+      "reason": "The Japanese workflow responsibility is represented by a tri-language Rust-native route with explicit repository context, serial Work Item boundaries, reviewed PR cleanup, and post-close documentation promotion. Reference Make commands and provider-global behavior are not copied."
     },
     {
       "referencePath": "docs/reference/repository-workflow.md",
@@ -32063,59 +32071,101 @@
     },
     {
       "referencePath": "docs/reference/schemas.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/schemas.md",
+        "docs/reference/schemas.zh-CN.md",
+        "docs/reference/schemas.ja.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The target maps the reference record families to strict Rust Protocol, repository, evidence, archive, decision, and audit boundaries. It intentionally does not copy the source YAML/JSON wire shapes or generated status authority."
     },
     {
       "referencePath": "docs/reference/test-architecture.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/test-architecture.md",
+        "docs/reference/test-architecture.zh-CN.md",
+        "docs/reference/test-architecture.ja.md",
+        ".github/workflows/ci.yml",
+        "tests/ci/quality_route.py",
+        "tests/conformance/manifest.json"
+      ],
+      "reason": "The target documents layered negative-first Protocol, lifecycle, executor, adversarial, hosted, release, and documentation checks with dynamic light/standard/strict routing. Provider and universal-coverage claims remain external or unknown; the source checker and Make target are not copied."
     },
     {
       "referencePath": "docs/reference/test-weakening-guard.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/test-weakening-guard.ja.md",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs"
+      ],
+      "reason": "The Japanese route documents the Rust snapshot-derived weakening signals, blocking versus review boundaries, dynamic route, and explicit limitations. Rust preserves the semantic guard without shipping the reference Python module, Make target, or source wire format."
     },
     {
       "referencePath": "docs/reference/test-weakening-guard.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/test-weakening-guard.md",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs"
+      ],
+      "reason": "The English route maps the reference Test Weakening Guard responsibility to Rust preflight and Contract gates, including conservative path handling, stable recovery conditions, and proportional analysis. Source Python/Make implementation and JSON wire compatibility are not claimed."
     },
     {
       "referencePath": "docs/reference/test-weakening-guard.zh-CN.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/test-weakening-guard.zh-CN.md",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs"
+      ],
+      "reason": "The Chinese route documents the same Rust-native weakening signals, fail-closed unknowns, recovery boundary, and proportional quality routing; source Python/Make and wire bytes remain reference-only."
     },
     {
       "referencePath": "docs/reference/troubleshooting.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/troubleshooting.ja.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/installed-lifecycle.ja.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The Japanese troubleshooting responsibility is represented by the Rust CLI stop-state table, explicit repository recovery, installation/toolchain boundary, and documentation checks. Source wizard/Make/Python details are not Runtime commands."
     },
     {
       "referencePath": "docs/reference/troubleshooting.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/troubleshooting.md",
+        "docs/reference/commands.md",
+        "docs/reference/installed-lifecycle.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The English troubleshooting responsibility is covered by evidence-derived stop states, explicit recovery, toolchain/adopter boundaries, and documentation gates. The reference source's wizard and Python/Make commands are not copied or treated as authority."
     },
     {
       "referencePath": "docs/reference/upgrade.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-378-reference-documentation-batch-17",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/upgrade.ja.md",
+        "docs/reference/installed-lifecycle.ja.md",
+        "docs/reference/commands.ja.md"
+      ],
+      "reason": "The Japanese upgrade responsibility is represented by a Rust-native distinction between shared Runtime upgrade and explicit repository migration, immutable Release identity, rollback/history preservation, and repository-bound diagnostics. Source installer scripts and Make/Python surfaces are not copied."
     },
     {
       "referencePath": "docs/reference/upgrade.md",
