@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Cargo metadata and lockfile advance exactly one patch from v0.2.40 to v0.2.41 without reusing an existing tag or Release.",
+    "Release workflow source policy builds the declared target from the exact reviewed main commit and binds manifest, Formula, SHA256SUMS, SBOM, provenance, and immutable tag/Release identity; this Work Item validates the pre-release route without claiming that a public artifact already exists.",
+    "A follow-up post-release Work Item must download and checksum-verify the public v0.2.41 binary, record runtime identity, and prove fresh-adopter acceptance without source or workspace fallback; that public-artifact acceptance is explicitly deferred from this preparation Work Item.",
+    "The current repository inherits WI-408 read-only inspect behavior through the shared Runtime, without cross-repository state; fresh-adopter and isolation/cleanup evidence are follow-up release acceptance scope.",
+    "Reviewed merge, finalization, close, synchronization, and exact cleanup leave main ready_on_base with no open PR or release branch."
+  ],
+  "createdAt": "2026-08-29T23:52:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7828bc5d5d0126dfb1aef1fb954f129167e230a07f76e1832113e8e81ce1c4fd",
+  "evidenceRefs": [
+    ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f813147bf2d09a0c8f21df6cfba716fc41b0ea090652ad6fe8cf8c4f1c9c3c9",
+      "workItemId": "WI-409-release-v0-2-41"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-409-release-v0-2-41.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-409-release-v0-2-41.contract.json"
+          ],
+          "inference": false,
+          "text": "Prepare the reviewed patch release as v0.2.41, validate its source/staged release gates, and leave a clean reviewed base for post-release adopter acceptance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-409-release-v0-2-41.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-409-release-v0-2-41"
+  },
+  "taskReportDigest": "sha256:379815a8de4d34890a59ed780469e0dc3132a9a196878c34d34d7de662b23299",
+  "taskReportMarkdownDigest": "sha256:82424f454a520b8cdcc76605bbc34887afd2f565a23b1f5b37c03a62a517e5b3",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-409-release-v0-2-41.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-409-release-v0-2-41"
+}

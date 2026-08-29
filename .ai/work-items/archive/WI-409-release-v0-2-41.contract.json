@@ -1,0 +1,80 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and lockfile advance exactly one patch from v0.2.40 to v0.2.41 without reusing an existing tag or Release.",
+    "Release workflow source policy builds the declared target from the exact reviewed main commit and binds manifest, Formula, SHA256SUMS, SBOM, provenance, and immutable tag/Release identity; this Work Item validates the pre-release route without claiming that a public artifact already exists.",
+    "A follow-up post-release Work Item must download and checksum-verify the public v0.2.41 binary, record runtime identity, and prove fresh-adopter acceptance without source or workspace fallback; that public-artifact acceptance is explicitly deferred from this preparation Work Item.",
+    "The current repository inherits WI-408 read-only inspect behavior through the shared Runtime, without cross-repository state; fresh-adopter and isolation/cleanup evidence are follow-up release acceptance scope.",
+    "Reviewed merge, finalization, close, synchronization, and exact cleanup leave main ready_on_base with no open PR or release branch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d921164673144503eb6e416d24c72148426fa861",
+  "createdAt": "2026-08-29T23:29:10Z",
+  "goal": "Prepare the reviewed patch release as v0.2.41, validate its source/staged release gates, and leave a clean reviewed base for post-release adopter acceptance.",
+  "intent": "Prepare publication of the reviewed post-WI-408 Runtime as v0.2.41 without claiming public artifact or adopter acceptance before the Release workflow completes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-core/**",
+    "governance semantics and lifecycle implementation",
+    "reference-source/V1 runtime or installer copying",
+    "global Agent/MCP configuration",
+    "unrelated adopter application source"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e6d556c9cb91a025b7138526c686c29464e825c79403ec5446536300ccb87692",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-409-release-v0-2-41",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/374",
+    "worktree": "/private/tmp/ai-cockpit-wi409-release-v0-2-41"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/**",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-409-release-v0-2-41.md",
+    "docs/work-items/WI-409-release-v0-2-41.zh-CN.md",
+    "docs/work-items/WI-409-release-v0-2-41.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/release/**",
+    "tests/docs/**"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/versioning.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "bash tests/release/version_consistency_test.sh",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/action_runtime_policy_test.sh",
+    "bash tests/release/annotated_tag_identity.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi409-governance.json",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "git diff --check"
+  ],
+  "workItemId": "WI-409-release-v0-2-41"
+}
