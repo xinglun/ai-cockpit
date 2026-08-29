@@ -4,9 +4,10 @@ title: "WI-379 — reference documentation batch 18"
 description: "Compare the next ten pinned reference paths and publish bounded Rust-native reader routes."
 workItemId: WI-379-reference-documentation-batch-18
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-379-reference-documentation-batch-18
+terminalDecision: .ai/decisions/WI-379-reference-documentation-batch-18.recovery.json
 capabilityClaims: [reference_comparison, verification_reuse, intelligence, lifecycle_closure]
 ---
 
@@ -20,6 +21,12 @@ Compare the next ten paths in the pinned reference inventory and make their
 reader-facing governance meaning available through the shared Rust Runtime,
 without copying source Python, Make, provider configuration, or historical
 decisions.
+
+The reviewed PR #343 delivered the bounded documentation, but this Work Item
+was archived before the provider PR identity was known. Its archive, evidence,
+Outcome, and pending resource context are immutable historical bytes. The
+explicit recovery successor WI-380 completes provider finalization without
+rewriting this record.
 
 ## Compared paths and decisions
 
