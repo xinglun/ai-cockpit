@@ -30,11 +30,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-383-reference-inventory-count-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/347",
     "worktree": "/private/tmp/ai-cockpit-wi383-reference-inventory-count-recovery"
   },
   "risk": "normal",
