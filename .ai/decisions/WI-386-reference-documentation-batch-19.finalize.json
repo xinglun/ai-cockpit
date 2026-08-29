@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-PR-350-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "416ffa2e77176fb848f0990b790f870af6e2a7c4",
+    "name": "codex/wi-386-reference-documentation-batch-19",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:50bba0c580bf6c45d8fc819a08441d25c461e577cf00caa233e21e6313101d56",
+  "operationId": "github-pr-350-merge-retained-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "30e70a2044ef6c3e1265d66bbfed038a29fc9ee0",
+    "headRevision": "416ffa2e77176fb848f0990b790f870af6e2a7c4",
+    "mergeCommit": "96fbc7aaca594763fcb2ae74359312d8ba4ff31e0",
+    "number": 350,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/350"
+  },
+  "reason": "PR #350 passed all hosted checks and merged; retain the exact feature branch and clean worktree until post-merge cleanup is verified.",
+  "receiptId": "ai-cockpit-WI-386-reference-documentation-batch-19-merged-retained",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-386-reference-documentation-batch-19",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/350",
+    "worktree": "/private/tmp/ai-cockpit-wi386-reference-documentation-batch-19"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T07:04:30Z",
+  "workItemId": "WI-386-reference-documentation-batch-19",
+  "worktree": {
+    "branch": "codex/wi-386-reference-documentation-batch-19",
+    "headRevision": "416ffa2e77176fb848f0990b790f870af6e2a7c4",
+    "path": "/private/tmp/ai-cockpit-wi386-reference-documentation-batch-19",
+    "worktreeId": "WI-386-reference-documentation-batch-19"
+  }
+}
