@@ -24,11 +24,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-382-reference-inventory-count-truth",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/346",
     "worktree": "/private/tmp/ai-cockpit-wi382-reference-inventory-count-truth"
   },
   "risk": "normal",
