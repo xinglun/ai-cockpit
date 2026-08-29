@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T01:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json",
+    ".ai/work-items/active/WI-401-release-v0-2-40-publication.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:4643fb2a87cfc51999d123f080df37c59d50b3eae8be49bb6538705d3b635ecb",
+  "predecessorEventsDigest": "sha256:5cfa31a01b765632a22aa192676c4a8c7b514902794c829a8a6e7635f7b177b1",
+  "predecessorOutcomeDigest": "sha256:4d7de0a7b30f81c4a6801600bb1b7c60e2f3016ea397d7ea787d8c1dd6f8b5ce",
+  "predecessorSummaryDigest": "sha256:6d4b6a55cc6ca29fea3b6a6ee2d72b9d97f1be2b586f9d2c9893d9426cd2efa8",
+  "predecessorWorkItemId": "WI-401-release-v0-2-40-publication",
+  "reason": "Retry after the parity registration Contract amendment and fresh source Runtime verification; preserve failed Outcome history and rebind the current evidence before archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh source Runtime preflight and verification against the amended Contract, then retry finish and archive.",
+  "runtimeDigest": "sha256:dd14c95f88419e60fcef55ac5a6c12abcf29ef63bea508fcb49cf11f3a61af02",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "workItemId": "WI-401-release-v0-2-40-publication"
+}

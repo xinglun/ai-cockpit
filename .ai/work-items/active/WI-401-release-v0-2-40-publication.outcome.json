@@ -3,11 +3,12 @@
     "The v0.2.40 tag and public Release are produced from the reviewed synchronized main merge and all release identity, SBOM, provenance, and checksum gates pass.",
     "The public v0.2.40 artifact is downloaded and checksum-verified in an isolated environment with runtime tag/version/archiveDigest/binaryDigest/platform/downloadSource recorded.",
     "A fresh adopter receives independent repository identity/scaffold/Agent adapter and a complete lifecycle; first-adopter-smoke remains not_ready, evidence reuse is proven, and forbidden roots plus temporary run roots are clean.",
-    "The current repository installs the verified public v0.2.40 binary, reports COMPATIBLE/doctor ok, and retains auditable acceptance artifacts while main ends ready_on_base with no open release branch."
+    "The current repository installs the verified public v0.2.40 binary, reports COMPATIBLE/doctor ok, and retains auditable acceptance artifacts while main ends ready_on_base with no open release branch.",
+    "The three reference-parity ledgers keep exact pre-archive lifecycle rows for this Work Item: In progress → Implemented after verified close, 进行中 → 验证关闭后已实现, and In progress → verified close 後 Implemented, with archive, verification, finalization, and close paths."
   ],
-  "createdAt": "2026-08-29T15:47:08Z",
+  "createdAt": "2026-08-29T16:02:24Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:70e8ca4ca32244f07d9f25735905b85d39a8a859f642eba2547c6856fb5900bd",
+  "evidenceDigest": "sha256:f78251a3b3916c19ce246247c3efcb500d1ffb05619624e389f8730bfac06170",
   "evidenceRefs": [
     ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
   ],
@@ -33,7 +34,7 @@
         ".ai/evidence/WI-401-release-v0-2-40-publication.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:1425da2431e9686626f6e31015e1fa94cc04d8ea7a7361f72fdd420855bdd31c",
+      "repositorySnapshotDigest": "sha256:8cdb00ad8f1a4b24318ed3973478eff12dcb96d8f3ecf3664c397fd74b9d1ec9",
       "workItemId": "WI-401-release-v0-2-40-publication"
     },
     "format": "ai-cockpit.task-outcome",
@@ -129,7 +130,7 @@
     "status": "verified",
     "workItemId": "WI-401-release-v0-2-40-publication"
   },
-  "taskReportDigest": "sha256:da1daf4bca6776ffd290073e7aa3bc077d8caf223dae4bbbf75aa9a5495393a5",
+  "taskReportDigest": "sha256:9b55090017e562871513a72c81b72b6032cea855b296d0229cdb2391e7feebd5",
   "taskReportMarkdownDigest": "sha256:ca81c5fe9ed6cffc06c52986ff1479a1416d1c16630982d85b598d624047108a",
   "unknowns": [
     "user_visible_benefit_not_declared"

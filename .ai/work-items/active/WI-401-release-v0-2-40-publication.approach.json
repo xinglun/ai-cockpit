@@ -70,7 +70,7 @@
     }
   ],
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:815166f1e54377486e99b5734945533e25d4fcc0eb04efecd9ef54c551506651",
+  "repositorySnapshotDigest": "sha256:8cdb00ad8f1a4b24318ed3973478eff12dcb96d8f3ecf3664c397fd74b9d1ec9",
   "schemaVersion": 2,
   "unknowns": [],
   "workItemId": "WI-401-release-v0-2-40-publication"

@@ -3,7 +3,8 @@
     "The v0.2.40 tag and public Release are produced from the reviewed synchronized main merge and all release identity, SBOM, provenance, and checksum gates pass.",
     "The public v0.2.40 artifact is downloaded and checksum-verified in an isolated environment with runtime tag/version/archiveDigest/binaryDigest/platform/downloadSource recorded.",
     "A fresh adopter receives independent repository identity/scaffold/Agent adapter and a complete lifecycle; first-adopter-smoke remains not_ready, evidence reuse is proven, and forbidden roots plus temporary run roots are clean.",
-    "The current repository installs the verified public v0.2.40 binary, reports COMPATIBLE/doctor ok, and retains auditable acceptance artifacts while main ends ready_on_base with no open release branch."
+    "The current repository installs the verified public v0.2.40 binary, reports COMPATIBLE/doctor ok, and retains auditable acceptance artifacts while main ends ready_on_base with no open release branch.",
+    "The three reference-parity ledgers keep exact pre-archive lifecycle rows for this Work Item: In progress → Implemented after verified close, 进行中 → 验证关闭后已实现, and In progress → verified close 後 Implemented, with archive, verification, finalization, and close paths."
   ],
   "authority": "authorized",
   "baseRevision": "11f525037d087e25719b1890ac57661dc4cd771c",

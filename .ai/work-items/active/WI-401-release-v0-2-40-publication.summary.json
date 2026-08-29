@@ -4,7 +4,7 @@
     ".ai/decisions/WI-400-release-v0-2-40-adopter-acceptance.finalize.json"
   ],
   "checkpointAt": "2026-08-29T15:36:22Z",
-  "checkpointContractDigest": "sha256:f41179d3807e544524207f1e0c6a3551522729bece008b8248690f4264bede39",
+  "checkpointContractDigest": "sha256:4643fb2a87cfc51999d123f080df37c59d50b3eae8be49bb6538705d3b635ecb",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,23 +40,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-401-release-v0-2-40-publication"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4643fb2a87cfc51999d123f080df37c59d50b3eae8be49bb6538705d3b635ecb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:15bb98d2f9223b48e26e8fa39b6158ecb674bb92357e5e09141d4d1754daf82d",
+      "previousContractHash": "sha256:f41179d3807e544524207f1e0c6a3551522729bece008b8248690f4264bede39",
+      "reason": "Align tri-language parity rows with the Runtime pre-archive registration contract discovered by hosted CI.",
+      "recorded": true,
+      "recordedAt": "2026-08-29T15:56:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8cdb00ad8f1a4b24318ed3973478eff12dcb96d8f3ecf3664c397fd74b9d1ec9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-401-release-v0-2-40-publication"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:1425da2431e9686626f6e31015e1fa94cc04d8ea7a7361f72fdd420855bdd31c",
+  "checkpointRepositorySnapshotDigest": "sha256:8cdb00ad8f1a4b24318ed3973478eff12dcb96d8f3ecf3664c397fd74b9d1ec9",
   "createdAt": "2026-08-29T15:31:40Z",
-  "failedGate": "finish.lifecycle",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-08-29T15:47:08Z",
-  "preflightContractDigest": "sha256:f41179d3807e544524207f1e0c6a3551522729bece008b8248690f4264bede39",
+  "preflightAt": "2026-08-29T16:02:21Z",
+  "preflightContractDigest": "sha256:4643fb2a87cfc51999d123f080df37c59d50b3eae8be49bb6538705d3b635ecb",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:1425da2431e9686626f6e31015e1fa94cc04d8ea7a7361f72fdd420855bdd31c",
+  "preflightRepositorySnapshotDigest": "sha256:8cdb00ad8f1a4b24318ed3973478eff12dcb96d8f3ecf3664c397fd74b9d1ec9",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-08-29T15:47:08Z",
+  "updatedAt": "2026-08-29T16:02:24Z",
   "verification": [
     {
       "check": "project-command-0",
