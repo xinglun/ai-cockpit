@@ -1,8 +1,8 @@
 use cockpit_core::Digest;
 use cockpit_repository::{
     WorkItemStartOptions, capability_truth_registry, capability_truth_registry_with_runtime,
-    checkpoint_work_item, implementation_approach, outcome_v2, performance_diagnosis,
-    preflight_work_item, record_verification, start_work_item_with_options,
+    checkpoint_work_item, implementation_approach, implementation_approach_read_only, outcome_v2,
+    performance_diagnosis, preflight_work_item, record_verification, start_work_item_with_options,
     work_item_compatibility,
 };
 use std::{fs, process::Command};
@@ -59,6 +59,40 @@ fn approach_separates_observed_facts_from_unknown_human_inputs() {
             .path()
             .join(".ai/work-items/active/WI-75.approach.json")
             .is_file()
+    );
+}
+
+#[test]
+fn read_only_implementation_approach_does_not_persist_an_artifact() {
+    let directory = repository();
+    cockpit_repository::attach(directory.path()).expect("attach");
+    start_work_item_with_options(
+        directory.path(),
+        "WI-READ-ONLY-APPROACH",
+        "Read-only approach",
+        "inspect without writes",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    let approach_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-READ-ONLY-APPROACH.approach.json");
+    let approach = implementation_approach_read_only(directory.path(), "WI-READ-ONLY-APPROACH")
+        .expect("read-only approach");
+    assert_eq!(approach.work_item_id, "WI-READ-ONLY-APPROACH");
+    assert!(!approach_path.exists());
+
+    implementation_approach(directory.path(), "WI-READ-ONLY-APPROACH").expect("persist approach");
+    let before = fs::read(&approach_path).expect("persisted approach");
+    implementation_approach_read_only(directory.path(), "WI-READ-ONLY-APPROACH")
+        .expect("repeat read-only approach");
+    assert_eq!(
+        fs::read(&approach_path).expect("persisted approach"),
+        before
     );
 }
 

@@ -363,6 +363,10 @@ foreign member stays visible as `unknown`; it does not hide the other members or
 fail open.
 Repeated `observe`, `capability show`, and status projections are request-scoped
 reads: they do not create tracked capability/status files or observer caches.
+`work-item inspect` follows the same read-only boundary: it computes the
+implementation approach in memory and does not create or refresh
+`.ai/work-items/active/<id>.approach.json`. Use the explicit `work-item
+approach` command when a repository-local approach artifact is intended.
 
 ### Traceability, outcomes, and parallel readiness
 

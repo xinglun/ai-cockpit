@@ -110,9 +110,20 @@ fn read_only_projection_commands_leave_repository_bytes_unchanged() {
     let before = tree_manifest(directory.path());
 
     for _ in 0..2 {
+        run(&["inspect"]);
+        run(&["compatibility"]);
+        run(&["migrate", "plan"]);
         run(&["observe"]);
         run(&["capability", "show"]);
+        run(&["diagnose"]);
+        run(&["profile", "propose"]);
+        run(&["agent", "list"]);
+        run(&["evidence", "list", "--work-item", "WI-READ-ONLY"]);
+        run(&["evidence", "purge-plan"]);
         run(&["status"]);
+        run(&["work-item", "inspect", "--id", "WI-READ-ONLY"]);
+        run(&["work-item", "outcome", "--id", "WI-READ-ONLY", "--json"]);
+        run(&["work-item", "validate", "--id", "WI-READ-ONLY", "--json"]);
         run(&["work-item", "status", "--id", "WI-READ-ONLY", "--json"]);
         run(&["work-item", "status", "--all", "--json"]);
     }

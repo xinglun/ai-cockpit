@@ -283,6 +283,9 @@ green/yellow/red/unknown 计数和逐项 diagnostics，并绑定当前 repositor
 index digest。格式错误或 foreign 的成员会保持可见 `unknown`，不会隐藏其他成员或 fail open。
 重复执行 `observe`、`capability show` 和 status projection 都是 request-scoped 读取：不会创建
 tracked capability/status 文件或 observer cache。
+`work-item inspect` 也遵循这一只读边界：它在内存中计算 implementation approach，不会创建或刷新
+`.ai/work-items/active/<id>.approach.json`。只有在明确需要 repository-local approach artifact 时，
+才使用显式的 `work-item approach` 命令。
 
 ### 可追溯性、Outcome 与并行准备度
 

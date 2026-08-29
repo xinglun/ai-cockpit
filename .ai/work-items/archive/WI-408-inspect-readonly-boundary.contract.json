@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "work-item inspect returns the existing compatibility, approach, and parallel-slot projection without creating or changing .ai/work-items/active/<id>.approach.json",
+    "explicit work-item approach continues to create the repository-local approach artifact and archive can consume it unchanged",
+    "repository and CLI regressions prove inspect is idempotent and leaves authoritative and derived bytes unchanged across repeated calls",
+    "English, Simplified Chinese, and Japanese documentation state the inspect/approach write boundary and a static CI guard prevents contradictory read-only claims",
+    "a fresh attached adopter inherits the same inspect no-write behavior with explicit --repo isolation"
+  ],
+  "authority": "authorized",
+  "baseRevision": "e9ac8793f78c059d21ba8c7bf6e3b6804a920fd4",
+  "createdAt": "2026-08-29T22:41:55Z",
+  "goal": "Make the work-item inspect command a truthful read-only projection and document its write boundary for adopters.",
+  "intent": "Prevent work-item inspect from silently materializing the implementation approach projection while preserving explicit approach generation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "explicit work-item approach persistence semantics",
+    "Knowledge projection materialization and indexes",
+    "Work Item lifecycle state transitions",
+    "Agent provider/global configuration",
+    "release and adopter harness implementation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cb60409a759793dff4be53c003b0411a6d1ea65542c32a0164ed8f39591d9408",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository-bound-regression",
+    "documentation-integrity"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-408-inspect-readonly-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/373",
+    "worktree": "/private/tmp/ai-cockpit-wi408-inspect-readonly-boundary"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/intelligence.rs",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-408-inspect-readonly-boundary.md",
+    "docs/work-items/WI-408-inspect-readonly-boundary.zh-CN.md",
+    "docs/work-items/WI-408-inspect-readonly-boundary.ja.md",
+    "tests/ci/**"
+  ],
+  "sources": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/intelligence.rs",
+    "docs/capabilities.md",
+    "docs/reference/commands.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-408-inspect-readonly-boundary"
+}

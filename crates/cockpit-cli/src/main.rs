@@ -1314,7 +1314,7 @@ fn run() -> Result<()> {
                 require_compatible(&repo, &runtime_context)?;
                 let compatibility = cockpit_repository::work_item_compatibility(&repo, &id)
                     .context("inspect Work Item compatibility")?;
-                let approach = cockpit_repository::implementation_approach(&repo, &id)
+                let approach = cockpit_repository::implementation_approach_read_only(&repo, &id)
                     .context("derive Work Item implementation approach")?;
                 let parallel_slots = cockpit_repository::list_parallel_slots(&repo)
                     .context("inspect repository-local parallel slots")?;

@@ -104,6 +104,11 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 - `work-item status --repo <path> --id <id>` is read-only and reports lifecycle,
   governance, activity health, fact counts, blockers, unknowns, evidence, and
   source digests. It never schedules work or invents a percentage.
+- `work-item inspect --repo <path> --id <id>` is a read-only projection of
+  compatibility, implementation approach, and parallel slots. It computes the
+  approach without creating or refreshing `.ai/work-items/active/<id>.approach.json`.
+  The explicit `work-item approach` command remains the write boundary when a
+  repository-local approach artifact is required.
 - An archived Work Item without a valid close decision is a lifecycle blocker,
   not a completed item. Its `safeActions` explicitly identify the remaining
   handoff: resource-bound items require `finalize_resources` or
