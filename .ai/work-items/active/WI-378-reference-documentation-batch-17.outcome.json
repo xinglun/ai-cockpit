@@ -6,9 +6,9 @@
     "Documentation checks, inventory checks, and the installed v0.2.39 Runtime lifecycle verification pass; no governance claim is inferred from source history.",
     "The Contract preserves source-language governance facts and clearly separates semantic parity from source JSON/API/wire compatibility."
   ],
-  "createdAt": "2026-08-29T03:09:00Z",
+  "createdAt": "2026-08-29T03:20:18Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:f35b35a4e23fcd702c56804773648a25515c3e70a913bb2987f28ff6578aaf56",
+  "evidenceDigest": "sha256:97b257b2d1d0c3f4247c714ef65e490116b8c387f641d05d507770ab794ffab2",
   "evidenceRefs": [
     ".ai/evidence/WI-378-reference-documentation-batch-17.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-378-reference-documentation-batch-17.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a2a11b45654d273d2358cd5c921994cdcd4dccbb46036bef143779e25978e68d",
+      "repositorySnapshotDigest": "sha256:a3eb1e49327ffc7b06cbe4a92e5dadd4dcdb6267a7246ec1bf168ded79bb57cd",
       "workItemId": "WI-378-reference-documentation-batch-17"
     },
     "format": "ai-cockpit.task-outcome",
@@ -123,7 +123,7 @@
     "status": "verified",
     "workItemId": "WI-378-reference-documentation-batch-17"
   },
-  "taskReportDigest": "sha256:239b933e71c6e0134f39d9b4588c6b16c6ae1bac4fb780aa9456f1ae36883510",
+  "taskReportDigest": "sha256:d656cd74253689f2d3163a2994606fde07fbc3575e64cde00043dd47226ce281",
   "taskReportMarkdownDigest": "sha256:09228da492eff7aed6ad6f7f02a654afda0bc75662da8b73920faf444e2b4b94",
   "unknowns": [
     "user_visible_benefit_not_declared"

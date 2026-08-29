@@ -4,7 +4,7 @@
       ".ai/evidence/WI-378-reference-documentation-batch-17.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a2a11b45654d273d2358cd5c921994cdcd4dccbb46036bef143779e25978e68d",
+    "repositorySnapshotDigest": "sha256:a3eb1e49327ffc7b06cbe4a92e5dadd4dcdb6267a7246ec1bf168ded79bb57cd",
     "workItemId": "WI-378-reference-documentation-batch-17"
   },
   "format": "ai-cockpit.task-outcome",

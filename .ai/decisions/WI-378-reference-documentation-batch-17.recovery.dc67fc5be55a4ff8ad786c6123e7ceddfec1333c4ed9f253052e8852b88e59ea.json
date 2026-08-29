@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T12:20:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-378-reference-documentation-batch-17.verification.json",
+    ".ai/decisions/WI-378-reference-documentation-batch-17.recovery.fb70a57e52d5ac49d7db669b6679f7addcb44dcb17df57ec25ae57127a95dc80.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:49b2039c64732747398b60288c95c6293c0c2fa8aff28e57195729e629637e25",
+  "predecessorEventsDigest": "sha256:f302405a86daeac765e2e4b37f2e6032eefd886db1c01665fb457d655554687f",
+  "predecessorOutcomeDigest": "sha256:e5d877452d952894c69cc9fd45c325cbb0066cbe8bc1dadd31a76f12650b51a6",
+  "predecessorSummaryDigest": "sha256:dec8a28fe9cb4682771d00bbf7fa7cd12fbcbbb34cc7e64a5b069f6237a97239",
+  "predecessorWorkItemId": "WI-378-reference-documentation-batch-17",
+  "reason": "Retry after the hosted prearchive parity registration finding and the bounded recovery-scope amendment; preserve all prior attempts and collect fresh evidence against the corrected projection.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and installed-Runtime verification against the corrected parity projection before finish.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "workItemId": "WI-378-reference-documentation-batch-17"
+}

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T12:22:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-378-reference-documentation-batch-17.verification.json",
+    ".ai/decisions/WI-378-reference-documentation-batch-17.recovery.dc67fc5be55a4ff8ad786c6123e7ceddfec1333c4ed9f253052e8852b88e59ea.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:7e637a49e79e18a0162c98af5f67ea302275d96374dca1fdd96229143cb7f8e5",
+  "predecessorEventsDigest": "sha256:f302405a86daeac765e2e4b37f2e6032eefd886db1c01665fb457d655554687f",
+  "predecessorOutcomeDigest": "sha256:e5d877452d952894c69cc9fd45c325cbb0066cbe8bc1dadd31a76f12650b51a6",
+  "predecessorSummaryDigest": "sha256:fbdd55e5f193ad97ad2aa96d5ec904a5d0f968325f99342ac7ea35a5b2dd4803",
+  "predecessorWorkItemId": "WI-378-reference-documentation-batch-17",
+  "reason": "Retry after the hosted prearchive parity registration finding and bounded scope correction; preserve all prior attempts and collect fresh evidence against the corrected projection.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and installed-Runtime verification against the corrected parity projection before finish.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "workItemId": "WI-378-reference-documentation-batch-17"
+}

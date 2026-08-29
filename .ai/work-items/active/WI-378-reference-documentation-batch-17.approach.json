@@ -70,7 +70,7 @@
     }
   ],
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:9d3206b9906443ea773e77449a1a4ba2c146041c645200775ab9bbd8eb86ad97",
+  "repositorySnapshotDigest": "sha256:a3eb1e49327ffc7b06cbe4a92e5dadd4dcdb6267a7246ec1bf168ded79bb57cd",
   "schemaVersion": 2,
   "unknowns": [],
   "workItemId": "WI-378-reference-documentation-batch-17"
