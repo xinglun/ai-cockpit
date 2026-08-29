@@ -4,9 +4,13 @@ title: "WI-375 — WI-374 terminal documentation promotion"
 description: "Prepare the tri-language Work Item and parity projections for deterministic post-close promotion."
 workItemId: WI-375-wi374-doc-status
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-375-wi374-doc-status
+terminalArchive: .ai/work-items/archive/WI-375-wi374-doc-status.contract.json
+terminalVerification: .ai/evidence/WI-375-wi374-doc-status.verification.json
+terminalFinalization: .ai/decisions/WI-375-wi374-doc-status.finalize.json
+terminalDecision: .ai/decisions/WI-375-wi374-doc-status.close.json
 capabilityClaims: [documentation_governance]
 ---
 
