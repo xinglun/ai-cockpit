@@ -70,7 +70,7 @@
     }
   ],
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:aaefbaa26e0963d6f72945480b080af67e94baeb458ce14b0abe38f3a3e7cd22",
+  "repositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
   "schemaVersion": 2,
   "unknowns": [],
   "workItemId": "WI-404-release-docs-terminal-promotion"

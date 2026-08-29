@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T20:15:01Z",
+  "files": {
+    "approachDigest": "sha256:8bb8db892daab69f7037e55dea7ce58e16221e7316d6f7c6e93c020632812ef1",
+    "approachPath": ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.approach.json",
+    "contractDigest": "sha256:69a91ba6db90a4e23df5989dcb1cfff4e4de1ea5557e8a5ba3237a7379594f0f",
+    "contractPath": ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.contract.json",
+    "eventsDigest": "sha256:9cd849836c357403f0297c69fedc563e8b2c9b69678cf5404aad749c7ae1f944",
+    "eventsPath": ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.events.jsonl",
+    "outcomeDigest": "sha256:0579da558a0484c13ebfc38853498bfca767abc73d1dbcdad5ed6091b43607ed",
+    "outcomePath": ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.outcome.json",
+    "summaryDigest": "sha256:c9cdc44992829e384dd5e2667409b00428bd6c413e3fb54aae8cfca712bb5c2a",
+    "summaryPath": ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.summary.json",
+    "taskReportDigest": "sha256:651e604c8383265919eb16af6a99b2eebdebeec570c2ac4e4d47a599a0d9a849",
+    "taskReportMarkdownDigest": "sha256:0dccebc465e92cd0fcbcf8ec4395ea83a5ada5831e163ca17294244c6001e7df",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-404-release-docs-terminal-promotion"
+}

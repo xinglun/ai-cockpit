@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "00879cdba29ca8a864630f621b74ed414a80e79e",
+    "name": "codex/wi-404-release-docs-terminal-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:69a91ba6db90a4e23df5989dcb1cfff4e4de1ea5557e8a5ba3237a7379594f0f",
+  "operationId": "github-pr-368-delete-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "6eb3ccf9fa4ec54c94370f10dea6e1b38112978a",
+    "headRevision": "00879cdba29ca8a864630f621b74ed414a80e79e",
+    "mergeCommit": "250214f848ebccf91360eda79e63ef9d206c100b",
+    "number": 368,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/368"
+  },
+  "reason": "PR #368 and its post-merge archive transition were reviewed and merged; the exact dedicated branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-404-release-docs-terminal-promotion-deleted-20260830",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-404-release-docs-terminal-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/368",
+    "worktree": "/private/tmp/ai-cockpit-wi404-release-docs"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T21:05:00Z",
+  "workItemId": "WI-404-release-docs-terminal-promotion",
+  "worktree": {
+    "branch": "codex/wi-404-release-docs-terminal-promotion",
+    "headRevision": "00879cdba29ca8a864630f621b74ed414a80e79e",
+    "path": "/private/tmp/ai-cockpit-wi404-release-docs",
+    "worktreeId": "WI-404-release-docs-terminal-promotion"
+  }
+}
