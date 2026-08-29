@@ -123,11 +123,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=310 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=495 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=311 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=494 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 292 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 45 `reference-only`, and 515
+4,262 `generated-history`, 310 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 495
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -143,7 +143,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 515
+records above are Rust-native, explicitly bounded counterparts; the 495
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -1033,4 +1033,26 @@ boundaries from the shared Runtime, while repository facts and evidence remain
 isolated by explicit `--repo`. The ledger after WI-389 contains 4,262
 `generated-history`, 310 `implemented-different-by-design`, one
 `implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 495
+`deferred-next-batch` records; `migrate-gap` remains zero.
+
+## WI-390 — reference Work Item style guide
+
+WI-390 compares the pinned `docs/work-item-style-guide.md` one section at a
+time. Its reader-facing guidance is represented by the tri-language Rust-native
+style guide and linked Contract/workflow references. The target keeps the
+source's outcome-first writing, explicit problem and boundaries, observable
+acceptance, human-owned decisions, minimal sufficient process, executable
+verification, and documentation-before-schema principles.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/work-item-style-guide.md` | implemented-different-by-design | `docs/reference/work-item-style-guide.md`, `.zh-CN.md`, and `.ja.md`, linked from the reference index and grounded in `contract-fields` and `repository-workflow`. The page preserves human-owned intent/problem/constraints/rationale, explicit scope/non-goals, machine-checkable acceptance, executable verification, proportional profiles, and per-repository object/adopter inheritance. It does not copy reference metadata, Python/Make commands, installer behavior, or Runtime implementation. |
+
+This is semantic/documentation parity, not source command or JSON-wire
+compatibility. The shared Runtime remains external to every adopter project;
+each attached repository inherits the same reader-facing boundary through its
+own `.ai/` and adapter, while Contract, evidence, knowledge, and repository
+identity stay isolated by explicit `--repo`. The ledger after WI-390 contains
+4,262 `generated-history`, 311 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 494
 `deferred-next-batch` records; `migrate-gap` remains zero.

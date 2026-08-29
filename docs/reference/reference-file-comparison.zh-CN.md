@@ -103,11 +103,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=310 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=495 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=311 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=494 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、292 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、45 条 `reference-only` 与 515 条
+`generated-history`、310 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only` 与 495 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -118,7 +118,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，515 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，495 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -820,3 +820,15 @@ WI-389 在固定源提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一�
 | `docs/upgrade.zh-CN.md` | 有意采用不同实现 | `docs/reference/upgrade.zh-CN.md` 保留不可变 Release/Runtime identity、配置回滚安全、冲突与 downgrade 停止、显式 migration 和单独评审的 `--upgrade-with-active` 恢复。 |
 
 这是语义/文档对等，不是源命令、JSON wire 或 provider state 兼容。每个 attach 的对象/采用方工程都从共享 Runtime 继承同一卸载、升级、回滚和恢复边界；工程事实和证据仍由显式 `--repo` 隔离。WI-389 后清单为 4,262 个 `generated-history`、310 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 495 个 `deferred-next-batch`；`migrate-gap` 仍为零。
+
+## WI-390：参考 Work Item 编写指南
+
+WI-390 逐段比较固定源文件 `docs/work-item-style-guide.md`。其面向读者的指导由三语 Rust-native
+编写指南承载，并链接到 Contract 与 repository workflow 参考。本批保留先说明结果、明确问题和边界、
+可观察验收、由人拥有的治理决定、足够小的流程、可执行验证以及先文档后 schema 等原则。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/work-item-style-guide.md` | 有意采用不同实现 | `docs/reference/work-item-style-guide.md`、`.zh-CN.md` 和 `.ja.md`，由 reference index 链接，并以 `contract-fields` 与 `repository-workflow` 为上下文。页面保留由人拥有的 intent/problem/constraints/rationale、显式 scope/non-goals、机器可检查验收、可执行验证、相称 profile 和对象/采用方工程继承；不复制源元数据、Python/Make 命令、installer 行为或 Runtime 实现。 |
+
+这是语义/文档对等，不是源命令或 JSON wire 兼容。共享 Runtime 仍在每个对象工程之外；每个 attach 的仓库通过自己的 `.ai/` 与 adapter 继承同样的面向读者边界，而 Contract、evidence、knowledge 和 repository identity 继续由显式 `--repo` 隔离。WI-390 后清单为 4,262 个 `generated-history`、311 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 494 个 `deferred-next-batch`；`migrate-gap` 仍为零。

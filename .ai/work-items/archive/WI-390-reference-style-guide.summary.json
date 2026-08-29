@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T08:31:13Z",
+  "checkpointContractDigest": "sha256:f09e99ad750b176e31aec3fc1e47c54e77afca676697406c037aaed4be0f44d2",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e9e7b57fafc236c852807e167db3d3249d213b937aa0d95de5ef3aa2cf9c4be8",
+  "createdAt": "2026-08-29T08:31:02Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T08:42:19Z",
+  "preflightContractDigest": "sha256:f09e99ad750b176e31aec3fc1e47c54e77afca676697406c037aaed4be0f44d2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e9e7b57fafc236c852807e167db3d3249d213b937aa0d95de5ef3aa2cf9c4be8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T08:42:43Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-390-reference-style-guide"
+}

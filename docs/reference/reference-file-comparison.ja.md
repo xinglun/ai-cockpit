@@ -107,11 +107,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=310 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=495 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=311 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=494 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、292 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、45 `reference-only`、515 `deferred-next-batch` です。
+4,262 `generated-history`、310 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、47 `reference-only`、495 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -122,7 +122,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-515 deferred semantic comparison は後続作業として残ります。
+495 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -870,3 +870,16 @@ WI-389 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の d
 | `docs/upgrade.zh-CN.md` | implemented-different-by-design | `docs/reference/upgrade.zh-CN.md` が immutable Release/runtime identity、rollback-safe active configuration、conflict/downgrade stop、explicit migration、別途 review された `--upgrade-with-active` recovery を保持します。 |
 
 これは semantic/documentation parity であり、source command、JSON wire、provider state compatibility ではありません。すべての attached object/adopter repository は shared Runtime から同じ uninstall、upgrade、rollback、recovery boundary を継承し、repository fact と evidence は明示的な `--repo` で隔離されます。WI-389 後の ledger は 4,262 `generated-history`、310 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、495 `deferred-next-batch`、`migrate-gap` はゼロです。
+
+## WI-390 — reference Work Item style guide
+
+WI-390 は pinned `docs/work-item-style-guide.md` を section ごとに比較します。読者向けの guidance は
+三言語の Rust-native style guide と Contract/workflow reference への link で表します。本 batch は、結果を
+先に書くこと、問題と境界の明示、検証可能な acceptance、人が所有する decision、必要十分な process、
+実行可能な verification、documentation-before-schema の原則を保持します。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/work-item-style-guide.md` | implemented-different-by-design | `docs/reference/work-item-style-guide.md`、`.zh-CN.md`、`.ja.md`。reference index から link し、`contract-fields` と `repository-workflow` を context とします。human-owned intent/problem/constraints/rationale、明示的 scope/non-goals、machine-checkable acceptance、実行可能な verification、proportional profile、object/adopter project 継承を保持し、source metadata、Python/Make command、installer behavior、Runtime implementation はコピーしません。 |
+
+これは semantic/documentation parity であり、source command や JSON wire compatibility ではありません。shared Runtime は adopter project の外部に残り、各 attached repository は自分の `.ai/` と adapter から同じ reader-facing boundary を継承します。Contract、evidence、knowledge、repository identity は明示的な `--repo` で分離されます。WI-390 後の ledger は 4,262 `generated-history`、311 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、494 `deferred-next-batch`、`migrate-gap` は 0 です。
