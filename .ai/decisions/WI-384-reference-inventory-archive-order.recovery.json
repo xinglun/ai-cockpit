@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-29T06:02:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-384-reference-inventory-archive-order.archive.json",
+    ".ai/evidence/WI-384-reference-inventory-archive-order.verification.json",
+    ".ai/decisions/WI-384-reference-inventory-archive-order.close.json",
+    ".ai/decisions/WI-384-reference-inventory-archive-order.finalize.33860f23c671c0707f6b0816ba55089af33c14b244b71855c31fb51af40ac81c.json",
+    "tests/docs/work_item_status_consistency.py"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:post-merge-cleanup"
+  ],
+  "predecessorContractDigest": "sha256:d047212151590638ccfde7bafdf67ba4ed5726a17b9d4cbb6d6e5a57eb7b1a7d",
+  "predecessorEventsDigest": "sha256:63d74632aa6442c16231c9d17f208189dba4843707f27856b3032e2bb6504e32",
+  "predecessorOutcomeDigest": "sha256:0337a55592ceff1ec39462d50c415126faaa68c54961b1aecd2637207c106119",
+  "predecessorSummaryDigest": "sha256:2866eb424103ecf81c227cb6c6c9e07140683c25e5edcc5a187bcd502f106ef8",
+  "predecessorWorkItemId": "WI-384-reference-inventory-archive-order",
+  "reason": "WI-384 is closed and its immutable archive is valid, but the terminal parity projection and tri-language Work Item status remained conditional/in_progress. Preserve every WI-384 byte and complete the required post-close documentation projection through an explicit successor rather than rewriting closed history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create WI-385 from synchronized origin/main, update only the tri-language terminal parity row and Work Item status metadata with close/finalization bindings, pass documentation and governance gates, then finish/archive/close and clean exact resources.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-385-reference-inventory-terminal-projection",
+  "workItemId": "WI-384-reference-inventory-archive-order"
+}

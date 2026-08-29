@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-384-reference-inventory-archive-order.recovery.json",
+    ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.contract.json",
+    ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T06:09:25Z",
+  "checkpointContractDigest": "sha256:7e62cb112654acafdaec76bf92fdced51f5d8f2917969c65cb86e778ea498c24",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:96b6de4bf7b447ec18d9c9ef73933c1f95be567a9dfb9677ae21f9df0b569c39",
+  "createdAt": "2026-08-29T06:05:09Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:d047212151590638ccfde7bafdf67ba4ed5726a17b9d4cbb6d6e5a57eb7b1a7d",
+  "predecessorWorkItemId": "WI-384-reference-inventory-archive-order",
+  "preflightAt": "2026-08-29T06:10:22Z",
+  "preflightContractDigest": "sha256:7e62cb112654acafdaec76bf92fdced51f5d8f2917969c65cb86e778ea498c24",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:96b6de4bf7b447ec18d9c9ef73933c1f95be567a9dfb9677ae21f9df0b569c39",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-384-reference-inventory-archive-order.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T06:10:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-385-reference-inventory-terminal-projection"
+}

@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T06:10:23Z",
+  "files": {
+    "contractDigest": "sha256:4c8239549dbf27de9c5ddeb056ed90b38ef4b4ace87db6a9dbda06aba61d02a7",
+    "contractPath": ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.contract.json",
+    "eventsDigest": "sha256:92f413b67f9493b98e630417c17524bfc055df6e9a5509ee0a7c805b3a1aaa74",
+    "eventsPath": ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.events.jsonl",
+    "outcomeDigest": "sha256:8913261af95a2fb303d17b3655adb47e69119d0b64a3ad0b27e57431b9e5ad97",
+    "outcomePath": ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.outcome.json",
+    "summaryDigest": "sha256:5c7d2a151cfac45946b5b6bbceca2d053a0c3c8396013f75e8e2194fc899233e",
+    "summaryPath": ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.summary.json",
+    "taskReportDigest": "sha256:34be9736c5530a8e4dbb485d8718e9ea58066e06598dbe5dc7487f8e174e0aec",
+    "taskReportMarkdownDigest": "sha256:22660f710241e3422f9cc3898c735a98f37aa51495837fc886a623308cff24db",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-385-reference-inventory-terminal-projection.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-385-reference-inventory-terminal-projection"
+}

@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "All three reference-parity ledgers mark WI-384 as Implemented with the merged PR and terminal records linked.",
+    "All three WI-384 documents use terminal implemented status and bind archive, verification, finalization, and close records.",
+    "WI-385 three-language documents are identity-consistent and document the post-close projection correction.",
+    "Documentation and governance integrity gates pass without changing Runtime behavior or predecessor bytes."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "e43e05ffc2a9e226d514687b6821702a30944a58",
+  "createdAt": "2026-08-29T06:05:09Z",
+  "goal": "修复 post-close 文档一致性门发现的 conditional/in_progress 遗留，并保留 WI-384 不可变历史。",
+  "intent": "在不改写已关闭 WI-384 的前提下，将参考 parity 与三语 Work Item 文档投影到真实终态。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime/protocol/CLI/CI/release/inventory classification/business code and all global Agent/MCP configuration",
+    "Any rewrite or deletion of WI-384 archive/evidence/close/finalization/recovery bytes"
+  ],
+  "predecessorContractDigest": "sha256:d047212151590638ccfde7bafdf67ba4ed5726a17b9d4cbb6d6e5a57eb7b1a7d",
+  "predecessorWorkItemId": "WI-384-reference-inventory-archive-order",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-384-reference-inventory-archive-order.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:49931db50d2c23cc4f794d4cbee65e0230b64aa9b1ae22c4b9559f430b7e90cc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository_snapshot",
+    "contract"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-385-reference-inventory-terminal-projection",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/349",
+    "worktree": "/private/tmp/ai-cockpit-wi385-reference-inventory-terminal-projection"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-384-reference-inventory-archive-order.md",
+    "docs/work-items/WI-384-reference-inventory-archive-order.zh-CN.md",
+    "docs/work-items/WI-384-reference-inventory-archive-order.ja.md",
+    "docs/work-items/WI-385-reference-inventory-terminal-projection.md",
+    "docs/work-items/WI-385-reference-inventory-terminal-projection.zh-CN.md",
+    "docs/work-items/WI-385-reference-inventory-terminal-projection.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-385-reference-inventory-terminal-projection"
+}
