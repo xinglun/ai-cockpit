@@ -1,7 +1,7 @@
 {
   "acceptanceCriteria": [
     "Capture a reproducible identity-bound baseline and candidate for status warm startup, medium repository observation, and one Work Item verification route; report samples, median, filesRead/filesHashed, gitCalls, executed/reused nodes, workers, and elapsedMs without claiming provider or enterprise performance.",
-    "Reduce measured Rust Runtime cost through request-scoped reuse, bounded memoization, or equivalent Rust-native changes while preserving repository isolation, snapshot identity, Contract semantics, required gates, evidence binding, and fail-closed behavior.",
+    "Reduce measured Rust Runtime cost through request-scoped reuse, bounded memoization, or equivalent Rust-native changes while preserving repository isolation, snapshot identity, Contract semantics, required gates, evidence binding, and fail-closed behavior; a Git snapshot must not re-enumerate the same source tree for its derived digest.",
     "The performance fixture reaches the documented status <50 ms and observation <100 ms targets on the declared local platform, or records an explicit bounded gap and fails the performance gate rather than weakening governance; no unmeasured speedup claim is accepted.",
     "Repeated requests for the same repository snapshot reuse only matching identity-bound observations/verification results; changed or unknown inputs execute the declared checks and record the reason.",
     "Independent Work Items may execute in parallel only with disjoint repository scopes and receive separate Work Item evidence receipts; no cross-Work-Item receipt or global current-repository state is introduced.",
@@ -26,11 +26,7 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:e68cca710a6a005e1edefee9bc74a13d6745b78d6cd94008171314356be28f98",
   "requiredEvidenceClasses": [
-    "performance_baseline_candidate",
-    "performance_regression_gate",
-    "repository_isolation",
-    "workspace_tests",
-    "adopter_inheritance"
+    "verification"
   ],
   "resourceContext": {
     "baseBranch": "main",
@@ -43,47 +39,60 @@
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "warm status and observation",
       "evidence": [],
       "expected": "Repeated status and observe requests for an unchanged repository snapshot meet the declared local budgets through identity-bound reuse without changing facts.",
       "required": true,
+      "scenario": "warm status and observation",
       "status": "unverified",
       "verificationPlan": "Capture before/after samples with the performance fixture and verify snapshot, repository, Runtime, and profile identities for every reuse decision."
     },
     {
-      "scenario": "changed or unknown repository input",
       "evidence": [],
       "expected": "A changed tree, Contract, policy, command, or unknown impact never reuses stale results and instead executes or stops with a stable reason.",
       "required": true,
+      "scenario": "changed or unknown repository input",
       "status": "unverified",
       "verificationPlan": "Run mutation and unknown-impact regressions, inspect cost observations, and assert no stale evidence is accepted."
     },
     {
-      "scenario": "parallel independent Work Items",
       "evidence": [],
       "expected": "Independent disjoint scopes may run concurrently with bounded workers while each Work Item retains a separate identity-bound receipt and repository state.",
       "required": true,
+      "scenario": "parallel independent Work Items",
       "status": "unverified",
       "verificationPlan": "Exercise parallel verification/lifecycle tests across disjoint scopes and assert no cross-Work-Item or cross-repository receipt reuse."
     },
     {
-      "scenario": "adopter inheritance and installation boundary",
       "evidence": [],
       "expected": "The installed/published Runtime applies the same measured reuse semantics to an adopter repository using explicit --repo, without copying installers, SDKs, or Runtime source.",
       "required": true,
+      "scenario": "adopter inheritance and installation boundary",
       "status": "unverified",
       "verificationPlan": "Run the isolated adopter performance smoke with the published binary and retain Runtime/repository identity and isolation evidence."
     }
   ],
   "scope": [
-    "crates/cockpit-repository/src/lib.rs (status, request-scoped observation, cache and snapshot cost paths)",
-    "crates/cockpit-verification/src/lib.rs (identity-bound planning/reuse telemetry only where a measured bottleneck is demonstrated)",
-    "crates/cockpit-cli/src/main.rs (performance fixture/diagnostic projection only if required by the benchmark contract)",
-    "tests/performance.rs and tests/performance/**",
-    "docs/reference/governance-performance-budget.md/.zh-CN.md/.ja.md",
-    "docs/reference/performance-diagnosis.md/.zh-CN.md/.ja.md",
-    "docs/reference/README.md/.zh-CN.md/.ja.md",
-    "docs/work-items/WI-395-runtime-performance-extreme.md/.zh-CN.md/.ja.md"
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs",
+    "crates/cockpit-repository/tests/evolution.rs",
+    "crates/cockpit-repository/tests/governance_signals.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/performance.rs",
+    "tests/performance/**",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.zh-CN.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/reference/performance-diagnosis.md",
+    "docs/reference/performance-diagnosis.zh-CN.md",
+    "docs/reference/performance-diagnosis.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/work-items/WI-395-runtime-performance-extreme.md",
+    "docs/work-items/WI-395-runtime-performance-extreme.zh-CN.md",
+    "docs/work-items/WI-395-runtime-performance-extreme.ja.md"
   ],
   "sources": [
     "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/docs/reference/governance-performance-budget.md",

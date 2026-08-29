@@ -20,3 +20,7 @@ identity 不一致和预算回归。该 gate 只消费已采集 evidence，不�
 Verification scheduler 还支持每个命令的 resource weight 和显式 resource budget。
 weight 为零或超过预算时 fail-closed；依赖顺序、受保护节点和 receipt reuse 语义不变。
 Repository context 和 Runtime session 都是 request-scoped，不创建进程级 current repository。
+
+WI-395 的 Rust 原生优化移除了聚合 Work Item status 的重复 snapshot，在已有 Git 索引读取中捕获
+source-tree 摘要，以一次受限查询解析远端默认元数据，并避免观察阶段反复递归排序。优化保持
+request-scoped 和 identity-bound，不创建全局 repository cache，也不复制参考源安装流程。

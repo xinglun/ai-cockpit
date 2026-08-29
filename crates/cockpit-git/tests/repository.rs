@@ -68,6 +68,12 @@ fn snapshot_observes_head_and_untracked_paths_with_one_snapshot_api() {
         Some("change\n")
     );
     assert!(snapshot.tree_digest.starts_with("sha256:"));
+    assert!(
+        snapshot
+            .source_tree_digest
+            .as_deref()
+            .is_some_and(|value| value.starts_with("sha256:"))
+    );
     assert!(snapshot.diff_digest.starts_with("sha256:"));
     assert!(snapshot.dependency_fingerprint.starts_with("sha256:"));
     fs::remove_dir_all(path).expect("cleanup");
@@ -99,6 +105,7 @@ fn snapshot_reuses_tracked_patch_facts_without_serializing_source_text() {
     let serialized = serde_json::to_string(&snapshot).expect("serialize snapshot");
     assert!(!serialized.contains("SENTINEL_NEW_TEXT"));
     assert!(!serialized.contains("changeEvidence"));
+    assert!(!serialized.contains("sourceTreeDigest"));
     assert_eq!(snapshot.git_calls, 4);
     fs::remove_dir_all(path).expect("cleanup");
 }

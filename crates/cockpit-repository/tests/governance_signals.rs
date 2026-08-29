@@ -15,6 +15,7 @@ fn snapshot(change: ChangeEvidence) -> RepositorySnapshot {
         dependency_fingerprint: "sha256:dependencies".into(),
         files_read: 1,
         files_hashed: 1,
+        source_tree_digest: None,
     }
 }
 

@@ -22,3 +22,7 @@ Verification scheduler は command ごとの resource weight と明示的な res
 weight が zero または budget 超過なら fail-closed になり、dependency order、protected node、
 receipt reuse の意味は変わりません。Repository context と Runtime session は request-scoped であり、
 process-level の current repository は作りません。
+
+WI-395 の Rust ネイティブ最適化は、Work Item 集約 status の重複 snapshot を除去し、既存の Git index
+読み取り中に source-tree digest を取得し、リモート既定メタデータを 1 回の限定クエリで解決し、observe 中の
+再帰的な再ソートも避けます。最適化は request-scoped/identity-bound であり、global repository cache や参照源のインストール手順を導入しません。

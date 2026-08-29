@@ -55,6 +55,17 @@ not silently widen reuse or downgrade a required check. Explicit custom
 commands remain fresh so an operator must deliberately define any future
 custom-command reuse contract.
 
+## Rust-native optimization boundary
+
+WI-395 removes redundant snapshot work from request-scoped status and
+aggregate Work Item status projections, captures the source-tree digest while
+the Git index is already being read, resolves remote default metadata in one
+bounded Git query, and avoids re-walking directories just to sort intermediate
+results. These optimizations preserve the same
+snapshot, identity, evidence, and fail-closed decisions. They do not copy the
+reference install flow: the Runtime remains one externally installed binary,
+and each adopter binds it with an explicit `--repo` and its own `.ai/` state.
+
 ## Object-project inheritance
 
 Adopter repositories can use the same identity-bound fixture and regression
