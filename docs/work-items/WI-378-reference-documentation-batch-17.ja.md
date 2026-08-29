@@ -4,9 +4,13 @@ title: "WI-378 — reference documentation batch 17"
 description: "pinned reference の次の文書群を比較し、境界を明示した Rust-native 三言語対応を公開します。"
 workItemId: WI-378-reference-documentation-batch-17
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-378-reference-documentation-batch-17
+terminalArchive: .ai/work-items/archive/WI-378-reference-documentation-batch-17.contract.json
+terminalVerification: .ai/evidence/WI-378-reference-documentation-batch-17.verification.json
+terminalFinalization: .ai/decisions/WI-378-reference-documentation-batch-17.finalize.json
+terminalDecision: .ai/decisions/WI-378-reference-documentation-batch-17.close.json
 capabilityClaims: [reference_comparison, documentation_governance, adopter_readiness]
 ---
 

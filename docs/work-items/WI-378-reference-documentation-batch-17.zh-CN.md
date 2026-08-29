@@ -4,9 +4,13 @@ title: "WI-378 — 参考文档第 17 批"
 description: "比对下一批固定参考源文档，并发布有界的 Rust 原生三语对应物。"
 workItemId: WI-378-reference-documentation-batch-17
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-378-reference-documentation-batch-17
+terminalArchive: .ai/work-items/archive/WI-378-reference-documentation-batch-17.contract.json
+terminalVerification: .ai/evidence/WI-378-reference-documentation-batch-17.verification.json
+terminalFinalization: .ai/decisions/WI-378-reference-documentation-batch-17.finalize.json
+terminalDecision: .ai/decisions/WI-378-reference-documentation-batch-17.close.json
 capabilityClaims: [reference_comparison, documentation_governance, adopter_readiness]
 ---
 
