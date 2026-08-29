@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "The WI-398 successor binding is preserved and validates against the immutable predecessor archive and recovery decision.",
+    "The successor uses an explicit dedicated worktree and PR context before archive, then records verified deleted finalization after merge and cleanup.",
+    "Tri-language WI-399 documentation and parity registration remain synchronized with terminal evidence.",
+    "Recovery, documentation, governance, and diff checks pass without weakening release gates."
+  ],
+  "createdAt": "2026-08-29T14:48:19Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e2d57c5add2cdcfdb07a88e5da47af64746a206e3cb21d947e905e9bbbf23ed7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2fb2ac39970c2b111ef66ab96a001aac89713b72908fd41e1acc6b73a4637e15",
+      "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete a repository-bound successor lifecycle with exact branch/worktree cleanup so v0.2.40 release tagging is not blocked by a false resource receipt."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+  },
+  "taskReportDigest": "sha256:f05ea68b27c1e7f7782b04f45d44602582f731ee05421c2f30fd7e9c77baa79e",
+  "taskReportMarkdownDigest": "sha256:43c7baeda977142b2781c71870c963ee15279ab5dc8cde4431b07f38cb8284c4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-399-release-v0-2-40-doc-promotion-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+}

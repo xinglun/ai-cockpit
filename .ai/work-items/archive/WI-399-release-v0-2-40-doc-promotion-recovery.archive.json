@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T14:48:28Z",
+  "files": {
+    "approachDigest": "sha256:b52908dc5d1673eea6edecf497c9f99835d6d3e2f8f94e589fa5fa10ae2ffb68",
+    "approachPath": ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.approach.json",
+    "contractDigest": "sha256:314fc4a3d39b0d79a4d597e89805c28ff75e38fc7cc9437ff9d3ae16b7c66adb",
+    "contractPath": ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.contract.json",
+    "eventsDigest": "sha256:8b802042253614771890d71554a47b08052669f1a9003d767606fa9534093221",
+    "eventsPath": ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.events.jsonl",
+    "outcomeDigest": "sha256:e45be96380805c86b0cff0e607e3112465b72211a3f37b9f69463523d64949f0",
+    "outcomePath": ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.outcome.json",
+    "summaryDigest": "sha256:b6f87bdb3e445aed2e4f7065b8270127cf671618e944e606a95f4b3f6ab410a8",
+    "summaryPath": ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.summary.json",
+    "taskReportDigest": "sha256:f05ea68b27c1e7f7782b04f45d44602582f731ee05421c2f30fd7e9c77baa79e",
+    "taskReportMarkdownDigest": "sha256:43c7baeda977142b2781c71870c963ee15279ab5dc8cde4431b07f38cb8284c4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-399-release-v0-2-40-doc-promotion-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+}

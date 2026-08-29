@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "The WI-398 successor binding is preserved and validates against the immutable predecessor archive and recovery decision.",
+    "The successor uses an explicit dedicated worktree and PR context before archive, then records verified deleted finalization after merge and cleanup.",
+    "Tri-language WI-399 documentation and parity registration remain synchronized with terminal evidence.",
+    "Recovery, documentation, governance, and diff checks pass without weakening release gates."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3930fb66cb2d7a332bd1db27a9a260c4f49a0f85",
+  "createdAt": "2026-08-29T14:39:19Z",
+  "goal": "Complete a repository-bound successor lifecycle with exact branch/worktree cleanup so v0.2.40 release tagging is not blocked by a false resource receipt.",
+  "intent": "Recover WI-398 release documentation finalization in a dedicated worktree without rewriting its immutable predecessor evidence.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime semantics",
+    "Release implementation and public adopter acceptance",
+    "Historical evidence rewrite",
+    "Global Agent/MCP configuration",
+    "Source-build fallback",
+    "Business-project code"
+  ],
+  "predecessorContractDigest": "sha256:b3ae6bcf1e60998a38c3799467f88a5b8177210ca295d8046c3249fc0377fd66",
+  "predecessorWorkItemId": "WI-398-release-v0-2-40-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a8be4da39c0b56e5aad1929ecb9242495541418f1215fb21ec362e1672845b04",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-399-release-v0-2-40-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/363",
+    "worktree": "/private/tmp/ai-cockpit-wi399-release-v0-2-40-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.recovery.json",
+    "docs/work-items/WI-398-release-v0-2-40-doc-promotion.md",
+    "docs/work-items/WI-398-release-v0-2-40-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-398-release-v0-2-40-doc-promotion.ja.md",
+    "docs/work-items/WI-399-release-v0-2-40-doc-promotion-recovery.md",
+    "docs/work-items/WI-399-release-v0-2-40-doc-promotion-recovery.zh-CN.md",
+    "docs/work-items/WI-399-release-v0-2-40-doc-promotion-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "WI-398 recovery decision and immutable archive records",
+    "docs/reference/reference-parity.md",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/documentation_acceptance.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+}

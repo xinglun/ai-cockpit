@@ -1,0 +1,32 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-08-29T14:45:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.outcome.json",
+    ".ai/work-items/archive/WI-398-release-v0-2-40-doc-promotion.events.jsonl",
+    ".ai/decisions/WI-398-release-v0-2-40-doc-promotion.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:b3ae6bcf1e60998a38c3799467f88a5b8177210ca295d8046c3249fc0377fd66",
+  "predecessorEventsDigest": "sha256:1c6abf7f060d48e9ba7427e9d1b146df2c3f0b9d3718e1c6b2e9db9fd8cab820",
+  "predecessorOutcomeDigest": "sha256:1dfdcbd221e19ccf418ccf3ab5c27aa32bc9a7bbb33793a84d9a43d3e4c05742",
+  "predecessorSummaryDigest": "sha256:6b7beeed0f4701fa3678c710350429efd563d115924c1c69d6b5d2fcf9915794",
+  "predecessorWorkItemId": "WI-398-release-v0-2-40-doc-promotion",
+  "reason": "WI-398 used the primary main worktree for its feature branch, so finalization correctly rejected a deleted receipt while that path remained the active main worktree. Its immutable archive and close history are preserved; WI-399 rebinds the same documentation boundary to a dedicated worktree and will complete finalization before release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-399 in its dedicated worktree, bind the exact PR resource context before archive, then verify finalization after merge and cleanup.",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-399-release-v0-2-40-doc-promotion-recovery",
+  "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+}
