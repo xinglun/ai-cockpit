@@ -1,0 +1,1 @@
+The first auto-provider attempt was made before the adopter-owned AGENTS.md was committed and was rejected by the Runtime. After the safe project-owned surface existed, the idempotent auto-provider install resolved to Codex successfully; the valid JSON result is recorded in agent-install-auto-result.json. The explicit provider install is recorded in agent-install-codex.json.

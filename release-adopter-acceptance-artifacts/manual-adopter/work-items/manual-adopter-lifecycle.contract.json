@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "cargo test passes for the adopter change"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d39129ad4ae09319918bcbfeb663ed198437e99f",
+  "createdAt": "2026-08-29T01:31:51Z",
+  "goal": "Demonstrate isolated scaffold, verification evidence reuse, and auditable lifecycle using the downloaded release binary",
+  "intent": "Validate public v0.2.39 governance on an independent adopter repository",
+  "mode": "implementation",
+  "outOfScope": [
+    "target"
+  ],
+  "projectProfileDigest": "sha256:764dea9659a2c9cc9096f4cf8530676603c3980fa0ef254b3c7b793de9da6899",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+  "repositorySnapshotDigest": "sha256:f9101cae657688a5ed4dc02a44527bfeb927079b34cc234f59be4c9c55635132",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "manual-adopter-lifecycle",
+    "baseRemote": "local",
+    "branch": "manual-adopter-lifecycle",
+    "provider": "manual-adopter-release-acceptance",
+    "pullRequest": "acceptance://v0.2.39/manual-adopter-lifecycle",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter"
+  },
+  "risk": "normal",
+  "scope": [
+    "src/lib.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "manual-adopter-lifecycle"
+}

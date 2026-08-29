@@ -1,0 +1,18 @@
+{
+  "workItemId": "first-adopter-smoke",
+  "mode": "code",
+  "contractPath": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.UAUA1D/adopter/.ai/work-items/active/first-adopter-smoke.contract.json",
+  "state": "not_ready",
+  "knownFacts": {
+    "repositoryId": "sha256:895afaa62762696a13b02a90081fc6304ba21f5d17e7dfcd92739dbffa8bc636",
+    "baseRevision": "8620602ff25fb1889f0dbc8181514fa4cc699eef",
+    "projectProfileDigest": "sha256:6aabcb32294772c0a9ce6bdbaa7cb4b8778981b67c26064d8544ef02eec19281",
+    "repositorySnapshotDigest": "sha256:23970ab39b679f98cd11edb59929f5d1d205b9f40c95dbadd08c773b7c9c0cec"
+  },
+  "humanInputRequired": [
+    "intent",
+    "scope",
+    "acceptanceCriteria",
+    "authority"
+  ]
+}

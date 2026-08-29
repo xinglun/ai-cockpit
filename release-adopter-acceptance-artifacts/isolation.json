@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/private/tmp/ai-cockpit-wi376-release-adopter-acceptance",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": "?? .ai/work-items/active/\n?? docs/work-items/WI-376-release-adopter-acceptance.ja.md\n?? docs/work-items/WI-376-release-adopter-acceptance.md\n?? docs/work-items/WI-376-release-adopter-acceptance.zh-CN.md\n?? release-adopter-acceptance-artifacts/",
+  "sourceAfterStatus": "?? .ai/work-items/active/\n?? docs/work-items/WI-376-release-adopter-acceptance.ja.md\n?? docs/work-items/WI-376-release-adopter-acceptance.md\n?? docs/work-items/WI-376-release-adopter-acceptance.zh-CN.md\n?? release-adopter-acceptance-artifacts/",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:52cc6ede9736fd00999f19354ae1aa9bc3c75f9d9bdeb6cd0908b252ca971007",
+    "afterDigest": "sha256:52cc6ede9736fd00999f19354ae1aa9bc3c75f9d9bdeb6cd0908b252ca971007"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.UAUA1D/adopter-control",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:1b9ecf1fcc35e7501b06b7914cc737edddc0d049546aaada85cd17b410339c37",
+      "afterDigest": "sha256:aa539a6ae6e735717fff6bad6c1448e54a3a627af1f613e559266d90bf43b72e",
+      "symlinkTargetsContained": true
+    }
+  }
+}

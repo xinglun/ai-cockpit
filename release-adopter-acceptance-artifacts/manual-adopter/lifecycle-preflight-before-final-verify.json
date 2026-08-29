@@ -1,0 +1,16 @@
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "evidence_stale"
+  ],
+  "safe_actions": [
+    "rerun_affected_checks"
+  ],
+  "required_checks": [
+    "evidence_freshness"
+  ],
+  "authority": "authorized",
+  "outcome_state": "verification_pending",
+  "reviewState": "verification_pending"
+}

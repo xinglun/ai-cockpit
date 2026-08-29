@@ -1,0 +1,1 @@
+{"path":"/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter","oldHead":"1061db1e2062a4dcd72b9cd260c03d1d06c75eb1","reason":"discarded second diagnostic retry because an idempotent finish call overwrote the valid finish outcome; final retry will call finish exactly once"}

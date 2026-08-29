@@ -1,0 +1,138 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "cargo test passes for the adopter change"
+    ],
+    "createdAt": "2026-08-29T01:32:13Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:ab9f46c5a41e026fef4458e5a3b1814ff4cb36c4181e8487d34ea2eb1a2ee03d",
+    "evidenceRefs": [
+      ".ai/evidence/manual-adopter-lifecycle.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/manual-adopter-lifecycle.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/manual-adopter-lifecycle.verification.json"
+        ],
+        "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+        "repositorySnapshotDigest": "sha256:728de166fe222516b984ac71a9efa62aba31410215f95e3a8c00aa3352b3c161",
+        "workItemId": "manual-adopter-lifecycle"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/manual-adopter-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/manual-adopter-lifecycle.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/manual-adopter-lifecycle.summary.json"
+            ],
+            "inference": false,
+            "text": "No repository paths were observed as changed by the current Summary."
+          }
+        ],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/manual-adopter-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/manual-adopter-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/manual-adopter-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/manual-adopter-lifecycle.contract.json"
+            ],
+            "inference": false,
+            "text": "Demonstrate isolated scaffold, verification evidence reuse, and auditable lifecycle using the downloaded release binary"
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/manual-adopter-lifecycle.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "workItemId": "manual-adopter-lifecycle"
+    },
+    "taskReportDigest": "sha256:08bb10479bd93161e16b5fe6df9060b54c0e6122a407d7b794dd77d27f01506e",
+    "taskReportMarkdownDigest": "sha256:f3755712c859f67f558ca6799832214bd64914bca9a1552ce10f9cbc475802d1",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/manual-adopter-lifecycle.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "manual-adopter-lifecycle"
+  },
+  "state": "archived",
+  "timestamp": "2026-08-29T01:32:18Z",
+  "workItemId": "manual-adopter-lifecycle"
+}

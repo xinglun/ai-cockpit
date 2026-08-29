@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T01:32:06Z",
+  "checkpointContractDigest": "sha256:3b5d8cb9d61068be252d159d52d25ed2cb2fb6522f5625c096a3f11c22db0512",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:728de166fe222516b984ac71a9efa62aba31410215f95e3a8c00aa3352b3c161",
+  "createdAt": "2026-08-29T01:31:51Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T01:32:07Z",
+  "preflightContractDigest": "sha256:3b5d8cb9d61068be252d159d52d25ed2cb2fb6522f5625c096a3f11c22db0512",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:728de166fe222516b984ac71a9efa62aba31410215f95e3a8c00aa3352b3c161",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T01:32:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "manual-adopter-lifecycle"
+}
