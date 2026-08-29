@@ -4,9 +4,9 @@
     "不修改 WI-402 的 .ai 归档、evidence 或 decision bytes。",
     "文档 gate、格式检查和完整测试通过。"
   ],
-  "createdAt": "2026-08-29T19:53:36Z",
+  "createdAt": "2026-08-29T20:02:40Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:1f1c8fc99851653444059b19e39a727676cae5a7504729597cdca7cf9adb4d0f",
+  "evidenceDigest": "sha256:c683de5c02f57396540afc799be36ebda167a65de418a256377f74c46e0c8f2a",
   "evidenceRefs": [
     ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
   ],
@@ -32,7 +32,7 @@
         ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:aaefbaa26e0963d6f72945480b080af67e94baeb458ce14b0abe38f3a3e7cd22",
+      "repositorySnapshotDigest": "sha256:35dd536fc5e380f84f59e209b002267f87fa2855121915017c6b2f29a96ecd55",
       "workItemId": "WI-404-release-docs-terminal-promotion"
     },
     "format": "ai-cockpit.task-outcome",
@@ -121,7 +121,7 @@
     "status": "verified",
     "workItemId": "WI-404-release-docs-terminal-promotion"
   },
-  "taskReportDigest": "sha256:8318d8bd1bb7ec4baadc2a0fb3cdec1aa2511d0fa17f87b053af2c7da11d25f7",
+  "taskReportDigest": "sha256:3a59252a23cf448a2732aa36741302f7aa03d9241a2b9173b95b633f59d7b714",
   "taskReportMarkdownDigest": "sha256:0dccebc465e92cd0fcbcf8ec4395ea83a5ada5831e163ca17294244c6001e7df",
   "unknowns": [
     "user_visible_benefit_not_declared"
