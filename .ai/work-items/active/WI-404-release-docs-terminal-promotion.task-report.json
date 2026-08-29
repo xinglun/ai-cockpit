@@ -4,7 +4,7 @@
       ".ai/evidence/WI-404-release-docs-terminal-promotion.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:32c5607b6644bb517bd990ec061625e638d5ff9635381f743f0e8b4138abcdfb",
+    "repositorySnapshotDigest": "sha256:aaefbaa26e0963d6f72945480b080af67e94baeb458ce14b0abe38f3a3e7cd22",
     "workItemId": "WI-404-release-docs-terminal-promotion"
   },
   "format": "ai-cockpit.task-outcome",
