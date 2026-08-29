@@ -1,0 +1,58 @@
+{
+  "actor": "human:release-acceptance",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-PR-342-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "655bef2af3962fba31fa70f349739b9f86db6358",
+    "name": "codex/wi-378-reference-docs-batch-17",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:cef99b028c881db5f472bcd9beea14fcd3b16fca21a4fef61a1aacd3167bb8af",
+  "operationId": "operation-WI-378-reference-documentation-batch-17-post-merge-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1949dcee6f6cfc2c32c82632c18e20addb3c6656",
+    "headRevision": "655bef2af3962fba31fa70f349739b9f86db6358",
+    "mergeCommit": "8c08716bfb2f8b35a0fa12027f3ff3018768bd8a",
+    "number": 342,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/342"
+  },
+  "reason": "PR #342 passed hosted quality, Windows, V1, and task-list checks, merged as 8c08716, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-378-reference-documentation-batch-17-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-378-reference-docs-batch-17",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/342",
+    "worktree": "/private/tmp/ai-cockpit-wi378-reference-docs"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T03:36:00Z",
+  "workItemId": "WI-378-reference-documentation-batch-17",
+  "worktree": {
+    "branch": "codex/wi-378-reference-docs-batch-17",
+    "headRevision": "655bef2af3962fba31fa70f349739b9f86db6358",
+    "path": "/private/tmp/ai-cockpit-wi378-reference-docs",
+    "worktreeId": "WI-378-reference-documentation-batch-17"
+  }
+}
