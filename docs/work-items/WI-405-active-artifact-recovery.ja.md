@@ -8,9 +8,13 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-405-active-artifact-recovery
+terminalArchive: .ai/work-items/archive/WI-405-active-artifact-recovery.contract.json
+terminalVerification: .ai/evidence/WI-405-active-artifact-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-405-active-artifact-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-405-active-artifact-recovery.close.json
 ---
 
 # WI-405 — Active artifact recovery
