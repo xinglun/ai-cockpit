@@ -7,9 +7,13 @@ audience:
   - maintainer
   - reviewer
 authority: canonical
-status: in_progress
+status: implemented
 sourceCommit: e5acb677da6621004d96f0ef353c58fe8d3acfbf
 lastVerifiedBy: WI-390-reference-style-guide
+terminalArchive: .ai/work-items/archive/WI-390-reference-style-guide.contract.json
+terminalVerification: .ai/evidence/WI-390-reference-style-guide.verification.json
+terminalFinalization: .ai/decisions/WI-390-reference-style-guide.finalize.b0a9c123b5f157c327a4068001f478d05b6d39e152363bc167945e0dc83fe423.json
+terminalDecision: .ai/decisions/WI-390-reference-style-guide.close.json
 ---
 
 # WI-390 — Reference Work Item style guide
