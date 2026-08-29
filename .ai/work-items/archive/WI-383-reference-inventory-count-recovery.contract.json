@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "三语 reference-file-comparison 正文统计与 reference-inventory-counts 注释及实际台账完全一致",
+    "三语 reference-parity 台账在验证证据写入前登记 WI-382 的恢复行与 WI-383 的进行中行，且状态、记录路径和语言投影一致",
+    "不修改 WI-382 的归档 Contract、Summary、Outcome、Events、verification 或 recovery 事实，不修改机器 inventory、Runtime 行为或全局 Agent/MCP 配置",
+    "Work Item 文档三语存在、身份一致、链接互相可达，并与归档及 recovery 证据保持可审计边界",
+    "文档、inventory、work-item status 和 governance integrity gates 全部通过"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bd12563d549de972754c82d8d7b484473933f52e",
+  "createdAt": "2026-08-29T05:31:19Z",
+  "goal": "在不改写 WI-382 历史的前提下，补齐参考 inventory 计数交付所遗漏的三语 parity 注册并重新建立可审计文档基线",
+  "intent": "修复 hosted governance 发现的 parity ledger 遗漏，保留 WI-382 不可变恢复历史并交付完整的 WI-383 文档投影",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime代码、协议、CLI、性能或行为变更",
+    "tests/conformance/reference_file_inventory.json",
+    "WI-382 的归档 Contract、Summary、Outcome、Events、verification、archive 或 recovery receipt 内容",
+    "发布产物、CI workflow 逻辑、公开 Release 或 adopter 验收",
+    "全局 Agent/MCP 配置和任何业务工程代码"
+  ],
+  "predecessorContractDigest": "sha256:494390de941b46e0267fe9e31a6ea8d060872c84444efa99791c13cd4c8d7221",
+  "predecessorWorkItemId": "WI-382-reference-inventory-count-truth",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-382-reference-inventory-count-truth.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6aa087913cbc3ea2f36cbadfa3152e1de1c7cadf45a5e05c0d1e390988c8fe03",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-383-reference-inventory-count-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/347",
+    "worktree": "/private/tmp/ai-cockpit-wi383-reference-inventory-count-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-383-reference-inventory-count-recovery.md",
+    "docs/work-items/WI-383-reference-inventory-count-recovery.zh-CN.md",
+    "docs/work-items/WI-383-reference-inventory-count-recovery.ja.md",
+    "docs/work-items/WI-382-reference-inventory-count-truth.md",
+    "docs/work-items/WI-382-reference-inventory-count-truth.zh-CN.md",
+    "docs/work-items/WI-382-reference-inventory-count-truth.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi383-governance-integrity.json"
+  ],
+  "workItemId": "WI-383-reference-inventory-count-recovery"
+}

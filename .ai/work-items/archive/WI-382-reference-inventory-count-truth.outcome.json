@@ -1,0 +1,134 @@
+{
+  "acceptanceResults": [
+    "三语 reference-file-comparison 正文统计与 reference-inventory-counts 注释及实际台账完全一致",
+    "不修改机器台账、历史 evidence 或 Runtime 行为；文档验收与治理门通过"
+  ],
+  "createdAt": "2026-08-29T05:10:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dea915e13fe99c1116a9f16a80abc03d03e7765602f757c6515614a56191e0e3",
+  "evidenceRefs": [
+    ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3f9c95659113730432278d431039a696ef8ecf60ebf25edd1af8319817ed2eb0",
+      "workItemId": "WI-382-reference-inventory-count-truth"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-382-reference-inventory-count-truth.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-382-reference-inventory-count-truth.contract.json"
+          ],
+          "inference": false,
+          "text": "建立单一且准确的参考文件比较计数基线，避免后续批次依据错误数字"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-382-reference-inventory-count-truth.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-382-reference-inventory-count-truth"
+  },
+  "taskReportDigest": "sha256:ebbecf024cb1699b7dc960a6aa03fce2b006c88345eb124a25e4c92ac4d114c1",
+  "taskReportMarkdownDigest": "sha256:27726134d1a1a76f8114819b6ffa95fac9de3f9daca1946b84523669789e1aad",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-382-reference-inventory-count-truth.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-382-reference-inventory-count-truth"
+}
