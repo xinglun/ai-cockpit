@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-392-reference-android-fixture.contract.json",
+    ".ai/work-items/active/WI-392-reference-android-fixture.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T09:32:36Z",
+  "checkpointContractDigest": "sha256:f59e7240597cd99c0685c15c273ead24c43af348a4ec81742b800fa3871df986",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:704c8846c40e3ee2d588e8ad33bda0be2b61bc5fa58e4b2864e80634cc6a708c",
+  "createdAt": "2026-08-29T09:32:02Z",
+  "mode": "docs",
+  "preflightAt": "2026-08-29T09:32:28Z",
+  "preflightContractDigest": "sha256:f59e7240597cd99c0685c15c273ead24c43af348a4ec81742b800fa3871df986",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:704c8846c40e3ee2d588e8ad33bda0be2b61bc5fa58e4b2864e80634cc6a708c",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-29T09:32:36Z",
+  "workItemId": "WI-392-reference-android-fixture"
+}
