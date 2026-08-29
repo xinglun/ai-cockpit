@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c4e2276905c594135cb27da45f6aac15be22ae8103c839c9a3e466478555b8b1",
+      "workItemId": "WI-391-reference-csharp-adaptation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-391-reference-csharp-adaptation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json",
+            ".ai/decisions/WI-391-reference-csharp-adaptation.finalize.daf3f48ceb9d6aa46efc7a12f2251b2013c5efbeb79a1ef6a96b38811edad407.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-29T09:30:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide an auditable C# stack adaptation guide for adopters without copying the reference installer, Makefile, Python/runtime implementation, or legacy wire schema."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-391-reference-csharp-adaptation"
+  },
+  "finalReportDigest": "sha256:82b4c2874533f8e9e384f4a98f19aff11b619bb562e83787bd8a9ec66844c4aa",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1f3d0d852af1b8585bf3c59401b8aaf44b5afc1370cf9d9a7c9711b7a2101bf8",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-391-reference-csharp-adaptation.finalize.daf3f48ceb9d6aa46efc7a12f2251b2013c5efbeb79a1ef6a96b38811edad407.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-29T09:30:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json",
+      ".ai/decisions/WI-391-reference-csharp-adaptation.finalize.daf3f48ceb9d6aa46efc7a12f2251b2013c5efbeb79a1ef6a96b38811edad407.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #355, verified the tri-language Rust-native C# adaptation mapping, and confirmed the installation boundary remains intentionally different from the reference source.",
+    "resumeCondition": "If a future reference comparison finds a semantic gap, open a bounded successor Work Item with explicit scope."
+  },
+  "timestamp": "2026-08-29T09:30:00Z",
+  "workItemId": "WI-391-reference-csharp-adaptation"
+}
