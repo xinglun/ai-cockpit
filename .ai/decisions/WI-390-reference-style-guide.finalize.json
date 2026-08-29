@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cb74181a8e12437c04d37a11d746ccf12d63d866",
+    "name": "codex/wi-390-reference-style-guide",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b3f45eab224124f6ad57c326737a9a5321ccacd90af16e1133cced9a1525e101",
+  "operationId": "github-pr-354-merge-cleanup-20260829",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d76297870d4a9a9e2ad6db28c39246214f29d1be",
+    "headRevision": "cb74181a8e12437c04d37a11d746ccf12d63d866",
+    "mergeCommit": "80e8c87f16503aac6aad78393fa9420ae0ce67ee",
+    "number": 354,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/354"
+  },
+  "reason": "PR #354 merged; retain the exact WI-390 branch and worktree until finalization verification and close complete.",
+  "receiptId": "ai-cockpit-WI-390-reference-style-guide-retained-20260829",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-390-reference-style-guide",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/354",
+    "worktree": "/private/tmp/ai-cockpit-wi390-reference-style-guide"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T08:52:00Z",
+  "workItemId": "WI-390-reference-style-guide",
+  "worktree": {
+    "branch": "codex/wi-390-reference-style-guide",
+    "headRevision": "cb74181a8e12437c04d37a11d746ccf12d63d866",
+    "path": "/private/tmp/ai-cockpit-wi390-reference-style-guide",
+    "worktreeId": "WI-390-reference-style-guide"
+  }
+}
