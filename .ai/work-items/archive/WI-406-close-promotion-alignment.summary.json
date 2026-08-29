@@ -1,12 +1,12 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-406-close-promotion-alignment.contract.json",
-    ".ai/work-items/active/WI-406-close-promotion-alignment.summary.json"
+    ".ai/work-items/archive/WI-406-close-promotion-alignment.contract.json",
+    ".ai/work-items/archive/WI-406-close-promotion-alignment.summary.json"
   ],
   "checkpointAt": "2026-08-29T21:19:11Z",
-  "checkpointContractDigest": "sha256:c2d6bd35d63674c47e028e181d448cbec97b3aba913ab1b90ff3338770348675",
+  "checkpointContractDigest": "sha256:f23e9fa2ce2134eed7ae0d8f8ad8279b52385d2afc8d650c774d3881acf137da",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:629c943600c3b0af281a6e6419478ed24eff16779c153ae629d012bb3cd547b8",
+  "checkpointRepositorySnapshotDigest": "sha256:0e231c3df920360369a1e3c7445cebea81cb7b538b12d1df38c2d2230e83156e",
   "createdAt": "2026-08-29T21:18:31Z",
   "failedGate": "finish.governance",
   "intentAlignment": {
@@ -18,10 +18,10 @@
   },
   "mode": "docs",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-29T21:20:56Z",
-  "preflightContractDigest": "sha256:c2d6bd35d63674c47e028e181d448cbec97b3aba913ab1b90ff3338770348675",
+  "preflightAt": "2026-08-29T21:21:48Z",
+  "preflightContractDigest": "sha256:f23e9fa2ce2134eed7ae0d8f8ad8279b52385d2afc8d650c774d3881acf137da",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:629c943600c3b0af281a6e6419478ed24eff16779c153ae629d012bb3cd547b8",
+  "preflightRepositorySnapshotDigest": "sha256:0e231c3df920360369a1e3c7445cebea81cb7b538b12d1df38c2d2230e83156e",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
@@ -57,8 +57,8 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-08-29T21:20:56Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T21:21:52Z",
   "verification": [
     {
       "check": "project-command-0",

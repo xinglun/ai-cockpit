@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T21:21:56Z",
+  "files": {
+    "contractDigest": "sha256:73650094833ba9e639aee539ddd2fa6d4702d11e682fc4f80c24650cc80ac3c1",
+    "contractPath": ".ai/work-items/archive/WI-406-close-promotion-alignment.contract.json",
+    "eventsDigest": "sha256:3d4722387da528b9bb6cd3b1276cbb24e414a777a99e915685eac087688bb5d8",
+    "eventsPath": ".ai/work-items/archive/WI-406-close-promotion-alignment.events.jsonl",
+    "outcomeDigest": "sha256:f83246725e14a93ea817ab8fd38a5f99b1c481bfb0df2dca983613fc920e2e29",
+    "outcomePath": ".ai/work-items/archive/WI-406-close-promotion-alignment.outcome.json",
+    "summaryDigest": "sha256:ae3d6a4f810c1e04a5aa35d6d967556e6fd3f5d1fbb69c14837424ddda0ff560",
+    "summaryPath": ".ai/work-items/archive/WI-406-close-promotion-alignment.summary.json",
+    "taskReportDigest": "sha256:69666be79c417d6eb47578b103e1bb8fc045ed47e466a7dbbdedc9fde4df1ac7",
+    "taskReportMarkdownDigest": "sha256:208d7eebbebfa6f45d55ae96e5c46adab26d7183e2f2a8bb998eba88e53f6009",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-406-close-promotion-alignment.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-406-close-promotion-alignment.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-406-close-promotion-alignment"
+}
