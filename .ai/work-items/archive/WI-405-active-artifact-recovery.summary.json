@@ -1,0 +1,83 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-405-active-artifact-recovery.contract.json",
+    ".ai/work-items/archive/WI-405-active-artifact-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-29T20:27:24Z",
+  "checkpointContractDigest": "sha256:fbb03f53c4d862c37ffb6cb797b4a6d24f57289ce575875d2d0d7d54a095b558",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7d9a876a58b27c9acaf3c69259eb4fe077452bbb3a9f043b3a9cba2752e416f1",
+  "createdAt": "2026-08-29T20:22:54Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-405-active-artifact-recovery.contract.json"
+    ],
+    "reason": "Implemented scope matches the human-owned Contract.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-29T20:56:42Z",
+  "preflightContractDigest": "sha256:fbb03f53c4d862c37ffb6cb797b4a6d24f57289ce575875d2d0d7d54a095b558",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7d9a876a58b27c9acaf3c69259eb4fe077452bbb3a9f043b3a9cba2752e416f1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "reason": "Normal archive regression preserves and relocates outcome/event variants.",
+      "required": true,
+      "scenario": "archive_variant_relocation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "reason": "Superseded archive regression relocates recognized variants and binds their manifest paths.",
+      "required": true,
+      "scenario": "superseded_variant_relocation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "reason": "Reconciliation regression moves an already archived item's residue without rewriting its manifest.",
+      "required": true,
+      "scenario": "orphan_variant_reconciliation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "reason": "Status projection separates orphaned active artifacts from active Work Item count.",
+      "required": true,
+      "scenario": "status_orphan_visibility",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "cargo test --locked --workspace"
+      ],
+      "reason": "Repository-bound API and full workspace tests preserve explicit repository isolation.",
+      "required": true,
+      "scenario": "repository_isolation",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T20:56:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-405-active-artifact-recovery"
+}

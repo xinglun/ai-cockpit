@@ -40,6 +40,23 @@ binds its digest in the archive manifest. `close` copies the validated report
 into the repository-bound close receipt as `finalReport` with
 `finalReportDigest`.
 
+Failed or interrupted lifecycle attempts may also leave Runtime-owned
+projections such as `<id>.outcome.finish-blocked.json` or
+`<id>.events.finish-recovery.jsonl`. These are audit history, not active
+Contracts, so `status` reports them separately as `activeArtifacts` and
+`orphanedActiveArtifacts` while `activeWorkItems` remains Contract-based.
+Normal `archive` moves recognized variants with the canonical artifacts and
+records each digest in `historicalArtifacts`. For a Work Item archived by an
+older Runtime, use `ai-cockpit work-item reconcile-artifacts --repo <repository>
+--id <id>`; the command requires and validates the existing archive manifest,
+moves only identity-bound regular files, and writes an append-only
+reconciliation receipt. It never deletes or rewrites historical bytes.
+
+`archive` and `close` are separate boundaries. An archived Work Item remains
+pending until an explicit human decision closes it; an orphaned projection is
+not evidence that the Work Item is active, but it is a readiness blocker until
+it is archived or reconciled.
+
 Event streams reject malformed JSON, unknown fields, foreign repository or
 Work Item identity, unsafe evidence paths, secret-like content, duplicate IDs,
 and relationships to events that have not already appeared. Corrections must

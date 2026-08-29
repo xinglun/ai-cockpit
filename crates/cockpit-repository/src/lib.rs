@@ -30,9 +30,7 @@ use cockpit_protocol::{
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
-use std::collections::BTreeMap;
-#[cfg(unix)]
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 #[cfg(unix)]
 use std::ffi::OsStr;
 use std::fmt;
@@ -470,6 +468,10 @@ pub struct RepositoryReadiness {
     pub default_revision: Option<String>,
     pub dirty_paths: Vec<String>,
     pub unclosed_archived_work_items: Vec<String>,
+    /// Recognized failed-attempt artifacts that have no active Contract.
+    /// These are retained audit bytes, not counted as active Work Items.
+    #[serde(default)]
+    pub orphaned_active_artifacts: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -482,7 +484,34 @@ pub struct RepositoryStatus {
     pub profile_version: u64,
     pub active_work_items: usize,
     pub archived_work_items: usize,
+    /// Recognized Work Item artifact variants currently present in active.
+    /// Canonical Contract/Summary files are represented by active_work_items;
+    /// this list is for failed-attempt projections such as outcome.*.json.
+    #[serde(default)]
+    pub active_artifacts: Vec<String>,
+    #[serde(default)]
+    pub orphaned_active_artifacts: Vec<String>,
     pub readiness: RepositoryReadiness,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActiveArtifactReconciliationArtifact {
+    pub source_path: String,
+    pub target_path: String,
+    pub digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActiveArtifactReconciliationReceipt {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub state: String,
+    pub archive_manifest_path: String,
+    pub moved_artifacts: Vec<ActiveArtifactReconciliationArtifact>,
+    pub recorded_at: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -3309,6 +3338,11 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
         path: root.clone(),
         message: error.to_string(),
     })?;
+    let active_artifacts = active_artifact_variants(&ai.join("work-items/active"))?
+        .into_iter()
+        .map(|variant| variant.name)
+        .collect::<Vec<_>>();
+    let orphaned_active_artifacts = orphaned_active_artifact_names(&root)?;
     let readiness = repository_readiness_from_snapshot(&root, &snapshot, &config.repository_id)?;
     Ok(RepositoryStatus {
         protocol_version: config.protocol_version,
@@ -3318,6 +3352,8 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
         profile_version: profile.profile_version,
         active_work_items: count_suffix(&ai.join("work-items/active"), ".contract.json"),
         archived_work_items: count_suffix(&ai.join("work-items/archive"), ".archive.json"),
+        active_artifacts,
+        orphaned_active_artifacts,
         readiness,
     })
 }
@@ -3358,6 +3394,7 @@ fn repository_readiness_from_snapshot(
     let unclosed_archived_work_items =
         unclosed_archived_work_items_with_id(root, expected_repository_id)?;
     let active_work_items = count_suffix(&root.join(".ai/work-items/active"), ".contract.json");
+    let orphaned_active_artifacts = orphaned_active_artifact_names(root)?;
 
     let mut blockers = Vec::new();
     if active_work_items > 0 {
@@ -3365,6 +3402,9 @@ fn repository_readiness_from_snapshot(
     }
     if !unclosed_archived_work_items.is_empty() {
         blockers.push("archived_work_items_pending_close".into());
+    }
+    if !orphaned_active_artifacts.is_empty() {
+        blockers.push("orphaned_active_artifacts_present".into());
     }
     if !dirty_paths.is_empty() {
         blockers.push("working_tree_dirty_before_start".into());
@@ -3412,6 +3452,7 @@ fn repository_readiness_from_snapshot(
         default_revision: default_base.map(|base| base.revision),
         dirty_paths,
         unclosed_archived_work_items,
+        orphaned_active_artifacts,
     })
 }
 
@@ -3723,6 +3764,85 @@ fn count_suffix(path: &Path, suffix: &str) -> usize {
         .filter_map(Result::ok)
         .filter(|entry| entry.file_name().to_string_lossy().ends_with(suffix))
         .count()
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct ActiveArtifactVariant {
+    name: String,
+}
+
+/// Recognize only Runtime-owned failed-attempt projections.  The canonical
+/// `outcome.json`/`events.jsonl` artifacts have their own lifecycle path; a
+/// dotted suffix denotes an immutable attempt or historical projection.
+fn active_artifact_variant_name(name: &str) -> Option<(&str, &'static str)> {
+    for (marker, extension, kind) in [
+        (".outcome.", ".json", "outcome"),
+        (".events.", ".jsonl", "events"),
+    ] {
+        let Some(index) = name.find(marker) else {
+            continue;
+        };
+        let work_item_id = &name[..index];
+        let variant = &name[index + marker.len()..];
+        if work_item_id.is_empty()
+            || variant.is_empty()
+            || !variant.ends_with(extension)
+            || validate_work_item_id(work_item_id).is_err()
+        {
+            continue;
+        }
+        return Some((work_item_id, kind));
+    }
+    None
+}
+
+fn active_artifact_variants(active: &Path) -> Result<Vec<ActiveArtifactVariant>, ObserverError> {
+    let mut variants = Vec::new();
+    let entries = match fs::read_dir(active) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(variants),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: active.to_path_buf(),
+                source,
+            });
+        }
+    };
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: active.to_path_buf(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some((_, _)) = active_artifact_variant_name(&name) else {
+            continue;
+        };
+        // Keep symlinks visible for status, but lifecycle moves must reject
+        // them through `optional_regular_artifact` rather than following a
+        // potentially foreign target.
+        variants.push(ActiveArtifactVariant { name });
+    }
+    variants.sort_by(|left, right| left.name.cmp(&right.name));
+    Ok(variants)
+}
+
+fn orphaned_active_artifact_names(root: &Path) -> Result<Vec<String>, ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let variants = active_artifact_variants(&active)?;
+    let mut orphaned = variants
+        .into_iter()
+        .filter(|variant| {
+            let Some((work_item_id, _)) = active_artifact_variant_name(&variant.name) else {
+                return false;
+            };
+            !is_regular_non_symlink(&active.join(format!("{work_item_id}.contract.json")))
+                .unwrap_or(false)
+        })
+        .map(|variant| variant.name)
+        .collect::<Vec<_>>();
+    orphaned.sort();
+    orphaned.dedup();
+    Ok(orphaned)
 }
 
 pub fn start_work_item(
@@ -8869,6 +8989,154 @@ pub fn archive_work_item_with_runtime(
     archive_work_item_internal(root, work_item_id, Some(runtime))
 }
 
+/// Reconcile Runtime-owned failed-attempt projections left in `active` after
+/// an older or interrupted archive.  This operation is intentionally
+/// separate from `archive`: the canonical Work Item is already immutable, so
+/// its archive manifest must remain byte-for-byte unchanged.  Moved variants
+/// are instead bound by an append-only reconciliation receipt.
+pub fn reconcile_active_artifacts(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<ActiveArtifactReconciliationReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let active = root.join(".ai/work-items/active");
+    let archive = root.join(".ai/work-items/archive");
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let manifest = read_json(&manifest_path)?;
+    verify_archive_manifest(&root, work_item_id, &manifest)?;
+    let archived_contract_path = archive.join(format!("{work_item_id}.contract.json"));
+    let archived_contract = read_contract(&archived_contract_path)?;
+    let expected_repository_id = repository_id(&root).to_string();
+    if archived_contract.repository_id != expected_repository_id {
+        return Err(ObserverError::State {
+            path: archived_contract_path,
+            message: "archived Work Item repository identity does not match the current repository"
+                .into(),
+        });
+    }
+    let active_contract_path = active.join(format!("{work_item_id}.contract.json"));
+    match fs::symlink_metadata(&active_contract_path) {
+        Ok(_) => {
+            return Err(ObserverError::State {
+                path: active_contract_path,
+                message:
+                    "active Work Item must be archived before reconciling historical artifacts"
+                        .into(),
+            });
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: active_contract_path,
+                source,
+            });
+        }
+    }
+
+    let variants = active_artifact_variants(&active)?
+        .into_iter()
+        .filter(|variant| {
+            active_artifact_variant_name(&variant.name).is_some_and(|(id, _)| id == work_item_id)
+        })
+        .collect::<Vec<_>>();
+    let receipt_path = archive.join(format!("{work_item_id}.artifact-reconciliation.json"));
+    if variants.is_empty() {
+        if optional_regular_artifact(&receipt_path, "artifact reconciliation receipt")? {
+            let value = read_json(&receipt_path)?;
+            return serde_json::from_value(value).map_err(|error| ObserverError::State {
+                path: receipt_path,
+                message: format!("invalid artifact reconciliation receipt: {error}"),
+            });
+        }
+        return Ok(ActiveArtifactReconciliationReceipt {
+            schema_version: 1,
+            repository_id: expected_repository_id,
+            work_item_id: work_item_id.into(),
+            state: "already_clean".into(),
+            archive_manifest_path: repository_relative_path(&root, &manifest_path),
+            moved_artifacts: Vec::new(),
+            recorded_at: now(),
+        });
+    }
+
+    let mut moved: Vec<ActiveArtifactReconciliationArtifact> = Vec::new();
+    for variant in &variants {
+        let source = active.join(&variant.name);
+        optional_regular_artifact(&source, "historical Work Item artifact")?;
+        let target = archive.join(&variant.name);
+        if fs::symlink_metadata(&target).is_ok() {
+            return Err(ObserverError::State {
+                path: target,
+                message: "artifact reconciliation target already exists".into(),
+            });
+        }
+        let bytes = fs::read(&source).map_err(|source_error| ObserverError::Read {
+            path: source.clone(),
+            source: source_error,
+        })?;
+        let digest = Digest::sha256_bytes(&bytes);
+        if let Err(source_error) = fs::rename(&source, &target) {
+            for artifact in moved.iter().rev() {
+                let moved_source = root.join(&artifact.source_path);
+                let moved_target = root.join(&artifact.target_path);
+                let _ = fs::rename(&moved_target, &moved_source);
+            }
+            return Err(ObserverError::Read {
+                path: target,
+                source: source_error,
+            });
+        }
+        moved.push(ActiveArtifactReconciliationArtifact {
+            source_path: repository_relative_path(&root, &source),
+            target_path: repository_relative_path(&root, &target),
+            digest,
+        });
+    }
+
+    let receipt = ActiveArtifactReconciliationReceipt {
+        schema_version: 1,
+        repository_id: expected_repository_id,
+        work_item_id: work_item_id.into(),
+        state: "reconciled".into(),
+        archive_manifest_path: repository_relative_path(&root, &manifest_path),
+        moved_artifacts: moved,
+        recorded_at: now(),
+    };
+    let value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
+        path: receipt_path.clone(),
+        message: error.to_string(),
+    })?;
+    let destination = if fs::symlink_metadata(&receipt_path).is_ok() {
+        let digest =
+            cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+                path: receipt_path.clone(),
+                message: error.to_string(),
+            })?;
+        let digest_string = digest.to_string();
+        let digest_suffix = digest_string
+            .strip_prefix("sha256:")
+            .unwrap_or(&digest_string);
+        archive.join(format!(
+            "{work_item_id}.artifact-reconciliation.{digest_suffix}.json"
+        ))
+    } else {
+        receipt_path.clone()
+    };
+    if let Err(error) = atomic_json(&destination, &value) {
+        for artifact in &receipt.moved_artifacts {
+            let source = root.join(&artifact.source_path);
+            let target = root.join(&artifact.target_path);
+            let _ = fs::rename(target, source);
+        }
+        return Err(error);
+    }
+    Ok(receipt)
+}
+
 fn archive_work_item_internal(
     root: &Path,
     work_item_id: &str,
@@ -8996,41 +9264,52 @@ fn archive_work_item_internal(
             message: "archive manifest already exists".into(),
         });
     }
-    let mut artifacts = vec![
-        ("contract", "contract.json"),
-        ("summary", "summary.json"),
-        ("outcome", "outcome.json"),
+    let mut artifacts: Vec<(String, String)> = vec![
+        ("contract".into(), "contract.json".into()),
+        ("summary".into(), "summary.json".into()),
+        ("outcome".into(), "outcome.json".into()),
     ];
     let events_source = task_outcome_event_path(&root, work_item_id, false);
     if optional_regular_artifact(&events_source, "Task Outcome event stream")? {
-        artifacts.push(("events", "events.jsonl"));
+        artifacts.push(("events".into(), "events.jsonl".into()));
     }
     let report_source = active.join(format!("{work_item_id}.task-report.json"));
     if optional_regular_artifact(&report_source, "Task Outcome report")? {
-        artifacts.push(("taskReport", "task-report.json"));
+        artifacts.push(("taskReport".into(), "task-report.json".into()));
     }
     let markdown_source = active.join(format!("{work_item_id}.task-report.md"));
     if optional_regular_artifact(&markdown_source, "Task Outcome Markdown report")? {
-        artifacts.push(("taskReportMarkdown", "task-report.md"));
+        artifacts.push(("taskReportMarkdown".into(), "task-report.md".into()));
     }
     let approach_source = active.join(format!("{work_item_id}.approach.json"));
     if optional_regular_artifact(&approach_source, "Implementation approach")? {
-        artifacts.push(("approach", "approach.json"));
+        artifacts.push(("approach".into(), "approach.json".into()));
     }
     let intelligence_source = active.join(format!("{work_item_id}.intelligence.json"));
     if optional_regular_artifact(&intelligence_source, "Work Item intelligence sidecar")? {
-        artifacts.push(("intelligence", "intelligence.json"));
+        artifacts.push(("intelligence".into(), "intelligence.json".into()));
+    }
+    for (index, variant) in active_artifact_variants(&active)?.into_iter().enumerate() {
+        let Some(suffix) = variant.name.strip_prefix(&format!("{work_item_id}.")) else {
+            continue;
+        };
+        artifacts.push((format!("historicalArtifact{index}"), suffix.to_owned()));
     }
     let mut pending = Vec::new();
     for (name, suffix) in artifacts {
         let source_path = active.join(format!("{work_item_id}.{suffix}"));
+        if name.starts_with("historicalArtifact")
+            && !optional_regular_artifact(&source_path, "historical Work Item artifact")?
+        {
+            continue;
+        }
         let target = archive.join(format!("{work_item_id}.{suffix}"));
         let source_bytes = fs::read(&source_path).map_err(|error| ObserverError::Read {
             path: source_path.clone(),
             source: error,
         })?;
         let archived_bytes =
-            normalized_archive_artifact_bytes(suffix, &source_bytes, work_item_id)?;
+            normalized_archive_artifact_bytes(&suffix, &source_bytes, work_item_id)?;
         if target.exists() {
             return Err(ObserverError::State {
                 path: target,
@@ -9076,6 +9355,7 @@ fn archive_work_item_internal(
             })?;
     }
     let mut files = serde_json::Map::new();
+    let mut historical_artifacts = Vec::new();
     for (name, suffix, _, _, _, archived_bytes) in &pending {
         files.insert(
             format!("{name}Path"),
@@ -9085,6 +9365,19 @@ fn archive_work_item_internal(
             format!("{name}Digest"),
             serde_json::Value::String(Digest::sha256_bytes(archived_bytes).to_string()),
         );
+        if name.starts_with("historicalArtifact") {
+            let path = format!(".ai/work-items/archive/{work_item_id}.{suffix}");
+            let kind = if suffix.starts_with("outcome.") {
+                "outcome"
+            } else {
+                "events"
+            };
+            historical_artifacts.push(serde_json::json!({
+                "path": path,
+                "kind": kind,
+                "digest": Digest::sha256_bytes(archived_bytes),
+            }));
+        }
     }
     let mut moved: Vec<(PathBuf, PathBuf, Vec<u8>, bool)> = Vec::new();
     for (_, _, source, target, source_bytes, archived_bytes) in &pending {
@@ -9140,6 +9433,7 @@ fn archive_work_item_internal(
         "state": "archived",
         "closeRequired": true,
         "files": files,
+        "historicalArtifacts": historical_artifacts,
         "createdAt": timestamp,
     });
     if let Err(error) = atomic_json(&manifest_path, &manifest) {
@@ -9180,21 +9474,28 @@ fn archive_superseded_work_item(
             message: "archive manifest already exists".into(),
         });
     }
-    let candidates = [
-        ("contract", "contract.json"),
-        ("summary", "summary.json"),
-        ("outcome", "outcome.json"),
-        ("approach", "approach.json"),
-        ("intelligence", "intelligence.json"),
-        ("events", "events.jsonl"),
-        ("taskReport", "task-report.json"),
-        ("taskReportMarkdown", "task-report.md"),
+    let mut candidates: Vec<(String, String)> = vec![
+        ("contract".into(), "contract.json".into()),
+        ("summary".into(), "summary.json".into()),
+        ("outcome".into(), "outcome.json".into()),
+        ("approach".into(), "approach.json".into()),
+        ("intelligence".into(), "intelligence.json".into()),
+        ("events".into(), "events.jsonl".into()),
+        ("taskReport".into(), "task-report.json".into()),
+        ("taskReportMarkdown".into(), "task-report.md".into()),
     ];
+    for (index, variant) in active_artifact_variants(&active)?.into_iter().enumerate() {
+        let Some(suffix) = variant.name.strip_prefix(&format!("{work_item_id}.")) else {
+            continue;
+        };
+        candidates.push((format!("historicalArtifact{index}"), suffix.to_owned()));
+    }
     let mut files = serde_json::Map::new();
+    let mut historical_artifacts = Vec::new();
     let mut pending = Vec::new();
     for (name, suffix) in candidates {
         let source = active.join(format!("{work_item_id}.{suffix}"));
-        if !optional_regular_artifact(&source, name)? {
+        if !optional_regular_artifact(&source, name.as_str())? {
             continue;
         }
         let target = archive.join(format!("{work_item_id}.{suffix}"));
@@ -9216,6 +9517,13 @@ fn archive_superseded_work_item(
             format!("{name}Digest"),
             serde_json::json!(Digest::sha256_bytes(&bytes).to_string()),
         );
+        if name.starts_with("historicalArtifact") {
+            historical_artifacts.push(serde_json::json!({
+                "path": format!(".ai/work-items/archive/{work_item_id}.{suffix}"),
+                "kind": if suffix.starts_with("outcome.") { "outcome" } else { "events" },
+                "digest": Digest::sha256_bytes(&bytes),
+            }));
+        }
         pending.push((source, target));
     }
     for (required, suffix) in [
@@ -9276,6 +9584,7 @@ fn archive_superseded_work_item(
         "supersededBy": decision.successor_work_item_id,
         "supersessionDecisionPath": repository_relative_path(root, &decision_path),
         "files": files,
+        "historicalArtifacts": historical_artifacts,
         "createdAt": timestamp,
     });
     if let Err(error) = atomic_json(&manifest_path, &manifest) {
@@ -10933,6 +11242,59 @@ fn verify_archive_manifest(
                 return Err(ObserverError::State {
                     path,
                     message: "archived Work Item intelligence identity does not match repository or Work Item".into(),
+                });
+            }
+        }
+    }
+    if let Some(historical) = manifest.get("historicalArtifacts") {
+        let entries = historical.as_array().ok_or_else(|| ObserverError::State {
+            path: archive.join(format!("{work_item_id}.archive.json")),
+            message: "archive historicalArtifacts must be an array".into(),
+        })?;
+        let expected_prefix = format!(".ai/work-items/archive/{work_item_id}.");
+        let mut paths = BTreeSet::new();
+        for entry in entries {
+            let path_value = entry
+                .get("path")
+                .and_then(serde_json::Value::as_str)
+                .ok_or_else(|| ObserverError::State {
+                    path: archive.join(format!("{work_item_id}.archive.json")),
+                    message: "archive historical artifact path is missing".into(),
+                })?;
+            let digest = entry
+                .get("digest")
+                .and_then(serde_json::Value::as_str)
+                .ok_or_else(|| ObserverError::State {
+                    path: archive.join(format!("{work_item_id}.archive.json")),
+                    message: "archive historical artifact digest is missing".into(),
+                })?;
+            if !path_value.starts_with(&expected_prefix)
+                || path_value.contains("..")
+                || path_value.contains('\\')
+                || !paths.insert(path_value.to_owned())
+            {
+                return Err(ObserverError::State {
+                    path: archive.join(format!("{work_item_id}.archive.json")),
+                    message: "archive historical artifact path is unsafe or duplicated".into(),
+                });
+            }
+            let relative = path_value.strip_prefix("./").unwrap_or(path_value);
+            let path = root.join(relative);
+            if !optional_regular_artifact(&path, "archived historical Work Item artifact")? {
+                return Err(ObserverError::State {
+                    path,
+                    message: "archive historical artifact is missing".into(),
+                });
+            }
+            let actual =
+                Digest::sha256_bytes(&fs::read(&path).map_err(|source| ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                })?);
+            if actual.to_string() != digest {
+                return Err(ObserverError::State {
+                    path,
+                    message: "archive historical artifact digest does not match manifest".into(),
                 });
             }
         }

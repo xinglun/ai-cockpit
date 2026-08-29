@@ -36,6 +36,21 @@ Rust Runtime 保留 `OutcomeV2` 作为稳定机器对象，并为新生成的 Ou
 报告作为 `finalReport` 写入 repository-bound close receipt，并写入
 `finalReportDigest`。
 
+失败或中断的生命周期尝试还可能留下 Runtime 生成的投影，例如
+`<id>.outcome.finish-blocked.json` 或 `<id>.events.finish-recovery.jsonl`。
+这些是审计历史，不是活跃 Contract；因此 `status` 会通过
+`activeArtifacts` 和 `orphanedActiveArtifacts` 单独报告，而
+`activeWorkItems` 仍只按 Contract 统计。正常 `archive` 会将识别出的变体与
+规范文件一并移动，并在 `historicalArtifacts` 中记录每个摘要。对于旧 Runtime
+已经归档的 Work Item，使用
+`ai-cockpit work-item reconcile-artifacts --repo <repository> --id <id>`。
+该命令要求并验证现有 archive manifest，只移动与身份绑定的普通文件，并写入
+追加式 reconciliation receipt；不会删除或改写历史字节。
+
+`archive` 与 `close` 是两个不同的边界。归档后的 Work Item 仍需显式的人类决定
+才能关闭；孤立投影不代表 Work Item 仍在进行，但在归档或 reconciliation 前会阻塞
+仓库 ready 状态。
+
 事件流会拒绝 malformed JSON、未知字段、foreign repository/Work Item identity、
 不安全 evidence 路径、疑似 secret 内容、重复 ID，以及引用尚未出现事件的关系。
 修正必须新增事件，不能静默改写历史行。

@@ -1,0 +1,102 @@
+{
+  "acceptanceCriteria": [
+    "Normal archive moves canonical artifacts and all recognized failed-attempt outcome/event variants, preserving bytes and manifest digests.",
+    "Superseded archive applies the same variant handling and never leaves recognized Work Item artifacts in active.",
+    "Existing orphan variants with an already archived Work Item have an explicit, identity-bound reconciliation path; no manual deletion is required.",
+    "Status/doctor expose orphaned active artifacts separately from valid active Work Items; activeWorkItems count remains contract-based and cannot hide residue.",
+    "Archive manifests validate historical variant paths and digests while remaining backward compatible with existing manifests.",
+    "Two repositories remain isolated; object/adopter acceptance proves the same behavior using the installed Runtime.",
+    "Three-language documentation explains active staging, failed-attempt history, archive, and close boundaries."
+  ],
+  "authority": "authorized",
+  "baseRevision": "250214f848ebccf91360eda79e63ef9d206c100b",
+  "createdAt": "2026-08-29T20:22:54Z",
+  "goal": "归档并可审计地整理失败尝试产物，准确暴露 active 残留，避免新 Work Item 在不清洁状态下启动。",
+  "intent": "修复 Work Item 失败尝试产物留在 active 目录且状态统计无法识别的生命周期缺口，并保证安装对象工程继承同样的收尾语义。",
+  "mode": "code",
+  "outOfScope": [
+    "knowledge query/implementation approach read-write behavior",
+    "release automation and provider branch cleanup",
+    "historical evidence byte rewriting or deletion"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0124bd7f5d3a6c2b9dced5ac2f47160f588d6583ab43859d8104e701d09018a9",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository-context",
+    "archive-manifest"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-405-active-artifact-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/370",
+    "worktree": "/private/tmp/ai-cockpit-wi-405-active-artifact-recovery"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Normal archive preserves and relocates recognized failed-attempt variants.",
+      "required": true,
+      "scenario": "archive_variant_relocation",
+      "status": "unverified",
+      "verificationPlan": "Repository archive regression test with outcome/event variants."
+    },
+    {
+      "evidence": [],
+      "expected": "Superseded archive does not leave recognized variants in active.",
+      "required": true,
+      "scenario": "superseded_variant_relocation",
+      "status": "unverified",
+      "verificationPlan": "Recovery/supersession regression test with manifest digest checks."
+    },
+    {
+      "evidence": [],
+      "expected": "An already archived Work Item can reconcile residual variants without deletion.",
+      "required": true,
+      "scenario": "orphan_variant_reconciliation",
+      "status": "unverified",
+      "verificationPlan": "Identity-bound reconciliation test against an existing archive manifest."
+    },
+    {
+      "evidence": [],
+      "expected": "Status distinguishes valid active Contracts from orphaned active artifacts.",
+      "required": true,
+      "scenario": "status_orphan_visibility",
+      "status": "unverified",
+      "verificationPlan": "Repository status projection regression test."
+    },
+    {
+      "evidence": [],
+      "expected": "Two repositories cannot move or report each other's Work Item artifacts.",
+      "required": true,
+      "scenario": "repository_isolation",
+      "status": "unverified",
+      "verificationPlan": "Parallel two-repository isolation regression test and installed Runtime smoke."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "docs/features/task-outcome-report.md",
+    "docs/features/task-outcome-report.zh-CN.md",
+    "docs/features/task-outcome-report.ja.md"
+  ],
+  "sources": [
+    "user-reported active Work Item artifact residue in AI Cockpit and sentinel",
+    "crates/cockpit-repository/src/lib.rs archive and status implementation",
+    "docs/features/task-outcome-report.md lifecycle artifact contract"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-405-active-artifact-recovery"
+}

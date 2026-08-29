@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T20:57:01Z",
+  "files": {
+    "contractDigest": "sha256:c1903b07eb5e66d312139b7fa11fd20878f8b15872c68b736581c0f12c3fe4ad",
+    "contractPath": ".ai/work-items/archive/WI-405-active-artifact-recovery.contract.json",
+    "eventsDigest": "sha256:73405a1f9c409b9ee1321f9523d77d638965c998993908433877bcee2f9d8601",
+    "eventsPath": ".ai/work-items/archive/WI-405-active-artifact-recovery.events.jsonl",
+    "outcomeDigest": "sha256:a61b5bd0108b015416924d1c7473f40a1c1707f2a57fda0bc6fd98f76401d7e0",
+    "outcomePath": ".ai/work-items/archive/WI-405-active-artifact-recovery.outcome.json",
+    "summaryDigest": "sha256:40b9e5bc4b7f5898a5fd35714caf0709ce4f5b231c32164572561ca25dafc862",
+    "summaryPath": ".ai/work-items/archive/WI-405-active-artifact-recovery.summary.json",
+    "taskReportDigest": "sha256:92a04725658ef736eb49a901e1bf596abe47f2b1d47f86d68ed7cbdc167a66ee",
+    "taskReportMarkdownDigest": "sha256:04b4f84755accf0eb314fc5f2d4294f195b1a16ebc2827dd12f5f2f6d8478671",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-405-active-artifact-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-405-active-artifact-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-405-active-artifact-recovery"
+}

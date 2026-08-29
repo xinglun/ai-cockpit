@@ -38,6 +38,22 @@ Rust Runtime は安定した machine object として `OutcomeV2` を保持し�
 manifest に digest を束縛します。`close` は検証済み report を `finalReport` と
 `finalReportDigest` として repository-bound close receipt に保存します。
 
+失敗または中断したライフサイクル試行では、`<id>.outcome.finish-blocked.json` や
+`<id>.events.finish-recovery.jsonl` のような Runtime 管理の投影が残ることがあります。
+これらは監査履歴であり active Contract ではありません。そのため `status` は
+`activeArtifacts` と `orphanedActiveArtifacts` として別に報告し、
+`activeWorkItems` は Contract に基づく数え方を維持します。通常の `archive` は
+認識済みの変種を正規ファイルとともに移動し、各ダイジェストを
+`historicalArtifacts` に記録します。古い Runtime によって既にアーカイブされた
+Work Item には、
+`ai-cockpit work-item reconcile-artifacts --repo <repository> --id <id>` を使用します。
+このコマンドは既存 archive manifest の検証と ID の一致を必須とし、通常ファイルだけを
+移動して追記型の reconciliation receipt を作成します。履歴バイトを削除・書き換えません。
+
+`archive` と `close` は別の境界です。アーカイブ済み Work Item は明示的な人間の判断で
+初めて閉じられます。孤立した投影は Work Item が active であることを意味しませんが、
+アーカイブまたは reconciliation が完了するまでリポジトリの ready 判定を阻害します。
+
 Malformed JSON、未知フィールド、foreign identity、安全でない evidence path、
 secret らしい内容、重複 ID、未出現イベントへの参照は fail closed です。修正は
 新しい event として記録し、過去の行を暗黙に書き換えません。

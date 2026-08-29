@@ -1177,7 +1177,41 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
     record_recovery_decision(directory.path(), "WI-BLOCKED", &supersede, &runtime)
         .expect("supersession receipt");
 
+    let historical_variant = "WI-BLOCKED.outcome.finish-recovery.json";
+    let historical_bytes = br#"{"state":"blocked","workItemId":"WI-BLOCKED"}"#;
+    fs::write(
+        directory
+            .path()
+            .join(".ai/work-items/active")
+            .join(historical_variant),
+        historical_bytes,
+    )
+    .expect("historical supersession variant");
+
     archive_work_item(directory.path(), "WI-BLOCKED").expect("superseded archive");
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/archive")
+                .join(historical_variant),
+        )
+        .expect("archived historical supersession variant"),
+        historical_bytes
+    );
+    let superseded_manifest: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/archive/WI-BLOCKED.archive.json"),
+        )
+        .expect("superseded manifest"),
+    )
+    .expect("superseded manifest JSON");
+    assert_eq!(
+        superseded_manifest["historicalArtifacts"][0]["path"],
+        format!(".ai/work-items/archive/{historical_variant}")
+    );
     assert_eq!(
         fs::read(
             directory
