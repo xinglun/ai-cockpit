@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "The pinned reference examples/csharp/README.md is compared section by section, with each semantic concern mapped to a Rust-native counterpart or explicitly marked external/non-applicable.",
+    "The tri-language C# adaptation guide explains shared external Runtime installation, explicit repository attachment, repository-local .ai state, and adopter-owned .NET commands without copying the reference installer or Makefile implementation.",
+    "The guide uses current Rust Contract, verification, evidence, and human-decision boundaries; it does not claim direct compatibility with the reference contractVersion/verification wire shape.",
+    "Reference inventory, parity, index links, and tri-language Work Item records bind the pinned source commit and remain synchronized.",
+    "Declared documentation, inventory, and conformance checks pass with the installed Runtime evidence."
+  ],
+  "createdAt": "2026-08-29T09:21:27Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9f92c2455084c8deb88a194b687321610171d50e1a7c3e0a9f8fb74e35104e98",
+  "evidenceRefs": [
+    ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c4e2276905c594135cb27da45f6aac15be22ae8103c839c9a3e466478555b8b1",
+      "workItemId": "WI-391-reference-csharp-adaptation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide an auditable C# stack adaptation guide for adopters without copying the reference installer, Makefile, Python/runtime implementation, or legacy wire schema."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-391-reference-csharp-adaptation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-391-reference-csharp-adaptation"
+  },
+  "taskReportDigest": "sha256:2a354039fe3edaf0c61a04a8294a4154493f73479ff13e53cbf21d85f8683bd7",
+  "taskReportMarkdownDigest": "sha256:08c3112b72ce2a2ff48c4e8e74b6921d9eb2a50c26a0427e2186819c73371351",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-391-reference-csharp-adaptation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-391-reference-csharp-adaptation"
+}

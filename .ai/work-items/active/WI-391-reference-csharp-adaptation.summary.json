@@ -4,19 +4,25 @@
     ".ai/work-items/active/WI-391-reference-csharp-adaptation.summary.json"
   ],
   "checkpointAt": "2026-08-29T09:04:41Z",
-  "checkpointContractDigest": "sha256:bc84b3bd6c6a924e27ad1ebabbb087b63f620ba8ef6084aab0f80aae5fbf7a92",
+  "checkpointContractDigest": "sha256:ff9b0baa9df1a681b517ce4ae6e2779d69d88b70feda8cf3d3c6801d573ce226",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:31ee9698f7195e8d24296e40f8dee014f9cb521665703355a8880cd62bcd373b",
+  "checkpointRepositorySnapshotDigest": "sha256:c4e2276905c594135cb27da45f6aac15be22ae8103c839c9a3e466478555b8b1",
   "createdAt": "2026-08-29T09:02:54Z",
   "mode": "docs",
-  "preflightAt": "2026-08-29T09:04:37Z",
-  "preflightContractDigest": "sha256:bc84b3bd6c6a924e27ad1ebabbb087b63f620ba8ef6084aab0f80aae5fbf7a92",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:31ee9698f7195e8d24296e40f8dee014f9cb521665703355a8880cd62bcd373b",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-29T09:19:44Z",
+  "preflightContractDigest": "sha256:ff9b0baa9df1a681b517ce4ae6e2779d69d88b70feda8cf3d3c6801d573ce226",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c4e2276905c594135cb27da45f6aac15be22ae8103c839c9a3e466478555b8b1",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-29T09:04:41Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T09:21:27Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-391-reference-csharp-adaptation"
 }
