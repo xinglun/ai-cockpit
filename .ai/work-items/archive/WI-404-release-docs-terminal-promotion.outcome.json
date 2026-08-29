@@ -64,7 +64,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-404-release-docs-terminal-promotion.summary.json"
+            ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -102,7 +102,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-404-release-docs-terminal-promotion.contract.json"
+            ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.contract.json"
           ],
           "inference": false,
           "text": "让 WI-402 的三语文档与其已验证、已归档、已关闭事实一致，并为后续发布提供可审计的文档终态。"
@@ -111,7 +111,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-404-release-docs-terminal-promotion.contract.json"
+            ".ai/work-items/archive/WI-404-release-docs-terminal-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -121,7 +121,7 @@
     "status": "verified",
     "workItemId": "WI-404-release-docs-terminal-promotion"
   },
-  "taskReportDigest": "sha256:445f66e48a40acdc09af52bedcdca2246ccfcc87b535a748c3022c390fc0b8c5",
+  "taskReportDigest": "sha256:651e604c8383265919eb16af6a99b2eebdebeec570c2ac4e4d47a599a0d9a849",
   "taskReportMarkdownDigest": "sha256:0dccebc465e92cd0fcbcf8ec4395ea83a5ada5831e163ca17294244c6001e7df",
   "unknowns": [
     "user_visible_benefit_not_declared"
