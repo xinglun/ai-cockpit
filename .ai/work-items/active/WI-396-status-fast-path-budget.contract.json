@@ -34,6 +34,8 @@
   "scope": [
     "crates/cockpit-git/src/lib.rs",
     "crates/cockpit-git/tests/repository.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/contract_preflight.rs",
     "crates/cockpit-cli/tests/performance.rs",
     "tests/performance/regression_gate.sh",
     "tests/performance/regression_gate_test.sh",
