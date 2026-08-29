@@ -1,0 +1,143 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3a2b26149491094f0dece1f4d5b9cd80c9267fc4df97d91af6182ac726eb233c",
+      "workItemId": "WI-380-reference-documentation-batch-18-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-379-reference-documentation-batch-18.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:release-acceptance via reviewed-PR-344-merge at 2026-08-29T04:42:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Record the recovery lineage, update tri-language parity projections, bind the successor pull request before verification, and close only after exact branch and worktree cleanup are proven."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-380-reference-documentation-batch-18-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:448155171c612f28e065822d3c88febcb9263a3e20aa9221ca1c42597ef804e2",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:16ab791e70dad5d05d69e7deabe747c439e6ae72618f20cf18a9540c53cc0e0e",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-380-reference-documentation-batch-18-finalization-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:release-acceptance",
+    "authoritySource": "reviewed-PR-344-merge",
+    "decidedAt": "2026-08-29T04:42:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json"
+    ],
+    "policyRefs": [
+      "post-merge-finalization-and-successor-recovery"
+    ],
+    "reason": "确认恢复链路已通过托管检查、合并、精确资源清理和 finalization-verify；保留 WI-379 不可变历史记录。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-29T04:38:34Z",
+  "workItemId": "WI-380-reference-documentation-batch-18-finalization-recovery"
+}

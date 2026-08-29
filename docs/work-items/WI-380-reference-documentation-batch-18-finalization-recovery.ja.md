@@ -5,9 +5,13 @@ description: "reviewed successor delivery を bind し、WI-379 の history を�
 workItemId: WI-380-reference-documentation-batch-18-finalization-recovery
 canonical: docs/work-items/WI-380-reference-documentation-batch-18-finalization-recovery.md
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: translation
 lastVerifiedBy: WI-380-reference-documentation-batch-18-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-380-reference-documentation-batch-18-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-380-reference-documentation-batch-18-finalization-recovery.close.json
 capabilityClaims: [governance_integrity, resource_finalization]
 ---
 

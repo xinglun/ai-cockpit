@@ -4,9 +4,13 @@ title: "WI-380 — WI-379 provider finalization recovery"
 description: "Bind the reviewed successor delivery and close the documentation batch without rewriting WI-379 history."
 workItemId: WI-380-reference-documentation-batch-18-finalization-recovery
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-380-reference-documentation-batch-18-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-380-reference-documentation-batch-18-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-380-reference-documentation-batch-18-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-380-reference-documentation-batch-18-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-380-reference-documentation-batch-18-finalization-recovery.close.json
 capabilityClaims: [governance_integrity, resource_finalization]
 ---
 
