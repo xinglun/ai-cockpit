@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-393-reference-flutter-fixture.summary.json"
+            ".ai/work-items/archive/WI-393-reference-flutter-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-393-reference-flutter-fixture.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-393-reference-flutter-fixture.summary.json"
+            ".ai/work-items/archive/WI-393-reference-flutter-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-393-reference-flutter-fixture.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-393-reference-flutter-fixture.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-393-reference-flutter-fixture.contract.json"
+            ".ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json"
           ],
           "inference": false,
           "text": "Establish auditable semantic parity and inheritance boundaries for the four pinned examples/fixtures/flutter-app files."
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-393-reference-flutter-fixture.contract.json"
+            ".ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-393-reference-flutter-fixture"
   },
-  "taskReportDigest": "sha256:cf3cbe6fdd587632c07384e21e100989defb75adc9c6eb5a562a0581cc15b5c2",
-  "taskReportMarkdownDigest": "sha256:b37669a1e471d19332541c66d33a812e606567b2ff2d6758614060c903f7f745",
+  "taskReportDigest": "sha256:1a99b8451b5f1adf63576c8b53376d3a7693944fd88d7880973dfefc171b0d8e",
+  "taskReportMarkdownDigest": "sha256:13d0633e5014d3901ed6b7fc2dbf78b1afc9e86b47141daca5acdcd530e3ea0c",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

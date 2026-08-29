@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-393-reference-flutter-fixture.contract.json",
-    ".ai/work-items/active/WI-393-reference-flutter-fixture.summary.json"
+    ".ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json",
+    ".ai/work-items/archive/WI-393-reference-flutter-fixture.summary.json"
   ],
   "checkpointAt": "2026-08-29T09:58:52Z",
   "checkpointContractDigest": "sha256:ffb802748c0686bf9ac3501c8b60100039ef35f498d0273b39b86db4ed5d6ce4",

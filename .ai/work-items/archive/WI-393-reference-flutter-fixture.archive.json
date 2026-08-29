@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T10:08:03Z",
+  "files": {
+    "approachDigest": "sha256:cdb476749ec6c2bd6b9f1e75e397994dc6d1b4ea176fd7e5c4244bd3c56fbd35",
+    "approachPath": ".ai/work-items/archive/WI-393-reference-flutter-fixture.approach.json",
+    "contractDigest": "sha256:d81c4dd65a9de07be24c822c160bde774e731e1b6ea5bbebd2f2d230b57657b4",
+    "contractPath": ".ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json",
+    "eventsDigest": "sha256:ae90442913fcd2259debddab3c991c733b1956da6cce361a309eead70b977000",
+    "eventsPath": ".ai/work-items/archive/WI-393-reference-flutter-fixture.events.jsonl",
+    "outcomeDigest": "sha256:e0113f33b687546ff3f8a1b2e6d2b64b0b594716d3df1c05acada62ee33c623f",
+    "outcomePath": ".ai/work-items/archive/WI-393-reference-flutter-fixture.outcome.json",
+    "summaryDigest": "sha256:4d9c3e446d8df923e42c46f49ffeb9b2a034fffe399a54becb4d4ebe5c517da2",
+    "summaryPath": ".ai/work-items/archive/WI-393-reference-flutter-fixture.summary.json",
+    "taskReportDigest": "sha256:1a99b8451b5f1adf63576c8b53376d3a7693944fd88d7880973dfefc171b0d8e",
+    "taskReportMarkdownDigest": "sha256:13d0633e5014d3901ed6b7fc2dbf78b1afc9e86b47141daca5acdcd530e3ea0c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-393-reference-flutter-fixture.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-393-reference-flutter-fixture.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-393-reference-flutter-fixture"
+}
