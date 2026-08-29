@@ -4,19 +4,25 @@
     ".ai/work-items/active/WI-392-reference-android-fixture.summary.json"
   ],
   "checkpointAt": "2026-08-29T09:32:36Z",
-  "checkpointContractDigest": "sha256:f59e7240597cd99c0685c15c273ead24c43af348a4ec81742b800fa3871df986",
+  "checkpointContractDigest": "sha256:9d90b89f8eb55478efc4ba44cc0d68ae3e241accd2e51ada95e5784d83914e81",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:704c8846c40e3ee2d588e8ad33bda0be2b61bc5fa58e4b2864e80634cc6a708c",
+  "checkpointRepositorySnapshotDigest": "sha256:87ec2df8469549e1318fcd167c5ccb83fe3d25ce89aeefd58c5f03165469eb2d",
   "createdAt": "2026-08-29T09:32:02Z",
   "mode": "docs",
-  "preflightAt": "2026-08-29T09:32:28Z",
-  "preflightContractDigest": "sha256:f59e7240597cd99c0685c15c273ead24c43af348a4ec81742b800fa3871df986",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:704c8846c40e3ee2d588e8ad33bda0be2b61bc5fa58e4b2864e80634cc6a708c",
-  "preflightState": "yellow",
+  "preflightAt": "2026-08-29T09:41:16Z",
+  "preflightContractDigest": "sha256:9d90b89f8eb55478efc4ba44cc0d68ae3e241accd2e51ada95e5784d83914e81",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:87ec2df8469549e1318fcd167c5ccb83fe3d25ce89aeefd58c5f03165469eb2d",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-29T09:32:36Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T09:41:24Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-392-reference-android-fixture"
 }
