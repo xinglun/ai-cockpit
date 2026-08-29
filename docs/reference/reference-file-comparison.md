@@ -123,7 +123,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=316 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=489 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=320 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=485 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 316 `implemented-different-by-design`, one
@@ -1102,4 +1102,28 @@ the reference fixture's Gradle files, SDK installation, and installer behavior
 are not copied. The ledger after WI-392 contains 4,262 `generated-history`,
 316 `implemented-different-by-design`, one `implemented-equivalent`, four
 `not-applicable`, 47 `reference-only`, and 489 `deferred-next-batch` records;
+`migrate-gap` remains zero.
+
+## WI-393 — Flutter fixture adaptation
+
+WI-393 compares the four pinned Flutter fixture files one by one at source
+commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`. Dart source and test
+semantics are mapped to adopter-owned paths and commands; fixture and package
+metadata are mapped to Project Profile/Observer facts with explicit unknown
+boundaries.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `examples/fixtures/flutter-app/fixture.json` | implemented-different-by-design | `docs/reference/flutter-fixture-adaptation.md` maps project type, stack, toolchain, platforms, and safe/test paths to bounded Profile/Contract facts. `installerStack` is not a Runtime installation contract. |
+| `examples/fixtures/flutter-app/lib/main.dart` | implemented-different-by-design | The `greeting()` source path is adopter-owned Contract scope; Dart execution remains owner/provider-owned and is not inferred by the Runtime. |
+| `examples/fixtures/flutter-app/pubspec.yaml` | implemented-different-by-design | Package name and Dart SDK range are observable metadata; SDK, dependency, network, and lockfile readiness remain Unknown until evidence exists. |
+| `examples/fixtures/flutter-app/test/widget_test.dart` | implemented-different-by-design | The `flutter_test` assertion maps to an owner-confirmed provider command; the file alone does not prove SDK, platform runner, plugin, or hosted-CI readiness. |
+
+This is semantic/documentation parity, not Flutter toolchain support, build
+execution, or source JSON-wire compatibility. Installation intentionally uses
+one shared immutable Runtime outside each adopter plus explicit `attach --repo`;
+Flutter SDK/package installation and the reference install implementation are
+not copied. The ledger after WI-393 contains 4,262 `generated-history`, 320
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 47 `reference-only`, and 485 `deferred-next-batch` records;
 `migrate-gap` remains zero.

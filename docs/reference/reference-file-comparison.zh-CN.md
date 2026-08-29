@@ -103,7 +103,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=316 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=489 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=320 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=485 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、316 条 `implemented-different-by-design`、1 条
@@ -867,3 +867,22 @@ Profile/Observer 事实，同时明确 Unknown 边界。
 行为不复制。WI-392 后清单为 4,262 个 `generated-history`、316 个 `implemented-different-by-design`、1 个
 `implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 489 个 `deferred-next-batch`；
 `migrate-gap` 仍为零。
+
+## WI-393：Flutter fixture 适配
+
+WI-393 在固定源提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较四个 Flutter fixture 文件。
+Dart 源码和测试语义映射到 adopter 自己的路径与命令；fixture 和包元数据映射为 Project Profile/Observer
+事实，同时明确 Unknown 边界。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `examples/fixtures/flutter-app/fixture.json` | 有意采用不同实现 | `docs/reference/flutter-fixture-adaptation.zh-CN.md` 将项目类型、stack、toolchain、platform 和安全/测试路径映射为有界 Profile/Contract 事实。`installerStack` 不是 Runtime 安装契约。 |
+| `examples/fixtures/flutter-app/lib/main.dart` | 有意采用不同实现 | `greeting()` 源路径属于 adopter 的 Contract scope；Dart 执行由所有者/Provider 负责，Runtime 不推断。 |
+| `examples/fixtures/flutter-app/pubspec.yaml` | 有意采用不同实现 | 包名称和 Dart SDK 范围是可观察元数据；SDK、依赖、网络和 lockfile 就绪状态在证据前保持 Unknown。 |
+| `examples/fixtures/flutter-app/test/widget_test.dart` | 有意采用不同实现 | `flutter_test` 断言映射为所有者确认的 Provider 命令；文件本身不能证明 SDK、平台 runner、插件或托管 CI 就绪。 |
+
+这是语义/文档对等，不是 Flutter 工具链支持、构建执行或源 JSON wire 兼容。安装有意采用每个 adopter
+之外的一份不可变共享 Runtime，并显式 `attach --repo`；Flutter SDK/包安装和参考源安装实现不复制。WI-393
+后清单为 4,262 个 `generated-history`、320 个 `implemented-different-by-design`、1 个
+`implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 485 个
+`deferred-next-batch`；`migrate-gap` 仍为零。

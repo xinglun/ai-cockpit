@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=316 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=489 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=320 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=485 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、316 `implemented-different-by-design`、1
@@ -910,3 +910,16 @@ WI-392 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の A
 | `examples/fixtures/android-app/settings.gradle.kts` | implemented-different-by-design | Gradle repository/module topology を bounded context とし、dependency、SDK、credential、network、hosted-CI readiness は evidence まで Unknown です。 |
 
 これは semantic/documentation parity であり、Android toolchain support、build execution、source JSON-wire compatibility ではありません。Install は adopter 外部の immutable shared Runtime 一つと明示的な `attach --repo` を使い、fixture の Gradle file、SDK install、installer behavior はコピーしません。WI-392 後の ledger は 4,262 `generated-history`、316 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、489 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-393 — Flutter fixture adaptation
+
+WI-393 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の Flutter fixture 4 ファイルを一つずつ比較します。Dart source/test の semantic は adopter-owned path と command に対応付け、fixture と package metadata は Project Profile/Observer fact として bounded に扱います。
+
+| Pinned reference path | Classification | Rust-native counterpart と boundary |
+| --- | --- | --- |
+| `examples/fixtures/flutter-app/fixture.json` | implemented-different-by-design | `docs/reference/flutter-fixture-adaptation.ja.md` が project type、stack、toolchain、platform、safe/test path を bounded な Profile/Contract fact に対応付けます。`installerStack` は Runtime install contract ではありません。 |
+| `examples/fixtures/flutter-app/lib/main.dart` | implemented-different-by-design | `greeting()` の source path は adopter の Contract scope です。Dart 実行は owner/provider の責任であり、Runtime は推測しません。 |
+| `examples/fixtures/flutter-app/pubspec.yaml` | implemented-different-by-design | package name と Dart SDK range は観測可能な metadata です。SDK、dependency、network、lockfile readiness は evidence まで Unknown です。 |
+| `examples/fixtures/flutter-app/test/widget_test.dart` | implemented-different-by-design | `flutter_test` assertion を owner-confirmed provider command に対応付けます。file だけでは SDK、platform runner、plugin、hosted CI readiness を証明しません。 |
+
+これは semantic/documentation parity であり、Flutter toolchain support、build execution、source JSON-wire compatibility ではありません。Install は adopter 外部の immutable shared Runtime 一つと明示的な `attach --repo` を使い、Flutter SDK/package install と reference installer implementation はコピーしません。WI-393 後の ledger は 4,262 `generated-history`、320 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、485 `deferred-next-batch`、`migrate-gap` は 0 です。
