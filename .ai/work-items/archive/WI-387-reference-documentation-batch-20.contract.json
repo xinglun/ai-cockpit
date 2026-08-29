@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "四个 pinned reference 文件均在 e5acb677 上逐个读取并记录语义结论",
+    "每条 inventory 记录分类明确且 migrate-gap 保持为零",
+    "comparison parity 与 Work Item 三语内容同步并说明对象工程继承边界",
+    "不复制源命令或历史治理真值，Rust-native 对应与 non-claims 明确",
+    "文档验收 inventory consistency governance gate 与 installed Runtime verification 全部通过"
+  ],
+  "authority": "authorized",
+  "baseRevision": "dd7b07fae2fdace7c6e06467dac0c1ee0b506c66",
+  "createdAt": "2026-08-29T07:20:45Z",
+  "goal": "完成四个 pinned reference 文件的语义对比，更新三语 comparison/parity/inventory 与 Work Item 记录，不复制 V1 命令或历史治理真值。",
+  "intent": "逐个比对参考源安全注入边界与供应链文档，补齐 Rust-native 语义映射和对象工程继承说明，避免仅因文件缺失而遗漏能力。",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime code or protocol changes",
+    "Copying source Python Make provider configuration or historical evidence",
+    "Release adopter CI and architecture refactors"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ec79c4685a19cad1de7c30e495b28af810e1f6ecd690625e98f5c808f36b8640",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-387-reference-documentation-batch-20",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/351",
+    "worktree": "/private/tmp/ai-cockpit-wi387-reference-documentation-batch-20"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-387-reference-documentation-batch-20.md",
+    "docs/work-items/WI-387-reference-documentation-batch-20.zh-CN.md",
+    "docs/work-items/WI-387-reference-documentation-batch-20.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-387-reference-documentation-batch-20"
+}
