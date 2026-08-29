@@ -9,9 +9,13 @@ audience:
   - contributor
   - maintainer
 authority: canonical
-status: in_progress
+status: implemented
 sourceCommit: e5acb677da6621004d96f0ef353c58fe8d3acfbf
 lastVerifiedBy: WI-393-reference-flutter-fixture
+terminalArchive: .ai/work-items/archive/WI-393-reference-flutter-fixture.contract.json
+terminalVerification: .ai/evidence/WI-393-reference-flutter-fixture.verification.json
+terminalFinalization: .ai/decisions/WI-393-reference-flutter-fixture.finalize.json
+terminalDecision: .ai/decisions/WI-393-reference-flutter-fixture.close.json
 ---
 
 # WI-393：参考 Flutter fixture 适配
