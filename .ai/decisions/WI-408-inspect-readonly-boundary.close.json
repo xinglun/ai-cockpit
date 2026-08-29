@@ -1,0 +1,133 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7d5898d1f269e4d6fbfe3cfda07f07363e8bc7536610b5bcd4ce7775e04e4d",
+      "workItemId": "WI-408-inspect-readonly-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json",
+            ".ai/decisions/WI-408-inspect-readonly-boundary.finalize.json",
+            ".ai/work-items/archive/WI-408-inspect-readonly-boundary.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via reviewed-pr-hosted-checks-and-post-merge-cleanup at 2026-08-30T08:35:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-408-inspect-readonly-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-408-inspect-readonly-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the work-item inspect command a truthful read-only projection and document its write boundary for adopters."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-408-inspect-readonly-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-408-inspect-readonly-boundary"
+  },
+  "finalReportDigest": "sha256:42ad06b6c93cd596bf8513a726f2835b39371eecd3a089d2809f37708a354321",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:613ebe525aadb291e0d999dc2274f7febe05e92683564c315f297176c5ba214f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-408-inspect-readonly-boundary.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks-and-post-merge-cleanup",
+    "decidedAt": "2026-08-30T08:35:00+09:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-408-inspect-readonly-boundary.verification.json",
+      ".ai/decisions/WI-408-inspect-readonly-boundary.finalize.json",
+      ".ai/work-items/archive/WI-408-inspect-readonly-boundary.archive.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "PR #373 passed all hosted checks, merged as 95bdf51c018a63ba177bbaa32f59efbc48f8487d, and the exact branch/worktree cleanup was verified.",
+    "resumeCondition": "继续工作前必须从最新 origin/main 创建新的 Work Item、专用分支和工作树，并重新执行 inspect/status/doctor/preflight。"
+  },
+  "timestamp": "2026-08-29T23:27:19Z",
+  "workItemId": "WI-408-inspect-readonly-boundary"
+}

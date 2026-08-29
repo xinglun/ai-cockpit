@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "28728caac870f60c78165441b05e661b3d195ec3",
+    "name": "codex/wi-408-inspect-readonly-boundary",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5d997707f17a4550e8b68376e0d3d97be6afa3d96601edcb81793a6363786c49",
+  "operationId": "github-pr-373-delete-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e9ac8793f78c059d21ba8c7bf6e3b6804a920fd4",
+    "headRevision": "28728caac870f60c78165441b05e661b3d195ec3",
+    "mergeCommit": "95bdf51c018a63ba177bbaa32f59efbc48f8487d",
+    "number": 373,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/373"
+  },
+  "reason": "PR #373 passed all hosted checks and merged as 95bdf51c018a63ba177bbaa32f59efbc48f8487d; the exact remote branch and dedicated worktree were removed after clean-state verification.",
+  "receiptId": "ai-cockpit-WI-408-inspect-readonly-boundary-deleted-20260830",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-408-inspect-readonly-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/373",
+    "worktree": "/private/tmp/ai-cockpit-wi408-inspect-readonly-boundary"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8f32216afd448a98ec41dd0cda0dd4c76cdb68ac3af435826d305ac1c3074f79",
+  "runtimeVersion": "0.2.40",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T08:30:00+09:00",
+  "workItemId": "WI-408-inspect-readonly-boundary",
+  "worktree": {
+    "branch": "codex/wi-408-inspect-readonly-boundary",
+    "headRevision": "28728caac870f60c78165441b05e661b3d195ec3",
+    "path": "/private/tmp/ai-cockpit-wi408-inspect-readonly-boundary",
+    "worktreeId": "WI-408-inspect-readonly-boundary"
+  }
+}
