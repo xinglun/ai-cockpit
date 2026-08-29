@@ -75,6 +75,14 @@ fn input() -> VerificationContextInput {
     }
 }
 
+fn successful_command() -> (&'static str, Vec<String>) {
+    if cfg!(windows) {
+        ("cmd.exe", vec!["/C".into(), "exit".into(), "0".into()])
+    } else {
+        ("true", Vec::new())
+    }
+}
+
 fn authorized_context(
     root: &Path,
     snapshot: &cockpit_git::RepositorySnapshot,
@@ -192,11 +200,12 @@ fn governance_only_receipts_do_not_invalidate_source_content_identity() {
 fn profile_authorized_verification_reuses_exact_receipt_without_source_changes() {
     let root = repository("hot-reuse", true);
     cockpit_repository::attach(&root).expect("attach");
-    cockpit_repository::confirm_profile_update(&root, "true", &[]).expect("confirm profile");
+    let (program, args) = successful_command();
+    cockpit_repository::confirm_profile_update(&root, program, &args).expect("confirm profile");
     let request = RepositoryVerificationRequest {
         node_id: "project-command-0".into(),
-        program: "true".into(),
-        args: Vec::new(),
+        program: program.into(),
+        args,
         scope: vec!["**".into()],
         stage: "task".into(),
         runner: "local".into(),
