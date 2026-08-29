@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:43c1e369573ef132b79467b8edc07cf48e46185fc8cec45ee650138fb09843fc",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "072b58e8a076297bf7a5900966f5900c11676a42",
+      "name": "codex/wi-387-reference-documentation-batch-20",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:1dd1efb51cd6455505b6f910f50f28955e9ce8cd6f9293290572d0b30316e2cb",
+    "operationId": "github-pr-351-merge-cleanup-20260829",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "dd7b07fae2fdace7c6e06467dac0c1ee0b506c66",
+      "headRevision": "072b58e8a076297bf7a5900966f5900c11676a42",
+      "mergeCommit": "7c09dfbc1b1cf4491bd04c8aeace5a031f7aec90",
+      "number": 351,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/351"
+    },
+    "reason": "PR #351 merged and the exact WI-387 branch and worktree were removed after the retained finalization receipt was verified.",
+    "receiptId": "ai-cockpit-WI-387-reference-documentation-batch-20-deleted-20260829",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-387-reference-documentation-batch-20",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/351",
+      "worktree": "/private/tmp/ai-cockpit-wi387-reference-documentation-batch-20"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+    "runtimeVersion": "0.2.39",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-29T07:36:33Z",
+    "workItemId": "WI-387-reference-documentation-batch-20",
+    "worktree": {
+      "branch": "codex/wi-387-reference-documentation-batch-20",
+      "headRevision": "072b58e8a076297bf7a5900966f5900c11676a42",
+      "path": "/private/tmp/ai-cockpit-wi387-reference-documentation-batch-20",
+      "worktreeId": "WI-387-reference-documentation-batch-20"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-387-reference-documentation-batch-20-resources-deleted"
+}

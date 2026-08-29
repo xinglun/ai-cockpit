@@ -1,0 +1,141 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bae252956cb605448ca45bbd37786b626569e885023469c2af1ea93f7fdd209c",
+      "workItemId": "WI-387-reference-documentation-batch-20"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-387-reference-documentation-batch-20.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-387-reference-documentation-batch-20.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-387-reference-documentation-batch-20.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-387-reference-documentation-batch-20.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json",
+            ".ai/decisions/WI-387-reference-documentation-batch-20.finalize.json",
+            ".ai/decisions/WI-387-reference-documentation-batch-20.finalize.edfed06a65d511b9c23bddb70acd78685adbb2caefa38024af11721e276e4839.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-29T07:37:12Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-387-reference-documentation-batch-20.contract.json"
+          ],
+          "inference": false,
+          "text": "完成四个 pinned reference 文件的语义对比，更新三语 comparison/parity/inventory 与 Work Item 记录，不复制 V1 命令或历史治理真值。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-387-reference-documentation-batch-20.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-387-reference-documentation-batch-20"
+  },
+  "finalReportDigest": "sha256:3f47a44a7860cfc3628081e8a1fdaa99268764ff14ff6a03ca8ce5fd229ddb8b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:4cd61076e119b38da4f47f2e2a70c90bca9428581dd80d582756f0ae0f60f319",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-387-reference-documentation-batch-20.finalize.edfed06a65d511b9c23bddb70acd78685adbb2caefa38024af11721e276e4839.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-29T07:37:12Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-387-reference-documentation-batch-20.verification.json",
+      ".ai/decisions/WI-387-reference-documentation-batch-20.finalize.json",
+      ".ai/decisions/WI-387-reference-documentation-batch-20.finalize.edfed06a65d511b9c23bddb70acd78685adbb2caefa38024af11721e276e4839.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "Reviewed PR #351 merged with all hosted checks passed; documentation comparison batch is complete and resource finalization is verified.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-29T07:37:10Z",
+  "workItemId": "WI-387-reference-documentation-batch-20"
+}
