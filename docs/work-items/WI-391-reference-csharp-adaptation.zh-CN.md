@@ -8,9 +8,13 @@ audience:
   - contributor
   - maintainer
 authority: canonical
-status: in_progress
+status: implemented
 sourceCommit: e5acb677da6621004d96f0ef353c58fe8d3acfbf
 lastVerifiedBy: WI-391-reference-csharp-adaptation
+terminalArchive: .ai/work-items/archive/WI-391-reference-csharp-adaptation.contract.json
+terminalVerification: .ai/evidence/WI-391-reference-csharp-adaptation.verification.json
+terminalFinalization: .ai/decisions/WI-391-reference-csharp-adaptation.finalize.daf3f48ceb9d6aa46efc7a12f2251b2013c5efbeb79a1ef6a96b38811edad407.json
+terminalDecision: .ai/decisions/WI-391-reference-csharp-adaptation.close.json
 ---
 
 # WI-391——C# 适配示例
