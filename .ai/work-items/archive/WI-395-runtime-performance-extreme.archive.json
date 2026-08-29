@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-29T12:14:01Z",
+  "files": {
+    "approachDigest": "sha256:6080e9aacdafa209dc74f32d6220c31f83a210869f47c0e54762b99911cccd0b",
+    "approachPath": ".ai/work-items/archive/WI-395-runtime-performance-extreme.approach.json",
+    "contractDigest": "sha256:a6936a70723a62c936778094afc6a3f068e54473a696a3fe29e5dfce07328f81",
+    "contractPath": ".ai/work-items/archive/WI-395-runtime-performance-extreme.contract.json",
+    "eventsDigest": "sha256:5982636c7b9bbc3e6324569ef3a0a7e1292b651e0341ca411b175158bb2a2323",
+    "eventsPath": ".ai/work-items/archive/WI-395-runtime-performance-extreme.events.jsonl",
+    "outcomeDigest": "sha256:6edf92d0ad72c52e2aada2e3077861a81cb4ec681f7b46fb72f7fcba8c7f3bf9",
+    "outcomePath": ".ai/work-items/archive/WI-395-runtime-performance-extreme.outcome.json",
+    "summaryDigest": "sha256:7287f3d06f9223d0f1ba973f432788a878691f038c06b7e68674bc8d62f75d5c",
+    "summaryPath": ".ai/work-items/archive/WI-395-runtime-performance-extreme.summary.json",
+    "taskReportDigest": "sha256:9efeba5436f8beeb9c49738b56366320eb1a1aa0114cfefc073252c6e5dd847a",
+    "taskReportMarkdownDigest": "sha256:c9fbdb425f8d1f0616aa165e78d5537f34d2c5721debeec4f91b8754dc515cd3",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-395-runtime-performance-extreme.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-395-runtime-performance-extreme.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-395-runtime-performance-extreme"
+}

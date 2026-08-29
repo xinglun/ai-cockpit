@@ -33,6 +33,15 @@ Performance と governance strength は別の次元です。`VerificationTier` �
 
 検出された Work Item command は standalone の auto-detected verification と同じ profile-authorized reuse path を使います。repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy identity がすべて一致した場合だけ reuse します。不一致または impact unknown の場合は宣言された command を実行し、その理由を記録します。reuse の範囲を暗黙に広げたり、必須 check を弱めたりしません。explicit custom command は常に fresh であり、将来 reuse する場合は明示的な custom-command reuse Contract が必要です。
 
+## Rust ネイティブ最適化の境界
+
+WI-395 は request-scoped status と Work Item 集約 status 投影の重複 snapshot を除去し、
+Git index の読み取り中に source-tree digest も取得し、リモート既定ブランチのメタデータを
+1 回の限定 Git クエリで解決し、中間結果を並べ替えるためだけの再帰的な再ソートも避けます。snapshot、identity、evidence、
+fail-closed の判定は変わりません。参照源のインストール手順はコピーせず、Runtime は
+マシン上で共有する外部 binary のままです。各 adopter は明示的な `--repo` と独立した
+`.ai/` 状態を使用します。
+
 ## Object project への継承
 
 Adopter repository は同じ identity-bound fixture と regression gate を使えますが、repository/Runtime identity はそれぞれ固有です。Shared Runtime は global budget/current project を保存せず、ある repository の timing が別 repository の Work Item を認可することもありません。

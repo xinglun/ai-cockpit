@@ -35,3 +35,10 @@ records the reason, while explicit custom commands remain fresh. Adopter
 acceptance must run the identical cold/warm sequence with the published binary
 and retain both repository and Runtime identities; local source builds are not
 valid acceptance evidence.
+
+WI-395's Rust-native optimization removes duplicate snapshot capture from
+aggregate Work Item status, captures the source-tree digest during the
+existing Git index read, resolves remote default metadata with one bounded
+query, and avoids repeated recursive sorting during observation. The
+optimization is request-scoped and identity-bound: it does
+not create a global repository cache or copy the reference install flow.

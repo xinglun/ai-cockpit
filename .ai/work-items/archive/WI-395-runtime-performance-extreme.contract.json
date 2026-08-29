@@ -1,0 +1,118 @@
+{
+  "acceptanceCriteria": [
+    "Capture a reproducible identity-bound baseline and candidate for status warm startup, medium repository observation, and one Work Item verification route; report samples, median, filesRead/filesHashed, gitCalls, executed/reused nodes, workers, and elapsedMs without claiming provider or enterprise performance.",
+    "Reduce measured Rust Runtime cost through request-scoped reuse, bounded memoization, or equivalent Rust-native changes while preserving repository isolation, snapshot identity, Contract semantics, required gates, evidence binding, and fail-closed behavior; a Git snapshot must not re-enumerate the same source tree for its derived digest.",
+    "The performance fixture reaches the documented status <50 ms and observation <100 ms targets on the declared local platform, or records an explicit bounded gap and fails the performance gate rather than weakening governance; no unmeasured speedup claim is accepted.",
+    "Repeated requests for the same repository snapshot reuse only matching identity-bound observations/verification results; changed or unknown inputs execute the declared checks and record the reason.",
+    "Independent Work Items may execute in parallel only with disjoint repository scopes and receive separate Work Item evidence receipts; no cross-Work-Item receipt or global current-repository state is introduced.",
+    "Performance regression, repository isolation, lifecycle, and full workspace tests pass; tri-language performance documentation states the installation boundary as shared external Runtime plus explicit --repo and does not copy reference installers, Make/Python, SDK, or V1 runtime behavior.",
+    "Adopter-facing performance guidance and acceptance steps are reproducible with the published/installed Runtime and preserve per-repository Runtime and evidence identities."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ebf446c64c2c1cc7dbe26237d67a2489aa5cae05",
+  "createdAt": "2026-08-29T10:44:22Z",
+  "goal": "Push Rust Runtime execution efficiency toward the measured limits without weakening governance or object-project inheritance.",
+  "intent": "Establish a measured, Rust-native performance optimization tranche for request-scoped status, observation, and verification reuse while preserving fail-closed governance and object-project inheritance.",
+  "mode": "code",
+  "outOfScope": [
+    "Changing verification truth, Outcome state/marker semantics, Contract authority, required evidence, or fail-closed decisions to obtain speed.",
+    "Removing required CI, Windows, V1 oracle, provider, security, or enterprise checks; adding environment-variable bypasses or global caches.",
+    "Copying or porting the reference installer, Make/Python runtime, SDK/toolchain installation, legacy wire schema, or business-project code.",
+    "Repository-global current project state, cross-repository cache sharing, release packaging, Homebrew, and the next reference-file parity batch.",
+    "A broad lib.rs architecture split or scheduler/dependency-graph redesign unless a measured bottleneck and a separately authorized bounded amendment are recorded."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e68cca710a6a005e1edefee9bc74a13d6745b78d6cd94008171314356be28f98",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-395-runtime-performance-extreme",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/359",
+    "worktree": "/private/tmp/ai-cockpit-wi395-runtime-performance-extreme"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Repeated status and observe requests for an unchanged repository snapshot meet the declared local budgets through identity-bound reuse without changing facts.",
+      "required": true,
+      "scenario": "warm status and observation",
+      "status": "unverified",
+      "verificationPlan": "Capture before/after samples with the performance fixture and verify snapshot, repository, Runtime, and profile identities for every reuse decision."
+    },
+    {
+      "evidence": [],
+      "expected": "A changed tree, Contract, policy, command, or unknown impact never reuses stale results and instead executes or stops with a stable reason.",
+      "required": true,
+      "scenario": "changed or unknown repository input",
+      "status": "unverified",
+      "verificationPlan": "Run mutation and unknown-impact regressions, inspect cost observations, and assert no stale evidence is accepted."
+    },
+    {
+      "evidence": [],
+      "expected": "Independent disjoint scopes may run concurrently with bounded workers while each Work Item retains a separate identity-bound receipt and repository state.",
+      "required": true,
+      "scenario": "parallel independent Work Items",
+      "status": "unverified",
+      "verificationPlan": "Exercise parallel verification/lifecycle tests across disjoint scopes and assert no cross-Work-Item or cross-repository receipt reuse."
+    },
+    {
+      "evidence": [],
+      "expected": "The installed/published Runtime applies the same measured reuse semantics to an adopter repository using explicit --repo, without copying installers, SDKs, or Runtime source.",
+      "required": true,
+      "scenario": "adopter inheritance and installation boundary",
+      "status": "unverified",
+      "verificationPlan": "Run the isolated adopter performance smoke with the published binary and retain Runtime/repository identity and isolation evidence."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs",
+    "crates/cockpit-repository/tests/evolution.rs",
+    "crates/cockpit-repository/tests/governance_signals.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/performance.rs",
+    "tests/performance/**",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.zh-CN.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/reference/performance-diagnosis.md",
+    "docs/reference/performance-diagnosis.zh-CN.md",
+    "docs/reference/performance-diagnosis.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-395-runtime-performance-extreme.md",
+    "docs/work-items/WI-395-runtime-performance-extreme.zh-CN.md",
+    "docs/work-items/WI-395-runtime-performance-extreme.ja.md"
+  ],
+  "sources": [
+    "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/docs/reference/governance-performance-budget.md",
+    "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/docs/reference/performance-diagnosis.md",
+    "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/tests/performance/README.md",
+    "Pinned reference performance semantics are advisory only; no installer or legacy runtime behavior is copied."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "cargo test --locked -p cockpit-cli --test performance -- --nocapture --test-threads=1",
+    "bash tests/performance/regression_gate_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "python3 tests/docs/work_item_status_consistency.py --repo /private/tmp/ai-cockpit-wi395-runtime-performance-extreme",
+    "python3 tests/ci/governance_integrity_gate.py --repo /private/tmp/ai-cockpit-wi395-runtime-performance-extreme --report /tmp/wi395-governance.json",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "workItemId": "WI-395-runtime-performance-extreme"
+}

@@ -222,6 +222,12 @@ pub struct RepositorySnapshot {
     pub dependency_fingerprint: String,
     pub files_read: usize,
     pub files_hashed: usize,
+    /// Source-only tree identity captured while reading the Git index. This
+    /// is an internal request-scoped optimization hint; it is intentionally
+    /// omitted from serialized snapshots so existing wire/digest semantics
+    /// remain unchanged.
+    #[serde(skip, default)]
+    pub source_tree_digest: Option<String>,
 }
 
 pub struct GitRepository {
@@ -408,6 +414,19 @@ impl GitRepository {
                 files_hashed += 1;
             }
         }
+        let mut source_tree_hasher = Sha256::new();
+        for line in tree.lines() {
+            let Some((_, path)) = line.split_once('\t') else {
+                continue;
+            };
+            if path == ".ai" || path.starts_with(".ai/") {
+                continue;
+            }
+            source_tree_hasher.update(path.as_bytes());
+            source_tree_hasher.update([0]);
+            source_tree_hasher.update(line.as_bytes());
+            source_tree_hasher.update([0]);
+        }
         Ok(RepositorySnapshot {
             root: self.root.clone(),
             git_root: self.root.clone(),
@@ -420,6 +439,7 @@ impl GitRepository {
             dependency_fingerprint: format!("sha256:{}", hex::encode(dependency_hasher.finalize())),
             files_read: files_read + changed_files_read,
             files_hashed: files_hashed + changed_files_hashed,
+            source_tree_digest: Some(digest(&source_tree_hasher.finalize())),
         })
     }
 

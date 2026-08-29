@@ -3261,14 +3261,26 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
             message: error.to_string(),
         })?;
     if profile.repository_id != config.repository_id
-        || config.repository_id != repository_id(&root).to_string()
+        || config.repository_id.parse::<Digest>().is_err()
     {
         return Err(ObserverError::State {
             path: config_path,
             message: "repository identity does not match protocol state".into(),
         });
     }
-    let readiness = repository_readiness(&root)?;
+    // Capture one immutable snapshot for the complete status projection.  The
+    // readiness projection used to capture a second snapshot, duplicating
+    // four Git subprocesses on every `status` request.
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let readiness = repository_readiness_from_snapshot(&root, &snapshot, &config.repository_id)?;
     Ok(RepositoryStatus {
         protocol_version: config.protocol_version,
         repository_schema_version: config.repository_schema_version,
@@ -3300,12 +3312,22 @@ fn repository_readiness(root: &Path) -> Result<RepositoryReadiness, ObserverErro
         path: root.clone(),
         message: error.to_string(),
     })?;
-    let current_branch = git_text(&root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
+    let expected_repository_id = repository_id(&root).to_string();
+    repository_readiness_from_snapshot(&root, &snapshot, &expected_repository_id)
+}
+
+fn repository_readiness_from_snapshot(
+    root: &Path,
+    snapshot: &RepositorySnapshot,
+    expected_repository_id: &str,
+) -> Result<RepositoryReadiness, ObserverError> {
+    let current_branch = git_text(root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
         .filter(|value| !value.is_empty());
     let current_revision = snapshot.head.clone();
-    let default_base = discover_default_base(&root);
-    let dirty_paths = non_governance_changed_paths(&snapshot);
-    let unclosed_archived_work_items = unclosed_archived_work_items(&root)?;
+    let default_base = discover_default_base(root);
+    let dirty_paths = non_governance_changed_paths(snapshot);
+    let unclosed_archived_work_items =
+        unclosed_archived_work_items_with_id(root, expected_repository_id)?;
     let active_work_items = count_suffix(&root.join(".ai/work-items/active"), ".contract.json");
 
     let mut blockers = Vec::new();
@@ -3375,15 +3397,46 @@ struct DefaultBaseRef {
 /// A missing or ambiguous symbolic ref is intentionally unknown; guessing
 /// `main`/`master` would turn an unproven base into authorization.
 fn discover_default_base(root: &Path) -> Option<DefaultBaseRef> {
-    let remotes = git_text(root, &["remote"])?;
     let mut candidates = Vec::new();
-    for remote in remotes
-        .lines()
-        .map(str::trim)
-        .filter(|value| !value.is_empty())
-    {
-        let symbolic_path = format!("refs/remotes/{remote}/HEAD");
-        let Some(symbolic) = git_text(root, &["symbolic-ref", "--quiet", &symbolic_path]) else {
+    // Resolve every remote HEAD in one Git invocation. The previous remote →
+    // symbolic-ref → rev-parse loop spawned three subprocesses per remote on
+    // every readiness/status request. An ambiguous result remains unknown.
+    let refs = git_text(
+        root,
+        &[
+            "for-each-ref",
+            "--format=%(refname)%00%(symref)%00%(objectname)",
+            "refs/remotes/*/HEAD",
+        ],
+    )?;
+    for line in refs.lines() {
+        let mut fields = line.split('\0');
+        let Some(refname) = fields
+            .next()
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+        else {
+            continue;
+        };
+        let Some(remote) = refname
+            .strip_prefix("refs/remotes/")
+            .and_then(|value| value.strip_suffix("/HEAD"))
+            .filter(|value| !value.is_empty())
+        else {
+            continue;
+        };
+        let Some(symbolic) = fields
+            .next()
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+        else {
+            continue;
+        };
+        let Some(revision) = fields
+            .next()
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+        else {
             continue;
         };
         let prefix = format!("refs/remotes/{remote}/");
@@ -3393,16 +3446,10 @@ fn discover_default_base(root: &Path) -> Option<DefaultBaseRef> {
         if branch.is_empty() {
             continue;
         }
-        let Some(revision) = git_text(root, &["rev-parse", "--verify", &symbolic]) else {
-            continue;
-        };
-        if revision.is_empty() {
-            continue;
-        }
         candidates.push(DefaultBaseRef {
             remote: remote.into(),
             branch: branch.into(),
-            revision,
+            revision: revision.into(),
         });
     }
     if candidates.len() == 1 {
@@ -3463,8 +3510,15 @@ fn non_governance_changed_paths(snapshot: &RepositorySnapshot) -> Vec<String> {
 }
 
 fn unclosed_archived_work_items(root: &Path) -> Result<Vec<String>, ObserverError> {
-    let archive = root.join(".ai/work-items/archive");
     let expected_repository_id = repository_id(root).to_string();
+    unclosed_archived_work_items_with_id(root, &expected_repository_id)
+}
+
+fn unclosed_archived_work_items_with_id(
+    root: &Path,
+    expected_repository_id: &str,
+) -> Result<Vec<String>, ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
     let entries = match fs::read_dir(&archive) {
         Ok(entries) => entries,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
@@ -3494,7 +3548,7 @@ fn unclosed_archived_work_items(root: &Path) -> Result<Vec<String>, ObserverErro
         .into_iter()
         .filter(|work_item_id| {
             archive_requires_close(root, work_item_id)
-                && !close_decision_is_valid_for_status(root, work_item_id, &expected_repository_id)
+                && !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id)
         })
         .collect::<Vec<_>>();
     pending.sort();
@@ -6933,6 +6987,12 @@ fn delegated_evidence_satisfies(
 }
 
 fn source_tree_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverError> {
+    if let Some(captured) = &snapshot.source_tree_digest {
+        return captured.parse().map_err(|_| ObserverError::State {
+            path: snapshot.git_root.clone(),
+            message: "captured source tree digest is invalid".into(),
+        });
+    }
     let output = Command::new("git")
         .arg("-C")
         .arg(&snapshot.git_root)
@@ -11117,6 +11177,19 @@ pub fn work_item_status_snapshot_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemStatusSnapshot, ObserverError> {
+    work_item_status_snapshot_with_snapshot(root, work_item_id, runtime, None)
+}
+
+/// Project one Work Item using a snapshot captured by the caller.  The
+/// aggregate status path uses this to avoid recapturing the same Git snapshot
+/// once per Work Item; the snapshot and its digest remain request-scoped and
+/// are never shared across repositories or processes.
+fn work_item_status_snapshot_with_snapshot(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    snapshot_override: Option<(&RepositorySnapshot, &Digest)>,
+) -> Result<WorkItemStatusSnapshot, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -11153,17 +11226,25 @@ pub fn work_item_status_snapshot_with_runtime(
         .resource_context
         .as_ref()
         .map(|context| context.branch.clone());
-    let git =
-        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+    let mut _owned_snapshot = None;
+    let snapshot_digest_value;
+    if let Some((_, provided_digest)) = snapshot_override {
+        snapshot_digest_value = provided_digest.clone();
+    } else {
+        let git =
+            cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?;
+        let captured_snapshot = git.snapshot().map_err(|error| ObserverError::State {
             path: root.clone(),
             message: error.to_string(),
         })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
-    let snapshot_digest = snapshot_digest(&snapshot)?;
-    let outcome = outcome_v2_with_runtime(&root, work_item_id, runtime)?;
+        snapshot_digest_value = snapshot_digest(&captured_snapshot)?;
+        _owned_snapshot = Some(captured_snapshot);
+    }
+    let outcome =
+        outcome_v2_internal_with_snapshot(&root, work_item_id, Some(runtime), snapshot_override)?;
     let summary_path = contract_path
         .parent()
         .unwrap_or(&active)
@@ -11336,7 +11417,7 @@ pub fn work_item_status_snapshot_with_runtime(
     }
     let mut source_digests = BTreeMap::new();
     source_digests.insert("contract".into(), contract_digest(&contract_path)?);
-    source_digests.insert("repositorySnapshot".into(), snapshot_digest.clone());
+    source_digests.insert("repositorySnapshot".into(), snapshot_digest_value.clone());
     if summary_path.is_file()
         && let Ok(digest) = cockpit_protocol::digest_json(&summary)
     {
@@ -11489,7 +11570,7 @@ pub fn work_item_status_snapshot_with_runtime(
         "sourceDigests": source_digests,
         "unknowns": unknowns,
         "diagnostics": diagnostics,
-        "snapshotDigest": snapshot_digest,
+        "snapshotDigest": snapshot_digest_value,
         "evidenceFreshness": evidence_freshness,
         "lastVerificationAt": last_verification_at,
         "updatedAt": updated_at,
@@ -11523,7 +11604,7 @@ pub fn work_item_status_snapshot_with_runtime(
         source_digests,
         unknowns,
         diagnostics,
-        snapshot_digest,
+        snapshot_digest: snapshot_digest_value,
         evidence_freshness,
         last_verification_at,
         updated_at,
@@ -11595,7 +11676,12 @@ pub fn work_item_status_index_with_runtime(
     ]);
     let mut items = Vec::with_capacity(work_item_ids.len());
     for work_item_id in work_item_ids.keys() {
-        let entry = match work_item_status_snapshot_with_runtime(&root, work_item_id, runtime) {
+        let entry = match work_item_status_snapshot_with_snapshot(
+            &root,
+            work_item_id,
+            runtime,
+            Some((&snapshot, &repository_snapshot_digest)),
+        ) {
             Ok(status) => {
                 let status_digest = status.status_digest.clone();
                 WorkItemStatusIndexEntry {
@@ -12565,6 +12651,15 @@ fn outcome_v2_internal(
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<OutcomeV2, ObserverError> {
+    outcome_v2_internal_with_snapshot(root, work_item_id, current_runtime, None)
+}
+
+fn outcome_v2_internal_with_snapshot(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+    snapshot_override: Option<(&RepositorySnapshot, &Digest)>,
+) -> Result<OutcomeV2, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -12583,15 +12678,24 @@ fn outcome_v2_internal(
         message: "work item contract not found".into(),
     })?;
     let contract = read_contract(&contract_path)?;
-    let git =
-        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+    let mut _owned_snapshot = None;
+    let snapshot;
+    let provided_snapshot_digest = snapshot_override.map(|(_, digest)| digest.clone());
+    if let Some((provided_snapshot, _)) = snapshot_override {
+        snapshot = provided_snapshot;
+    } else {
+        let git =
+            cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?;
+        let captured_snapshot = git.snapshot().map_err(|error| ObserverError::State {
             path: root.clone(),
             message: error.to_string(),
         })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
+        _owned_snapshot = Some(captured_snapshot);
+        snapshot = _owned_snapshot.as_ref().expect("captured snapshot");
+    }
     let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
     let archived = contract_path
         .parent()
@@ -12603,9 +12707,9 @@ fn outcome_v2_internal(
     // Active Work Items retain the strict foreign-runtime red path below.
     let historical_runtime = archived
         && current_runtime.is_some()
-        && verification_evidence_state(&root, &contract, &snapshot, true, None)?
+        && verification_evidence_state(&root, &contract, snapshot, true, None)?
             == EvidenceState::Complete
-        && verification_evidence_state(&root, &contract, &snapshot, true, current_runtime)?
+        && verification_evidence_state(&root, &contract, snapshot, true, current_runtime)?
             != EvidenceState::Complete;
     let historical = legacy || historical_runtime;
     let evidence_state = if historical {
@@ -12614,7 +12718,7 @@ fn outcome_v2_internal(
         Some(verification_evidence_state(
             &root,
             &contract,
-            &snapshot,
+            snapshot,
             archived,
             current_runtime,
         )?)
@@ -12835,7 +12939,7 @@ fn outcome_v2_internal(
         contract_path: &contract_path,
         contract: &contract,
         summary: summary_value.as_ref(),
-        snapshot_digest: snapshot_digest(&snapshot).ok(),
+        snapshot_digest: provided_snapshot_digest.or_else(|| snapshot_digest(snapshot).ok()),
         state: state.clone(),
         decision_state: decision_state.clone(),
         summary_text: summary,
@@ -14544,6 +14648,10 @@ pub fn observe(
     }
     let mut files = Vec::new();
     collect_files(&canonical_root, &canonical_root, &mut files)?;
+    // Sort once after the walk.  Sorting at every recursive directory level
+    // repeatedly reorders the same prefix and becomes quadratic for large
+    // repositories while producing the same deterministic order.
+    files.sort_unstable();
     let mut languages = Vec::new();
     let mut build_systems = Vec::new();
     let mut test_roots = Vec::new();
@@ -14842,6 +14950,5 @@ fn collect_files(
             output.push(path.strip_prefix(root).unwrap_or(&path).to_path_buf());
         }
     }
-    output.sort();
     Ok(())
 }
