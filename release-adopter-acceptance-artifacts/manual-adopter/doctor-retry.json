@@ -1,0 +1,18 @@
+{
+  "compatibility": {
+    "protocolVersion": 1,
+    "repositorySchemaVersion": 2,
+    "requiredRepositorySchemaVersion": 2,
+    "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+    "runtimeVersion": "0.2.39",
+    "safeActions": [],
+    "state": "COMPATIBLE"
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:837b9b954de0eab7c76d0dcda6afd967fa77f3a6f10fb3502ad5ffb4830e5e80",
+  "repositorySchemaVersion": 2,
+  "runtimeCodeInRepository": false,
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "state": "ok"
+}

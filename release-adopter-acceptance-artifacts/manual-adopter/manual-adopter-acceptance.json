@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "acceptance": "manual-fixed-adopter",
+  "releasePublished": true,
+  "tag": "v0.2.39",
+  "runtimeVersion": "0.2.39",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+  "firstAdopterSmoke": {
+    "workItemId": "first-adopter-smoke",
+    "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+    "state": "not_ready",
+    "humanInputRequired": [
+      "intent",
+      "scope",
+      "acceptanceCriteria",
+      "authority"
+    ]
+  },
+  "lifecycle": {
+    "workItemId": "manual-adopter-lifecycle",
+    "baseRevision": "d39129ad4ae09319918bcbfeb663ed198437e99f",
+    "verificationPassed": true,
+    "finishState": "finish_ready",
+    "archiveState": "archived",
+    "finalizeVerifyState": "verified",
+    "closeState": "closed",
+    "finalHead": "2b46767623b3db7e966aea9ae9667a80525fc195",
+    "humanDecision": "approved"
+  },
+  "isolation": {
+    "fixedPathRemoved": true,
+    "homeUnchanged": true,
+    "xdgUnchanged": true,
+    "tmpAndCargoContained": true
+  },
+  "diagnostics": {
+    "failedAttemptsRetained": true,
+    "passingTruthUsesFinalRetryOnly": true
+  },
+  "cleanupState": "passed"
+}

@@ -1,0 +1,48 @@
+Outcome: 🔴 Stop — manual-adopter-lifecycle
+Task Result
+
+What was completed
+- Verification evidence could not be confirmed or does not match this context; the outcome is stopped.
+- Acceptance criteria (Contract language)
+- cargo test passes for the adopter change
+
+Problems found
+- Verification evidence is invalid or does not match this Work Item/repository; stopped.
+- Failed gate: finish.lifecycle
+
+Stops triggered
+- Required verification evidence is not present; completion cannot be claimed.
+- Recovery condition: Repair the failed governance condition, complete fresh checks, and retry finish.
+
+Problems resolved
+- None
+
+Risks avoided
+- None
+
+Remaining risks
+- Remaining unknown: lifecycle_gate_failed
+- Remaining unknown: user_visible_benefit_not_declared
+- User-visible benefit is not declared by the Work Item owner.
+- lifecycle_gate_failed
+- user_visible_benefit_not_declared
+
+Unknowns
+- lifecycle_gate_failed
+- user_visible_benefit_not_declared
+
+Human decisions
+- None
+
+Verification
+- Stop: .ai/evidence/manual-adopter-lifecycle.verification.json
+
+Impact
+- User-visible benefit has not been declared.
+
+Next action
+- Repair the invalid evidence and verify again; remain stopped until then.
+
+Evidence
+- .ai/evidence/manual-adopter-lifecycle.verification.json
+finish work item: repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter/.ai/work-items/active/manual-adopter-lifecycle.summary.json: finish is invalid from state "finish_ready"; expected checkpointed

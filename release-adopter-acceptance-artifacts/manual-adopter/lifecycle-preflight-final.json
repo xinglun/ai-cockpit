@@ -1,0 +1,16 @@
+{
+  "state": "red",
+  "blockers": [
+    "evidence_contradictory"
+  ],
+  "unknowns": [],
+  "safe_actions": [
+    "stop_and_reconcile_evidence"
+  ],
+  "required_checks": [
+    "evidence_consistency"
+  ],
+  "authority": "authorized",
+  "outcome_state": "blocked",
+  "reviewState": "blocked"
+}

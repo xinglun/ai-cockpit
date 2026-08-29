@@ -1,0 +1,20 @@
+{
+  "contractDigest": "sha256:1e3991568d87400f72863722caf0f54957d921a78feede8d7deeb7c023916431",
+  "next": [
+    "archive",
+    "finalize",
+    "finalize-verify",
+    "close"
+  ],
+  "protocolVersion": 1,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-376-release-adopter-acceptance-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/340",
+    "worktree": "/private/tmp/ai-cockpit-wi376-final"
+  },
+  "state": "planned",
+  "workItemId": "WI-376-release-adopter-acceptance"
+}

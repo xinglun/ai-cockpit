@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-29T01:42:08Z",
+  "checkpointContractDigest": "sha256:9e2bc80cf1945e3cd921292a273e7d5f10cb1b3ecedb276f3969eb2c07689bf4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3ece7749a0f50d2ee21891af9637c60dfa35dd229afc075fa8249c324e796cb6",
+  "createdAt": "2026-08-29T01:40:27Z",
+  "mode": "implementation",
+  "preflightAt": "2026-08-29T01:46:42Z",
+  "preflightContractDigest": "sha256:9e2bc80cf1945e3cd921292a273e7d5f10cb1b3ecedb276f3969eb2c07689bf4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3ece7749a0f50d2ee21891af9637c60dfa35dd229afc075fa8249c324e796cb6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-29T01:46:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-376-release-adopter-acceptance"
+}

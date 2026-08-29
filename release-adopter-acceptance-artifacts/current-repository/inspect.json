@@ -1,0 +1,15 @@
+{
+  "changedPaths": [],
+  "dependencyFingerprint": "sha256:79bc8aefcc600281a76925209528751a20cd3baa4450590b71125d3dc108a2a0",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 2,
+  "filesRead": 2,
+  "gitCalls": 4,
+  "gitRoot": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+  "head": "b7ff4c729df4195d77b874ff9e3ab9b5bacd5691",
+  "protocolVersion": 1,
+  "repositoryRoot": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "treeDigest": "sha256:7d8748442e218e4199a48bb1b4cc715082d0d2921368b0a45c4b901cf0d59236"
+}

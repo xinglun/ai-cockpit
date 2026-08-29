@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kind": "manual_adopter_cleanup",
+  "state": "passed",
+  "paths": [
+    "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+    "/tmp/wi376-manual-adopter-acceptance",
+    "/tmp/wi376-manual-adopter-retry",
+    "/tmp/wi376-manual-adopter-final"
+  ],
+  "fixedAdopterRemoved": true,
+  "temporaryRootsRemoved": true,
+  "reason": "The fixed adopter and all exact retry roots were removed after evidence capture and finalization."
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-release-adopter-lifecycle",
+  "operationId": "delete-release-adopter-lifecycle",
+  "repositoryId": "sha256:895afaa62762696a13b02a90081fc6304ba21f5d17e7dfcd92739dbffa8bc636",
+  "workItemId": "release-adopter-lifecycle",
+  "runtimeVersion": "0.2.39",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "provider": "release-adopter-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.39/release-adopter-lifecycle",
+    "headRevision": "db0aa7dcee34b63596cbbe00b3481963d499531d",
+    "baseBranch": "release-adopter-lifecycle",
+    "baseRemote": "local",
+    "baseRevision": "aa0e33626e6d1fb3f1df45b94efc33841bf9622c",
+    "mergeCommit": "db0aa7dcee34b63596cbbe00b3481963d499531d"
+  },
+  "branch": {
+    "name": "release-adopter-lifecycle",
+    "remote": "local",
+    "headRevision": "db0aa7dcee34b63596cbbe00b3481963d499531d"
+  },
+  "worktree": {
+    "worktreeId": "release-adopter-lifecycle",
+    "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.UAUA1D/adopter",
+    "branch": "release-adopter-lifecycle",
+    "headRevision": "db0aa7dcee34b63596cbbe00b3481963d499531d"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter",
+  "authoritySource": "release-adopter-acceptance",
+  "reason": "The isolated adopter lifecycle branch and worktree were removed before close.",
+  "timestamp": "2026-08-29T01:13:48Z",
+  "contractDigest": "sha256:5a2a814687df429de8c18420e036e586dda97ce38d6959c26b3a4330da1be62f",
+  "resourceContext": {
+    "branch": "release-adopter-lifecycle",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.UAUA1D/adopter",
+    "baseBranch": "release-adopter-lifecycle",
+    "baseRemote": "local",
+    "provider": "release-adopter-harness",
+    "pullRequest": "acceptance://v0.2.39/release-adopter-lifecycle"
+  }
+}

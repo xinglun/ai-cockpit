@@ -1,0 +1,58 @@
+{
+  "actor": "harness:release-adopter",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "release-adopter-acceptance",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2b46767623b3db7e966aea9ae9667a80525fc195",
+    "name": "manual-adopter-lifecycle",
+    "remote": "local"
+  },
+  "contractDigest": "sha256:266418b98ad6f11169776c13dd848d033e9222f2410277d24e38204d4caf19eb",
+  "operationId": "delete-manual-adopter-lifecycle",
+  "provider": "manual-adopter-release-acceptance",
+  "pullRequest": {
+    "baseBranch": "manual-adopter-lifecycle",
+    "baseRemote": "local",
+    "baseRevision": "d39129ad4ae09319918bcbfeb663ed198437e99f",
+    "headRevision": "2b46767623b3db7e966aea9ae9667a80525fc195",
+    "mergeCommit": "2b46767623b3db7e966aea9ae9667a80525fc195",
+    "number": 1,
+    "url": "acceptance://v0.2.39/manual-adopter-lifecycle"
+  },
+  "reason": "The isolated adopter lifecycle branch and worktree were removed before close.",
+  "receiptId": "release-adopter-manual-adopter-lifecycle",
+  "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+  "resourceContext": {
+    "baseBranch": "manual-adopter-lifecycle",
+    "baseRemote": "local",
+    "branch": "manual-adopter-lifecycle",
+    "provider": "manual-adopter-release-acceptance",
+    "pullRequest": "acceptance://v0.2.39/manual-adopter-lifecycle",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-29T01:33:08Z",
+  "workItemId": "manual-adopter-lifecycle",
+  "worktree": {
+    "branch": "manual-adopter-lifecycle",
+    "headRevision": "2b46767623b3db7e966aea9ae9667a80525fc195",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+    "worktreeId": "manual-adopter-lifecycle"
+  }
+}

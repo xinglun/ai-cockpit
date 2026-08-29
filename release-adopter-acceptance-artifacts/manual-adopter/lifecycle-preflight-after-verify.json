@@ -1,0 +1,19 @@
+{
+  "state": "red",
+  "blockers": [
+    "scope_exceeded"
+  ],
+  "unknowns": [
+    "test_weakening_inspection_unavailable"
+  ],
+  "safe_actions": [
+    "collect_missing_evidence",
+    "stop_and_request_new_contract"
+  ],
+  "required_checks": [
+    "scope"
+  ],
+  "authority": "authorized",
+  "outcome_state": "blocked",
+  "reviewState": "blocked"
+}

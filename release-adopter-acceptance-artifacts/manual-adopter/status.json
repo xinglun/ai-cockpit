@@ -1,0 +1,33 @@
+{
+  "activeWorkItems": 0,
+  "archivedWorkItems": 0,
+  "compatibility": {
+    "protocolVersion": 1,
+    "repositorySchemaVersion": 2,
+    "requiredRepositorySchemaVersion": 2,
+    "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+    "runtimeVersion": "0.2.39",
+    "safeActions": [],
+    "state": "COMPATIBLE"
+  },
+  "profileVersion": 1,
+  "protocolVersion": 1,
+  "readiness": {
+    "blockers": [],
+    "currentBranch": "main",
+    "currentRevision": "653b4b5ba60e0a04e602ea0a986d7580526805ca",
+    "defaultBranch": null,
+    "defaultRemote": null,
+    "defaultRevision": null,
+    "dirtyPaths": [],
+    "readyOnBase": false,
+    "state": "unknown",
+    "unclosedArchivedWorkItems": [],
+    "unknowns": [
+      "default_base_unknown"
+    ]
+  },
+  "repositoryId": "sha256:e520922b6228784e68a3ad0c6f9c2a5b0bff504a16fdd2d72e83b1fb9dd4d539",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required"
+}

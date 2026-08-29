@@ -1,0 +1,18 @@
+{
+  "changedPaths": [
+    ".ai/decisions/manual-adopter-lifecycle.close.json",
+    ".ai/decisions/manual-adopter-lifecycle.finalize.json"
+  ],
+  "dependencyFingerprint": "sha256:d10940bec9610db58bf7dd3aedb8cbd74d8595b47397013c4bce00720af58583",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 2,
+  "filesRead": 2,
+  "gitCalls": 4,
+  "gitRoot": "/private/tmp/wi376-manual-adopter-final/adopter-control",
+  "head": "2b46767623b3db7e966aea9ae9667a80525fc195",
+  "protocolVersion": 1,
+  "repositoryRoot": "/private/tmp/wi376-manual-adopter-final/adopter-control",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "runtimeVersion": "0.2.39",
+  "treeDigest": "sha256:4769ef496c24df054f5ba14984f8ceed703e044284096e848c29d8b22bc747ba"
+}

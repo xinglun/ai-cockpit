@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "repositoryId": "sha256:74f852847674b405d81bf3480b83c2e469c45702735b1479330d1052b66f8562",
+  "runtimeDigest": "sha256:74f3fdcff82a0573a56e47b5977ae47e572b71e06a77c608bf3b6689fbbced10",
+  "sourceRepository": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+  "sourceBeforeStatus": "clean-at-final-retry-start",
+  "sourceAfterStatus": "fixed-adopter-path-removed",
+  "repositoryIsolation": true,
+  "fixedAdopterPath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+  "fixedAdopterRemoved": true,
+  "controlClone": "/tmp/wi376-manual-adopter-final/adopter-control",
+  "initialBaseRevision": "d39129ad4ae09319918bcbfeb663ed198437e99f",
+  "finalHead": "2b46767623b3db7e966aea9ae9667a80525fc195",
+  "homeUnchanged": true,
+  "xdgUnchanged": true,
+  "tmpRoot": "isolated_and_contained",
+  "cargoHome": "isolated_and_allowed_runtime_write",
+  "cleanupState": "passed",
+  "symlinkContainment": "passed"
+}

@@ -1,0 +1,8 @@
+{
+  "branch": "manual-adopter-lifecycle",
+  "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-adopter",
+  "baseBranch": "manual-adopter-lifecycle",
+  "baseRemote": "local",
+  "provider": "manual-adopter-release-acceptance",
+  "pullRequest": "acceptance://v0.2.39/manual-adopter-lifecycle"
+}
