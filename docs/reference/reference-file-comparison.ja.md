@@ -107,7 +107,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=284 implemented-equivalent=1 not-applicable=4 reference-only=43 deferred-next-batch=525 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=292 implemented-equivalent=1 not-applicable=4 reference-only=45 deferred-next-batch=515 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、275 `implemented-different-by-design`、1
@@ -765,3 +765,30 @@ WI-378 は pinned source commit にある次の deferred 10 path を一つずつ
 `implemented-different-by-design`、1 `implemented-equivalent`、4
 `not-applicable`、43 `reference-only`、525 `deferred-next-batch`、
 `migrate-gap` は 0 です。Deferred は予定された比較であり parity claim ではありません。
+
+## WI-379 reference documentation batch 18
+
+WI-379 は pinned source commit の次の deferred 10 path を一つずつ比較しました。8 つの
+責務は Rust-native 三言語 documentation で表現し、歴史的 audit 2 ファイルは
+`reference-only` のまま保持します。Runtime code は追加せず、source の Python、Make、
+provider configuration、generated history はコピーしません。
+
+| Pinned reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `docs/reference/upgrade.md` | implemented-different-by-design | 三言語 `upgrade.*`、`installed-lifecycle.*`、migration/conflict/rollback boundary。source installer command は説明用です。 |
+| `docs/reference/verification-evidence-reuse-runtime.md` | implemented-different-by-design | `verification-evidence-reuse-runtime.*`、`verification-route.*`、`verification-semantics.*`、typed identity-bound receipt、protected node 実行、reuse metric。 |
+| `docs/reference/verification-evidence-reuse.md` | implemented-different-by-design | `verification-evidence-reuse.*`、`verification-cost.*`、`verification-planner.*`。exact binding/invalidation と advisory call-count boundary。 |
+| `docs/reference/verification-fixture-boundary.md` | implemented-different-by-design | `verification-fixture-boundary.*` と repository-native test。local fixture は Runtime/cache state を除外し provider/adopter evidence にはなりません。 |
+| `docs/reference/wi01-wi20-bidirectional-traceability-audit.json` | reference-only | historical generated V1 audit bytes。current truth は pinned inventory、Work Item archive、evidence、三言語 traceability page です。 |
+| `docs/reference/wi01-wi20-bidirectional-traceability-audit.md` | reference-only | source Python/Make evidence に束縛された歴史 narrative で、コピーせず current authority にしません。 |
+| `docs/reference/wiii-v2-integration-audit.md` | implemented-different-by-design | `wiii-v2-integration-audit.*`、Rust `status`/intelligence projection、explicit schema/source identity check、scheduler/provider claim の除外。 |
+| `docs/reference/work-item-intelligence-performance-baseline.md` | implemented-different-by-design | `work-item-intelligence-performance-baseline.*`、`diagnose`、advisory cost/performance observation。source benchmark 数値は主張しません。 |
+| `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | `work-item-lifecycle-closure.*`、`repository-workflow.*`、Runtime `finalize`/`close` receipt による PR/base/branch/worktree cleanup。 |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design | 英語の Rust-native close/recovery route。source `make`/Python orchestration は command 要件ではありません。 |
+
+これは semantic/documentation parity であり、source command、JSON-wire、provider state の
+compatibility ではありません。object/adopter boundary は shared Runtime、明示的な
+`--repo`、分離された repository fact、Work Item、evidence、knowledge、snapshot のままです。
+WI-379 後の ledger は 4,262 `generated-history`、292 `implemented-different-by-design`、
+1 `implemented-equivalent`、4 `not-applicable`、45 `reference-only`、515
+`deferred-next-batch`、`migrate-gap` は 0 です。

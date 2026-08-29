@@ -7,7 +7,7 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: WI-378-reference-documentation-batch-17
+lastVerifiedBy: WI-379-reference-documentation-batch-18
 capabilityClaims:
   - runtime_upgrade
 ---
@@ -40,6 +40,19 @@ The Runtime does not commit, push, open/merge a PR, or edit global Agent/MCP
 configuration. Managed adapter changes, if any, are a separate explicit
 `agent install` Work Item in the target repository.
 
+Before a repository migration or managed-file replacement, check that no
+active Work Item is being changed unintentionally. A migration plan must list
+the affected paths, schema/version transition, backup location, rollback
+condition, and human decision. A missing, malformed, conflicting, or stale
+plan stops the write; Runtime upgrade alone never activates a new project
+profile or declares a repository ready.
+
+If an upgrade detects a project-owned or diverged governance file, preserve the
+current bytes and emit a conflict report for review. Do not overwrite the file
+or edit generated evidence by hand. Managed Agent adapters (including a Cursor
+rule) are explicit repository-local installations with ownership and detach
+paths; they are not silently injected by a Runtime upgrade.
+
 ## Repository migration
 
 Run `ai-cockpit migrate plan --repo <path>` first. Apply only the reviewed plan
@@ -52,3 +65,7 @@ stateful lifecycle writes fail closed.
 The reference source's installer, `Makefile.ai`, Python modules, and provider
 marker files are not copied into this Rust repository. The semantic boundary is
 the shared external Runtime plus an isolated repository Protocol.
+
+The source guide's installer/Make command examples are therefore explanatory
+reference material. Use the installed binary, its immutable Release evidence,
+and the target repository's explicit `--repo` commands instead.

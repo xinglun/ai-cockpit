@@ -32169,52 +32169,90 @@
     },
     {
       "referencePath": "docs/reference/upgrade.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/upgrade.md",
+        "docs/reference/upgrade.zh-CN.md",
+        "docs/reference/upgrade.ja.md",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "The shared Runtime and repository-migration responsibilities are documented in a Rust-native tri-language route with immutable Release, backup/conflict, rollback, and explicit adapter boundaries; source installer/Make commands are explanatory reference only."
     },
     {
       "referencePath": "docs/reference/verification-evidence-reuse-runtime.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/verification-evidence-reuse-runtime.md",
+        "docs/reference/verification-evidence-reuse-runtime.zh-CN.md",
+        "docs/reference/verification-evidence-reuse-runtime.ja.md",
+        "docs/reference/verification-route.md",
+        "docs/reference/verification-semantics.md"
+      ],
+      "reason": "Typed identity-bound receipts, planner/adapter separation, protected-node execution, and observable reuse are represented by the Rust verification route; source Python/Make orchestration and JSON wire shape are not copied."
     },
     {
       "referencePath": "docs/reference/verification-evidence-reuse.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/verification-evidence-reuse.md",
+        "docs/reference/verification-evidence-reuse.zh-CN.md",
+        "docs/reference/verification-evidence-reuse.ja.md",
+        "docs/reference/verification-cost.md",
+        "docs/reference/verification-planner.md"
+      ],
+      "reason": "Freshness/invalidation bindings and measurable call-count reductions are documented as advisory Rust projections; protected gates remain mandatory and source JSONL/Python/Make behavior is not claimed as wire parity."
     },
     {
       "referencePath": "docs/reference/verification-fixture-boundary.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/verification-fixture-boundary.md",
+        "docs/reference/verification-fixture-boundary.zh-CN.md",
+        "docs/reference/verification-fixture-boundary.ja.md",
+        "docs/reference/test-architecture.md"
+      ],
+      "reason": "Rust-native repository fixtures isolate source and Protocol inputs from Runtime/cache state; local fixture results are explicitly not provider, hosted-CI, adopter, production, or enterprise evidence."
     },
     {
       "referencePath": "docs/reference/wi01-wi20-bidirectional-traceability-audit.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "tests/conformance/reference_file_inventory.json",
+        "docs/reference/instruction-traceability.md",
+        "docs/reference/instruction-traceability.zh-CN.md",
+        "docs/reference/instruction-traceability.ja.md"
+      ],
+      "reason": "This is generated historical V1 audit data. Current target traceability comes from the pinned inventory, Work Item archive, evidence, and tri-language pages; source bytes are not copied or executable authority."
     },
     {
       "referencePath": "docs/reference/wi01-wi20-bidirectional-traceability-audit.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/instruction-traceability.md",
+        "docs/reference/instruction-traceability.zh-CN.md",
+        "docs/reference/instruction-traceability.ja.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "The source narrative is historical and bound to Python/Make evidence. It remains reference material rather than a current target status or authorization claim."
     },
     {
       "referencePath": "docs/reference/wiii-v2-integration-audit.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/wiii-v2-integration-audit.md",
+        "docs/reference/wiii-v2-integration-audit.zh-CN.md",
+        "docs/reference/wiii-v2-integration-audit.ja.md",
+        "crates/cockpit-knowledge/src/lib.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The Rust Runtime provides a narrower request-scoped, read-only intelligence projection with explicit schema/source identity checks; scheduler, provider, and source wire compatibility claims remain out of scope."
     },
     {
       "referencePath": "docs/reference/work-item-intelligence-interface.md",
@@ -32231,24 +32269,42 @@
     },
     {
       "referencePath": "docs/reference/work-item-intelligence-performance-baseline.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/work-item-intelligence-performance-baseline.md",
+        "docs/reference/work-item-intelligence-performance-baseline.zh-CN.md",
+        "docs/reference/work-item-intelligence-performance-baseline.ja.md",
+        "docs/reference/performance-diagnosis.md",
+        "docs/reference/governance-performance-budget.md"
+      ],
+      "reason": "Rust diagnose and cost observations preserve an identity-bound, advisory performance boundary; source benchmark numbers and universal SLO/throughput claims are not asserted."
     },
     {
       "referencePath": "docs/reference/work-item-lifecycle-closure.ja.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/work-item-lifecycle-closure.ja.md",
+        "docs/reference/work-item-lifecycle-closure.md",
+        "docs/reference/work-item-lifecycle-closure.zh-CN.md",
+        "docs/reference/repository-workflow.ja.md",
+        "docs/reference/installed-lifecycle.ja.md"
+      ],
+      "reason": "The Rust-native Japanese closure route preserves reviewed PR, archive, exact cleanup, ready_on_base, and recovery boundaries through finalize/close receipts; source make/Python commands are not Runtime requirements."
     },
     {
       "referencePath": "docs/reference/work-item-lifecycle-closure.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-379-reference-documentation-batch-18",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/work-item-lifecycle-closure.md",
+        "docs/reference/work-item-lifecycle-closure.zh-CN.md",
+        "docs/reference/work-item-lifecycle-closure.ja.md",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "The Rust-native English closure route verifies exact PR/base/branch/worktree cleanup and preserves retry identity; source make/Python orchestration is not copied."
     },
     {
       "referencePath": "docs/reference/work-item-state-machine.md",
