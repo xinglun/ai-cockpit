@@ -91,4 +91,9 @@ ownership, and compatible serialized projections.
 Installation and upgrade acceptance binds to an immutable published Release
 tag and downloaded binary. After a reviewed PR is merged, closure verifies the
 archive, decision, merged head, synchronized default branch, clean worktrees,
-and exact branch removal; any failed step remains open for recovery.
+and exact branch removal. Immediately after close, run
+`python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all`.
+If stale documentation projections are reported, complete a narrowly scoped
+documentation-promotion Work Item with that helper, rerun `--check-all`, and
+do not declare `ready_on_base` until it is current. Any failed step remains
+open for recovery.

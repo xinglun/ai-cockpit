@@ -4,9 +4,13 @@ title: "WI-376 — v0.2.39 发布 adopter 验收"
 description: "用不可变公开 Release 验证当前仓库与全新独立 adopter。"
 workItemId: WI-376-release-adopter-acceptance
 audience: [maintainer, reviewer]
-status: completed
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-376-release-adopter-acceptance
+terminalArchive: .ai/work-items/archive/WI-376-release-adopter-acceptance.contract.json
+terminalVerification: .ai/evidence/WI-376-release-adopter-acceptance.verification.json
+terminalFinalization: .ai/decisions/WI-376-release-adopter-acceptance.finalize.json
+terminalDecision: .ai/decisions/WI-376-release-adopter-acceptance.close.json
 capabilityClaims: [release_acceptance, repository_isolation, evidence_reuse]
 ---
 
