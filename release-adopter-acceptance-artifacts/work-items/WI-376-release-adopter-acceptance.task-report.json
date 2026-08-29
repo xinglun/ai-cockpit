@@ -1,0 +1,95 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3ece7749a0f50d2ee21891af9637c60dfa35dd229afc075fa8249c324e796cb6",
+    "workItemId": "WI-376-release-adopter-acceptance"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-376-release-adopter-acceptance.summary.json"
+        ],
+        "inference": false,
+        "text": "No repository paths were observed as changed by the current Summary."
+      }
+    ],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-376-release-adopter-acceptance.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-376-release-adopter-acceptance.contract.json"
+        ],
+        "inference": false,
+        "text": "Establish a reproducible post-release adopter acceptance baseline using only immutable public Release artifacts."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-376-release-adopter-acceptance.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-376-release-adopter-acceptance"
+}

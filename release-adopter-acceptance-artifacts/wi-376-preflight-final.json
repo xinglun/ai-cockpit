@@ -1,20 +1,16 @@
 {
-  "state": "red",
-  "blockers": [
-    "scope_exceeded"
-  ],
+  "state": "yellow",
+  "blockers": [],
   "unknowns": [
     "required_evidence_missing"
   ],
   "safe_actions": [
-    "collect_required_evidence",
-    "stop_and_request_new_contract"
+    "collect_required_evidence"
   ],
   "required_checks": [
-    "scope",
     "verification"
   ],
   "authority": "authorized",
-  "outcome_state": "blocked",
-  "reviewState": "blocked"
+  "outcome_state": "verification_pending",
+  "reviewState": "verification_pending"
 }

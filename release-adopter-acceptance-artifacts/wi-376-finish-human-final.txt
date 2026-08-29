@@ -1,0 +1,51 @@
+Outcome: 🟢 Success — WI-376-release-adopter-acceptance
+Task Result
+
+What was completed
+- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Acceptance criteria (Contract language)
+- The downloaded v0.2.39 public archive and binary digest match release-manifest.json and SHA256SUMS.
+- The installed Runtime reports version 0.2.39 and its runtime digest is recorded in acceptance evidence.
+- The current repository reports COMPATIBLE, ready_on_base, doctor ok, runtimeCodeInRepository false, and agent doctor VERIFIED under v0.2.39.
+- A fresh adopter attaches with a distinct repositoryId and receives the minimum scaffold without shared state.
+- The fresh work-item scaffold remains not_ready and leaves intent, scope, acceptanceCriteria, and authority for human input.
+- The adopter lifecycle produces valid schema-2 evidence bound to its repositoryId, snapshot, runtime identity, Work Item, and close decision.
+- An exact repeated verification reuses evidence with zero executed nodes and zero spawned processes; a changed snapshot re-executes verification.
+- HOME and XDG_CONFIG_HOME remain unchanged; isolated TMPDIR and CARGO_HOME writes stay inside their declared roots.
+- The adopter acceptance artifact contains runtime identity, repository identities, JSON outputs, reuse proof, isolation manifests, lifecycle evidence, and SHA256SUMS.
+- The temporary adopter repository and all temporary run roots are removed after evidence is preserved.
+
+Problems found
+- None
+
+Stops triggered
+- None
+
+Problems resolved
+- The current verification evidence is valid for this repository and Work Item.
+
+Risks avoided
+- None
+
+Remaining risks
+- Remaining unknown: user_visible_benefit_not_declared
+- User-visible benefit is not declared by the Work Item owner.
+- user_visible_benefit_not_declared
+
+Unknowns
+- user_visible_benefit_not_declared
+
+Human decisions
+- None
+
+Verification
+- Success: .ai/evidence/WI-376-release-adopter-acceptance.verification.json
+
+Impact
+- User-visible benefit has not been declared.
+
+Next action
+- Review the evidence before deciding whether to proceed; 🟢 does not authorize merge or release.
+
+Evidence
+- .ai/evidence/WI-376-release-adopter-acceptance.verification.json

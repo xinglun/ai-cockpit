@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "The downloaded v0.2.39 public archive and binary digest match release-manifest.json and SHA256SUMS.",
+    "The installed Runtime reports version 0.2.39 and its runtime digest is recorded in acceptance evidence.",
+    "The current repository reports COMPATIBLE, ready_on_base, doctor ok, runtimeCodeInRepository false, and agent doctor VERIFIED under v0.2.39.",
+    "A fresh adopter attaches with a distinct repositoryId and receives the minimum scaffold without shared state.",
+    "The fresh work-item scaffold remains not_ready and leaves intent, scope, acceptanceCriteria, and authority for human input.",
+    "The adopter lifecycle produces valid schema-2 evidence bound to its repositoryId, snapshot, runtime identity, Work Item, and close decision.",
+    "An exact repeated verification reuses evidence with zero executed nodes and zero spawned processes; a changed snapshot re-executes verification.",
+    "HOME and XDG_CONFIG_HOME remain unchanged; isolated TMPDIR and CARGO_HOME writes stay inside their declared roots.",
+    "The adopter acceptance artifact contains runtime identity, repository identities, JSON outputs, reuse proof, isolation manifests, lifecycle evidence, and SHA256SUMS.",
+    "The temporary adopter repository and all temporary run roots are removed after evidence is preserved."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b7ff4c729df4195d77b874ff9e3ab9b5bacd5691",
+  "createdAt": "2026-08-29T01:40:27Z",
+  "goal": "Establish a reproducible post-release adopter acceptance baseline using only immutable public Release artifacts.",
+  "intent": "Validate immutable public v0.2.39 against the current repository and a fresh independent adopter without shared state.",
+  "mode": "implementation",
+  "outOfScope": [
+    "new Runtime features",
+    "source fallback or cargo build fallback",
+    "global Agent or MCP configuration",
+    "second technology-stack matrix"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:88bbefcac04e292f04d9ae1605d10ebf291dade127e9b2f82ed463e4e86be908",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release-artifact",
+    "isolation",
+    "lifecycle",
+    "human-decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-376-release-adopter-acceptance-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/340",
+    "worktree": "/private/tmp/ai-cockpit-wi376-final"
+  },
+  "risk": "normal",
+  "scope": [
+    "release-adopter-acceptance-artifacts/**",
+    "docs/work-items/WI-376-release-adopter-acceptance.md",
+    "docs/work-items/WI-376-release-adopter-acceptance.zh-CN.md",
+    "docs/work-items/WI-376-release-adopter-acceptance.ja.md",
+    ".ai/work-items/active/**",
+    ".ai/work-items/archive/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-376-release-adopter-acceptance"
+}
