@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "Each of the four pinned Flutter fixture files is compared individually and mapped to a Rust-native counterpart or explicitly marked external/non-applicable.",
+    "Tri-language documentation explains Flutter fixture facts, unknown boundaries, shared external Runtime installation, explicit repository context, and adopter-owned Flutter/Dart checks without hard-copying source implementation.",
+    "Reference inventory, parity index, documentation links, and tri-language Work Item records bind the pinned source commit and remain synchronized.",
+    "The mapping does not claim direct compatibility with source-specific installer, Make, Python, guard YAML, or legacy JSON wire behavior.",
+    "Declared documentation, inventory, and conformance checks pass with installed Runtime evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e7b0368142d1a395a2c5647c2dab97104076ff25",
+  "createdAt": "2026-08-29T09:52:35Z",
+  "goal": "Establish auditable semantic parity and inheritance boundaries for the four pinned examples/fixtures/flutter-app files.",
+  "intent": "Compare the pinned Flutter fixture files one by one and record Rust-native/adopter mappings without copying Flutter-specific installation or legacy runtime behavior.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust Runtime implementation",
+    "Flutter/Dart SDK installation or build orchestration",
+    "Reference installer implementation",
+    "Reference Make integration",
+    "Reference Python guards",
+    "Reference guard YAML",
+    "Legacy wire schema compatibility",
+    "Changes to adopter repositories or global Agent/MCP configuration",
+    "Unrelated reference files and future batches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fb5556057c442d2a140613c843e7839a2e9cb0f991b450631b79562b57ee7dab",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-393-reference-flutter-fixture",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi393-reference-flutter-fixture"
+  },
+  "risk": "normal",
+  "scope": [
+    "examples/fixtures/flutter-app/fixture.json",
+    "examples/fixtures/flutter-app/lib/main.dart",
+    "examples/fixtures/flutter-app/pubspec.yaml",
+    "examples/fixtures/flutter-app/test/widget_test.dart",
+    "docs/reference/flutter-fixture-adaptation.md",
+    "docs/reference/flutter-fixture-adaptation.zh-CN.md",
+    "docs/reference/flutter-fixture-adaptation.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/work-items/WI-393-reference-flutter-fixture.md",
+    "docs/work-items/WI-393-reference-flutter-fixture.zh-CN.md",
+    "docs/work-items/WI-393-reference-flutter-fixture.ja.md",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "sources": [
+    "pinned reference e5acb677da6621004d96f0ef353c58fe8d3acfbf"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-393-reference-flutter-fixture"
+}

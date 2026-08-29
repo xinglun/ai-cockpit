@@ -33617,31 +33617,48 @@
     },
     {
       "referencePath": "examples/fixtures/flutter-app/fixture.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-flutter-fixture-batch-26",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/flutter-fixture-adaptation.md",
+        "docs/reference/flutter-fixture-adaptation.zh-CN.md",
+        "docs/reference/flutter-fixture-adaptation.ja.md",
+        "docs/reference/verification-fixture-boundary.md"
+      ],
+      "reason": "Flutter project metadata is mapped to bounded Project Profile/Observer facts. installerStack is not a shared Runtime install contract and platform labels are not execution evidence."
     },
     {
       "referencePath": "examples/fixtures/flutter-app/lib/main.dart",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-flutter-fixture-batch-26",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/flutter-fixture-adaptation.md",
+        "docs/reference/flutter-fixture-adaptation.zh-CN.md",
+        "docs/reference/flutter-fixture-adaptation.ja.md"
+      ],
+      "reason": "The greeting source path is adopter-owned Contract scope; Dart execution remains owner/provider-owned and is never inferred by the Runtime."
     },
     {
       "referencePath": "examples/fixtures/flutter-app/pubspec.yaml",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-flutter-fixture-batch-26",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/flutter-fixture-adaptation.md",
+        "docs/reference/flutter-fixture-adaptation.zh-CN.md",
+        "docs/reference/flutter-fixture-adaptation.ja.md"
+      ],
+      "reason": "Package name and Dart SDK range are observable metadata; SDK, dependency, network, and lockfile readiness remain Unknown until evidence exists."
     },
     {
       "referencePath": "examples/fixtures/flutter-app/test/widget_test.dart",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "reference-flutter-fixture-batch-26",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/flutter-fixture-adaptation.md",
+        "docs/reference/flutter-fixture-adaptation.zh-CN.md",
+        "docs/reference/flutter-fixture-adaptation.ja.md"
+      ],
+      "reason": "The flutter_test assertion maps to an owner-confirmed provider command; the file does not prove Flutter SDK, platform runner, plugin, or hosted CI readiness."
     },
     {
       "referencePath": "examples/fixtures/ios-swift-package/Package.swift",
