@@ -6,6 +6,7 @@ workItemId: WI-417-cargo-verification-lock-strategy
 audience: [adopter, contributor, maintainer, reviewer]
 status: implemented
 authority: human-authorized
+lastVerifiedBy: WI-417-cargo-verification-lock-strategy
 ---
 
 # WI-417 — deterministic Cargo verification scaffold selection

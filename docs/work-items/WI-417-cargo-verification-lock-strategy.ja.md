@@ -6,6 +6,7 @@ workItemId: WI-417-cargo-verification-lock-strategy
 audience: [adopter, contributor, maintainer, reviewer]
 status: implemented
 authority: human-authorized
+lastVerifiedBy: WI-417-cargo-verification-lock-strategy
 ---
 
 # WI-417 — 決定的な Cargo 検証 scaffold の command 選択

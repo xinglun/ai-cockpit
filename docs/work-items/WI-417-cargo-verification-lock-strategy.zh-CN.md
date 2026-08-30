@@ -6,6 +6,7 @@ workItemId: WI-417-cargo-verification-lock-strategy
 audience: [adopter, contributor, maintainer, reviewer]
 status: implemented
 authority: human-authorized
+lastVerifiedBy: WI-417-cargo-verification-lock-strategy
 ---
 
 # WI-417——确定性的 Cargo 验证脚手架命令选择
