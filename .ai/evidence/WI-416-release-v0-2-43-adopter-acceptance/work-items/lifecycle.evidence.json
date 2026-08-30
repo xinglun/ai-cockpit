@@ -1,0 +1,128 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:517b4f89033e4e9588511e57d4a056e8fc1bab1e421e2636e26eacdad2c7c267",
+  "createdAt": "2026-08-30T06:29:56Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 1001,
+      "executionElapsedMs": 706,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+      "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+      "runtimeVersion": "0.2.43",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 1001,
+    "executionElapsedMs": 706,
+    "filesHashed": 10,
+    "filesRead": 13,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "3b6f66a74eae2c88e5e1f5a795d6b03a8332ca95",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 706,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+      "repositorySnapshotDigest": "sha256:cedf6224a9254723b5d2bdd660ea91b91b0994b4654147f220e8903f590d871b",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "release-adopter-lifecycle"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [
+      {
+        "context": {
+          "commandDigest": "sha256:c4e95f02c3a5839b7bcb6888722a7ba47b256bb223a1ba11d5a26a82450240d4",
+          "contentDigest": "sha256:cedf6224a9254723b5d2bdd660ea91b91b0994b4654147f220e8903f590d871b",
+          "diff": {
+            "baseCommit": "6ff474334b6b234ef88ecd4ff0a4f81e7cf98965",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "6ff474334b6b234ef88ecd4ff0a4f81e7cf98965"
+          },
+          "environmentDigest": "sha256:4c025b9cc96ebaf3590821b94655d50366d5caecafa5ad8853b9a101ef9abace",
+          "governanceDigest": "sha256:e10cfb756093d8bd523a1216a87ed484f544bd9541ef204adce8f2592f6df265",
+          "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+          "profileDigest": "sha256:3313a5dc458976015b2698ad57180218ae24db5a54abb7da21d15f606440c0c8",
+          "runner": "local",
+          "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+          "stage": "task",
+          "toolchainDigest": "sha256:15f31ac0698d69975f5fe8027ea7d57afb443fd00b49034baf317afc3b5d9ecc"
+        },
+        "createdAtEpochSeconds": 1788071395,
+        "expiresAtEpochSeconds": 1788157795,
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:c59598009b3076741d6ecb55892a30059e4aaad35d322881b69a7e5bd0d41209",
+        "passed": true,
+        "receiptId": "sha256:a4e13db893e188f0591c62a6664da4419e3018c543fb548642b036cdd74ff24a",
+        "schemaVersion": 2
+      }
+    ],
+    "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+    "rerunStale": 1,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:c59598009b3076741d6ecb55892a30059e4aaad35d322881b69a7e5bd0d41209",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "binding_mismatch",
+        "receiptId": "sha256:a4e13db893e188f0591c62a6664da4419e3018c543fb548642b036cdd74ff24a",
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "stale",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+    "runtimeVersion": "0.2.43",
+    "workItemId": "release-adopter-lifecycle"
+  },
+  "receiptDigest": "sha256:a21611b8f8dd164c27026b79e4fbe8bd71bd191b56b9a183c674caa66e1f262f",
+  "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+  "repositorySnapshotDigest": "sha256:cedf6224a9254723b5d2bdd660ea91b91b0994b4654147f220e8903f590d871b",
+  "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+  "runtimeVersion": "0.2.43",
+  "workItemId": "release-adopter-lifecycle"
+}

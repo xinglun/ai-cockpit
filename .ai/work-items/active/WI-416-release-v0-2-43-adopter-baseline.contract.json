@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "Public v0.2.43 Release archive is downloaded and verified by its published SHA256SUMS and release manifest; no source checkout or workspace binary is used.",
+    "The persisted artifact includes runtime identity, archive and binary digests, repository identity, attach/profile/Agent doctor outputs, first-adopter-smoke=not_ready, complete Work Item lifecycle, evidence reuse, isolation manifests, cleanup proof, acceptance.json, and SHA256SUMS.",
+    "The receipt and every lifecycle record bind the adopter repository and runtime identity, and the temporary acceptance run root is proven removed on completion.",
+    "English, Simplified Chinese, and Japanese release documentation identify v0.2.43 as the persisted aarch64-apple-darwin baseline and link the retained evidence without changing governance facts.",
+    "No files outside the declared scope are changed; historical receipts remain immutable."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "769d223014f862522305b2951001ca798d5c0a91",
+  "createdAt": "2026-08-30T06:25:57Z",
+  "goal": "Run the canonical adopter acceptance harness using only the immutable public v0.2.43 aarch64-apple-darwin artifact, retain its complete receipt in the repository, and document the baseline in all supported languages.",
+  "intent": "Persist a reproducible post-release adopter acceptance baseline for the public v0.2.43 Release so future maintainers can audit the exact downloaded runtime, repository identity, isolation, lifecycle evidence, and cleanup proof.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime governance semantics",
+    " source fallback",
+    " V1 fixture copying",
+    " global Agent/MCP configuration",
+    " second technology-stack acceptance",
+    " and new release behavior."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:95b4b7f00ba461371918120392c41a46f3ccd3dd297ecb77e88fa6fbff659bf2",
+  "requiredEvidenceClasses": [
+    "release",
+    "repository-isolation",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-416-post-release-adopter-v0-2-43",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi416-post-release-adopter-v0-2-43"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/**",
+    "docs/work-items/WI-416-release-v0-2-43-adopter-baseline.md",
+    "docs/work-items/WI-416-release-v0-2-43-adopter-baseline.zh-CN.md",
+    "docs/work-items/WI-416-release-v0-2-43-adopter-baseline.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-416-release-v0-2-43-adopter-baseline"
+}

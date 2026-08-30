@@ -1,0 +1,143 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/release-adopter-lifecycle.verification.json"
+      ],
+      "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+      "repositorySnapshotDigest": "sha256:cedf6224a9254723b5d2bdd660ea91b91b0994b4654147f220e8903f590d871b",
+      "workItemId": "release-adopter-lifecycle"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/release-adopter-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/reuse/index.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/release-adopter-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/reuse/index.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/release-adopter-lifecycle.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/reuse/receipts/74892f17245eaed5a0ccd0a6ee52bea0acee4865c32e0befab81a20bbc97263b.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/release-adopter-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/release-adopter-lifecycle.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/release-adopter-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:release-acceptance via release-adopter-acceptance at 2026-08-30T06:29:57Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/release-adopter-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/release-adopter-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/release-adopter-lifecycle.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/release-adopter-lifecycle.contract.json"
+          ],
+          "inference": false,
+          "text": "Demonstrate an auditable Work Item lifecycle using only the pinned public Release binary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/release-adopter-lifecycle.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "release-adopter-lifecycle"
+  },
+  "finalReportDigest": "sha256:9883e2296a63ba44b4a1a43da6d6e47b35136d2f271b726218ebb36001dcc55d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+  "resourceFinalizationHeadDigest": "sha256:eca7ac4e676a770976da484304570fcec856aba57fdd59bab1e5dabb05893732",
+  "resourceFinalizationHeadPath": ".ai/decisions/release-adopter-lifecycle.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:release-acceptance",
+    "authoritySource": "release-adopter-acceptance",
+    "decidedAt": "2026-08-30T06:29:57Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/release-adopter-lifecycle.verification.json"
+    ],
+    "policyRefs": [
+      "release-adopter-acceptance:v0.2.43"
+    ],
+    "reason": "Confirm the published Runtime adopter lifecycle after the pinned Release evidence passed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-30T06:29:57Z",
+  "workItemId": "release-adopter-lifecycle"
+}
