@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b7c72ed518a2491d1f166f008a503159889a3cd9e59ae27c4195cf377f44af27",
+      "workItemId": "WI-429-recovery-history-compatibility"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-429-recovery-history-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-429-recovery-history-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-429-recovery-history-compatibility.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-429-recovery-history-compatibility.finalize.json",
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via post-merge-resource-finalization at 2026-08-30T17:49:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent historical recovery residue from blocking valid predecessor closure or the next Work Item while preserving fail-closed behavior for malformed or untrusted records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-429-recovery-history-compatibility"
+  },
+  "finalReportDigest": "sha256:55fe51bf7ac75f3cd0fc4c42d22152a8ee7ee84f8ef37206912a4275d16f32b7",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:3ea3606002c2a1320fae2d8c58a17b22f67f7f519f23e77cfad68ce2dbf03c5d",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-429-recovery-history-compatibility.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-resource-finalization",
+    "decidedAt": "2026-08-30T17:49:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-429-recovery-history-compatibility.finalize.json",
+      ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "Reviewed PR #394 is merged; finalize receipt verifies exact branch/worktree cleanup and the historical recovery fix is complete.",
+    "resumeCondition": "If a new recovery residue is discovered, open a separately scoped Work Item after recording the current closed state."
+  },
+  "timestamp": "2026-08-30T17:48:57Z",
+  "workItemId": "WI-429-recovery-history-compatibility"
+}

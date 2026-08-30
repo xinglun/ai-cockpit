@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "24b8b815b8cde96007b12b46c759faa1479211d6",
+    "name": "codex/wi-429-historical-recovery-projection",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:91999a0ccd466f9f26c139e104cc993ad67e1244c391a449508f23bfdd2d93f5",
+  "operationId": "operation-WI-429-recovery-history-compatibility",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "4de0076be6b62dfe47609cd485173d181607826b",
+    "headRevision": "24b8b815b8cde96007b12b46c759faa1479211d6",
+    "mergeCommit": "72c4dd3cb5d361b110721d1ad00a4e89fc00013c",
+    "number": 394,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/394"
+  },
+  "reason": "PR #394 was reviewed and merged; the exact feature branch and dedicated worktree were removed after finalization.",
+  "receiptId": "receipt-WI-429-recovery-history-compatibility",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-429-historical-recovery-projection",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/394",
+    "worktree": "/private/tmp/ai-cockpit-wi429"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T17:48:23Z",
+  "workItemId": "WI-429-recovery-history-compatibility",
+  "worktree": {
+    "branch": "codex/wi-429-historical-recovery-projection",
+    "headRevision": "24b8b815b8cde96007b12b46c759faa1479211d6",
+    "path": "/private/tmp/ai-cockpit-wi429",
+    "worktreeId": "wi429-recovery-history-compatibility"
+  }
+}

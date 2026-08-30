@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-429——历史 recovery 投影"
 description: 在不削弱 fail-closed 校验的前提下解决归档 recovery 残留。
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-429-recovery-history-compatibility
 lastVerifiedBy: WI-429-recovery-history-compatibility
+terminalArchive: .ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json
+terminalVerification: .ai/evidence/WI-429-recovery-history-compatibility.verification.json
+terminalFinalization: .ai/decisions/WI-429-recovery-history-compatibility.finalize.json
+terminalDecision: .ai/decisions/WI-429-recovery-history-compatibility.close.json
 ---
 
 # WI-429——历史 recovery 投影

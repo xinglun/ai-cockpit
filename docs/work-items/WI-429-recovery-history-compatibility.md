@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-429 — Historical recovery projection"
 description: Resolve archived recovery residue without weakening fail-closed validation.
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-429-recovery-history-compatibility
 lastVerifiedBy: WI-429-recovery-history-compatibility
+terminalArchive: .ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json
+terminalVerification: .ai/evidence/WI-429-recovery-history-compatibility.verification.json
+terminalFinalization: .ai/decisions/WI-429-recovery-history-compatibility.finalize.json
+terminalDecision: .ai/decisions/WI-429-recovery-history-compatibility.close.json
 ---
 
 # WI-429 — Historical recovery projection
