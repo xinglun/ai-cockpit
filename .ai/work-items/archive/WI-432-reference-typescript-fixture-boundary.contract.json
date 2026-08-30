@@ -1,0 +1,84 @@
+{
+  "acceptanceCriteria": [
+    "All 11 pinned TypeScript web fixture paths are compared individually and classified reference-only with an explicit Rust-native boundary.",
+    "The three language adaptation pages preserve installation, explicit repository binding, lifecycle, evidence limits, and no-copy boundaries without inventing governance decisions.",
+    "The three language reference index, comparison, and parity pages link the adaptation and record the batch as complete.",
+    "The inventory regression asserts the exact 11 paths, batch, classification, counterparts, and non-empty reasons.",
+    "No Runtime source, provider configuration, or object-project state is copied or modified outside the declared scope."
+  ],
+  "authority": "authorized",
+  "baseRevision": "036f8763b54bd28ac775e33f63e1ef3a99c03653",
+  "createdAt": "2026-08-30T21:03:27Z",
+  "goal": "Record an evidence-backed, tri-language semantic mapping for the 11-file TypeScript web fixture and make the comparison ledger reject any return to deferred status.",
+  "intent": "Compare every pinned reference examples/fixtures/typescript-web file and establish the Rust-native adopter/documentation boundary without copying the Node or TypeScript toolchain.",
+  "mode": "docs",
+  "outOfScope": [
+    "copying examples/fixtures/typescript-web",
+    "adding Node/npm dependencies",
+    "changing Runtime protocol or CLI semantics",
+    "claiming TypeScript toolchain support",
+    "second-technology release acceptance",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:747cbff9392ab066289470c9797bab793dd8c821268e3a1f497215994ec9514e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "conformance"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-432-reference-typescript-fixture-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/398",
+    "worktree": "/private/tmp/ai-cockpit-wi432-typescript-fixture"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/typescript-fixture-adaptation.md",
+    "docs/reference/typescript-fixture-adaptation.zh-CN.md",
+    "docs/reference/typescript-fixture-adaptation.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-432-reference-typescript-fixture-boundary.md",
+    "docs/work-items/WI-432-reference-typescript-fixture-boundary.zh-CN.md",
+    "docs/work-items/WI-432-reference-typescript-fixture-boundary.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "sources": [
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/.gitignore",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/evidence.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/fixture.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/package-lock.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/package.json",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/scripts/format-check.mjs",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/scripts/lifecycle.mjs",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/scripts/lint.mjs",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/src/index.ts",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/test/index.test.mjs",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf:examples/fixtures/typescript-web/tsconfig.json",
+    "docs/reference/python-fixture-adaptation.md",
+    "docs/reference/java-fixture-adaptation.md",
+    "tests/conformance/reference_file_inventory.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-432-reference-typescript-fixture-boundary"
+}

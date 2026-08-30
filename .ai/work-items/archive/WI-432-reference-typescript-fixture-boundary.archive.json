@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T23:27:33Z",
+  "files": {
+    "contractDigest": "sha256:5a88293edc5a12990d72a8672d301be1e2a97c31827fec4e55f2b95ad2056d17",
+    "contractPath": ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json",
+    "eventsDigest": "sha256:097a278e9739bedca39efed99017824071fd67538889cdfe02d35af1e237fbf8",
+    "eventsPath": ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.events.jsonl",
+    "outcomeDigest": "sha256:2451a42a6f1436e7a0ae4b8de0229fd567eb53ac9d04ecf0d2ca402277b4cec2",
+    "outcomePath": ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.outcome.json",
+    "summaryDigest": "sha256:786fa283c17a18485799897f47a931cbac77d7c18ec034b3299a849fd592478e",
+    "summaryPath": ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.summary.json",
+    "taskReportDigest": "sha256:668cd252e268e8d3edb95717d95395dd869bb05d59cb7256db676f9934e450d7",
+    "taskReportMarkdownDigest": "sha256:0ef1cfa9069e07bd2159f6ac191031cd44d83ade7de33c47c56f3b770a4f3a01",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-432-reference-typescript-fixture-boundary"
+}

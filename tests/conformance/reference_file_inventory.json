@@ -33895,80 +33895,109 @@
     },
     {
       "referencePath": "examples/fixtures/typescript-web/.gitignore",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "This fixture ignore file protects Node build outputs and local state. The target does not copy it; adopter build hygiene and release-harness isolation remain separate responsibilities."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/evidence.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md",
+        "docs/reference/verification-evidence-reuse.md"
+      ],
+      "reason": "This source-local evidence describes npm checks and unavailable provider evidence. The target records only explicitly executed, identity-bound commands and never promotes local fixture claims to provider or enterprise assurance."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/fixture.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The metadata declares a TypeScript/web stack, toolchain, platforms, and paths. Project Observer/Profile may record confirmed adopter facts, but the Runtime does not infer capabilities or Contract scope from this fixture."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/package-lock.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md"
+      ],
+      "reason": "This lockfile pins the fixture's npm dependency and registry integrity. It belongs to the adopter and is not a Runtime dependency or release supply-chain proof."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/package.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "The npm manifest defines application build, test, lint, format, and lifecycle scripts. Adopters declare explicit argv in their Contract; the shared governance lifecycle is not replaced by npm orchestration."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/scripts/format-check.mjs",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md"
+      ],
+      "reason": "This script checks formatting properties of the sample source only. It is not a portable governance control; an adopter owns its formatter and supplies its own evidence."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/scripts/lifecycle.mjs",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md",
+        "docs/reference/agent-workflow.md"
+      ],
+      "reason": "The Node script exercises install, configuration, blocked requests, upgrade, rollback, and release phases for the fixture. The installed Rust Runtime supplies repository-bound governance, recovery, and Outcome; source orchestration is not copied or treated as authority."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/scripts/lint.mjs",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md"
+      ],
+      "reason": "This lint rule is coupled to the sample application's symbols and is not portable Runtime policy. An adopter declares and verifies its own lint command."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/src/index.ts",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md",
+        "docs/reference/intent-scenario-binding.md"
+      ],
+      "reason": "The TypeScript evaluator is application sample code. Runtime decisions, stop states, and intent/scenario bindings are typed governance records and are never inferred by importing this source."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/test/index.test.mjs",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md",
+        "docs/reference/verification-evidence-reuse.md"
+      ],
+      "reason": "These Node tests assert only the fixture evaluator's behavior. They are not Runtime or enterprise evidence; an adopter must explicitly run its own tests and bind their result."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/tsconfig.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-432-reference-typescript-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md"
+      ],
+      "reason": "The strict NodeNext compiler settings are adopter-owned toolchain configuration. The shared Runtime accepts explicit command results but does not promise or copy a TypeScript toolchain."
     },
     {
       "referencePath": "examples/flutter/README.md",
