@@ -100,6 +100,13 @@ never leave competing successors for a human to resolve from filenames. This
 rule makes recovery graphs deterministic and keeps every predecessor's
 terminal decision auditable without rewriting its historical bytes.
 
+When an archived predecessor contains an older successor attempt whose target
+was never bound, a newer valid `supersede` receipt may resolve that historical
+residue. Runtime only treats the older record as historical when the newer
+receipt is valid and wins by its recorded decision time; malformed, foreign,
+tampered, or newer-invalid records remain fail-closed. No Contract, Summary,
+Outcome, Events, Evidence, or recovery receipt bytes are rewritten.
+
 This is a semantic Rust-native workflow. The reference source's `make`
 commands, Python modules, and generated history are comparison material, not
 commands or Runtime authority in this repository.

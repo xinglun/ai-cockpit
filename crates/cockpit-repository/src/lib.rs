@@ -13804,6 +13804,19 @@ fn is_stale_recovery_binding_error(error: &ObserverError) -> bool {
     .any(|code| error.to_string().contains(code))
 }
 
+/// An archived append-only chain may contain an older successor receipt whose
+/// target was never bound (for example, a failed recovery attempt from an
+/// older Runtime).  Once a newer, valid `supersede` receipt exists, that
+/// historical binding failure must not prevent the predecessor from being
+/// projected as superseded.  This exception is intentionally narrow: it only
+/// applies to archived records and only when a later valid candidate wins;
+/// malformed, foreign, or otherwise untrusted receipts still fail closed.
+fn is_historical_successor_binding_error(error: &ObserverError) -> bool {
+    ["successor_binding_missing", "successor_binding_mismatch"]
+        .iter()
+        .any(|code| error.to_string().contains(code))
+}
+
 fn load_recovery_decision(
     root: &Path,
     work_item_id: &str,
@@ -13834,13 +13847,20 @@ fn load_recovery_decision(
                 // caller must see the stable invalid-recovery boundary rather
                 // than falling through to a weaker finalization path.
                 if archived {
-                    if !is_stale_recovery_binding_error(&error) {
+                    if !is_stale_recovery_binding_error(&error)
+                        && !is_historical_successor_binding_error(&error)
+                    {
                         return Err(error);
                     }
                     let retry = read_json(&path).ok().and_then(|value| {
                         serde_json::from_value::<RecoveryDecisionReceipt>(value).ok()
                     });
-                    let Some(retry) = retry.filter(|receipt| receipt.decision == "retry") else {
+                    let Some(retry) = retry.filter(|receipt| {
+                        matches!(
+                            receipt.decision.as_str(),
+                            "retry" | "successor" | "supersede"
+                        )
+                    }) else {
                         return Err(error);
                     };
                     let decided_at = DateTime::parse_from_rfc3339(&retry.decided_at)

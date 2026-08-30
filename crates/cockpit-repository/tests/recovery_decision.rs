@@ -1265,6 +1265,52 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
         predecessor_outcome
     );
 
+    // Preserve an older, digest-named successor attempt whose target was
+    // never bound.  A later valid supersede must make this historical residue
+    // non-blocking without rewriting or trusting the invalid receipt.
+    let archive_root = directory.path().join(".ai/work-items/archive");
+    let archived_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(archive_root.join("WI-BLOCKED.contract.json")).unwrap())
+            .unwrap();
+    let archived_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(archive_root.join("WI-BLOCKED.summary.json")).unwrap())
+            .unwrap();
+    let archived_outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(archive_root.join("WI-BLOCKED.outcome.json")).unwrap())
+            .unwrap();
+    let archived_events = fs::read(archive_root.join("WI-BLOCKED.events.jsonl")).unwrap();
+    let mut invalid_historical = json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "successor",
+        "workItemId": "WI-BLOCKED",
+        "repositoryId": repository_id(directory.path()),
+        "predecessorWorkItemId": "WI-BLOCKED",
+        "predecessorContractDigest": cockpit_protocol::digest_json(&archived_contract).unwrap(),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&archived_summary).unwrap(),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&archived_outcome).unwrap(),
+        "predecessorEventsDigest": Digest::sha256_bytes(&archived_events),
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:owner",
+        "authoritySource": "repository-owner",
+        "reason": "historical unbound successor",
+        "evidenceRefs": [".ai/work-items/archive/WI-BLOCKED.outcome.json"],
+        "policyRefs": ["docs/reference/agent-workflow.md"],
+        "decidedAt": "2026-08-23T00:01:00Z",
+        "resumeCondition": "continue on the successor Work Item"
+    });
+    invalid_historical["successorWorkItemId"] = json!("WI-MISSING-HISTORICAL");
+    let invalid_digest = cockpit_protocol::digest_json(&invalid_historical).unwrap();
+    fs::write(
+        directory.path().join(format!(
+            ".ai/decisions/WI-BLOCKED.recovery.{}.json",
+            invalid_digest.to_string().strip_prefix("sha256:").unwrap()
+        )),
+        serde_json::to_vec_pretty(&invalid_historical).unwrap(),
+    )
+    .expect("historical invalid recovery receipt");
+
     close_work_item_with_structured_decision(
         directory.path(),
         "WI-BLOCKED",

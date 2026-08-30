@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "A newer valid supersede receipt deterministically resolves older successor-binding residue for archived predecessors without rewriting historical bytes.",
+    "Malformed, foreign, tampered, missing, or newer invalid recovery records remain fail-closed and are never silently ignored.",
+    "WI-424 and WI-426 historical recovery chains can be rendered and closed through the supported Runtime lifecycle, and ordinary Work Item entry remains blocked when no valid supersede exists.",
+    "Regression tests cover valid supersede after invalid successor binding, no-valid-supersede fail-closed behavior, and immutable predecessor bytes.",
+    "Three-language workflow/parity documentation states the historical projection boundary and evidence-preservation rule."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4de0076be6b62dfe47609cd485173d181607826b",
+  "createdAt": "2026-08-30T17:22:51Z",
+  "goal": "Prevent historical recovery residue from blocking valid predecessor closure or the next Work Item while preserving fail-closed behavior for malformed or untrusted records.",
+  "intent": "Make archived recovery history deterministic when older successor-binding attempts coexist with a newer valid supersede, without rewriting immutable evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "Rewriting historical Contract",
+    " Summary",
+    " Outcome",
+    " Events",
+    " Evidence",
+    " or recovery receipt bytes",
+    "Changing release artifacts",
+    " CI routing",
+    " or Agent/MCP global configuration",
+    "Broad recovery graph redesign or Runtime architecture split"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:954b85be1e1e93ab23f71c412daf74bb943859578f3a86d9acaaf373e0a9741b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-429-historical-recovery-projection",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi429"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-429-recovery-history-compatibility.md",
+    "docs/work-items/WI-429-recovery-history-compatibility.zh-CN.md",
+    "docs/work-items/WI-429-recovery-history-compatibility.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-429-recovery-history-compatibility"
+}

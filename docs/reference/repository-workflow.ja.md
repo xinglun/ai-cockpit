@@ -67,4 +67,11 @@ lineage を継続するか、明示的に `supersede` を記録してくださ�
 をファイル名から人が推測する状態を残さず、predecessor の bytes を書き換えずに
 recovery graph と終端 decision の監査可能性を保ちます。
 
+archived predecessor に、対象の binding が未完了だった古い successor 試行が残って
+いる場合でも、より新しく有効な `supersede` receipt がその歴史的残留を解決できます。
+Runtime は、その receipt が有効で記録時刻の順序で勝つ場合に限り古い記録を historical
+として扱います。malformed、foreign、改ざん、または新しいが無効な記録は引き続き
+fail closed です。Contract、Summary、Outcome、Events、Evidence、recovery receipt の
+bytes は書き換えません。
+
 これは Rust-native な semantic workflow です。参照 source の `make` command、Python module、generated history は比較材料であり、本 repository の command や Runtime authority ではありません。
