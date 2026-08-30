@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T06:36:58Z",
+  "files": {
+    "contractDigest": "sha256:55751efce11d6851a95004ea6770c22c07fde555a8fb081f858ede64490ab1d9",
+    "contractPath": ".ai/work-items/archive/WI-416-release-v0-2-43-adopter-baseline.contract.json",
+    "eventsDigest": "sha256:404f32e356a86ab331476269f85d33671e9215b871de1066c908b959086b87cf",
+    "eventsPath": ".ai/work-items/archive/WI-416-release-v0-2-43-adopter-baseline.events.jsonl",
+    "outcomeDigest": "sha256:5ff63846eb835039e3bd4e2c9c5bc76c15ff5f9ce57f576249e877f9d1e12c96",
+    "outcomePath": ".ai/work-items/archive/WI-416-release-v0-2-43-adopter-baseline.outcome.json",
+    "summaryDigest": "sha256:a643afe9e52d723c71f68643b7089657c52d43589cc71b6618289d4dbd4a8e7f",
+    "summaryPath": ".ai/work-items/archive/WI-416-release-v0-2-43-adopter-baseline.summary.json",
+    "taskReportDigest": "sha256:979b9cbfeb76d5a08ada17c58c1d679c6354024ab95ee9d3c7e77abacf373cfb",
+    "taskReportMarkdownDigest": "sha256:8d5554b1ca1e2f61f85d3336d2d13756cf1e657369f3b044e7e65af071241405",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-416-release-v0-2-43-adopter-baseline.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-416-release-v0-2-43-adopter-baseline.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-416-release-v0-2-43-adopter-baseline"
+}

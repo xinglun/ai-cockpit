@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/private/tmp/ai-cockpit-wi416-post-release-adopter-v0-2-43",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": "?? .ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/\n?? .ai/work-items/active/",
+  "sourceAfterStatus": "?? .ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/\n?? .ai/work-items/active/",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:ecd9d23ed7704a26c5d4c58ba39af1649889be52d556c44b5ec59c0b24003dd3",
+    "afterDigest": "sha256:ecd9d23ed7704a26c5d4c58ba39af1649889be52d556c44b5ec59c0b24003dd3"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.BsOFY9/adopter-control",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:0cf0ae2e4c47865049d2215efb7f72ae2fd9588039df17ccd0e35356d8559194",
+      "afterDigest": "sha256:e33f36ce704485d0fd500db0a77156980d4f1ece3ef784f07c2cc81d7e750d39",
+      "symlinkTargetsContained": true
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "506da95e42bc58656aa83d8a93672c55674ade9f",
+  "createdAt": "2026-08-30T06:29:52Z",
+  "goal": "",
+  "intent": "",
+  "mode": "code",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:3313a5dc458976015b2698ad57180218ae24db5a54abb7da21d15f606440c0c8",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+  "repositorySnapshotDigest": "sha256:9a2b2681be25490ffd605353d2aaed99c42db9cc988c762e2cf622f82bdc74c3",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "main",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.BsOFY9/adopter"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "first-adopter-smoke"
+}

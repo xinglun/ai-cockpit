@@ -143,10 +143,14 @@ publish 依赖这两个 job。其 receipt 记录 `stagedCandidate: true` 和
 仓库保留的 WI-239 receipt 仍是历史 v0.2.31 基线。后续成功 Release 必须先持久化自己的公开 binary
 receipt，才能被描述为 adopter 基线；仅有 hosted job artifact 不构成仓库持久化基线。
 
-持久化 adopter acceptance 基线：`aarch64-apple-darwin`（WI-239，公开的
-`v0.2.31`；provider metadata 记录 `immutable: false`）。GitHub Actions run
-`32696048024` 仅作为 `x86_64-unknown-linux-gnu` hosted Linux 验收 evidence 保留，
-不是持久化的单 target 基线。
+持久化 adopter acceptance 基线：`aarch64-apple-darwin`（WI-416，公开的
+`v0.2.43`；binary digest 为
+`sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533`）。
+完整 receipt 保存在 `.ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/`。
+较早的 WI-239 receipt 仍作为不可变的历史 v0.2.31 evidence 保留；不会用 hosted
+job artifact 替代仓库持久化基线。
+GitHub Actions run `32696048024` 仍单独作为 `x86_64-unknown-linux-gnu` 的 hosted Linux
+验收 evidence 保留，不是本次单 target 的持久化基线。
 
 ```bash
 tests/release/adopter_acceptance.sh \

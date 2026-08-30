@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-30T06:26:40Z",
+  "finishedAt": "2026-08-30T06:32:34Z",
+  "releasePublished": true,
+  "stagedCandidate": false,
+  "adopterAcceptance": "passed",
+  "repository": "xinglun/ai-cockpit",
+  "tag": "v0.2.43",
+  "target": "aarch64-apple-darwin",
+  "rustToolchain": "1.94.1-aarch64-apple-darwin",
+  "runtimeVersion": "0.2.43",
+  "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+  "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "closeDecision": {
+    "validated": true,
+    "workItemId": "release-adopter-lifecycle",
+    "repositoryId": "sha256:de54cb3add93990f0c426d4d4821e05c5ee7d5cee73297a0eaf7334930259fc5",
+    "artifactPath": "work-items/release-adopter-lifecycle.close.json",
+    "digest": "sha256:a089404198721b48b723135b88c13c593dba921354470cdd258958eb0789db83"
+  },
+  "cleanupState": "passed",
+  "cleanupError": null,
+  "steps": [
+    {
+      "name": "release-fetch",
+      "state": "passed"
+    },
+    {
+      "name": "release-download",
+      "state": "passed"
+    },
+    {
+      "name": "runtime-pin",
+      "state": "passed"
+    },
+    {
+      "name": "adopter-scaffold",
+      "state": "passed"
+    },
+    {
+      "name": "attach.json",
+      "state": "passed"
+    },
+    {
+      "name": "inspect.json",
+      "state": "passed"
+    },
+    {
+      "name": "inspect-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "profile-confirm.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-list.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-install.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-doctor-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "first-adopter-smoke.json",
+      "state": "passed"
+    },
+    {
+      "name": "first-adopter-smoke-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "verify-first.json",
+      "state": "passed"
+    },
+    {
+      "name": "verify-reuse.json",
+      "state": "passed"
+    },
+    {
+      "name": "reuse-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finalize-plan.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finalize.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finalize-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "isolation-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "repository-identity",
+      "state": "passed"
+    }
+  ],
+  "failureReason": null
+}

@@ -175,11 +175,16 @@ must persist its own public-binary receipt before it is described as an
 adopter baseline; hosted job artifacts alone are not a repository-persisted
 baseline.
 
-Persisted adopter acceptance baseline: `aarch64-apple-darwin` (WI-239,
-public `v0.2.31`; provider metadata records `immutable: false`).
-GitHub Actions run `32696048024` is retained only as hosted Linux acceptance
-evidence on `x86_64-unknown-linux-gnu`, not as the persisted single-target
-baseline.
+Persisted adopter acceptance baseline: `aarch64-apple-darwin` (WI-416,
+public `v0.2.43`; binary digest
+`sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533`).
+The complete receipt is retained at
+`.ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/`. The earlier WI-239
+receipt remains immutable historical v0.2.31 evidence; hosted job artifacts are
+not substituted for the repository-persisted baseline.
+GitHub Actions run `32696048024` remains separately retained as hosted Linux
+acceptance evidence on `x86_64-unknown-linux-gnu`, not as this single-target
+persisted baseline.
 
 ```bash
 tests/release/adopter_acceptance.sh \
