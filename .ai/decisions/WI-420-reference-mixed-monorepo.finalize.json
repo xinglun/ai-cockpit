@@ -1,0 +1,59 @@
+{
+  "actor": "human:maintainer",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "human-instruction",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3edeffa2c42ba643e4a91d696da3ba34d319b544",
+    "name": "codex/wi-420-reference-mixed-monorepo",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5bdd8ec4a6d0eeef0d3308d7b1158a9ddfee8e36814d54719c870cada2d96c26",
+  "operationId": "wi-420-finalize-1",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5b98268cf7becfd7a37bb877398616ba05afd405",
+    "headRevision": "3edeffa2c42ba643e4a91d696da3ba34d319b544",
+    "number": 385,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/385"
+  },
+  "reason": "PR review and merge are still pending; preserve the provider boundary explicitly.",
+  "receiptId": "wi-420-finalize-blocked-1",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-420-reference-mixed-monorepo",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/385",
+    "worktree": "/private/tmp/ai-cockpit-wi-420-reference-mixed-monorepo"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T10:20:00Z",
+  "workItemId": "WI-420-reference-mixed-monorepo",
+  "worktree": {
+    "branch": "codex/wi-420-reference-mixed-monorepo",
+    "headRevision": "3edeffa2c42ba643e4a91d696da3ba34d319b544",
+    "path": "/private/tmp/ai-cockpit-wi-420-reference-mixed-monorepo",
+    "worktreeId": "ai-cockpit-wi-420-reference-mixed-monorepo"
+  }
+}

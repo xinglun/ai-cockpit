@@ -6,14 +6,17 @@
     "Machine inventory and parity records bind the pinned source commit and remain checkable",
     "Object/adopter projects inherit the same explicit repo-bound Runtime contract without unproven mixed-stack support claims"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-30T10:04:54Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:30dfc4ca62b58712e9f7beec2f9c06402d834c6b10a7868986e77eb9ecec42e2",
   "evidenceRefs": [
     ".ai/evidence/WI-420-reference-mixed-monorepo.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-420-reference-mixed-monorepo.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,41 +24,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-420-reference-mixed-monorepo.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:d5ccf66fc9172645272dbdc2bcac1907962921e9f5daef0899ca6743496632a9",
+      "repositorySnapshotDigest": "sha256:72575e0a8c6efea0a62b7a99f53ac5326ef080f378c067beb06103971825b648",
       "workItemId": "WI-420-reference-mixed-monorepo"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-420-reference-mixed-monorepo.summary.json"
+            ".ai/work-items/archive/WI-420-reference-mixed-monorepo.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-420-reference-mixed-monorepo.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-420-reference-mixed-monorepo.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-420-reference-mixed-monorepo.summary.json"
+            ".ai/work-items/archive/WI-420-reference-mixed-monorepo.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-420-reference-mixed-monorepo.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-420-reference-mixed-monorepo.summary.json"
         }
       ],
       "evidence": [
@@ -74,15 +74,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-420-reference-mixed-monorepo.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -93,7 +85,7 @@
             ".ai/evidence/WI-420-reference-mixed-monorepo.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -103,15 +95,23 @@
             ".ai/evidence/WI-420-reference-mixed-monorepo.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-420-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-420-reference-mixed-monorepo.contract.json"
+            ".ai/work-items/archive/WI-420-reference-mixed-monorepo.contract.json"
           ],
           "inference": false,
           "text": "完成 mixed-monorepo fixture 五个参考路径的逐文件语义比对，更新三语比对记录和机器清单，验证当前 Runtime 对混合技术栈对象工程的共享治理能力与隔离边界。"
@@ -120,23 +120,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-420-reference-mixed-monorepo.contract.json"
+            ".ai/work-items/archive/WI-420-reference-mixed-monorepo.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-420-reference-mixed-monorepo"
   },
+  "taskReportDigest": "sha256:09f40fd3305072d78f74046e6bbae234dabd7ffa828c1492b3882d85d38b705e",
+  "taskReportMarkdownDigest": "sha256:9771d8521efb08c9cac56ec888bd5e8a7a5189dc5965e3175eb96ca29c0838e1",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-420-reference-mixed-monorepo.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-420-reference-mixed-monorepo"
 }

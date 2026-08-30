@@ -30,11 +30,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-420-reference-mixed-monorepo",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/385",
     "worktree": "/private/tmp/ai-cockpit-wi-420-reference-mixed-monorepo"
   },
   "risk": "normal",

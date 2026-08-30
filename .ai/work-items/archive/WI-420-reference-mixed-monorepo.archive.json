@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T10:05:00Z",
+  "files": {
+    "approachDigest": "sha256:406baa584677f40564f0b241d66dcb3dfa7b9a2e8e59748f58d248393986404e",
+    "approachPath": ".ai/work-items/archive/WI-420-reference-mixed-monorepo.approach.json",
+    "contractDigest": "sha256:5bdd8ec4a6d0eeef0d3308d7b1158a9ddfee8e36814d54719c870cada2d96c26",
+    "contractPath": ".ai/work-items/archive/WI-420-reference-mixed-monorepo.contract.json",
+    "eventsDigest": "sha256:e53cbaf584bbd4ec02931a8df993fb851d6980ebf645306920d7270610920ced",
+    "eventsPath": ".ai/work-items/archive/WI-420-reference-mixed-monorepo.events.jsonl",
+    "outcomeDigest": "sha256:d18cfed5c0b4a50bef56bd762fa8a146a72e2b04ecd6a22fc9080c6d5bda0795",
+    "outcomePath": ".ai/work-items/archive/WI-420-reference-mixed-monorepo.outcome.json",
+    "summaryDigest": "sha256:e4a157e636a74fdfc1e1a7f0ad07415859852c52332cfecabb590d96d4a83b54",
+    "summaryPath": ".ai/work-items/archive/WI-420-reference-mixed-monorepo.summary.json",
+    "taskReportDigest": "sha256:09f40fd3305072d78f74046e6bbae234dabd7ffa828c1492b3882d85d38b705e",
+    "taskReportMarkdownDigest": "sha256:9771d8521efb08c9cac56ec888bd5e8a7a5189dc5965e3175eb96ca29c0838e1",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-420-reference-mixed-monorepo.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-420-reference-mixed-monorepo.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-420-reference-mixed-monorepo"
+}
