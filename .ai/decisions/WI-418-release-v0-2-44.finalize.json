@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7e12c0355a4dbf60091363611ef67603d7b9014c",
+    "name": "codex/wi-418-release-v0-2-44",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d63441d580c0277d4e87ed1c0e0f1f399f151477b0fda32f94ce9c26b1cbd9c8",
+  "operationId": "github-pr-383-merge-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "4203c251b80747bca0f8e5f1117f5b4da1f6a3de",
+    "headRevision": "7e12c0355a4dbf60091363611ef67603d7b9014c",
+    "mergeCommit": "90d26d12da8283d07614b0be4d86e466927b84d7",
+    "number": 383,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/383"
+  },
+  "reason": "PR #383 passed all hosted checks and merged as 90d26d12da8283d07614b0be4d86e466927b84d7; the exact remote branch and dedicated worktree were removed after main synchronization.",
+  "receiptId": "ai-cockpit-WI-418-release-v0-2-44-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-418-release-v0-2-44",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/383",
+    "worktree": "/private/tmp/ai-cockpit-wi-418-release-v0-2-44"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+  "runtimeVersion": "0.2.43",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T08:11:00Z",
+  "workItemId": "WI-418-release-v0-2-44",
+  "worktree": {
+    "branch": "codex/wi-418-release-v0-2-44",
+    "headRevision": "7e12c0355a4dbf60091363611ef67603d7b9014c",
+    "path": "/private/tmp/ai-cockpit-wi-418-release-v0-2-44",
+    "worktreeId": "WI-418-release-v0-2-44"
+  }
+}
