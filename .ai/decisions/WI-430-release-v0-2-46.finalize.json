@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "13e5dac719ffa256eadbf0fdafca0dc50cd3f3c7",
+    "name": "codex/wi-430-release-v0-2-46",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ba2d93a4693c303f89aab91b33d21b189449518792eef758b869fcfcf4d6ca6e",
+  "operationId": "delete-WI-430-release-v0-2-46",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5f4fd085f38af36f7272dd4dada0df987d312bee",
+    "headRevision": "13e5dac719ffa256eadbf0fdafca0dc50cd3f3c7",
+    "mergeCommit": "66ad4ba6f23b737f73c50a0f7413d0c73f63393c",
+    "number": 395,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/395"
+  },
+  "reason": "Finalize the reviewed v0.2.46 release Work Item after PR #395 and archive reconciliation PR #396, then prove exact branch and worktree cleanup before public publication.",
+  "receiptId": "ai-cockpit-WI-430-release-v0-2-46",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-430-release-v0-2-46",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/395",
+    "worktree": "/private/tmp/ai-cockpit-wi430"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T00:10:00Z",
+  "workItemId": "WI-430-release-v0-2-46",
+  "worktree": {
+    "branch": "codex/wi-430-release-v0-2-46",
+    "headRevision": "13e5dac719ffa256eadbf0fdafca0dc50cd3f3c7",
+    "path": "/private/tmp/ai-cockpit-wi430",
+    "worktreeId": "WI-430-release-v0-2-46"
+  }
+}
