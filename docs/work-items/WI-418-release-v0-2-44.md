@@ -4,9 +4,13 @@ title: WI-418 — v0.2.44 release
 description: Publish the reviewed Runtime with lockfile-aware Cargo verification selection.
 workItemId: WI-418-release-v0-2-44
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-418-release-v0-2-44
+terminalArchive: .ai/work-items/archive/WI-418-release-v0-2-44.contract.json
+terminalVerification: .ai/evidence/WI-418-release-v0-2-44.verification.json
+terminalFinalization: .ai/decisions/WI-418-release-v0-2-44.finalize.json
+terminalDecision: .ai/decisions/WI-418-release-v0-2-44.close.json
 ---
 
 # WI-418 — v0.2.44 release
