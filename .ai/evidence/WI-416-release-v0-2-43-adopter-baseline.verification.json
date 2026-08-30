@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:1eceb72938eda17fa0af9374e6f418b88b3450e1b510bf86c2f19ff5b8d4a681",
-  "createdAt": "2026-08-30T06:35:04Z",
+  "contractDigest": "sha256:5a4fda352cdcc1b033317d05e58e50314e724b6116409911d91992fb9b968796",
+  "createdAt": "2026-08-30T06:36:40Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 514,
-      "executionElapsedMs": 355,
+      "elapsedMs": 1634,
+      "executionElapsedMs": 1474,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 514,
-    "executionElapsedMs": 355,
-    "filesHashed": 17,
-    "filesRead": 17,
+    "elapsedMs": 1634,
+    "executionElapsedMs": 1474,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,14 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/release/distribution.ja.md",
-        "docs/release/distribution.md",
-        "docs/release/distribution.zh-CN.md",
-        "docs/work-items/WI-416-release-v0-2-43-adopter-baseline.ja.md",
-        "docs/work-items/WI-416-release-v0-2-43-adopter-baseline.md",
-        "docs/work-items/WI-416-release-v0-2-43-adopter-baseline.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "769d223014f862522305b2951001ca798d5c0a91",
       "dependencyConfidence": "unknown",
@@ -51,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 355,
+      "executionElapsedMs": 1474,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:808c23e3d39a59eda3c1fa82477d49c1dba66e258c4d9f8f869c1ccc62fe4a93",
+      "repositorySnapshotDigest": "sha256:7f4ecf83451aac9dab9b72773b731e048a25b547ccccd72e2ddb2e44d717ca9b",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -99,9 +92,9 @@
     "runtimeVersion": "0.2.43",
     "workItemId": "WI-416-release-v0-2-43-adopter-baseline"
   },
-  "receiptDigest": "sha256:b601cc23908f2b25b8848d46d0364f85a89b772c0e77eaa222bcea7fe3cef971",
+  "receiptDigest": "sha256:47932e2a43883e0c628fe04e641ab63bdb2659d0624aeeca533596009e7a2354",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:808c23e3d39a59eda3c1fa82477d49c1dba66e258c4d9f8f869c1ccc62fe4a93",
+  "repositorySnapshotDigest": "sha256:7f4ecf83451aac9dab9b72773b731e048a25b547ccccd72e2ddb2e44d717ca9b",
   "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
   "runtimeVersion": "0.2.43",
   "workItemId": "WI-416-release-v0-2-43-adopter-baseline"
