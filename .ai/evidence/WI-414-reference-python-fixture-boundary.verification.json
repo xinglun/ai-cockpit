@@ -1,0 +1,128 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:745a40a06864e8d640302ec70b3296f4c450d0dfa30227864dcc02425131d3ad",
+  "createdAt": "2026-08-30T05:09:17Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 141665,
+      "executionElapsedMs": 141248,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:8bed28ae385e93e5c96bc9b734982dbaed17c42c9a5142dcb5164a43409bb89e",
+      "runtimeVersion": "0.2.42",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 141665,
+    "executionElapsedMs": 141248,
+    "filesHashed": 10,
+    "filesRead": 13,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "8b26cb148da5b5e4258158e9f8dff5b5a75b55ad",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 141248,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f02d5a5db09fb0054f6dd2bcfa815e5307ec1a6eb6786f525da632947fa46a3",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-414-reference-python-fixture-boundary"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [
+      {
+        "context": {
+          "commandDigest": "sha256:42a23e8dcf161a75c556dd975eea80d3ef03534c1cabb6ebf77f18be12502183",
+          "contentDigest": "sha256:7f02d5a5db09fb0054f6dd2bcfa815e5307ec1a6eb6786f525da632947fa46a3",
+          "diff": {
+            "baseCommit": "f03e2a798828048d40cc15fc8369a20339cd187e",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "f03e2a798828048d40cc15fc8369a20339cd187e"
+          },
+          "environmentDigest": "sha256:4a3bb3bddf9099755fb8e4766a6b57891bfcfaa3c295a46985928eba95b80145",
+          "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
+          "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+          "profileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+          "runner": "local",
+          "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+          "stage": "task",
+          "toolchainDigest": "sha256:30ccb69f3e02bcae30e5caea6dc7ba7916bcf7c9b27c5b663478a231413250e1"
+        },
+        "createdAtEpochSeconds": 1788066415,
+        "expiresAtEpochSeconds": 1788152815,
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:b0df5e8eba5b2c913a23638a9367cefb28b6cc449fe0290e56d103aff67a7d69",
+        "passed": true,
+        "receiptId": "sha256:d8a16d3a332fcf0c909d3faa3bf274273acafbf42be098c3dd8363a6de9c287a",
+        "schemaVersion": 2
+      }
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 1,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:b0df5e8eba5b2c913a23638a9367cefb28b6cc449fe0290e56d103aff67a7d69",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "binding_mismatch",
+        "receiptId": "sha256:d8a16d3a332fcf0c909d3faa3bf274273acafbf42be098c3dd8363a6de9c287a",
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "stale",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:8bed28ae385e93e5c96bc9b734982dbaed17c42c9a5142dcb5164a43409bb89e",
+    "runtimeVersion": "0.2.42",
+    "workItemId": "WI-414-reference-python-fixture-boundary"
+  },
+  "receiptDigest": "sha256:93d89422b6df1011f432ee82d4f6f795f35f080c24c7bbca80380ef101b57207",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7f02d5a5db09fb0054f6dd2bcfa815e5307ec1a6eb6786f525da632947fa46a3",
+  "runtimeDigest": "sha256:8bed28ae385e93e5c96bc9b734982dbaed17c42c9a5142dcb5164a43409bb89e",
+  "runtimeVersion": "0.2.42",
+  "workItemId": "WI-414-reference-python-fixture-boundary"
+}

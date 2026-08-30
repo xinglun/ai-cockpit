@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-414-reference-python-fixture-boundary.contract.json",
+    ".ai/work-items/archive/WI-414-reference-python-fixture-boundary.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T04:45:54Z",
+  "checkpointContractDigest": "sha256:745a40a06864e8d640302ec70b3296f4c450d0dfa30227864dcc02425131d3ad",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:5791d4344830600d506dedfbe0fdcb738098c8f7c01ec84f5cf2776d808214af",
+      "recorded": true,
+      "recordedAt": "2026-08-30T04:45:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:736024c194d39cf00cfc335663f64e40cf5e9a2d23bdb042127d52510bb55eb4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-414-reference-python-fixture-boundary"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e4c1db53b6214a00a8dc9eeb7b2928efbc24361d99615f85bc2c4d7c1574b0d6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5791d4344830600d506dedfbe0fdcb738098c8f7c01ec84f5cf2776d808214af",
+      "previousContractHash": "sha256:5791d4344830600d506dedfbe0fdcb738098c8f7c01ec84f5cf2776d808214af",
+      "reason": "Register the tri-language reference-parity rows that this batch updates; this remains the same four-file comparison boundary.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T05:01:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7fc772ad2034b9c5b8ffb9080dd61167b65fc0cbc5cb04df045de948426397c7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-414-reference-python-fixture-boundary"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:98a59f8ae3e515b9e712387902ae6c810e0fa26b8609262499c7ed76a8f34f99",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5791d4344830600d506dedfbe0fdcb738098c8f7c01ec84f5cf2776d808214af",
+      "previousContractHash": "sha256:e4c1db53b6214a00a8dc9eeb7b2928efbc24361d99615f85bc2c4d7c1574b0d6",
+      "reason": "Expand the Contract to the exact tri-language files and ledger entries this batch edits; wildcard scope syntax is not accepted by the Runtime matcher.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T05:02:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7fc772ad2034b9c5b8ffb9080dd61167b65fc0cbc5cb04df045de948426397c7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-414-reference-python-fixture-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7f02d5a5db09fb0054f6dd2bcfa815e5307ec1a6eb6786f525da632947fa46a3",
+  "createdAt": "2026-08-30T04:45:34Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T05:09:17Z",
+  "preflightContractDigest": "sha256:745a40a06864e8d640302ec70b3296f4c450d0dfa30227864dcc02425131d3ad",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7f02d5a5db09fb0054f6dd2bcfa815e5307ec1a6eb6786f525da632947fa46a3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T05:09:20Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-414-reference-python-fixture-boundary"
+}
