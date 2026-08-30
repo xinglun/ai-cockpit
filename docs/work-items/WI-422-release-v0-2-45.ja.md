@@ -4,9 +4,13 @@ title: WI-422 — v0.2.45 release
 description: mixed-monorepo reference batch 後の reviewed Runtime を公開する。
 workItemId: WI-422-release-v0-2-45
 audience: [adopter, maintainer, reviewer]
-status: release-preparation
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-422-release-v0-2-45
+terminalArchive: .ai/work-items/archive/WI-422-release-v0-2-45.contract.json
+terminalVerification: .ai/evidence/WI-422-release-v0-2-45.verification.json
+terminalFinalization: .ai/decisions/WI-422-release-v0-2-45.finalize.fea37841b1ed548581e851a7e36b2b0128ee19526142210f2eef0a5d5f5a9198.json
+terminalDecision: .ai/decisions/WI-422-release-v0-2-45.close.json
 ---
 
 # WI-422 — v0.2.45 release
