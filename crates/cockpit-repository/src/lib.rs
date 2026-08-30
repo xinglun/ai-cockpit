@@ -9743,7 +9743,7 @@ pub fn plan_resource_finalization(
     }
     if let Some(existing) = &contract.resource_context
         && existing != context
-        && existing.provider != "unknown"
+        && !existing.is_provisional()
     {
         return Err(ObserverError::State {
             path: contract_path,
