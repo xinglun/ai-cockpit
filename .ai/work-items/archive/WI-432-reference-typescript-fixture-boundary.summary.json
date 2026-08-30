@@ -1,26 +1,26 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-432-reference-typescript-fixture-boundary.contract.json",
-    ".ai/work-items/active/WI-432-reference-typescript-fixture-boundary.summary.json"
+    ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json",
+    ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.summary.json"
   ],
   "checkpointAt": "2026-08-30T21:19:41Z",
-  "checkpointContractDigest": "sha256:cda2465c399d777701bbe5984faff0073745cfc1f229c2314d4a460e06cd7ab4",
+  "checkpointContractDigest": "sha256:f3914505e65c75d0ab86e7e55a89597205f902e49418b0be4357d5306edf9412",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:fbcba755f6d3ad84a6bf6801e50c14e35e4fb8d7a2648e5ad4e92f665d21bd9b",
+  "checkpointRepositorySnapshotDigest": "sha256:a01d6872531d8737851dadefb4f9d99f66a463dfbd010db554f5bebeb50c087e",
   "createdAt": "2026-08-30T21:03:27Z",
   "failedGate": "finish.governance",
   "mode": "docs",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-30T21:24:49Z",
-  "preflightContractDigest": "sha256:cda2465c399d777701bbe5984faff0073745cfc1f229c2314d4a460e06cd7ab4",
+  "preflightAt": "2026-08-30T23:16:53Z",
+  "preflightContractDigest": "sha256:f3914505e65c75d0ab86e7e55a89597205f902e49418b0be4357d5306edf9412",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:fbcba755f6d3ad84a6bf6801e50c14e35e4fb8d7a2648e5ad4e92f665d21bd9b",
+  "preflightRepositorySnapshotDigest": "sha256:a01d6872531d8737851dadefb4f9d99f66a463dfbd010db554f5bebeb50c087e",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-30T21:25:05Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T23:16:58Z",
   "verification": [
     {
       "check": "project-command-0",
