@@ -33,14 +33,48 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-424-ci-convergence",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/389",
     "worktree": "/private/tmp/ai-cockpit-wi-424-ci-convergence"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A newer pull-request commit cancels its superseded quality run while main and release protections remain enforced.",
+      "required": true,
+      "scenario": "superseded_quality_run_cancellation",
+      "status": "unverified",
+      "verificationPlan": "Run the repository-native workflow regression and inspect the workflow concurrency declaration and event matrix."
+    },
+    {
+      "evidence": [],
+      "expected": "Stale finalization or unnormalized lifecycle state is rejected before a hosted run can create a duplicate failure, with a stable remediation code.",
+      "required": true,
+      "scenario": "pre_push_lifecycle_boundary",
+      "status": "unverified",
+      "verificationPlan": "Exercise the repository-native lifecycle boundary fixtures for stale finalization and unnormalized worktree state, and assert the stable failure code and remediation."
+    },
+    {
+      "evidence": [],
+      "expected": "Documentation-only, source/test, governance/workflow, high-risk, and unknown changes select light, standard, or strict according to the manifest and stage floor without unconditional strict expansion.",
+      "required": true,
+      "scenario": "dynamic_quality_profile_selection",
+      "status": "unverified",
+      "verificationPlan": "Run quality_route regression cases for each path class, stage floor, risk escalation, and explicit downgrade rejection."
+    },
+    {
+      "evidence": [],
+      "expected": "A real gate failure emits one stable root-cause code and remediation; expected negative-fixture diagnostics are not counted as independent gate failures.",
+      "required": true,
+      "scenario": "single_gate_root_cause_and_remediation",
+      "status": "unverified",
+      "verificationPlan": "Run the gate wrapper regression with passing, failing, and expected-negative fixtures and assert deterministic report classification."
+    }
+  ],
   "scope": [
     ".github/workflows/ci.yml",
     "crates/cockpit-repository/src/lib.rs",
@@ -75,40 +109,6 @@
     "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677"
   ],
   "state": "implementation_active",
-  "scenarioCoverage": [
-    {
-      "scenario": "superseded_quality_run_cancellation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "A newer pull-request commit cancels its superseded quality run while main and release protections remain enforced.",
-      "verificationPlan": "Run the repository-native workflow regression and inspect the workflow concurrency declaration and event matrix."
-    },
-    {
-      "scenario": "pre_push_lifecycle_boundary",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Stale finalization or unnormalized lifecycle state is rejected before a hosted run can create a duplicate failure, with a stable remediation code.",
-      "verificationPlan": "Exercise the repository-native lifecycle boundary fixtures for stale finalization and unnormalized worktree state, and assert the stable failure code and remediation."
-    },
-    {
-      "scenario": "dynamic_quality_profile_selection",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Documentation-only, source/test, governance/workflow, high-risk, and unknown changes select light, standard, or strict according to the manifest and stage floor without unconditional strict expansion.",
-      "verificationPlan": "Run quality_route regression cases for each path class, stage floor, risk escalation, and explicit downgrade rejection."
-    },
-    {
-      "scenario": "single_gate_root_cause_and_remediation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "A real gate failure emits one stable root-cause code and remediation; expected negative-fixture diagnostics are not counted as independent gate failures.",
-      "verificationPlan": "Run the gate wrapper regression with passing, failing, and expected-negative fixtures and assert deterministic report classification."
-    }
-  ],
   "verification": [
     "tests/ci/workflow_convergence_test.sh",
     "python3 tests/ci/quality_route_test.py",
