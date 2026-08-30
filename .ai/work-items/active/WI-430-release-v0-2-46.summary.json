@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-430-release-v0-2-46.contract.json",
+    ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T18:05:45Z",
+  "checkpointContractDigest": "sha256:f25cf1353edafa26398225c76d753d1a4e8ce93607701bb897cbfa04a592fbe8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:85e85f61a4c98722d6a4d4aefafef6823692189137aca789851a989dff3f2a47",
+  "createdAt": "2026-08-30T18:05:00Z",
+  "failedGate": "finish.governance",
+  "mode": "release",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T18:18:49Z",
+  "preflightContractDigest": "sha256:f25cf1353edafa26398225c76d753d1a4e8ce93607701bb897cbfa04a592fbe8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:85e85f61a4c98722d6a4d4aefafef6823692189137aca789851a989dff3f2a47",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-30T18:19:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-430-release-v0-2-46"
+}
