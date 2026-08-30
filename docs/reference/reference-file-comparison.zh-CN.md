@@ -144,11 +144,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=60 deferred-next-batch=468 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=65 deferred-next-batch=463 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、324 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、60 条 `reference-only` 与 468 条
+`implemented-equivalent`、4 条 `not-applicable`、65 条 `reference-only` 与 463 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -159,7 +159,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，468 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，463 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
@@ -946,3 +946,26 @@ fixture 文件。Swift Package 拓扑、源码和 XCTest 语义映射到 adopter
 WI-394 后清单为 4,262 个 `generated-history`、324 个 `implemented-different-by-design`、1 个
 `implemented-equivalent`、4 个 `not-applicable`、47 个 `reference-only` 和 481 个
 `deferred-next-batch`；`migrate-gap` 仍为零。
+
+## WI-420：mixed-monorepo fixture 边界
+
+WI-420 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐一比较
+`examples/fixtures/mixed-monorepo/` 下的五个文件。它们是可执行的业务示例，
+不是 Rust Runtime 代码或可移植的企业证据，因此五个路径均记录为
+`reference-only`，并明确对象工程边界。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `fixture.json` | reference-only | 记录示例的 Python/Node 标记、平台和 safe/test 路径。Project Observer/Profile 可以记录实际观察到的事实，但 Runtime 不从此文件推断工具链能力或安全范围。 |
+| `package.json` | reference-only | 包元数据只是示例业务输入。Node 安装、依赖、脚本和执行仍由对象工程/provider 负责。 |
+| `pyproject.toml` | reference-only | Python 打包元数据不是可移植 Contract 或 Runtime 依赖；Python 安装、依赖和测试命令需要对象工程明确提供证据。 |
+| `services/api/app.py` | reference-only | 健康函数是业务示例代码，不是治理逻辑。Runtime 可以绑定对象工程声明的 argv 结果，但不会携带或推断 Python 行为。 |
+| `services/api/tests/test_app.py` | reference-only | pytest 断言只是 fixture 证据。对象工程必须声明并运行自己的验证命令；源测试不会被提升为目标证据。 |
+
+本批保留可迁移的治理含义——观察事实、显式范围、provider 执行责任和证据绑定——
+但不复制 mixed fixture、Python/Node 工具链、安装行为或源 JSON wire。每个 attach 的
+对象/采用方工程都从共享 Runtime 继承相同的 Contract、lifecycle、evidence、knowledge
+和人类 Outcome 控制；仓库 identity 与事实仍在显式 `--repo` 下隔离。本批不声明
+mixed-stack 工具链支持，也不构成第二技术栈 adopter 验收。WI-420 后台账为 4,262 条
+`generated-history`、324 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、
+4 条 `not-applicable`、65 条 `reference-only` 与 463 条 `deferred-next-batch`；`migrate-gap` 仍为 0。

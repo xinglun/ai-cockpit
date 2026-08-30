@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "All five pinned mixed-monorepo paths are read and classified one by one",
+    "No source fixture, installer, Python/Node dependency, or provider-global configuration is copied",
+    "Rust-native/adopter boundary and unknowns are documented in English, Chinese, and Japanese",
+    "Machine inventory and parity records bind the pinned source commit and remain checkable",
+    "Object/adopter projects inherit the same explicit repo-bound Runtime contract without unproven mixed-stack support claims"
+  ],
+  "authority": "authorized",
+  "baseRevision": "5b98268cf7becfd7a37bb877398616ba05afd405",
+  "createdAt": "2026-08-30T09:46:59Z",
+  "goal": "完成 mixed-monorepo fixture 五个参考路径的逐文件语义比对，更新三语比对记录和机器清单，验证当前 Runtime 对混合技术栈对象工程的共享治理能力与隔离边界。",
+  "intent": "逐文件比对固定参考源中的 mixed-monorepo fixture，确认其可迁移的治理语义，并将对象工程可继承的边界记录为 Rust 原生、显式未知或 reference-only；不得复制业务 fixture、Python/Node 工具链或源仓库安装实现。",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust Runtime implementation changes",
+    " Python/Node source or installer copying",
+    " global Agent/MCP configuration",
+    " other fixture families",
+    " release/adopter acceptance",
+    " lib.rs architecture split"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5a5d3b373616458bdf2184e8039bc277d3edb9210d536412727b854457aa4733",
+  "requiredEvidenceClasses": [
+    "native_governance",
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-420-reference-mixed-monorepo",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-420-reference-mixed-monorepo"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/mixed-monorepo-fixture-adaptation.md",
+    "docs/reference/mixed-monorepo-fixture-adaptation.zh-CN.md",
+    "docs/reference/mixed-monorepo-fixture-adaptation.ja.md",
+    "docs/work-items/WI-420-reference-mixed-monorepo.md",
+    "docs/work-items/WI-420-reference-mixed-monorepo.zh-CN.md",
+    "docs/work-items/WI-420-reference-mixed-monorepo.ja.md",
+    "tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-420-reference-mixed-monorepo"
+}

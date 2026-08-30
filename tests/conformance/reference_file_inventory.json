@@ -33801,38 +33801,54 @@
     },
     {
       "referencePath": "examples/fixtures/mixed-monorepo/fixture.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-420-reference-mixed-monorepo",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/mixed-monorepo-fixture-adaptation.md",
+        "docs/reference/configuration.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The fixture metadata describes a mixed Python/Node sample, platforms, and safe/test paths. It is reference-only: the target keeps observed project facts repository-local and does not infer mixed-stack capability or copy fixture metadata."
     },
     {
       "referencePath": "examples/fixtures/mixed-monorepo/package.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-420-reference-mixed-monorepo",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/mixed-monorepo-fixture-adaptation.md",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "reason": "The package descriptor is fixture application metadata, not Runtime or governance policy. Node installation, dependencies, scripts, and package execution remain adopter/provider responsibilities and are not copied."
     },
     {
       "referencePath": "examples/fixtures/mixed-monorepo/pyproject.toml",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-420-reference-mixed-monorepo",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/mixed-monorepo-fixture-adaptation.md",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "reason": "The Python project metadata is a fixture packaging input, not a portable Contract or Runtime dependency. Python installation, dependencies, and test execution remain explicit adopter/provider evidence."
     },
     {
       "referencePath": "examples/fixtures/mixed-monorepo/services/api/app.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-420-reference-mixed-monorepo",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/mixed-monorepo-fixture-adaptation.md",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "reason": "The health function is fixture application code, not governance logic. A target adopter must declare its own verification argv; the Runtime does not ship or infer Python semantics from this file."
     },
     {
       "referencePath": "examples/fixtures/mixed-monorepo/services/api/tests/test_app.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-420-reference-mixed-monorepo",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/mixed-monorepo-fixture-adaptation.md",
+        "docs/reference/verification-evidence-reuse.md"
+      ],
+      "reason": "The pytest assertion is fixture evidence only, not a portable Runtime test contract or enterprise proof. Adopters explicitly declare and run their own command and bind its result to repository evidence."
     },
     {
       "referencePath": "examples/fixtures/python/fixture.json",

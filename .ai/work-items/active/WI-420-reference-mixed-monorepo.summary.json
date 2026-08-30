@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-420-reference-mixed-monorepo.contract.json",
+    ".ai/work-items/active/WI-420-reference-mixed-monorepo.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T09:47:26Z",
+  "checkpointContractDigest": "sha256:1c7ce1c24f6724ff30fc42378ca0b8dedb6440b845383700f83e8c1587a391ab",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d5ccf66fc9172645272dbdc2bcac1907962921e9f5daef0899ca6743496632a9",
+  "createdAt": "2026-08-30T09:46:59Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T10:01:21Z",
+  "preflightContractDigest": "sha256:1c7ce1c24f6724ff30fc42378ca0b8dedb6440b845383700f83e8c1587a391ab",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d5ccf66fc9172645272dbdc2bcac1907962921e9f5daef0899ca6743496632a9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-30T10:01:30Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-420-reference-mixed-monorepo"
+}
