@@ -1,0 +1,199 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-423-ci-convergence.contract.json",
+    ".ai/work-items/active/WI-423-ci-convergence.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T12:44:32Z",
+  "checkpointContractDigest": "sha256:10bbda9cdf2f49bf982aa80cd5529b22d39ea0a082e237cdca78878c87917c97",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:2dd140757dbaacc6fca1a0aba3fdb3cf9225bcbfdb46caea6120606353c7c2b7",
+      "recorded": true,
+      "recordedAt": "2026-08-30T12:44:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:57dadec49dceeb4de204656959fd94604e7e066fca38cf4d2768a9902770c08c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-423-ci-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:babd648a8ffd3212eea0289c324d4647888ad73a1ec57479eeaf6cfb03211488",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2dd140757dbaacc6fca1a0aba3fdb3cf9225bcbfdb46caea6120606353c7c2b7",
+      "previousContractHash": "sha256:2dd140757dbaacc6fca1a0aba3fdb3cf9225bcbfdb46caea6120606353c7c2b7",
+      "reason": "Corrected the Contract documentation paths to the repository\\x27s actual ci-quality-gates counterparts before implementation.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T12:45:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:57dadec49dceeb4de204656959fd94604e7e066fca38cf4d2768a9902770c08c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-423-ci-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:f556bf038fd2d88d5b53794025dfdb98472f46fbed8f80f7c91ca45e607ba1fd",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2dd140757dbaacc6fca1a0aba3fdb3cf9225bcbfdb46caea6120606353c7c2b7",
+      "previousContractHash": "sha256:babd648a8ffd3212eea0289c324d4647888ad73a1ec57479eeaf6cfb03211488",
+      "reason": "Added the executable route, manifest, and workspace verification commands to the Contract before implementation.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T12:54:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:31af866819736161d8f4317b88f1611c32133fef35d34c8422d67d0c884bafca",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-423-ci-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:87efb37e4f0eb04bee7d49e40f3428959518254575ea02fa014f3ab855208d32",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2dd140757dbaacc6fca1a0aba3fdb3cf9225bcbfdb46caea6120606353c7c2b7",
+      "previousContractHash": "sha256:f556bf038fd2d88d5b53794025dfdb98472f46fbed8f80f7c91ca45e607ba1fd",
+      "reason": "Added the canonical gate manifest to the Work Item scope after the route regression exposed the missing binding.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T12:55:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:31af866819736161d8f4317b88f1611c32133fef35d34c8422d67d0c884bafca",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-423-ci-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:10bbda9cdf2f49bf982aa80cd5529b22d39ea0a082e237cdca78878c87917c97",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2dd140757dbaacc6fca1a0aba3fdb3cf9225bcbfdb46caea6120606353c7c2b7",
+      "previousContractHash": "sha256:87efb37e4f0eb04bee7d49e40f3428959518254575ea02fa014f3ab855208d32",
+      "reason": "Added the route implementation file to the scope after the first implementation pass exposed the omitted binding.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T12:55:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:31af866819736161d8f4317b88f1611c32133fef35d34c8422d67d0c884bafca",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-423-ci-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2dd140757dbaacc6fca1a0aba3fdb3cf9225bcbfdb46caea6120606353c7c2b7",
+      "previousContractHash": "sha256:10bbda9cdf2f49bf982aa80cd5529b22d39ea0a082e237cdca78878c87917c97",
+      "reason": "Fix finalization-plan replacement to honor complete provisional context semantics and prevent the observed finish deadlock.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T13:08:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d63fc9fd4cc97af51878316368f3a2b9ec584aa27a68d89e319d2283e70b7492",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-423-ci-convergence"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ac5982d99fc0e06934a48350329aaeef99122a7820ed2a23830e4f659452505b",
+  "createdAt": "2026-08-30T12:37:06Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/workflow_convergence_test.sh",
+      "tests/ci/quality_route_test.py",
+      "tests/ci/repository_gate_manifest_test.sh",
+      "cargo test --locked --workspace"
+    ],
+    "reason": "The route, lifecycle-boundary, and gate-runner regressions exercise the declared CI convergence intent.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T13:08:59Z",
+  "preflightContractDigest": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "preflightRepositorySnapshotDigest": "sha256:e3025ca478b89cedfd65cba93185f1d9aaa50a26671e8d6eff588ed8248fe033",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryRetryDecisionDigest": "sha256:6028dada974b6b21e90d20ba88b63704e612a8704f12d15efc748a6f70d46744",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-423-ci-convergence.recovery.json",
+  "recoveryRetryPending": true,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "required": true,
+      "scenario": "superseded_quality_run_cancellation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "required": true,
+      "scenario": "pre_push_lifecycle_boundary",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/quality_route_test.py"
+      ],
+      "required": true,
+      "scenario": "dynamic_quality_profile_selection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "required": true,
+      "scenario": "single_gate_root_cause_and_remediation",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-30T13:04:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-08-30T13:08:01Z"
+  },
+  "workItemId": "WI-423-ci-convergence"
+}

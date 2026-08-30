@@ -1,0 +1,128 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "createdAt": "2026-08-30T13:20:13Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 190170,
+      "executionElapsedMs": 189764,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+      "runtimeVersion": "0.2.44",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 190170,
+    "executionElapsedMs": 189764,
+    "filesHashed": 10,
+    "filesRead": 13,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "d1d80a22b0fb2d219da51dacc7e4a89b8780c5df",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 189764,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b28e16a18bc547f107db862adb5be6964c283d4f191646d36e34a9006e24c03c",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-424-ci-convergence-finalization-recovery"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [
+      {
+        "context": {
+          "commandDigest": "sha256:69aa8049859ee8e97493f8d58033e85f00790b319344a881318092c90482de9f",
+          "contentDigest": "sha256:b28e16a18bc547f107db862adb5be6964c283d4f191646d36e34a9006e24c03c",
+          "diff": {
+            "baseCommit": "4657d7a7153ea846ea98de0c88f8ae89f947bc7c",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "4657d7a7153ea846ea98de0c88f8ae89f947bc7c"
+          },
+          "environmentDigest": "sha256:1340cc7b74b40f4204f5710729a42584a4cc38e53de009bbee760ff87a36b019",
+          "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
+          "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+          "profileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+          "runner": "local",
+          "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+          "stage": "task",
+          "toolchainDigest": "sha256:b01549e738cf867660b9ec359f8a53cd07be7218206d4a2b77b19447f68093fc"
+        },
+        "createdAtEpochSeconds": 1788095823,
+        "expiresAtEpochSeconds": 1788182223,
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:58e0e9c37c875102c52185c39c362dada79cde75b1aa57e8f9be7840b1e7f93e",
+        "passed": true,
+        "receiptId": "sha256:924796ad1dd4f852eaeabf74f18a5b4b4ad3f71879805fa8e07cc15c0fa73e04",
+        "schemaVersion": 2
+      }
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 1,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:58e0e9c37c875102c52185c39c362dada79cde75b1aa57e8f9be7840b1e7f93e",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "binding_mismatch",
+        "receiptId": "sha256:924796ad1dd4f852eaeabf74f18a5b4b4ad3f71879805fa8e07cc15c0fa73e04",
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "stale",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+    "runtimeVersion": "0.2.44",
+    "workItemId": "WI-424-ci-convergence-finalization-recovery"
+  },
+  "receiptDigest": "sha256:9a88d5172f7041c8388eeeef2899cbf9b506388cb57fe34dec20cbc738646b74",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b28e16a18bc547f107db862adb5be6964c283d4f191646d36e34a9006e24c03c",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "workItemId": "WI-424-ci-convergence-finalization-recovery"
+}
