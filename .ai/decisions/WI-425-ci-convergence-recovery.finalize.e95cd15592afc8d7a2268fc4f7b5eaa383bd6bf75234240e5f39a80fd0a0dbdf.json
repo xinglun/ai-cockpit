@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "b435cb8f408ed6e99e1ef91f86e5c9a34022d0fd",
+  "predecessorReceiptDigest": "sha256:a03649267572e7503ab71861160c1b702525d6e3d8909b1378a082a2beb64da1",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "b435cb8f408ed6e99e1ef91f86e5c9a34022d0fd",
+      "name": "codex/wi-425-ci-convergence-final",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:a566239c3016abfd9a6c2f9a4f3a5da1dde16165183402f8e157470d96a25dc4",
+    "operationId": "github-pr-390-merged-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "d1d80a22b0fb2d219da51dacc7e4a89b8780c5df",
+      "headRevision": "b435cb8f408ed6e99e1ef91f86e5c9a34022d0fd",
+      "mergeCommit": "0681f9db8b0e744296f6df8ec4d6a8de86980b37",
+      "number": 390,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/390"
+    },
+    "reason": "PR #390 passed all hosted checks and was merged as 0681f9db8b0e744296f6df8ec4d6a8de86980b37; retain resources until exact cleanup is verified.",
+    "receiptId": "WI-425-ci-convergence-recovery-merged-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-425-ci-convergence-final",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/390",
+      "worktree": "/private/tmp/ai-cockpit-wi-425-ci-convergence-final"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+    "runtimeVersion": "0.2.44",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-30T14:20:00Z",
+    "workItemId": "WI-425-ci-convergence-recovery",
+    "worktree": {
+      "branch": "codex/wi-425-ci-convergence-final",
+      "headRevision": "b435cb8f408ed6e99e1ef91f86e5c9a34022d0fd",
+      "path": "/private/tmp/ai-cockpit-wi-425-ci-convergence-final",
+      "worktreeId": "WI-425-ci-convergence-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-425-ci-convergence-recovery-merged-observed-1"
+}
