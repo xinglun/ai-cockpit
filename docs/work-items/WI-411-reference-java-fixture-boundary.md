@@ -7,6 +7,10 @@ audience: [maintainer, reviewer, adopter]
 status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-411-reference-java-fixture-boundary
+terminalArchive: .ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json
+terminalVerification: .ai/evidence/WI-411-reference-java-fixture-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-411-reference-java-fixture-boundary.finalize.0f666cb7a60ec506e3e8abefb6bfec0c973bd690abc1be18aa2394cb2cf1e194.json
+terminalDecision: .ai/decisions/WI-411-reference-java-fixture-boundary.close.json
 ---
 
 # WI-411 — Java multi-module fixture boundary
