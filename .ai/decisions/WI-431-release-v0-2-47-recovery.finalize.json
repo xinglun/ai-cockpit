@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "374d88de4fe02250ae50b019bc416378f2f0234c",
+    "name": "codex/wi-431-release-v0-2-47",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:8403db87c0a3163a13afa04e45153d97fba2010236907d21ad925c64664fda3e",
+  "operationId": "delete-WI-431-release-v0-2-47",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "3a38e67fe14876b8822decdf8a8d7a68c496d26c",
+    "headRevision": "374d88de4fe02250ae50b019bc416378f2f0234c",
+    "mergeCommit": "00442d235a813c6ee1c61c4d60b4760244e693ea",
+    "number": 397,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/397"
+  },
+  "reason": "Finalize the reviewed v0.2.47 recovery Work Item after PR #397 and prove exact branch and worktree cleanup before public publication.",
+  "receiptId": "ai-cockpit-WI-431-release-v0-2-47",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-431-release-v0-2-47",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/397",
+    "worktree": "/private/tmp/ai-cockpit-wi431"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T00:20:00Z",
+  "workItemId": "WI-431-release-v0-2-47-recovery",
+  "worktree": {
+    "branch": "codex/wi-431-release-v0-2-47",
+    "headRevision": "374d88de4fe02250ae50b019bc416378f2f0234c",
+    "path": "/private/tmp/ai-cockpit-wi431",
+    "worktreeId": "WI-431-release-v0-2-47-recovery"
+  }
+}
