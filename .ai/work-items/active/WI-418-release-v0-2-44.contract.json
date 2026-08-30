@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and lockfile advance exactly one patch from v0.2.43 to v0.2.44 without reusing an existing tag or Release.",
+    "The reviewed release workflow binds the exact reviewed commit, target archives, SBOMs, manifest, Formula, SHA256SUMS, provenance, and immutable tag/Release identity.",
+    "Current release, installation, versioning, and parity documentation remain synchronized in English, Simplified Chinese, and Japanese, with historical releases explicitly retained as historical.",
+    "Post-release acceptance remains a separate Work Item using only the immutable public v0.2.44 artifact; no source or workspace fallback is allowed.",
+    "Reviewed merge, finalization, close, default-branch synchronization, and exact branch/worktree cleanup leave main ready_on_base."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4203c251b80747bca0f8e5f1117f5b4da1f6a3de",
+  "createdAt": "2026-08-30T07:56:43Z",
+  "goal": "生成不可变且可验证的 v0.2.44 Release，保留完整 Release identity、文档一致性，并为独立发布后 adopter 验收提供 clean ready_on_base 基线。",
+  "intent": "发布已审查的 main 为 v0.2.44，修复 lockfile-aware Cargo 验证命令选择，并同步三语发布文档。",
+  "mode": "release",
+  "outOfScope": [
+    "Runtime governance semantics",
+    "reference-source/V1 runtime or installer copying",
+    "global Agent/MCP configuration",
+    "post-release adopter application source"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e381a9688a6208de559b9d9f736606ff36a6d56999f8f0a3fdfdf91939d04ff5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release",
+    "repository-isolation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-418-release-v0-2-44",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-418-release-v0-2-44"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-418-release-v0-2-44.md",
+    "docs/work-items/WI-418-release-v0-2-44.zh-CN.md",
+    "docs/work-items/WI-418-release-v0-2-44.ja.md",
+    "tests/release/**",
+    "tests/docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-418-release-v0-2-44"
+}
