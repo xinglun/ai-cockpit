@@ -7,6 +7,10 @@ audience: [adopter, contributor, maintainer, reviewer]
 status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-417-cargo-verification-lock-strategy
+terminalArchive: .ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json
+terminalVerification: .ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json
+terminalFinalization: .ai/decisions/WI-417-cargo-verification-lock-strategy.finalize.json
+terminalDecision: .ai/decisions/WI-417-cargo-verification-lock-strategy.close.json
 ---
 
 # WI-417 — deterministic Cargo verification scaffold selection
