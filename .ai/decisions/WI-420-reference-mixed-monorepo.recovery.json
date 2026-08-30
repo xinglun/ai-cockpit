@@ -1,0 +1,29 @@
+{
+  "actor": "human:maintainer",
+  "authoritySource": "human-instruction",
+  "decidedAt": "2026-08-30T10:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-420-reference-mixed-monorepo.finalize.json",
+    ".ai/work-items/archive/WI-420-reference-mixed-monorepo.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/385"
+  ],
+  "policyRefs": [
+    "docs/reference/repository-workflow.md",
+    "docs/reference/governance-integrity-gate.md"
+  ],
+  "predecessorContractDigest": "sha256:cfcaab8df488fcd88e1ce0d171130a4edcbb1c32e6203a0ee83c30542a81e7ad",
+  "predecessorEventsDigest": "sha256:e53cbaf584bbd4ec02931a8df993fb851d6980ebf645306920d7270610920ced",
+  "predecessorOutcomeDigest": "sha256:b8d405a33a8f48607bd6aa4c185ad03e114a38f831c3fda8feb23c277e74c070",
+  "predecessorSummaryDigest": "sha256:19b0082c7f022dfcfe81600076a59a20607ca7ac172884eccba346ba558ec6fb",
+  "predecessorWorkItemId": "WI-420-reference-mixed-monorepo",
+  "reason": "The immutable pre-merge finalization receipt recorded an incorrect worktree identity. Preserve WI-420 bytes and redeliver the same mixed-monorepo comparison from the latest base with a valid provider-bound receipt and parity registration.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create WI-421 from the latest origin/main, preserve WI-420 immutable bytes, register all three parity rows before verification, use worktreeId equal to the Work Item ID, pass hosted checks, merge, finalize, close, and clean exact resources.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-421-reference-mixed-monorepo-retry",
+  "workItemId": "WI-420-reference-mixed-monorepo"
+}
