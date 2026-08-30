@@ -6,9 +6,9 @@
     "A later post-release acceptance must use only the immutable public v0.2.46 artifact and must reject source, workspace, or local binary fallback.",
     "Reviewed merge, finalization, close, default-branch synchronization, and exact branch/worktree cleanup leave main ready_on_base."
   ],
-  "createdAt": "2026-08-30T18:22:52Z",
+  "createdAt": "2026-08-30T18:30:42Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:31784dff007bea45239b8ea1063d21dd240ae7641050a1b44ee95a45c94130a5",
+  "evidenceDigest": "sha256:12b255b29da9176d439b84306fa6a8894d341adfad2811430198a0bc84786e85",
   "evidenceRefs": [
     ".ai/evidence/WI-430-release-v0-2-46.verification.json"
   ],
