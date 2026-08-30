@@ -1,38 +1,4 @@
 {
-  "entries": [
-    {
-      "baseRevision": "70e8271e0325ea6a7019847895d763b0d9ab9e64",
-      "createdAt": "2026-08-30T09:20:00Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-419-release-v0-2-44-adopter-baseline.contract.json",
-        "finalize": ".ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.json",
-        "verification": ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
-      },
-      "headRevision": "be5510805046a5d107292801afc07f5c68277d91",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-419 — v0.2.44 post-release adopter baseline | In progress | [Work Item](../work-items/WI-419-release-v0-2-44-adopter-baseline.md); `.ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json`; `.ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.json` |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-419 ——v0.2.44 发布后 adopter 基线 | 进行中 | [Work Item](../work-items/WI-419-release-v0-2-44-adopter-baseline.zh-CN.md)；`.ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json`；`.ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.json` |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-419 — v0.2.44 post-release adopter baseline | In progress | [Work Item](../work-items/WI-419-release-v0-2-44-adopter-baseline.ja.md); `.ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json`; `.ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.json` |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 384,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/384"
-      },
-      "registryBaseRevision": "fef9165cc62f5377464cfb4b315b2dd92df282bf",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
-    }
-  ],
+  "entries": [],
   "schemaVersion": 1
 }

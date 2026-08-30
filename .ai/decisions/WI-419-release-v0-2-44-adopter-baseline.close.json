@@ -1,0 +1,133 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3ea136c0842ea0550c4ec4d9c77860f1acd1da90bbbddf70a29ace669c053dc8",
+      "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-acceptance/acceptance.json",
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-acceptance/SHA256SUMS",
+            ".ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.5e69364aa22b2a2fa6dafd2af75cd5eef1cc6b31b01bd41c09f4cdad956e9a08.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-30T10:10:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-419-release-v0-2-44-adopter-baseline.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-419-release-v0-2-44-adopter-baseline.contract.json"
+          ],
+          "inference": false,
+          "text": "Record and review the v0.2.44 public Release adopter acceptance without changing Runtime semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-419-release-v0-2-44-adopter-baseline.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+  },
+  "finalReportDigest": "sha256:f9c5347a601aac12ab49a4d0b8561f1f5768e1dcca6233f9a33654d3239f204d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:ae58f0acaf9a88ad61186829babfa07ab0cd60a0af4f2d1967306ba1a1afb260",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.5e69364aa22b2a2fa6dafd2af75cd5eef1cc6b31b01bd41c09f4cdad956e9a08.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-30T10:10:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-419-release-v0-2-44-adopter-acceptance/acceptance.json",
+      ".ai/evidence/WI-419-release-v0-2-44-adopter-acceptance/SHA256SUMS",
+      ".ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.5e69364aa22b2a2fa6dafd2af75cd5eef1cc6b31b01bd41c09f4cdad956e9a08.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "Reviewed PR #384 passed hosted checks, merged as c8634cabe4b80867c89ad8d2a5cc013129483b61, v0.2.44 adopter acceptance passed, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "none; terminal release adopter acceptance"
+  },
+  "timestamp": "2026-08-30T09:36:24Z",
+  "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+}

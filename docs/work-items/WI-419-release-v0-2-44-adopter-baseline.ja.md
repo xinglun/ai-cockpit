@@ -4,12 +4,12 @@ title: WI-419 — v0.2.44 post-release adopter 基線
 description: 公開 v0.2.44 adopter acceptance receipt と Runtime identity を保存する。
 workItemId: WI-419-release-v0-2-44-adopter-baseline
 audience: [adopter, contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-419-release-v0-2-44-adopter-baseline
 terminalArchive: .ai/work-items/archive/WI-419-release-v0-2-44-adopter-baseline.contract.json
 terminalVerification: .ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json
-terminalFinalization: .ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.json
+terminalFinalization: .ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.5e69364aa22b2a2fa6dafd2af75cd5eef1cc6b31b01bd41c09f4cdad956e9a08.json
 terminalDecision: .ai/decisions/WI-419-release-v0-2-44-adopter-baseline.close.json
 ---
 

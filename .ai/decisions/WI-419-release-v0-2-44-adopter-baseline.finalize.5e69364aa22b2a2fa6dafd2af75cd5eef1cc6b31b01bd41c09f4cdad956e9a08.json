@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:aac0aacc86b5bc65c563012b028cc2d3a5fd2d541dd95409efe8208c5fbee688",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "be5510805046a5d107292801afc07f5c68277d91",
+      "name": "codex/wi-419-release-v0-2-44-adopter",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:84eae9e449b233b7565f44137048238646983dbce88f5dc44ca21f7d821f37da",
+    "operationId": "WI-419-release-v0-2-44-adopter-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "70e8271e0325ea6a7019847895d763b0d9ab9e64",
+      "headRevision": "be5510805046a5d107292801afc07f5c68277d91",
+      "mergeCommit": "c8634cabe4b80867c89ad8d2a5cc013129483b61",
+      "number": 384,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/384"
+    },
+    "reason": "PR #384 passed hosted checks and merged as c8634cabe4b80867c89ad8d2a5cc013129483b61; exact remote branch and dedicated worktree were removed after main synchronization.",
+    "receiptId": "WI-419-release-v0-2-44-adopter-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-419-release-v0-2-44-adopter",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/384",
+      "worktree": "/private/tmp/ai-cockpit-wi-419-release-v0-2-44-adopter"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+    "runtimeVersion": "0.2.43",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-30T10:00:00Z",
+    "workItemId": "WI-419-release-v0-2-44-adopter-baseline",
+    "worktree": {
+      "branch": "codex/wi-419-release-v0-2-44-adopter",
+      "headRevision": "be5510805046a5d107292801afc07f5c68277d91",
+      "path": "/private/tmp/ai-cockpit-wi-419-release-v0-2-44-adopter",
+      "worktreeId": "WI-419-release-v0-2-44-adopter-baseline"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-419-release-v0-2-44-adopter-cleanup"
+}
