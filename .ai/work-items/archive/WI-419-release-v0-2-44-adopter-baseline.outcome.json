@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Public v0.2.44 Release archive is downloaded and verified by its published SHA256SUMS and release manifest; no source checkout or workspace binary is used.",
+    "The persisted artifact includes runtime identity, archive and binary digests, repository identity, attach/profile/Agent doctor outputs, first-adopter-smoke=not_ready, complete Work Item lifecycle, evidence reuse, isolation manifests, cleanup proof, acceptance.json, and SHA256SUMS.",
+    "Every lifecycle record binds the adopter repository and downloaded Runtime identity, and the temporary acceptance run root is proven removed on completion.",
+    "English, Simplified Chinese, and Japanese release documentation identify v0.2.44 as the persisted baseline and link the retained evidence without changing governance facts.",
+    "No files outside the declared scope are changed; historical receipts remain immutable."
+  ],
+  "createdAt": "2026-08-30T09:04:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fdb2f0b6716893a9826e707c11f9fc58146c2f9034f53e4469e1d499bd78e796",
+  "evidenceRefs": [
+    ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3ea136c0842ea0550c4ec4d9c77860f1acd1da90bbbddf70a29ace669c053dc8",
+      "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-419-release-v0-2-44-adopter-baseline.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-419-release-v0-2-44-adopter-baseline.contract.json"
+          ],
+          "inference": false,
+          "text": "Record and review the v0.2.44 public Release adopter acceptance without changing Runtime semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-419-release-v0-2-44-adopter-baseline.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+  },
+  "taskReportDigest": "sha256:42bee0bd13554702f6e2bd5e83b76325537a6376296219bbfb91c44a4b7fce7d",
+  "taskReportMarkdownDigest": "sha256:03f60d81b04e53aae3af8f206df433ff2902ee0a62ae8fa9d092bcf52d8b901d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+}

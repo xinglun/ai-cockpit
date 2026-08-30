@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/private/tmp/ai-cockpit-wi-419-release-v0-2-44-adopter",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": " M .ai/work-items/active/WI-419-release-v0-2-44-adopter-baseline.summary.json",
+  "sourceAfterStatus": " M .ai/work-items/active/WI-419-release-v0-2-44-adopter-baseline.summary.json",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:11fec5ef655425b44e612b11dcddac388a7666bb74e5b1a7830a0b6796df4926",
+    "afterDigest": "sha256:11fec5ef655425b44e612b11dcddac388a7666bb74e5b1a7830a0b6796df4926"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/tmp/ai-cockpit-adopter-acceptance.0gzZdw/adopter-control",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:f7f974c05cf687f27235f4d1dd961d14603635f65d4031603f89dd18367003e0",
+      "afterDigest": "sha256:d400ae3ac17ca7056038b74aa6176d6bd79ddba516d28dbeddc96a4becede2a3",
+      "symlinkTargetsContained": true
+    }
+  }
+}

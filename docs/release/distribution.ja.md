@@ -148,12 +148,13 @@ baseline はありません。repository に保持された WI-239 receipt は h
 今後の成功した Release は、adopter baseline と呼ぶ前に自身の public-binary receipt を永続化する必要があります。
 hosted job artifact だけでは repository-persisted baseline になりません。
 
-永続化された adopter acceptance baseline: `aarch64-apple-darwin`（WI-416、公開
-`v0.2.43`；binary digest は
-`sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533`）。
-完全な receipt は `.ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/` に保持する。
-以前の WI-239 receipt は immutable な historical v0.2.31 evidence として残し、hosted
-job artifact を repository-persisted baseline の代替にはしない。
+永続化された adopter acceptance baseline: `aarch64-apple-darwin`（WI-419、公開
+`v0.2.44`；binary digest は
+`sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5`）。
+完全な receipt は `.ai/evidence/WI-419-release-v0-2-44-adopter-acceptance/` に保持する。
+WI-416 は immutable な historical v0.2.43 baseline として残し、以前の WI-239 receipt は
+historical v0.2.31 evidence として保持する。hosted job artifact を repository-persisted
+baseline の代替にはしない。
 GitHub Actions run `32696048024` は `x86_64-unknown-linux-gnu` の hosted Linux acceptance
 evidence として別途保持し、この single-target の永続化 baseline とは区別する。
 
