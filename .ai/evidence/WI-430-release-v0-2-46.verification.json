@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:32a285d1993d7dbe857babccb455b94ac44514a697e224bd5c287f029f6f785d",
-  "createdAt": "2026-08-30T18:30:34Z",
+  "createdAt": "2026-08-30T18:57:48Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 155168,
-      "executionElapsedMs": 154891,
+      "elapsedMs": 129874,
+      "executionElapsedMs": 129584,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 155168,
-    "executionElapsedMs": 154891,
+    "elapsedMs": 129874,
+    "executionElapsedMs": 129584,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 154891,
+      "executionElapsedMs": 129584,
       "finalTier": "T2",
       "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:85e85f61a4c98722d6a4d4aefafef6823692189137aca789851a989dff3f2a47",
+      "repositorySnapshotDigest": "sha256:3f181a95e55670762d7116d0c67f083f1c270740ab90270f0b4cfbde0f24e8a7",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:6e3e9109309c41f5944caacc9483e5f6b36b29f8f3a3d171526c19819d09c8bf",
+        "outputDigest": "sha256:8e393787b9374b7e0e89940466927bacfb330169adb6f29f32819b3de0caa86d",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.44",
     "workItemId": "WI-430-release-v0-2-46"
   },
-  "receiptDigest": "sha256:4167814fd4fbd9dc38647aff00253431fd50f51a161591292e3a1aeb5a7044ee",
+  "receiptDigest": "sha256:eea28e944febd70ab6ee3cdf6c261bbd754d6b9334226592f8ecc26453070716",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:85e85f61a4c98722d6a4d4aefafef6823692189137aca789851a989dff3f2a47",
+  "repositorySnapshotDigest": "sha256:3f181a95e55670762d7116d0c67f083f1c270740ab90270f0b4cfbde0f24e8a7",
   "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
   "runtimeVersion": "0.2.44",
   "workItemId": "WI-430-release-v0-2-46"

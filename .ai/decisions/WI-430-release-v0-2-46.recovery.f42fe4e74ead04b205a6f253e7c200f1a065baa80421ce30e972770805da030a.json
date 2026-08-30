@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T18:50:03Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-430-release-v0-2-46.events.jsonl",
+    ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:32a285d1993d7dbe857babccb455b94ac44514a697e224bd5c287f029f6f785d",
+  "predecessorEventsDigest": "sha256:e3b008e3d8b68810debadd497898bdc7a2d8eefce24116ef406f7b2a768aea6c",
+  "predecessorOutcomeDigest": "sha256:0882f04de85bd1c32c623288b83ecf82433949c713373901cbadcc1e93310962",
+  "predecessorSummaryDigest": "sha256:9b9d3ef939804996dee185860a3d5289013e696771799d25cd0ad83864f776bf",
+  "predecessorWorkItemId": "WI-430-release-v0-2-46",
+  "reason": "A documentation change after the previous successful finish made its verification snapshot stale. The lifecycle requires an explicit retry recovery before re-verification; preserve the immutable prior attempt and refresh the same release Work Item through the Runtime recovery path.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, use the existing checkpoint, execute release verification, and finish; do not run finish from finish_ready and do not modify generated records manually.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-430-release-v0-2-46"
+}

@@ -6,9 +6,9 @@
     "A later post-release acceptance must use only the immutable public v0.2.46 artifact and must reject source, workspace, or local binary fallback.",
     "Reviewed merge, finalization, close, default-branch synchronization, and exact branch/worktree cleanup leave main ready_on_base."
   ],
-  "createdAt": "2026-08-30T18:30:42Z",
+  "createdAt": "2026-08-30T18:57:51Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:12b255b29da9176d439b84306fa6a8894d341adfad2811430198a0bc84786e85",
+  "evidenceDigest": "sha256:266833bb1fd9e3702827f64e71e38aabfc227ce6a4bb457f6b1675022f664502",
   "evidenceRefs": [
     ".ai/evidence/WI-430-release-v0-2-46.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-430-release-v0-2-46.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:85e85f61a4c98722d6a4d4aefafef6823692189137aca789851a989dff3f2a47",
+      "repositorySnapshotDigest": "sha256:3f181a95e55670762d7116d0c67f083f1c270740ab90270f0b4cfbde0f24e8a7",
       "workItemId": "WI-430-release-v0-2-46"
     },
     "format": "ai-cockpit.task-outcome",
@@ -130,7 +130,7 @@
     "status": "verified",
     "workItemId": "WI-430-release-v0-2-46"
   },
-  "taskReportDigest": "sha256:c1a711cbb6b16f5d44c4b071b757338b528d3ffd5272afc3348d7538f812aefd",
+  "taskReportDigest": "sha256:092cd1a6f7ef5cd7e979757eca122df33083be92164e17cb8a3117849ee041a4",
   "taskReportMarkdownDigest": "sha256:85f8249027472881e52d3fdb1ce7a3fdbaf096abca9724406c97d22156fd9b4a",
   "unknowns": [
     "user_visible_benefit_not_declared"
