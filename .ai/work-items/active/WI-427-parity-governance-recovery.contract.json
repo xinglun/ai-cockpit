@@ -56,7 +56,10 @@
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-427-parity-governance-recovery.md",
     "docs/work-items/WI-427-parity-governance-recovery.zh-CN.md",
-    "docs/work-items/WI-427-parity-governance-recovery.ja.md"
+    "docs/work-items/WI-427-parity-governance-recovery.ja.md",
+    "docs/work-items/WI-426-recovery-successor-binding.md",
+    "docs/work-items/WI-426-recovery-successor-binding.zh-CN.md",
+    "docs/work-items/WI-426-recovery-successor-binding.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",

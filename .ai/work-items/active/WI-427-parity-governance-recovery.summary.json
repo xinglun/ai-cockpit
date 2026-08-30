@@ -4,16 +4,74 @@
     ".ai/work-items/active/WI-427-parity-governance-recovery.contract.json",
     ".ai/work-items/active/WI-427-parity-governance-recovery.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-08-30T15:42:54Z",
+  "checkpointContractDigest": "sha256:9c5d7b1214d2f0051e361c6f24cad8540a586b2acb8a37a2f794045a5cf2ba19",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c6525b4e672e792eac8992317280638214d29d5c920920029fb5eb1eb9d8334a",
+      "recorded": true,
+      "recordedAt": "2026-08-30T15:42:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4b0b071d8b83da84b9400de68937cc621a36f983d3000926ce061237446475b3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-427-parity-governance-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9c5d7b1214d2f0051e361c6f24cad8540a586b2acb8a37a2f794045a5cf2ba19",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c6525b4e672e792eac8992317280638214d29d5c920920029fb5eb1eb9d8334a",
+      "previousContractHash": "sha256:c6525b4e672e792eac8992317280638214d29d5c920920029fb5eb1eb9d8334a",
+      "reason": "Add the three inherited WI-426 Work Item projections to the bounded redelivery scope because the parity gate validates documentation for every registered archived item.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T15:49:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b137e2a76e3a36c7349e1cc4c3c3b1c0388845f76f3bf57d2f9d4900721c9c5c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-427-parity-governance-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4b0b071d8b83da84b9400de68937cc621a36f983d3000926ce061237446475b3",
   "createdAt": "2026-08-30T15:40:14Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/docs/parity_status_check.sh",
+      ".ai/evidence/WI-427-parity-governance-recovery.verification.json",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The parity ledger correction and redelivery are directly bounded to the hosted CI omission recorded in the successor Contract.",
+    "state": "resolved"
+  },
   "mode": "code",
   "predecessorContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
   "predecessorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-30T15:52:16Z",
+  "preflightContractDigest": "sha256:9c5d7b1214d2f0051e361c6f24cad8540a586b2acb8a37a2f794045a5cf2ba19",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4b0b071d8b83da84b9400de68937cc621a36f983d3000926ce061237446475b3",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8d5f0dc611416dd2d6aa7d0b93f02aedaafb3c8ffbed1a14b7a329e34d6a6274.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-08-30T15:40:28Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-30T15:48:36.389834+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-427-parity-governance-recovery"
 }
