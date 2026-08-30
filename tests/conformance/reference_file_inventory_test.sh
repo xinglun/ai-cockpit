@@ -120,6 +120,23 @@ test "$(jq '[.records[] | select(.batch == "WI-411-reference-java-fixture-bounda
 grep -q "Java multi-module fixture" "$root/docs/reference/reference-file-comparison.md"
 grep -q "Java 多模块 fixture" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "Java マルチモジュール fixture" "$root/docs/reference/reference-file-comparison.ja.md"
+wi414_paths=(
+  examples/fixtures/python/fixture.json
+  examples/fixtures/python/pyproject.toml
+  examples/fixtures/python/src/service.py
+  examples/fixtures/python/tests/test_service.py
+)
+for wi414_path in "${wi414_paths[@]}"; do
+  test "$(jq --arg path "$wi414_path" '[.records[] | select(.referencePath == $path and .batch == "WI-414-reference-python-fixture-boundary" and .classification == "reference-only" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-414-reference-python-fixture-boundary")] | length' "$manifest")" -eq 4
+test "$(jq '[.records[] | select(.batch == "WI-414-reference-python-fixture-boundary" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+grep -q "Python fixture boundary" "$root/docs/reference/reference-file-comparison.md"
+grep -q "Python fixture 边界" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "Python fixture の境界" "$root/docs/reference/reference-file-comparison.ja.md"
+grep -q "Python fixture adaptation" "$root/docs/reference/README.md"
+grep -q "Python fixture 适配" "$root/docs/reference/README.zh-CN.md"
+grep -q "Python fixture 適応" "$root/docs/reference/README.ja.md"
 test "$(jq -r '.records[] | select(.batch == "governance-entrypoints" and .classification == "deferred-next-batch") | .referencePath' "$manifest" | wc -l | tr -d ' ')" -eq 0
 grep -q "static reference-impact scanner is not a Rust Runtime" "$root/docs/reference/governance-profiles.md"
 grep -q "静态 reference-impact scanner 不是本版本 Rust Runtime" "$root/docs/reference/governance-profiles.zh-CN.md"

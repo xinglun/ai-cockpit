@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T05:09:24Z",
+  "files": {
+    "contractDigest": "sha256:5a031dd1e9b1716063146cb5c868007168c81866e129405334181475fef35532",
+    "contractPath": ".ai/work-items/archive/WI-414-reference-python-fixture-boundary.contract.json",
+    "eventsDigest": "sha256:824596f64ccf3e447a23e0e9e72a09289daf66781034e9c2ed2d001309259b71",
+    "eventsPath": ".ai/work-items/archive/WI-414-reference-python-fixture-boundary.events.jsonl",
+    "outcomeDigest": "sha256:b83f443a23ac8822ca602c4b6d6616b5816448939f26f001a1a2bedf71991bb5",
+    "outcomePath": ".ai/work-items/archive/WI-414-reference-python-fixture-boundary.outcome.json",
+    "summaryDigest": "sha256:a0f716ef0f78b45a78c26994df064cfa4f44e75ae8ac141ef8b2e5c132d1e7f0",
+    "summaryPath": ".ai/work-items/archive/WI-414-reference-python-fixture-boundary.summary.json",
+    "taskReportDigest": "sha256:33559aa4c118d8f3531e365d8a21e1f1e81bd27b4d3638b8b809d0e5aca1b632",
+    "taskReportMarkdownDigest": "sha256:2f146ba131a885107772935015893ec00ac174450de204dc29bea7c18ce09449",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-414-reference-python-fixture-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-414-reference-python-fixture-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-414-reference-python-fixture-boundary"
+}

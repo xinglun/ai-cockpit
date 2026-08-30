@@ -54,6 +54,7 @@ WI347_BATCH = "WI-347-reference-knowledge-trust-lifecycle-assessment"
 WI348_BATCH = "WI-348-reference-verification-operation-policy"
 WI368_BATCH = "WI-368-reference-file-comparison-batch-16"
 WI411_BATCH = "WI-411-reference-java-fixture-boundary"
+WI414_BATCH = "WI-414-reference-python-fixture-boundary"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1625,6 +1626,45 @@ WI411_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
 }
 
 
+WI414_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "examples/fixtures/python/fixture.json": (
+        "reference-only",
+        [
+            "docs/reference/python-fixture-adaptation.md",
+            "docs/reference/configuration.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "This metadata describes the reference sample's Python stack, local paths, and platform claims. The target keeps project facts repository-local and evidence-bound; the shared Runtime does not infer Python capability or copy fixture metadata.",
+    ),
+    "examples/fixtures/python/pyproject.toml": (
+        "reference-only",
+        [
+            "docs/reference/python-fixture-adaptation.md",
+            "docs/reference/verification-route.md",
+            "tests/release/adopter_acceptance.sh",
+        ],
+        "This is the sample's Python packaging and pytest configuration. It is not a Runtime dependency or installation recipe; an adopter owns its Python environment and supplies an explicit verification command whose result is recorded by the Runtime.",
+    ),
+    "examples/fixtures/python/src/service.py": (
+        "reference-only",
+        [
+            "docs/reference/python-fixture-adaptation.md",
+            "crates/cockpit-verification/src/lib.rs",
+        ],
+        "This tiny health function is executable application sample code, not governance logic. Rust verification can execute an adopter-declared argv and bind its result to repository evidence, but the target does not ship or infer Python semantics from this file.",
+    ),
+    "examples/fixtures/python/tests/test_service.py": (
+        "reference-only",
+        [
+            "docs/reference/python-fixture-adaptation.md",
+            "crates/cockpit-verification/src/lib.rs",
+            "docs/reference/verification-evidence-reuse.md",
+        ],
+        "This pytest assertion validates only the reference sample's health function. It is fixture evidence, not a portable Runtime test contract or enterprise proof; an adopter must explicitly declare and run its own test command.",
+    ),
+}
+
+
 WI368_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     "docs/reference/pre-release-documentation-alignment.md": (
         "reference-only",
@@ -2321,6 +2361,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi414 = WI414_REFERENCE_FILES.get(path)
+        if wi414 is not None:
+            classification, counterparts, reason = wi414
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI414_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi368 = WI368_REFERENCE_FILES.get(path)
         if wi368 is not None:
             classification, counterparts, reason = wi368
@@ -2964,6 +3017,38 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi411_classifications
         ):
             errors.append("WI-411 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI414_BATCH
+        for record in records
+    ):
+        wi414_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI414_BATCH
+        ]
+        expected_wi414_paths = set(WI414_REFERENCE_FILES)
+        actual_wi414_paths = {
+            record.get("referencePath")
+            for record in wi414_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi414_paths != expected_wi414_paths:
+            errors.append(
+                "WI-414 batch paths do not match the pinned four-file Python fixture set: "
+                f"expected {sorted(expected_wi414_paths)!r}, got {sorted(actual_wi414_paths)!r}"
+            )
+        if len(wi414_records) != len(expected_wi414_paths):
+            errors.append(
+                f"WI-414 batch must contain {len(expected_wi414_paths)} records, found {len(wi414_records)}"
+            )
+        wi414_classifications = [record.get("classification") for record in wi414_records]
+        if wi414_classifications.count("reference-only") != len(expected_wi414_paths):
+            errors.append("WI-414 batch must contain four reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi414_classifications
+        ):
+            errors.append("WI-414 batch cannot leave deferred or migrate-gap records")
     if any(
         isinstance(record, dict) and record.get("batch") == WI368_BATCH
         for record in records

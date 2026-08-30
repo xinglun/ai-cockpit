@@ -35,6 +35,7 @@ separate from exact machine-facing details:
 - [Android fixture adaptation](android-fixture-adaptation.md) — file-by-file Rust-native Android fixture mapping with an explicit installation boundary.
 - [Flutter fixture adaptation](flutter-fixture-adaptation.md) — file-by-file Rust-native Flutter fixture mapping with an explicit installation boundary.
 - [iOS Swift Package fixture adaptation](ios-swift-fixture-adaptation.md) — file-by-file Rust-native Swift Package mapping with an explicit installation boundary.
+- [Python fixture adaptation](python-fixture-adaptation.md) — file-by-file Rust-native Python fixture mapping with an explicit installation boundary.
 - [Verification route](verification-route.md) — typed stages, orthogonal tier/assurance, planning, receipts, and CI boundary.
 - [Implementation knowledge](implementation-knowledge.md) — deterministic, evidence-bound records and query limits.
 - [Input trust data flow](input-trust-dataflow.md) — provenance classification and fail-closed input handling.

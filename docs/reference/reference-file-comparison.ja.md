@@ -87,6 +87,26 @@ Second-technology adopter acceptance は別の明示的な Work Item としま�
 その capability を主張しません。machine ledger と regression test が 9 path をこの
 決定に bind し、`deferred-next-batch` へ暗黙に戻ることを防ぎます。
 
+## WI-414 — Python fixture の境界
+
+WI-414 は pinned reference commit の `examples/fixtures/python/` にある4ファイルを一つずつ
+読み、すべて `reference-only` としました。fixture は Python service、package metadata、pytest
+assertion を示しますが、Rust Runtime code、Python toolchain の提供保証、portable な enterprise
+evidence ではありません。
+
+| Reference path | 決定と target boundary |
+| --- | --- |
+| `fixture.json` | sample の stack、platform、path metadata。target は adopter の事実を repository-local に保持し、このファイルから Python capability を推論しません。 |
+| `pyproject.toml` | sample の packaging と pytest configuration。Python の install と test command は adopter/provider の責任です。 |
+| `src/service.py` | `ok` を返す application sample。governance logic ではなく、target にコピーしません。 |
+| `tests/test_service.py` | fixture 専用の pytest assertion。Runtime/enterprise evidence ではなく、adopter が自分の verification command を宣言します。 |
+
+Python source、dependency manifest、installer、test runner は Rust repository にコピーしません。
+shared Runtime を Python adopter に attach すれば Contract、evidence、lifecycle、human Outcome
+の制御は継承しますが、これは semantic/documentation parity であり、Python toolchain や source
+command compatibility ではありません。machine ledger と regression test が4 pathをこの境界に
+bind し、`deferred-next-batch` へ暗黙に戻ることを防ぎます。
+
 ## WI-270：Contract semantic file-by-file batch
 
 WI-270 は次の 27 reference path を一つずつ確認しました。ledger はすべてを
@@ -132,7 +152,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=56 deferred-next-batch=472 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=60 deferred-next-batch=468 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、316 `implemented-different-by-design`、1
@@ -147,7 +167,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-495 deferred semantic comparison は後続作業として残ります。
+468 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として

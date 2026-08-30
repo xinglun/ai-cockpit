@@ -34,6 +34,7 @@ capabilityClaims:
 - [Android fixture 适配](android-fixture-adaptation.zh-CN.md)——逐文件的 Rust 原生 Android fixture 映射与明确的安装边界。
 - [Flutter fixture 适配](flutter-fixture-adaptation.zh-CN.md)——逐文件的 Rust 原生 Flutter fixture 映射与明确的安装边界。
 - [iOS Swift Package fixture 适配](ios-swift-fixture-adaptation.zh-CN.md)——逐文件的 Rust 原生 Swift Package 映射与明确的安装边界。
+- [Python fixture 适配](python-fixture-adaptation.zh-CN.md)——逐文件的 Rust 原生 Python fixture 映射与明确的安装边界。
 - [Verification 路线](verification-route.zh-CN.md)——类型化阶段、正交 tier/assurance、计划、回执和 CI 边界。
 - [实现知识](implementation-knowledge.zh-CN.md)——确定性、证据绑定的记录和查询边界。
 - [输入信任数据流](input-trust-dataflow.zh-CN.md)——来源分类和 fail-closed 输入处理。
