@@ -1,0 +1,55 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "public_release_artifact_integrity",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/runtime.json",
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/SHA256SUMS.release"
+      ],
+      "reason": "Public v0.2.41 runtime identity and release checksums are preserved from the immutable workflow artifact."
+    },
+    {
+      "scenario": "fresh_adopter_governance_lifecycle",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/acceptance.json",
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/cleanup.json",
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/isolation.json"
+      ],
+      "reason": "The public adopter receipt records attach, not_ready scaffold, reuse, lifecycle, isolation, and validated run-root cleanup as passed."
+    },
+    {
+      "scenario": "installed_runtime_self_governance",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/installed-runtime.json"
+      ],
+      "reason": "The installed public v0.2.41 binary passed repository-bound health and readiness checks."
+    }
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "evidence": [
+      ".ai/evidence/WI-410-post-release-adopter-v0-2-41/acceptance.json",
+      ".ai/evidence/WI-410-post-release-adopter-v0-2-41/installed-runtime.json"
+    ],
+    "reason": "The requested public-release adopter baseline and installed-runtime verification are recorded without source fallback."
+  },
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-410-post-release-adopter-v0-2-41",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:269566fa76f1ce2e271a85dc9b9198f221d7f25889a640d736e691ac74e4a915",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "repositorySnapshotDigest": "sha256:f9d3c845e67465966a20456572797023d820d71004043b2978544b289c1a4808",
+    "recordedAt": "2026-08-30T00:58:30Z",
+    "recordedBy": "human:repository-owner",
+    "reason": "Confirm the bounded post-release acceptance evidence review and permit checkpoint; no implementation or release truth is inferred."
+  }
+}

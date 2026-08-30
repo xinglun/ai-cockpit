@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/home/runner/work/ai-cockpit/ai-cockpit",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": "",
+  "sourceAfterStatus": "",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:c66b86b3474fe29645305366d877496b0a7480cf7128ac96678c8d3263e1514e",
+    "afterDigest": "sha256:c66b86b3474fe29645305366d877496b0a7480cf7128ac96678c8d3263e1514e"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/tmp/ai-cockpit-adopter-acceptance.J3pdLG/adopter-control",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:e3a3397e5ecdb03992f2ac7a03ff95fdd60d38ef16792d8174935cb6c655a947",
+      "afterDigest": "sha256:8bc4f9893d44cb011cfaa5630e5c0abd0bd86ef884a08244b01bb8d308e731ee",
+      "symlinkTargetsContained": true
+    }
+  }
+}
