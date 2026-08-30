@@ -27,11 +27,11 @@
     "repository-isolation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-417-cargo-verification-lock-strategy",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/382",
     "worktree": "/private/tmp/ai-cockpit-wi-417-cargo-lock-strategy"
   },
   "risk": "normal",

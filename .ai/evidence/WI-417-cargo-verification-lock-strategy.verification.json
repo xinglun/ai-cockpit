@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:e7eb01a2df2a4b7fb36dee099691b81ece6748afe3f3c33cdd8c1c4ee447e7d2",
-  "createdAt": "2026-08-30T07:26:53Z",
+  "contractDigest": "sha256:1e850504361cca3a2b5427071d49fd2e90cf56e6d4f4d98872d68dc9c3cfff7e",
+  "createdAt": "2026-08-30T07:32:01Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 125459,
-      "executionElapsedMs": 125177,
+      "elapsedMs": 127162,
+      "executionElapsedMs": 126898,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 125459,
-    "executionElapsedMs": 125177,
-    "filesHashed": 15,
-    "filesRead": 15,
+    "elapsedMs": 127162,
+    "executionElapsedMs": 126898,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,13 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-repository/tests/verification_command_selection.rs",
-        "docs/reference/commands.ja.md",
-        "docs/reference/commands.md",
-        "docs/reference/commands.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "07076aab932485d1ce3ad25c3a7d18b1b19df18a",
       "dependencyConfidence": "unknown",
@@ -50,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 125177,
+      "executionElapsedMs": 126898,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:9d3350f838b96feeab6b38c981a6a03ffd37f2e86284fd1b6996bd428b233936",
+      "repositorySnapshotDigest": "sha256:d2569f562da44e17934a76daebaf3cc8defc2cd70e5ed9b7d6958b1357f7c562",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -82,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:3c873647daabb6e71a92f0af133733d982073d4612eac0a00f58b7fe1cb09e51",
+        "outputDigest": "sha256:815df0aae446cb830924cdbf3598259e808f37bbac33ec94d072792ae3c3beb9",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -98,9 +92,9 @@
     "runtimeVersion": "0.2.43",
     "workItemId": "WI-417-cargo-verification-lock-strategy"
   },
-  "receiptDigest": "sha256:61ecda0b631af5c4f02cb12fde5730c41ff1d90d496ef9f95c0cdec1507e18f4",
+  "receiptDigest": "sha256:76f9863bf63c1730a61b9ed8be02f61044d1d2a3079784c12e9ad411318ed0a2",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:9d3350f838b96feeab6b38c981a6a03ffd37f2e86284fd1b6996bd428b233936",
+  "repositorySnapshotDigest": "sha256:d2569f562da44e17934a76daebaf3cc8defc2cd70e5ed9b7d6958b1357f7c562",
   "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
   "runtimeVersion": "0.2.43",
   "workItemId": "WI-417-cargo-verification-lock-strategy"
