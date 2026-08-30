@@ -100,6 +100,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-423-ci-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2dd140757dbaacc6fca1a0aba3fdb3cf9225bcbfdb46caea6120606353c7c2b7",
+      "previousContractHash": "sha256:10bbda9cdf2f49bf982aa80cd5529b22d39ea0a082e237cdca78878c87917c97",
+      "reason": "Fix finalization-plan replacement to honor complete provisional context semantics and prevent the observed finish deadlock.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T13:08:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d63fc9fd4cc97af51878316368f3a2b9ec584aa27a68d89e319d2283e70b7492",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-423-ci-convergence"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:ac5982d99fc0e06934a48350329aaeef99122a7820ed2a23830e4f659452505b",
@@ -117,13 +137,16 @@
   },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-30T13:03:41Z",
-  "preflightContractDigest": "sha256:10bbda9cdf2f49bf982aa80cd5529b22d39ea0a082e237cdca78878c87917c97",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:ac5982d99fc0e06934a48350329aaeef99122a7820ed2a23830e4f659452505b",
-  "preflightState": "green",
+  "preflightAt": "2026-08-30T13:08:59Z",
+  "preflightContractDigest": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "preflightRepositorySnapshotDigest": "sha256:e3025ca478b89cedfd65cba93185f1d9aaa50a26671e8d6eff588ed8248fe033",
+  "preflightState": "red",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryRetryDecisionDigest": "sha256:6028dada974b6b21e90d20ba88b63704e612a8704f12d15efc748a6f70d46744",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-423-ci-convergence.recovery.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -167,5 +190,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-08-30T13:08:01Z"
+  },
   "workItemId": "WI-423-ci-convergence"
 }

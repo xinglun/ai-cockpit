@@ -14,7 +14,6 @@
   "intent": "根治 Rust 重写后 CI 失败重复与生命周期过渡噪声，确保同类根因不会在后续批次通过重复触发继续出现，同时保持 fail-closed 治理强度。",
   "mode": "code",
   "outOfScope": [
-    "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-cli/src/main.rs",
     ".github/workflows/release.yml",
     "tests/release/adopter_acceptance.sh",
@@ -41,6 +40,8 @@
   "risk": "high",
   "scope": [
     ".github/workflows/ci.yml",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
     "tests/ci/repository_gate_manifest.json",
     "tests/ci/quality_route.py",
     "tests/ci/workflow_convergence_test.sh",
@@ -55,6 +56,8 @@
   ],
   "sources": [
     ".github/workflows/ci.yml",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
     "tests/ci/quality_route.py",
     "tests/ci/quality_route_test.py",
     "tests/ci/repository_gate_manifest.json",
