@@ -4,9 +4,13 @@ title: "WI-421——mixed-monorepo fixture 边界"
 description: "逐文件比对固定 mixed Python/Node fixture，不复制业务代码或工具链资产。"
 workItemId: WI-421-reference-mixed-monorepo
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-421-reference-mixed-monorepo
+terminalArchive: .ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json
+terminalVerification: .ai/evidence/WI-421-reference-mixed-monorepo.verification.json
+terminalFinalization: .ai/decisions/WI-421-reference-mixed-monorepo.finalize.627a79dd6109dc4aae0c50825bdcce80fb2101ff72a7c5db80906aef485f0137.json
+terminalDecision: .ai/decisions/WI-421-reference-mixed-monorepo.close.json
 sourceCommit: e5acb677da6621004d96f0ef353c58fe8d3acfbf
 ---
 
