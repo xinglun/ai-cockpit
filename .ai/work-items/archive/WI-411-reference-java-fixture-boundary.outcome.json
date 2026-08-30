@@ -5,14 +5,17 @@
     "The machine ledger and all three reader-facing comparison/parity pages agree on the nine paths, classifications, source pin, and non-wire boundary.",
     "Conformance and documentation gates pass; no deferred or migrate-gap record remains for this batch."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-30T01:50:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4532eb97cb878804ad2d6001afb013ffeb4bed4be37c816abfe41f034e7dea59",
   "evidenceRefs": [
     ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,41 +23,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:8e8f42d66730136649c17133c686753351da617b8df3db40de08d4429404d29b",
+      "repositorySnapshotDigest": "sha256:951ce77b764da3d511454b2866b47bd7ad6ec090684a0dc935d127cd430626c9",
       "workItemId": "WI-411-reference-java-fixture-boundary"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-411-reference-java-fixture-boundary.summary.json"
+            ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-411-reference-java-fixture-boundary.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-411-reference-java-fixture-boundary.summary.json"
+            ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-411-reference-java-fixture-boundary.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-411-reference-java-fixture-boundary.summary.json"
         }
       ],
       "evidence": [
@@ -73,15 +73,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -92,7 +84,7 @@
             ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -102,15 +94,23 @@
             ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-411-reference-java-fixture-boundary.contract.json"
+            ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json"
           ],
           "inference": false,
           "text": "Resolve the Java fixture slice as explicit reference-only conformance material, preserve adopter capability boundaries, and prevent an untracked fixture omission from being mistaken for Runtime parity."
@@ -119,23 +119,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-411-reference-java-fixture-boundary.contract.json"
+            ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-411-reference-java-fixture-boundary"
   },
+  "taskReportDigest": "sha256:75705f003814a3b4f57d8537e14c6a7fafe2f287314043044b06a0961bebb029",
+  "taskReportMarkdownDigest": "sha256:b6bdeaee382936650e4a8800cce7239838aece44d0a9042ed93d872e4a259170",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-411-reference-java-fixture-boundary"
 }

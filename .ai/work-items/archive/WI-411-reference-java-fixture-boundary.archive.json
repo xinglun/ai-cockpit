@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T01:50:43Z",
+  "files": {
+    "contractDigest": "sha256:7d61d6b0ff90164114b61eca0b18c624137a6a9d83084f3dfaf3b65697edf0bc",
+    "contractPath": ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json",
+    "eventsDigest": "sha256:947955dbffa78941cd580648330bfd930a362e45faf56c3225871d67535eb0b4",
+    "eventsPath": ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.events.jsonl",
+    "outcomeDigest": "sha256:8aa8ea5aeecfa3661307176825376dbc3f13aaf255215a2e8e29c78bef8eba83",
+    "outcomePath": ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.outcome.json",
+    "summaryDigest": "sha256:1e52d0a0b47f09a374368299c679682daedc87f75bd3650acf1902de61529e3b",
+    "summaryPath": ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.summary.json",
+    "taskReportDigest": "sha256:75705f003814a3b4f57d8537e14c6a7fafe2f287314043044b06a0961bebb029",
+    "taskReportMarkdownDigest": "sha256:b6bdeaee382936650e4a8800cce7239838aece44d0a9042ed93d872e4a259170",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-411-reference-java-fixture-boundary"
+}
