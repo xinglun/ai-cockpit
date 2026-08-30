@@ -57,4 +57,6 @@ check が stale を示した場合は、狭い範囲の documentation-promotion 
 
 Recovery は append-only で identity-bound です。snapshot の変更、stale receipt、provider conflict は retry、successor、supersede decision として記録します。後続を green にするために古い evidence を編集しません。Install、upgrade、adapter setup は独立した repository Work Item とし、immutable public Release を使います。process-wide な current project を選ぶ command や、provider-global Agent/MCP 設定を変更する command はありません。
 
+新しい Runtime が作成する successor には、正確な predecessor Work Item、Contract digest、recovery path、repository binding が必要です。これらの Contract field が存在する前に作成された historical successor については、recovery receipt 自体が predecessor と successor を bind し、successor に検証済み archive、strict verification evidence、confirmed close decision が揃っている場合にだけ狭い互換経路を許可します。新しい append-only recovery receipt には `successorBindingMode: legacy_terminal_evidence` を記録します。欠落、foreign、stale、malformed、symlink、または不完全な evidence は `recovery_decision_invalid` のまま拒否され、transition を認可しません。この互換 projection は未完了 successor を green にせず、predecessor bytes も書き換えません。
+
 これは Rust-native な semantic workflow です。参照 source の `make` command、Python module、generated history は比較材料であり、本 repository の command や Runtime authority ではありません。

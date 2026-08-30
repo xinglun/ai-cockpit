@@ -1,0 +1,154 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8893957c0f5d80fe5d0ea97860d06f9192e188a7317d0f846cf084e227bcc8b8.json",
+    ".ai/work-items/active/WI-426-recovery-successor-binding.contract.json",
+    ".ai/work-items/active/WI-426-recovery-successor-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T14:44:16Z",
+  "checkpointContractDigest": "sha256:7180eabcc39c2836f368a061289bb255879572bd1fe815bfb421ed75d19ebaf6",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:0aa87302dbb7ab1d547e98b59b7d442ba7a3785a892f0ee42b12ec78d6fdff2f",
+      "recorded": true,
+      "recordedAt": "2026-08-30T14:44:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e7f8ae6bc8500be7cf3043a69d7a8dbb7ef36d566a579214592b3c8a23726a34",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-426-recovery-successor-binding"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:b04fc5bc0f25a016989fc896815a8d4666b7030f517841841ab66102d88905b6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0aa87302dbb7ab1d547e98b59b7d442ba7a3785a892f0ee42b12ec78d6fdff2f",
+      "previousContractHash": "sha256:0aa87302dbb7ab1d547e98b59b7d442ba7a3785a892f0ee42b12ec78d6fdff2f",
+      "reason": "在实现中确认需要把 legacy compatibility 明确写入 append-only recovery receipt；新增可选 protocol 字段，不改变旧 JSON 解析或新 successor 严格绑定。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T14:53:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ed2928f48569a1f5080ef64faf7c01c1e9b58f1993ff39cd49f682ffb2bcc779",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-426-recovery-successor-binding"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:d191334221de131826ed20556c56cd4d8f93be271d80110784e80bec8f222318",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0aa87302dbb7ab1d547e98b59b7d442ba7a3785a892f0ee42b12ec78d6fdff2f",
+      "previousContractHash": "sha256:b04fc5bc0f25a016989fc896815a8d4666b7030f517841841ab66102d88905b6",
+      "reason": "同步加入本 Work Item 的三语 reader-facing 文档，确保 archive/close 后文档治理门可验证且不遗漏。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T14:57:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5062db51a9db53e99a67c7e7977e18c178f838ebb44078826bafbab0cf5d848f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-426-recovery-successor-binding"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:7180eabcc39c2836f368a061289bb255879572bd1fe815bfb421ed75d19ebaf6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0aa87302dbb7ab1d547e98b59b7d442ba7a3785a892f0ee42b12ec78d6fdff2f",
+      "previousContractHash": "sha256:d191334221de131826ed20556c56cd4d8f93be271d80110784e80bec8f222318",
+      "reason": "同步加入 protocol recovery receipt 回归测试，证明新增可选 marker 保持历史 JSON round-trip 与 unknown-field fail-closed。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T14:59:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2b3718998532735a6d88249cf74d19399c8354ca38e6ff9f985440d8ba2b1ead",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-426-recovery-successor-binding"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bb54c21aa06ec47bf5ff3cd48c75ea8f34f42a2d3fdf871b1db474b1353b5b38",
+  "createdAt": "2026-08-30T14:41:31Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The Runtime now preserves strict new successor lineage, validates the narrow terminal legacy path, and records an explicit compatibility marker without rewriting predecessor history.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "predecessorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
+  "preflightAt": "2026-08-30T15:13:07Z",
+  "preflightContractDigest": "sha256:7180eabcc39c2836f368a061289bb255879572bd1fe815bfb421ed75d19ebaf6",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:bb54c21aa06ec47bf5ff3cd48c75ea8f34f42a2d3fdf871b1db474b1353b5b38",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8893957c0f5d80fe5d0ea97860d06f9192e188a7317d0f846cf084e227bcc8b8.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "scenario": "legacy_successor_receipt_binding",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "scenario": "legacy_successor_identity_tampering",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "scenario": "new_successor_strict_binding",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "scenario": "immutable_predecessor_preservation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "scenario": "legacy_projection_without_false_green",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-30T15:01:43.382453+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-426-recovery-successor-binding"
+}

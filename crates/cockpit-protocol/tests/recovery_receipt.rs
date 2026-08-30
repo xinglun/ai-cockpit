@@ -14,6 +14,7 @@ fn receipt() -> RecoveryDecisionReceipt {
         predecessor_outcome_digest: Some(Digest::sha256_bytes(b"outcome")),
         predecessor_events_digest: Some(Digest::sha256_bytes(b"events")),
         successor_work_item_id: Some("WI-SUCCESSOR".into()),
+        successor_binding_mode: None,
         runtime_version: "0.2.12".into(),
         runtime_digest: Digest::sha256_bytes(b"runtime"),
         actor: "human:owner".into(),

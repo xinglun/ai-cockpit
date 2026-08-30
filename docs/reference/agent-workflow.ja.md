@@ -209,6 +209,16 @@ binding を再確認します。malformed、foreign、stale、tampered、ambiguo
 の immutable bytes と historical projection は保持され、この current-read rule が遡及的に
 書き換えたり再分類したりすることはありません。
 
+新しい Runtime が作成する successor には `predecessorWorkItemId`、
+`predecessorContractDigest`、`recoveryDecisionPath` が必要です。これらの field より前に
+作成された historical successor は、recovery receipt が predecessor/successor/repository の
+digest を正確に bind し、successor に検証済み archive、strict verification evidence、confirmed
+structured close が揃う場合だけ互換になります。新しい append-only supersede receipt には
+`successorBindingMode: legacy_terminal_evidence` を記録します。欠落、foreign、stale、malformed、
+symlink、または不完全な terminal evidence は `recovery_decision_invalid` のままです。これは
+明示的に限定された historical compatibility projection であり、無条件の green ではなく、
+predecessor bytes も書き換えません。
+
 `retry` は明示的な lifecycle transition であり、green の宣言ではありません。失敗した
 gate が active item を `finish_ready` に残した場合、Runtime は現在の Summary だけを合法な
 `checkpointed` retry point に戻し、一時的な失敗 projection を消去します。blocked Outcome

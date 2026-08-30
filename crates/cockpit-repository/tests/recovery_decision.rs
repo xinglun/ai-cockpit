@@ -1499,3 +1499,278 @@ fn supersede_requires_a_matching_existing_successor() {
     mismatch["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
     assert!(record_recovery_decision(directory.path(), "WI-BLOCKED", &mismatch, &runtime).is_err());
 }
+
+#[test]
+fn strict_successor_rejects_a_forged_legacy_binding_marker() {
+    let directory = repository();
+    let runtime = current_runtime();
+    let mut successor = receipt(&directory, "create successor");
+    successor["runtimeVersion"] = json!(runtime.runtime_version);
+    successor["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &successor, &runtime)
+        .expect("successor receipt");
+
+    let mut supersede = receipt(&directory, "forge legacy marker on strict successor");
+    supersede["decision"] = json!("supersede");
+    supersede["runtimeVersion"] = json!(runtime.runtime_version);
+    supersede["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    supersede["successorBindingMode"] = json!("legacy_terminal_evidence");
+    let error = record_recovery_decision(directory.path(), "WI-BLOCKED", &supersede, &runtime)
+        .expect_err("strict successor must not claim legacy compatibility");
+    assert!(
+        error.to_string().contains("successor_binding_mode_invalid"),
+        "unexpected error: {error}"
+    );
+}
+
+#[test]
+fn supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt() {
+    let directory = ready_archived_repository();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let successor_id = "WI-ARCHIVED-NEXT";
+    let successor_receipt =
+        archived_recovery_receipt(&directory, "successor", Some(successor_id), &runtime);
+    record_recovery_decision(directory.path(), id, &successor_receipt, &runtime)
+        .expect("successor recovery receipt");
+
+    start_work_item_with_options(
+        directory.path(),
+        successor_id,
+        "continue the recovered change",
+        "complete the recovered change with terminal evidence",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["the recovered successor is auditable".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start successor");
+
+    // This models a successor created by an older Runtime which was validly
+    // selected by the predecessor recovery receipt but never received the
+    // newer Contract predecessor fields.  The archive manifest below is
+    // generated from these exact legacy bytes, so this is not archive tamper.
+    let successor_contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{successor_id}.contract.json"
+    ));
+    let mut successor_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&successor_contract_path).unwrap()).unwrap();
+    successor_contract
+        .as_object_mut()
+        .unwrap()
+        .remove("predecessorWorkItemId");
+    successor_contract
+        .as_object_mut()
+        .unwrap()
+        .remove("predecessorContractDigest");
+    successor_contract
+        .as_object_mut()
+        .unwrap()
+        .remove("recoveryDecisionPath");
+    successor_contract
+        .as_object_mut()
+        .unwrap()
+        .remove("resourceContext");
+    fs::write(
+        &successor_contract_path,
+        serde_json::to_vec_pretty(&successor_contract).unwrap(),
+    )
+    .unwrap();
+
+    let successor_contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{successor_id}.contract.json"
+    ));
+    let contract_bytes = serde_json::to_vec_pretty(&successor_contract).unwrap();
+    let summary = json!({
+        "protocolVersion": 1,
+        "workItemId": successor_id,
+        "state": "finish_ready",
+        "checkpointCount": 1,
+        "preflightState": "green"
+    });
+    let outcome = json!({
+        "protocolVersion": 1,
+        "workItemId": successor_id,
+        "state": "verified",
+        "verification": {"status": "verified"}
+    });
+    let archive = directory.path().join(".ai/work-items/archive");
+    fs::create_dir_all(&archive).unwrap();
+    let archived_contract = archive.join(format!("{successor_id}.contract.json"));
+    let archived_summary = archive.join(format!("{successor_id}.summary.json"));
+    let archived_outcome = archive.join(format!("{successor_id}.outcome.json"));
+    fs::write(&archived_contract, &contract_bytes).unwrap();
+    let summary_bytes = serde_json::to_vec_pretty(&summary).unwrap();
+    let outcome_bytes = serde_json::to_vec_pretty(&outcome).unwrap();
+    fs::write(&archived_summary, &summary_bytes).unwrap();
+    fs::write(&archived_outcome, &outcome_bytes).unwrap();
+    let evidence = json!({
+        "protocolVersion": 1,
+        "evidenceSchemaVersion": 2,
+        "workItemId": successor_id,
+        "repositoryId": repository_id(directory.path()),
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "contractDigest": cockpit_protocol::digest_json(&successor_contract).unwrap(),
+        "repositorySnapshotDigest": Digest::sha256_bytes(b"legacy-successor-snapshot"),
+        "passed": true,
+        "captureMode": "digest_only"
+    });
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/evidence/{successor_id}.verification.json")),
+        serde_json::to_vec_pretty(&evidence).unwrap(),
+    )
+    .unwrap();
+    fs::remove_file(&successor_contract_path).unwrap();
+    fs::remove_file(
+        directory
+            .path()
+            .join(format!(".ai/work-items/active/{successor_id}.summary.json")),
+    )
+    .unwrap();
+    let manifest = json!({
+        "protocolVersion": 1,
+        "workItemId": successor_id,
+        "state": "archived",
+        "closeRequired": true,
+        "files": {
+            "contractPath": format!(".ai/work-items/archive/{successor_id}.contract.json"),
+            "contractDigest": Digest::sha256_bytes(&contract_bytes),
+            "summaryPath": format!(".ai/work-items/archive/{successor_id}.summary.json"),
+            "summaryDigest": Digest::sha256_bytes(&summary_bytes),
+            "outcomePath": format!(".ai/work-items/archive/{successor_id}.outcome.json"),
+            "outcomeDigest": Digest::sha256_bytes(&outcome_bytes)
+        },
+        "historicalArtifacts": [],
+        "createdAt": "2026-08-28T00:04:00Z"
+    });
+    fs::write(
+        archive.join(format!("{successor_id}.archive.json")),
+        serde_json::to_vec_pretty(&manifest).unwrap(),
+    )
+    .unwrap();
+    let close = json!({
+        "protocolVersion": 1,
+        "workItemId": successor_id,
+        "repositoryId": repository_id(directory.path()),
+        "state": "closed",
+        "decisionState": "confirmed",
+        "humanDecision": "approved",
+        "structuredDecision": {
+            "decision": "approved",
+            "actor": "human:owner",
+            "authoritySource": "repository-owner",
+            "reason": "terminal legacy successor evidence is complete",
+            "evidenceRefs": [],
+            "policyRefs": [],
+            "decidedAt": "2026-08-28T00:04:00Z",
+            "resumeCondition": "none"
+        }
+    });
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/decisions/{successor_id}.close.json")),
+        serde_json::to_vec_pretty(&close).unwrap(),
+    )
+    .unwrap();
+
+    let evidence_path = directory
+        .path()
+        .join(format!(".ai/evidence/{successor_id}.verification.json"));
+    let evidence_bytes = fs::read(&evidence_path).unwrap();
+    let mut tampered_evidence: serde_json::Value = serde_json::from_slice(&evidence_bytes).unwrap();
+    tampered_evidence["passed"] = json!(false);
+    fs::write(
+        &evidence_path,
+        serde_json::to_vec_pretty(&tampered_evidence).unwrap(),
+    )
+    .unwrap();
+    let mut tampered =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    tampered["decidedAt"] = json!("2026-08-28T00:04:30Z");
+    let error = record_recovery_decision(directory.path(), id, &tampered, &runtime)
+        .expect_err("tampered legacy evidence must be rejected");
+    assert!(
+        error
+            .to_string()
+            .contains("legacy_successor_evidence_invalid"),
+        "unexpected error: {error}"
+    );
+    fs::write(&evidence_path, &evidence_bytes).unwrap();
+
+    let close_path = directory
+        .path()
+        .join(format!(".ai/decisions/{successor_id}.close.json"));
+    let close_bytes = fs::read(&close_path).unwrap();
+    fs::remove_file(&close_path).unwrap();
+    let mut missing_close =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    missing_close["decidedAt"] = json!("2026-08-28T00:04:45Z");
+    let error = record_recovery_decision(directory.path(), id, &missing_close, &runtime)
+        .expect_err("legacy successor without close evidence must be rejected");
+    assert!(
+        error
+            .to_string()
+            .contains("legacy_successor_evidence_missing"),
+        "unexpected error: {error}"
+    );
+    fs::write(&close_path, &close_bytes).unwrap();
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let backup = evidence_path.with_extension("json.legacy-backup");
+        fs::rename(&evidence_path, &backup).unwrap();
+        symlink(&backup, &evidence_path).unwrap();
+        let mut symlinked =
+            archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+        symlinked["decidedAt"] = json!("2026-08-28T00:04:55Z");
+        let error = record_recovery_decision(directory.path(), id, &symlinked, &runtime)
+            .expect_err("symlinked legacy evidence must be rejected");
+        assert!(
+            error
+                .to_string()
+                .contains("legacy_successor_evidence_missing"),
+            "unexpected error: {error}"
+        );
+        fs::remove_file(&evidence_path).unwrap();
+        fs::rename(backup, &evidence_path).unwrap();
+    }
+
+    let mut supersede =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    supersede["decidedAt"] = json!("2026-08-28T00:05:00Z");
+    let recorded = record_recovery_decision(directory.path(), id, &supersede, &runtime)
+        .expect("legacy successor should be accepted only after terminal evidence");
+    assert_eq!(
+        recorded["successorBindingMode"],
+        json!("legacy_terminal_evidence"),
+        "legacy compatibility must be explicitly marked in the append-only recovery receipt"
+    );
+
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        id,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "repository-owner".into(),
+            reason: "close predecessor after its terminal successor".into(),
+            evidence_refs: vec![format!(".ai/decisions/{id}.recovery.json")],
+            policy_refs: Vec::new(),
+            decided_at: "2026-08-28T00:06:00Z".into(),
+            resume_condition: Some(format!("continue on {successor_id}")),
+        },
+        &runtime,
+    )
+    .expect("superseded predecessor should close");
+}

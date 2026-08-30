@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T15:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.json",
+    ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/390"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "predecessorEventsDigest": "sha256:dfb4b5f1e92418c596a97e82503cf9de41c12e6fc6e89b499109a1412f7ecedc",
+  "predecessorOutcomeDigest": "sha256:58a8876e18b8db35e29937aa717bd3ffe933270d26292309f7bbdf99557b6454",
+  "predecessorSummaryDigest": "sha256:41f50a7ce1e58618c149e43f0dc8a9382806a3202be711f7463f410a3f8e97b1",
+  "predecessorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
+  "reason": "Close the lifecycle gap where an immutable archived predecessor has a valid successor recovery receipt but the manually-created successor Contract lacks predecessor binding. Add a narrow, auditable legacy compatibility path without weakening newly-created successor requirements, and add regression coverage so the same CI/lifecycle cleanup gap cannot recur.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Implement and verify the bounded recovery-successor binding fix from the synchronized default branch, preserve all WI-424/WI-425 historical bytes, complete reviewed merge/cleanup/close, and then publish/install the resulting Runtime before adopter acceptance.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-426-recovery-successor-binding",
+  "workItemId": "WI-424-ci-convergence-finalization-recovery"
+}
