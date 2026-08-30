@@ -33836,31 +33836,46 @@
     },
     {
       "referencePath": "examples/fixtures/python/fixture.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-414-reference-python-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/python-fixture-adaptation.md",
+        "docs/reference/configuration.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "This metadata describes the reference sample's Python stack, local paths, and platform claims. The target keeps project facts repository-local and evidence-bound; the shared Runtime does not infer Python capability or copy fixture metadata."
     },
     {
       "referencePath": "examples/fixtures/python/pyproject.toml",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-414-reference-python-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/python-fixture-adaptation.md",
+        "docs/reference/verification-route.md",
+        "tests/release/adopter_acceptance.sh"
+      ],
+      "reason": "This is the sample's Python packaging and pytest configuration. It is not a Runtime dependency or installation recipe; an adopter owns its Python environment and supplies an explicit verification command whose result is recorded by the Runtime."
     },
     {
       "referencePath": "examples/fixtures/python/src/service.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-414-reference-python-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/python-fixture-adaptation.md",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "reason": "This tiny health function is executable application sample code, not governance logic. Rust verification can execute an adopter-declared argv and bind its result to repository evidence, but the target does not ship or infer Python semantics from this file."
     },
     {
       "referencePath": "examples/fixtures/python/tests/test_service.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-414-reference-python-fixture-boundary",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/python-fixture-adaptation.md",
+        "crates/cockpit-verification/src/lib.rs",
+        "docs/reference/verification-evidence-reuse.md"
+      ],
+      "reason": "This pytest assertion validates only the reference sample's health function. It is fixture evidence, not a portable Runtime test contract or enterprise proof; an adopter must explicitly declare and run its own test command."
     },
     {
       "referencePath": "examples/fixtures/typescript-web/.gitignore",

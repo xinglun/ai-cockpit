@@ -83,6 +83,24 @@ WI-411 逐一读取固定参考提交中的 `examples/fixtures/java-multimodule/
 adopter 验收必须使用单独、明确授权的 Work Item；本批不宣称该能力。机器台账和
 回归测试将九个路径绑定到上述决定，不能静默回退为 `deferred-next-batch`。
 
+## WI-414：Python fixture 边界
+
+WI-414 逐一读取固定参考提交中的 `examples/fixtures/python/` 四个文件，并全部标记为
+`reference-only`。fixture 展示 Python service、打包元数据和 pytest 断言，但不是 Rust Runtime
+代码、Python toolchain 支持承诺或可移植的企业证据。
+
+| 参考路径 | 决定与目标边界 |
+| --- | --- |
+| `fixture.json` | 样例 stack、平台和路径元数据；目标保持对象工程事实本地化，不从本文件推断 Python capability。 |
+| `pyproject.toml` | 样例打包与 pytest 配置；Python 安装和测试命令属于对象工程/Provider。 |
+| `src/service.py` | 返回 `ok` 的应用样例；不是治理逻辑，不复制到目标工程。 |
+| `tests/test_service.py` | fixture 专用 pytest 断言；不是 Runtime 或企业证据，对象工程必须声明自己的 verification 命令。 |
+
+不向 Rust 工程复制 Python 源码、依赖清单、安装器或测试运行器。共享 Runtime attach 到 Python
+对象工程后，仍提供相同的 Contract、evidence、lifecycle 与面向人的 Outcome 控制；但这只是
+语义/文档对齐，不是 Python toolchain 或源命令兼容。机器台账与回归测试将这四个路径绑定到该
+边界，防止它们静默回到 `deferred-next-batch`。
+
 ## WI-270：Contract 语义逐文件批次
 
 WI-270 对下面 27 个参考源路径逐一检查。台账将它们标为
@@ -126,11 +144,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=56 deferred-next-batch=472 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=60 deferred-next-batch=468 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、316 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、56 条 `reference-only` 与 472 条
+`generated-history`、324 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、60 条 `reference-only` 与 468 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -141,7 +159,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，495 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，468 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于

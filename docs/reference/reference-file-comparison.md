@@ -103,6 +103,28 @@ separate, explicitly authorized Work Item; this comparison does not claim it.
 The machine ledger and its regression test bind all nine paths to this
 decision, so they cannot silently return to `deferred-next-batch`.
 
+## WI-414 Python fixture boundary
+
+WI-414 reads the four files under `examples/fixtures/python/` at the pinned
+reference commit. They are all `reference-only`: the fixture demonstrates a
+Python service, packaging metadata, and a pytest assertion, but it is not Rust
+Runtime code, a Python toolchain promise, or portable enterprise evidence.
+
+| Reference path | Decision and target boundary |
+| --- | --- |
+| `fixture.json` | Sample stack, platform, and path metadata; the target keeps adopter facts repository-local and does not infer Python capability from this file. |
+| `pyproject.toml` | Sample packaging and pytest configuration; Python installation and test commands remain adopter/provider responsibilities. |
+| `src/service.py` | Application sample returning `ok`; it is not governance logic and is not copied into the target. |
+| `tests/test_service.py` | Fixture-only pytest assertion; it is not Runtime or enterprise evidence, and the adopter must declare its own verification command. |
+
+No Python source, dependency manifest, installer, or test runner is copied into
+the Rust repository. The attached shared Runtime still provides the same
+Contract, evidence, lifecycle, and human Outcome controls to a Python adopter,
+but this is semantic/documentation parity rather than Python toolchain or
+source-command compatibility. The machine ledger and regression test bind all
+four paths to this boundary, so they cannot silently return to
+`deferred-next-batch`.
+
 ## WI-270 file-level Contract semantics slice
 
 WI-270 compares the following 27 reference paths individually. The inventory
@@ -150,11 +172,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=56 deferred-next-batch=472 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=60 deferred-next-batch=468 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 316 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 56 `reference-only`, and 472
+4,262 `generated-history`, 324 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 60 `reference-only`, and 468
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -170,7 +192,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 495
+records above are Rust-native, explicitly bounded counterparts; the 468
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison

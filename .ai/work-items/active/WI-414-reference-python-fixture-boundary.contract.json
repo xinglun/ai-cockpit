@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "All four pinned Python fixture paths are read and appear exactly once in the machine ledger.",
+    "Each path is classified reference-only with a non-empty source fact and Rust-native boundary; no deferred or migrate-gap record remains in this batch.",
+    "English, Simplified Chinese, and Japanese documentation agree on the source pin, file list, and non-copy boundary.",
+    "No Python fixture, dependency manifest, installer, global Agent/MCP configuration, or Runtime code is copied."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8b26cb148da5b5e4258158e9f8dff5b5a75b55ad",
+  "createdAt": "2026-08-30T04:45:34Z",
+  "goal": "完成 examples/fixtures/python/ 的 4 个参考路径语义比对、三语文档与机器清单登记，并由发布版 Runtime 验证。",
+  "intent": "逐文件比较固定参考源中的 Python fixture，并为每个文件记录 Rust-native 的 reference-only 边界，避免把 Python 实现、依赖或安装器误迁入共享 Runtime。",
+  "mode": "docs",
+  "outOfScope": [
+    "examples/fixtures/**",
+    "crates/**",
+    "scripts/**",
+    "Python toolchain installation or support"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:736024c194d39cf00cfc335663f64e40cf5e9a2d23bdb042127d52510bb55eb4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-414-python-fixture-boundary",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi414-python-fixture"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/python-fixture-adaptation.md",
+    "docs/reference/python-fixture-adaptation.zh-CN.md",
+    "docs/reference/python-fixture-adaptation.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "docs/work-items/WI-414-reference-python-fixture-boundary.md",
+    "docs/work-items/WI-414-reference-python-fixture-boundary.zh-CN.md",
+    "docs/work-items/WI-414-reference-python-fixture-boundary.ja.md",
+    "tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-414-reference-python-fixture-boundary"
+}
