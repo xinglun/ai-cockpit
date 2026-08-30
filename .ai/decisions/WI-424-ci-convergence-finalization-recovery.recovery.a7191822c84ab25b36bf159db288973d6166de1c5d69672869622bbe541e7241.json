@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "recovery-chain-finalization",
+  "decidedAt": "2026-08-31T01:00:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json",
+    ".ai/evidence/WI-427-parity-governance-recovery.verification.json",
+    ".ai/decisions/WI-427-parity-governance-recovery.close.json",
+    "https://github.com/xinglun/ai-cockpit/pull/392"
+  ],
+  "policyRefs": [
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "AGENTS.md:reviewed-merge-and-exact-cleanup",
+    "docs/reference/reference-parity.md"
+  ],
+  "predecessorContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "predecessorEventsDigest": "sha256:dfb4b5f1e92418c596a97e82503cf9de41c12e6fc6e89b499109a1412f7ecedc",
+  "predecessorOutcomeDigest": "sha256:58a8876e18b8db35e29937aa717bd3ffe933270d26292309f7bbdf99557b6454",
+  "predecessorSummaryDigest": "sha256:41f50a7ce1e58618c149e43f0dc8a9382806a3202be711f7463f410a3f8e97b1",
+  "predecessorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
+  "reason": "WI-427 is the reviewed, merged, and closed recovery delivery; this latest supersede receipt deterministically resolves earlier competing recovery attempts without rewriting predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue only on the closed successor lineage; do not reopen predecessor bytes.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-427-parity-governance-recovery",
+  "workItemId": "WI-424-ci-convergence-finalization-recovery"
+}

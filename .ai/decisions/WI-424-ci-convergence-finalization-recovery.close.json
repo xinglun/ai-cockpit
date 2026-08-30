@@ -1,0 +1,189 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b28e16a18bc547f107db862adb5be6964c283d4f191646d36e34a9006e24c03c",
+      "workItemId": "WI-424-ci-convergence-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-423-ci-convergence.recovery.d4ba2ec5c5ebdcbf3f4423b55cea4c1510e9976d45f20c3562744b4b11c89433.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-423-ci-convergence.recovery.f261b707263c9279acf579d8625bc0f900216250b5871e83efbdb49ba6e3f704.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-423-ci-convergence.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-423-ci-convergence.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-423-ci-convergence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-423-ci-convergence.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-423-ci-convergence.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-423-ci-convergence.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.94280288ea7bd610b1376ea3ff90dffe80875e463674e296d56a71233b15ea39.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via recovery-chain-finalization at 2026-08-31T01:02:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "建立可验证的 CI 运行收敛机制：取消过时运行、在推送前阻断已知非法生命周期状态、按变更风险动态选择质量档位，并为真实 gate 失败提供唯一根因与修复指引。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-424-ci-convergence-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:218e8cf50ee157db3ba04bfda2eea619a5b68d20cc843873a36a081e7e2e2715",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "recovery-chain-finalization",
+    "decidedAt": "2026-08-31T01:02:00Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.94280288ea7bd610b1376ea3ff90dffe80875e463674e296d56a71233b15ea39.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "WI-424 is superseded by the reviewed and closed recovery lineage WI-427; preserve immutable predecessor history and close the archived predecessor.",
+    "resumeCondition": "Use the bound successor lineage; do not reopen predecessor bytes."
+  },
+  "timestamp": "2026-08-30T17:21:34Z",
+  "workItemId": "WI-424-ci-convergence-finalization-recovery"
+}

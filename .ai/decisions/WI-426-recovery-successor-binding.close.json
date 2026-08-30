@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-426-recovery-successor-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fee90270d46a595a45262548e1496215f05a254c942604104b77a3a454439f33",
+      "workItemId": "WI-426-recovery-successor-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-426-recovery-successor-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8893957c0f5d80fe5d0ea97860d06f9192e188a7317d0f846cf084e227bcc8b8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-426-recovery-successor-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-426-recovery-successor-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-426-recovery-successor-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-426-recovery-successor-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-426-recovery-successor-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-426-recovery-successor-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via recovery-chain-finalization at 2026-08-31T01:16:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-426-recovery-successor-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-426-recovery-successor-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-426-recovery-successor-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-426-recovery-successor-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "实现窄化、可审计、fail-closed 的 legacy successor binding 兼容路径，补齐 Runtime 回归测试和三语流程文档，防止相同的 CI/lifecycle 收尾缺口再次造成默认分支无法 ready_on_base。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-426-recovery-successor-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-426-recovery-successor-binding"
+  },
+  "finalReportDigest": "sha256:84900592920da726b620287ef136a27d0202d829f76e504f187035672040cd88",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "recovery-chain-finalization",
+    "decidedAt": "2026-08-31T01:16:00Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "WI-426 is superseded by the reviewed and closed recovery successor WI-428; preserve immutable predecessor history and close the archived predecessor.",
+    "resumeCondition": "Use the bound successor lineage; do not reopen predecessor bytes."
+  },
+  "timestamp": "2026-08-30T17:22:13Z",
+  "workItemId": "WI-426-recovery-successor-binding"
+}
