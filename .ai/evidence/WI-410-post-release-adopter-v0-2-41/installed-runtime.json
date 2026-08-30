@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "kind": "installed_runtime_acceptance",
+  "repository": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeVersion": "0.2.41",
+  "runtimeDigest": "sha256:4a30e46d63c7d923649b6f66e0b925ddd6ff267d5ec46966329512e1771d9af6",
+  "binaryPath": "/Users/sei-rinn/.local/bin/ai-cockpit",
+  "platform": "Darwin-arm64",
+  "source": "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.41/ai-cockpit-v0.2.41-aarch64-apple-darwin.tar.gz",
+  "checks": {
+    "inspect": {
+      "state": "passed",
+      "changedPaths": [],
+      "head": "935a346eeb07e5acc5c24ebca9afd3e6c98e2618",
+      "protocolVersion": 1,
+      "runtimeVersion": "0.2.41",
+      "runtimeDigest": "sha256:4a30e46d63c7d923649b6f66e0b925ddd6ff267d5ec46966329512e1771d9af6"
+    },
+    "status": {
+      "state": "COMPATIBLE",
+      "activeWorkItems": 0,
+      "readyOnBase": true,
+      "repositorySchemaVersion": 2,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b"
+    },
+    "doctor": {
+      "state": "ok",
+      "runtimeCodeInRepository": false,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b"
+    },
+    "agentDoctor": {
+      "state": "VERIFIED",
+      "provider": "codex",
+      "adapterState": "installed",
+      "cli": "available",
+      "mcp": "available",
+      "problems": []
+    }
+  },
+  "assertions": {
+    "publicBinaryVersion": true,
+    "publicBinarySha256": true,
+    "explicitRepositoryContext": true,
+    "repositoryIsolation": true,
+    "noActiveWorkItems": true,
+    "readyOnBase": true,
+    "noRuntimeCodeInRepository": true
+  }
+}

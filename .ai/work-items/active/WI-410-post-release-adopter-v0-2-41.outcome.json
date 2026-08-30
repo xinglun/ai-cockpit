@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "Public v0.2.41 Release tag and downloaded archive are immutable and SHA-256 verified.",
+    "The acceptance receipt binds tag, version, archive digest, binary digest, target platform, download source, repository identity, and runtime identity.",
+    "Fresh adopter attach, not_ready scaffold, evidence reuse, complete lifecycle, isolation, and run-root cleanup all pass without source or workspace binary fallback.",
+    "The installed v0.2.41 public binary passes inspect/status/doctor/agent doctor for this repository with activeWorkItems=0 and readyOnBase=true.",
+    "Acceptance artifacts are preserved as immutable repository-local evidence; no release truth is rewritten."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f9d3c845e67465966a20456572797023d820d71004043b2978544b289c1a4808",
+      "workItemId": "WI-410-post-release-adopter-v0-2-41"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-410-post-release-adopter-v0-2-41.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-410-post-release-adopter-v0-2-41.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-410-post-release-adopter-v0-2-41.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-410-post-release-adopter-v0-2-41.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-410-post-release-adopter-v0-2-41.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete post-release artifact acceptance, preserve auditable evidence, and verify current repository installation without source fallback or repository-state leakage."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-410-post-release-adopter-v0-2-41.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-410-post-release-adopter-v0-2-41"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-410-post-release-adopter-v0-2-41"
+}

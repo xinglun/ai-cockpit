@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-410-post-release-adopter-v0-2-41.contract.json",
+    ".ai/work-items/active/WI-410-post-release-adopter-v0-2-41.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T00:45:48Z",
+  "checkpointContractDigest": "sha256:e9e50068b9043a95c29b1d3bc76c1a8b9730172462dff4c4e106800f86ba9d04",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:f9d3c845e67465966a20456572797023d820d71004043b2978544b289c1a4808",
+  "createdAt": "2026-08-30T00:42:02Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:e9e50068b9043a95c29b1d3bc76c1a8b9730172462dff4c4e106800f86ba9d04",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm the bounded post-release acceptance evidence review and permit checkpoint; no implementation or release truth is inferred.",
+    "recordedAt": "2026-08-30T00:51:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f9d3c845e67465966a20456572797023d820d71004043b2978544b289c1a4808",
+    "schemaVersion": 1,
+    "workItemId": "WI-410-post-release-adopter-v0-2-41"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-410-post-release-adopter-v0-2-41/acceptance.json",
+      ".ai/evidence/WI-410-post-release-adopter-v0-2-41/installed-runtime.json"
+    ],
+    "reason": "The requested public-release adopter baseline and installed-runtime verification are recorded without source fallback.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T00:52:39Z",
+  "preflightContractDigest": "sha256:e9e50068b9043a95c29b1d3bc76c1a8b9730172462dff4c4e106800f86ba9d04",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f9d3c845e67465966a20456572797023d820d71004043b2978544b289c1a4808",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/runtime.json",
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/SHA256SUMS.release"
+      ],
+      "reason": "Public v0.2.41 runtime identity and release checksums are preserved from the immutable workflow artifact.",
+      "required": true,
+      "scenario": "public_release_artifact_integrity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/acceptance.json",
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/cleanup.json",
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/isolation.json"
+      ],
+      "reason": "The public adopter receipt records attach, not_ready scaffold, reuse, lifecycle, isolation, and validated run-root cleanup as passed.",
+      "required": true,
+      "scenario": "fresh_adopter_governance_lifecycle",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/installed-runtime.json"
+      ],
+      "reason": "The installed public v0.2.41 binary passed repository-bound health and readiness checks.",
+      "required": true,
+      "scenario": "installed_runtime_self_governance",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-30T00:50:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-410-post-release-adopter-v0-2-41"
+}

@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "Public v0.2.41 Release tag and downloaded archive are immutable and SHA-256 verified.",
+    "The acceptance receipt binds tag, version, archive digest, binary digest, target platform, download source, repository identity, and runtime identity.",
+    "Fresh adopter attach, not_ready scaffold, evidence reuse, complete lifecycle, isolation, and run-root cleanup all pass without source or workspace binary fallback.",
+    "The installed v0.2.41 public binary passes inspect/status/doctor/agent doctor for this repository with activeWorkItems=0 and readyOnBase=true.",
+    "Acceptance artifacts are preserved as immutable repository-local evidence; no release truth is rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "935a346eeb07e5acc5c24ebca9afd3e6c98e2618",
+  "createdAt": "2026-08-30T00:42:02Z",
+  "goal": "Complete post-release artifact acceptance, preserve auditable evidence, and verify current repository installation without source fallback or repository-state leakage.",
+  "intent": "Record and verify the immutable public v0.2.41 Release adopter acceptance baseline and prove the installed public Runtime governs this repository and an isolated fresh adopter.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime implementation changes",
+    "Reference-source or V1 runtime copying",
+    "Global Agent/MCP configuration",
+    "Rewriting historical evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f9d3c845e67465966a20456572797023d820d71004043b2978544b289c1a4808",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "public_release_artifact_integrity",
+      "expected": "The immutable v0.2.41 public tag, archive, manifest, and checksums resolve to the recorded runtime identity.",
+      "verificationPlan": "Download the public Release archive and SHA256SUMS, verify the archive digest and executable version/digest.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["release-adopter-acceptance-v0.2.41-33282519613/runtime.json", "release-adopter-acceptance-v0.2.41-33282519613/SHA256SUMS.release"]
+    },
+    {
+      "scenario": "fresh_adopter_governance_lifecycle",
+      "expected": "A fresh adopter is attached and completes the not_ready scaffold, evidence reuse, lifecycle, isolation, and cleanup assertions without source fallback.",
+      "verificationPlan": "Inspect the public adopter acceptance receipt and all lifecycle, isolation, and cleanup evidence from workflow 33282519613.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["release-adopter-acceptance-v0.2.41-33282519613/acceptance.json", "release-adopter-acceptance-v0.2.41-33282519613/cleanup.json", "release-adopter-acceptance-v0.2.41-33282519613/isolation.json"]
+    },
+    {
+      "scenario": "installed_runtime_self_governance",
+      "expected": "The installed public v0.2.41 binary governs this repository with a compatible, ready, clean state.",
+      "verificationPlan": "Run inspect, status, doctor, and agent doctor with explicit --repo against this repository after installation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/evidence/WI-410-post-release-adopter-v0-2-41/installed-runtime.json"]
+    }
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-410-post-release-adopter-v0-2-41",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi410-post-release-adopter-v0-2-41"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/evidence/WI-410-post-release-adopter-v0-2-41/**",
+    ".ai/work-items/**",
+    ".ai/decisions/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-410-post-release-adopter-v0-2-41"
+}

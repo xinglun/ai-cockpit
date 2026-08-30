@@ -1,0 +1,66 @@
+{
+  "disposition": "deleted",
+  "headDigest": "sha256:8ac573e5e550af7faf669bb3fdfa401014a398d5c15731487baf66bf903b446a",
+  "headPath": ".ai/decisions/release-adopter-lifecycle.finalize.json",
+  "receipt": {
+    "actor": "harness:release-adopter",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "release-adopter-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "e480ef35db563f831f3c14d2e578010bc7af1603",
+      "name": "release-adopter-lifecycle",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:3e3680ed64e1959e62b4c43f0cce0c710efc2809adb72f712a6803f1e6217ec5",
+    "operationId": "delete-release-adopter-lifecycle",
+    "provider": "release-adopter-harness",
+    "pullRequest": {
+      "baseBranch": "release-adopter-lifecycle",
+      "baseRemote": "local",
+      "baseRevision": "6e6c3de457db0543da4d5995382f4f68d2a6e424",
+      "headRevision": "e480ef35db563f831f3c14d2e578010bc7af1603",
+      "mergeCommit": "e480ef35db563f831f3c14d2e578010bc7af1603",
+      "number": 1,
+      "url": "acceptance://v0.2.41/release-adopter-lifecycle"
+    },
+    "reason": "The isolated adopter lifecycle branch and worktree were removed before close.",
+    "receiptId": "release-adopter-release-adopter-lifecycle",
+    "repositoryId": "sha256:2d6356b6f5c730eef1f25f401bb05169793245e38335d10bbf75c212123fac74",
+    "resourceContext": {
+      "baseBranch": "release-adopter-lifecycle",
+      "baseRemote": "local",
+      "branch": "release-adopter-lifecycle",
+      "provider": "release-adopter-harness",
+      "pullRequest": "acceptance://v0.2.41/release-adopter-lifecycle",
+      "worktree": "/tmp/ai-cockpit-adopter-acceptance.J3pdLG/adopter"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:f1b1438d7e987129c916c73c86826c271105df289c4721d47308fff3d5a03fb2",
+    "runtimeVersion": "0.2.41",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-30T00:27:45Z",
+    "workItemId": "release-adopter-lifecycle",
+    "worktree": {
+      "branch": "release-adopter-lifecycle",
+      "headRevision": "e480ef35db563f831f3c14d2e578010bc7af1603",
+      "path": "/tmp/ai-cockpit-adopter-acceptance.J3pdLG/adopter",
+      "worktreeId": "release-adopter-lifecycle"
+    }
+  },
+  "sequence": 0,
+  "state": "verified",
+  "workItemId": "release-adopter-lifecycle"
+}

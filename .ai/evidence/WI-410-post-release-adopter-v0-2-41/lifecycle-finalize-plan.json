@@ -1,0 +1,20 @@
+{
+  "contractDigest": "sha256:3e3680ed64e1959e62b4c43f0cce0c710efc2809adb72f712a6803f1e6217ec5",
+  "next": [
+    "archive",
+    "finalize",
+    "finalize-verify",
+    "close"
+  ],
+  "protocolVersion": 1,
+  "resourceContext": {
+    "baseBranch": "release-adopter-lifecycle",
+    "baseRemote": "local",
+    "branch": "release-adopter-lifecycle",
+    "provider": "release-adopter-harness",
+    "pullRequest": "acceptance://v0.2.41/release-adopter-lifecycle",
+    "worktree": "/tmp/ai-cockpit-adopter-acceptance.J3pdLG/adopter"
+  },
+  "state": "planned",
+  "workItemId": "release-adopter-lifecycle"
+}
