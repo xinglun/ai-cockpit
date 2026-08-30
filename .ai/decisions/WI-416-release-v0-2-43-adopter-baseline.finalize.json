@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "59f08a0f5d09b3bc841d3ac49ca29a5bee1bc1e8",
+    "name": "codex/wi-416-post-release-adopter-v0-2-43",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:55751efce11d6851a95004ea6770c22c07fde555a8fb081f858ede64490ab1d9",
+  "operationId": "github-pr-381-merge-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "769d223014f862522305b2951001ca798d5c0a91",
+    "headRevision": "59f08a0f5d09b3bc841d3ac49ca29a5bee1bc1e8",
+    "mergeCommit": "5f05ae751cdca50cf05d6b7845b1b1903903a5fc",
+    "number": 381,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/381"
+  },
+  "reason": "PR #381 passed all hosted checks and merged as 5f05ae751cdca50cf05d6b7845b1b1903903a5fc; exact remote branch and dedicated worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-416-release-v0-2-43-adopter-baseline-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-416-post-release-adopter-v0-2-43",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/381",
+    "worktree": "/private/tmp/ai-cockpit-wi416-post-release-adopter-v0-2-43"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+  "runtimeVersion": "0.2.43",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T06:53:43Z",
+  "workItemId": "WI-416-release-v0-2-43-adopter-baseline",
+  "worktree": {
+    "branch": "codex/wi-416-post-release-adopter-v0-2-43",
+    "headRevision": "59f08a0f5d09b3bc841d3ac49ca29a5bee1bc1e8",
+    "path": "/private/tmp/ai-cockpit-wi416-post-release-adopter-v0-2-43",
+    "worktreeId": "WI-416-release-v0-2-43-adopter-baseline"
+  }
+}
