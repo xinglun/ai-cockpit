@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0e9aae342212f0ef579a6cd008f2d0337b8bc322",
+    "name": "codex/wi-410-post-release-adopter-v0-2-41",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6173eea01590332590750916019aeae6066b6a51f46612e984c7066924cf048c",
+  "operationId": "github-pr-375-delete-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "935a346eeb07e5acc5c24ebca9afd3e6c98e2618",
+    "headRevision": "0e9aae342212f0ef579a6cd008f2d0337b8bc322",
+    "mergeCommit": "69ac5197a840c4d4d702dfdef83002ad06cca1d2",
+    "number": 375,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/375"
+  },
+  "reason": "PR #375 passed all hosted checks and merged as 69ac5197a840c4d4d702dfdef83002ad06cca1d2; the exact remote branch and dedicated worktree were removed after clean-state verification.",
+  "receiptId": "ai-cockpit-WI-410-post-release-adopter-v0-2-41-deleted-20260830",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-410-post-release-adopter-v0-2-41",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/375",
+    "worktree": "/private/tmp/ai-cockpit-wi410-post-release-adopter-v0-2-41"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4a30e46d63c7d923649b6f66e0b925ddd6ff267d5ec46966329512e1771d9af6",
+  "runtimeVersion": "0.2.41",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T01:16:00Z",
+  "workItemId": "WI-410-post-release-adopter-v0-2-41",
+  "worktree": {
+    "branch": "codex/wi-410-post-release-adopter-v0-2-41",
+    "headRevision": "0e9aae342212f0ef579a6cd008f2d0337b8bc322",
+    "path": "/private/tmp/ai-cockpit-wi410-post-release-adopter-v0-2-41",
+    "worktreeId": "WI-410-post-release-adopter-v0-2-41"
+  }
+}

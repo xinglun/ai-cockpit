@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f9d3c845e67465966a20456572797023d820d71004043b2978544b289c1a4808",
+      "workItemId": "WI-410-post-release-adopter-v0-2-41"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via post-release-adopter-acceptance-policy at 2026-08-30T01:18:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete post-release artifact acceptance, preserve auditable evidence, and verify current repository installation without source fallback or repository-state leakage."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-410-post-release-adopter-v0-2-41"
+  },
+  "finalReportDigest": "sha256:b80ddbc8b078bb4d624250192ab0679053dbec446964968f653d87befec8f69a",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:448ac15cf4e2611ae90071f840b5c779da7d00255b0d57584b28b252640723a4",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-410-post-release-adopter-v0-2-41.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-release-adopter-acceptance-policy",
+    "decidedAt": "2026-08-30T01:18:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json"
+    ],
+    "policyRefs": [
+      "post-release-adopter-acceptance-policy"
+    ],
+    "reason": "Reviewed immutable v0.2.41 release, public adopter acceptance, installed runtime, hosted checks, merged PR, and exact resource cleanup.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-30T01:16:28Z",
+  "workItemId": "WI-410-post-release-adopter-v0-2-41"
+}
