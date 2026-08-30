@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T01:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-431-release-v0-2-47-recovery.events.jsonl",
+    ".ai/work-items/active/WI-431-release-v0-2-47-recovery.summary.json",
+    ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:f2707ceb068a1a3f4e1921612ae7b54335df239f8ebde95d85c11d8a5a93b58e",
+  "predecessorEventsDigest": "sha256:76c6857c82901f5fb1b73b47d8a71cc0edd96791faabb723cdbc30f6732029aa",
+  "predecessorOutcomeDigest": "sha256:eca7f302cee035690faa940dfdbf510b0d7e4de2659ae8a74413b3e47a4994bf",
+  "predecessorSummaryDigest": "sha256:612c06828bcc33332f8628686634e2a0b844856a96c206f430fa2d478ee4b473",
+  "predecessorWorkItemId": "WI-431-release-v0-2-47-recovery",
+  "reason": "Contract amendment changed the bound risk from high to normal. Append a retry receipt bound to the amended Contract and current checkpointed Summary, preserve all prior bytes, then rerun preflight before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight after the current verification evidence exists, then finish, archive, review, merge, finalize, close, and run the release gates.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}

@@ -1,0 +1,80 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-431-release-v0-2-47-recovery.contract.json",
+    ".ai/work-items/archive/WI-431-release-v0-2-47-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T19:31:05Z",
+  "checkpointContractDigest": "sha256:af0df4164b3927d2d544eaddf888d21124ec7be5598f3b4a70acb37449e64a78",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c3dbd61c1c5cc20ce049d47a6acd1737bb282bd043f1bb579d060fb1168bd0bc",
+      "recorded": true,
+      "recordedAt": "2026-08-30T19:31:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-431-release-v0-2-47-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f2707ceb068a1a3f4e1921612ae7b54335df239f8ebde95d85c11d8a5a93b58e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3dbd61c1c5cc20ce049d47a6acd1737bb282bd043f1bb579d060fb1168bd0bc",
+      "previousContractHash": "sha256:c3dbd61c1c5cc20ce049d47a6acd1737bb282bd043f1bb579d060fb1168bd0bc",
+      "reason": "将本次恢复发布的风险等级从 high 收紧为 normal：范围仅为文档、版本元数据和发布验收门槛，不修改 Runtime/验证逻辑；不应因高风险策略强制引入与本范围无关的场景覆盖，但发布流程仍保留严格 source-quality gate。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T19:40:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-431-release-v0-2-47-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+  "createdAt": "2026-08-30T19:24:06Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:af0df4164b3927d2d544eaddf888d21124ec7be5598f3b4a70acb37449e64a78",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "最终 PR、分支、worktree 与远端上下文已绑定；重新验证证据通过并绑定当前 Contract，确认可进入 finish。",
+    "recordedAt": "2026-08-31T02:30:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+    "schemaVersion": 1,
+    "workItemId": "WI-431-release-v0-2-47-recovery"
+  },
+  "failedGate": "finish.governance",
+  "mode": "release",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T19:56:42Z",
+  "preflightContractDigest": "sha256:af0df4164b3927d2d544eaddf888d21124ec7be5598f3b4a70acb37449e64a78",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T19:56:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}

@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T02:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-431-release-v0-2-47-recovery.events.jsonl",
+    ".ai/work-items/active/WI-431-release-v0-2-47-recovery.summary.json",
+    ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:af0df4164b3927d2d544eaddf888d21124ec7be5598f3b4a70acb37449e64a78",
+  "predecessorEventsDigest": "sha256:0425390241616f631830cbc1b3e95611596532a00761f8b466404d6184b32561",
+  "predecessorOutcomeDigest": "sha256:9997c4f3aa95ce7a94fd28f3ec473be0d6d4d158d7cf037292c41d876492819c",
+  "predecessorSummaryDigest": "sha256:01cb7cba319a384665bc82c0e24e2d8aada388b92d2c91c4f3452c95f8db0038",
+  "predecessorWorkItemId": "WI-431-release-v0-2-47-recovery",
+  "reason": "The finalized PR resource context changed the canonical Contract binding; retry through the official recovery path, preserve the stale evidence, then regenerate verification against the planned resource context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Regenerate verification for the planned Contract, refresh preflight review, then finish, archive, merge, finalize, close, and run release gates.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}

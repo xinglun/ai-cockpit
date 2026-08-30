@@ -28,14 +28,14 @@
     "release"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-431-release-v0-2-47",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/397",
     "worktree": "/private/tmp/ai-cockpit-wi431"
   },
-  "risk": "high",
+  "risk": "normal",
   "scope": [
     "Cargo.toml",
     "Cargo.lock",
