@@ -154,6 +154,8 @@ hosted job artifact だけでは repository-persisted baseline になりませ�
 完全な receipt は `.ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/` に保持する。
 以前の WI-239 receipt は immutable な historical v0.2.31 evidence として残し、hosted
 job artifact を repository-persisted baseline の代替にはしない。
+GitHub Actions run `32696048024` は `x86_64-unknown-linux-gnu` の hosted Linux acceptance
+evidence として別途保持し、この single-target の永続化 baseline とは区別する。
 
 ### 過去の N-1 schema migration 受入れ
 

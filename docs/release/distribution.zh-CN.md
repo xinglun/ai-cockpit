@@ -149,6 +149,8 @@ receipt，才能被描述为 adopter 基线；仅有 hosted job artifact 不构�
 完整 receipt 保存在 `.ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/`。
 较早的 WI-239 receipt 仍作为不可变的历史 v0.2.31 evidence 保留；不会用 hosted
 job artifact 替代仓库持久化基线。
+GitHub Actions run `32696048024` 仍单独作为 `x86_64-unknown-linux-gnu` 的 hosted Linux
+验收 evidence 保留，不是本次单 target 的持久化基线。
 
 ```bash
 tests/release/adopter_acceptance.sh \

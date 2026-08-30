@@ -182,6 +182,9 @@ The complete receipt is retained at
 `.ai/evidence/WI-416-release-v0-2-43-adopter-acceptance/`. The earlier WI-239
 receipt remains immutable historical v0.2.31 evidence; hosted job artifacts are
 not substituted for the repository-persisted baseline.
+GitHub Actions run `32696048024` remains separately retained as hosted Linux
+acceptance evidence on `x86_64-unknown-linux-gnu`, not as this single-target
+persisted baseline.
 
 ```bash
 tests/release/adopter_acceptance.sh \
