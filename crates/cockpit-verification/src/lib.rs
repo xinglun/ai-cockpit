@@ -1901,6 +1901,7 @@ fn execute_verification_plan_bounded_with_budget_at(
             ));
         }
     }
+    let has_execution = !commands.is_empty();
     let worker_count = max_workers.min(commands.len().max(1));
     let scheduler = Arc::new((
         Mutex::new(SchedulerState::new(commands, max_resource_units)),
@@ -1953,7 +1954,16 @@ fn execute_verification_plan_bounded_with_budget_at(
         .map_err(|_| ExecutionError::WorkerPoisoned)?
         .metrics
         .clone();
-    let execution_elapsed_ms = started.elapsed().as_millis();
+    // A plan satisfied entirely by reusable receipts performs no process
+    // execution.  Report an exact zero rather than the scheduler/thread
+    // bookkeeping time, whose millisecond rounding is platform-dependent
+    // (Windows can otherwise report 1–2 ms and make the reuse contract
+    // nondeterministic).
+    let execution_elapsed_ms = if !has_execution {
+        0
+    } else {
+        started.elapsed().as_millis()
+    };
     let mut results = Vec::with_capacity(result_plan.len());
     let mut receipt_candidates = Vec::new();
     for entry in result_plan {

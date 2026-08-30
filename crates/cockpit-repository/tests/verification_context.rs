@@ -223,6 +223,8 @@ fn profile_authorized_verification_reuses_exact_receipt_without_source_changes()
     assert_eq!(second.receipt.nodes_executed, 0);
     assert_eq!(second.receipt.nodes_reused, 1);
     assert_eq!(second.receipt.execution_elapsed_ms, 0);
+    assert_eq!(second.receipt.processes_spawned, 0);
+    assert_eq!(second.receipt.max_concurrent_processes, 0);
 
     fs::remove_dir_all(root).expect("cleanup");
 }

@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "The zero-node reusable verification path reports execution_elapsed_ms as exactly zero on Unix and Windows without spawning an execution process.",
+    "The Windows repository verification boundary and the full workspace test suite pass without weakening receipt identity, reuse, or fail-closed semantics.",
+    "The inherited v0.2.42 release candidate remains byte-for-byte traceable to WI-412, and all release/version/parity documentation remains synchronized in English, Simplified Chinese, and Japanese.",
+    "The reviewed successor PR passes quality, Windows-runtime, and reference-oracle checks before merge; no release or adopter acceptance is claimed before the immutable public artifact exists.",
+    "After merge, finalization, close, synchronization, and exact branch/worktree cleanup leave main ready_on_base with the WI-412 failed delivery preserved as historical recovery evidence."
+  ],
+  "createdAt": "2026-08-30T03:55:11Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e37004aee412660e06d1c187ad711adb00559d707d82d859460804d2046946c3",
+  "evidenceRefs": [
+    ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44888d4b59fc07efcda87f373f268961b7215edb797a6c7340f3188403d59ee2",
+      "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver the v0.2.42 release candidate after the hosted Windows gate failure, preserving WI-412 and making zero-execution verification timing deterministic."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+  },
+  "taskReportDigest": "sha256:ba581c73375a72c6ed1deff045e8b050a68472f46cbc22bee68d63dc72fe5fba",
+  "taskReportMarkdownDigest": "sha256:66e9aa764af93bc1419088730855b3de288ce0f515b5e0075444e15e4f525285",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+}

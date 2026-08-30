@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "current-work-item-recovery",
+  "decidedAt": "2026-08-30T03:03:34Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-412-release-v0-2-42.outcome.json",
+    ".ai/evidence/WI-412-release-v0-2-42.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:cae7ea9f96e0dd7a9d7ba96ff53b6d69d037a5677053e135d6f7906c83b148c8",
+  "predecessorEventsDigest": "sha256:b4acbb7cd24e7a52c3027cf88abf2b236ac9d9c621bafe2bbcf1bfdd27ec113c",
+  "predecessorOutcomeDigest": "sha256:bda07de576b9b3d55d8c2d4574740e6259342a0bc7c2796633e66aa23cab7652",
+  "predecessorSummaryDigest": "sha256:bb4e3f5ece6e982fe13502ceb9c7f35bf574a2b4e6a86a8713ce58df92ec5fef",
+  "predecessorWorkItemId": "WI-412-release-v0-2-42",
+  "reason": "retry after the Runtime correctly rejected a stale preflight/evidence projection following finalize-plan binding",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "record a fresh preflight and verification after the finalized resource context is bound",
+  "runtimeDigest": "sha256:4a30e46d63c7d923649b6f66e0b925ddd6ff267d5ec46966329512e1771d9af6",
+  "runtimeVersion": "0.2.41",
+  "schemaVersion": 1,
+  "workItemId": "WI-412-release-v0-2-42"
+}

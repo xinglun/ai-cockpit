@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T03:55:21Z",
+  "files": {
+    "approachDigest": "sha256:0b68e6f9cfe2d275653929fc184347d7009a0bd37b94e358c672405b02c2c284",
+    "approachPath": ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.approach.json",
+    "contractDigest": "sha256:6381a27693ccf3284e5b0fa61e1083b2885ca78faeaa38c872f73db7868f6efa",
+    "contractPath": ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.contract.json",
+    "eventsDigest": "sha256:1628965b3fe179cd55ed7f53273724862333174c314399b0bbebab4f8142cca8",
+    "eventsPath": ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.events.jsonl",
+    "outcomeDigest": "sha256:508840e83e1404970b6bc5394093ca3dabe9b5a5e2e7f6e43ad2451d3cf72634",
+    "outcomePath": ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.outcome.json",
+    "summaryDigest": "sha256:3deb9fcbd731aaf4c38eb557c38aeab42ff8ce9ca3e8435745291287ae93dd73",
+    "summaryPath": ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.summary.json",
+    "taskReportDigest": "sha256:ba581c73375a72c6ed1deff045e8b050a68472f46cbc22bee68d63dc72fe5fba",
+    "taskReportMarkdownDigest": "sha256:66e9aa764af93bc1419088730855b3de288ce0f515b5e0075444e15e4f525285",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+}

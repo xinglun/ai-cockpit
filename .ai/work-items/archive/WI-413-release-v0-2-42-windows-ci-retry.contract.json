@@ -1,0 +1,88 @@
+{
+  "acceptanceCriteria": [
+    "The zero-node reusable verification path reports execution_elapsed_ms as exactly zero on Unix and Windows without spawning an execution process.",
+    "The Windows repository verification boundary and the full workspace test suite pass without weakening receipt identity, reuse, or fail-closed semantics.",
+    "The inherited v0.2.42 release candidate remains byte-for-byte traceable to WI-412, and all release/version/parity documentation remains synchronized in English, Simplified Chinese, and Japanese.",
+    "The reviewed successor PR passes quality, Windows-runtime, and reference-oracle checks before merge; no release or adopter acceptance is claimed before the immutable public artifact exists.",
+    "After merge, finalization, close, synchronization, and exact branch/worktree cleanup leave main ready_on_base with the WI-412 failed delivery preserved as historical recovery evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "fcba9ad73e7191f9094411615cbc8070763443f8",
+  "createdAt": "2026-08-30T03:22:36Z",
+  "goal": "Redeliver the v0.2.42 release candidate after the hosted Windows gate failure, preserving WI-412 and making zero-execution verification timing deterministic.",
+  "intent": "The hosted Windows check rejected WI-412 because a reused receipt path reported a nonzero execution duration despite executing no nodes. Fix that platform-sensitive semantic defect in this successor and repeat the complete release lifecycle without rewriting predecessor evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-core/**",
+    "unrelated verification semantics",
+    " governance policy",
+    " or lifecycle behavior",
+    "reference-source/V1 runtime or installer copying",
+    "global Agent/MCP configuration",
+    "post-release adopter application source"
+  ],
+  "predecessorContractDigest": "sha256:cae7ea9f96e0dd7a9d7ba96ff53b6d69d037a5677053e135d6f7906c83b148c8",
+  "predecessorWorkItemId": "WI-412-release-v0-2-42",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-412-release-v0-2-42.recovery.5f23d0ffab4ce9a92296bf0d25bc23282b899252208e96e53c8065afd4e30495.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f060b87389dcb89bc04618ebea639966cd36516d31e9d4c02df77f4958c8a7f7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-413-release-v0-2-42",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/378",
+    "worktree": "/private/tmp/ai-cockpit-wi413-release-v0-2-42"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-repository/tests/verification_context.rs",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-413-release-v0-2-42-windows-ci-retry.md",
+    "docs/work-items/WI-413-release-v0-2-42-windows-ci-retry.zh-CN.md",
+    "docs/work-items/WI-413-release-v0-2-42-windows-ci-retry.ja.md",
+    "docs/work-items/WI-412-release-v0-2-42.md",
+    "docs/work-items/WI-412-release-v0-2-42.zh-CN.md",
+    "docs/work-items/WI-412-release-v0-2-42.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/release/**",
+    "tests/docs/**"
+  ],
+  "sources": [
+    "reference:spirex-ds-dev/ai-cockpit-template@e5acb677",
+    "hosted-ci:https://github.com/xinglun/ai-cockpit/actions/runs/33289560579"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/release/version_consistency.sh --repo .",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/action_runtime_policy.sh .github/workflows/ci.yml .github/workflows/release.yml",
+    "bash tests/release/annotated_tag_identity.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/docs/parity_status_check.sh --repo .",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi413-governance.json",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "git diff --check"
+  ],
+  "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+}
