@@ -982,7 +982,7 @@ WI-394 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の i
 
 これは semantic/documentation parity であり、Apple toolchain support、build execution、source JSON-wire compatibility ではありません。Install は adopter 外部の immutable shared Runtime 一つと明示的な `attach --repo` を使い、SwiftPM/Xcode install、SDK 選択、source installer behavior はコピーしません。WI-394 後の ledger は 4,262 `generated-history`、324 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、481 `deferred-next-batch`、`migrate-gap` は 0 です。
 
-## WI-421 — mixed-monorepo fixture boundary
+## WI-421 — mixed-monorepo fixture 境界
 
 WI-421 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の
 `examples/fixtures/mixed-monorepo/` にある 5 file を一つずつ比較します。これは実行可能な
