@@ -362,6 +362,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-427——parity governance recovery | 已实现 | [Work Item](../work-items/WI-427-parity-governance-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-427-parity-governance-recovery.contract.json`; verification `.ai/evidence/WI-427-parity-governance-recovery.verification.json`; finalization `.ai/decisions/WI-427-parity-governance-recovery.finalize.json`; close `.ai/decisions/WI-427-parity-governance-recovery.close.json`. |
 | WI-428——recovery-chain finalization | 已实现 | [Work Item](../work-items/WI-428-recovery-chain-finalization.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-428-recovery-chain-finalization.contract.json`; verification `.ai/evidence/WI-428-recovery-chain-finalization.verification.json`; finalization `.ai/decisions/WI-428-recovery-chain-finalization.finalize.json`; close `.ai/decisions/WI-428-recovery-chain-finalization.close.json`. |
 | WI-429——历史 recovery 投影 | 已实现 | [Work Item](../work-items/WI-429-recovery-history-compatibility.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json`; verification `.ai/evidence/WI-429-recovery-history-compatibility.verification.json`; finalization `.ai/decisions/WI-429-recovery-history-compatibility.finalize.json`; close `.ai/decisions/WI-429-recovery-history-compatibility.close.json`. |
+| WI-430——v0.2.46 发布 | 进行中 | [Work Item](../work-items/WI-430-release-v0-2-46.zh-CN.md)；将 WI-429 recovery 修复作为新的不可变 patch release 发布；发布后公开制品验收仍是独立 Work Item。 |
 
 ## 当前边界
 
