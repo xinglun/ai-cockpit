@@ -626,18 +626,15 @@ fn recovery_rejects_competing_successor_for_same_predecessor() {
     competing["successorWorkItemId"] = json!("WI-OTHER-SUCCESSOR");
     competing["runtimeVersion"] = json!(runtime.runtime_version);
     competing["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
-    let error = record_recovery_decision(
-        directory.path(),
-        "WI-BLOCKED",
-        &competing,
-        &runtime,
-    )
-    .expect_err("a predecessor must not accumulate competing successors");
+    let error = record_recovery_decision(directory.path(), "WI-BLOCKED", &competing, &runtime)
+        .expect_err("a predecessor must not accumulate competing successors");
     assert!(error.to_string().contains("competing_successor"));
-    assert!(!directory
-        .path()
-        .join(".ai/work-items/active/WI-OTHER-SUCCESSOR.contract.json")
-        .exists());
+    assert!(
+        !directory
+            .path()
+            .join(".ai/work-items/active/WI-OTHER-SUCCESSOR.contract.json")
+            .exists()
+    );
 }
 
 #[test]

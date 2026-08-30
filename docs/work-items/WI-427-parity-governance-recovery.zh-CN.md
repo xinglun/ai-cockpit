@@ -4,9 +4,13 @@ title: "WI-427——parity governance recovery"
 description: 在托管 CI 发现注册缺失后，重新交付 recovery binding 并修复三语 parity 台账。
 workItemId: WI-427-parity-governance-recovery
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-427-parity-governance-recovery
+terminalArchive: .ai/work-items/archive/WI-427-parity-governance-recovery.contract.json
+terminalVerification: .ai/evidence/WI-427-parity-governance-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-427-parity-governance-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-427-parity-governance-recovery.close.json
 ---
 
 # WI-427——parity governance recovery
