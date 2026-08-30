@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-418-release-v0-2-44.summary.json"
   ],
   "checkpointAt": "2026-08-30T07:56:56Z",
-  "checkpointContractDigest": "sha256:a971dc9c3aaec4c9bc2660232a547cdca6fa1c9279aa5742c12c64884f629571",
+  "checkpointContractDigest": "sha256:4c87c7139f0b45e48a4cea86e3e10e9e02b4c13c76e98a3424838673171ffa50",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,22 +42,23 @@
       "workItemId": "WI-418-release-v0-2-44"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:e381a9688a6208de559b9d9f736606ff36a6d56999f8f0a3fdfdf91939d04ff5",
+  "checkpointRepositorySnapshotDigest": "sha256:cc8004128df01b32137f4c40e6cd5bbb263ea324b9e6515db173480a0748e48d",
   "createdAt": "2026-08-30T07:56:43Z",
   "mode": "release",
-  "preflightAt": "2026-08-30T07:56:52Z",
-  "preflightContractDigest": "sha256:a971dc9c3aaec4c9bc2660232a547cdca6fa1c9279aa5742c12c64884f629571",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:e381a9688a6208de559b9d9f736606ff36a6d56999f8f0a3fdfdf91939d04ff5",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-30T08:01:33Z",
+  "preflightContractDigest": "sha256:4c87c7139f0b45e48a4cea86e3e10e9e02b4c13c76e98a3424838673171ffa50",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:cc8004128df01b32137f4c40e6cd5bbb263ea324b9e6515db173480a0748e48d",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-08-30T07:56:56Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:4c87c7139f0b45e48a4cea86e3e10e9e02b4c13c76e98a3424838673171ffa50",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-08-30T08:00:27Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-418-release-v0-2-44"
 }
