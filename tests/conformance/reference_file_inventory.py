@@ -53,6 +53,7 @@ WI346_BATCH = "WI-346-reference-governance-profiles-status"
 WI347_BATCH = "WI-347-reference-knowledge-trust-lifecycle-assessment"
 WI348_BATCH = "WI-348-reference-verification-operation-policy"
 WI368_BATCH = "WI-368-reference-file-comparison-batch-16"
+WI411_BATCH = "WI-411-reference-java-fixture-boundary"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1543,6 +1544,87 @@ WI348_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+WI411_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "examples/fixtures/java-multimodule/.gitignore": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "tests/release/adopter_acceptance.sh",
+        ],
+        "This fixture-local ignore file only protects a disposable Java/Maven sample checkout. The Rust Runtime does not bundle or attach source fixtures; adopter build directories remain the adopter's responsibility and are exercised only through explicit, isolated release harness boundaries.",
+    ),
+    "examples/fixtures/java-multimodule/app/src/main/java/fixture/app/Main.java": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "crates/cockpit-verification/src/lib.rs",
+            "tests/release/adopter_acceptance.sh",
+        ],
+        "This is executable Java sample code proving an app-to-core dependency. It is conformance material for the reference repository, not Runtime governance logic; the target can execute adopter-declared argv but does not claim Java-specific support or copy this fixture.",
+    ),
+    "examples/fixtures/java-multimodule/app/src/test/java/fixture/app/MainTest.java": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "crates/cockpit-verification/src/lib.rs",
+            "tests/release/adopter_acceptance.sh",
+        ],
+        "This dependency-free Java executable test is a source fixture assertion, not a portable Runtime test contract. Rust verification records the command and result supplied by an adopter; it does not ship or infer this Java test.",
+    ),
+    "examples/fixtures/java-multimodule/core/src/main/java/fixture/core/Decision.java": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "This deterministic policy example belongs to the reference fixture's application domain. It is not an AI Cockpit policy implementation and must not be copied into the Rust Core; repository policy remains explicit and typed in the adopter context.",
+    ),
+    "examples/fixtures/java-multimodule/core/src/test/java/fixture/core/DecisionTest.java": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "crates/cockpit-verification/src/lib.rs",
+        ],
+        "This Java unit-style executable test validates the sample Decision class only. The target preserves the evidence boundary through declared verification commands and does not treat a source fixture test as Runtime or enterprise evidence.",
+    ),
+    "examples/fixtures/java-multimodule/evidence.json": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "tests/release/adopter_acceptance.sh",
+            "docs/reference/ci-release-evidence.md",
+        ],
+        "The source evidence JSON describes one local Java fixture run, including unavailable Maven/provider capabilities. Target release/adopter receipts have stricter repository, Runtime, snapshot, artifact, isolation, and cleanup bindings; source fixture evidence is not imported or promoted.",
+    ),
+    "examples/fixtures/java-multimodule/fixture.json": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "docs/reference/verification-cost.md",
+            "tests/release/adopter_acceptance.sh",
+        ],
+        "This fixture metadata declares a Java stack, module paths, and platform claims for the source sample. The target keeps project facts repository-local and evidence-bound; a generic Runtime does not infer Java capability or copy stack metadata from this file.",
+    ),
+    "examples/fixtures/java-multimodule/pom.xml": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "tests/release/adopter_acceptance.sh",
+        ],
+        "The Maven parent descriptor is an executable sample build input. The Rust Runtime has no Maven dependency and must not copy or mutate adopter build manifests; any Java build is external delegated verification.",
+    ),
+    "examples/fixtures/java-multimodule/scripts/lifecycle.sh": (
+        "reference-only",
+        [
+            "docs/reference/reference-file-comparison.md",
+            "docs/reference/agent-workflow.md",
+            "tests/release/adopter_acceptance.sh",
+        ],
+        "The shell lifecycle script orchestrates a disposable Java fixture, local upgrade/rollback checks, and blocked capability phases. The target expresses governance lifecycle through the installed Rust Runtime and explicit adopter commands; source shell orchestration is not copied or treated as an additional authority.",
+    ),
+}
+
+
 WI368_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     "docs/reference/pre-release-documentation-alignment.md": (
         "reference-only",
@@ -2226,6 +2308,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi411 = WI411_REFERENCE_FILES.get(path)
+        if wi411 is not None:
+            classification, counterparts, reason = wi411
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI411_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi368 = WI368_REFERENCE_FILES.get(path)
         if wi368 is not None:
             classification, counterparts, reason = wi368
@@ -2837,6 +2932,38 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi348_classifications
         ):
             errors.append("WI-348 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI411_BATCH
+        for record in records
+    ):
+        wi411_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI411_BATCH
+        ]
+        expected_wi411_paths = set(WI411_REFERENCE_FILES)
+        actual_wi411_paths = {
+            record.get("referencePath")
+            for record in wi411_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi411_paths != expected_wi411_paths:
+            errors.append(
+                "WI-411 batch paths do not match the pinned nine-file Java fixture set: "
+                f"expected {sorted(expected_wi411_paths)!r}, got {sorted(actual_wi411_paths)!r}"
+            )
+        if len(wi411_records) != len(expected_wi411_paths):
+            errors.append(
+                f"WI-411 batch must contain {len(expected_wi411_paths)} records, found {len(wi411_records)}"
+            )
+        wi411_classifications = [record.get("classification") for record in wi411_records]
+        if wi411_classifications.count("reference-only") != len(expected_wi411_paths):
+            errors.append("WI-411 batch must contain nine reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi411_classifications
+        ):
+            errors.append("WI-411 batch cannot leave deferred or migrate-gap records")
     if any(
         isinstance(record, dict) and record.get("batch") == WI368_BATCH
         for record in records

@@ -76,6 +76,33 @@ baseline (`CONTRIBUTING.md`) without creating a second governance system. The
 remaining paths are explicitly staged in the ledger for the next semantic
 batches rather than silently treated as equivalent.
 
+## WI-411 Java multi-module fixture boundary
+
+WI-411 reads the nine files under `examples/fixtures/java-multimodule/` at the
+pinned reference commit. They are all classified as `reference-only`. The
+fixture demonstrates a Java application, an inter-module dependency, local
+`javac`/`java` checks, and a disposable upgrade/rollback exercise. It is an
+executable sample for the reference repository, not AI Cockpit Runtime code or
+portable enterprise evidence.
+
+| Reference path | Decision and target boundary |
+| --- | --- |
+| `.gitignore` | Fixture-local build hygiene; the target release harness owns its own isolated temporary roots. |
+| `app/src/main/java/fixture/app/Main.java` | Java application sample; the target accepts adopter-declared argv but does not bundle Java support. |
+| `app/src/test/java/fixture/app/MainTest.java` | Fixture assertion; a target verification receipt records an adopter command, not this source test. |
+| `core/src/main/java/fixture/core/Decision.java` | Domain sample policy; repository policy remains explicit and typed, never copied from the fixture. |
+| `core/src/test/java/fixture/core/DecisionTest.java` | Fixture-only test; it is not Runtime or enterprise evidence. |
+| `evidence.json` | Source-local evidence with unavailable Maven/provider capabilities; target release receipts require stronger identity and isolation bindings. |
+| `fixture.json` | Source stack/module metadata; target does not infer adopter capabilities from it. |
+| `pom.xml` | Maven build input; Java/Maven execution remains an adopter or delegated-provider responsibility. |
+| `scripts/lifecycle.sh` | Source fixture orchestration; target lifecycle is provided by the installed Rust Runtime and explicit repository-bound commands. |
+
+No Java files, Maven manifests, or source shell orchestration are copied into
+the Rust repository. A future second-technology adopter acceptance is a
+separate, explicitly authorized Work Item; this comparison does not claim it.
+The machine ledger and its regression test bind all nine paths to this
+decision, so they cannot silently return to `deferred-next-batch`.
+
 ## WI-270 file-level Contract semantics slice
 
 WI-270 compares the following 27 reference paths individually. The inventory
@@ -123,11 +150,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=481 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=56 deferred-next-batch=472 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 316 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 47 `reference-only`, and 489
+`implemented-equivalent`, four `not-applicable`, 56 `reference-only`, and 472
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:

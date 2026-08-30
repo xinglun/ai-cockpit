@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json",
+    ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T01:42:41Z",
+  "checkpointContractDigest": "sha256:c217ff4456bfd706579f4ff05b4bb607f1ba2cac32d0f43a9b17fd4fa316df58",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d6321012e62a440893841cacb5bf79700dd4c0fef1b31b68fab5d94fadc31556",
+      "recorded": true,
+      "recordedAt": "2026-08-30T01:42:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e8f42d66730136649c17133c686753351da617b8df3db40de08d4429404d29b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-411-reference-java-fixture-boundary"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:c217ff4456bfd706579f4ff05b4bb607f1ba2cac32d0f43a9b17fd4fa316df58",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d6321012e62a440893841cacb5bf79700dd4c0fef1b31b68fab5d94fadc31556",
+      "previousContractHash": "sha256:d6321012e62a440893841cacb5bf79700dd4c0fef1b31b68fab5d94fadc31556",
+      "reason": "Bind the provider-derived draft PR context after the initial checkpoint; refresh preflight and verification for the unchanged in-scope documentation snapshot.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T01:47:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:951ce77b764da3d511454b2866b47bd7ad6ec090684a0dc935d127cd430626c9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-411-reference-java-fixture-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:951ce77b764da3d511454b2866b47bd7ad6ec090684a0dc935d127cd430626c9",
+  "createdAt": "2026-08-30T01:29:17Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T01:50:34Z",
+  "preflightContractDigest": "sha256:c217ff4456bfd706579f4ff05b4bb607f1ba2cac32d0f43a9b17fd4fa316df58",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:951ce77b764da3d511454b2866b47bd7ad6ec090684a0dc935d127cd430626c9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T01:50:38Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-411-reference-java-fixture-boundary"
+}

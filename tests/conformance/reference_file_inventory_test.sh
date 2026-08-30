@@ -101,6 +101,25 @@ test "$(jq '[.records[] | select(.batch == "WI-368-reference-file-comparison-bat
 test "$(jq '[.records[] | select(.batch == "WI-368-reference-file-comparison-batch-16" and .classification == "reference-only")] | length' "$manifest")" -eq 5
 test "$(jq '[.records[] | select(.batch == "WI-368-reference-file-comparison-batch-16" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
 test "$(jq -r '.records[] | select(.referencePath == "docs/reference/reference-impact-gate.md") | .classification' "$manifest")" = "reference-only"
+wi411_paths=(
+  examples/fixtures/java-multimodule/.gitignore
+  examples/fixtures/java-multimodule/app/src/main/java/fixture/app/Main.java
+  examples/fixtures/java-multimodule/app/src/test/java/fixture/app/MainTest.java
+  examples/fixtures/java-multimodule/core/src/main/java/fixture/core/Decision.java
+  examples/fixtures/java-multimodule/core/src/test/java/fixture/core/DecisionTest.java
+  examples/fixtures/java-multimodule/evidence.json
+  examples/fixtures/java-multimodule/fixture.json
+  examples/fixtures/java-multimodule/pom.xml
+  examples/fixtures/java-multimodule/scripts/lifecycle.sh
+)
+for wi411_path in "${wi411_paths[@]}"; do
+  test "$(jq --arg path "$wi411_path" '[.records[] | select(.referencePath == $path and .batch == "WI-411-reference-java-fixture-boundary" and .classification == "reference-only" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-411-reference-java-fixture-boundary")] | length' "$manifest")" -eq 9
+test "$(jq '[.records[] | select(.batch == "WI-411-reference-java-fixture-boundary" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+grep -q "Java multi-module fixture" "$root/docs/reference/reference-file-comparison.md"
+grep -q "Java 多模块 fixture" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "Java マルチモジュール fixture" "$root/docs/reference/reference-file-comparison.ja.md"
 test "$(jq -r '.records[] | select(.batch == "governance-entrypoints" and .classification == "deferred-next-batch") | .referencePath' "$manifest" | wc -l | tr -d ' ')" -eq 0
 grep -q "static reference-impact scanner is not a Rust Runtime" "$root/docs/reference/governance-profiles.md"
 grep -q "静态 reference-impact scanner 不是本版本 Rust Runtime" "$root/docs/reference/governance-profiles.zh-CN.md"

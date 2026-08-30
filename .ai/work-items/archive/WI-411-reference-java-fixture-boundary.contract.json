@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "All nine pinned Java fixture paths are read at the pinned source revision and have one explicit classification, counterpart boundary, and non-overclaiming reason.",
+    "The target does not copy the source Java fixture or claim Java-specific execution support from a generic Rust adopter acceptance.",
+    "The machine ledger and all three reader-facing comparison/parity pages agree on the nine paths, classifications, source pin, and non-wire boundary.",
+    "Conformance and documentation gates pass; no deferred or migrate-gap record remains for this batch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "57bda578672ad84dff863a8eb584c95cf8eb5455",
+  "createdAt": "2026-08-30T01:29:17Z",
+  "goal": "Resolve the Java fixture slice as explicit reference-only conformance material, preserve adopter capability boundaries, and prevent an untracked fixture omission from being mistaken for Runtime parity.",
+  "intent": "Compare the pinned reference Java multi-module fixture files one by one and record an evidence-backed Rust product-boundary decision without copying source fixtures into the Runtime repository.",
+  "mode": "code",
+  "outOfScope": [
+    "Copying examples/fixtures into the Rust Runtime",
+    "Adding a Java toolchain or Maven dependency",
+    "Changing Runtime governance semantics",
+    "Changing release/adopter harness behavior",
+    "Global Agent/MCP configuration",
+    "Generated history rewriting"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a82a2bf8915facd57ccb55c5cca0b72beaf00b3281302243c674cf64e23a860",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-411-reference-fixtures-java",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/376",
+    "worktree": "/private/tmp/ai-cockpit-wi411-reference-fixtures-java"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-411-reference-java-fixture-boundary.md",
+    "docs/work-items/WI-411-reference-java-fixture-boundary.zh-CN.md",
+    "docs/work-items/WI-411-reference-java-fixture-boundary.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-411-reference-java-fixture-boundary"
+}

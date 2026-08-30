@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "All nine pinned Java fixture paths are read at the pinned source revision and have one explicit classification, counterpart boundary, and non-overclaiming reason.",
+    "The target does not copy the source Java fixture or claim Java-specific execution support from a generic Rust adopter acceptance.",
+    "The machine ledger and all three reader-facing comparison/parity pages agree on the nine paths, classifications, source pin, and non-wire boundary.",
+    "Conformance and documentation gates pass; no deferred or migrate-gap record remains for this batch."
+  ],
+  "createdAt": "2026-08-30T01:50:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4532eb97cb878804ad2d6001afb013ffeb4bed4be37c816abfe41f034e7dea59",
+  "evidenceRefs": [
+    ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:951ce77b764da3d511454b2866b47bd7ad6ec090684a0dc935d127cd430626c9",
+      "workItemId": "WI-411-reference-java-fixture-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-411-reference-java-fixture-boundary.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Resolve the Java fixture slice as explicit reference-only conformance material, preserve adopter capability boundaries, and prevent an untracked fixture omission from being mistaken for Runtime parity."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-411-reference-java-fixture-boundary"
+  },
+  "taskReportDigest": "sha256:75705f003814a3b4f57d8537e14c6a7fafe2f287314043044b06a0961bebb029",
+  "taskReportMarkdownDigest": "sha256:b6bdeaee382936650e4a8800cce7239838aece44d0a9042ed93d872e4a259170",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-411-reference-java-fixture-boundary"
+}
