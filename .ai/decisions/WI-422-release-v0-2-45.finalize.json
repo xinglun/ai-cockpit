@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "4fa3e583bf33c217d27322acfbac5365f4778854",
+    "name": "codex/wi-422-release-v0-2-45",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:8dc91aa86509f644497feb94bd65305c3005bebf1a7ead4abad1df1c27279457",
+  "operationId": "wi-422-finalize-blocked-2",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "374b7816d000924f857c6628e6a562f68560d1de",
+    "headRevision": "4fa3e583bf33c217d27322acfbac5365f4778854",
+    "number": 387,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/387"
+  },
+  "reason": "PR review and merge are still pending; preserve the provider boundary explicitly after binding parity documentation before finalization.",
+  "receiptId": "wi-422-finalize-blocked-2",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-422-release-v0-2-45",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/387",
+    "worktree": "/private/tmp/ai-cockpit-wi-422-release-v0-2-45"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T11:42:42Z",
+  "workItemId": "WI-422-release-v0-2-45",
+  "worktree": {
+    "branch": "codex/wi-422-release-v0-2-45",
+    "headRevision": "4fa3e583bf33c217d27322acfbac5365f4778854",
+    "path": "/private/tmp/ai-cockpit-wi-422-release-v0-2-45",
+    "worktreeId": "WI-422-release-v0-2-45"
+  }
+}
