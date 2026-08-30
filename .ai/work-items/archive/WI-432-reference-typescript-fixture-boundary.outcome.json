@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "All 11 pinned TypeScript web fixture paths are compared individually and classified reference-only with an explicit Rust-native boundary.",
+    "The three language adaptation pages preserve installation, explicit repository binding, lifecycle, evidence limits, and no-copy boundaries without inventing governance decisions.",
+    "The three language reference index, comparison, and parity pages link the adaptation and record the batch as complete.",
+    "The inventory regression asserts the exact 11 paths, batch, classification, counterparts, and non-empty reasons.",
+    "No Runtime source, provider configuration, or object-project state is copied or modified outside the declared scope."
+  ],
+  "createdAt": "2026-08-30T23:21:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3d6505a26555a9ab407d517e119ecd687858a3df9da47bb1f7e748d9b34d0093",
+  "evidenceRefs": [
+    ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d2f7c4e0680c66fe5be23915380f6f115d957acd409aaba26ec21b91dd666794",
+      "workItemId": "WI-432-reference-typescript-fixture-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Record an evidence-backed, tri-language semantic mapping for the 11-file TypeScript web fixture and make the comparison ledger reject any return to deferred status."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-432-reference-typescript-fixture-boundary"
+  },
+  "taskReportDigest": "sha256:5980e9bdaf03aaa544d7c085ed51372e6c54181ee299a3875ce97e2c5dc04c18",
+  "taskReportMarkdownDigest": "sha256:0ef1cfa9069e07bd2159f6ac191031cd44d83ade7de33c47c56f3b770a4f3a01",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-432-reference-typescript-fixture-boundary"
+}
