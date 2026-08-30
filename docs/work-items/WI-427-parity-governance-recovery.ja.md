@@ -4,9 +4,13 @@ title: "WI-427 — parity governance recovery"
 description: ホスト CI が登録漏れを検出したため、recovery binding と三言語 parity ledger を再配信する。
 workItemId: WI-427-parity-governance-recovery
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-427-parity-governance-recovery
+terminalArchive: .ai/work-items/archive/WI-427-parity-governance-recovery.contract.json
+terminalVerification: .ai/evidence/WI-427-parity-governance-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-427-parity-governance-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-427-parity-governance-recovery.close.json
 ---
 
 # WI-427 — parity governance recovery

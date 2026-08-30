@@ -59,4 +59,12 @@ Recovery は append-only で identity-bound です。snapshot の変更、stale 
 
 新しい Runtime が作成する successor には、正確な predecessor Work Item、Contract digest、recovery path、repository binding が必要です。これらの Contract field が存在する前に作成された historical successor については、recovery receipt 自体が predecessor と successor を bind し、successor に検証済み archive、strict verification evidence、confirmed close decision が揃っている場合にだけ狭い互換経路を許可します。新しい append-only recovery receipt には `successorBindingMode: legacy_terminal_evidence` を記録します。欠落、foreign、stale、malformed、symlink、または不完全な evidence は `recovery_decision_invalid` のまま拒否され、transition を認可しません。この互換 projection は未完了 successor を green にせず、predecessor bytes も書き換えません。
 
+1 つの predecessor に選択済み successor lineage は 1 つだけです。有効な
+`successor` receipt が存在する状態で別の Work Item を指す `successor` decision
+を追加すると、Runtime は安定した境界
+`recovery_decision_invalid:competing_successor` で fail closed します。既存の
+lineage を継続するか、明示的に `supersede` を記録してください。複数の successor
+をファイル名から人が推測する状態を残さず、predecessor の bytes を書き換えずに
+recovery graph と終端 decision の監査可能性を保ちます。
+
 これは Rust-native な semantic workflow です。参照 source の `make` command、Python module、generated history は比較材料であり、本 repository の command や Runtime authority ではありません。

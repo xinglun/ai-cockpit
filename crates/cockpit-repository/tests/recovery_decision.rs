@@ -613,6 +613,31 @@ fn recovery_decision_binds_predecessor_and_projects_in_outcome() {
 }
 
 #[test]
+fn recovery_rejects_competing_successor_for_same_predecessor() {
+    let directory = repository();
+    let runtime = current_runtime();
+    let mut first = receipt(&directory, "select the first successor");
+    first["runtimeVersion"] = json!(runtime.runtime_version);
+    first["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &first, &runtime)
+        .expect("first successor recovery");
+
+    let mut competing = receipt(&directory, "attempt a competing successor");
+    competing["successorWorkItemId"] = json!("WI-OTHER-SUCCESSOR");
+    competing["runtimeVersion"] = json!(runtime.runtime_version);
+    competing["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    let error = record_recovery_decision(directory.path(), "WI-BLOCKED", &competing, &runtime)
+        .expect_err("a predecessor must not accumulate competing successors");
+    assert!(error.to_string().contains("competing_successor"));
+    assert!(
+        !directory
+            .path()
+            .join(".ai/work-items/active/WI-OTHER-SUCCESSOR.contract.json")
+            .exists()
+    );
+}
+
+#[test]
 fn recovery_rejects_foreign_runtime_and_predecessor_digest() {
     let directory = repository();
     let runtime = RuntimeContext {

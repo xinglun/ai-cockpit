@@ -1,0 +1,49 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.94280288ea7bd610b1376ea3ff90dffe80875e463674e296d56a71233b15ea39.json",
+    ".ai/decisions/WI-426-recovery-successor-binding.recovery.2f5e603bf7b72521f0a346499b6324d845da05deed80abe8db09fd4a99370e8b.json",
+    ".ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json",
+    ".ai/decisions/WI-427-parity-governance-recovery.close.json",
+    ".ai/decisions/WI-427-parity-governance-recovery.finalize.json",
+    ".ai/work-items/archive/WI-428-recovery-chain-finalization.contract.json",
+    ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T16:39:20Z",
+  "checkpointContractDigest": "sha256:4a30b3af044bec05b57964e670eaf6240928e9015deb742e171da81707a1e3ad",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8649402f2b91c3d8ec58bcb4e6e54fe261d7cc81def7816780786bd21b2e2f6d",
+  "createdAt": "2026-08-30T16:36:12Z",
+  "failedGate": "finish.preflight",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs",
+      "docs/reference/repository-workflow.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The implementation prevents ambiguous successor selection, preserves append-only recovery history, and records the terminal parity boundary without changing predecessor bytes.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:7b8a50c16bec3ae52db8dd35082545be09afb94a154dbcfe4f21203511af2564",
+  "predecessorWorkItemId": "WI-426-recovery-successor-binding",
+  "preflightAt": "2026-08-30T16:56:08Z",
+  "preflightContractDigest": "sha256:4a30b3af044bec05b57964e670eaf6240928e9015deb742e171da81707a1e3ad",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8649402f2b91c3d8ec58bcb4e6e54fe261d7cc81def7816780786bd21b2e2f6d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T16:56:08Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-428-recovery-chain-finalization"
+}
