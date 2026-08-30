@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "43c9d90cd5ca3718222445c012ba48509bdd1709",
+    "name": "codex/wi-432-reference-typescript-fixture-boundary",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5a88293edc5a12990d72a8672d301be1e2a97c31827fec4e55f2b95ad2056d17",
+  "operationId": "operation-WI-432-reference-typescript-fixture-boundary-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "036f8763b54bd28ac775e33f63e1ef3a99c03653",
+    "headRevision": "43c9d90cd5ca3718222445c012ba48509bdd1709",
+    "number": 398,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/398"
+  },
+  "reason": "PR #398 is still unmerged; retain the reviewed branch and worktree until hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-432-reference-typescript-fixture-boundary-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-432-reference-typescript-fixture-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/398",
+    "worktree": "/private/tmp/ai-cockpit-wi432-typescript-fixture"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T08:45:00+09:00",
+  "workItemId": "WI-432-reference-typescript-fixture-boundary",
+  "worktree": {
+    "branch": "codex/wi-432-reference-typescript-fixture-boundary",
+    "headRevision": "43c9d90cd5ca3718222445c012ba48509bdd1709",
+    "path": "/private/tmp/ai-cockpit-wi432-typescript-fixture",
+    "worktreeId": "WI-432-reference-typescript-fixture-boundary"
+  }
+}
