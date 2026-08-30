@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T16:56:14Z",
+  "files": {
+    "contractDigest": "sha256:cdf275f7fe789ad012db6744153dfd59749a72beca7cfffa4eb9684894c97d5b",
+    "contractPath": ".ai/work-items/archive/WI-428-recovery-chain-finalization.contract.json",
+    "eventsDigest": "sha256:a3d539cfe3236957ae671984d470498792f0fcfd0544a8e38ce9ed95c23da121",
+    "eventsPath": ".ai/work-items/archive/WI-428-recovery-chain-finalization.events.jsonl",
+    "outcomeDigest": "sha256:02e39601d53fd53e7ea14ee7b3c16c9cdebe46bf92246637599b5d0dfaa6db6a",
+    "outcomePath": ".ai/work-items/archive/WI-428-recovery-chain-finalization.outcome.json",
+    "summaryDigest": "sha256:35845937a85eb3a8a01f5bf65680a960e9caced20b6049684bedd3aa73801341",
+    "summaryPath": ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json",
+    "taskReportDigest": "sha256:64d33d9d3088fd13f8bcc8b2154e6ef2be556e6af828e1abbb62a3b85d4750fa",
+    "taskReportMarkdownDigest": "sha256:40e8e95db14b78c3f5801b654a347df90075d5d5b3a2de3d5d3f3342c87321bf",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-428-recovery-chain-finalization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-428-recovery-chain-finalization.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-428-recovery-chain-finalization"
+}

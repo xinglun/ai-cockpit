@@ -2,14 +2,17 @@
   "acceptanceResults": [
     "A predecessor cannot accumulate an ambiguous competing successor chain without a deterministic fail-closed result; WI-426 is closed through a directly bound reviewed successor; WI-424 is represented by its immutable supersede receipt; all three parity ledgers reference the actual terminal recovery paths and statuses; predecessor archive/evidence bytes remain unchanged; focused recovery tests and full workspace verification pass; the synchronized default branch has no active or pending-close Work Items and exact branch/worktree cleanup is proven."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-30T16:56:08Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:30660df3f4589a06bd6735c542ab7a0f6cb348996be9ffe7e87cb8321c341b6a",
   "evidenceRefs": [
     ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -17,76 +20,73 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:87f9d29df179c7c7eac63b6300291f267d604c1fcf490e17511ca97240b8c3d0",
+      "repositorySnapshotDigest": "sha256:8649402f2b91c3d8ec58bcb4e6e54fe261d7cc81def7816780786bd21b2e2f6d",
       "workItemId": "WI-428-recovery-chain-finalization"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.94280288ea7bd610b1376ea3ff90dffe80875e463674e296d56a71233b15ea39.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-426-recovery-successor-binding.recovery.2f5e603bf7b72521f0a346499b6324d845da05deed80abe8db09fd4a99370e8b.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-427-parity-governance-recovery.close.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-427-parity-governance-recovery.finalize.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-428-recovery-chain-finalization.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-428-recovery-chain-finalization.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-428-recovery-chain-finalization.summary.json"
         }
       ],
       "evidence": [
@@ -105,15 +105,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -124,7 +116,7 @@
             ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -134,15 +126,23 @@
             ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.contract.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.contract.json"
           ],
           "inference": false,
           "text": "Introduce a repository-bound recovery-chain rule that makes successor selection deterministic, preserves immutable predecessor evidence, updates all parity ledgers to the actual terminal receipts, and leaves the synchronized repository ready for the next governed Work Item."
@@ -151,23 +151,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-428-recovery-chain-finalization.contract.json"
+            ".ai/work-items/archive/WI-428-recovery-chain-finalization.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-428-recovery-chain-finalization"
   },
+  "taskReportDigest": "sha256:64d33d9d3088fd13f8bcc8b2154e6ef2be556e6af828e1abbb62a3b85d4750fa",
+  "taskReportMarkdownDigest": "sha256:40e8e95db14b78c3f5801b654a347df90075d5d5b3a2de3d5d3f3342c87321bf",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-428-recovery-chain-finalization.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-428-recovery-chain-finalization"
 }

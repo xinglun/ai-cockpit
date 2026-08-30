@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T16:55:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-428-recovery-chain-finalization.verification.json",
+    ".ai/work-items/active/WI-428-recovery-chain-finalization.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/393"
+  ],
+  "policyRefs": [
+    "AGENTS.md:amend-and-revalidate-before-fresh-verification",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:4a30b3af044bec05b57964e670eaf6240928e9015deb742e171da81707a1e3ad",
+  "predecessorEventsDigest": "sha256:82739f5954ef3b111229b0ff9dd0f331296aebe309bddc9f54d8126f2e8e7b9c",
+  "predecessorOutcomeDigest": "sha256:f21b46ff2c7b1ea461c8548d40caa062e8944023561483c564ef2ef6df7aee68",
+  "predecessorSummaryDigest": "sha256:a27422c14ef996d8449af92d60bd2cedd808508f6d00b4163058d067e75f2272",
+  "predecessorWorkItemId": "WI-428-recovery-chain-finalization",
+  "reason": "The first finish attempt correctly stopped after the PR resource binding changed the Contract and invalidated the prior verification; retry with fresh preflight and verification while preserving the blocked attempt and all historical bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record a fresh non-red preflight and installed Runtime verification for the PR-bound Contract, then finish and archive after the required governance checks pass.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-428-recovery-chain-finalization"
+}
