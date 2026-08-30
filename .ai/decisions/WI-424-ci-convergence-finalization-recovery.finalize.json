@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "aad8281cc86628fcbc62ff3291273504ff07ca3e",
+    "name": "codex/wi-424-ci-convergence",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:8a6fe01d485709d42ff2410d4644c7068ed10ff2509da70f03addbccb16c3821",
+  "operationId": "wi-424-finalize-blocked-1",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d1d80a22b0fb2d219da51dacc7e4a89b8780c5df",
+    "headRevision": "aad8281cc86628fcbc62ff3291273504ff07ca3e",
+    "number": 389,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/389"
+  },
+  "reason": "awaiting_merge_close: PR #389 is unmerged; retain the reviewed branch and clean worktree until hosted checks pass, human review is complete, and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-424-ci-convergence-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-424-ci-convergence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/389",
+    "worktree": "/private/tmp/ai-cockpit-wi-424-ci-convergence"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T14:00:00Z",
+  "workItemId": "WI-424-ci-convergence-finalization-recovery",
+  "worktree": {
+    "branch": "codex/wi-424-ci-convergence",
+    "headRevision": "aad8281cc86628fcbc62ff3291273504ff07ca3e",
+    "path": "/private/tmp/ai-cockpit-wi-424-ci-convergence",
+    "worktreeId": "WI-424-ci-convergence-finalization-recovery"
+  }
+}
