@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:541bde22a4d19ebca0ee7d89b3a7e082ad895fb7ad246c3b75b529a2e00bfafb",
+      "workItemId": "WI-421-reference-mixed-monorepo"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-421-reference-mixed-monorepo.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-421-reference-mixed-monorepo.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-421-reference-mixed-monorepo.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json",
+            ".ai/decisions/WI-421-reference-mixed-monorepo.finalize.627a79dd6109dc4aae0c50825bdcce80fb2101ff72a7c5db80906aef485f0137.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-30T11:30:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 mixed-monorepo fixture 五个参考路径的逐文件语义比对，更新三语比对记录和机器清单，验证当前 Runtime 对混合技术栈对象工程的共享治理能力与隔离边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-421-reference-mixed-monorepo"
+  },
+  "finalReportDigest": "sha256:a028f2d6b73907a61f0c7632a22a618b70a776a87757237cdbf04a663723f19c",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:8a14702d3216a2cf714d2b8296d296992f9d761b028ecf8f92b98173fd7ed6e4",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-421-reference-mixed-monorepo.finalize.627a79dd6109dc4aae0c50825bdcce80fb2101ff72a7c5db80906aef485f0137.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-30T11:30:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json",
+      ".ai/decisions/WI-421-reference-mixed-monorepo.finalize.627a79dd6109dc4aae0c50825bdcce80fb2101ff72a7c5db80906aef485f0137.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "Reviewed PR #386 passed hosted checks, merged as 4c75d665f4a836ca7467b85b0542463334dd61d3, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "none; terminal parity comparison"
+  },
+  "timestamp": "2026-08-30T11:03:48Z",
+  "workItemId": "WI-421-reference-mixed-monorepo"
+}
