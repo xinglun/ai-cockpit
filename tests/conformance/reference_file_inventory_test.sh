@@ -137,6 +137,30 @@ grep -q "Python fixture の境界" "$root/docs/reference/reference-file-comparis
 grep -q "Python fixture adaptation" "$root/docs/reference/README.md"
 grep -q "Python fixture 适配" "$root/docs/reference/README.zh-CN.md"
 grep -q "Python fixture 適応" "$root/docs/reference/README.ja.md"
+wi432_paths=(
+  examples/fixtures/typescript-web/.gitignore
+  examples/fixtures/typescript-web/evidence.json
+  examples/fixtures/typescript-web/fixture.json
+  examples/fixtures/typescript-web/package-lock.json
+  examples/fixtures/typescript-web/package.json
+  examples/fixtures/typescript-web/scripts/format-check.mjs
+  examples/fixtures/typescript-web/scripts/lifecycle.mjs
+  examples/fixtures/typescript-web/scripts/lint.mjs
+  examples/fixtures/typescript-web/src/index.ts
+  examples/fixtures/typescript-web/test/index.test.mjs
+  examples/fixtures/typescript-web/tsconfig.json
+)
+for wi432_path in "${wi432_paths[@]}"; do
+  test "$(jq --arg path "$wi432_path" '[.records[] | select(.referencePath == $path and .batch == "WI-432-reference-typescript-fixture-boundary" and .classification == "reference-only" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-432-reference-typescript-fixture-boundary")] | length' "$manifest")" -eq 11
+test "$(jq '[.records[] | select(.batch == "WI-432-reference-typescript-fixture-boundary" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+grep -q "TypeScript web fixture adaptation" "$root/docs/reference/README.md"
+grep -q "TypeScript web fixture 适配" "$root/docs/reference/README.zh-CN.md"
+grep -q "TypeScript web fixture 適応" "$root/docs/reference/README.ja.md"
+grep -q "TypeScript web fixture boundary" "$root/docs/reference/reference-file-comparison.md"
+grep -q "TypeScript web fixture 边界" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "TypeScript web fixture の境界" "$root/docs/reference/reference-file-comparison.ja.md"
 wi421_paths=(
   examples/fixtures/mixed-monorepo/fixture.json
   examples/fixtures/mixed-monorepo/package.json

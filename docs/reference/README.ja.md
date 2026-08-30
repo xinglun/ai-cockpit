@@ -35,6 +35,7 @@ route index は一般利用者の journey と正確な machine-facing detail を
 - [Flutter fixture 適応](flutter-fixture-adaptation.ja.md) — 明示的な install boundary を持つ file-by-file Rust-native Flutter fixture 対応。
 - [iOS Swift Package fixture 適応](ios-swift-fixture-adaptation.ja.md) — 明示的な install boundary を持つ file-by-file Rust-native Swift Package 対応。
 - [Python fixture 適応](python-fixture-adaptation.ja.md) — 明示的な install boundary を持つ file-by-file Rust-native Python fixture 対応。
+- [TypeScript Web fixture 適応](typescript-fixture-adaptation.ja.md) — 明示的な install boundary を持つ file-by-file Rust-native TypeScript/Web fixture 対応。
 - [Mixed-monorepo fixture 適応](mixed-monorepo-fixture-adaptation.ja.md) — toolchain をコピーせず mixed Python/Node sample の Rust-native boundary を file-by-file で記録します。
 - [Verification route](verification-route.ja.md) — 型付き stage、直交する tier/assurance、計画、レシート、CI 境界。
 - [実装 Knowledge](implementation-knowledge.ja.md) — 決定的で evidence-bound な record と query の境界。

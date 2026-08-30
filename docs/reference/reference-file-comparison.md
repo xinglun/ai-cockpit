@@ -125,6 +125,35 @@ source-command compatibility. The machine ledger and regression test bind all
 four paths to this boundary, so they cannot silently return to
 `deferred-next-batch`.
 
+## WI-432 TypeScript web fixture boundary
+
+WI-432 reads the eleven files under `examples/fixtures/typescript-web/` at the
+pinned reference commit. They are all `reference-only`: the fixture demonstrates
+a TypeScript application, npm tooling, local format/lint/test checks, and a
+sample lifecycle script, but it is not Rust Runtime code, a Node toolchain
+promise, or portable provider/enterprise evidence.
+
+| Reference path | Decision and target boundary |
+| --- | --- |
+| `.gitignore` | Fixture-local build hygiene; the target release harness owns its own isolated roots. |
+| `evidence.json` | Source-local npm evidence and unavailable provider claims; target receipts require explicit commands and identity binding. |
+| `fixture.json` | TypeScript/web stack and path metadata; the Runtime does not infer adopter capabilities or Contract scope from it. |
+| `package-lock.json` | Adopter-owned npm dependency lock; it is not a Runtime dependency or release proof. |
+| `package.json` | Application build/test/lint/format/lifecycle scripts; adopters declare explicit argv while governance lifecycle remains Runtime-owned. |
+| `scripts/format-check.mjs` | Fixture-specific formatting rule, not a portable governance control. |
+| `scripts/lifecycle.mjs` | Node install/configure/block/upgrade/rollback/release exercise; Runtime governance and recovery are not copied from it. |
+| `scripts/lint.mjs` | Application-specific lint rule; adopters own their lint command and evidence. |
+| `src/index.ts` | Sample application evaluator; Runtime does not import or infer its policy. |
+| `test/index.test.mjs` | Fixture-only Node tests; adopters must declare and run their own verification. |
+| `tsconfig.json` | Adopter-owned strict TypeScript compiler configuration; no Node/TypeScript toolchain is promised. |
+
+No TypeScript source, npm dependency, installer, or Node lifecycle script is
+copied into the Rust repository. An attached TypeScript/web adopter inherits
+the shared Contract, fail-closed evidence, repository isolation, lifecycle, and
+human Outcome controls, but this is semantic/documentation parity rather than
+TypeScript toolchain or source-command compatibility. The machine ledger and
+regression test bind all eleven paths to this boundary.
+
 ## WI-270 file-level Contract semantics slice
 
 WI-270 compares the following 27 reference paths individually. The inventory
@@ -172,11 +201,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=65 deferred-next-batch=463 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=76 deferred-next-batch=452 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 324 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 65 `reference-only`, and 463
+`implemented-equivalent`, four `not-applicable`, 76 `reference-only`, and 452
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:

@@ -107,6 +107,33 @@ shared Runtime を Python adopter に attach すれば Contract、evidence、lif
 command compatibility ではありません。machine ledger と regression test が4 pathをこの境界に
 bind し、`deferred-next-batch` へ暗黙に戻ることを防ぎます。
 
+## WI-432：TypeScript web fixture の境界
+
+WI-432 は pinned reference commit の `examples/fixtures/typescript-web/` にある11ファイルを一つずつ
+確認し、すべて `reference-only` としました。fixture は TypeScript application、npm toolchain、
+local format/lint/test と lifecycle sample を示しますが、Rust Runtime code、Node toolchain の提供保証、
+portable な provider/enterprise evidence ではありません。
+
+| Reference path | 決定と target boundary |
+| --- | --- |
+| `.gitignore` | fixture 固有の build hygiene。target の release harness は独自の隔離 root を管理します。 |
+| `evidence.json` | source-local npm evidence と provider unavailable。target receipt は明示 command と identity binding を要求します。 |
+| `fixture.json` | TypeScript/web stack と path metadata。Runtime は adopter capability や Contract scope を推論しません。 |
+| `package-lock.json` | adopter 所有の npm dependency lock。Runtime dependency や release proof ではありません。 |
+| `package.json` | application build/test/lint/format/lifecycle scripts。adopter は明示 argv を宣言し、governance lifecycle は Runtime が管理します。 |
+| `scripts/format-check.mjs` | fixture 専用の format rule であり、portable governance control ではありません。 |
+| `scripts/lifecycle.mjs` | Node の install/configure/block/upgrade/rollback/release 演習。Runtime governance/recovery はコピーしません。 |
+| `scripts/lint.mjs` | application 固有 lint。adopter が自分の lint command と evidence を管理します。 |
+| `src/index.ts` | sample application evaluator。Runtime はその policy を import/推論しません。 |
+| `test/index.test.mjs` | fixture 専用 Node test。adopter は自分の verification を明示・実行します。 |
+| `tsconfig.json` | adopter 所有の strict TypeScript compiler 設定。Node/TypeScript toolchain は保証しません。 |
+
+TypeScript source、npm dependency、installer、Node lifecycle script は Rust repository にコピーしません。
+attach 済みの TypeScript/web adopter は shared Contract、fail-closed evidence、repository isolation、
+lifecycle、human Outcome control を継承しますが、これは semantic/documentation parity であり、
+TypeScript toolchain や source-command compatibility ではありません。machine ledger と regression test が
+11 path をこの境界に bind します。
+
 ## WI-270：Contract semantic file-by-file batch
 
 WI-270 は次の 27 reference path を一つずつ確認しました。ledger はすべてを
@@ -152,11 +179,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=65 deferred-next-batch=463 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=76 deferred-next-batch=452 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、324 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、65 `reference-only`、463 `deferred-next-batch` です。
+`implemented-equivalent`、4 `not-applicable`、76 `reference-only`、452 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 

@@ -36,6 +36,7 @@ separate from exact machine-facing details:
 - [Flutter fixture adaptation](flutter-fixture-adaptation.md) — file-by-file Rust-native Flutter fixture mapping with an explicit installation boundary.
 - [iOS Swift Package fixture adaptation](ios-swift-fixture-adaptation.md) — file-by-file Rust-native Swift Package mapping with an explicit installation boundary.
 - [Python fixture adaptation](python-fixture-adaptation.md) — file-by-file Rust-native Python fixture mapping with an explicit installation boundary.
+- [TypeScript web fixture adaptation](typescript-fixture-adaptation.md) — file-by-file Rust-native TypeScript/web fixture mapping with an explicit installation boundary.
 - [Mixed-monorepo fixture adaptation](mixed-monorepo-fixture-adaptation.md) — file-by-file Rust-native boundary for a mixed Python/Node sample without copying its toolchains.
 - [Verification route](verification-route.md) — typed stages, orthogonal tier/assurance, planning, receipts, and CI boundary.
 - [Implementation knowledge](implementation-knowledge.md) — deterministic, evidence-bound records and query limits.

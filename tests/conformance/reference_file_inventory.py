@@ -55,6 +55,7 @@ WI348_BATCH = "WI-348-reference-verification-operation-policy"
 WI368_BATCH = "WI-368-reference-file-comparison-batch-16"
 WI411_BATCH = "WI-411-reference-java-fixture-boundary"
 WI414_BATCH = "WI-414-reference-python-fixture-boundary"
+WI432_BATCH = "WI-432-reference-typescript-fixture-boundary"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1665,6 +1666,65 @@ WI414_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
 }
 
 
+WI432_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "examples/fixtures/typescript-web/.gitignore": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md", "docs/reference/reference-file-comparison.md"],
+        "This fixture ignore file protects Node build outputs and local state. The target does not copy it; adopter build hygiene and release-harness isolation remain separate responsibilities.",
+    ),
+    "examples/fixtures/typescript-web/evidence.json": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md", "docs/reference/verification-evidence-reuse.md"],
+        "This source-local evidence describes npm checks and unavailable provider evidence. The target records only explicitly executed, identity-bound commands and never promotes local fixture claims to provider or enterprise assurance.",
+    ),
+    "examples/fixtures/typescript-web/fixture.json": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md", "crates/cockpit-repository/src/lib.rs"],
+        "The metadata declares a TypeScript/web stack, toolchain, platforms, and paths. Project Observer/Profile may record confirmed adopter facts, but the Runtime does not infer capabilities or Contract scope from this fixture.",
+    ),
+    "examples/fixtures/typescript-web/package-lock.json": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md"],
+        "This lockfile pins the fixture's npm dependency and registry integrity. It belongs to the adopter and is not a Runtime dependency or release supply-chain proof.",
+    ),
+    "examples/fixtures/typescript-web/package.json": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md", "docs/reference/verification-route.md"],
+        "The npm manifest defines application build, test, lint, format, and lifecycle scripts. Adopters declare explicit argv in their Contract; the shared governance lifecycle is not replaced by npm orchestration.",
+    ),
+    "examples/fixtures/typescript-web/scripts/format-check.mjs": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md"],
+        "This script checks formatting properties of the sample source only. It is not a portable governance control; an adopter owns its formatter and supplies its own evidence.",
+    ),
+    "examples/fixtures/typescript-web/scripts/lifecycle.mjs": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md", "docs/reference/agent-workflow.md"],
+        "The Node script exercises install, configuration, blocked requests, upgrade, rollback, and release phases for the fixture. The installed Rust Runtime supplies repository-bound governance, recovery, and Outcome; source orchestration is not copied or treated as authority.",
+    ),
+    "examples/fixtures/typescript-web/scripts/lint.mjs": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md"],
+        "This lint rule is coupled to the sample application's symbols and is not portable Runtime policy. An adopter declares and verifies its own lint command.",
+    ),
+    "examples/fixtures/typescript-web/src/index.ts": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md", "docs/reference/intent-scenario-binding.md"],
+        "The TypeScript evaluator is application sample code. Runtime decisions, stop states, and intent/scenario bindings are typed governance records and are never inferred by importing this source.",
+    ),
+    "examples/fixtures/typescript-web/test/index.test.mjs": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md", "docs/reference/verification-evidence-reuse.md"],
+        "These Node tests assert only the fixture evaluator's behavior. They are not Runtime or enterprise evidence; an adopter must explicitly run its own tests and bind their result.",
+    ),
+    "examples/fixtures/typescript-web/tsconfig.json": (
+        "reference-only",
+        ["docs/reference/typescript-fixture-adaptation.md"],
+        "The strict NodeNext compiler settings are adopter-owned toolchain configuration. The shared Runtime accepts explicit command results but does not promise or copy a TypeScript toolchain.",
+    ),
+}
+
+
 WI368_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     "docs/reference/pre-release-documentation-alignment.md": (
         "reference-only",
@@ -2374,6 +2434,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi432 = WI432_REFERENCE_FILES.get(path)
+        if wi432 is not None:
+            classification, counterparts, reason = wi432
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI432_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi368 = WI368_REFERENCE_FILES.get(path)
         if wi368 is not None:
             classification, counterparts, reason = wi368
@@ -3049,6 +3122,38 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi414_classifications
         ):
             errors.append("WI-414 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI432_BATCH
+        for record in records
+    ):
+        wi432_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI432_BATCH
+        ]
+        expected_wi432_paths = set(WI432_REFERENCE_FILES)
+        actual_wi432_paths = {
+            record.get("referencePath")
+            for record in wi432_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi432_paths != expected_wi432_paths:
+            errors.append(
+                "WI-432 batch paths do not match the pinned eleven-file TypeScript web fixture set: "
+                f"expected {sorted(expected_wi432_paths)!r}, got {sorted(actual_wi432_paths)!r}"
+            )
+        if len(wi432_records) != len(expected_wi432_paths):
+            errors.append(
+                f"WI-432 batch must contain {len(expected_wi432_paths)} records, found {len(wi432_records)}"
+            )
+        wi432_classifications = [record.get("classification") for record in wi432_records]
+        if wi432_classifications.count("reference-only") != len(expected_wi432_paths):
+            errors.append("WI-432 batch must contain eleven reference-only records")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi432_classifications
+        ):
+            errors.append("WI-432 batch cannot leave deferred or migrate-gap records")
     if any(
         isinstance(record, dict) and record.get("batch") == WI368_BATCH
         for record in records

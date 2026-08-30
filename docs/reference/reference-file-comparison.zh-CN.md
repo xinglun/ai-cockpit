@@ -101,6 +101,31 @@ WI-414 逐一读取固定参考提交中的 `examples/fixtures/python/` 四个�
 语义/文档对齐，不是 Python toolchain 或源命令兼容。机器台账与回归测试将这四个路径绑定到该
 边界，防止它们静默回到 `deferred-next-batch`。
 
+## WI-432：TypeScript web fixture 边界
+
+WI-432 逐一读取固定参考提交中的 `examples/fixtures/typescript-web/` 十一个文件，并全部标记为
+`reference-only`。fixture 展示 TypeScript 应用、npm 工具链、本地格式/ lint/测试以及样例生命周期，
+但不是 Rust Runtime 代码、Node toolchain 支持承诺或可移植的 provider/企业证据。
+
+| 参考路径 | 决定与目标边界 |
+| --- | --- |
+| `.gitignore` | fixture 本地构建产物清理；目标 release harness 自己管理隔离根目录。 |
+| `evidence.json` | 源本地 npm evidence 与 provider 不可用声明；目标 receipt 需要显式命令和 identity 绑定。 |
+| `fixture.json` | TypeScript/web stack 与路径元数据；Runtime 不从中推断对象工程 capability 或 Contract scope。 |
+| `package-lock.json` | 对象工程拥有的 npm 依赖锁定文件；不是 Runtime 依赖或发布证明。 |
+| `package.json` | 应用 build/test/lint/format/lifecycle 脚本；对象工程声明显式 argv，治理 lifecycle 仍由 Runtime 负责。 |
+| `scripts/format-check.mjs` | fixture 专用格式规则，不是可移植治理控制。 |
+| `scripts/lifecycle.mjs` | Node install/configure/block/upgrade/rollback/release 演练；不复制其 Runtime 治理和恢复语义。 |
+| `scripts/lint.mjs` | 应用专用 lint 规则；对象工程负责自己的 lint 命令和 evidence。 |
+| `src/index.ts` | 应用样例 evaluator；Runtime 不导入或推断其策略。 |
+| `test/index.test.mjs` | 仅 fixture 的 Node 测试；对象工程必须声明并运行自己的 verification。 |
+| `tsconfig.json` | 对象工程拥有的 strict TypeScript 编译配置；不承诺 Node/TypeScript toolchain。 |
+
+不向 Rust 工程复制 TypeScript 源码、npm 依赖、安装器或 Node 生命周期脚本。attach 后的
+TypeScript/web 对象工程继承共享 Contract、fail-closed evidence、repository isolation、lifecycle
+和面向人的 Outcome 控制，但这是语义/文档对齐，不是 TypeScript toolchain 或源命令兼容。机器台账
+与回归测试将十一个路径绑定到上述边界。
+
 ## WI-270：Contract 语义逐文件批次
 
 WI-270 对下面 27 个参考源路径逐一检查。台账将它们标为
@@ -144,11 +169,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=65 deferred-next-batch=463 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=76 deferred-next-batch=452 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、324 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、65 条 `reference-only` 与 463 条
+`implemented-equivalent`、4 条 `not-applicable`、76 条 `reference-only` 与 452 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 
@@ -159,7 +184,7 @@ capability/profile slice 已没有 `migrate-gap`：
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
 治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，463 条 deferred 语义比较仍是后续工作。
+以上四条是有界的 Rust-native counterpart，452 条 deferred 语义比较仍是后续工作。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
