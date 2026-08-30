@@ -1,0 +1,38 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json",
+    ".ai/work-items/archive/WI-429-recovery-history-compatibility.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T17:26:10Z",
+  "checkpointContractDigest": "sha256:f0e0475ae9d376769925dfc4ac6e4a18a382f9ba465d91aad7ab771f2e2cf3e3",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:b7c72ed518a2491d1f166f008a503159889a3cd9e59ae27c4195cf377f44af27",
+  "createdAt": "2026-08-30T17:22:51Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs",
+      "docs/reference/repository-workflow.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The implementation preserves immutable recovery history while allowing only a newer valid supersede to resolve older unbound successor residue.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-30T17:36:07Z",
+  "preflightContractDigest": "sha256:f0e0475ae9d376769925dfc4ac6e4a18a382f9ba465d91aad7ab771f2e2cf3e3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b7c72ed518a2491d1f166f008a503159889a3cd9e59ae27c4195cf377f44af27",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T17:36:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-429-recovery-history-compatibility"
+}

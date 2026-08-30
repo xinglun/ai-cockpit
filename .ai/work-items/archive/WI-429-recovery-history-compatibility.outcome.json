@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "A newer valid supersede receipt deterministically resolves older successor-binding residue for archived predecessors without rewriting historical bytes.",
+    "Malformed, foreign, tampered, missing, or newer invalid recovery records remain fail-closed and are never silently ignored.",
+    "WI-424 and WI-426 historical recovery chains can be rendered and closed through the supported Runtime lifecycle, and ordinary Work Item entry remains blocked when no valid supersede exists.",
+    "Regression tests cover valid supersede after invalid successor binding, no-valid-supersede fail-closed behavior, and immutable predecessor bytes.",
+    "Three-language workflow/parity documentation states the historical projection boundary and evidence-preservation rule."
+  ],
+  "createdAt": "2026-08-30T17:36:11Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c7415d4db889d3401f700de27479fead8eb66c4c1d87328f9c779a275e6bab13",
+  "evidenceRefs": [
+    ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b7c72ed518a2491d1f166f008a503159889a3cd9e59ae27c4195cf377f44af27",
+      "workItemId": "WI-429-recovery-history-compatibility"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-429-recovery-history-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-429-recovery-history-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-429-recovery-history-compatibility.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-429-recovery-history-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent historical recovery residue from blocking valid predecessor closure or the next Work Item while preserving fail-closed behavior for malformed or untrusted records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-429-recovery-history-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-429-recovery-history-compatibility"
+  },
+  "taskReportDigest": "sha256:6bcdff38fe9e8a8d97f5b166342b80d78bb010009cace842852dfea18958dee3",
+  "taskReportMarkdownDigest": "sha256:e482ddf08af7d42f3c063600c29ac1b90ef9af36824ba53f5c06bb67e10a75a1",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-429-recovery-history-compatibility.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-429-recovery-history-compatibility"
+}

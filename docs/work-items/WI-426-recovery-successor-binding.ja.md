@@ -4,7 +4,7 @@ title: "WI-426 — Recovery successor binding compatibility"
 description: 厳格な successor lineage を保ち、terminal な legacy successor だけを安全に認識します。
 workItemId: WI-426-recovery-successor-binding
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-426-recovery-successor-binding
 ---
