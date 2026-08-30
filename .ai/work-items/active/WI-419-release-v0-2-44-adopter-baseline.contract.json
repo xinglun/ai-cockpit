@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "Public v0.2.44 Release archive is downloaded and verified by its published SHA256SUMS and release manifest; no source checkout or workspace binary is used.",
+    "The persisted artifact includes runtime identity, archive and binary digests, repository identity, attach/profile/Agent doctor outputs, first-adopter-smoke=not_ready, complete Work Item lifecycle, evidence reuse, isolation manifests, cleanup proof, acceptance.json, and SHA256SUMS.",
+    "Every lifecycle record binds the adopter repository and downloaded Runtime identity, and the temporary acceptance run root is proven removed on completion.",
+    "English, Simplified Chinese, and Japanese release documentation identify v0.2.44 as the persisted baseline and link the retained evidence without changing governance facts.",
+    "No files outside the declared scope are changed; historical receipts remain immutable."
+  ],
+  "authority": "authorized",
+  "baseRevision": "70e8271e0325ea6a7019847895d763b0d9ab9e64",
+  "createdAt": "2026-08-30T08:44:26Z",
+  "goal": "Record and review the v0.2.44 public Release adopter acceptance without changing Runtime semantics.",
+  "intent": "Persist a reproducible post-release adopter acceptance baseline for the public v0.2.44 Release, proving the immutable artifact can govern a fresh adopter and preserving runtime, isolation, lifecycle, and cleanup evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime governance semantics",
+    "source fallback or workspace binaries",
+    "V1 fixture copying",
+    "global Agent/MCP configuration",
+    "reference parity implementation",
+    "new release behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:58121a50b46895064a0f7b767d6a3ac3d8c10d90725c7755ff48018b7c52405b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-419-release-v0-2-44-adopter",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-419-release-v0-2-44-adopter"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/evidence/WI-419-release-v0-2-44-adopter-acceptance/**",
+    "docs/work-items/WI-419-release-v0-2-44-adopter-baseline.md",
+    "docs/work-items/WI-419-release-v0-2-44-adopter-baseline.zh-CN.md",
+    "docs/work-items/WI-419-release-v0-2-44-adopter-baseline.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+}
