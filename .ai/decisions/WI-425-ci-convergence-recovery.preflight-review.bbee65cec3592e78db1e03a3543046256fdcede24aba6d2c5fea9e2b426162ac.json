@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4dec53252a3d10e0756c10c57076eaaa442a0f55020d2ae9b50e3206fef4cada",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Confirmed the current bounded CI convergence recovery Contract after adding explicit scenario coverage; predecessor history and parity remain in scope and execution evidence is bound separately.",
+  "recordedAt": "2026-08-30T14:00:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0a8f5abb160fec30c4d11ed5354bc300ec5f12185c1c5fad3d2899f47e460e44",
+  "schemaVersion": 1,
+  "workItemId": "WI-425-ci-convergence-recovery"
+}

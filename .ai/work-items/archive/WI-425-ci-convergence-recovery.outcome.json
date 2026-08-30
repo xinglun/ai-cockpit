@@ -1,0 +1,139 @@
+{
+  "acceptanceResults": [
+    "Pull request runs use a stable concurrency group and cancel superseded runs without weakening the main/release gate.",
+    "A repository-native workflow regression test proves the concurrency policy and event/profile matrix, including the reference-source boundary.",
+    "Dynamic routing remains fail-closed and selects light/standard/strict from declared diff and stage; no unconditional strict expansion is introduced.",
+    "Real gate failures expose one stable root-cause code and remediation while expected negative-fixture output is not classified as a gate failure.",
+    "The pre-push/CI boundary rejects stale finalization or unnormalized lifecycle state before hosted verification can create duplicate failure runs, with a human-readable remediation.",
+    "Tri-language documentation describes the dynamic quality profiles, cancellation semantics, failure classification, and object-project inheritance boundary.",
+    "The recovered predecessor archives, evidence, recovery decisions, parity rows, and Work Item documents remain immutable and auditable."
+  ],
+  "createdAt": "2026-08-30T14:04:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:6e4b862a135b9327a18edf72ad91b2a3cdae2dfb5cb4804d0751f419763ae9cf",
+  "evidenceRefs": [
+    ".ai/evidence/WI-425-ci-convergence-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-425-ci-convergence-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-425-ci-convergence-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:55f701fb5dff32d6c5f3ae7bf5809b86a818bbe9d021e4190c13226edbe10ccc",
+      "workItemId": "WI-425-ci-convergence-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-425-ci-convergence-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-425-ci-convergence-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-425-ci-convergence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-425-ci-convergence-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-425-ci-convergence-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-425-ci-convergence-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-425-ci-convergence-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "从同步后的默认分支重放 CI convergence 修复，且按正确顺序绑定证据、finalization 和 parity，避免恢复交付再次产生重复失败。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-425-ci-convergence-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-425-ci-convergence-recovery"
+  },
+  "taskReportDigest": "sha256:ed7fa7865f3366a48b59963c18d8ba5c2c462eed53fa795b28a955e689184de5",
+  "taskReportMarkdownDigest": "sha256:ba9e2f420a524f3c8abc4f5b31e1f6dbd332217e39b973b2153753c72ccb7456",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-425-ci-convergence-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-425-ci-convergence-recovery"
+}

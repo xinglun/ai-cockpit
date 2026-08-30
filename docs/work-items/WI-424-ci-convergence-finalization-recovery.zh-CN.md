@@ -1,7 +1,11 @@
 ---
+author: AI Cockpit maintainers
 title: "WI-424——CI convergence 收尾恢复"
+description: 保留 CI convergence 收尾恢复历史及其证据。
 workItemId: WI-424-ci-convergence-finalization-recovery
-status: 已恢复
+audience: [contributor, maintainer, reviewer]
+status: recovered
+authority: human-authorized
 lastVerifiedBy: WI-425-ci-convergence-recovery
 ---
 

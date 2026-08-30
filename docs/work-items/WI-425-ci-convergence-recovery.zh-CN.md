@@ -1,7 +1,12 @@
 ---
+author: AI Cockpit maintainers
 title: "WI-425——CI convergence 恢复"
+description: 通过有序生命周期证据与 parity 登记重新交付 CI convergence。
 workItemId: WI-425-ci-convergence-recovery
-status: 进行中
+audience: [contributor, maintainer, reviewer]
+status: in progress
+authority: human-authorized
+lastVerifiedBy: WI-425-ci-convergence-recovery
 ---
 
 # WI-425——CI convergence 恢复
@@ -11,4 +16,3 @@ status: 进行中
 fail-closed 治理。
 
 [English](WI-425-ci-convergence-recovery.md) · [日本語](WI-425-ci-convergence-recovery.ja.md)
-

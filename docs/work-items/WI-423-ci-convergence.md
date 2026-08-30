@@ -1,7 +1,11 @@
 ---
+author: AI Cockpit maintainers
 title: "WI-423 — CI convergence"
+description: Preserve the recovered CI convergence delivery and its immutable evidence.
 workItemId: WI-423-ci-convergence
+audience: [contributor, maintainer, reviewer]
 status: recovered
+authority: human-authorized
 lastVerifiedBy: WI-424-ci-convergence-finalization-recovery
 ---
 

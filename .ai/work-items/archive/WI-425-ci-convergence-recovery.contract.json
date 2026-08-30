@@ -1,0 +1,103 @@
+{
+  "acceptanceCriteria": [
+    "Pull request runs use a stable concurrency group and cancel superseded runs without weakening the main/release gate.",
+    "A repository-native workflow regression test proves the concurrency policy and event/profile matrix, including the reference-source boundary.",
+    "Dynamic routing remains fail-closed and selects light/standard/strict from declared diff and stage; no unconditional strict expansion is introduced.",
+    "Real gate failures expose one stable root-cause code and remediation while expected negative-fixture output is not classified as a gate failure.",
+    "The pre-push/CI boundary rejects stale finalization or unnormalized lifecycle state before hosted verification can create duplicate failure runs, with a human-readable remediation.",
+    "Tri-language documentation describes the dynamic quality profiles, cancellation semantics, failure classification, and object-project inheritance boundary.",
+    "The recovered predecessor archives, evidence, recovery decisions, parity rows, and Work Item documents remain immutable and auditable."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d1d80a22b0fb2d219da51dacc7e4a89b8780c5df",
+  "createdAt": "2026-08-30T13:44:42Z",
+  "goal": "从同步后的默认分支重放 CI convergence 修复，且按正确顺序绑定证据、finalization 和 parity，避免恢复交付再次产生重复失败。",
+  "intent": "根治 Rust 重写后 CI 失败重复与生命周期过渡噪声，确保同类根因不会在后续批次通过重复触发继续出现，同时保持 fail-closed 治理强度。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-cli/src/main.rs",
+    ".github/workflows/release.yml",
+    "tests/release/adopter_acceptance.sh",
+    "source-Python-runtime-fixtures",
+    "user-global-Agent-or-MCP-configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:57dadec49dceeb4de204656959fd94604e7e066fca38cf4d2768a9902770c08c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-425-ci-convergence-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/390",
+    "worktree": "/private/tmp/ai-cockpit-wi-425-ci-convergence-final"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Pull request concurrency cancels superseded runs without weakening default-branch or release gates.",
+      "required": true,
+      "scenario": "workflow_concurrency",
+      "status": "unverified",
+      "verificationPlan": "Run the repository-native workflow convergence regression."
+    },
+    {
+      "evidence": [],
+      "expected": "Light, standard, and strict routes are selected from declared repository diff and stage.",
+      "required": true,
+      "scenario": "dynamic_quality_route",
+      "status": "unverified",
+      "verificationPlan": "Run quality route regression and route manifest tests."
+    },
+    {
+      "evidence": [],
+      "expected": "A real gate failure emits one stable root-cause code and remediation without replaying expected-negative output.",
+      "required": true,
+      "scenario": "stable_failure_diagnostics",
+      "status": "unverified",
+      "verificationPlan": "Run repository gate regression and workspace tests."
+    },
+    {
+      "evidence": [],
+      "expected": "Partial provisional finalization context can be safely rebound before finish.",
+      "required": true,
+      "scenario": "finalization_context_recovery",
+      "status": "unverified",
+      "verificationPlan": "Run the archive integrity provisional-context regression."
+    }
+  ],
+  "scope": [
+    ".github/workflows/ci.yml",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/quality_route.py",
+    "tests/ci/workflow_convergence_test.sh",
+    "tests/ci/quality_route_test.py",
+    "tests/ci/run_repository_gates.py",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/ci-quality-gates.zh-CN.md",
+    "docs/reference/ci-quality-gates.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-423-ci-convergence.md",
+    "docs/work-items/WI-423-ci-convergence.zh-CN.md",
+    "docs/work-items/WI-423-ci-convergence.ja.md",
+    "docs/work-items/WI-424-ci-convergence-finalization-recovery.md",
+    "docs/work-items/WI-424-ci-convergence-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-424-ci-convergence-finalization-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-425-ci-convergence-recovery"
+}

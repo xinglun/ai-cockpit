@@ -1,7 +1,11 @@
 ---
+author: AI Cockpit maintainers
 title: "WI-423 — CI convergence"
+description: CI convergence delivery と不変 evidence の recovered history を保持します。
 workItemId: WI-423-ci-convergence
-status: Recovered
+audience: [contributor, maintainer, reviewer]
+status: recovered
+authority: human-authorized
 lastVerifiedBy: WI-424-ci-convergence-finalization-recovery
 ---
 
