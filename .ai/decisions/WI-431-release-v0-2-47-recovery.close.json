@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+      "workItemId": "WI-431-release-v0-2-47-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-431-release-v0-2-47-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-431-release-v0-2-47-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-431-release-v0-2-47-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-431-release-v0-2-47-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json",
+            ".ai/decisions/WI-431-release-v0-2-47-recovery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-merge-resource-finalization at 2026-08-30T20:13:27Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-431-release-v0-2-47-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Publish v0.2.47 from a clean reviewed base, prove all release and adopter gates, and preserve v0.2.46 as an unpublished immutable failure record."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-431-release-v0-2-47-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-431-release-v0-2-47-recovery"
+  },
+  "finalReportDigest": "sha256:87c9fbd09d0219d90e05577ef6ee103aa4a21248606a774c5cbffd2af7e45414",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:103a2a2be0e0b25924ff0b655b2f8d07402da81b0afbe2ad6539739382d00f49",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-431-release-v0-2-47-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-resource-finalization",
+    "decidedAt": "2026-08-30T20:13:27Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json",
+      ".ai/decisions/WI-431-release-v0-2-47-recovery.finalize.json"
+    ],
+    "policyRefs": [
+      "release-publication-policy"
+    ],
+    "reason": "审查 PR、合并、精确资源清理、finalize-verify 与发布前门禁均已完成。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-30T20:13:27Z",
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}

@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-431——v0.2.47 发布恢复"
 description: 在不移动不可变 v0.2.46 标签的前提下恢复发布。
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-431-release-v0-2-47-recovery
 lastVerifiedBy: WI-431-release-v0-2-47-recovery
+terminalArchive: .ai/work-items/archive/WI-431-release-v0-2-47-recovery.contract.json
+terminalVerification: .ai/evidence/WI-431-release-v0-2-47-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-431-release-v0-2-47-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-431-release-v0-2-47-recovery.close.json
 ---
 
 # WI-431——v0.2.47 发布恢复
