@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "带 Cargo.lock 的 Cargo 仓库声明 cargo test --locked --workspace",
+    "无 Cargo.lock 的 Cargo 仓库声明 cargo test --workspace 且命令可执行",
+    "start 与 recovery scaffold 使用同一确定性命令选择规则",
+    "非 Cargo 仓库不被臆造 Cargo 验证命令",
+    "现有生命周期与全工作区测试保持通过"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+  ],
+  "failedGate": "finish.verification",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d3350f838b96feeab6b38c981a6a03ffd37f2e86284fd1b6996bd428b233936",
+      "workItemId": "WI-417-cargo-verification-lock-strategy"
+    },
+    "failedGate": "finish.verification",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-417-cargo-verification-lock-strategy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-417-cargo-verification-lock-strategy.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-417-cargo-verification-lock-strategy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-417-cargo-verification-lock-strategy.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-417-cargo-verification-lock-strategy.contract.json"
+          ],
+          "inference": false,
+          "text": "Runtime 根据仓库事实选择可执行的 Cargo 验证命令，并让 start 与 recovery scaffold 使用同一规则，避免对象工程在发布版治理流程中被错误阻塞。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-417-cargo-verification-lock-strategy.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-417-cargo-verification-lock-strategy"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-417-cargo-verification-lock-strategy"
+}

@@ -86,6 +86,12 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   A repository-local exclusive reservation makes duplicate races fail closed:
   one same-ID request succeeds, the other fails, while different repositories
   remain independent.
+- When `start` activates a scaffold, the default Cargo verification command is
+  selected from repository facts: repositories with `Cargo.lock` use
+  `cargo test --locked --workspace`; lockfile-less Cargo repositories use
+  `cargo test --workspace`; non-Cargo repositories receive no invented command
+  and require an owner-approved check. This selection is deterministic and is
+  not a substitute for human-owned intent or acceptance.
 - `work-item outcome --repo <path> --id <id>` presents the result in the order
   completed work, problems, stops, risks, unknowns, decisions, verification,
   impact, and next action. Use `--json` for automation. See [Human-facing
