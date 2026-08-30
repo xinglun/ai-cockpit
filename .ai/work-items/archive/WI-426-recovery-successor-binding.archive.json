@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T15:26:25Z",
+  "files": {
+    "approachDigest": "sha256:517ab516fd90c8b5e4f1be5a7b448165bf06b8db611f77082a64347921b486ee",
+    "approachPath": ".ai/work-items/archive/WI-426-recovery-successor-binding.approach.json",
+    "contractDigest": "sha256:1f10a9c4cba3d78ebc9fd7290b61c9b9d33bf40a2596ad65b9c68548cd589a2d",
+    "contractPath": ".ai/work-items/archive/WI-426-recovery-successor-binding.contract.json",
+    "eventsDigest": "sha256:32c5b4383d47f976776125ac697f1c4a88863d6a5f16c0d98398995260b1448b",
+    "eventsPath": ".ai/work-items/archive/WI-426-recovery-successor-binding.events.jsonl",
+    "outcomeDigest": "sha256:364d8b36b8f2f725c72c45b4575268b285c31330972c3a70772e4ed9bdd383f7",
+    "outcomePath": ".ai/work-items/archive/WI-426-recovery-successor-binding.outcome.json",
+    "summaryDigest": "sha256:216e431e27dc4a8b96878dd1a823f13741f7fb443dfb8c527e79182df7bb0472",
+    "summaryPath": ".ai/work-items/archive/WI-426-recovery-successor-binding.summary.json",
+    "taskReportDigest": "sha256:dbcbfd5574260ffe641d78f1bad5d52e34f3db384ff513b8e1aafd760e11d92a",
+    "taskReportMarkdownDigest": "sha256:0107d0cf83486a236c6e33754e9b60c4fed8a4e31ee6ed2b60a63741f0abc910",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-426-recovery-successor-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-426-recovery-successor-binding.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-426-recovery-successor-binding"
+}
