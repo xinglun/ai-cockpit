@@ -3,11 +3,15 @@ author: AI Cockpit maintainers
 title: "WI-428 — Recovery-chain finalization"
 description: 残る recovery 境界を収束し、競合する successor を防止する。
 audience: [contributor, maintainer]
-status: in-progress
+status: implemented
 authority: governed
 workItemId: WI-428-recovery-chain-finalization
 predecessorWorkItemId: WI-426-recovery-successor-binding
 lastVerifiedBy: WI-428-recovery-chain-finalization
+terminalArchive: .ai/work-items/archive/WI-428-recovery-chain-finalization.contract.json
+terminalVerification: .ai/evidence/WI-428-recovery-chain-finalization.verification.json
+terminalFinalization: .ai/decisions/WI-428-recovery-chain-finalization.finalize.json
+terminalDecision: .ai/decisions/WI-428-recovery-chain-finalization.close.json
 ---
 
 # WI-428 — Recovery-chain finalization
