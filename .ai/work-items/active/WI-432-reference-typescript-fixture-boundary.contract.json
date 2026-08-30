@@ -30,11 +30,11 @@
     "conformance"
   ],
   "resourceContext": {
-    "baseBranch": "main",
-    "baseRemote": "origin",
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
     "branch": "codex/wi-432-reference-typescript-fixture-boundary",
-    "provider": "github",
-    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/398",
+    "provider": "unknown",
+    "pullRequest": "unknown",
     "worktree": "/private/tmp/ai-cockpit-wi432-typescript-fixture"
   },
   "risk": "normal",
