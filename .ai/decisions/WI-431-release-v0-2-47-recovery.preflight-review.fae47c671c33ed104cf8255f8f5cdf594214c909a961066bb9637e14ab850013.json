@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:af0df4164b3927d2d544eaddf888d21124ec7be5598f3b4a70acb37449e64a78",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "最终 PR、分支、worktree 与远端上下文已绑定；重新验证证据通过并绑定当前 Contract，确认可进入 finish。",
+  "recordedAt": "2026-08-31T02:30:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+  "schemaVersion": 1,
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}

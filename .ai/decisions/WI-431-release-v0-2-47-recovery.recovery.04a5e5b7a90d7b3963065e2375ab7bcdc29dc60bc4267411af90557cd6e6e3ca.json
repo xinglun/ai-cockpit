@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T00:40:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-431-release-v0-2-47-recovery.events.jsonl",
+    ".ai/work-items/active/WI-431-release-v0-2-47-recovery.summary.json",
+    ".ai/evidence/WI-431-release-v0-2-47-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:c3dbd61c1c5cc20ce049d47a6acd1737bb282bd043f1bb579d060fb1168bd0bc",
+  "predecessorEventsDigest": "sha256:76c6857c82901f5fb1b73b47d8a71cc0edd96791faabb723cdbc30f6732029aa",
+  "predecessorOutcomeDigest": "sha256:eca7f302cee035690faa940dfdbf510b0d7e4de2659ae8a74413b3e47a4994bf",
+  "predecessorSummaryDigest": "sha256:7eb7172d7047b0fc926bbd021856093fff9ed5978323ab832e1b805003c2218b",
+  "predecessorWorkItemId": "WI-431-release-v0-2-47-recovery",
+  "reason": "Verify passed, then finish correctly stopped because verification changed the repository snapshot after the prior preflight. Retry the same bounded release Work Item through the official recovery path, preserve the failed transition evidence, rerun preflight after verification, and do not edit generated records.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight after the current verification evidence exists, then finish, archive, review, merge, finalize, close, and run the release gates.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}

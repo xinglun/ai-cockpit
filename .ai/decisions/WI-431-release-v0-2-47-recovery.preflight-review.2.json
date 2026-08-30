@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c3dbd61c1c5cc20ce049d47a6acd1737bb282bd043f1bb579d060fb1168bd0bc",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:dfac66d6cd6f0105e7316dba3fd0f4a204bd6c77aaa3bd58a16f2e9a6cb593e9",
+  "reason": "重新确认当前 v0.2.47 发布恢复 Contract：verify 已完成但其证据写入使此前 preflight 过期；允许在重新 preflight 后继续 finish，保留所有失败尝试，不修改生成的治理记录。",
+  "recordedAt": "2026-08-31T01:00:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+  "schemaVersion": 1,
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}

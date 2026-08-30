@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f2707ceb068a1a3f4e1921612ae7b54335df239f8ebde95d85c11d8a5a93b58e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "风险已按本次恢复发布的实际范围收紧为 normal；重新确认当前 Contract 与快照，允许在 evidence 变更后继续本 Work Item 的发布恢复流程，并保留所有历史失败记录。",
+  "recordedAt": "2026-08-31T01:20:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:037d127160ef831d5659b3735b24120f9c06e0e9f46b789d754c08431e0d07bd",
+  "schemaVersion": 1,
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}
