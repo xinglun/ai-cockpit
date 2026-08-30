@@ -28,11 +28,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-419-release-v0-2-44-adopter",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/384",
     "worktree": "/private/tmp/ai-cockpit-wi-419-release-v0-2-44-adopter"
   },
   "risk": "normal",

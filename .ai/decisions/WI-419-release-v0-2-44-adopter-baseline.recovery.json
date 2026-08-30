@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "reviewed-work-item-recovery",
+  "decidedAt": "2026-08-30T09:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-419-release-v0-2-44-adopter-acceptance/acceptance.json",
+    ".ai/work-items/active/WI-419-release-v0-2-44-adopter-baseline.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:fdf7a44fc4fa75a95d3dc52c8e0dba5eaabf84c02b73a3be3cc871965ecb79c7",
+  "predecessorEventsDigest": "sha256:11d25c20ed081caaea4549aae4f598be976d5c76378ce259d58defe961f1ab62",
+  "predecessorOutcomeDigest": "sha256:d4e832e7a11aef4619b809f0ddaa37aa5aadb419d0242c8a2612e58866425bef",
+  "predecessorSummaryDigest": "sha256:9947b508796ccbdb65d89ec5cec43134f854381314b58704bc0764e6e626968c",
+  "predecessorWorkItemId": "WI-419-release-v0-2-44-adopter-baseline",
+  "reason": "The initial verification became stale when the required non-provisional finalization plan was recorded afterward; authorize one clean retry with the finalization context already bound.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and verification after finalize-plan, then finish exactly once before archive.",
+  "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+  "runtimeVersion": "0.2.43",
+  "schemaVersion": 1,
+  "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+}

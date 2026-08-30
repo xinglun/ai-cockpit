@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:26301b33fabbb72aaacb48c8f9ccac335be8ca5aa42b9e98941324d2108a8df1",
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "adopterPath": "/private/tmp/ai-cockpit-adopter-acceptance.0gzZdw/adopter-control",
+  "initialHead": "81aa87fe4142ee58a62384126dfbb5be6d294bed",
+  "head": "3fb15b2ddb771dfec7ced0d10693040d4fa42db3",
+  "runtimeVersion": "0.2.44",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "distinctFromSource": true
+}
