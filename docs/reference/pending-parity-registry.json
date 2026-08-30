@@ -8,7 +8,7 @@
         "finalize": ".ai/decisions/WI-419-release-v0-2-44-adopter-baseline.finalize.json",
         "verification": ".ai/evidence/WI-419-release-v0-2-44-adopter-baseline.verification.json"
       },
-      "headRevision": "57a19eca1e397089ed49941e57d40ac8d657f75a",
+      "headRevision": "be5510805046a5d107292801afc07f5c68277d91",
       "parityRows": [
         {
           "path": "docs/reference/reference-parity.md",
@@ -28,7 +28,7 @@
         "number": 384,
         "url": "https://github.com/xinglun/ai-cockpit/pull/384"
       },
-      "registryBaseRevision": "57a19eca1e397089ed49941e57d40ac8d657f75a",
+      "registryBaseRevision": "158b7377f9be0e66bab2ab1dc2260eb2d6d027ae",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
