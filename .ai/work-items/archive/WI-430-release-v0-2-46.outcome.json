@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+            ".ai/work-items/archive/WI-430-release-v0-2-46.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-430-release-v0-2-46.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-430-release-v0-2-46.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+            ".ai/work-items/archive/WI-430-release-v0-2-46.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-430-release-v0-2-46.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-430-release-v0-2-46.contract.json"
+            ".ai/work-items/archive/WI-430-release-v0-2-46.contract.json"
           ],
           "inference": false,
           "text": "Create and verify a non-reused v0.2.46 Release, synchronize tri-language release guidance, and establish a clean baseline for public-artifact adopter acceptance."
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-430-release-v0-2-46.contract.json"
+            ".ai/work-items/archive/WI-430-release-v0-2-46.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-430-release-v0-2-46"
   },
-  "taskReportDigest": "sha256:092cd1a6f7ef5cd7e979757eca122df33083be92164e17cb8a3117849ee041a4",
-  "taskReportMarkdownDigest": "sha256:85f8249027472881e52d3fdb1ce7a3fdbaf096abca9724406c97d22156fd9b4a",
+  "taskReportDigest": "sha256:f6b7d4815618cfdde69371dde814a4f0e3fdc753ab53de52babfc2d59670a299",
+  "taskReportMarkdownDigest": "sha256:ff69029fca0e63b55917f23437581bf3e4ee229a6fa37fc305c6c78543a6211c",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

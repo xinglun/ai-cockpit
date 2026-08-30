@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-430-release-v0-2-46.contract.json",
-    ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+    ".ai/work-items/archive/WI-430-release-v0-2-46.contract.json",
+    ".ai/work-items/archive/WI-430-release-v0-2-46.summary.json"
   ],
   "checkpointAt": "2026-08-30T18:05:45Z",
   "checkpointContractDigest": "sha256:32a285d1993d7dbe857babccb455b94ac44514a697e224bd5c287f029f6f785d",

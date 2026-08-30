@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+          ".ai/work-items/archive/WI-430-release-v0-2-46.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-430-release-v0-2-46.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-430-release-v0-2-46.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+          ".ai/work-items/archive/WI-430-release-v0-2-46.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-430-release-v0-2-46.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-430-release-v0-2-46.contract.json"
+          ".ai/work-items/archive/WI-430-release-v0-2-46.contract.json"
         ],
         "inference": false,
         "text": "Create and verify a non-reused v0.2.46 Release, synchronize tri-language release guidance, and establish a clean baseline for public-artifact adopter acceptance."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-430-release-v0-2-46.contract.json"
+          ".ai/work-items/archive/WI-430-release-v0-2-46.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
