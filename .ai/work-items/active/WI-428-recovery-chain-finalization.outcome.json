@@ -1,0 +1,173 @@
+{
+  "acceptanceResults": [
+    "A predecessor cannot accumulate an ambiguous competing successor chain without a deterministic fail-closed result; WI-426 is closed through a directly bound reviewed successor; WI-424 is represented by its immutable supersede receipt; all three parity ledgers reference the actual terminal recovery paths and statuses; predecessor archive/evidence bytes remain unchanged; focused recovery tests and full workspace verification pass; the synchronized default branch has no active or pending-close Work Items and exact branch/worktree cleanup is proven."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:87f9d29df179c7c7eac63b6300291f267d604c1fcf490e17511ca97240b8c3d0",
+      "workItemId": "WI-428-recovery-chain-finalization"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.94280288ea7bd610b1376ea3ff90dffe80875e463674e296d56a71233b15ea39.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-426-recovery-successor-binding.recovery.2f5e603bf7b72521f0a346499b6324d845da05deed80abe8db09fd4a99370e8b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-427-parity-governance-recovery.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-427-parity-governance-recovery.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-428-recovery-chain-finalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-428-recovery-chain-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Introduce a repository-bound recovery-chain rule that makes successor selection deterministic, preserves immutable predecessor evidence, updates all parity ledgers to the actual terminal receipts, and leaves the synchronized repository ready for the next governed Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-428-recovery-chain-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-428-recovery-chain-finalization"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-428-recovery-chain-finalization.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-428-recovery-chain-finalization"
+}

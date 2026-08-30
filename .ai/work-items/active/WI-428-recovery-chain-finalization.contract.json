@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "A predecessor cannot accumulate an ambiguous competing successor chain without a deterministic fail-closed result; WI-426 is closed through a directly bound reviewed successor; WI-424 is represented by its immutable supersede receipt; all three parity ledgers reference the actual terminal recovery paths and statuses; predecessor archive/evidence bytes remain unchanged; focused recovery tests and full workspace verification pass; the synchronized default branch has no active or pending-close Work Items and exact branch/worktree cleanup is proven."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d012955569830e5f6d30759f8f3f8be010f643bb",
+  "createdAt": "2026-08-30T16:36:12Z",
+  "goal": "Introduce a repository-bound recovery-chain rule that makes successor selection deterministic, preserves immutable predecessor evidence, updates all parity ledgers to the actual terminal receipts, and leaves the synchronized repository ready for the next governed Work Item.",
+  "intent": "Resolve the remaining recovery-chain lifecycle residue and prevent competing successor decisions from leaving predecessor Work Items open.",
+  "mode": "code",
+  "outOfScope": [
+    "Release artifact changes",
+    "Unrelated Work Items",
+    "Global Agent or MCP configuration",
+    "Runtime architecture split"
+  ],
+  "predecessorContractDigest": "sha256:7b8a50c16bec3ae52db8dd35082545be09afb94a154dbcfe4f21203511af2564",
+  "predecessorWorkItemId": "WI-426-recovery-successor-binding",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5566b65d8fc82ddd1ee48ed87244188da06c286577991ecad15a3afea1e728e9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-428-recovery-chain-finalization",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi428"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-428-recovery-chain-finalization.md",
+    "docs/work-items/WI-428-recovery-chain-finalization.zh-CN.md",
+    "docs/work-items/WI-428-recovery-chain-finalization.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-428-recovery-chain-finalization"
+}

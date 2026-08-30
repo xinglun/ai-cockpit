@@ -92,6 +92,14 @@ incomplete evidence remains `recovery_decision_invalid` and cannot authorize a
 transition. This compatibility projection never turns an unfinished successor
 green and never rewrites predecessor bytes.
 
+A predecessor has one selected successor lineage. After a valid `successor`
+receipt exists, another `successor` decision for a different Work Item is
+rejected with the stable `recovery_decision_invalid:competing_successor`
+boundary. Continue or explicitly `supersede` the selected lineage instead;
+never leave competing successors for a human to resolve from filenames. This
+rule makes recovery graphs deterministic and keeps every predecessor's
+terminal decision auditable without rewriting its historical bytes.
+
 This is a semantic Rust-native workflow. The reference source's `make`
 commands, Python modules, and generated history are comparison material, not
 commands or Runtime authority in this repository.

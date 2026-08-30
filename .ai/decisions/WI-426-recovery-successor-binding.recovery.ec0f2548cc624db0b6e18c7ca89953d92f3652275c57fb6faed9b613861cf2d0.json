@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T00:05:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-426-recovery-successor-binding.verification.json",
+    ".ai/evidence/WI-427-parity-governance-recovery.verification.json",
+    ".ai/decisions/WI-427-parity-governance-recovery.close.json",
+    "https://github.com/xinglun/ai-cockpit/pull/392"
+  ],
+  "policyRefs": [
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "AGENTS.md:reviewed-merge-and-exact-cleanup",
+    "docs/reference/reference-parity.md"
+  ],
+  "predecessorContractDigest": "sha256:7b8a50c16bec3ae52db8dd35082545be09afb94a154dbcfe4f21203511af2564",
+  "predecessorEventsDigest": "sha256:32c5b4383d47f976776125ac697f1c4a88863d6a5f16c0d98398995260b1448b",
+  "predecessorOutcomeDigest": "sha256:b311781e0c4af78a2573b7a69f2b6c5c3f3da08daf74a9641409d13f12c32e49",
+  "predecessorSummaryDigest": "sha256:472232fba44f0b42b693ad2583227b18c6a45bd2e605aa8821a79b5534ebfd03",
+  "predecessorWorkItemId": "WI-426-recovery-successor-binding",
+  "reason": "Re-materialize the directly bound recovery scaffold after an idempotent receipt replay; retain every prior receipt and do not rewrite predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the directly bound recovery successor through reviewed lifecycle and update all parity ledgers with its terminal evidence.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-428-recovery-chain-finalization",
+  "workItemId": "WI-426-recovery-successor-binding"
+}

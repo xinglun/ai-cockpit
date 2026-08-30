@@ -59,4 +59,10 @@ python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all
 
 由新 Runtime 创建的 successor 必须携带准确的 predecessor Work Item、Contract digest、recovery path 和 repository 绑定。对于在这些 Contract 字段存在之前创建的历史 successor，Runtime 只在 recovery receipt 本身同时绑定 predecessor/successor，且 successor 具备已验证 archive、严格 verification evidence 和已确认 close decision 时提供窄化兼容路径。新追加的 recovery receipt 会标记 `successorBindingMode: legacy_terminal_evidence`；缺失、foreign、stale、malformed、symlink 或不完整 evidence 仍落入 `recovery_decision_invalid`，不能授权任何转换。该兼容投影不会把未完成 successor 变成 green，也不会重写 predecessor bytes。
 
+一个 predecessor 只能有一条已选定的 successor lineage。已有有效的
+`successor` receipt 后，若再次为同一 predecessor 指向不同 Work Item，Runtime
+会以稳定边界 `recovery_decision_invalid:competing_successor` 拒绝；应继续原
+lineage，或显式记录 `supersede`，不能把多个 successor 留给人从文件名中猜测。
+这样可以让 recovery graph 确定，并在不重写历史 bytes 的前提下保持终态决策可审计。
+
 这是 Rust-native 的语义工作流。参考源的 `make` 命令、Python 模块和生成历史只是比对材料，不是本仓库的命令或 Runtime authority。

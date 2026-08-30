@@ -5828,6 +5828,25 @@ pub fn record_recovery_decision(
                 message: "successor Work Item equals predecessor".into(),
             });
         }
+        // A predecessor may have one active successor lineage only.  Older
+        // Runtime versions accepted a second `successor` decision for the
+        // same predecessor, leaving the first successor archived/pending and
+        // making the recovery graph ambiguous.  Read the current append-only
+        // chain before creating another successor and fail closed when the
+        // requested target differs.  `supersede` remains valid because it
+        // closes an already-selected successor lineage without creating a
+        // competing Work Item.
+        if typed.decision == "successor"
+            && let Ok(Some(existing)) = load_recovery_decision(&root, work_item_id, Some(runtime))
+            && existing.decision == "successor"
+            && existing.successor_work_item_id.as_deref() != Some(successor_id)
+        {
+            return Err(recovery_decision_error(
+                root.join(".ai/decisions"),
+                "competing_successor",
+                "predecessor already has a different successor; supersede or continue that lineage instead of creating a competing Work Item",
+            ));
+        }
         if typed.decision == "successor"
             && work_item_artifact_path_optional(&root, successor_id, "contract.json")?.is_some()
         {

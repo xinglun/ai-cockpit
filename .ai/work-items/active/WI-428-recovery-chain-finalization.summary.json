@@ -1,0 +1,49 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.94280288ea7bd610b1376ea3ff90dffe80875e463674e296d56a71233b15ea39.json",
+    ".ai/decisions/WI-426-recovery-successor-binding.recovery.2f5e603bf7b72521f0a346499b6324d845da05deed80abe8db09fd4a99370e8b.json",
+    ".ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json",
+    ".ai/decisions/WI-427-parity-governance-recovery.close.json",
+    ".ai/decisions/WI-427-parity-governance-recovery.finalize.json",
+    ".ai/work-items/active/WI-428-recovery-chain-finalization.contract.json",
+    ".ai/work-items/active/WI-428-recovery-chain-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T16:39:20Z",
+  "checkpointContractDigest": "sha256:63e51e2545eae80010de03b102fa7654fa139c75532e7a19672f80f0cd9e75b6",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:87f9d29df179c7c7eac63b6300291f267d604c1fcf490e17511ca97240b8c3d0",
+  "createdAt": "2026-08-30T16:36:12Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs",
+      "docs/reference/repository-workflow.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The implementation prevents ambiguous successor selection, preserves append-only recovery history, and records the terminal parity boundary without changing predecessor bytes.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:7b8a50c16bec3ae52db8dd35082545be09afb94a154dbcfe4f21203511af2564",
+  "predecessorWorkItemId": "WI-426-recovery-successor-binding",
+  "preflightAt": "2026-08-30T16:45:42Z",
+  "preflightContractDigest": "sha256:63e51e2545eae80010de03b102fa7654fa139c75532e7a19672f80f0cd9e75b6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:87f9d29df179c7c7eac63b6300291f267d604c1fcf490e17511ca97240b8c3d0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-426-recovery-successor-binding.recovery.ec0f2548cc624db0b6e18c7ca89953d92f3652275c57fb6faed9b613861cf2d0.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-30T16:46:27Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-428-recovery-chain-finalization"
+}
