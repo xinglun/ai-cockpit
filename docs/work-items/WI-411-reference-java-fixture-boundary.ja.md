@@ -4,7 +4,7 @@ title: "WI-411 — Java マルチモジュール fixture の境界"
 workItemId: WI-411-reference-java-fixture-boundary
 description: "pinned Java fixture file を一つずつ比較し、source fixture をコピーしない reference-only boundary を記録します。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-411-reference-java-fixture-boundary
 canonical: docs/work-items/WI-411-reference-java-fixture-boundary.md

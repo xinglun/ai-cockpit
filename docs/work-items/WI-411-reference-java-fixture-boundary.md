@@ -4,7 +4,7 @@ title: "WI-411 — Java multi-module fixture boundary"
 workItemId: WI-411-reference-java-fixture-boundary
 description: "Compare the pinned Java fixture files one by one and record an explicit reference-only boundary without copying source fixtures."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-411-reference-java-fixture-boundary
 ---
