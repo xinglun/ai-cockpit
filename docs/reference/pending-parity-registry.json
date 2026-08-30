@@ -8,7 +8,7 @@
         "finalize": ".ai/decisions/WI-411-reference-java-fixture-boundary.finalize.json",
         "verification": ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
       },
-      "headRevision": "8ad9daaf8e2620e93ce4cd200571bcdb9a1ab91e",
+  "headRevision": "a5fe0e25bf041c85c6c57447d241e4895f2ddf98",
       "parityRows": [
         {
           "path": "docs/reference/reference-parity.md",
@@ -16,7 +16,7 @@
         },
         {
           "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-411——Java 多模块 fixture 边界 | 进行中 | [Work Item](../work-items/WI-411-reference-java-fixture-boundary.zh-CN.md)；archive `.ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json`；verification `.ai/evidence/WI-411-reference-java-fixture-boundary.verification.json`；finalization `.ai/decisions/WI-411-reference-java-fixture-boundary.finalize.json`；close `.ai/decisions/WI-411-reference-java-fixture-boundary.close.json`。固定参考源的九个 Java fixture 路径均逐一标记为 `reference-only`；不复制源 fixture，通用 Runtime argv 执行不证明 Java 专项支持。 |"
+      "row": "| WI-411 ——Java 多模块 fixture 边界 | 进行中 | [Work Item](../work-items/WI-411-reference-java-fixture-boundary.zh-CN.md)；archive `.ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json`；verification `.ai/evidence/WI-411-reference-java-fixture-boundary.verification.json`；finalization `.ai/decisions/WI-411-reference-java-fixture-boundary.finalize.json`；close `.ai/decisions/WI-411-reference-java-fixture-boundary.close.json`。固定参考源的九个 Java fixture 路径均逐一标记为 `reference-only`；不复制源 fixture，通用 Runtime argv 执行不证明 Java 专项支持。 |"
         },
         {
           "path": "docs/reference/reference-parity.ja.md",
@@ -28,7 +28,7 @@
         "number": 376,
         "url": "https://github.com/xinglun/ai-cockpit/pull/376"
       },
-  "registryBaseRevision": "f1b655941660fd8a49e86573f9f682f3ddbfb3fe",
+  "registryBaseRevision": "83315c7a00a0ebe91426e4cb7a2d9e6a6ad05b2c",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-411-reference-java-fixture-boundary"
