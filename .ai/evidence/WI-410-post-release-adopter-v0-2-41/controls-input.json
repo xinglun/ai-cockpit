@@ -45,10 +45,10 @@
     "decision": "confirm_review",
     "workItemId": "WI-410-post-release-adopter-v0-2-41",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "contractDigest": "sha256:e9e50068b9043a95c29b1d3bc76c1a8b9730172462dff4c4e106800f86ba9d04",
+    "contractDigest": "sha256:269566fa76f1ce2e271a85dc9b9198f221d7f25889a640d736e691ac74e4a915",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
     "repositorySnapshotDigest": "sha256:f9d3c845e67465966a20456572797023d820d71004043b2978544b289c1a4808",
-    "recordedAt": "2026-08-30T00:51:00Z",
+    "recordedAt": "2026-08-30T00:58:30Z",
     "recordedBy": "human:repository-owner",
     "reason": "Confirm the bounded post-release acceptance evidence review and permit checkpoint; no implementation or release truth is inferred."
   }

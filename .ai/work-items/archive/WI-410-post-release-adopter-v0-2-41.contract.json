@@ -25,41 +25,50 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
-  "scenarioCoverage": [
-    {
-      "scenario": "public_release_artifact_integrity",
-      "expected": "The immutable v0.2.41 public tag, archive, manifest, and checksums resolve to the recorded runtime identity.",
-      "verificationPlan": "Download the public Release archive and SHA256SUMS, verify the archive digest and executable version/digest.",
-      "required": true,
-      "status": "verified",
-      "evidence": ["release-adopter-acceptance-v0.2.41-33282519613/runtime.json", "release-adopter-acceptance-v0.2.41-33282519613/SHA256SUMS.release"]
-    },
-    {
-      "scenario": "fresh_adopter_governance_lifecycle",
-      "expected": "A fresh adopter is attached and completes the not_ready scaffold, evidence reuse, lifecycle, isolation, and cleanup assertions without source fallback.",
-      "verificationPlan": "Inspect the public adopter acceptance receipt and all lifecycle, isolation, and cleanup evidence from workflow 33282519613.",
-      "required": true,
-      "status": "verified",
-      "evidence": ["release-adopter-acceptance-v0.2.41-33282519613/acceptance.json", "release-adopter-acceptance-v0.2.41-33282519613/cleanup.json", "release-adopter-acceptance-v0.2.41-33282519613/isolation.json"]
-    },
-    {
-      "scenario": "installed_runtime_self_governance",
-      "expected": "The installed public v0.2.41 binary governs this repository with a compatible, ready, clean state.",
-      "verificationPlan": "Run inspect, status, doctor, and agent doctor with explicit --repo against this repository after installation.",
-      "required": true,
-      "status": "verified",
-      "evidence": [".ai/evidence/WI-410-post-release-adopter-v0-2-41/installed-runtime.json"]
-    }
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-410-post-release-adopter-v0-2-41",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/375",
     "worktree": "/private/tmp/ai-cockpit-wi410-post-release-adopter-v0-2-41"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "release-adopter-acceptance-v0.2.41-33282519613/runtime.json",
+        "release-adopter-acceptance-v0.2.41-33282519613/SHA256SUMS.release"
+      ],
+      "expected": "The immutable v0.2.41 public tag, archive, manifest, and checksums resolve to the recorded runtime identity.",
+      "required": true,
+      "scenario": "public_release_artifact_integrity",
+      "status": "verified",
+      "verificationPlan": "Download the public Release archive and SHA256SUMS, verify the archive digest and executable version/digest."
+    },
+    {
+      "evidence": [
+        "release-adopter-acceptance-v0.2.41-33282519613/acceptance.json",
+        "release-adopter-acceptance-v0.2.41-33282519613/cleanup.json",
+        "release-adopter-acceptance-v0.2.41-33282519613/isolation.json"
+      ],
+      "expected": "A fresh adopter is attached and completes the not_ready scaffold, evidence reuse, lifecycle, isolation, and cleanup assertions without source fallback.",
+      "required": true,
+      "scenario": "fresh_adopter_governance_lifecycle",
+      "status": "verified",
+      "verificationPlan": "Inspect the public adopter acceptance receipt and all lifecycle, isolation, and cleanup evidence from workflow 33282519613."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-410-post-release-adopter-v0-2-41/installed-runtime.json"
+      ],
+      "expected": "The installed public v0.2.41 binary governs this repository with a compatible, ready, clean state.",
+      "required": true,
+      "scenario": "installed_runtime_self_governance",
+      "status": "verified",
+      "verificationPlan": "Run inspect, status, doctor, and agent doctor with explicit --repo against this repository after installation."
+    }
+  ],
   "scope": [
     ".ai/evidence/WI-410-post-release-adopter-v0-2-41/**",
     ".ai/work-items/**",
