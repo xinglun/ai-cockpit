@@ -156,8 +156,8 @@ done
 test "$(jq '[.records[] | select(.batch == "WI-432-reference-typescript-fixture-boundary")] | length' "$manifest")" -eq 11
 test "$(jq '[.records[] | select(.batch == "WI-432-reference-typescript-fixture-boundary" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
 grep -q "TypeScript web fixture adaptation" "$root/docs/reference/README.md"
-grep -q "TypeScript web fixture 适配" "$root/docs/reference/README.zh-CN.md"
-grep -q "TypeScript web fixture 適応" "$root/docs/reference/README.ja.md"
+grep -q "TypeScript Web fixture 适配" "$root/docs/reference/README.zh-CN.md"
+grep -q "TypeScript Web fixture 適応" "$root/docs/reference/README.ja.md"
 grep -q "TypeScript web fixture boundary" "$root/docs/reference/reference-file-comparison.md"
 grep -q "TypeScript web fixture 边界" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "TypeScript web fixture の境界" "$root/docs/reference/reference-file-comparison.ja.md"
