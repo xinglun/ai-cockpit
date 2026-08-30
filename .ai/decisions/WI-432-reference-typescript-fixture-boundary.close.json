@@ -1,0 +1,141 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e692dec0fa42a866791df2ff5ce61a2007d5e0b55c30f56df358cb5fb1da78a6",
+      "workItemId": "WI-432-reference-typescript-fixture-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json",
+            ".ai/decisions/WI-432-reference-typescript-fixture-boundary.finalize.01bc29b425792888a4b24071cda8477429dedccdbe53a5bfe658e394f0b55da1.json",
+            ".ai/decisions/WI-432-reference-typescript-fixture-boundary.finalize.7ed22daac35a32d6f53289562f5fc955ba076854ff0483799f42c54a7a199eed.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-31T09:10:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Record an evidence-backed, tri-language semantic mapping for the 11-file TypeScript web fixture and make the comparison ledger reject any return to deferred status."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-432-reference-typescript-fixture-boundary"
+  },
+  "finalReportDigest": "sha256:efe370a38445c0266d495e26d5f828c240f06938fb18d39c8d659331f7dea237",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:c710abb40c0660370f58e37bd099eac1ad49cea4a61b2701ebcadf36cbd75634",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-432-reference-typescript-fixture-boundary.finalize.7ed22daac35a32d6f53289562f5fc955ba076854ff0483799f42c54a7a199eed.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-31T09:10:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json",
+      ".ai/decisions/WI-432-reference-typescript-fixture-boundary.finalize.01bc29b425792888a4b24071cda8477429dedccdbe53a5bfe658e394f0b55da1.json",
+      ".ai/decisions/WI-432-reference-typescript-fixture-boundary.finalize.7ed22daac35a32d6f53289562f5fc955ba076854ff0483799f42c54a7a199eed.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:reviewed-pr-before-close",
+      "AGENTS.md:exact-branch-worktree-cleanup"
+    ],
+    "reason": "Reviewed PR #398 merged at eba56bba; 11 pinned TypeScript fixture paths were compared as reference-only, all hosted checks passed, and finalization cleanup was verified.",
+    "resumeCondition": "Future reference parity work must start as a new bounded Work Item from the synchronized main branch."
+  },
+  "timestamp": "2026-08-30T23:41:42Z",
+  "workItemId": "WI-432-reference-typescript-fixture-boundary"
+}
