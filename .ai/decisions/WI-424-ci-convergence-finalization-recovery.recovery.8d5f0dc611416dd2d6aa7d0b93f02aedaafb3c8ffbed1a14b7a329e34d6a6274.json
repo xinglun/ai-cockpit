@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T00:45:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/391",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "policyRefs": [
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "predecessorContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "predecessorEventsDigest": "sha256:dfb4b5f1e92418c596a97e82503cf9de41c12e6fc6e89b499109a1412f7ecedc",
+  "predecessorOutcomeDigest": "sha256:58a8876e18b8db35e29937aa717bd3ffe933270d26292309f7bbdf99557b6454",
+  "predecessorSummaryDigest": "sha256:41f50a7ce1e58618c149e43f0dc8a9382806a3202be711f7463f410a3f8e97b1",
+  "predecessorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
+  "reason": "PR CI found missing parity decision registration for WI-424 and missing parity entries for the recovery delivery. The predecessor archive is immutable, so the documentation and redelivery correction requires a bounded recovery successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Register WI-424, WI-426, and WI-427 decision/evidence paths in all reference-parity documents, rerun the documentation governance gate, and complete reviewed merge and close.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-427-parity-governance-recovery",
+  "workItemId": "WI-424-ci-convergence-finalization-recovery"
+}

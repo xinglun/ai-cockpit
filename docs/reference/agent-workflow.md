@@ -253,6 +253,18 @@ and cannot move active artifacts. Historical archived records keep their
 immutable bytes and historical projection; this current-read rule does not
 retroactively rewrite or reclassify them.
 
+New Runtime-created successors must include `predecessorWorkItemId`,
+`predecessorContractDigest`, and `recoveryDecisionPath`. A legacy successor
+that predates those fields is compatible only when its recovery receipt binds
+the exact predecessor/successor/repository digests and the successor has a
+verified archive, strict verification evidence, and a confirmed structured
+close. The new append-only supersession receipt records
+`successorBindingMode: legacy_terminal_evidence`; any missing, foreign,
+stale, malformed, symlinked, or incomplete terminal evidence remains
+`recovery_decision_invalid`. This path is an explicitly bounded historical
+compatibility projection, never an unqualified green result, and it never
+rewrites predecessor bytes.
+
 An archived Work Item whose manifest is still `archived` may receive a valid,
 append-only `supersede` recovery decision after the original archive (for
 example when the provider's PR base cannot be reconciled with the frozen

@@ -3018,6 +3018,11 @@ pub struct RecoveryDecisionReceipt {
     pub predecessor_events_digest: Option<Digest>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub successor_work_item_id: Option<String>,
+    /// Runtime-generated marker for the narrowly scoped legacy successor
+    /// compatibility path. New successor Contracts never use this mode;
+    /// omitted remains the wire-compatible default for historical receipts.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub successor_binding_mode: Option<String>,
     pub runtime_version: String,
     pub runtime_digest: Digest,
     pub actor: String,
