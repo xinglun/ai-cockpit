@@ -4,7 +4,7 @@ title: "WI-412 — v0.2.42 release preparation"
 description: "WI-411 後の reviewed Runtime を公開し、公開 adopter acceptance 用の clean base を残す。"
 workItemId: WI-412-release-v0-2-42
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-412-release-v0-2-42
 capabilityClaims: [release_distribution, repository_isolation]

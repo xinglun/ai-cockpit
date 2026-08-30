@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1c9bcefbf7f549308ebc12db808ac1587ed6af07",
+    "name": "codex/wi-413-release-v0-2-42",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6381a27693ccf3284e5b0fa61e1083b2885ca78faeaa38c872f73db7868f6efa",
+  "operationId": "github-pr-378-merge-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "fcba9ad73e7191f9094411615cbc8070763443f8",
+    "headRevision": "1c9bcefbf7f549308ebc12db808ac1587ed6af07",
+    "mergeCommit": "02bed9f01d2d50df476d0f92cbdf1e06717685dd",
+    "number": 378,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/378"
+  },
+  "reason": "PR #378 passed hosted quality, Windows, V1, and task-list checks, merged as 02bed9f0, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-413-release-v0-2-42-windows-ci-retry-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-413-release-v0-2-42",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/378",
+    "worktree": "/private/tmp/ai-cockpit-wi413-release-v0-2-42"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4a30e46d63c7d923649b6f66e0b925ddd6ff267d5ec46966329512e1771d9af6",
+  "runtimeVersion": "0.2.41",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T04:05:00Z",
+  "workItemId": "WI-413-release-v0-2-42-windows-ci-retry",
+  "worktree": {
+    "branch": "codex/wi-413-release-v0-2-42",
+    "headRevision": "1c9bcefbf7f549308ebc12db808ac1587ed6af07",
+    "path": "/private/tmp/ai-cockpit-wi413-release-v0-2-42",
+    "worktreeId": "WI-413-release-v0-2-42-windows-ci-retry"
+  }
+}

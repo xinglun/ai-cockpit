@@ -4,7 +4,7 @@ title: "WI-412——v0.2.42 发布准备"
 description: "发布 WI-411 之后审查过的 Runtime，并为独立的公开 adopter 验收保留清洁基线。"
 workItemId: WI-412-release-v0-2-42
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-412-release-v0-2-42
 capabilityClaims: [release_distribution, repository_isolation]

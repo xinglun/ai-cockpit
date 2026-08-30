@@ -4,7 +4,7 @@ title: "WI-412 — v0.2.42 release preparation"
 description: "Publish the reviewed post-WI-411 Runtime and preserve a clean base for public adopter acceptance."
 workItemId: WI-412-release-v0-2-42
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-412-release-v0-2-42
 capabilityClaims: [release_distribution, repository_isolation]

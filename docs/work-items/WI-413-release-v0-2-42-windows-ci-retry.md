@@ -6,9 +6,13 @@ description: "Redeliver the v0.2.42 candidate after the immutable WI-412 deliver
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-413-release-v0-2-42-windows-ci-retry
+terminalArchive: .ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.contract.json
+terminalVerification: .ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json
+terminalFinalization: .ai/decisions/WI-413-release-v0-2-42-windows-ci-retry.finalize.json
+terminalDecision: .ai/decisions/WI-413-release-v0-2-42-windows-ci-retry.close.json
 ---
 
 # WI-413 — v0.2.42 release recovery after Windows CI

@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-412-release-v0-2-42.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e25be375e48575e0b2888451f4d820e7364238bd0984709d3f3f62cf5e46cfbf",
+      "workItemId": "WI-412-release-v0-2-42"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-412-release-v0-2-42.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-412-release-v0-2-42.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-412-release-v0-2-42.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-412-release-v0-2-42.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-412-release-v0-2-42.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-412-release-v0-2-42.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-412-release-v0-2-42.recovery.5f23d0ffab4ce9a92296bf0d25bc23282b899252208e96e53c8065afd4e30495.json",
+            ".ai/decisions/WI-413-release-v0-2-42-windows-ci-retry.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via explicit-user-authorization at 2026-08-30T04:09:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-412-release-v0-2-42.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-412-release-v0-2-42.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-412-release-v0-2-42.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-412-release-v0-2-42.contract.json"
+          ],
+          "inference": false,
+          "text": "Publish v0.2.42 from the reviewed main commit with complete version, release, evidence, and cleanup binding; do not claim adopter acceptance before the public artifact is verified."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-412-release-v0-2-42.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-412-release-v0-2-42"
+  },
+  "finalReportDigest": "sha256:03e6f92df6e9336de49461501b9e0344784ebfb5dd76ef4e6a7052ff10d9a9fd",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-30T04:09:00Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-412-release-v0-2-42.recovery.5f23d0ffab4ce9a92296bf0d25bc23282b899252208e96e53c8065afd4e30495.json",
+      ".ai/decisions/WI-413-release-v0-2-42-windows-ci-retry.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "WI-412 immutable failed delivery is superseded by the reviewed and closed WI-413 recovery successor; historical bytes remain preserved.",
+    "resumeCondition": "Do not resume WI-412; use the closed successor or a separately authorized Work Item."
+  },
+  "timestamp": "2026-08-30T04:08:01Z",
+  "workItemId": "WI-412-release-v0-2-42"
+}

@@ -6,9 +6,13 @@ description: "不変の WI-412 delivery が Windows CI で拒否された後、v
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-413-release-v0-2-42-windows-ci-retry
+terminalArchive: .ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.contract.json
+terminalVerification: .ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json
+terminalFinalization: .ai/decisions/WI-413-release-v0-2-42-windows-ci-retry.finalize.json
+terminalDecision: .ai/decisions/WI-413-release-v0-2-42-windows-ci-retry.close.json
 ---
 
 # WI-413 — Windows CI 後の v0.2.42 release recovery

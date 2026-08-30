@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T04:08:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-412-release-v0-2-42.archive.json",
+    ".ai/decisions/WI-413-release-v0-2-42-windows-ci-retry.finalize.json",
+    ".ai/decisions/WI-413-release-v0-2-42-windows-ci-retry.close.json",
+    "https://github.com/xinglun/ai-cockpit/pull/377",
+    "https://github.com/xinglun/ai-cockpit/pull/378"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:cae7ea9f96e0dd7a9d7ba96ff53b6d69d037a5677053e135d6f7906c83b148c8",
+  "predecessorEventsDigest": "sha256:8f963c887b7a02c2b2049c84cc74ea8da34d17c19ae2451f2af5ae041bcb5538",
+  "predecessorOutcomeDigest": "sha256:8fa60612c94b1578f5f64cfc3cfc71767baa01a5da539725be0458c8a39a7b3b",
+  "predecessorSummaryDigest": "sha256:00fe83ffdc696ab828a871ee22183f749ea66b32b32a9b6a55b6df10d8d06d3d",
+  "predecessorWorkItemId": "WI-412-release-v0-2-42",
+  "reason": "WI-412 was an immutable failed delivery. Its reviewed successor WI-413 passed hosted checks, merged as 02bed9f0, and was finalized and closed; preserve WI-412 bytes as historical evidence and supersede its pending lifecycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Do not resume WI-412; continue only from successor WI-413 or a separately authorized Work Item.",
+  "runtimeDigest": "sha256:4a30e46d63c7d923649b6f66e0b925ddd6ff267d5ec46966329512e1771d9af6",
+  "runtimeVersion": "0.2.41",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-413-release-v0-2-42-windows-ci-retry",
+  "workItemId": "WI-412-release-v0-2-42"
+}
