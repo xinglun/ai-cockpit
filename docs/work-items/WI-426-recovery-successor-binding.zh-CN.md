@@ -4,7 +4,7 @@ title: "WI-426——恢复 successor 绑定兼容"
 description: 保持 successor 严格 lineage，同时安全识别已完成的历史 successor。
 workItemId: WI-426-recovery-successor-binding
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-426-recovery-successor-binding
 ---

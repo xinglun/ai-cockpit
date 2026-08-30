@@ -4,7 +4,7 @@ title: "WI-426 — Recovery successor binding compatibility"
 description: Preserve strict successor lineage while safely recognizing terminal legacy successors.
 workItemId: WI-426-recovery-successor-binding
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-426-recovery-successor-binding
 ---
