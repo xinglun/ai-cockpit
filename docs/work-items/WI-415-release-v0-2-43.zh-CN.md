@@ -4,9 +4,13 @@ title: "WI-415——v0.2.43 发布"
 description: "从 WI-414 之后审查过的 Runtime 发布 v0.2.43，并建立下一次公开 artifact 验收基线。"
 workItemId: WI-415-release-v0-2-43
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-415-release-v0-2-43
+terminalArchive: .ai/work-items/archive/WI-415-release-v0-2-43.contract.json
+terminalVerification: .ai/evidence/WI-415-release-v0-2-43.verification.json
+terminalFinalization: .ai/decisions/WI-415-release-v0-2-43.finalize.json
+terminalDecision: .ai/decisions/WI-415-release-v0-2-43.close.json
 capabilityClaims: [release_distribution, repository_isolation]
 sourceCommit: 107dfab6e6e331041a73fce7406f573bfbd7610c
 canonical: docs/work-items/WI-415-release-v0-2-43.md

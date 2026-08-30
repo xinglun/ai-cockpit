@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-415-release-v0-2-43.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a08d4f79d9fb08a3d933f81b3f3b1f111e1dab7f06564f09ff143e021eae2a53",
+      "workItemId": "WI-415-release-v0-2-43"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-415-release-v0-2-43.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-415-release-v0-2-43.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-415-release-v0-2-43.verification.json",
+            ".ai/decisions/WI-415-release-v0-2-43.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-08-30T05:56:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-415-release-v0-2-43.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-415-release-v0-2-43.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-415-release-v0-2-43.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-415-release-v0-2-43.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-415-release-v0-2-43.contract.json"
+          ],
+          "inference": false,
+          "text": "Publish v0.2.43 from the reviewed main, preserving release identity, documentation consistency, and a ready_on_base repository for the next reference-parity batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-415-release-v0-2-43.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-415-release-v0-2-43"
+  },
+  "finalReportDigest": "sha256:56e2ca26ba96c263d87f2e9ac2f5af89181cab57952d7f36cac18269355b83ed",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:83218799f268edb450deebb6af0f224e331b8796ef8fdd197bb8747d3d85e35f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-415-release-v0-2-43.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-30T05:56:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-415-release-v0-2-43.verification.json",
+      ".ai/decisions/WI-415-release-v0-2-43.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed verification, hosted CI, merge, finalization, and exact cleanup; release publication remains the next bounded action.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-30T05:52:56Z",
+  "workItemId": "WI-415-release-v0-2-43"
+}
