@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-retry-after-finish-governance-failure",
+  "decidedAt": "2026-08-30T15:24:50Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-426-recovery-successor-binding.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/391"
+  ],
+  "policyRefs": [
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "docs/reference/agent-workflow.md:finalize-plan-before-verification"
+  ],
+  "predecessorContractDigest": "sha256:7b8a50c16bec3ae52db8dd35082545be09afb94a154dbcfe4f21203511af2564",
+  "predecessorEventsDigest": "sha256:ca34df2dfcd5fccf4398c4db0d49940261ffc2ff3d91f2be813c2a974abb55f0",
+  "predecessorOutcomeDigest": "sha256:ddf94c64102b738261a5fb9727b6b8a15f6ada9a7a628d121f7e2dea231d168f",
+  "predecessorSummaryDigest": "sha256:1fffbc51ca05e936d0d736af98c3d6ceb1c8ada704e73392b04a598932c2b7c1",
+  "predecessorWorkItemId": "WI-426-recovery-successor-binding",
+  "reason": "The first finish attempt correctly rejected an invalid generated governance projection; retry after recording the complete scenario controls and fresh verification without rewriting implementation or predecessor history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun fresh preflight and installed Runtime verification, then finish and archive with the reviewed PR context bound.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-426-recovery-successor-binding"
+}

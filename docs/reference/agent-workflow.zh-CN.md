@@ -187,6 +187,15 @@ tampered 或 ambiguous candidate 会落入稳定的 `recovery_decision_invalid` 
 active artifacts。历史 archive 的不可变 bytes 与历史投影保持不变；该 current-read 规则不会
 追溯改写或重新分类它们。
 
+由新 Runtime 创建的 successor 必须包含 `predecessorWorkItemId`、
+`predecessorContractDigest` 和 `recoveryDecisionPath`。对于早于这些字段的历史 successor，
+只有在 recovery receipt 精确绑定 predecessor/successor/repository digest，且 successor
+具备已验证 archive、严格 verification evidence 和已确认的结构化 close 时才兼容。新的
+append-only supersede receipt 会记录 `successorBindingMode: legacy_terminal_evidence`；任意
+缺失、foreign、stale、malformed、symlink 或不完整的终态 evidence 仍保持
+`recovery_decision_invalid`。这是明确受限的历史兼容投影，不是无条件的 green 结果，也不会
+重写 predecessor bytes。
+
 `retry` 是显式的生命周期转换，不是绿灯声明。如果失败门禁把 active Work Item 留在
 `finish_ready`，Runtime 只把当前 Summary 恢复到合法的 `checkpointed` 重试点，并清除临时
 失败投影。blocked Outcome 与 predecessor digest 仍由追加式 recovery receipt 引用；必须

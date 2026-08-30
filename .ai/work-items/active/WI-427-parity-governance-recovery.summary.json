@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8d5f0dc611416dd2d6aa7d0b93f02aedaafb3c8ffbed1a14b7a329e34d6a6274.json",
+    ".ai/work-items/active/WI-427-parity-governance-recovery.contract.json",
+    ".ai/work-items/active/WI-427-parity-governance-recovery.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-30T15:40:14Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "predecessorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8d5f0dc611416dd2d6aa7d0b93f02aedaafb3c8ffbed1a14b7a329e34d6a6274.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-08-30T15:40:28Z",
+  "workItemId": "WI-427-parity-governance-recovery"
+}

@@ -57,4 +57,6 @@ python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all
 
 恢复是 append-only 且绑定 identity。snapshot 变化、receipt 过期或 provider 冲突必须记录为 retry、successor 或 supersede decision；不能编辑旧证据来把后续状态变绿。安装、升级和 adapter 设置是独立的仓库 Work Item，并使用不可变公开 Release。没有命令会选择进程级 current project，也不会修改 provider 全局 Agent 或 MCP 配置。
 
+由新 Runtime 创建的 successor 必须携带准确的 predecessor Work Item、Contract digest、recovery path 和 repository 绑定。对于在这些 Contract 字段存在之前创建的历史 successor，Runtime 只在 recovery receipt 本身同时绑定 predecessor/successor，且 successor 具备已验证 archive、严格 verification evidence 和已确认 close decision 时提供窄化兼容路径。新追加的 recovery receipt 会标记 `successorBindingMode: legacy_terminal_evidence`；缺失、foreign、stale、malformed、symlink 或不完整 evidence 仍落入 `recovery_decision_invalid`，不能授权任何转换。该兼容投影不会把未完成 successor 变成 green，也不会重写 predecessor bytes。
+
 这是 Rust-native 的语义工作流。参考源的 `make` 命令、Python 模块和生成历史只是比对材料，不是本仓库的命令或 Runtime authority。

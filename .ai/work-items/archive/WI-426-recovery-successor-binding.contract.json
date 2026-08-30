@@ -1,0 +1,111 @@
+{
+  "acceptanceCriteria": [
+    "新生成的 successor 必须继续要求 Contract 明确绑定 predecessorWorkItemId、predecessorContractDigest、repositoryId，缺失或不匹配必须 fail closed。",
+    "对已有合法 successor recovery receipt 但缺少旧版 predecessor 字段的历史 successor，仅在 receipt 精确绑定 predecessor/successor/repository/digests 且 successor 的当前终态证据完整时提供明确标记的 legacy 兼容；任意 foreign、wrong successor、wrong digest、malformed、symlink 或缺失证据均拒绝。",
+    "WI-424/WI-425 历史 bytes 不得被改写；新增 Runtime 单元/集成回归覆盖正向兼容与所有负向边界；三语文档准确说明新路径严格要求与 legacy 兼容边界。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "149b3ea8cb251ca5f34f9ad84570c3651873a838",
+  "createdAt": "2026-08-30T14:41:31Z",
+  "goal": "实现窄化、可审计、fail-closed 的 legacy successor binding 兼容路径，补齐 Runtime 回归测试和三语流程文档，防止相同的 CI/lifecycle 收尾缺口再次造成默认分支无法 ready_on_base。",
+  "intent": "根治恢复流程中的 successor Contract 绑定缺口：既保留 WI-424/WI-425 不可变历史，又让旧版手工创建但由合法 recovery receipt 绑定的 successor 可被严格审计与关闭；新 successor 仍必须由 Runtime 建立完整 predecessor 绑定。",
+  "mode": "code",
+  "outOfScope": [
+    ".github/workflows/ci.yml",
+    "tests/ci/**",
+    "crates/cockpit-cli/src/main.rs",
+    ".github/workflows/release.yml",
+    "tests/release/**",
+    "reference-source/**",
+    "user-global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "predecessorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8893957c0f5d80fe5d0ea97860d06f9192e188a7317d0f846cf084e227bcc8b8.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e7f8ae6bc8500be7cf3043a69d7a8dbb7ef36d566a579214592b3c8a23726a34",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-426-recovery-successor-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/391",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A legacy successor without predecessor fields is accepted only when the immutable successor recovery receipt exactly binds predecessor, successor, repository, and predecessor digests and current terminal evidence is complete.",
+      "required": true,
+      "scenario": "legacy_successor_receipt_binding",
+      "status": "unverified",
+      "verificationPlan": "Build an archived predecessor and a historical successor fixture, exercise the recovery validation and close path, and assert the result is explicitly classified as legacy-compatible rather than unconditionally green."
+    },
+    {
+      "evidence": [],
+      "expected": "Wrong successor, foreign repository, wrong predecessor digest, malformed receipt, symlinked receipt, or missing terminal evidence is rejected fail-closed.",
+      "required": true,
+      "scenario": "legacy_successor_identity_tampering",
+      "status": "unverified",
+      "verificationPlan": "Parameterize recovery decision tests across each identity and filesystem tampering case and assert a stable recovery_decision_invalid reason."
+    },
+    {
+      "evidence": [],
+      "expected": "A newly created successor continues to require predecessorWorkItemId, predecessorContractDigest, and repositoryId bindings.",
+      "required": true,
+      "scenario": "new_successor_strict_binding",
+      "status": "unverified",
+      "verificationPlan": "Use the Runtime successor recovery command and mutate each binding before validation; assert missing or mismatched fields cannot be consumed."
+    },
+    {
+      "evidence": [],
+      "expected": "WI-424 and WI-425 historical bytes remain byte-identical while recovery and compatibility metadata are appended separately.",
+      "required": true,
+      "scenario": "immutable_predecessor_preservation",
+      "status": "unverified",
+      "verificationPlan": "Hash predecessor archive artifacts before and after recovery/close and compare exact bytes, while checking that only new recovery artifacts are added."
+    },
+    {
+      "evidence": [],
+      "expected": "A legacy-compatible historical successor is visibly classified with its compatibility boundary and is never treated as an unqualified current green result.",
+      "required": true,
+      "scenario": "legacy_projection_without_false_green",
+      "status": "unverified",
+      "verificationPlan": "Exercise outcome and lifecycle projections for valid and invalid legacy records and assert stable state/unknown/recovery diagnostics."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/recovery_receipt.rs",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/work-items/WI-426-recovery-successor-binding.md",
+    "docs/work-items/WI-426-recovery-successor-binding.zh-CN.md",
+    "docs/work-items/WI-426-recovery-successor-binding.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs:validate_recovery_successor_binding",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/repository-workflow.md:Recovery and adoption",
+    "docs/reference/agent-workflow.md:recovery and successor rules",
+    ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.json",
+    ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.archive.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-426-recovery-successor-binding"
+}

@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "The WI-426 recovery successor binding and its immutable evidence remain present while the new parity records resolve the selected recovery decision.",
+    "WI-424 and WI-426 rows name their selected recovery/evidence paths in all three reference-parity ledgers.",
+    "WI-427 has a prearchive parity row and complete three-language Work Item documentation with lifecycle paths.",
+    "tests/docs/parity_status_check.sh passes without missing parity entry, decision, evidence, or stale status findings.",
+    "No historical Work Item archive, evidence, or generated receipt bytes are rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "149b3ea8cb251ca5f34f9ad84570c3651873a838",
+  "createdAt": "2026-08-30T15:40:14Z",
+  "goal": "Make the Rust recovery binding and the documentation governance gate converge in one reviewed successor delivery, with all three parity ledgers resolving the predecessor and current Work Item.",
+  "intent": "Redeliver the immutable recovery-successor binding together with the release parity registrations that its hosted gate requires.",
+  "mode": "code",
+  "outOfScope": [
+    "Historical WI-426 archive",
+    " evidence",
+    " recovery receipts",
+    " unrelated Work Items",
+    " CI gate implementation",
+    " release artifacts",
+    " and user-global configuration"
+  ],
+  "predecessorContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "predecessorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8d5f0dc611416dd2d6aa7d0b93f02aedaafb3c8ffbed1a14b7a329e34d6a6274.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e7f8ae6bc8500be7cf3043a69d7a8dbb7ef36d566a579214592b3c8a23726a34",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-427-parity-governance-recovery-worktree",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi427"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/recovery_receipt.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-427-parity-governance-recovery.md",
+    "docs/work-items/WI-427-parity-governance-recovery.zh-CN.md",
+    "docs/work-items/WI-427-parity-governance-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-427-parity-governance-recovery"
+}

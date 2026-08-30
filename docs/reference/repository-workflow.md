@@ -80,6 +80,18 @@ upgrade, and adapter setup are separate repository Work Items and use an
 immutable public Release. No command selects a process-wide current project,
 and no provider-global Agent or MCP configuration is modified.
 
+New Runtime-created successors must carry the exact predecessor Work Item,
+Contract digest, recovery path, and repository bindings. For a historical
+successor created before those Contract fields existed, Runtime permits a
+narrow compatibility path only when the recovery receipt itself binds the
+predecessor and successor and the successor has a verified archive, strict
+verification evidence, and a confirmed close decision. The resulting
+append-only recovery receipt is marked `successorBindingMode:
+legacy_terminal_evidence`; missing, foreign, stale, malformed, symlinked, or
+incomplete evidence remains `recovery_decision_invalid` and cannot authorize a
+transition. This compatibility projection never turns an unfinished successor
+green and never rewrites predecessor bytes.
+
 This is a semantic Rust-native workflow. The reference source's `make`
 commands, Python modules, and generated history are comparison material, not
 commands or Runtime authority in this repository.
