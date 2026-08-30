@@ -1,0 +1,38 @@
+{
+  "entries": [
+    {
+      "baseRevision": "57bda578672ad84dff863a8eb584c95cf8eb5455",
+      "createdAt": "2026-08-30T02:12:00Z",
+      "expectedRecords": {
+        "contract": ".ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json",
+        "finalize": ".ai/decisions/WI-411-reference-java-fixture-boundary.finalize.json",
+        "verification": ".ai/evidence/WI-411-reference-java-fixture-boundary.verification.json"
+      },
+      "headRevision": "8ad9daaf8e2620e93ce4cd200571bcdb9a1ab91e",
+      "parityRows": [
+        {
+          "path": "docs/reference/reference-parity.md",
+          "row": "| WI-411 — Java multi-module fixture boundary | In progress | [Work Item](../work-items/WI-411-reference-java-fixture-boundary.md); archive `.ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json`; verification `.ai/evidence/WI-411-reference-java-fixture-boundary.verification.json`; finalization `.ai/decisions/WI-411-reference-java-fixture-boundary.finalize.json`; close `.ai/decisions/WI-411-reference-java-fixture-boundary.close.json`. The nine pinned Java fixture paths are individually classified as `reference-only`; the source fixture is not copied and generic Runtime argv execution does not prove Java-specific support. |"
+        },
+        {
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "row": "| WI-411——Java 多模块 fixture 边界 | 进行中 | [Work Item](../work-items/WI-411-reference-java-fixture-boundary.zh-CN.md)；archive `.ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json`；verification `.ai/evidence/WI-411-reference-java-fixture-boundary.verification.json`；finalization `.ai/decisions/WI-411-reference-java-fixture-boundary.finalize.json`；close `.ai/decisions/WI-411-reference-java-fixture-boundary.close.json`。固定参考源的九个 Java fixture 路径均逐一标记为 `reference-only`；不复制源 fixture，通用 Runtime argv 执行不证明 Java 专项支持。 |"
+        },
+        {
+          "path": "docs/reference/reference-parity.ja.md",
+          "row": "| WI-411 — Java マルチモジュール fixture の境界 | In progress | [Work Item](../work-items/WI-411-reference-java-fixture-boundary.ja.md); archive `.ai/work-items/archive/WI-411-reference-java-fixture-boundary.contract.json`; verification `.ai/evidence/WI-411-reference-java-fixture-boundary.verification.json`; finalization `.ai/decisions/WI-411-reference-java-fixture-boundary.finalize.json`; close `.ai/decisions/WI-411-reference-java-fixture-boundary.close.json`. pinned Java fixture 9 path は `tests/conformance/reference_file_inventory.json` で `reference-only` として登録され、source fixture はコピーしません。generic Runtime argv 実行だけで Java-specific support を主張しません。 |"
+        }
+      ],
+      "provider": "github",
+      "pullRequest": {
+        "number": 376,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/376"
+      },
+      "registryBaseRevision": "55fbd2e1",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "in_progress",
+      "workItemId": "WI-411-reference-java-fixture-boundary"
+    }
+  ],
+  "schemaVersion": 1
+}
