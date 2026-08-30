@@ -1,0 +1,70 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.contract.json",
+    ".ai/work-items/archive/WI-413-release-v0-2-42-windows-ci-retry.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T03:39:37Z",
+  "checkpointContractDigest": "sha256:e2f2d1c02528ccd079ec1505ff1b062a402f690e0dda5c67b39c5003c65fb6c0",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:cd5aff95a61614a64e970169fc934fca26df1a999966a46fe3aa55a866535f52",
+      "recorded": true,
+      "recordedAt": "2026-08-30T03:39:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44888d4b59fc07efcda87f373f268961b7215edb797a6c7340f3188403d59ee2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b494a8174fd492e5397f46c05f788acaec75c3ab55e9d6e4773ce7cdbcdc48e6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:cd5aff95a61614a64e970169fc934fca26df1a999966a46fe3aa55a866535f52",
+      "previousContractHash": "sha256:cd5aff95a61614a64e970169fc934fca26df1a999966a46fe3aa55a866535f52",
+      "reason": "Bind the current WI verification list to the actual repository gate entrypoints and record the pinned reference/hosted-failure sources; no governance scope or implementation behavior changed.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T03:44:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44888d4b59fc07efcda87f373f268961b7215edb797a6c7340f3188403d59ee2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:44888d4b59fc07efcda87f373f268961b7215edb797a6c7340f3188403d59ee2",
+  "createdAt": "2026-08-30T03:22:36Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:cae7ea9f96e0dd7a9d7ba96ff53b6d69d037a5677053e135d6f7906c83b148c8",
+  "predecessorWorkItemId": "WI-412-release-v0-2-42",
+  "preflightAt": "2026-08-30T03:55:11Z",
+  "preflightContractDigest": "sha256:e2f2d1c02528ccd079ec1505ff1b062a402f690e0dda5c67b39c5003c65fb6c0",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:44888d4b59fc07efcda87f373f268961b7215edb797a6c7340f3188403d59ee2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-412-release-v0-2-42.recovery.5f23d0ffab4ce9a92296bf0d25bc23282b899252208e96e53c8065afd4e30495.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T03:55:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+}

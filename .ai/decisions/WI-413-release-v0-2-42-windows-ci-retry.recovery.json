@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T03:50:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-413-release-v0-2-42-windows-ci-retry.verification.json",
+    ".ai/work-items/active/WI-413-release-v0-2-42-windows-ci-retry.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:e2f2d1c02528ccd079ec1505ff1b062a402f690e0dda5c67b39c5003c65fb6c0",
+  "predecessorEventsDigest": "sha256:187fe15bce00f70a4ef9e74387a70f4e2e14a75ad478a3532b01182986edd52c",
+  "predecessorOutcomeDigest": "sha256:5f7ac45f1f36e3ce2a4e6b051677e33570ffc7d06f2f55c2c55ce40b24fbb668",
+  "predecessorSummaryDigest": "sha256:6a4fa1d9097b14ad48dcd3e995c7d3ba5afb8ce70d7185470cd4decbbce8f6a8",
+  "predecessorWorkItemId": "WI-413-release-v0-2-42-windows-ci-retry",
+  "reason": "Retry after finalize-plan changed the bound resource context and correctly invalidated the prior verification projection; no implementation scope changed.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification with the finalized resource context, then retry finish.",
+  "runtimeDigest": "sha256:4a30e46d63c7d923649b6f66e0b925ddd6ff267d5ec46966329512e1771d9af6",
+  "runtimeVersion": "0.2.41",
+  "schemaVersion": 1,
+  "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+}
