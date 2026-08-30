@@ -4,9 +4,13 @@ title: "WI-425——CI convergence 恢复"
 description: 通过有序生命周期证据与 parity 登记重新交付 CI convergence。
 workItemId: WI-425-ci-convergence-recovery
 audience: [contributor, maintainer, reviewer]
-status: in progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-425-ci-convergence-recovery
+terminalArchive: .ai/work-items/archive/WI-425-ci-convergence-recovery.contract.json
+terminalVerification: .ai/evidence/WI-425-ci-convergence-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-425-ci-convergence-recovery.finalize.042211d48c16f11fc78bc9a077e24e87900a6a9d31c91c695d693a3ee0f0b774.json
+terminalDecision: .ai/decisions/WI-425-ci-convergence-recovery.close.json
 ---
 
 # WI-425——CI convergence 恢复
