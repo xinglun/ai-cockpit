@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d2569f562da44e17934a76daebaf3cc8defc2cd70e5ed9b7d6958b1357f7c562",
+      "workItemId": "WI-417-cargo-verification-lock-strategy"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-417-cargo-verification-lock-strategy.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json",
+            ".ai/decisions/WI-417-cargo-verification-lock-strategy.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-30T07:54:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json"
+          ],
+          "inference": false,
+          "text": "Runtime 根据仓库事实选择可执行的 Cargo 验证命令，并让 start 与 recovery scaffold 使用同一规则，避免对象工程在发布版治理流程中被错误阻塞。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-417-cargo-verification-lock-strategy"
+  },
+  "finalReportDigest": "sha256:72667fd9d2448cfc56934ffad97de3bbb2d12e7bb11e623c5872cd17d147068c",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:bbf5bae5c55bb0e149f5f03b84e335ec26dc7002c0b0b6b6729e616a3c224e3c",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-417-cargo-verification-lock-strategy.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-30T07:54:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json",
+      ".ai/decisions/WI-417-cargo-verification-lock-strategy.finalize.json"
+    ],
+    "policyRefs": [
+      "reference-parity-and-lifecycle"
+    ],
+    "reason": "确认 PR #382 已通过全部 hosted checks 合并，且远端分支与专用 worktree 已按精确目标清理。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-30T07:54:37Z",
+  "workItemId": "WI-417-cargo-verification-lock-strategy"
+}

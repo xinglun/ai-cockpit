@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f58d1929ee9025475f4a74bb2e208be50ca7feae",
+    "name": "codex/wi-417-cargo-verification-lock-strategy",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:fbb90d71b3cbd0fcaf19919de155cd6991c0238e1a428284cc0646a284c6fa2d",
+  "operationId": "github-pr-382-merge-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "07076aab932485d1ce3ad25c3a7d18b1b19df18a",
+    "headRevision": "f58d1929ee9025475f4a74bb2e208be50ca7feae",
+    "mergeCommit": "f81f612288b69f0f3f181af4e6c0a4f82742344f",
+    "number": 382,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/382"
+  },
+  "reason": "PR #382 passed all hosted checks and merged as f81f612288b69f0f3f181af4e6c0a4f82742344f; the exact remote branch and dedicated worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-417-cargo-verification-lock-strategy-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-417-cargo-verification-lock-strategy",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/382",
+    "worktree": "/private/tmp/ai-cockpit-wi-417-cargo-lock-strategy"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:d6334275904868d7e7e46a569e4198d75057d25f22997781df1a7097a3e70533",
+  "runtimeVersion": "0.2.43",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T07:53:05Z",
+  "workItemId": "WI-417-cargo-verification-lock-strategy",
+  "worktree": {
+    "branch": "codex/wi-417-cargo-verification-lock-strategy",
+    "headRevision": "f58d1929ee9025475f4a74bb2e208be50ca7feae",
+    "path": "/private/tmp/ai-cockpit-wi-417-cargo-lock-strategy",
+    "worktreeId": "WI-417-cargo-verification-lock-strategy"
+  }
+}
