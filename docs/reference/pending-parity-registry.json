@@ -28,7 +28,7 @@
         "number": 376,
         "url": "https://github.com/xinglun/ai-cockpit/pull/376"
       },
-      "registryBaseRevision": "55fbd2e1",
+  "registryBaseRevision": "f1b655941660fd8a49e86573f9f682f3ddbfb3fe",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-411-reference-java-fixture-boundary"
