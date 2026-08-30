@@ -28,11 +28,11 @@
     "repository-isolation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-415-release-v0-2-43",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/380",
     "worktree": "/private/tmp/ai-cockpit-wi415-release-v0-2-43"
   },
   "risk": "normal",
