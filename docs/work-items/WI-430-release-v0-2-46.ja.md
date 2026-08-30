@@ -6,6 +6,7 @@ audience: [adopter, maintainer, reviewer]
 status: in_progress
 authority: human-authorized
 workItemId: WI-430-release-v0-2-46
+lastVerifiedBy: WI-430-release-v0-2-46
 ---
 
 # WI-430 — v0.2.46 release
