@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T00:01:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-430-release-v0-2-46.events.jsonl",
+    ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:32a285d1993d7dbe857babccb455b94ac44514a697e224bd5c287f029f6f785d",
+  "predecessorEventsDigest": "sha256:e3b008e3d8b68810debadd497898bdc7a2d8eefce24116ef406f7b2a768aea6c",
+  "predecessorOutcomeDigest": "sha256:0882f04de85bd1c32c623288b83ecf82433949c713373901cbadcc1e93310962",
+  "predecessorSummaryDigest": "sha256:9e98b952410f9ebaac8827d686fa7118d8439a4fa82f4974a8b4c1e52c7358e5",
+  "predecessorWorkItemId": "WI-430-release-v0-2-46",
+  "reason": "The prior retry is not the latest valid recovery candidate because its recorded decision time predates an earlier preserved attempt. Append a newer retry receipt against the current checkpointed projection so the Runtime can select the latest valid recovery without rewriting any predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run preflight, execute fresh release verification, finish, and confirm the active lifecycle has no unresolved failure markers before retrying the reviewed PR.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-430-release-v0-2-46"
+}

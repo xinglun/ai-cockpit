@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-430-release-v0-2-46.events.jsonl",
+    ".ai/work-items/active/WI-430-release-v0-2-46.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:32a285d1993d7dbe857babccb455b94ac44514a697e224bd5c287f029f6f785d",
+  "predecessorEventsDigest": "sha256:f2627080abe54267749ed92aedadbbfa54313333da0766de43e758290a1abed4",
+  "predecessorOutcomeDigest": "sha256:2a3be3e248d008fb831e76711b741361ce0c4b34fd383d61cb636f39bf83be36",
+  "predecessorSummaryDigest": "sha256:75c38fd85a6884b994eb9a0331cf1bb605a8af68d3dd64e63889ce05bc915fd6",
+  "predecessorWorkItemId": "WI-430-release-v0-2-46",
+  "reason": "The first finish attempt left an immutable failed transition marker in the active Summary, causing the hosted quality route to reject the later successful finish. Reopen the same release Work Item through the Runtime retry path, preserve all failed-attempt evidence, and rerun the current release verification without rewriting generated records.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, checkpoint, release verification, and finish; the active Summary must have no unresolved failedGate or stale transition marker before the reviewed PR is retried.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-430-release-v0-2-46"
+}

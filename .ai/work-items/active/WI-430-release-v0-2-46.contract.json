@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and lockfile advance exactly one patch from v0.2.45 to v0.2.46 without reusing an existing tag or Release.",
+    "The reviewed release workflow binds the exact reviewed commit, target archives, SBOMs, manifest, Formula, checksums, provenance, and immutable tag/Release identity.",
+    "Release, installation, versioning, and parity guidance remains synchronized in English, Simplified Chinese, and Japanese, with v0.2.45 retained as historical evidence.",
+    "A later post-release acceptance must use only the immutable public v0.2.46 artifact and must reject source, workspace, or local binary fallback.",
+    "Reviewed merge, finalization, close, default-branch synchronization, and exact branch/worktree cleanup leave main ready_on_base."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5f4fd085f38af36f7272dd4dada0df987d312bee",
+  "createdAt": "2026-08-30T18:05:00Z",
+  "goal": "Create and verify a non-reused v0.2.46 Release, synchronize tri-language release guidance, and establish a clean baseline for public-artifact adopter acceptance.",
+  "intent": "Publish the reviewed WI-429 recovery fix as v0.2.46 so the corrected historical recovery behavior is available in the immutable public Runtime artifact.",
+  "mode": "release",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:273cf45eca00bf33d9cc973121908b9aaaee4e84bd986897897d92e9775a2aac",
+  "requiredEvidenceClasses": [
+    "native_governance",
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-430-release-v0-2-46",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/395",
+    "worktree": "/private/tmp/ai-cockpit-wi430"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-430-release-v0-2-46.md",
+    "docs/work-items/WI-430-release-v0-2-46.zh-CN.md",
+    "docs/work-items/WI-430-release-v0-2-46.ja.md",
+    "tests/release/**",
+    "tests/docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-430-release-v0-2-46"
+}

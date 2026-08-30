@@ -29,12 +29,15 @@ are independent identities.
 
 ```text
 ai-cockpit --version
-0.2.45
+0.2.46
 
 repository:
 protocol_version = 1
 repository_schema_version = 2
 ```
+
+`v0.2.45` is the preceding patch release and remains historical evidence;
+`v0.2.46` is the current package identity.
 
 The CLI version identifies the executable package. Protocol version identifies
 the repository storage contract. Runtime version, runtime digest, and protocol
