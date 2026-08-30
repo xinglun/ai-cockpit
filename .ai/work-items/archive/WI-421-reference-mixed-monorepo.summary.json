@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json",
+    ".ai/work-items/archive/WI-421-reference-mixed-monorepo.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T10:23:51Z",
+  "checkpointContractDigest": "sha256:b2872bbb9d27f7509025f09a2166f07e56076da97668f70c3f4d91e23f644b9f",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:541bde22a4d19ebca0ee7d89b3a7e082ad895fb7ad246c3b75b529a2e00bfafb",
+  "createdAt": "2026-08-30T10:23:19Z",
+  "mode": "docs",
+  "preflightAt": "2026-08-30T10:41:42Z",
+  "preflightContractDigest": "sha256:b2872bbb9d27f7509025f09a2166f07e56076da97668f70c3f4d91e23f644b9f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:541bde22a4d19ebca0ee7d89b3a7e082ad895fb7ad246c3b75b529a2e00bfafb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T10:41:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-421-reference-mixed-monorepo"
+}
