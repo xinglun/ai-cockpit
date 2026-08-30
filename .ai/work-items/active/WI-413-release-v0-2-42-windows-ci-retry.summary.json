@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-412-release-v0-2-42.recovery.5f23d0ffab4ce9a92296bf0d25bc23282b899252208e96e53c8065afd4e30495.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-08-30T03:19:24Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:cae7ea9f96e0dd7a9d7ba96ff53b6d69d037a5677053e135d6f7906c83b148c8",
+  "predecessorWorkItemId": "WI-412-release-v0-2-42",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-412-release-v0-2-42.recovery.5f23d0ffab4ce9a92296bf0d25bc23282b899252208e96e53c8065afd4e30495.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-08-30T03:19:24Z",
+  "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+}
