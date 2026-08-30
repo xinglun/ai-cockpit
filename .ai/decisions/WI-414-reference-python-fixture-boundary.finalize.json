@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "28d1b009e0047d51ccc465c4547d0d6af51f54ca",
+    "name": "codex/wi-414-python-fixture-boundary",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5a031dd1e9b1716063146cb5c868007168c81866e129405334181475fef35532",
+  "operationId": "github-pr-379-merge-cleanup-20260830",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8b26cb148da5b5e4258158e9f8dff5b5a75b55ad",
+    "headRevision": "28d1b009e0047d51ccc465c4547d0d6af51f54ca",
+    "mergeCommit": "f7f62ddf6bfb35a3a20d9a4291cd1329aa8731ef",
+    "number": 379,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/379"
+  },
+  "reason": "PR #379 passed all hosted checks and merged as f7f62ddf6bfb35a3a20d9a4291cd1329aa8731ef; the exact remote branch and dedicated worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-414-reference-python-fixture-boundary-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-414-python-fixture-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/379",
+    "worktree": "/private/tmp/ai-cockpit-wi414-python-fixture"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8bed28ae385e93e5c96bc9b734982dbaed17c42c9a5142dcb5164a43409bb89e",
+  "runtimeVersion": "0.2.42",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T05:30:00Z",
+  "workItemId": "WI-414-reference-python-fixture-boundary",
+  "worktree": {
+    "branch": "codex/wi-414-python-fixture-boundary",
+    "headRevision": "28d1b009e0047d51ccc465c4547d0d6af51f54ca",
+    "path": "/private/tmp/ai-cockpit-wi414-python-fixture",
+    "worktreeId": "WI-414-reference-python-fixture-boundary"
+  }
+}

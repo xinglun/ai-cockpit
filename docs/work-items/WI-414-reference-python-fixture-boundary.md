@@ -4,9 +4,13 @@ title: "WI-414 — Python fixture boundary"
 workItemId: WI-414-reference-python-fixture-boundary
 description: "Compare the pinned Python fixture files one by one and record an explicit reference-only boundary without copying source fixtures."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-414-reference-python-fixture-boundary
+terminalArchive: .ai/work-items/archive/WI-414-reference-python-fixture-boundary.contract.json
+terminalVerification: .ai/evidence/WI-414-reference-python-fixture-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-414-reference-python-fixture-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-414-reference-python-fixture-boundary.close.json
 sourceCommit: e5acb677da6621004d96f0ef353c58fe8d3acfbf
 ---
 
