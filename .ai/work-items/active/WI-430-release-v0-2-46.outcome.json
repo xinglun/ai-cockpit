@@ -6,14 +6,17 @@
     "A later post-release acceptance must use only the immutable public v0.2.46 artifact and must reject source, workspace, or local binary fallback.",
     "Reviewed merge, finalization, close, default-branch synchronization, and exact branch/worktree cleanup leave main ready_on_base."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-30T18:22:52Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:31784dff007bea45239b8ea1063d21dd240ae7641050a1b44ee95a45c94130a5",
   "evidenceRefs": [
     ".ai/evidence/WI-430-release-v0-2-46.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-430-release-v0-2-46.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,11 +24,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -35,10 +37,8 @@
       "repositorySnapshotDigest": "sha256:85e85f61a4c98722d6a4d4aefafef6823692189137aca789851a989dff3f2a47",
       "workItemId": "WI-430-release-v0-2-46"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -74,15 +74,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-430-release-v0-2-46.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -93,7 +85,7 @@
             ".ai/evidence/WI-430-release-v0-2-46.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -103,10 +95,18 @@
             ".ai/evidence/WI-430-release-v0-2-46.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-430-release-v0-2-46.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -127,16 +127,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-430-release-v0-2-46"
   },
+  "taskReportDigest": "sha256:c1a711cbb6b16f5d44c4b071b757338b528d3ffd5272afc3348d7538f812aefd",
+  "taskReportMarkdownDigest": "sha256:85f8249027472881e52d3fdb1ce7a3fdbaf096abca9724406c97d22156fd9b4a",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-430-release-v0-2-46.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-430-release-v0-2-46"
 }
