@@ -60,6 +60,29 @@ Makefile target、YAML guard 树、provider 全局规则或生成历史。
 因此，首批发现的唯一具体入口缺口（`CONTRIBUTING.md`）已补齐，但没有建立第二套
 治理系统。其余文件已在台账中明确排入后续语义批次，不会被静默当作等效。
 
+## WI-411：Java 多模块 fixture 边界
+
+WI-411 逐一读取固定参考提交中的 `examples/fixtures/java-multimodule/`
+九个文件，并全部标记为 `reference-only`。该 fixture 展示 Java 应用、模块间
+依赖、本地 `javac`/`java` 检查以及临时升级/回滚；它是参考工程的可执行样例，
+不是 AI Cockpit Runtime 代码，也不是可移植的企业证据。
+
+| 参考路径 | 决定与目标边界 |
+| --- | --- |
+| `.gitignore` | 仅负责 fixture 临时构建产物；目标发布 harness 自己管理隔离临时目录。 |
+| `app/src/main/java/fixture/app/Main.java` | Java 应用样例；目标只执行 adopter 明确声明的 argv，不随 Runtime 携带 Java 支持。 |
+| `app/src/test/java/fixture/app/MainTest.java` | fixture 断言；目标 verification receipt 记录 adopter 命令，不复制该测试。 |
+| `core/src/main/java/fixture/core/Decision.java` | 业务域样例策略；仓库策略必须显式类型化，不能从 fixture 复制。 |
+| `core/src/test/java/fixture/core/DecisionTest.java` | 仅验证样例类，不是 Runtime 或企业证据。 |
+| `evidence.json` | 源工程本地证据，包含 Maven/provider 不可用状态；目标发布 receipt 需要更严格的 identity 与 isolation 绑定。 |
+| `fixture.json` | 源工程 stack/module 元数据；目标不从它推断 adopter capability。 |
+| `pom.xml` | Maven 构建输入；Java/Maven 执行属于 adopter 或 delegated provider。 |
+| `scripts/lifecycle.sh` | 源 fixture 编排脚本；目标生命周期由外部 Rust Runtime 和显式 repository-bound 命令提供。 |
+
+不向 Rust 工程复制 Java 文件、Maven manifest 或源 shell 编排。未来第二技术栈
+adopter 验收必须使用单独、明确授权的 Work Item；本批不宣称该能力。机器台账和
+回归测试将九个路径绑定到上述决定，不能静默回退为 `deferred-next-batch`。
+
 ## WI-270：Contract 语义逐文件批次
 
 WI-270 对下面 27 个参考源路径逐一检查。台账将它们标为
@@ -103,11 +126,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=481 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=56 deferred-next-batch=472 migrate-gap=0 -->
 
 在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
 `generated-history`、316 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、47 条 `reference-only` 与 489 条
+`implemented-equivalent`、4 条 `not-applicable`、56 条 `reference-only` 与 472 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
 capability/profile slice 已没有 `migrate-gap`：
 

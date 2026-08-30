@@ -62,6 +62,31 @@ reference の Python Runtime、Makefile target、YAML guard tree、provider-glob
 従って first batch で見つかった唯一の concrete entrypoint gap（`CONTRIBUTING.md`）は補完しました。
 Second governance system は作らず、残りは ledger に明示して後続の semantic batch に送ります。
 
+## WI-411：Java マルチモジュール fixture の境界
+
+WI-411 は pinned reference commit の `examples/fixtures/java-multimodule/` にある
+9 ファイルを一つずつ読み、すべてを `reference-only` としました。この fixture は
+Java application、module 間 dependency、ローカル `javac`/`java` check、使い捨ての
+upgrade/rollback を示す実行サンプルです。AI Cockpit Runtime の code や portable な
+enterprise evidence ではありません。
+
+| Reference path | 決定と target boundary |
+| --- | --- |
+| `.gitignore` | fixture の一時 build hygiene のみ。target の release harness は独自の隔離 temp root を管理します。 |
+| `app/src/main/java/fixture/app/Main.java` | Java application sample。target は adopter が明示した argv を実行できますが、Java support を Runtime に同梱しません。 |
+| `app/src/test/java/fixture/app/MainTest.java` | fixture assertion。target verification receipt は adopter command を記録し、この test をコピーしません。 |
+| `core/src/main/java/fixture/core/Decision.java` | domain sample policy。repository policy は明示的な typed data とし、fixture からコピーしません。 |
+| `core/src/test/java/fixture/core/DecisionTest.java` | sample class 専用の test で、Runtime/enterprise evidence ではありません。 |
+| `evidence.json` | Maven/provider unavailable を含む source-local evidence。target release receipt の厳密な identity/isolation binding には置き換えられません。 |
+| `fixture.json` | source stack/module metadata。target はこれから adopter capability を推論しません。 |
+| `pom.xml` | Maven build input。Java/Maven 実行は adopter または delegated provider の責任です。 |
+| `scripts/lifecycle.sh` | source fixture orchestration。target lifecycle は外部 Rust Runtime と明示的な repository-bound command が提供します。 |
+
+Java file、Maven manifest、source shell orchestration は Rust repository にコピーしません。
+Second-technology adopter acceptance は別の明示的な Work Item とします。この batch は
+その capability を主張しません。machine ledger と regression test が 9 path をこの
+決定に bind し、`deferred-next-batch` へ暗黙に戻ることを防ぎます。
+
 ## WI-270：Contract semantic file-by-file batch
 
 WI-270 は次の 27 reference path を一つずつ確認しました。ledger はすべてを
@@ -107,11 +132,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=47 deferred-next-batch=481 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=56 deferred-next-batch=472 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
 4,262 `generated-history`、316 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、47 `reference-only`、489 `deferred-next-batch` です。
+`implemented-equivalent`、4 `not-applicable`、56 `reference-only`、472 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
