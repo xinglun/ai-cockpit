@@ -4,9 +4,13 @@ title: "WI-409——v0.2.41 发布与 adopter 验收"
 description: "发布 WI-408 之后的审查 Runtime，并在全新 adopter 中验证不可变制品。"
 workItemId: WI-409-release-v0-2-41
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-409-release-v0-2-41
+terminalArchive: .ai/work-items/archive/WI-409-release-v0-2-41.contract.json
+terminalVerification: .ai/evidence/WI-409-release-v0-2-41.verification.json
+terminalFinalization: .ai/decisions/WI-409-release-v0-2-41.finalize.json
+terminalDecision: .ai/decisions/WI-409-release-v0-2-41.close.json
 capabilityClaims: [release_distribution, adopter_acceptance, repository_isolation]
 ---
 

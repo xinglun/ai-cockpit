@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f813147bf2d09a0c8f21df6cfba716fc41b0ea090652ad6fe8cf8c4f1c9c3c9",
+      "workItemId": "WI-409-release-v0-2-41"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json",
+            ".ai/decisions/WI-409-release-v0-2-41.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via release-preparation-close at 2026-08-30T09:05:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-409-release-v0-2-41.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-409-release-v0-2-41.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-409-release-v0-2-41.contract.json"
+          ],
+          "inference": false,
+          "text": "Prepare the reviewed patch release as v0.2.41, validate its source/staged release gates, and leave a clean reviewed base for post-release adopter acceptance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-409-release-v0-2-41.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-409-release-v0-2-41"
+  },
+  "finalReportDigest": "sha256:84b4036075b3e619e0151799b272f32368f6e68e8bfd393ad1446f6b057dea4a",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5fe591b2293cdb9d10fa02dc47287b56af2bf5c1c6598639c6964913689cd71f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-409-release-v0-2-41.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "release-preparation-close",
+    "decidedAt": "2026-08-30T09:05:00+09:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-409-release-v0-2-41.verification.json",
+      ".ai/decisions/WI-409-release-v0-2-41.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md"
+    ],
+    "reason": "发布准备已通过本地验证与托管 CI，PR #374 已审阅合并，分支和工作树已精确清理；公开 Release/adopter 验收留给发布后独立 Work Item。",
+    "resumeCondition": "发布 workflow 完成后，创建发布后 Work Item 下载 v0.2.41 并执行对象工程验收。"
+  },
+  "timestamp": "2026-08-30T00:05:27Z",
+  "workItemId": "WI-409-release-v0-2-41"
+}

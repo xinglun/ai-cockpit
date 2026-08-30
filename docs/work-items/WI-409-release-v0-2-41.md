@@ -4,9 +4,13 @@ title: "WI-409 — v0.2.41 release and adopter acceptance"
 description: "Publish the reviewed post-WI-408 Runtime and verify the immutable artifact in a fresh adopter."
 workItemId: WI-409-release-v0-2-41
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-409-release-v0-2-41
+terminalArchive: .ai/work-items/archive/WI-409-release-v0-2-41.contract.json
+terminalVerification: .ai/evidence/WI-409-release-v0-2-41.verification.json
+terminalFinalization: .ai/decisions/WI-409-release-v0-2-41.finalize.json
+terminalDecision: .ai/decisions/WI-409-release-v0-2-41.close.json
 capabilityClaims: [release_distribution, adopter_acceptance, repository_isolation]
 ---
 
