@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T01:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-427-parity-governance-recovery.verification.json",
+    ".ai/work-items/active/WI-427-parity-governance-recovery.contract.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:amend-and-revalidate-before-fresh-verification",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:01c83a237b057f9613ff0c7de186700887b0f9e87ac87af0018854f0448885bf",
+  "predecessorSummaryDigest": "sha256:d10d60ab71a99f3f880dbbb6218906b9269ac971c2c4ccd09c0406f004d85245",
+  "predecessorWorkItemId": "WI-427-parity-governance-recovery",
+  "reason": "The finalize-plan resource binding changed the Contract after its verification evidence was recorded; retry is required to bind a fresh preflight and verification without rewriting prior evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and installed Runtime verification, then finish and archive with the reviewed PR context bound.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-427-parity-governance-recovery"
+}

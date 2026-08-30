@@ -32,11 +32,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
-    "branch": "codex/wi-427-parity-governance-recovery-worktree",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-427-parity-governance-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/392",
     "worktree": "/private/tmp/ai-cockpit-wi427"
   },
   "risk": "normal",

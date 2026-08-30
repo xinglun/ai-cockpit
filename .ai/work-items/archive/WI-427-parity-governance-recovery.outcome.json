@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "The WI-426 recovery successor binding and its immutable evidence remain present while the new parity records resolve the selected recovery decision.",
+    "WI-424 and WI-426 rows name their selected recovery/evidence paths in all three reference-parity ledgers.",
+    "WI-427 has a prearchive parity row and complete three-language Work Item documentation with lifecycle paths.",
+    "tests/docs/parity_status_check.sh passes without missing parity entry, decision, evidence, or stale status findings.",
+    "No historical Work Item archive, evidence, or generated receipt bytes are rewritten."
+  ],
+  "createdAt": "2026-08-30T15:59:23Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7c24fb9c18a54b0e7541b3f90d9925950b914452f7ce928a002d5daff9773807",
+  "evidenceRefs": [
+    ".ai/evidence/WI-427-parity-governance-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-427-parity-governance-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-427-parity-governance-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4b0b071d8b83da84b9400de68937cc621a36f983d3000926ce061237446475b3",
+      "workItemId": "WI-427-parity-governance-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-427-parity-governance-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-424-ci-convergence-finalization-recovery.recovery.8d5f0dc611416dd2d6aa7d0b93f02aedaafb3c8ffbed1a14b7a329e34d6a6274.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-427-parity-governance-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-427-parity-governance-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-427-parity-governance-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-427-parity-governance-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-427-parity-governance-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-427-parity-governance-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-427-parity-governance-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-427-parity-governance-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-427-parity-governance-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-427-parity-governance-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the Rust recovery binding and the documentation governance gate converge in one reviewed successor delivery, with all three parity ledgers resolving the predecessor and current Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-427-parity-governance-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-427-parity-governance-recovery"
+  },
+  "taskReportDigest": "sha256:16f0d7ed6bfef5d9cbc13a1f948fcd6f58827f644bef8a3364af33532e20969c",
+  "taskReportMarkdownDigest": "sha256:a377d0b0c51030675b617c8ec91a009bc6ea70d823505a7031f562c52c8da895",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-427-parity-governance-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-427-parity-governance-recovery"
+}

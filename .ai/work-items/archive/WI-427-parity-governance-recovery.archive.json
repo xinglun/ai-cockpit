@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T15:59:28Z",
+  "files": {
+    "contractDigest": "sha256:724e8ba559fe644917123f5a9eed2ce375b25e241af7230e83d78cffd9db9722",
+    "contractPath": ".ai/work-items/archive/WI-427-parity-governance-recovery.contract.json",
+    "eventsDigest": "sha256:d6cb9b5b108cca5d429bb0156797c8749c61c88859a9dbef0175ef3678725269",
+    "eventsPath": ".ai/work-items/archive/WI-427-parity-governance-recovery.events.jsonl",
+    "outcomeDigest": "sha256:1e34784be4fad3970bd3f0fef2a3e9dbbc0e73e7488f25a811b0125810d5b8df",
+    "outcomePath": ".ai/work-items/archive/WI-427-parity-governance-recovery.outcome.json",
+    "summaryDigest": "sha256:a5d7e4288899e0658ad80270459cba64ef3196f5f88ddf94c043fe05c4a3b694",
+    "summaryPath": ".ai/work-items/archive/WI-427-parity-governance-recovery.summary.json",
+    "taskReportDigest": "sha256:16f0d7ed6bfef5d9cbc13a1f948fcd6f58827f644bef8a3364af33532e20969c",
+    "taskReportMarkdownDigest": "sha256:a377d0b0c51030675b617c8ec91a009bc6ea70d823505a7031f562c52c8da895",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-427-parity-governance-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-427-parity-governance-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-427-parity-governance-recovery"
+}
