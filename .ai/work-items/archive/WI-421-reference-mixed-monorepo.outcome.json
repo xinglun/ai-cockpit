@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "All five pinned mixed-monorepo paths are read and classified one by one",
+    "No source fixture, installer, Python/Node dependency, or provider-global configuration is copied",
+    "Rust-native/adopter boundary and unknowns are documented in English, Chinese, and Japanese",
+    "Machine inventory and parity records bind the pinned source commit and remain checkable",
+    "Object/adopter projects inherit the same explicit repo-bound Runtime contract without unproven mixed-stack support claims"
+  ],
+  "createdAt": "2026-08-30T10:41:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b607526af4660bf5c98e403fc704d7b128b120147bd44fff1f0e7ae6b3a230c0",
+  "evidenceRefs": [
+    ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:541bde22a4d19ebca0ee7d89b3a7e082ad895fb7ad246c3b75b529a2e00bfafb",
+      "workItemId": "WI-421-reference-mixed-monorepo"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-421-reference-mixed-monorepo.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-421-reference-mixed-monorepo.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-421-reference-mixed-monorepo.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 mixed-monorepo fixture 五个参考路径的逐文件语义比对，更新三语比对记录和机器清单，验证当前 Runtime 对混合技术栈对象工程的共享治理能力与隔离边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-421-reference-mixed-monorepo"
+  },
+  "taskReportDigest": "sha256:92ba1bcd846aa923edfc26366037d26716a57651058f6be5aea9099988927f91",
+  "taskReportMarkdownDigest": "sha256:05588883eb60aca4ef36f8c6b3ef2bf20491adcf2ec59a4f61c72e0bfe2df263",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-421-reference-mixed-monorepo.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-421-reference-mixed-monorepo"
+}

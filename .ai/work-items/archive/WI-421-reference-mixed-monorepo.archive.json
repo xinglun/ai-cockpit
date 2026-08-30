@@ -1,0 +1,26 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T10:41:54Z",
+  "files": {
+    "approachDigest": "sha256:a763cd5eef3393d3ba5e451c37908849a82722c71bd99b0545e294e1da1ba637",
+    "approachPath": ".ai/work-items/archive/WI-421-reference-mixed-monorepo.approach.json",
+    "contractDigest": "sha256:29367cb71cf5163f6455d8473fce4e7068ef5eb98f9dd949be25882e95e4746c",
+    "contractPath": ".ai/work-items/archive/WI-421-reference-mixed-monorepo.contract.json",
+    "eventsDigest": "sha256:0707bb1ec07dc3bbec0a2e21217d98dcfc33d53f0575e1a9021d10359c9e8d85",
+    "eventsPath": ".ai/work-items/archive/WI-421-reference-mixed-monorepo.events.jsonl",
+    "intelligenceDigest": "sha256:cce6c81064c475090cc44fa2d312fd16116210d43cdd5f085447df37263fd570",
+    "intelligencePath": ".ai/work-items/archive/WI-421-reference-mixed-monorepo.intelligence.json",
+    "outcomeDigest": "sha256:c56dfc854d02721582e1ccdb1b4922ef4e555c25d21d84b917bd7a870da41613",
+    "outcomePath": ".ai/work-items/archive/WI-421-reference-mixed-monorepo.outcome.json",
+    "summaryDigest": "sha256:c689a5897297e8f4cfe299d0523f44429064737c787f7e5f7ea5297ce5f62bc9",
+    "summaryPath": ".ai/work-items/archive/WI-421-reference-mixed-monorepo.summary.json",
+    "taskReportDigest": "sha256:92ba1bcd846aa923edfc26366037d26716a57651058f6be5aea9099988927f91",
+    "taskReportMarkdownDigest": "sha256:05588883eb60aca4ef36f8c6b3ef2bf20491adcf2ec59a4f61c72e0bfe2df263",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-421-reference-mixed-monorepo.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-421-reference-mixed-monorepo.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-421-reference-mixed-monorepo"
+}
