@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:f65db41b31dafef5926b762c3fc02b7256c91363e6edc27b3b2170415624aebc",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "da82b28bbf9d4ee1beef4bfed7094bcb079b70ee",
+      "name": "codex/wi-422-release-v0-2-45",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:8dc91aa86509f644497feb94bd65305c3005bebf1a7ead4abad1df1c27279457",
+    "operationId": "WI-422-release-v0-2-45-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "374b7816d000924f857c6628e6a562f68560d1de",
+      "headRevision": "da82b28bbf9d4ee1beef4bfed7094bcb079b70ee",
+      "mergeCommit": "639cb51dffffd70098004a3cc03323967a392b57",
+      "number": 387,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/387"
+    },
+    "reason": "PR #387 passed hosted checks and merged as 639cb51dffffd70098004a3cc03323967a392b57; exact remote branch, local branch, and dedicated worktree were removed after main synchronization.",
+    "receiptId": "WI-422-release-v0-2-45-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-422-release-v0-2-45",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/387",
+      "worktree": "/private/tmp/ai-cockpit-wi-422-release-v0-2-45"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+    "runtimeVersion": "0.2.44",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-30T12:00:00Z",
+    "workItemId": "WI-422-release-v0-2-45",
+    "worktree": {
+      "branch": "codex/wi-422-release-v0-2-45",
+      "headRevision": "da82b28bbf9d4ee1beef4bfed7094bcb079b70ee",
+      "path": "/private/tmp/ai-cockpit-wi-422-release-v0-2-45",
+      "worktreeId": "WI-422-release-v0-2-45"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-422-release-v0-2-45-cleanup"
+}
