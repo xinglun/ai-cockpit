@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:f6a3587827a2fd62c664d53d97e38acb04c837f3447690a75e042096e8ad0b29",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "reviewed-PR-376-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "a5fe0e25bf041c85c6c57447d241e4895f2ddf98",
+      "name": "codex/wi-411-reference-fixtures-java",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:7d61d6b0ff90164114b61eca0b18c624137a6a9d83084f3dfaf3b65697edf0bc",
+    "operationId": "operation-WI-411-reference-java-fixture-boundary-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "57bda578672ad84dff863a8eb584c95cf8eb5455",
+      "headRevision": "a5fe0e25bf041c85c6c57447d241e4895f2ddf98",
+      "mergeCommit": "d2040ad7155c83b0e66f9b1ca455ac6dd3d54d49",
+      "number": 376,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/376"
+    },
+    "reason": "Observed reviewed PR #376 merged at exact head 86e6c632 with merge commit d2040ad7; retain the exact branch and clean worktree until cleanup is verified.",
+    "receiptId": "ai-cockpit-WI-411-reference-java-fixture-boundary-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-411-reference-fixtures-java",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/376",
+      "worktree": "/private/tmp/ai-cockpit-wi411-reference-fixtures-java"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:4a30e46d63c7d923649b6f66e0b925ddd6ff267d5ec46966329512e1771d9af6",
+    "runtimeVersion": "0.2.41",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-30T02:30:00Z",
+    "workItemId": "WI-411-reference-java-fixture-boundary",
+    "worktree": {
+      "branch": "codex/wi-411-reference-fixtures-java",
+      "headRevision": "a5fe0e25bf041c85c6c57447d241e4895f2ddf98",
+      "path": "/private/tmp/ai-cockpit-wi411-reference-fixtures-java",
+      "worktreeId": "WI-411-reference-java-fixture-boundary"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-411-reference-java-fixture-boundary-merge-observed"
+}
