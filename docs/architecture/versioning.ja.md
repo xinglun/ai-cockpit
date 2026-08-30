@@ -28,14 +28,15 @@ Runtime version、Repository Protocol version、repository schema version は独
 
 ```text
 ai-cockpit --version
-0.2.46
+0.2.47
 
 repository:
 protocol_version = 1
 repository_schema_version = 2
 ```
 
-`v0.2.45` は直前の patch release として historical evidence に保持し、現在の package identity は `v0.2.46` です。
+`v0.2.45` は直前の公開 patch release として historical evidence に保持します。未公開で失敗した
+`v0.2.46` tag は別の履歴として保持し、現在の package identity は `v0.2.47` です。
 
 CLI version は executable package を示し、protocol version は repository storage contract
 を示します。Runtime version、runtime digest、protocol version は `inspect`、`doctor`、MCP

@@ -15,7 +15,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
-The public, identity-bound `v0.2.46` Release is the current installation baseline.
+The public, identity-bound `v0.2.47` Release is the current installation baseline.
 Homebrew and manual installation use the published archive and manifest; the
 repository configuration remains `cockpit.toml`, and installing the runtime
 never creates `.ai` in a target repository. The same acceptance harness has a
@@ -23,6 +23,11 @@ staged-candidate mode before publication and a public-Release mode after
 publication; neither mode obtains a Runtime from the source workspace.
 The previous public `v0.2.45` baseline remains historical evidence and is not
 reused as the current installation identity.
+
+The `v0.2.46` tag is retained as immutable failed publication history
+(`33330269507`); its public Release was never created and it is not an
+installation baseline. The failure was caused by tagging before the mandatory
+closed-Work-Item documentation promotion.
 
 The unpublished `v0.2.36` tag remains immutable staged-acceptance failure
 history and is not an installation baseline.
@@ -63,9 +68,9 @@ and gate receipts. `.gitattributes` excludes `.ai` and generated roots from the
 source archive while retaining Cargo sources and lockfile.
 
 The historical Runtime shadow baseline is pinned public `v0.2.28`; the
-current release route additionally verifies `v0.2.46`. The
+current release route additionally verifies `v0.2.47`. The
 `tests/ci/runtime_verify_shadow.sh` receipt is an **execution smoke** for
-standard/strict routes. It verifies identity-bound public `v0.2.46` and runs the
+standard/strict routes. It verifies identity-bound public `v0.2.47` and runs the
 canonical repository profile. It does not claim Runtime-global T0–T3 routing,
 affected-graph completeness, cross-Work-Item physical execution, or per-Work-
 Item evidence coverage. The reference Makefile orchestration is different by
@@ -106,11 +111,11 @@ supported path.
 ## Verify a Release asset
 
 Download the archive, `release-manifest.json`, and `SHA256SUMS` from the same
-published GitHub Release. The v0.2.46 checksum file covers all ten archive/SBOM
+published GitHub Release. The v0.2.47 checksum file covers all ten archive/SBOM
 files, so validate the exact archive you downloaded:
 
 ```bash
-archive="ai-cockpit-v0.2.46-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.47-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -121,8 +126,8 @@ gh attestation verify "$archive" \
 If you use GitHub CLI after the Release exists, the equivalent download is:
 
 ```bash
-archive="ai-cockpit-v0.2.46-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.46 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.47-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.47 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -136,7 +141,7 @@ evidence; a caller using the JSON outside that harness owns the comparison.
 ### Artifact-bound SBOM policy for later candidates
 
 The failed staged v0.2.32 tag has no public assets to adopt. Its failure record
-remains immutable and is not relabeled as a successful Release. For v0.2.46,
+remains immutable and is not relabeled as a successful Release. For v0.2.47,
 the public bytes become immutable once published: `SHA256SUMS` covers the five
 archives and five target-named SBOMs, and each target SBOM is bound to its
 packaged archive and executable as described below.
@@ -192,7 +197,7 @@ persisted baseline.
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.46 \
+  --tag v0.2.47 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -259,7 +264,7 @@ that policy and this release note together.
 ### Historical N-1 schema migration acceptance
 
 The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.
-v0.2.46 is a same-schema patch release: its N-1 run follows the same harness
+v0.2.47 is a same-schema patch release: its N-1 run follows the same harness
 but records `migrationState: not_required` after compatibility is proven. To
 reproduce a current N-1 run, use the immediately previous public Release and
 the current Runtime:
@@ -267,8 +272,8 @@ the current Runtime:
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.44 \
-  --to-tag v0.2.46 \
+  --from-tag v0.2.45 \
+  --to-tag v0.2.47 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -304,7 +309,7 @@ the exact Rust target, verify the archive, and place `ai-cockpit` in
 
 ```bash
 target="aarch64-apple-darwin" # choose the target matching your machine
-archive="ai-cockpit-v0.2.46-${target}.tar.gz"
+archive="ai-cockpit-v0.2.47-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -322,7 +327,7 @@ Windows users download the `.zip` and `SHA256SUMS`, compare the exact checksum,
 extract it to a user bin directory, and add that directory to the user `PATH`:
 
 ```powershell
-$archive = "ai-cockpit-v0.2.46-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.47-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -342,13 +347,13 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-This fallback is available for the current identity-bound `v0.2.46` tag.
+This fallback is available for the current identity-bound `v0.2.47` tag.
 
 After that publication, the workspace package must be selected explicitly:
 
 ```bash
 cargo install --git https://github.com/xinglun/ai-cockpit.git \
-  --tag v0.2.46 --locked --root "$HOME/.local" \
+  --tag v0.2.47 --locked --root "$HOME/.local" \
   --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli

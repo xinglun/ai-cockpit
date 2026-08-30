@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-430 — v0.2.46 release"
 description: Publish the WI-429 historical-recovery fix as an immutable Runtime release.
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-430-release-v0-2-46
 lastVerifiedBy: WI-430-release-v0-2-46
+terminalArchive: .ai/work-items/archive/WI-430-release-v0-2-46.contract.json
+terminalVerification: .ai/evidence/WI-430-release-v0-2-46.verification.json
+terminalFinalization: .ai/decisions/WI-430-release-v0-2-46.finalize.json
+terminalDecision: .ai/decisions/WI-430-release-v0-2-46.close.json
 ---
 
 # WI-430 — v0.2.46 release

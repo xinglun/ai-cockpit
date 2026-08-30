@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "Closed Work Item documentation is promoted in all three languages before release tagging.",
+    "Cargo metadata and lockfile advance exactly one patch from v0.2.46 to v0.2.47 without reusing v0.2.46.",
+    "Public v0.2.47 release and downloaded binary pass immutable release, SBOM, checksum, platform smoke, adopter, and N-1 acceptance.",
+    "The failed v0.2.46 tag remains immutable and is recorded as an unpublished failed delivery.",
+    "Reviewed merge, finalization, close, synchronization, and exact cleanup leave main ready_on_base."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3a38e67fe14876b8822decdf8a8d7a68c496d26c",
+  "createdAt": "2026-08-30T19:24:06Z",
+  "goal": "Publish v0.2.47 from a clean reviewed base, prove all release and adopter gates, and preserve v0.2.46 as an unpublished immutable failure record.",
+  "intent": "Recover the immutable failed v0.2.46 publication by applying the mandatory closed-document promotion before publishing the next patch release.",
+  "mode": "release",
+  "outOfScope": [
+    "crates/**",
+    ".github/workflows/**",
+    "tests/ci/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3f181a95e55670762d7116d0c67f083f1c270740ab90270f0b4cfbde0f24e8a7",
+  "requiredEvidenceClasses": [
+    "native_governance",
+    "verification",
+    "documentation",
+    "release"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-431-release-v0-2-47",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi431"
+  },
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-430-release-v0-2-46.md",
+    "docs/work-items/WI-430-release-v0-2-46.zh-CN.md",
+    "docs/work-items/WI-430-release-v0-2-46.ja.md",
+    "docs/work-items/WI-431-release-v0-2-47-recovery.md",
+    "docs/work-items/WI-431-release-v0-2-47-recovery.zh-CN.md",
+    "docs/work-items/WI-431-release-v0-2-47-recovery.ja.md",
+    "tests/release/**",
+    "tests/docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-431-release-v0-2-47-recovery"
+}
