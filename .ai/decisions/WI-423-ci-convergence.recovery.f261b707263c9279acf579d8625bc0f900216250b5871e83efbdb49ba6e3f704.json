@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T13:12:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-423-ci-convergence.verification.json",
+    ".ai/work-items/active/WI-423-ci-convergence.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/388"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:premerge-finalization-before-close",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+  "predecessorEventsDigest": "sha256:1db355ed6c1126b1b71cab5dfd002cba69af332ca452dbf696294e1c97a700eb",
+  "predecessorOutcomeDigest": "sha256:1dbb14449e670a460066f4b42f20c382cde67709bf4c135a7e8a4b56dc82a735",
+  "predecessorSummaryDigest": "sha256:ab30d0fdd2c7e391011e18377624feac73b5935171aca6a4a4a3088da51422d6",
+  "predecessorWorkItemId": "WI-423-ci-convergence",
+  "reason": "The installed Runtime correctly preserves the immutable predecessor after a partial provisional context was verified; redeliver the same CI convergence change through a recovery successor with the reviewed PR context bound before verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Supersede and archive WI-423 without rewriting its bytes, activate WI-424 from this reviewed code, bind PR context before verification, and complete merge/cleanup/close.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-424-ci-convergence-finalization-recovery",
+  "workItemId": "WI-423-ci-convergence"
+}

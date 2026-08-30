@@ -8,7 +8,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-291-ci-contract-aware-gates
+lastVerifiedBy: WI-423-ci-convergence
 ---
 
 # CI Contract 感知质量门
@@ -53,6 +53,29 @@ workflow 覆盖，避免同一提交产生两套互相竞争的质量结论。�
 Contract 时，route 使用 Contract 记录的 base revision，
 而不是 `github.event.before`；这样 push 检查与同一 Work Item/PR 的 base 保持一致，
 不会产生重复的伪失败，而 Pull Request 事件仍然是 review authority。
+
+## 运行收敛与过渡边界
+
+Pull Request 运行共享 workflow/PR 并发组，并且只对 Pull Request 事件启用
+`cancel-in-progress`。因此同一 PR 的新提交会取代旧运行；`main` push 和不可变的
+release workflow 不会被这条策略取消。动态 route 先在一个轻量 job 中规划；文档-only
+的 `light` route 会跳过 Windows 与 V1 oracle job，而 `standard`、`strict` route
+仍然运行它们。这是成本选择，不会降低所选 profile 的必需检查。
+
+选择 gate 之前，route 会在 active Work Item Summary 存在时检查它。`checkpointed` 或
+`finish_ready` 必须恰好有一个 checkpoint，`finish_ready` 还必须有绿色 preflight。
+失败、过期、格式错误或不可能的过渡标记会在 hosted repository gate 启动前停止。
+失败使用稳定代码（例如 `lifecycle_transition_invalid` 或
+`lifecycle_transition_stale`）和有界 remediation；route 绝不会把未知状态变成许可。
+
+gate runner 会捕获命令输出，不再把每个 fixture 预期的负向诊断逐条重放。失败报告包含
+按根因去重的 `failureRoots`（根因代码、受影响 gate ID 和 remediation）；原始命令输出
+不会被计为第二个失败。通过的 repository-gate receipt 保持原有 schema，因此仍可作为
+post-finalize evidence。
+
+对象工程通过自己的 `.ai/` 与 Contract 继承相同的 route 和过渡边界。共享 Runtime 与
+policy manifest 位于工程外部；Work Item 状态、Evidence 和失败回执保持仓库本地隔离，
+不会与本项目共享。
 
 ## 以源代码为中心的快照身份
 

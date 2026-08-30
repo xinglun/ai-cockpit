@@ -8,7 +8,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-291-ci-contract-aware-gates
+lastVerifiedBy: WI-423-ci-convergence
 ---
 
 # CI Contract-aware quality gates
@@ -58,6 +58,36 @@ commit cannot create two competing quality verdicts. For a push event with one a
 recorded base revision rather than `github.event.before`; this keeps push
 checks aligned with the same Work Item/PR base and prevents duplicate false
 failures while the pull-request event remains the review authority.
+
+## Run convergence and transition boundary
+
+Pull Request runs share a workflow/PR concurrency group and set
+`cancel-in-progress` only for the Pull Request event. A newer commit therefore
+supersedes an older PR run, while `main` pushes and the immutable release
+workflow are not cancelled by this policy. The dynamic route is planned in a
+small first job; documentation-only (`light`) routes skip the Windows and V1
+oracle jobs, while `standard` and `strict` routes retain them. This is a cost
+selection, not a reduction of the required checks for a selected profile.
+
+Before selecting gates, the route inspects an active Work Item Summary when it
+exists. A checkpointed or finish-ready item must have exactly one checkpoint,
+and a finish-ready item must have a green preflight. Failed, stale, malformed,
+or impossible transition markers stop the route before hosted repository gates
+run. The failure is reported with a stable code such as
+`lifecycle_transition_invalid` or `lifecycle_transition_stale` and a bounded
+remediation; the route never turns an unknown state into permission.
+
+The gate runner captures command output instead of replaying every fixture's
+expected negative diagnostic. A failed report contains one de-duplicated
+`failureRoots` entry per root code, the affected gate ID, and a remediation;
+raw command output is not a second failure count. Passing repository-gate
+receipts keep their existing schema so they remain valid post-finalize
+evidence.
+
+The same route and transition boundary is inherited by an adopter repository
+through its own `.ai/` and Contract. The shared Runtime and the policy
+manifest are external; Work Item state, evidence, and failure receipts remain
+repository-local and are never shared with this project.
 
 ## Source-oriented snapshot identity
 

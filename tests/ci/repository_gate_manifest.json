@@ -6,6 +6,7 @@
     {"category": "ci", "command": ["tests/ci/repository_gate_manifest_test.sh"], "id": "ci_manifest_regression", "minimumProfile": "light"},
     {"category": "ci", "command": ["python3", "tests/ci/quality_route_test.py"], "id": "ci_quality_route_regression", "minimumProfile": "light"},
     {"category": "ci", "command": ["tests/ci/runtime_verify_shadow_test.sh"], "id": "ci_runtime_shadow_regression", "minimumProfile": "standard"},
+    {"category": "ci", "command": ["tests/ci/workflow_convergence_test.sh"], "id": "ci_workflow_convergence", "minimumProfile": "light"},
     {"category": "ci", "command": ["tests/ci/workspace_package_coverage_test.sh"], "id": "ci_workspace_coverage_regression", "minimumProfile": "standard"},
     {"category": "conformance", "command": ["tests/conformance/final_replacement_acceptance_test.sh"], "id": "conformance_final_replacement", "minimumProfile": "standard"},
     {"category": "conformance", "command": ["tests/conformance/reference_file_inventory_test.sh"], "id": "conformance_reference_file_inventory", "minimumProfile": "standard"},

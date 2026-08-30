@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Pull request runs use a stable concurrency group and cancel superseded runs without weakening the main/release gate.",
+    "A repository-native workflow regression test proves the concurrency policy and event/profile matrix, including the reference-source boundary.",
+    "Dynamic routing remains fail-closed and selects light/standard/strict from declared diff and stage; no unconditional strict expansion is introduced.",
+    "Real gate failures expose one stable root-cause code and remediation while expected negative-fixture output is not classified as a gate failure.",
+    "The pre-push/CI boundary rejects stale finalization or unnormalized lifecycle state before hosted verification can create duplicate failure runs, with a human-readable remediation.",
+    "Tri-language documentation describes the dynamic quality profiles, cancellation semantics, failure classification, and object-project inheritance boundary."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-423-ci-convergence.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-423-ci-convergence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac5982d99fc0e06934a48350329aaeef99122a7820ed2a23830e4f659452505b",
+      "workItemId": "WI-423-ci-convergence"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-423-ci-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-423-ci-convergence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-423-ci-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-423-ci-convergence.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-423-ci-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-423-ci-convergence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-423-ci-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-423-ci-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-423-ci-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-423-ci-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "建立可验证的 CI 运行收敛机制：取消过时运行、在推送前阻断已知非法生命周期状态、按变更风险动态选择质量档位，并为真实 gate 失败提供唯一根因与修复指引。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-423-ci-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-423-ci-convergence"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-423-ci-convergence.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-423-ci-convergence"
+}

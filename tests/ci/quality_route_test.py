@@ -279,4 +279,65 @@ for relative in (
     for fact in ("Makefile", ".gitattributes", "staged_adopter_acceptance"):
         assert fact in documentation, f"{relative} is missing release parity fact: {fact}"
 
+# The CI boundary must reject an impossible lifecycle projection before it
+# starts any repository gate. This catches the same stale/unnormalized state
+# that previously appeared only after a hosted run had already started.
+with tempfile.TemporaryDirectory(prefix="ai-cockpit-lifecycle-boundary-") as temporary:
+    repository = Path(temporary)
+    subprocess.run(["git", "init", "-q", str(repository)], check=True)
+    subprocess.run(["git", "-C", str(repository), "config", "user.name", "Lifecycle Route Test"], check=True)
+    subprocess.run(["git", "-C", str(repository), "config", "user.email", "lifecycle@example.invalid"], check=True)
+    (repository / "README.md").write_text("base\n", encoding="utf-8")
+    subprocess.run(["git", "-C", str(repository), "add", "README.md"], check=True)
+    subprocess.run(["git", "-C", str(repository), "commit", "-qm", "base"], check=True)
+    base = subprocess.check_output(["git", "-C", str(repository), "rev-parse", "HEAD"], text=True).strip()
+    (repository / ".ai/work-items/active").mkdir(parents=True)
+    contract_path = repository / ".ai/work-items/active/WI-LIFECYCLE.contract.json"
+    contract_path.write_text(json.dumps({"risk": "normal"}), encoding="utf-8")
+    summary_path = repository / ".ai/work-items/active/WI-LIFECYCLE.summary.json"
+    summary_path.write_text(
+        json.dumps({"state": "checkpointed", "checkpointCount": 0, "preflightState": "yellow"}),
+        encoding="utf-8",
+    )
+    try:
+        route.plan_repository_route(
+            repository=repository,
+            manifest_path=MANIFEST_PATH,
+            base=base,
+            head=base,
+            stage="pull_request",
+            risk="normal",
+            contract_path=Path(".ai/work-items/active/WI-LIFECYCLE.contract.json"),
+            requested_profile=None,
+        )
+    except ValueError as error:
+        assert "lifecycle_transition_invalid" in str(error)
+    else:
+        raise AssertionError("checkpointed lifecycle with zero checkpoints must fail before gates")
+
+    summary_path.write_text(
+        json.dumps({
+            "state": "implementation_active",
+            "checkpointCount": 0,
+            "preflightState": "yellow",
+            "failedGate": "finish.lifecycle",
+        }),
+        encoding="utf-8",
+    )
+    try:
+        route.plan_repository_route(
+            repository=repository,
+            manifest_path=MANIFEST_PATH,
+            base=base,
+            head=base,
+            stage="pull_request",
+            risk="normal",
+            contract_path=Path(".ai/work-items/active/WI-LIFECYCLE.contract.json"),
+            requested_profile=None,
+        )
+    except ValueError as error:
+        assert "lifecycle_transition_stale" in str(error)
+    else:
+        raise AssertionError("a failed lifecycle transition must fail before gates")
+
 print("repository quality route regression passed")
