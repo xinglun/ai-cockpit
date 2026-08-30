@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-30T13:09:16Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-423-ci-convergence.verification.json",
+    ".ai/work-items/active/WI-423-ci-convergence.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/388"
+  ],
+  "policyRefs": [
+    "AGENTS.md:premerge-finalization-before-close",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+  "predecessorEventsDigest": "sha256:1db355ed6c1126b1b71cab5dfd002cba69af332ca452dbf696294e1c97a700eb",
+  "predecessorOutcomeDigest": "sha256:1dbb14449e670a460066f4b42f20c382cde67709bf4c135a7e8a4b56dc82a735",
+  "predecessorSummaryDigest": "sha256:4973c1627778cc25a573546ea9965fec0d31b3e7f9f59bd64073621123528512",
+  "predecessorWorkItemId": "WI-423-ci-convergence",
+  "reason": "The first finish attempt correctly stopped on the provisional finalization context; after binding the reviewed PR, retry the same Work Item with fresh evidence and preserve the blocked attempt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the actual reviewed PR context, rerun preflight and verification, then finish and archive only after a green current evidence binding.",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "WI-423-ci-convergence"
+}

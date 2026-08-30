@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -33,6 +34,39 @@ def load_receipt(path: Path) -> dict[str, Any]:
 def write_report(path: Path, report: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def failure_code(gate_id: str, *, launch_error: bool = False, detail: str = "") -> str:
+    """Return one deterministic root code for a failed repository gate."""
+    normalized = detail.lower()
+    if "invalid_premerge_finalize" in normalized:
+        return "invalid_premerge_finalize"
+    if "required_evidence_missing" in normalized:
+        return "required_evidence_missing"
+    if "reference" in normalized and "inventory" in normalized:
+        return "reference_inventory_mismatch"
+    if "lifecycle_transition_stale" in normalized:
+        return "lifecycle_transition_stale"
+    if "lifecycle_transition_invalid" in normalized:
+        return "lifecycle_transition_invalid"
+    prefix = "gate_launch_failed" if launch_error else "quality_gate_failed"
+    return f"{prefix}:{gate_id}"
+
+
+def failure_remediation(code: str, gate_id: str) -> str:
+    if code == "invalid_premerge_finalize":
+        return "repair the finalization binding and rerun the current Work Item checks"
+    if code == "required_evidence_missing":
+        return "collect the Contract-required evidence and rerun the declared verification"
+    if code == "reference_inventory_mismatch":
+        return "refresh the pinned reference inventory and rerun the conformance check"
+    if code == "lifecycle_transition_stale":
+        return "use the Runtime recovery path, refresh evidence, and push only the repaired state"
+    if code == "lifecycle_transition_invalid":
+        return "restore the declared lifecycle order and checkpoint/preflight bindings before pushing"
+    if code.startswith("gate_launch_failed:"):
+        return f"restore the executable command for gate {gate_id} and rerun this route"
+    return f"run gate {gate_id} locally and repair its declared failing check"
 
 
 def load_contract_gate_report(
@@ -181,6 +215,7 @@ def main() -> int:
         parser.error("route receipt gate order does not match the canonical manifest")
 
     results: list[dict[str, Any]] = []
+    failure_roots: list[dict[str, str]] = []
     failed = False
     for gate in gates:
         result: dict[str, Any] = {
@@ -197,16 +232,43 @@ def main() -> int:
             if command[0].endswith(".sh"):
                 command.insert(0, "bash")
             try:
-                completed = subprocess.run(command, cwd=repository, check=False)
+                completed = subprocess.run(
+                    command,
+                    cwd=repository,
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                )
             except OSError as error:
-                result["launchError"] = str(error)
+                detail = str(error)
+                result["launchError"] = "gate command could not be started"
                 result["state"] = "failed"
+                code = failure_code(result["id"], launch_error=True, detail=detail)
+                result["failureCode"] = code
+                result["remediation"] = failure_remediation(code, result["id"])
                 failed = True
             else:
                 result["exitCode"] = completed.returncode
                 result["state"] = "passed" if completed.returncode == 0 else "failed"
-                failed = failed or completed.returncode != 0
-            print(f"repository gate {result['id']}: {result['state']}", flush=True)
+                if completed.returncode != 0:
+                    detail = (completed.stderr or completed.stdout or "").strip()
+                    code = failure_code(result["id"], detail=detail)
+                    result["failureCode"] = code
+                    result["remediation"] = failure_remediation(code, result["id"])
+                    if detail:
+                        result["diagnosticDigest"] = "sha256:" + hashlib.sha256(
+                            detail.encode("utf-8", errors="replace")
+                        ).hexdigest()
+                    failed = True
+            if result["state"] == "failed":
+                code = result["failureCode"]
+                if not any(root["code"] == code for root in failure_roots):
+                    failure_roots.append(
+                        {"code": code, "gateId": result["id"], "remediation": result["remediation"]}
+                    )
+            status = result["state"]
+            code_suffix = f" [{result['failureCode']}]" if status == "failed" else ""
+            print(f"repository gate {result['id']}: {status}{code_suffix}", flush=True)
         results.append(result)
 
     report = {
@@ -215,6 +277,8 @@ def main() -> int:
         "schemaVersion": 2,
         "state": "listed" if args.list_only else ("failed" if failed else "passed"),
     }
+    if failure_roots:
+        report["failureRoots"] = failure_roots
     write_report(report_path, report)
     return 1 if failed else 0
 

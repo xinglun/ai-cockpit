@@ -94,6 +94,15 @@ start → preflight → checkpoint → verify → finish → archive → close
 Work Item 或 project profile。Contract 条件保留其原始语言，只有面向人的表现层
 负责本地化。
 
+Hosted quality 边界是动态且会收敛的。同一 Pull Request 的运行共享并发组，过时运行会被取消；
+`main` 与 release truth 不受这条 PR 策略取消。第一个 route-planning job 根据变更路径、stage
+和 risk 选择 `light`、`standard` 或 `strict`。文档-only 的 `light` route 不启动 Windows
+或 V1 oracle job，但不会削弱所选 profile 的检查。任何 repository gate 启动前，route 都会
+拒绝格式错误或过期的 active Summary、非法 checkpoint 数量，或没有绿色 preflight 的
+`finish_ready` 状态。失败只产生一个稳定根因代码和 remediation，fixture 预期的负向输出不会
+被误认为多个独立失败。对象工程通过自己的 Repository Context 获得同一边界；不同工程之间
+不共享 Work Item、Evidence 或失败状态。
+
 实现前的 Contract review 还会检查已声明的 intent、scenario 结构、acceptance
 声明和并行 boundary。格式错误的 scenario 列表、重复 scenario、空的 acceptance
 声明或无效 slot boundary 都是 review finding，Agent 不能靠推断替人修复。是否

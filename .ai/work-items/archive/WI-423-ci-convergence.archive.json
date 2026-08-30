@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-30T13:12:41Z",
+  "files": {
+    "contractDigest": "sha256:b0365a914c7722c8cb5b38202412998bcbb2fd919c438bbc08fe320cd5034867",
+    "contractPath": ".ai/work-items/archive/WI-423-ci-convergence.contract.json",
+    "eventsDigest": "sha256:1db355ed6c1126b1b71cab5dfd002cba69af332ca452dbf696294e1c97a700eb",
+    "eventsPath": ".ai/work-items/archive/WI-423-ci-convergence.events.jsonl",
+    "outcomeDigest": "sha256:63cd5d96769a60de376ea421f88ff18d4fc0d0a0f04d33061aea22a70edcaeb3",
+    "outcomePath": ".ai/work-items/archive/WI-423-ci-convergence.outcome.json",
+    "summaryDigest": "sha256:1edacdc38748918b63041059c16d689f1f0421c5be045f750c313e19a6c9d1d7",
+    "summaryPath": ".ai/work-items/archive/WI-423-ci-convergence.summary.json"
+  },
+  "historicalArtifacts": [],
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-424-ci-convergence-finalization-recovery",
+  "supersessionDecisionPath": ".ai/decisions/WI-423-ci-convergence.recovery.d4ba2ec5c5ebdcbf3f4423b55cea4c1510e9976d45f20c3562744b4b11c89433.json",
+  "workItemId": "WI-423-ci-convergence"
+}

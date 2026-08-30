@@ -8,7 +8,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-291-ci-contract-aware-gates
+lastVerifiedBy: WI-423-ci-convergence
 ---
 
 # CI Contract 対応品質ゲート
@@ -54,6 +54,32 @@ workflow のみで検証します。同じ commit に競合する二つの verdi
 push イベントに active Contract が 1 件ある場合、route は `github.event.before` ではなく
 Contract に記録された base revision を使います。これにより push 検査は同じ Work Item/PR
 base と一致し、重複した誤失敗を防ぎます。review の権威は Pull Request イベントに残ります。
+
+## 実行の収束と transition 境界
+
+Pull Request 実行は workflow/PR の concurrency group を共有し、
+`cancel-in-progress` は Pull Request event にだけ設定します。同じ PR の新しい commit
+は古い実行を supersede しますが、`main` push と immutable な release workflow はこの
+方針で cancel されません。dynamic route は最初の小さな job で計画され、documentation-only
+の `light` route では Windows と V1 oracle job を開始しません。`standard` と `strict`
+では従来どおり実行します。これはコスト選択であり、選択した profile の必須検査を弱める
+ものではありません。
+
+gate 選択の前に active Work Item Summary があれば検査します。`checkpointed` または
+`finish_ready` は checkpoint をちょうど 1 件持ち、`finish_ready` は green preflight に
+裏付けられていなければなりません。failed、stale、malformed、または不可能な transition
+marker は hosted repository gate の開始前に停止します。失敗は
+`lifecycle_transition_invalid`、`lifecycle_transition_stale` などの安定した code と限定的な
+remediation で示し、未知の状態を許可へ変換しません。
+
+gate runner は command output を捕捉し、fixture が意図的に出す negative diagnostic を
+そのまま再表示しません。失敗 report には root code ごとに重複排除した `failureRoots`
+（root code、対象 gate ID、remediation）が一件ずつ入り、raw output は二重の失敗数になりません。
+成功した repository-gate receipt の schema は維持され、post-finalize evidence として使えます。
+
+adopter project は自身の `.ai/` と Contract を通じて同じ route/transition 境界を継承します。
+共有 Runtime と policy manifest は工程外部にあり、Work Item state、Evidence、failure receipt
+は repository-local に分離され、本プロジェクトと共有されません。
 
 ## ソース中心のスナップショット識別子
 

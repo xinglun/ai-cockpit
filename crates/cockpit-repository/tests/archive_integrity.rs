@@ -114,6 +114,61 @@ fn finish_rejects_provisional_resource_context_before_finish_ready() {
 }
 
 #[test]
+fn finalize_plan_replaces_partial_provisional_context_before_finish() {
+    let path = repository();
+    let work_item_id = "WI-PARTIAL-FINALIZATION-PLAN";
+    start_work_item(
+        &path,
+        work_item_id,
+        "bind a reviewed resource",
+        "replace a partially observed finalization context",
+        &["**".into()],
+    )
+    .expect("start");
+
+    // A provider/base observation may be available before the reviewed PR URL
+    // exists.  It remains provisional until every identity field is bound.
+    plan_resource_finalization(
+        &path,
+        work_item_id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{work_item_id}"),
+            worktree: path.display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "unknown".into(),
+        },
+    )
+    .expect("partial context remains provisional");
+
+    let complete = ResourceFinalizationContext {
+        branch: format!("feature/{work_item_id}"),
+        worktree: path.display().to_string(),
+        base_branch: "main".into(),
+        base_remote: "origin".into(),
+        provider: "github".into(),
+        pull_request: "https://github.com/example/ai-cockpit/pull/423".into(),
+    };
+    plan_resource_finalization(&path, work_item_id, &complete)
+        .expect("complete context replaces the provisional observation");
+
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            path.join(".ai/work-items/active")
+                .join(format!("{work_item_id}.contract.json")),
+        )
+        .expect("contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(
+        contract["resourceContext"]["pullRequest"],
+        complete.pull_request
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn archive_rejects_provisional_resource_context_without_moving_active_bytes() {
     let path = repository();
     let work_item_id = "WI-ARCHIVE-REQUIRES-PLAN";

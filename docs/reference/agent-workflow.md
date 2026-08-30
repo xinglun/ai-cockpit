@@ -131,6 +131,20 @@ Every repository-bound command carries `--repo`. The Runtime has no global
 current repository, Work Item, or project profile. Contract criteria remain in
 their source language; only the human presentation layer is localized.
 
+The hosted quality boundary is dynamic and convergent. Pull Request runs for
+the same PR share a concurrency group and superseded runs are cancelled;
+`main` and release truth are not cancelled by that PR policy. A first route
+planning job selects `light`, `standard`, or `strict` from changed paths,
+stage, and risk. A documentation-only `light` route does not start the
+Windows or V1-oracle jobs, without weakening the checks assigned to the
+selected profile. Before any repository gate runs, the route rejects a
+malformed or stale active Summary, an impossible checkpoint count, or a
+`finish_ready` state without green preflight. Failures have one stable root
+code and remediation, so expected negative fixture output is not mistaken for
+multiple independent failures. An adopter receives the same boundary through
+its own Repository Context; Work Item, evidence, and failure state are never
+shared across projects.
+
 Before implementation, Contract review also checks declared intent, scenario
 shape, acceptance statements, and the parallel boundary. A malformed scenario
 list, duplicate scenario, empty acceptance statement, or invalid slot boundary

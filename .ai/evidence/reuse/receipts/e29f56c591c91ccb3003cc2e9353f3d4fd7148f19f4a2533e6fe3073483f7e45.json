@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 2,
+  "receiptId": "sha256:e29f56c591c91ccb3003cc2e9353f3d4fd7148f19f4a2533e6fe3073483f7e45",
+  "nodeId": "project-command-0",
+  "passed": true,
+  "context": {
+    "contentDigest": "sha256:0a8f5abb160fec30c4d11ed5354bc300ec5f12185c1c5fad3d2899f47e460e44",
+    "diff": {
+      "baseCommit": "5a63603eb367d4ca8b0a96552e605e46041b858b",
+      "headCommit": "5a63603eb367d4ca8b0a96552e605e46041b858b",
+      "changedPathsDigest": "sha256:eecb6c93be3ce55e770c5da56f466120e821312fac7cf5aa49bbedbae295def0"
+    },
+    "environmentDigest": "sha256:ef9bd53bd62ecd907fcfc19b5af4b576c0d71ecc2ab2463df32ec0e01bdcbcb1",
+    "commandDigest": "sha256:f4409a05dea83fbe3d23f66c3f61c2487687629f2cab1a3954a140e7851cf402",
+    "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+    "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
+    "toolchainDigest": "sha256:b01549e738cf867660b9ec359f8a53cd07be7218206d4a2b77b19447f68093fc",
+    "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+    "profileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+    "stage": "task",
+    "runner": "local"
+  },
+  "outputDigest": "sha256:36cf3c573ccefa4b7dce19fc9fee6cc3fad4d4d239355cf201e58f15561c6158",
+  "createdAtEpochSeconds": 1788097725,
+  "expiresAtEpochSeconds": 1788184125
+}

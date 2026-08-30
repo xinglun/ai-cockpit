@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-423-ci-convergence.recovery.d4ba2ec5c5ebdcbf3f4423b55cea4c1510e9976d45f20c3562744b4b11c89433.json",
+    ".ai/decisions/WI-423-ci-convergence.recovery.f261b707263c9279acf579d8625bc0f900216250b5871e83efbdb49ba6e3f704.json",
+    ".ai/decisions/WI-423-ci-convergence.recovery.json",
+    ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.summary.json",
+    ".ai/work-items/archive/WI-423-ci-convergence.archive.json",
+    ".ai/work-items/archive/WI-423-ci-convergence.contract.json",
+    ".ai/work-items/archive/WI-423-ci-convergence.events.jsonl",
+    ".ai/work-items/archive/WI-423-ci-convergence.outcome.json",
+    ".ai/work-items/archive/WI-423-ci-convergence.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T13:15:39Z",
+  "checkpointContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:b28e16a18bc547f107db862adb5be6964c283d4f191646d36e34a9006e24c03c",
+  "createdAt": "2026-08-30T13:11:54Z",
+  "failedGate": "finish.preflight",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/workflow_convergence_test.sh",
+      "tests/ci/quality_route_test.py",
+      "tests/ci/repository_gate_manifest_test.sh",
+      "cargo test --locked --workspace"
+    ],
+    "reason": "The route, lifecycle-boundary, and gate-runner regressions exercise the declared CI convergence intent.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:753328914d82b1792853103180f03c89c34c55e7fcb4816162786ae5590fe4ed",
+  "predecessorWorkItemId": "WI-423-ci-convergence",
+  "preflightAt": "2026-08-30T13:21:13Z",
+  "preflightContractDigest": "sha256:abb84f2bf5d3d2ea4a1c0c24a6f7cc0d21d701b75459b446fcc208aaf8f15c89",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b28e16a18bc547f107db862adb5be6964c283d4f191646d36e34a9006e24c03c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-423-ci-convergence.recovery.f261b707263c9279acf579d8625bc0f900216250b5871e83efbdb49ba6e3f704.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "required": true,
+      "scenario": "superseded_quality_run_cancellation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/workflow_convergence_test.sh",
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "required": true,
+      "scenario": "pre_push_lifecycle_boundary",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/quality_route_test.py"
+      ],
+      "required": true,
+      "scenario": "dynamic_quality_profile_selection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "required": true,
+      "scenario": "single_gate_root_cause_and_remediation",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T13:21:17Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-424-ci-convergence-finalization-recovery"
+}

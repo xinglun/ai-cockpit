@@ -1,0 +1,169 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-30T13:48:39Z",
+  "checkpointContractDigest": "sha256:c3a677897627fd476a27da26d0e0e4c82557bea9d18be1825f5ad5e73314167d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:29c9c2bca23a80e3fc645e4a824c5a227237c596eddaaf35835ba56bc34aa8b9",
+      "recorded": true,
+      "recordedAt": "2026-08-30T13:48:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0a8f5abb160fec30c4d11ed5354bc300ec5f12185c1c5fad3d2899f47e460e44",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-425-ci-convergence-recovery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:4dec53252a3d10e0756c10c57076eaaa442a0f55020d2ae9b50e3206fef4cada",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:29c9c2bca23a80e3fc645e4a824c5a227237c596eddaaf35835ba56bc34aa8b9",
+      "previousContractHash": "sha256:29c9c2bca23a80e3fc645e4a824c5a227237c596eddaaf35835ba56bc34aa8b9",
+      "reason": "Bind explicit required scenarioCoverage to the high-risk CI convergence contract before rerunning preflight and verification.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T13:56:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0a8f5abb160fec30c4d11ed5354bc300ec5f12185c1c5fad3d2899f47e460e44",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-425-ci-convergence-recovery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:e51bf7871e986f1b6b8fc59364a418d33f44bc484fd3f074471d5af516e933c8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:29c9c2bca23a80e3fc645e4a824c5a227237c596eddaaf35835ba56bc34aa8b9",
+      "previousContractHash": "sha256:4dec53252a3d10e0756c10c57076eaaa442a0f55020d2ae9b50e3206fef4cada",
+      "reason": "Normalize requiredEvidenceClasses to the Runtime-supported verification class; concrete CI gate coverage remains bound by required scenarioCoverage evidence.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T13:59:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0a8f5abb160fec30c4d11ed5354bc300ec5f12185c1c5fad3d2899f47e460e44",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-425-ci-convergence-recovery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c3a677897627fd476a27da26d0e0e4c82557bea9d18be1825f5ad5e73314167d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:29c9c2bca23a80e3fc645e4a824c5a227237c596eddaaf35835ba56bc34aa8b9",
+      "previousContractHash": "sha256:e51bf7871e986f1b6b8fc59364a418d33f44bc484fd3f074471d5af516e933c8",
+      "reason": "Bind the reviewed GitHub PR #390, branch, worktree, and main/origin base context before the final verification and archive.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T14:01:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:55f701fb5dff32d6c5f3ae7bf5809b86a818bbe9d021e4190c13226edbe10ccc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-425-ci-convergence-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:55f701fb5dff32d6c5f3ae7bf5809b86a818bbe9d021e4190c13226edbe10ccc",
+  "createdAt": "2026-08-30T13:44:42Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:c3a677897627fd476a27da26d0e0e4c82557bea9d18be1825f5ad5e73314167d",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirmed the current bounded CI convergence recovery Contract after adding explicit scenario coverage; predecessor history and parity remain in scope and execution evidence is bound separately.",
+    "recordedAt": "2026-08-30T14:00:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:55f701fb5dff32d6c5f3ae7bf5809b86a818bbe9d021e4190c13226edbe10ccc",
+    "schemaVersion": 1,
+    "workItemId": "WI-425-ci-convergence-recovery"
+  },
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/workflow_convergence_test.sh",
+      "tests/ci/quality_route_test.py"
+    ],
+    "reason": "The implementation and regressions directly enforce the bounded CI convergence intent and lifecycle recovery boundary.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T14:04:28Z",
+  "preflightContractDigest": "sha256:c3a677897627fd476a27da26d0e0e4c82557bea9d18be1825f5ad5e73314167d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:55f701fb5dff32d6c5f3ae7bf5809b86a818bbe9d021e4190c13226edbe10ccc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "expected": "Pull request concurrency cancels superseded runs without weakening default-branch or release gates.",
+      "required": true,
+      "scenario": "workflow_concurrency",
+      "status": "verified",
+      "verificationPlan": "Run the repository-native workflow convergence regression."
+    },
+    {
+      "evidence": [
+        "tests/ci/quality_route_test.py",
+        "tests/ci/repository_gate_manifest_test.sh"
+      ],
+      "expected": "Light, standard, and strict routes are selected from declared repository diff and stage.",
+      "required": true,
+      "scenario": "dynamic_quality_route",
+      "status": "verified",
+      "verificationPlan": "Run quality route regression and route manifest tests."
+    },
+    {
+      "evidence": [
+        "tests/ci/run_repository_gates.py",
+        "cargo test --locked --workspace"
+      ],
+      "expected": "A real gate failure emits one stable root-cause code and remediation without replaying expected-negative output.",
+      "required": true,
+      "scenario": "stable_failure_diagnostics",
+      "status": "verified",
+      "verificationPlan": "Run repository gate regression and workspace tests."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs::finalize_plan_replaces_partial_provisional_context_before_finish"
+      ],
+      "expected": "Partial provisional finalization context can be safely rebound before finish.",
+      "required": true,
+      "scenario": "finalization_context_recovery",
+      "status": "verified",
+      "verificationPlan": "Run the archive integrity provisional-context regression."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T14:04:32Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-425-ci-convergence-recovery"
+}
