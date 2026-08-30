@@ -6,6 +6,7 @@ import fnmatch
 import hashlib
 import json
 import subprocess
+import sys
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -13,6 +14,44 @@ from typing import Any
 PROFILE_ORDER = ("light", "standard", "strict")
 STAGES = ("task", "pre_ci", "pull_request", "merge", "release")
 HIGH_RISKS = {"high", "critical", "destructive"}
+
+
+class RouteValidationError(ValueError):
+    """A stable, human-actionable route failure without raw command output."""
+
+    def __init__(self, code: str, message: str, remediation: str) -> None:
+        self.code = code
+        self.remediation = remediation
+        super().__init__(f"{code}: {message}; remediation: {remediation}")
+
+
+def failure_metadata(detail: str) -> tuple[str, str]:
+    """Map a bounded diagnostic to one stable root and remediation."""
+    normalized = detail.lower()
+    if "lifecycle_transition_stale" in normalized:
+        return (
+            "lifecycle_transition_stale",
+            "repair the active Work Item lifecycle, rerun preflight, and retry the transition",
+        )
+    if "lifecycle_transition_invalid" in normalized:
+        return (
+            "lifecycle_transition_invalid",
+            "restore the declared lifecycle order and checkpoint/preflight bindings before pushing",
+        )
+    if "required_evidence_missing" in normalized:
+        return (
+            "required_evidence_missing",
+            "collect the Contract-required evidence and rerun the declared verification",
+        )
+    if "reference" in normalized and "inventory" in normalized:
+        return (
+            "reference_inventory_mismatch",
+            "refresh the pinned reference inventory and rerun the conformance check",
+        )
+    return (
+        "quality_route_failed",
+        "inspect the bound route receipt and rerun the declared repository gate locally",
+    )
 
 
 def canonical_digest(value: Any) -> str:
@@ -202,6 +241,74 @@ def _contract_binding(repository: Path, contract_path: Path | None) -> tuple[str
     return relative, file_digest(candidate), contract_risk
 
 
+def validate_lifecycle_boundary(repository: Path, contract_relative: str | None) -> None:
+    """Reject known stale/unnormalized active lifecycle states at CI entry.
+
+    This is deliberately a narrow boundary check. The Rust Runtime remains the
+    lifecycle authority; CI only refuses to spend a hosted run on an active
+    projection that already records an impossible transition. A missing
+    Summary is left to the Runtime Contract gate for compatibility with
+    standalone route fixtures.
+    """
+    if not contract_relative:
+        return
+    contract_name = Path(contract_relative).name
+    if not contract_name.endswith(".contract.json"):
+        return
+    work_item_id = contract_name.removesuffix(".contract.json")
+    summary_path = repository / ".ai/work-items/active" / f"{work_item_id}.summary.json"
+    if not summary_path.exists():
+        return
+    if summary_path.is_symlink() or not summary_path.is_file():
+        raise RouteValidationError(
+            "lifecycle_transition_invalid",
+            "active lifecycle Summary is not a regular file",
+            "restore the repository-local Summary and rerun preflight before pushing",
+        )
+    try:
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise RouteValidationError(
+            "lifecycle_transition_invalid",
+            "active lifecycle Summary is malformed",
+            "restore a Runtime-generated Summary and rerun preflight before pushing",
+        ) from error
+    if not isinstance(summary, dict):
+        raise RouteValidationError(
+            "lifecycle_transition_invalid",
+            "active lifecycle Summary must be an object",
+            "restore a Runtime-generated Summary and rerun preflight before pushing",
+        )
+
+    state = summary.get("state")
+    if state not in {"implementation_active", "checkpointed", "finish_ready"}:
+        raise RouteValidationError(
+            "lifecycle_transition_invalid",
+            f"active lifecycle state {state!r} cannot enter the CI route",
+            "restore the declared lifecycle order and retry from the current Work Item",
+        )
+    if state in {"checkpointed", "finish_ready"} and summary.get("checkpointCount") != 1:
+        raise RouteValidationError(
+            "lifecycle_transition_invalid",
+            "checkpointed lifecycle does not contain exactly one checkpoint",
+            "record one valid checkpoint after fresh preflight before pushing",
+        )
+    if state == "finish_ready" and summary.get("preflightState") != "green":
+        raise RouteValidationError(
+            "lifecycle_transition_invalid",
+            "finish_ready lifecycle is not backed by a green preflight",
+            "rerun the required checks and preflight before retrying finish",
+        )
+    failed_gate = summary.get("failedGate")
+    finalization_state = summary.get("finalizationState")
+    if failed_gate or finalization_state in {"stale", "invalid", "blocked"}:
+        raise RouteValidationError(
+            "lifecycle_transition_stale",
+            "active lifecycle contains a failed or stale transition marker",
+            "use the Runtime recovery path, refresh evidence, and push only the repaired state",
+        )
+
+
 def plan_repository_route(*, repository: Path, manifest_path: Path, base: str, head: str, stage: str, risk: str, contract_path: Path | None, requested_profile: str | None) -> dict[str, Any]:
     repository = repository.resolve()
     manifest_path = manifest_path.resolve()
@@ -210,6 +317,7 @@ def plan_repository_route(*, repository: Path, manifest_path: Path, base: str, h
     head_commit = resolve_commit(repository, head)
     paths = changed_paths(repository, base_commit, head_commit)
     contract_relative, contract_digest, contract_risk = _contract_binding(repository, contract_path)
+    validate_lifecycle_boundary(repository, contract_relative)
     effective_risk = contract_risk or risk
     if risk.strip().lower() in HIGH_RISKS:
         effective_risk = risk
@@ -248,7 +356,18 @@ def main() -> int:
     parser.add_argument("--receipt", required=True)
     args = parser.parse_args()
     repository = Path(args.repo).resolve()
-    receipt = plan_repository_route(repository=repository, manifest_path=Path(args.manifest), base=args.base, head=args.head, stage=args.stage, risk=args.risk, contract_path=Path(args.contract) if args.contract else None, requested_profile=args.profile)
+    try:
+        receipt = plan_repository_route(repository=repository, manifest_path=Path(args.manifest), base=args.base, head=args.head, stage=args.stage, risk=args.risk, contract_path=Path(args.contract) if args.contract else None, requested_profile=args.profile)
+    except ValueError as error:
+        code, remediation = failure_metadata(str(error))
+        print(
+            json.dumps(
+                {"state": "failed", "failureCode": code, "remediation": remediation},
+                sort_keys=True,
+            ),
+            file=sys.stderr,
+        )
+        parser.error(str(error))
     output = Path(args.receipt)
     if not output.is_absolute():
         output = repository / output

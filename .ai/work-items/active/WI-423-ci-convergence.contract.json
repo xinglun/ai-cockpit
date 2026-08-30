@@ -1,0 +1,112 @@
+{
+  "acceptanceCriteria": [
+    "Pull request runs use a stable concurrency group and cancel superseded runs without weakening the main/release gate.",
+    "A repository-native workflow regression test proves the concurrency policy and event/profile matrix, including the reference-source boundary.",
+    "Dynamic routing remains fail-closed and selects light/standard/strict from declared diff and stage; no unconditional strict expansion is introduced.",
+    "Real gate failures expose one stable root-cause code and remediation while expected negative-fixture output is not classified as a gate failure.",
+    "The pre-push/CI boundary rejects stale finalization or unnormalized lifecycle state before hosted verification can create duplicate failure runs, with a human-readable remediation.",
+    "Tri-language documentation describes the dynamic quality profiles, cancellation semantics, failure classification, and object-project inheritance boundary."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d1d80a22b0fb2d219da51dacc7e4a89b8780c5df",
+  "createdAt": "2026-08-30T12:37:06Z",
+  "goal": "建立可验证的 CI 运行收敛机制：取消过时运行、在推送前阻断已知非法生命周期状态、按变更风险动态选择质量档位，并为真实 gate 失败提供唯一根因与修复指引。",
+  "intent": "根治 Rust 重写后 CI 失败重复与生命周期过渡噪声，确保同类根因不会在后续批次通过重复触发继续出现，同时保持 fail-closed 治理强度。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    ".github/workflows/release.yml",
+    "tests/release/adopter_acceptance.sh",
+    "source Python runtime fixtures",
+    "user-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:57dadec49dceeb4de204656959fd94604e7e066fca38cf4d2768a9902770c08c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "ci_run",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-423-ci-convergence",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-423-ci-convergence"
+  },
+  "risk": "high",
+  "scope": [
+    ".github/workflows/ci.yml",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/quality_route.py",
+    "tests/ci/workflow_convergence_test.sh",
+    "tests/ci/quality_route_test.py",
+    "tests/ci/run_repository_gates.py",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/ci-quality-gates.zh-CN.md",
+    "docs/reference/ci-quality-gates.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md"
+  ],
+  "sources": [
+    ".github/workflows/ci.yml",
+    "tests/ci/quality_route.py",
+    "tests/ci/quality_route_test.py",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/run_repository_gates.py",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/ci-quality-gates.zh-CN.md",
+    "docs/reference/ci-quality-gates.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/tree/e5acb677"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "superseded_quality_run_cancellation",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "A newer pull-request commit cancels its superseded quality run while main and release protections remain enforced.",
+      "verificationPlan": "Run the repository-native workflow regression and inspect the workflow concurrency declaration and event matrix."
+    },
+    {
+      "scenario": "pre_push_lifecycle_boundary",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Stale finalization or unnormalized lifecycle state is rejected before a hosted run can create a duplicate failure, with a stable remediation code.",
+      "verificationPlan": "Exercise the repository-native lifecycle boundary fixtures for stale finalization and unnormalized worktree state, and assert the stable failure code and remediation."
+    },
+    {
+      "scenario": "dynamic_quality_profile_selection",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Documentation-only, source/test, governance/workflow, high-risk, and unknown changes select light, standard, or strict according to the manifest and stage floor without unconditional strict expansion.",
+      "verificationPlan": "Run quality_route regression cases for each path class, stage floor, risk escalation, and explicit downgrade rejection."
+    },
+    {
+      "scenario": "single_gate_root_cause_and_remediation",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "A real gate failure emits one stable root-cause code and remediation; expected negative-fixture diagnostics are not counted as independent gate failures.",
+      "verificationPlan": "Run the gate wrapper regression with passing, failing, and expected-negative fixtures and assert deterministic report classification."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/ci/workflow_convergence_test.sh",
+    "python3 tests/ci/quality_route_test.py",
+    "tests/ci/repository_gate_manifest_test.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-423-ci-convergence"
+}

@@ -101,6 +101,16 @@ start → preflight → checkpoint → verify → finish → archive → close
 current repository、Work Item、project profile はありません。Contract の criteria
 は原文を保持し、人間向け presentation 層だけを localize します。
 
+Hosted quality boundary は動的で収束します。同じ Pull Request の実行は concurrency group に束ね、
+superseded run は cancel しますが、`main` と release truth はこの PR policy で cancel しません。
+最初の route-planning job が changed paths、stage、risk から `light`、`standard`、`strict` を選びます。
+documentation-only の `light` route は Windows と V1-oracle job を開始しませんが、選択された profile の
+検査を弱めるものではありません。repository gate の前に、malformed/stale な active Summary、
+不正な checkpoint 数、または green preflight のない `finish_ready` を route が拒否します。失敗は
+一つの安定した root code と remediation で示され、fixture の意図的な negative output は複数の独立
+failure として数えられません。adopter project は自身の Repository Context で同じ境界を継承し、
+project 間で Work Item、Evidence、failure state を共有しません。
+
 実装前の Contract review は、宣言された intent、scenario の形、acceptance
 declaration、parallel boundary も検証します。壊れた scenario list、重複した
 scenario、空の acceptance、無効な slot boundary は review finding であり、
