@@ -172,11 +172,11 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=60 deferred-next-batch=468 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=65 deferred-next-batch=463 migrate-gap=0 -->
 
 At the pinned reference comparison baseline, the ledger contains 5,119 records:
 4,262 `generated-history`, 324 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 60 `reference-only`, and 468
+`implemented-equivalent`, four `not-applicable`, 65 `reference-only`, and 463
 `deferred-next-batch` records. Deferred records remain scheduled work, not
 parity claims. The capability/profile slice has no remaining `migrate-gap`
 records:
@@ -192,7 +192,7 @@ records:
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
 capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 468
+records above are Rust-native, explicitly bounded counterparts; the 463
 deferred semantic comparisons remain scheduled work.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
@@ -1199,4 +1199,32 @@ SwiftPM/Xcode installation, SDK selection, and source installer behavior are
 not copied. The ledger after WI-394 contains 4,262 `generated-history`, 324
 `implemented-different-by-design`, one `implemented-equivalent`, four
 `not-applicable`, 47 `reference-only`, and 481 `deferred-next-batch` records;
+`migrate-gap` remains zero.
+
+## WI-421 — mixed-monorepo fixture boundary
+
+WI-421 compares the five pinned files under
+`examples/fixtures/mixed-monorepo/` one by one at source commit
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf`. They are executable application
+fixtures, not Rust Runtime code or portable enterprise evidence. Each path is
+therefore recorded as `reference-only` with an explicit adopter boundary.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `fixture.json` | reference-only | Records the sample's mixed Python/Node markers, platforms, and safe/test paths. Project Observer/Profile may record observed facts, but the Runtime does not infer toolchain capability or safe scope from this file. |
+| `package.json` | reference-only | Package metadata is fixture application input. Node installation, dependencies, scripts, and execution remain adopter/provider responsibilities. |
+| `pyproject.toml` | reference-only | Python packaging metadata is not a portable Contract or Runtime dependency. Python installation, dependencies, and test commands require explicit adopter evidence. |
+| `services/api/app.py` | reference-only | The health function is application code, not governance logic. The Runtime can bind an adopter-declared argv result but does not ship or infer Python behavior. |
+| `services/api/tests/test_app.py` | reference-only | The pytest assertion is fixture evidence only. An adopter must declare and run its own verification command; source tests are never promoted as target evidence. |
+
+This comparison preserves the useful governance meaning—observed facts,
+explicit scope, provider-owned execution, and evidence binding—without copying
+the mixed fixture, Python/Node toolchains, installer behavior, or source JSON
+wire shape. Every attached object/adopter project inherits the same shared
+Runtime Contract, lifecycle, evidence, knowledge, and human Outcome controls;
+its repository identity and facts remain isolated under explicit `--repo`.
+This is not mixed-stack toolchain support or a second-technology adopter
+acceptance. The ledger after WI-421 contains 4,262 `generated-history`, 324
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 65 `reference-only`, and 463 `deferred-next-batch` records;
 `migrate-gap` remains zero.

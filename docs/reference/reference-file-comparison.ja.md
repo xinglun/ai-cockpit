@@ -152,11 +152,11 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=60 deferred-next-batch=468 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=65 deferred-next-batch=463 migrate-gap=0 -->
 
 固定した reference comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、316 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、56 `reference-only`、472 `deferred-next-batch` です。
+4,262 `generated-history`、324 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、65 `reference-only`、463 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。
 capability/profile slice に `migrate-gap` は残っていません。
 
@@ -167,7 +167,7 @@ capability/profile slice に `migrate-gap` は残っていません。
 
 Governance entrypoint、getting-started route、CI/release boundary、capability/profile
 projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-468 deferred semantic comparison は後続作業として残ります。
+463 deferred semantic comparison は後続作業として残ります。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
@@ -981,3 +981,26 @@ WI-394 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の i
 | `examples/fixtures/ios-swift-package/fixture.json` | implemented-different-by-design | Project Profile/Observer は package/toolchain/platform/path fact を記録できます。`installerStack` と `macos` は metadata であり shared Runtime install/execution evidence ではありません。 |
 
 これは semantic/documentation parity であり、Apple toolchain support、build execution、source JSON-wire compatibility ではありません。Install は adopter 外部の immutable shared Runtime 一つと明示的な `attach --repo` を使い、SwiftPM/Xcode install、SDK 選択、source installer behavior はコピーしません。WI-394 後の ledger は 4,262 `generated-history`、324 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、47 `reference-only`、481 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-421 — mixed-monorepo fixture boundary
+
+WI-421 は pinned source commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` の
+`examples/fixtures/mixed-monorepo/` にある 5 file を一つずつ比較します。これは実行可能な
+application fixture であり、Rust Runtime code や portable な enterprise evidence ではありません。
+5 path はすべて `reference-only` とし、adopter boundary を明示します。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `fixture.json` | reference-only | mixed Python/Node marker、platform、safe/test path を記録します。Observer/Profile は観測事実を記録できますが、Runtime は toolchain capability や safe scope をこの file から推測しません。 |
+| `package.json` | reference-only | package metadata は fixture application input です。Node install、dependency、script、execution は adopter/provider の責任です。 |
+| `pyproject.toml` | reference-only | Python packaging metadata は portable Contract/Runtime dependency ではありません。Python install、dependency、test command は明示的 adopter evidence を必要とします。 |
+| `services/api/app.py` | reference-only | health function は application code であり governance logic ではありません。Runtime は adopter 宣言の argv 結果を bind できますが、Python behavior を持ち込みません。 |
+| `services/api/tests/test_app.py` | reference-only | pytest assertion は fixture evidence に限られます。adopter は自分の verification command を宣言・実行し、source test を target evidence に昇格させません。 |
+
+有用な governance meaning（観測事実、明示的 scope、provider-owned execution、evidence binding）は保持しますが、
+mixed fixture、Python/Node toolchain、installer behavior、source JSON wire はコピーしません。attached された
+すべての object/adopter project は shared Runtime から Contract、lifecycle、evidence、knowledge、human Outcome
+control を継承し、repository identity と fact は明示的な `--repo` で分離されます。本 batch は mixed-stack
+toolchain support や second-technology adopter acceptance を主張しません。WI-421 後の ledger は 4,262
+`generated-history`、324 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、
+65 `reference-only`、463 `deferred-next-batch`、`migrate-gap` は 0 です。
