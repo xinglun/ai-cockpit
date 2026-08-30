@@ -13,6 +13,8 @@ authority: human-authorized
 lastVerifiedBy: WI-410-post-release-adopter-v0-2-41
 terminalArchive: .ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json
 terminalVerification: .ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json
+terminalFinalization: .ai/decisions/WI-410-post-release-adopter-v0-2-41.finalize.json
+terminalDecision: .ai/decisions/WI-410-post-release-adopter-v0-2-41.close.json
 ---
 
 # WI-410——v0.2.41 发布后 adopter 验收证据
@@ -35,4 +37,6 @@ Runtime 在没有源码 fallback 或状态泄漏的情况下治理本仓库。
 
 - Archive Contract：`.ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json`
 - Verification：`.ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json`
-- Provider finalization 与 close 仅在审查 PR 合并并完成准确资源清理后记录。
+- Provider finalization 与 close receipt 已记录审查 PR 合并和准确资源清理：
+  `.ai/decisions/WI-410-post-release-adopter-v0-2-41.finalize.json` 与
+  `.ai/decisions/WI-410-post-release-adopter-v0-2-41.close.json`。

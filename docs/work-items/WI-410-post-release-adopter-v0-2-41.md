@@ -13,6 +13,8 @@ authority: human-authorized
 lastVerifiedBy: WI-410-post-release-adopter-v0-2-41
 terminalArchive: .ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json
 terminalVerification: .ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json
+terminalFinalization: .ai/decisions/WI-410-post-release-adopter-v0-2-41.finalize.json
+terminalDecision: .ai/decisions/WI-410-post-release-adopter-v0-2-41.close.json
 ---
 
 # WI-410 — v0.2.41 post-release adopter acceptance evidence
@@ -37,5 +39,6 @@ of historical Release truth.
 
 - Archive Contract: `.ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json`
 - Verification: `.ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json`
-- Provider finalization and close are recorded only after the reviewed PR and
-  exact resource cleanup complete.
+- Provider finalization and close receipts record the reviewed PR and exact
+  resource cleanup: `.ai/decisions/WI-410-post-release-adopter-v0-2-41.finalize.json`
+  and `.ai/decisions/WI-410-post-release-adopter-v0-2-41.close.json`.

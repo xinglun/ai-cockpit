@@ -13,6 +13,8 @@ authority: human-authorized
 lastVerifiedBy: WI-410-post-release-adopter-v0-2-41
 terminalArchive: .ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json
 terminalVerification: .ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json
+terminalFinalization: .ai/decisions/WI-410-post-release-adopter-v0-2-41.finalize.json
+terminalDecision: .ai/decisions/WI-410-post-release-adopter-v0-2-41.close.json
 ---
 
 # WI-410 — v0.2.41 post-release adopter acceptance evidence
@@ -36,4 +38,6 @@ authority ではなく、過去の Release truth も書き換えません。
 
 - Archive Contract: `.ai/work-items/archive/WI-410-post-release-adopter-v0-2-41.contract.json`
 - Verification: `.ai/evidence/WI-410-post-release-adopter-v0-2-41.verification.json`
-- Provider finalization と close は reviewed PR の merge と正確な resource cleanup 後にのみ記録します。
+- Provider finalization と close は reviewed PR の merge と正確な resource cleanup 後に
+  記録されています: `.ai/decisions/WI-410-post-release-adopter-v0-2-41.finalize.json`、
+  `.ai/decisions/WI-410-post-release-adopter-v0-2-41.close.json`。
