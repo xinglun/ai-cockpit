@@ -1,4 +1,38 @@
 {
-  "entries": [],
+  "entries": [
+    {
+      "baseRevision": "d1d80a22b0fb2d219da51dacc7e4a89b8780c5df",
+      "createdAt": "2026-08-30T14:05:00Z",
+      "expectedRecords": {
+        "contract": ".ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.contract.json",
+        "finalize": ".ai/decisions/WI-424-ci-convergence-finalization-recovery.finalize.json",
+        "verification": ".ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json"
+      },
+      "headRevision": "aad8281cc86628fcbc62ff3291273504ff07ca3e",
+      "parityRows": [
+        {
+          "path": "docs/reference/reference-parity.md",
+          "row": "| WI-424 — CI convergence finalization recovery | In progress | Archive `.ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.contract.json`; verification `.ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json`; finalization `.ai/decisions/WI-424-ci-convergence-finalization-recovery.finalize.json`; close `.ai/decisions/WI-424-ci-convergence-finalization-recovery.close.json`. |"
+        },
+        {
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "row": "| WI-424——CI convergence 收尾恢复 | 进行中 | 归档 `.ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.contract.json`；verification `.ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json`；finalization `.ai/decisions/WI-424-ci-convergence-finalization-recovery.finalize.json`；close `.ai/decisions/WI-424-ci-convergence-finalization-recovery.close.json`。 |"
+        },
+        {
+          "path": "docs/reference/reference-parity.ja.md",
+          "row": "| WI-424 — CI convergence finalization recovery | In progress | Archive `.ai/work-items/archive/WI-424-ci-convergence-finalization-recovery.contract.json`; verification `.ai/evidence/WI-424-ci-convergence-finalization-recovery.verification.json`; finalization `.ai/decisions/WI-424-ci-convergence-finalization-recovery.finalize.json`; close `.ai/decisions/WI-424-ci-convergence-finalization-recovery.close.json`. |"
+        }
+      ],
+      "provider": "github",
+      "pullRequest": {
+        "number": 389,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/389"
+      },
+      "registryBaseRevision": "72d4ea5fccb0896d7f451c480a6dbb6a977fb227",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "in_progress",
+      "workItemId": "WI-424-ci-convergence-finalization-recovery"
+    }
+  ],
   "schemaVersion": 1
 }
