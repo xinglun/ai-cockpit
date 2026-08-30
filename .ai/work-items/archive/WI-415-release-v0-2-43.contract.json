@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and lockfile advance exactly one patch from v0.2.42 to v0.2.43 without reusing an existing tag or Release.",
+    "The reviewed release workflow binds the exact reviewed commit, target archives, SBOMs, manifest, Formula, SHA256SUMS, provenance, and immutable tag/Release identity.",
+    "Current release, installation, versioning, and parity documentation remain synchronized in English, Simplified Chinese, and Japanese, with historical releases explicitly retained as historical.",
+    "Post-release acceptance uses only the immutable public v0.2.43 artifact in a separate isolated Work Item; no source or workspace fallback is allowed.",
+    "Reviewed merge, finalization, close, default-branch synchronization, and exact branch/worktree cleanup leave main ready_on_base."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "107dfab6e6e331041a73fce7406f573bfbd7610c",
+  "createdAt": "2026-08-30T05:23:30Z",
+  "goal": "Publish v0.2.43 from the reviewed main, preserving release identity, documentation consistency, and a ready_on_base repository for the next reference-parity batch.",
+  "intent": "Publish the reviewed main after WI-414 as v0.2.43, synchronize current release guidance in three languages, and produce a clean public-artifact acceptance baseline.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime governance semantics",
+    "reference-source/V1 runtime or installer copying",
+    "global Agent/MCP configuration",
+    "post-release adopter application source"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f340bbbae8b489247bd9dbe1dc99ca2ed3bfa31f8c1d1cff5b19af2d9bc9780e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release",
+    "repository-isolation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-415-release-v0-2-43",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/380",
+    "worktree": "/private/tmp/ai-cockpit-wi415-release-v0-2-43"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-415-release-v0-2-43.md",
+    "docs/work-items/WI-415-release-v0-2-43.zh-CN.md",
+    "docs/work-items/WI-415-release-v0-2-43.ja.md",
+    "tests/release/**",
+    "tests/docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-415-release-v0-2-43"
+}
