@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:1d996c6f9c2815ba4f6d40170a218a4e8aa9f3a9f0945a11ff7c30fb2e469a88",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "ccf187c110cfd163b32f2a0eb25bcdea4b99bd13",
+      "name": "codex/wi-421-reference-mixed-monorepo",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:29367cb71cf5163f6455d8473fce4e7068ef5eb98f9dd949be25882e95e4746c",
+    "operationId": "WI-421-reference-mixed-monorepo-merge-observation",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "5b98268cf7becfd7a37bb877398616ba05afd405",
+      "headRevision": "ccf187c110cfd163b32f2a0eb25bcdea4b99bd13",
+      "mergeCommit": "4c75d665f4a836ca7467b85b0542463334dd61d3",
+      "number": 386,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/386"
+    },
+    "reason": "PR #386 passed hosted checks and merged as 4c75d665f4a836ca7467b85b0542463334dd61d3; retain the exact branch and worktree until close verification completes.",
+    "receiptId": "WI-421-reference-mixed-monorepo-merge-observation",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-421-reference-mixed-monorepo",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/386",
+      "worktree": "/private/tmp/ai-cockpit-wi-421-reference-mixed-monorepo"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+    "runtimeVersion": "0.2.44",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-30T11:10:00Z",
+    "workItemId": "WI-421-reference-mixed-monorepo",
+    "worktree": {
+      "branch": "codex/wi-421-reference-mixed-monorepo",
+      "headRevision": "ccf187c110cfd163b32f2a0eb25bcdea4b99bd13",
+      "path": "/private/tmp/ai-cockpit-wi-421-reference-mixed-monorepo",
+      "worktreeId": "WI-421-reference-mixed-monorepo"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-421-reference-mixed-monorepo-merge-observation"
+}
