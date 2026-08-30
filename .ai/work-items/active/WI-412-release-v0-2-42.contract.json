@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and lockfile advance exactly one patch from v0.2.41 to v0.2.42 without reusing an existing tag or Release.",
+    "The reviewed workflow builds declared targets from the exact reviewed main commit and binds manifest, Formula, SHA256SUMS, SBOM, provenance, and immutable tag/Release identity.",
+    "Post-release acceptance is a separate immutable-artifact step and is not claimed by this preparation Work Item.",
+    "Version, installation, release, and parity documentation are synchronized in all three languages with no stale current-version claims.",
+    "Reviewed merge, finalization, close, synchronization, and exact branch/worktree cleanup leave main ready_on_base with no open release branch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "fcba9ad73e7191f9094411615cbc8070763443f8",
+  "createdAt": "2026-08-30T02:44:56Z",
+  "goal": "Publish v0.2.42 from the reviewed main commit with complete version, release, evidence, and cleanup binding; do not claim adopter acceptance before the public artifact is verified.",
+  "intent": "Prepare and publish the reviewed post-WI-411 Runtime as v0.2.42, then leave a clean reviewed base for immutable public adopter acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-core/**",
+    "governance semantics and lifecycle implementation",
+    "reference-source/V1 runtime or installer copying",
+    "global Agent/MCP configuration",
+    "unrelated adopter application source"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f060b87389dcb89bc04618ebea639966cd36516d31e9d4c02df77f4958c8a7f7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-412-release-v0-2-42",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi412-release-v0-2-42"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/**",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-412-release-v0-2-42.md",
+    "docs/work-items/WI-412-release-v0-2-42.zh-CN.md",
+    "docs/work-items/WI-412-release-v0-2-42.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/release/**",
+    "tests/docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "bash tests/release/version_consistency_test.sh",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/action_runtime_policy_test.sh",
+    "bash tests/release/annotated_tag_identity.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi412-governance.json",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "git diff --check"
+  ],
+  "workItemId": "WI-412-release-v0-2-42"
+}
