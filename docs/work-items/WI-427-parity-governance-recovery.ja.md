@@ -6,6 +6,7 @@ workItemId: WI-427-parity-governance-recovery
 audience: [contributor, maintainer, reviewer]
 status: in_progress
 authority: human-authorized
+lastVerifiedBy: WI-427-parity-governance-recovery
 ---
 
 # WI-427 — parity governance recovery
