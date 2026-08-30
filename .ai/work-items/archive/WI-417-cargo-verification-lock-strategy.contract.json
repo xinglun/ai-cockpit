@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "带 Cargo.lock 的 Cargo 仓库声明 cargo test --locked --workspace",
+    "无 Cargo.lock 的 Cargo 仓库声明 cargo test --workspace 且命令可执行",
+    "start 与 recovery scaffold 使用同一确定性命令选择规则",
+    "非 Cargo 仓库不被臆造 Cargo 验证命令",
+    "现有生命周期与全工作区测试保持通过"
+  ],
+  "authority": "authorized",
+  "baseRevision": "07076aab932485d1ce3ad25c3a7d18b1b19df18a",
+  "createdAt": "2026-08-30T07:12:02Z",
+  "goal": "Runtime 根据仓库事实选择可执行的 Cargo 验证命令，并让 start 与 recovery scaffold 使用同一规则，避免对象工程在发布版治理流程中被错误阻塞。",
+  "intent": "修复 Work Item Contract 默认 Cargo 验证命令选择，使无 Cargo.lock 的 Rust 仓库不会声明不可执行的 --locked 检查。",
+  "mode": "code",
+  "outOfScope": [
+    "verification semantics beyond command selection",
+    "release/adopter harness behavior",
+    "sentinel source changes",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8f1df9134e81e6a8d59da56d5bc5430c0c2cdcc171ff699986b69be1173acc5c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository-isolation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-417-cargo-verification-lock-strategy",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/382",
+    "worktree": "/private/tmp/ai-cockpit-wi-417-cargo-lock-strategy"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/verification_command_selection.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-417-cargo-verification-lock-strategy"
+}

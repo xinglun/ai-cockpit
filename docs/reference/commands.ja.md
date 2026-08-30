@@ -66,6 +66,10 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
 - `work-item new --repo <path> --id <id> --mode <mode>` は `not_ready` skeleton を作ります。snapshot-derived facts だけを埋め、
   human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。repository-local の
   exclusive reservation により重複競合は fail closed になり、同じ ID では 1 件だけが成功し、異なる repository は独立して動作します。
+- `start` が skeleton を activate するとき、既知の repository fact から Cargo の既定 verification command を選びます。
+  `Cargo.lock` がある repository は `cargo test --locked --workspace`、lockfile がない Cargo repository は
+  `cargo test --workspace` を使います。非 Cargo repository には Cargo command を推測せず、owner-approved check の宣言が必要です。
+  この選択は deterministic であり、人間が所有する intent や acceptance の代替ではありません。
 - `work-item outcome --repo <path> --id <id>` は完了内容、問題、停止、リスク、不明点、判断、検証、影響、次の action の順で人間向け結果を表示します。
   automation には `--json` を使います。status marker と言語規則は[人間向け Outcome](outcome-report.ja.md)を参照してください。
   Work Item の完了時には型付きの `*.task-report.json`、人間向けの `*.task-report.md`、append-only の `*.events.jsonl` も bind されます。

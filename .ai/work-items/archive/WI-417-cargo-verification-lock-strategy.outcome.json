@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "带 Cargo.lock 的 Cargo 仓库声明 cargo test --locked --workspace",
+    "无 Cargo.lock 的 Cargo 仓库声明 cargo test --workspace 且命令可执行",
+    "start 与 recovery scaffold 使用同一确定性命令选择规则",
+    "非 Cargo 仓库不被臆造 Cargo 验证命令",
+    "现有生命周期与全工作区测试保持通过"
+  ],
+  "createdAt": "2026-08-30T07:32:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c59c260b01e81a370ab1499df61f9f82b0847a219dbf6ca5d003d341fdda534c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d2569f562da44e17934a76daebaf3cc8defc2cd70e5ed9b7d6958b1357f7c562",
+      "workItemId": "WI-417-cargo-verification-lock-strategy"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-417-cargo-verification-lock-strategy.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json"
+          ],
+          "inference": false,
+          "text": "Runtime 根据仓库事实选择可执行的 Cargo 验证命令，并让 start 与 recovery scaffold 使用同一规则，避免对象工程在发布版治理流程中被错误阻塞。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-417-cargo-verification-lock-strategy"
+  },
+  "taskReportDigest": "sha256:c849e3b42fffb02c96e1a5a6ecb72749aa5e7af98be3c442980de57f28a7b080",
+  "taskReportMarkdownDigest": "sha256:7e357d09e301399e4dd8402c6074a5582af99ff7b62e65d8b5d22373e91f1937",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-417-cargo-verification-lock-strategy.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-417-cargo-verification-lock-strategy"
+}

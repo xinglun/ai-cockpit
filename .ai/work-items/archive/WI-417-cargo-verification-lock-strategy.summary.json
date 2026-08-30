@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json",
+    ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T07:17:04Z",
+  "checkpointContractDigest": "sha256:1e850504361cca3a2b5427071d49fd2e90cf56e6d4f4d98872d68dc9c3cfff7e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:e7eb01a2df2a4b7fb36dee099691b81ece6748afe3f3c33cdd8c1c4ee447e7d2",
+      "recorded": true,
+      "recordedAt": "2026-08-30T07:17:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d3350f838b96feeab6b38c981a6a03ffd37f2e86284fd1b6996bd428b233936",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-417-cargo-verification-lock-strategy"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:1e850504361cca3a2b5427071d49fd2e90cf56e6d4f4d98872d68dc9c3cfff7e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e7eb01a2df2a4b7fb36dee099691b81ece6748afe3f3c33cdd8c1c4ee447e7d2",
+      "previousContractHash": "sha256:e7eb01a2df2a4b7fb36dee099691b81ece6748afe3f3c33cdd8c1c4ee447e7d2",
+      "reason": "Bind the reviewed PR finalization context before refreshing verification evidence.",
+      "recorded": true,
+      "recordedAt": "2026-08-30T07:29:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d2569f562da44e17934a76daebaf3cc8defc2cd70e5ed9b7d6958b1357f7c562",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-417-cargo-verification-lock-strategy"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d2569f562da44e17934a76daebaf3cc8defc2cd70e5ed9b7d6958b1357f7c562",
+  "createdAt": "2026-08-30T07:12:02Z",
+  "failedGate": "finish.verification",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T07:32:01Z",
+  "preflightContractDigest": "sha256:1e850504361cca3a2b5427071d49fd2e90cf56e6d4f4d98872d68dc9c3cfff7e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d2569f562da44e17934a76daebaf3cc8defc2cd70e5ed9b7d6958b1357f7c562",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T07:32:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-417-cargo-verification-lock-strategy"
+}

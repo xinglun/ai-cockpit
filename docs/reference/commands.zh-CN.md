@@ -61,6 +61,10 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 - `work-item new --repo <path> --id <id> --mode <mode>` 创建 `not_ready` 骨架，只填充 snapshot-derived facts，
   人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。repository-local 独占 reservation
   会让重复竞争 fail closed：同一 ID 只有一个请求成功，另一个失败；不同 repository 仍然相互独立。
+- `start` 激活骨架时，会根据仓库事实选择默认 Cargo 验证命令：存在 `Cargo.lock` 时使用
+  `cargo test --locked --workspace`；没有 lockfile 的 Cargo 仓库使用 `cargo test --workspace`；
+  非 Cargo 仓库不会臆造 Cargo 命令，必须由所有者声明批准的检查。该选择是确定性的，不能替代
+  人类拥有的 intent 或 acceptance。
 - `work-item outcome --repo <path> --id <id>` 按已完成内容、问题、停止、风险、未知、决定、验证、影响和下一步的顺序输出面向人的结果。
   自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。Work Item 完成后还会绑定类型化的
   `*.task-report.json`、面向人的 `*.task-report.md` 和 append-only 的 `*.events.jsonl`；它们是绑定 evidence 的投影，

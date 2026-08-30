@@ -3996,7 +3996,13 @@ fn activate_not_ready_scaffold(
             path: contract_path.clone(),
             message: error.to_string(),
         })?;
-    contract["verification"] = serde_json::json!(["cargo test --locked --workspace"]);
+    contract["verification"] =
+        serde_json::to_value(default_verification_commands(&root)).map_err(|error| {
+            ObserverError::State {
+                path: contract_path.clone(),
+                message: error.to_string(),
+            }
+        })?;
     contract["resourceContext"] = serde_json::to_value(provisional_resource_context(&root))
         .map_err(|error| ObserverError::State {
             path: contract_path.clone(),
@@ -4015,6 +4021,23 @@ fn activate_not_ready_scaffold(
         state: "implementation_active".into(),
         timestamp: now(),
     }))
+}
+
+/// Select only verification commands that the current repository can support
+/// from observed build facts. Cargo's `--locked` mode is valid only when the
+/// repository actually contains a lockfile; declaring it for a lockfile-less
+/// adopter makes the Contract impossible to execute. Non-Cargo repositories
+/// receive no invented command and must declare an owner-approved check.
+fn default_verification_commands(root: &Path) -> Vec<String> {
+    let cargo_manifest = root.join("Cargo.toml");
+    if !cargo_manifest.is_file() {
+        return Vec::new();
+    }
+    if root.join("Cargo.lock").is_file() {
+        vec!["cargo test --locked --workspace".into()]
+    } else {
+        vec!["cargo test --workspace".into()]
+    }
 }
 
 /// Create a deterministic, validator-readable Work Item skeleton.

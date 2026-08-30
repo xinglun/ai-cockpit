@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T07:32:09Z",
+  "files": {
+    "contractDigest": "sha256:fbb90d71b3cbd0fcaf19919de155cd6991c0238e1a428284cc0646a284c6fa2d",
+    "contractPath": ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.contract.json",
+    "eventsDigest": "sha256:cdd47dc2c7f57b05c586fb01c99e9b73d751f6471161fa69ed85a67b0f007eaf",
+    "eventsPath": ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.events.jsonl",
+    "outcomeDigest": "sha256:92401cc472fe7c23198fb6878c06ed6dd40064923a3ba9a6ce8a7ce3e94de7f3",
+    "outcomePath": ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.outcome.json",
+    "summaryDigest": "sha256:5283955ecbf617461b556c1fe5b4eeed3642394ea692179b2ab8fb6f4e5d5712",
+    "summaryPath": ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.summary.json",
+    "taskReportDigest": "sha256:c849e3b42fffb02c96e1a5a6ecb72749aa5e7af98be3c442980de57f28a7b080",
+    "taskReportMarkdownDigest": "sha256:7e357d09e301399e4dd8402c6074a5582af99ff7b62e65d8b5d22373e91f1937",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-417-cargo-verification-lock-strategy.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-417-cargo-verification-lock-strategy"
+}
