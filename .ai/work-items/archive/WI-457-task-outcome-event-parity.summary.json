@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-457-task-outcome-event-parity.contract.json",
+    ".ai/work-items/archive/WI-457-task-outcome-event-parity.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T20:25:19Z",
+  "checkpointContractDigest": "sha256:41edf97be67410c03fd60a8c4936bc1fd574e325eb3cce6ed66715c60815c235",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:276c3e8be3f869762b568d11af8b16428c96550b9f47be8bbd0fdcc5cf6c2b3c",
+      "recorded": true,
+      "recordedAt": "2026-08-31T20:25:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:46b493290feaac14ee8a22adeb70f92f0e94238769e1e5036502a3e6613b61f2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-457-task-outcome-event-parity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:2d81b6a2e90dfddb863fea57fab6743c10e3d9410ffc0aadfcc5e1ab75695182",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:276c3e8be3f869762b568d11af8b16428c96550b9f47be8bbd0fdcc5cf6c2b3c",
+      "previousContractHash": "sha256:276c3e8be3f869762b568d11af8b16428c96550b9f47be8bbd0fdcc5cf6c2b3c",
+      "reason": "Use the canonical verification evidence class so the Runtime can evaluate the already declared verification command without inventing custom evidence classes.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T20:29:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:46b493290feaac14ee8a22adeb70f92f0e94238769e1e5036502a3e6613b61f2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-457-task-outcome-event-parity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:41edf97be67410c03fd60a8c4936bc1fd574e325eb3cce6ed66715c60815c235",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:276c3e8be3f869762b568d11af8b16428c96550b9f47be8bbd0fdcc5cf6c2b3c",
+      "previousContractHash": "sha256:2d81b6a2e90dfddb863fea57fab6743c10e3d9410ffc0aadfcc5e1ab75695182",
+      "reason": "Bind the reviewed Draft PR resource context before the final verification cycle.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T20:38:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fe530f3e25fa5e0bee306c6cb213ed44cf4c8696e5ec8aa866fb98fdec9b3900",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-457-task-outcome-event-parity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:fe530f3e25fa5e0bee306c6cb213ed44cf4c8696e5ec8aa866fb98fdec9b3900",
+  "createdAt": "2026-08-31T20:11:22Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T20:41:35Z",
+  "preflightContractDigest": "sha256:41edf97be67410c03fd60a8c4936bc1fd574e325eb3cce6ed66715c60815c235",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:fe530f3e25fa5e0bee306c6cb213ed44cf4c8696e5ec8aa866fb98fdec9b3900",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T20:41:38Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-457-task-outcome-event-parity"
+}

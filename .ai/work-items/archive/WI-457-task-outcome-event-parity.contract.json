@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "TaskOutcomeEvent retains repository/work-item identity and strict unknown-field rejection",
+    "Supported event families include finding, risk, warning, confirmation, stop, resume, resolution, risk-accepted, check-pass-after-fix, prevention, completed, and cancelled with explicit correction/supersession relationships",
+    "Finding events carry a deterministic findingFingerprint and duplicate fingerprints are not emitted unless an explicit post-fix recurrence is recorded",
+    "Generated report sections produce corresponding append-only events for findings, risks, warnings, stops, resolutions, recurrence prevention, avoided impact, residual risks, completion, and cancellation without inventing authority or benefits",
+    "Validator rejects malformed, foreign, unsafe, duplicate, out-of-order relationship, and unknown event-family records while preserving historical valid streams",
+    "Three-language docs describe semantic mapping, original contract language preservation, conditional avoided impact, privacy/no-score rules, and non-wire compatibility",
+    "Focused Rust tests and cargo test --locked --workspace pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "7254ac7eaa18cd2fdaaddb5011bfba23840bd674",
+  "createdAt": "2026-08-31T20:11:22Z",
+  "goal": "让事件流能表达参考源要求的 finding/risk/warning/confirmation/stop/resume/resolution/risk-accepted/check-pass-after-fix/prevention/completed/cancelled 语义，重复 finding 可确定性去重，修正只能追加，生成与校验覆盖新增事件族，并在三语文档中明确 Rust 语义映射与非 wire 兼容边界。",
+  "intent": "将参考源 Task Outcome Events 的可审计事件族、finding 去重、correction/supersession 与生成/校验边界语义对齐到 Rust Runtime，同时保持 Rust-native wire shape 与历史事件可读性。",
+  "mode": "code",
+  "outOfScope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "publication-provider-evidence",
+    "Project-Profile-language-projection",
+    "Status-or-PR-projection",
+    "reference-source-Python-or-Make-copy"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8c08b5b1379bf5b31d2fcbeeb2205097c750ce4d8ab828e365a43f3e12d4f99d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-457-task-outcome-event-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/427",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-457-task-outcome-event-parity"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/task_outcome_events.rs",
+    "docs/reference/task-outcome-events.md",
+    "docs/reference/task-outcome-events.zh-CN.md",
+    "docs/reference/task-outcome-events.ja.md",
+    "docs/features/task-outcome-report.md",
+    "docs/features/task-outcome-report.zh-CN.md",
+    "docs/features/task-outcome-report.ja.md",
+    "docs/superpowers/plans/2026-09-01-task-outcome-event-parity.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-457-task-outcome-event-parity"
+}
