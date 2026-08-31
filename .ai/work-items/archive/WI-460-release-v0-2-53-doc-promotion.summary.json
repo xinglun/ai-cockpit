@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-460-release-v0-2-53-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-460-release-v0-2-53-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-460-release-v0-2-53-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-460-release-v0-2-53-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-08-31T22:29:30Z",
-  "checkpointContractDigest": "sha256:6a6510a1a027bb262915a3837f46dfeb2eb2bcfcb84315af87fd06c176a8430a",
+  "checkpointContractDigest": "sha256:b8c6b957a1b8a01885b9c2bdf483dcfcc18e780ee1275a19ac28422755495c9c",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,21 +62,21 @@
       "workItemId": "WI-460-release-v0-2-53-doc-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:eae5533648430510f986ff8dc80eebda90ddc178d3e774b0f1f1a81b78d0ec3c",
+  "checkpointRepositorySnapshotDigest": "sha256:e0a34a1a3d8ebcdce300fff718d1aff2e38e919b4e0cf03fb0d462184f98f556",
   "createdAt": "2026-08-31T22:28:37Z",
   "failedGate": "finish.governance",
   "mode": "docs",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-31T22:37:59Z",
-  "preflightContractDigest": "sha256:6a6510a1a027bb262915a3837f46dfeb2eb2bcfcb84315af87fd06c176a8430a",
+  "preflightAt": "2026-08-31T22:41:10Z",
+  "preflightContractDigest": "sha256:b8c6b957a1b8a01885b9c2bdf483dcfcc18e780ee1275a19ac28422755495c9c",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:eae5533648430510f986ff8dc80eebda90ddc178d3e774b0f1f1a81b78d0ec3c",
+  "preflightRepositorySnapshotDigest": "sha256:e0a34a1a3d8ebcdce300fff718d1aff2e38e919b4e0cf03fb0d462184f98f556",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-31T22:38:04Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T22:41:10Z",
   "verification": [
     {
       "check": "project-command-0",
