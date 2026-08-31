@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-447-release-v0-2-49.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2eeee11b0c13e48bca3f1278ae4ea2fb51ec6acad6b89684f9c439b5fc226b4e",
+      "workItemId": "WI-447-release-v0-2-49"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-447-release-v0-2-49.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-447-release-v0-2-49.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-447-release-v0-2-49.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-447-release-v0-2-49.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-447-release-v0-2-49.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-447-release-v0-2-49.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-447-release-v0-2-49.verification.json",
+            ".ai/decisions/WI-447-release-v0-2-49.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-merge-and-cleanup at 2026-08-31T10:00:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-447-release-v0-2-49.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-447-release-v0-2-49.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-447-release-v0-2-49.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-447-release-v0-2-49.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce an auditable v0.2.49 release from the merged historical-finalization recovery Runtime, with versioned manifests, checksums, SBOM, and post-release acceptance readiness."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-447-release-v0-2-49.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-447-release-v0-2-49"
+  },
+  "finalReportDigest": "sha256:268d9d3980d829ba069892abcc30f122b2841ba227248ca10362c3ee4c963386",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:7b8cae4ef0bfc723711cd8acf9bc1bb3ce77953e56e1477b8cd4c6aae515c63f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-447-release-v0-2-49.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-merge-and-cleanup",
+    "decidedAt": "2026-08-31T10:00:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-447-release-v0-2-49.verification.json",
+      ".ai/decisions/WI-447-release-v0-2-49.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.zh-CN.md"
+    ],
+    "reason": "PR #415 已评审合并，v0.2.49 发布前门禁和资源清理已完成；公开制品发布与 adopter 验收由发布工作流绑定。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-31T09:55:22Z",
+  "workItemId": "WI-447-release-v0-2-49"
+}
