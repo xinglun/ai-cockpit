@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "user-instruction",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "648b257c90ba398089da4981e1779fd6b20870bb",
+    "name": "codex/wi-433-local-reference-source",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:a3d8295f24283a13a34d42a39ec662212f39ffc744eb939c825cf6bb9302216d",
+  "operationId": "wi-433-pre-merge-final",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "189a60c1792d82fc4c2c9f65f04e6ce5f33addb5",
+    "headRevision": "648b257c90ba398089da4981e1779fd6b20870bb",
+    "number": 399,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/399"
+  },
+  "reason": "await reviewed PR merge before exact branch and worktree cleanup",
+  "receiptId": "wi-433-pre-merge-final",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-433-local-reference-source",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/399",
+    "worktree": "/private/tmp/ai-cockpit-wi433-local-reference"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T01:10:00Z",
+  "workItemId": "WI-433-local-reference-source-binding",
+  "worktree": {
+    "branch": "codex/wi-433-local-reference-source",
+    "headRevision": "648b257c90ba398089da4981e1779fd6b20870bb",
+    "path": "/private/tmp/ai-cockpit-wi433-local-reference",
+    "worktreeId": "WI-433-local-reference-source-binding"
+  }
+}
