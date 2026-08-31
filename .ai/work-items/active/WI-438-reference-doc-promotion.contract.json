@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "The six tri-language WI-437 projections are promoted only from the closed WI-437 receipts",
+    "This Work Item has matching tri-language documentation and a pre-archive parity entry",
+    "promotion check-all reports no stale projections",
+    "Documentation acceptance, parity/status checks, and workspace verification remain passing",
+    "No governance facts or immutable evidence bytes are rewritten"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b5a74721dc49d2a3ef9bc4894b21e22986a79820",
+  "createdAt": "2026-08-31T03:49:40Z",
+  "goal": "Run the canonical closed-Work-Item documentation promotion and leave all tri-language projections current without changing governance facts",
+  "intent": "Promote the closed WI-437 status projections so the repository's documented parity state matches verified archive and close receipts",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source or protocol behavior",
+    "Reference inventory classifications or source checkout",
+    "Changing archived Contract",
+    " Summary",
+    " Outcome",
+    " Evidence",
+    " or Decision receipts",
+    "Release publication or adopter acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c83ea1b800cd037d5c89e732e3e93858b5c3db40e315f527a06e7c4a6403a230",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-438-reference-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/404",
+    "worktree": "/private/tmp/ai-cockpit-wi438-reference-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-437-reference-rebaseline-governance.md",
+    "docs/work-items/WI-437-reference-rebaseline-governance.zh-CN.md",
+    "docs/work-items/WI-437-reference-rebaseline-governance.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-438-reference-doc-promotion.md",
+    "docs/work-items/WI-438-reference-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-438-reference-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-438-reference-doc-promotion"
+}
