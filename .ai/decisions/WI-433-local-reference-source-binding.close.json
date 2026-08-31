@@ -1,0 +1,141 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:55f3169635fa745881eaf4bd5ee9840a564e0c1676f23b44761896742b709c5c",
+      "workItemId": "WI-433-local-reference-source-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-433-local-reference-source-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-433-local-reference-source-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-433-local-reference-source-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-433-local-reference-source-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json",
+            ".ai/decisions/WI-433-local-reference-source-binding.finalize.5efff150f1d0191f89beef80658b4cbd0b901d262c236597d846713a9dcca476.json",
+            ".ai/decisions/WI-433-local-reference-source-binding.finalize.3dba26b4c6ab10af5e7b49d9edbdb1638014c7d8119c97ea9b995ebb7a855e41.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-31T01:25:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-433-local-reference-source-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind future reference comparisons to an explicit local Git checkout and pinned commit, remove active public-network reference dependency from conformance CI, and document the semantic/non-copy boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-433-local-reference-source-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-433-local-reference-source-binding"
+  },
+  "finalReportDigest": "sha256:01ad7b1df2924f64c2947728de01eae2f232a085c7f9fac3a9a41105b1dd515f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:b01f6fbea96de3682d49a5f4727330d0a2a8835fe41481cb7e0c154532566e79",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-433-local-reference-source-binding.finalize.3dba26b4c6ab10af5e7b49d9edbdb1638014c7d8119c97ea9b995ebb7a855e41.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-31T01:25:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-433-local-reference-source-binding.verification.json",
+      ".ai/decisions/WI-433-local-reference-source-binding.finalize.5efff150f1d0191f89beef80658b4cbd0b901d262c236597d846713a9dcca476.json",
+      ".ai/decisions/WI-433-local-reference-source-binding.finalize.3dba26b4c6ab10af5e7b49d9edbdb1638014c7d8119c97ea9b995ebb7a855e41.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:reviewed-pr-before-close",
+      "AGENTS.md:exact-branch-worktree-cleanup"
+    ],
+    "reason": "PR #399 merged as 81fa4a4 after all hosted checks passed; the local reference checkout is pinned, offline policy is enforced, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "Future reference changes require a new bounded Work Item from synchronized main."
+  },
+  "timestamp": "2026-08-31T01:05:08Z",
+  "workItemId": "WI-433-local-reference-source-binding"
+}
