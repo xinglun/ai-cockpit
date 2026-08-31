@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "All six exact WI-455 documentation projections pass the closed Work Item promotion validator.",
+    "No Runtime-generated .ai bytes, historical evidence, or unrelated prose are changed.",
+    "Three-language documentation acceptance and parity status checks pass."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "9ce296a694f6a69b38c96fa01ce0639f1ee2f32e",
+  "createdAt": "2026-08-31T18:47:11Z",
+  "goal": "Synchronize WI-455 Work Item pages and reference-parity rows with immutable Runtime closure evidence.",
+  "intent": "Promote the already closed WI-455 lifecycle into the exact three-language documentation projections required by the post-close gate.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime code",
+    " tests",
+    " CI",
+    " release metadata",
+    " .ai lifecycle records",
+    " historical evidence",
+    " and all other documentation."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2c633643fd6408cfea6e081ac3110d65b85d7dc540977e4127a539836f050cd4",
+  "requiredEvidenceClasses": [
+    ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-456-wi455-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-456-wi455-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-455-release-v0-2-52-annotated-tag.md",
+    "docs/work-items/WI-455-release-v0-2-52-annotated-tag.zh-CN.md",
+    "docs/work-items/WI-455-release-v0-2-52-annotated-tag.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-456-wi455-doc-promotion"
+}
