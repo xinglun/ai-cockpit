@@ -7,6 +7,10 @@ audience: [maintainer, reviewer, adopter]
 status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-432-reference-typescript-fixture-boundary
+terminalArchive: .ai/work-items/archive/WI-432-reference-typescript-fixture-boundary.contract.json
+terminalVerification: .ai/evidence/WI-432-reference-typescript-fixture-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-432-reference-typescript-fixture-boundary.finalize.7ed22daac35a32d6f53289562f5fc955ba076854ff0483799f42c54a7a199eed.json
+terminalDecision: .ai/decisions/WI-432-reference-typescript-fixture-boundary.close.json
 sourceCommit: e5acb677da6621004d96f0ef353c58fe8d3acfbf
 ---
 
