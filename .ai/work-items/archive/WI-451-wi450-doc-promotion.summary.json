@@ -1,0 +1,65 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-451-wi450-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-451-wi450-doc-promotion.intelligence.json",
+    ".ai/work-items/archive/WI-451-wi450-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T14:38:12Z",
+  "checkpointContractDigest": "sha256:8f6077c309de2bdb3a113bc1a51f6934f9604619e026323c7fd877d3402f966c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:38c132ae4c06a8a31bc120d7f1079efe896ea74a3417fd93d2226cb499b5d0e8",
+      "recorded": true,
+      "recordedAt": "2026-08-31T14:38:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4ff472025b4f07865a603bb5905ee556b001680e477eea32cd4cd52ea2b93e3a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-451-wi450-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8f6077c309de2bdb3a113bc1a51f6934f9604619e026323c7fd877d3402f966c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:38c132ae4c06a8a31bc120d7f1079efe896ea74a3417fd93d2226cb499b5d0e8",
+      "previousContractHash": "sha256:38c132ae4c06a8a31bc120d7f1079efe896ea74a3417fd93d2226cb499b5d0e8",
+      "reason": "Add the mandatory tri-language self Work Item documents and parity registration required by the repository governance gate before implementing the post-close documentation promotion.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T14:38:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d90a22672fe42b0831736302ee09f8c6da7c76fad9de382d918fb989156b877f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-451-wi450-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:73ea98737bd6af31632c8ca932bdc25cad3b262409998fcdac9023e68fd33bc9",
+  "createdAt": "2026-08-31T14:36:08Z",
+  "mode": "docs",
+  "preflightAt": "2026-08-31T14:41:56Z",
+  "preflightContractDigest": "sha256:8f6077c309de2bdb3a113bc1a51f6934f9604619e026323c7fd877d3402f966c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:73ea98737bd6af31632c8ca932bdc25cad3b262409998fcdac9023e68fd33bc9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T14:42:10Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-451-wi450-doc-promotion"
+}
