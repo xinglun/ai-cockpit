@@ -4,7 +4,7 @@ title: "WI-442——WI-441 parity ledger 文档投影"
 workItemId: WI-442-wi441-doc-promotion
 description: "将已关闭 WI-441 的终态证据投影到三语 reference-parity ledger。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-442-wi441-doc-promotion
 terminalArchive: .ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json

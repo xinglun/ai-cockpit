@@ -4,7 +4,7 @@ title: "WI-442 — WI-441 parity-ledger projection"
 workItemId: WI-442-wi441-doc-promotion
 description: "Promote the closed WI-441 terminal evidence into the three reference-parity ledgers."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-442-wi441-doc-promotion
 terminalArchive: .ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json

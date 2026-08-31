@@ -4,7 +4,7 @@ title: "WI-442 — WI-441 parity ledger ドキュメント投影"
 workItemId: WI-442-wi441-doc-promotion
 description: "クローズ済み WI-441 の終端証跡を三言語の reference-parity ledger に投影する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-442-wi441-doc-promotion
 terminalArchive: .ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json
