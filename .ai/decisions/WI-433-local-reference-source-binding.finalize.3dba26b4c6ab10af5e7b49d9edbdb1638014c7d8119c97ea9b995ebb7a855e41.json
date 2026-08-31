@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:f8ae6fdd2626e338b29313dfe61ffcf8deac24b650c7079d8db25ec4b2dac87f",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-WI-433-postmerge-cleanup-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "cd7604e83a2268fc570c9e048e0a70bec0f8dbe6",
+      "name": "codex/wi-433-local-reference-source",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:a3d8295f24283a13a34d42a39ec662212f39ffc744eb939c825cf6bb9302216d",
+    "operationId": "operation-WI-433-local-reference-source-binding-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "189a60c1792d82fc4c2c9f65f04e6ce5f33addb5",
+      "headRevision": "cd7604e83a2268fc570c9e048e0a70bec0f8dbe6",
+      "mergeCommit": "81fa4a4569144320fa39026dea9aab648a2c5dee",
+      "number": 399,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/399"
+    },
+    "reason": "cleanup verified: PR #399 merged as 81fa4a4, the provider-side branch is absent, and the exact WI-433 local branch and clean feature worktree were removed.",
+    "receiptId": "ai-cockpit-WI-433-local-reference-source-binding-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-433-local-reference-source",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/399",
+      "worktree": "/private/tmp/ai-cockpit-wi433-local-reference"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+    "runtimeVersion": "0.2.47",
+    "schemaVersion": 1,
+    "timestamp": "2026-08-31T01:20:00Z",
+    "workItemId": "WI-433-local-reference-source-binding",
+    "worktree": {
+      "branch": "codex/wi-433-local-reference-source",
+      "headRevision": "cd7604e83a2268fc570c9e048e0a70bec0f8dbe6",
+      "path": "/private/tmp/ai-cockpit-wi433-local-reference",
+      "worktreeId": "WI-433-local-reference-source-binding"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "ai-cockpit-WI-433-local-reference-source-binding-cleanup"
+}
