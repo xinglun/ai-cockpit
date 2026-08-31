@@ -28,14 +28,40 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-455-release-v0-2-52-annotated-tag",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/425",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-455-release-v0-2-52-annotated-tag"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A reviewed annotated tag is peeled to the reviewed source commit and the public Release is created only after every required gate passes.",
+      "required": true,
+      "scenario": "valid_annotated_release",
+      "status": "unverified",
+      "verificationPlan": "Run the annotated-tag fixture, strict release route, hosted release workflow, and public artifact checks."
+    },
+    {
+      "evidence": [],
+      "expected": "A lightweight tag has no peeled identity and cannot trigger a valid publication.",
+      "required": true,
+      "scenario": "lightweight_tag_rejected",
+      "status": "unverified",
+      "verificationPlan": "Run the annotated-tag regression fixture and inspect the release workflow identity check."
+    },
+    {
+      "evidence": [],
+      "expected": "A downloaded public artifact passes checksum-bound adopter acceptance in isolated roots without cargo build/run or workspace binary fallback.",
+      "required": true,
+      "scenario": "public_adopter_without_source_fallback",
+      "status": "unverified",
+      "verificationPlan": "Run the public adopter and N-1 acceptance harnesses against the published v0.2.52 Release."
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",
@@ -55,32 +81,6 @@
     ".ai/work-items/**",
     ".ai/evidence/**",
     ".ai/decisions/**"
-  ],
-  "scenarioCoverage": [
-    {
-      "scenario": "valid_annotated_release",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "A reviewed annotated tag is peeled to the reviewed source commit and the public Release is created only after every required gate passes.",
-      "verificationPlan": "Run the annotated-tag fixture, strict release route, hosted release workflow, and public artifact checks."
-    },
-    {
-      "scenario": "lightweight_tag_rejected",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "A lightweight tag has no peeled identity and cannot trigger a valid publication.",
-      "verificationPlan": "Run the annotated-tag regression fixture and inspect the release workflow identity check."
-    },
-    {
-      "scenario": "public_adopter_without_source_fallback",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "A downloaded public artifact passes checksum-bound adopter acceptance in isolated roots without cargo build/run or workspace binary fallback.",
-      "verificationPlan": "Run the public adopter and N-1 acceptance harnesses against the published v0.2.52 Release."
-    }
   ],
   "sources": [],
   "state": "implementation_active",
