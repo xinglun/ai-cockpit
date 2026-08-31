@@ -41,7 +41,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-441-reference-entrypoint-parity",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/410",
     "worktree": "/private/tmp/ai-cockpit-wi441-reference-entrypoint-parity"
   },
   "risk": "normal",

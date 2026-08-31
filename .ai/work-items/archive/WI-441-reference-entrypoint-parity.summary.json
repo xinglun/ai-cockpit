@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-441-reference-entrypoint-parity.contract.json",
-    ".ai/work-items/active/WI-441-reference-entrypoint-parity.summary.json"
+    ".ai/work-items/archive/WI-441-reference-entrypoint-parity.contract.json",
+    ".ai/work-items/archive/WI-441-reference-entrypoint-parity.summary.json"
   ],
   "checkpointAt": "2026-08-31T05:06:56Z",
-  "checkpointContractDigest": "sha256:40030cd74b948fb6f2542ed04ff284b48343818183045b65d7ca8ec6eac68fc6",
+  "checkpointContractDigest": "sha256:e67562ab9889ca49ef41e3a3dd7981ab0a40fdcc8b110f4dc3c93a45d4b66c91",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,21 +62,21 @@
       "workItemId": "WI-441-reference-entrypoint-parity"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:87047894025b93a6a67328d18d31ec8337d1077942eebf7091d7c4e05484372e",
+  "checkpointRepositorySnapshotDigest": "sha256:84b8022f806d85f2fd02a2ad57a1242b9b03ac830f1dd67bd1a5bda46e692c64",
   "createdAt": "2026-08-31T05:04:33Z",
   "failedGate": "finish.governance",
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-08-31T05:27:13Z",
-  "preflightContractDigest": "sha256:40030cd74b948fb6f2542ed04ff284b48343818183045b65d7ca8ec6eac68fc6",
+  "preflightAt": "2026-08-31T05:36:05Z",
+  "preflightContractDigest": "sha256:e67562ab9889ca49ef41e3a3dd7981ab0a40fdcc8b110f4dc3c93a45d4b66c91",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:87047894025b93a6a67328d18d31ec8337d1077942eebf7091d7c4e05484372e",
+  "preflightRepositorySnapshotDigest": "sha256:84b8022f806d85f2fd02a2ad57a1242b9b03ac830f1dd67bd1a5bda46e692c64",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-31T05:27:17Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T05:36:19Z",
   "verification": [
     {
       "check": "project-command-0",

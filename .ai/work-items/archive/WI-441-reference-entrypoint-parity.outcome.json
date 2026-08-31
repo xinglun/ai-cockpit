@@ -8,14 +8,17 @@
     "Reference policy, documentation acceptance, parity status, Work Item status consistency, governance integrity, and the full locked Rust workspace tests pass on the installed Runtime.",
     "The Work Item completes the reviewed PR, archive, close, synchronized-base, and exact branch/worktree cleanup requirements."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-31T05:36:19Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8dd52ede0cd127742964fdf32c746c8e1a16351fcf9521ec1e0e79ffe047beeb",
   "evidenceRefs": [
     ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -23,41 +26,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:87047894025b93a6a67328d18d31ec8337d1077942eebf7091d7c4e05484372e",
+      "repositorySnapshotDigest": "sha256:84b8022f806d85f2fd02a2ad57a1242b9b03ac830f1dd67bd1a5bda46e692c64",
       "workItemId": "WI-441-reference-entrypoint-parity"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-441-reference-entrypoint-parity.summary.json"
+            ".ai/work-items/archive/WI-441-reference-entrypoint-parity.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-441-reference-entrypoint-parity.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-441-reference-entrypoint-parity.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-441-reference-entrypoint-parity.summary.json"
+            ".ai/work-items/archive/WI-441-reference-entrypoint-parity.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-441-reference-entrypoint-parity.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-441-reference-entrypoint-parity.summary.json"
         }
       ],
       "evidence": [
@@ -76,15 +76,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -95,7 +87,7 @@
             ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -105,15 +97,23 @@
             ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-441-reference-entrypoint-parity.contract.json"
+            ".ai/work-items/archive/WI-441-reference-entrypoint-parity.contract.json"
           ],
           "inference": false,
           "text": "逐个复核本地参考源的 Agent 规则、三语文档入口、能力边界和 Task Outcome 路线，记录 Rust 目标的语义对齐或有边界的差异，确保对象工程可继承且不复制源项目实现。"
@@ -122,23 +122,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-441-reference-entrypoint-parity.contract.json"
+            ".ai/work-items/archive/WI-441-reference-entrypoint-parity.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-441-reference-entrypoint-parity"
   },
+  "taskReportDigest": "sha256:191c94ebcafc1c20fa8d63ba04ae482afd697c2875ff565c874428a7214f2153",
+  "taskReportMarkdownDigest": "sha256:ed42a2a52281d972a4a15139e60ab31f64ba3f6c3a9a5585c1b42d1afb3c039e",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-441-reference-entrypoint-parity"
 }
