@@ -43,7 +43,12 @@ Runtime 在写入新 Contract 前会检查所有 linked worktree。其他非 det
 → 同步默认分支 → 删除精确分支/worktree
 ```
 
-PR 合并前不得删除分支，也不能让 Provider 自动删除绕过 finalization。`close` 需要结构化人工决定、归档证据、合并 PR identity、已删除的 finalization receipt、快进同步的默认分支和干净 worktree。任何失败的后置条件都会保持可见并 fail closed。
+PR 合并前不得删除分支，也不能让 Provider 自动删除绕过 finalization。新的 Work Item 的
+`close` 需要结构化人工决定、归档证据、合并 PR identity、已删除的 finalization receipt、
+快进同步的默认分支和干净 worktree。已验证的历史 shared-worktree 或 direct-merge receipt
+可以在 `historical_low` assurance、明确人工授权和 repository 绑定的 Git 事实下使用窄化
+`retained` 例外；它不适用于新的 Work Item，也不会升级历史 evidence。任何失败的后置条件
+都会保持可见并 fail closed。
 
 close 后立即同步文档投影：
 
@@ -55,7 +60,7 @@ python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all
 
 ## 恢复与采用
 
-恢复是 append-only 且绑定 identity。snapshot 变化、receipt 过期或 provider 冲突必须记录为 retry、successor 或 supersede decision；不能编辑旧证据来把后续状态变绿。安装、升级和 adapter 设置是独立的仓库 Work Item，并使用不可变公开 Release。没有命令会选择进程级 current project，也不会修改 provider 全局 Agent 或 MCP 配置。
+恢复是 append-only 且绑定 identity。snapshot 变化、receipt 过期或 provider 冲突必须记录为 retry、successor 或 supersede decision；不能编辑旧证据来把后续状态变绿。安装、升级、adapter 设置和历史 finalization recovery 是独立的仓库操作，适用时使用不可变公开 Release。`work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` 是不可变旧 finalization 的唯一兼容路径：它绑定 predecessor digest、repository/Work Item/Contract base、当前 Runtime、actor、authority、reason 和 timestamp，但不编辑 predecessor。没有命令会选择进程级 current project，也不会修改 provider 全局 Agent 或 MCP 配置。
 
 由新 Runtime 创建的 successor 必须携带准确的 predecessor Work Item、Contract digest、recovery path 和 repository 绑定。对于在这些 Contract 字段存在之前创建的历史 successor，Runtime 只在 recovery receipt 本身同时绑定 predecessor/successor，且 successor 具备已验证 archive、严格 verification evidence 和已确认 close decision 时提供窄化兼容路径。新追加的 recovery receipt 会标记 `successorBindingMode: legacy_terminal_evidence`；缺失、foreign、stale、malformed、symlink 或不完整 evidence 仍落入 `recovery_decision_invalid`，不能授权任何转换。该兼容投影不会把未完成 successor 变成 green，也不会重写 predecessor bytes。
 

@@ -1068,6 +1068,77 @@ pub struct HistoricalFinalization {
     pub base_revision: String,
 }
 
+/// A Runtime-bound, append-only classification for an immutable finalization
+/// receipt emitted by an older Runtime.  This record never rewrites the
+/// predecessor receipt or upgrades its assurance; it only authorizes a
+/// repository-local historical projection after the predecessor digest and
+/// historical facts have been checked by the current Runtime.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalFinalizationRecoveryReceipt {
+    pub schema_version: u32,
+    pub recovery_id: String,
+    pub kind: String,
+    pub historical_kind: HistoricalFinalizationKind,
+    pub assurance: String,
+    pub work_item_id: String,
+    pub repository_id: String,
+    pub predecessor_path: String,
+    pub predecessor_receipt_digest: Digest,
+    pub base_revision: String,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    #[serde(default)]
+    pub evidence_refs: Vec<String>,
+    pub decided_at: String,
+}
+
+pub const HISTORICAL_FINALIZATION_RECOVERY_SCHEMA_VERSION: u32 = 1;
+
+/// Validate the wire-level shape of a historical finalization recovery
+/// receipt. Repository-specific predecessor and Git checks remain in the
+/// repository crate.
+pub fn validate_historical_finalization_recovery(
+    recovery: &HistoricalFinalizationRecoveryReceipt,
+) -> Result<(), ResourceFinalizationError> {
+    if recovery.schema_version != HISTORICAL_FINALIZATION_RECOVERY_SCHEMA_VERSION {
+        return Err(ResourceFinalizationError::UnsupportedSchema);
+    }
+    for (value, field) in [
+        (recovery.recovery_id.as_str(), "recoveryId"),
+        (recovery.kind.as_str(), "kind"),
+        (recovery.assurance.as_str(), "assurance"),
+        (recovery.work_item_id.as_str(), "workItemId"),
+        (recovery.repository_id.as_str(), "repositoryId"),
+        (recovery.predecessor_path.as_str(), "predecessorPath"),
+        (recovery.base_revision.as_str(), "baseRevision"),
+        (recovery.runtime_version.as_str(), "runtimeVersion"),
+        (recovery.actor.as_str(), "actor"),
+        (recovery.authority_source.as_str(), "authoritySource"),
+        (recovery.reason.as_str(), "reason"),
+        (recovery.decided_at.as_str(), "decidedAt"),
+    ] {
+        validate_resource_finalization_text(value, field)?;
+    }
+    if recovery.kind != "historical_finalization_recovery" {
+        return Err(ResourceFinalizationError::InvalidState(
+            "historical recovery kind must be historical_finalization_recovery",
+        ));
+    }
+    if recovery.assurance != "historical_low" {
+        return Err(ResourceFinalizationError::InvalidState(
+            "historical recovery assurance must be historical_low",
+        ));
+    }
+    if Digest::from_str(recovery.runtime_digest.as_str()).is_err() {
+        return Err(ResourceFinalizationError::InvalidDigest("runtimeDigest"));
+    }
+    Ok(())
+}
+
 /// Identity-bound receipt for post-merge branch/worktree finalization.  It is
 /// a pure protocol record: it does not perform provider calls or filesystem
 /// deletion.  Consumers must validate it before treating a Work Item as

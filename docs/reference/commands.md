@@ -25,13 +25,17 @@ Runtime verifies those facts against Git and never invents a PR. Readiness
 reports `historicalDebt` and recovery actions while keeping pending-close
 fail-closed.
 
-`close` now requires the current finalization head to have disposition
+New Work Items still require the current finalization head to have disposition
 `deleted`; a retained, blocked, or unknown head stops the operation before a
-close decision is written. For immutable records produced by an older Runtime,
-`work-item finalize` accepts one strictly bound deleted transition after close
-as a legacy reconciliation. The transition must bind the closed root path and
-digest and is verified as an append-only cleanup observation; it never rewrites
-the close receipt or authorizes a retained close for new Work Items.
+close decision is written. A verified historical `shared_worktree_retained` or
+`direct_merge_no_pr` receipt is the narrow compatibility exception: it may keep
+the primary worktree and close only with `assurance=historical_low`, explicit
+human authority, and repository-bound Git facts. This exception never applies
+to new Work Items and never upgrades historical evidence to provider assurance.
+For immutable records produced by an older Runtime, `work-item finalize` accepts
+one strictly bound deleted transition after close as a legacy reconciliation.
+The transition must bind the closed root path and digest and is verified as an
+append-only cleanup observation; it never rewrites the close receipt.
 
 `work-item finalize` stores the first receipt at `.ai/decisions/<id>.finalize.json`. Its PR base must equal the archived Contract's immutable `baseRevision`; both recording and `finalize-verify` reject a mismatch, including sequence 0, rather than reporting a verified chain. Rebase before archive requires a renewed active Contract binding; rebase after archive requires recovery and never permits receipt or archive rewriting. If that immutable root exists, a typed transition envelope must bind the unique head's predecessor digest and next sequence; Runtime appends `.finalize.<digest>.json`. `finalize-verify` reports `headPath`, `headDigest`, and `sequence`, which `close` binds. A sequence-1 merge observation may additionally bind `governanceAppendRevision` when the receipt commit advanced all aligned heads. Runtime requires an ancestor range of additions only. Besides regular same-Work-Item finalization receipts, the only permitted evidence additions are the complete fixed-schema pair `.ai/evidence/<id>/quality-route-post-finalize.json` and `.ai/evidence/<id>/repository-gates-post-finalize.json`; every path must be an `A`-only `100644` regular blob, and their archived Contract, PR revision, route digest, manifest, profile, and passing gate bindings must agree. The pair is evidence, not authority, and does not replace the required finalization receipt addition. This does not permit arbitrary evidence paths or archive mutation.
 
@@ -49,7 +53,7 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance | `preflight` | Read a Contract and return a green/yellow/red decision plus `reviewState`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `recover` | Read a request-scoped status projection or write explicit lifecycle records; `close` and recovery require explicit human decisions. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `recover`, `finalize-recovery` | Read a request-scoped status projection or write explicit lifecycle records; `close` and recovery require explicit human decisions. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
@@ -111,6 +115,15 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   `*.task-report.md`, and an append-only `*.events.jsonl` stream; these are
   evidence-bound projections, not extra authority or a replacement for the
   Contract and verification receipt.
+- `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>`
+  records one append-only, Runtime-bound classification for an immutable
+  legacy finalization receipt. The input must bind the exact predecessor
+  digest, repository/Work Item/Contract base, current Runtime, actor,
+  authority, reason, and timestamp. Use `historicalKind=shared_worktree_retained`
+  for an older primary-worktree receipt; use a complete
+  `historicalKind=direct_merge_no_pr` finalization receipt for a no-PR merge.
+  The predecessor is never rewritten, and the recovery record cannot by itself
+  make a Work Item green.
 - `finish`, `archive`, and `close` preserve their lifecycle JSON on stdout and,
   by default, render the same validated human Outcome on stderr. Add `--json`
   for machine-only output. When `finish` is blocked, the CLI first renders the
@@ -288,10 +301,11 @@ adopter lifecycle in isolated directories, and emits `acceptance.json` and
 binary, and a failed acceptance never changes the published Release truth.
 
 The lifecycle portion is intentionally complete: `finalize-plan` precedes
-verification, and archived Work Items must pass `finalize` and
-`finalize-verify` with a deleted head before structured `close`. The fixture may
-use an explicit retained receipt as an intermediate merge observation, followed
-by a deleted cleanup receipt; retained never authorizes a new close.
+verification, and ordinary archived Work Items must pass `finalize` and
+`finalize-verify` with a deleted head before structured `close`. Historical
+shared-worktree or direct-merge receipts may use the documented low-assurance
+retained exception after their Git facts are verified; retained never
+authorizes a new Work Item close.
 
 The acceptance receipt also records typed before/after manifests for every
 isolated root. `HOME` and `XDG_CONFIG_HOME` have empty `allowedPrefixes` and

@@ -24,13 +24,17 @@ parent、base revision、repository identity、authority を束縛する必要�
 Git と照合し、PR を捏造しません。Readiness は `historicalDebt` と recovery action を示し、
 pending-close は引き続き fail-closed です。
 
-現在 `close` は current finalization head の disposition が `deleted` であることを
-要求します。`retained`、`blocked`、`unknown` の head は close decision を書く前に
-停止します。旧 Runtime が作った immutable record については、`work-item finalize` が
-close 後に strict に bind された deleted transition を 1 件だけ legacy reconciliation
-として append できます。この transition は closed root の path と digest を束縛し、
-append-only cleanup observation として検証されます。close receipt は書き換えず、新しい
-Work Item の retained close を認めるものでもありません。
+新しい Work Item では current finalization head の disposition が `deleted` でなければ
+なりません。`retained`、`blocked`、`unknown` の head は close decision を書く前に停止
+します。唯一の狭い互換例外は、検証済みの歴史 `shared_worktree_retained` または
+`direct_merge_no_pr` receipt です。これは primary worktree を保持できますが、
+`assurance=historical_low`、明示的な human authority、repository に束縛された Git facts
+が必要です。この例外は新しい Work Item には適用されず、歴史 evidence を provider
+assurance に昇格させません。旧 Runtime が作った immutable record については、
+`work-item finalize` が close 後に strict に bind された deleted transition を 1 件だけ
+legacy reconciliation として append できます。この transition は closed root の path
+と digest を束縛し、append-only cleanup observation として検証されます。close receipt は
+書き換えません。
 
 `work-item finalize` は最初の receipt を `.ai/decisions/<id>.finalize.json` に保存します。PR base は archived Contract の不変な `baseRevision` と一致する必要があり、record と `finalize-verify` は sequence 0 を含む mismatch を拒否して verified chain と報告しません。archive 前の rebase では active Contract binding を更新し、archive 後は receipt/archive を書き換えず recovery を行います。その不変 root が存在する場合、typed transition envelope は一意な head の predecessor digest と次の sequence を束縛し、Runtime は `.finalize.<digest>.json` を追記します。`finalize-verify` は `headPath`、`headDigest`、`sequence` を返し、`close` はそれらを束縛します。receipt commit が整合した全 head を進めた場合、sequence-1 merge observation は `governanceAppendRevision` も束縛できます。Runtime は ancestor range が追加のみであることを要求します。同一 Work Item の通常 finalization receipt 以外で許可される evidence 追加は、固定 schema の完全な pair `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` だけです。各 path は `A`-only の `100644` regular blob で、archived Contract、PR revision、route digest、manifest、profile、passing gate の binding は一致しなければなりません。この pair は evidence であって authority ではなく、必須の finalization receipt 追加を置き換えません。任意の evidence path や archive の変更を許可するものではありません。
 
@@ -47,7 +51,7 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance | `preflight` | Contract を読み green/yellow/red decision と `reviewState` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover` | request-scoped status projection を読み、または明示的な lifecycle record を作る。`close` と recovery には明示的な human decision が必要。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`finalize-recovery` | request-scoped status projection を読み、または明示的な lifecycle record を作る。`close` と recovery には明示的な human decision が必要。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
@@ -84,6 +88,12 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   automation には `--json` を使います。status marker と言語規則は[人間向け Outcome](outcome-report.ja.md)を参照してください。
   Work Item の完了時には型付きの `*.task-report.json`、人間向けの `*.task-report.md`、append-only の `*.events.jsonl` も bind されます。
   これらは evidence-bound projection であり、追加の authority でも Contract/verification receipt の代替でもありません。
+- `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` は immutable な旧
+  finalization receipt に対する append-only の Runtime-bound 歴史分類を記録します。入力には正確な
+  predecessor digest、repository/Work Item/Contract base、current Runtime、actor、authority、reason、
+  timestamp の binding が必要です。旧 primary worktree は `historicalKind=shared_worktree_retained`、
+  PR のない merge は完全な `historicalKind=direct_merge_no_pr` finalization receipt を使います。
+  predecessor は書き換えられず、recovery record だけで Work Item が green になることもありません。
 - `finish`、`archive`、`close` は stdout の lifecycle JSON を変更せず、既定では同じ
   検証済み Human Outcome を stderr に render します。機械専用出力には `--json` を
   指定します。`finish` が block された場合、CLI は永続化済みの赤または黄の Outcome
@@ -194,10 +204,10 @@ versioned digest の shape だけを保証します。
 public Release binary を download して pin し、isolated directory で adopter lifecycle を実行し、`acceptance.json` と `SHA256SUMS` を生成します。
 workspace build や local target binary で代用してはならず、acceptance failure が公開済み Release truth を変更することもありません。
 
-lifecycle は省略できません。verification 前に `finalize-plan` を実行し、archive 後に `finalize` と
-`finalize-verify` を通過し、head が `deleted` であることを確認してから structured `close` を行います。
-fixture は retained resource receipt を中間の merge observation として使い、その後に deleted cleanup を
-append できます。retained が新しい close を認可することはありません。
+lifecycle は省略できません。verification 前に `finalize-plan` を実行し、通常の Work Item は archive 後に
+`finalize` と `finalize-verify` を通過して head が `deleted` であることを確認してから structured `close`
+を行います。歴史 shared-worktree または direct-merge receipt は Git facts の検証後に、文書化された
+低 assurance の retained 例外を使えます。retained が新しい Work Item の close を認可することはありません。
 
 acceptance receipt には各 isolated root の typed before/after manifest も記録されます。`HOME` と `XDG_CONFIG_HOME` の
 `allowedPrefixes` は空で、変更されてはいけません。Runtime が書き込めるのは `TMPDIR` と `CARGO_HOME` だけで、allowlist は

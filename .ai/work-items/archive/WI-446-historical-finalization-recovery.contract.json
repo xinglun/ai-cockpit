@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "历史 shared-worktree retained receipt 可通过显式 recovery 被验证为 historical_low，且不改写 predecessor bytes",
+    "recovery 严格绑定 predecessor receipt digest、repositoryId、Work Item、Contract/base、当前 Runtime、actor/authority/reason/decidedAt，并拒绝 foreign/tampered/symlink 输入",
+    "close 仅在有效 historical recovery 且 disposition/真实资源事实允许时通过；不把历史记录投影为当前 provider green",
+    "direct_merge_no_pr 的完整输入可由 CLI 文档和测试明确表达，绑定真实 merge commit、至少两个 parents、base 和 repository identity；无 PR 不产生虚构编号",
+    "对象工程反馈中的 WI-027 与 WI-018 形状各有回归测试或可重复验收 fixture，migrate plan=none 不再掩盖 lifecycle recovery 缺口",
+    "三语命令/工作流文档同步，明确 historical compatibility 与 schema migration 边界；workspace fmt/clippy/tests 通过"
+  ],
+  "authority": "authorized",
+  "baseRevision": "f3ab7ab77412431da725f30b04ea62c326613e3a",
+  "createdAt": "2026-08-31T08:27:07Z",
+  "goal": "为旧 Runtime 生成的共享主 worktree retained 记录提供显式低 assurance recovery；确认并改善无 PR direct-merge 的可执行记录路径；保持 immutable history、repository identity、真实 Git facts 和当前 Runtime identity 绑定。",
+  "intent": "修复已发布 Runtime 对历史 finalization 记录的诚实恢复路径，使对象工程无需手改或伪造 receipt 即可完成迁移验收。",
+  "mode": "code",
+  "outOfScope": [
+    "修改对象工程历史 bytes、伪造 PR 或 Runtime identity、改变新 Work Item 专用 worktree 门禁、全局放宽 foreign Runtime 校验、schema migration 以外的参考源逐文件比对、发布资产和 CI 策略重写"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:65c14efa0d9614138a270c13972ac87bd66e49505c93b2ec94ac05b1f2087f4b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-446-historical-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/414",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-446-historical-finalization-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-446-historical-finalization-recovery.md",
+    "docs/work-items/WI-446-historical-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-446-historical-finalization-recovery.ja.md"
+  ],
+  "sources": [
+    "object feedback: ai-investigation-orchestrator WI-018/WI-027 v0.2.48 acceptance",
+    "crates/cockpit-protocol/src/lib.rs historical finalization types",
+    "crates/cockpit-repository/src/lib.rs finalization verification and close gates",
+    "docs/work-items/WI-443-historical-finalization-compat.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --test resource_finalization",
+    "cargo test --locked -p cockpit-repository --test resource_finalization_transition",
+    "cargo test --locked -p cockpit-cli --test lifecycle",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-446-historical-finalization-recovery"
+}

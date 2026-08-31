@@ -15,16 +15,17 @@ use cockpit_protocol::{
     DiagnosisState, EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem,
     EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
     GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HistoricalFinalizationKind,
-    HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
-    OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
-    ParallelSlotLease, PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt,
-    RepositoryConfig, ResourceFinalizationContext, ResourceFinalizationDisposition,
-    ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
-    SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport, TruthState, VerificationStage,
-    VerificationTier, WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence,
-    WorkItemStatusIndex, WorkItemStatusIndexEntry, WorkItemStatusSnapshot,
-    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
-    validate_evidence_retention, validate_protocol_version,
+    HistoricalFinalizationRecoveryReceipt, HumanBenefitReport, HumanDecision,
+    ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
+    OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
+    PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
+    ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
+    ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
+    TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemCompatibility,
+    WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
+    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
+    repository_schema_migration_chain, validate_evidence_retention,
+    validate_historical_finalization_recovery, validate_protocol_version,
     validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
     validate_resource_finalization_transition,
 };
@@ -3654,19 +3655,27 @@ fn classify_historical_debt(root: &Path, work_items: &[String]) -> Vec<Historica
             .and_then(|item| item.get("historical"))
             .and_then(|item| item.get("kind"))
             .and_then(serde_json::Value::as_str);
+        let recovery = root
+            .join(".ai/decisions")
+            .join(format!("{work_item_id}.finalize-recovery.json"));
+        let recovery_kind = read_json(&recovery).ok().and_then(|item| {
+            item.get("historicalKind")
+                .and_then(serde_json::Value::as_str)
+                .map(str::to_owned)
+        });
         let disposition = value
             .as_ref()
             .and_then(|item| item.get("result"))
             .and_then(|item| item.get("disposition"))
             .and_then(serde_json::Value::as_str);
-        let (category, recovery_action) = match historical_kind {
+        let (category, recovery_action) = match recovery_kind.as_deref().or(historical_kind) {
             Some("shared_worktree_retained") => (
                 "historical_shared_worktree_retained",
-                "record historical shared-worktree finalization, then close with explicit human decision",
+                "verify the historical recovery binding, then close with explicit human decision",
             ),
             Some("direct_merge_no_pr") => (
                 "historical_direct_merge_no_pr",
-                "record direct-merge receipt bound to merge commit/parents/base, then close with explicit human decision",
+                "verify the direct-merge receipt against Git, then close with explicit human decision",
             ),
             _ if disposition == Some("retained") => (
                 "legacy_retained_requires_classification",
@@ -10792,6 +10801,263 @@ fn validate_historical_finalization(
     Ok(())
 }
 
+fn historical_finalization_recovery_path(root: &Path, work_item_id: &str) -> PathBuf {
+    root.join(".ai/decisions")
+        .join(format!("{work_item_id}.finalize-recovery.json"))
+}
+
+fn read_historical_finalization_recovery(
+    path: &Path,
+) -> Result<HistoricalFinalizationRecoveryReceipt, ObserverError> {
+    if !is_regular_non_symlink(path)? {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "historical finalization recovery must be a regular non-symlink file".into(),
+        });
+    }
+    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })?;
+    if bytes.len() > MAX_EXTERNAL_EVIDENCE_BYTES {
+        return Err(ObserverError::State {
+            path: path.into(),
+            message: "historical finalization recovery exceeds the bounded size limit".into(),
+        });
+    }
+    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+        path: path.into(),
+        message: format!("invalid historical finalization recovery JSON: {message}"),
+    })?;
+    let value: serde_json::Value =
+        serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+            path: path.into(),
+            message: format!("invalid historical finalization recovery JSON: {error}"),
+        })?;
+    serde_json::from_value(value).map_err(|error| ObserverError::State {
+        path: path.into(),
+        message: format!("invalid historical finalization recovery: {error}"),
+    })
+}
+
+fn validate_historical_finalization_recovery_binding(
+    root: &Path,
+    work_item_id: &str,
+    recovery: &HistoricalFinalizationRecoveryReceipt,
+    receipt: &ResourceFinalizationReceipt,
+    contract: &Contract,
+    recovery_path: &Path,
+    current_runtime: &RuntimeContext,
+) -> Result<(), ObserverError> {
+    validate_historical_finalization_recovery(recovery).map_err(|error| ObserverError::State {
+        path: recovery_path.into(),
+        message: error.to_string(),
+    })?;
+    let expected_repository_id = repository_id(root).to_string();
+    if recovery.work_item_id != work_item_id
+        || recovery.repository_id != expected_repository_id
+        || receipt.work_item_id != work_item_id
+        || receipt.repository_id != expected_repository_id
+    {
+        return Err(ObserverError::State {
+            path: recovery_path.into(),
+            message: "historical finalization recovery repository or Work Item identity mismatch"
+                .into(),
+        });
+    }
+    let expected_path = repository_relative_path(
+        root,
+        &resource_finalization_decision_path(root, work_item_id),
+    );
+    if recovery.predecessor_path != expected_path {
+        return Err(ObserverError::State {
+            path: recovery_path.into(),
+            message: "historical finalization recovery predecessor path mismatch".into(),
+        });
+    }
+    let predecessor_path = root.join(&recovery.predecessor_path);
+    let predecessor_value =
+        serde_json::to_value(receipt).map_err(|error| ObserverError::State {
+            path: predecessor_path.clone(),
+            message: error.to_string(),
+        })?;
+    let predecessor_digest =
+        cockpit_protocol::digest_json(&predecessor_value).map_err(|error| {
+            ObserverError::State {
+                path: predecessor_path.clone(),
+                message: error.to_string(),
+            }
+        })?;
+    if recovery.predecessor_receipt_digest != predecessor_digest {
+        return Err(ObserverError::State {
+            path: recovery_path.into(),
+            message: "historical finalization recovery predecessor digest mismatch".into(),
+        });
+    }
+    if recovery.base_revision != contract.base_revision
+        || receipt.pull_request.base_revision != contract.base_revision
+    {
+        return Err(ObserverError::State {
+            path: recovery_path.into(),
+            message: "historical finalization recovery base revision mismatch".into(),
+        });
+    }
+    if recovery.runtime_version != current_runtime.runtime_version
+        || recovery.runtime_digest != current_runtime.runtime_digest
+    {
+        return Err(ObserverError::State {
+            path: recovery_path.into(),
+            message: "historical finalization recovery Runtime identity does not match the executing Runtime".into(),
+        });
+    }
+    if receipt.runtime_version == current_runtime.runtime_version
+        && receipt.runtime_digest == current_runtime.runtime_digest
+    {
+        return Err(ObserverError::State {
+            path: recovery_path.into(),
+            message: "historical finalization recovery requires an older predecessor Runtime"
+                .into(),
+        });
+    }
+    match recovery.historical_kind {
+        HistoricalFinalizationKind::SharedWorktreeRetained => {
+            if !matches!(
+                receipt.result.disposition,
+                ResourceFinalizationDisposition::Retained
+            ) {
+                return Err(ObserverError::State {
+                    path: recovery_path.into(),
+                    message: "shared-worktree historical recovery requires retained disposition"
+                        .into(),
+                });
+            }
+            let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+                path: root.into(),
+                source,
+            })?;
+            let worktree = fs::canonicalize(&receipt.worktree.path).map_err(|source| {
+                ObserverError::State {
+                    path: recovery_path.into(),
+                    message: format!("historical shared worktree is not present: {source}"),
+                }
+            })?;
+            if worktree != root || receipt.worktree.branch != receipt.branch.name {
+                return Err(ObserverError::State {
+                    path: recovery_path.into(),
+                    message: "historical shared-worktree recovery is not bound to the primary repository worktree".into(),
+                });
+            }
+        }
+        HistoricalFinalizationKind::DirectMergeNoPr => {
+            return Err(ObserverError::State {
+                path: recovery_path.into(),
+                message: "direct-merge history must be recorded as a complete historical finalization receipt, not a reclassification of a PR receipt".into(),
+            });
+        }
+    }
+    Ok(())
+}
+
+fn load_historical_finalization_recovery(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &ResourceFinalizationReceipt,
+    contract: &Contract,
+    current_runtime: &RuntimeContext,
+) -> Result<Option<HistoricalFinalizationRecoveryReceipt>, ObserverError> {
+    let path = historical_finalization_recovery_path(root, work_item_id);
+    if fs::symlink_metadata(&path).is_err() {
+        return Ok(None);
+    }
+    let recovery = read_historical_finalization_recovery(&path)?;
+    validate_historical_finalization_recovery_binding(
+        root,
+        work_item_id,
+        &recovery,
+        receipt,
+        contract,
+        &path,
+        current_runtime,
+    )?;
+    Ok(Some(recovery))
+}
+
+/// Record an explicit Runtime-bound classification for a legacy finalization
+/// receipt. The predecessor remains byte-for-byte immutable; the new record
+/// is accepted only when it binds the exact predecessor digest and the
+/// current Runtime identity.
+pub fn record_historical_finalization_recovery(
+    root: &Path,
+    work_item_id: &str,
+    input_path: &Path,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
+    let predecessor_path = resource_finalization_decision_path(&root, work_item_id);
+    let receipt = read_resource_finalization_receipt(&predecessor_path)?;
+    validate_resource_finalization_receipt_for(
+        &receipt,
+        &contract.repository_id,
+        work_item_id,
+        Some(&contract_digest),
+        contract.resource_context.as_ref(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: predecessor_path.clone(),
+        message: error.to_string(),
+    })?;
+    let recovery = read_historical_finalization_recovery(input_path)?;
+    validate_historical_finalization_recovery_binding(
+        &root,
+        work_item_id,
+        &recovery,
+        &receipt,
+        &contract,
+        input_path,
+        runtime,
+    )?;
+    let recovery_path = historical_finalization_recovery_path(&root, work_item_id);
+    let value = serde_json::to_value(&recovery).map_err(|error| ObserverError::State {
+        path: recovery_path.clone(),
+        message: error.to_string(),
+    })?;
+    if fs::symlink_metadata(&recovery_path).is_ok() {
+        if !is_regular_non_symlink(&recovery_path)? {
+            return Err(ObserverError::State {
+                path: recovery_path,
+                message: "historical finalization recovery destination is not a regular file"
+                    .into(),
+            });
+        }
+        let existing = read_json(&recovery_path)?;
+        if existing == value {
+            return Ok(serde_json::json!({
+                "workItemId": work_item_id,
+                "state": "idempotent",
+                "path": repository_relative_path(&root, &recovery_path)
+            }));
+        }
+        return Err(ObserverError::State {
+            path: recovery_path,
+            message: "historical finalization recovery already exists with different content"
+                .into(),
+        });
+    }
+    atomic_json(&recovery_path, &value)?;
+    Ok(serde_json::json!({
+        "workItemId": work_item_id,
+        "state": "recorded",
+        "historicalKind": recovery.historical_kind,
+        "assurance": recovery.assurance,
+        "path": repository_relative_path(&root, &recovery_path)
+    }))
+}
+
 /// Persist a provider-side finalization receipt after strict identity and
 /// local postcondition validation.  The Runtime never calls a provider or
 /// deletes a branch implicitly; it records delegated evidence and refuses
@@ -11143,7 +11409,14 @@ fn verify_resource_finalization_internal(
     })?;
     validate_historical_finalization(&root, &receipt, &path)?;
     ensure_resource_finalization_base_binding(&receipt, &contract, &path)?;
-    if let Some(runtime) = runtime {
+    let historical_recovery = if let Some(runtime) = runtime {
+        load_historical_finalization_recovery(&root, work_item_id, &receipt, &contract, runtime)?
+    } else {
+        None
+    };
+    if let Some(runtime) = runtime
+        && historical_recovery.is_none()
+    {
         ensure_resource_runtime_identity(&receipt, runtime, &path)?;
     }
     if matches!(
@@ -11156,7 +11429,7 @@ fn verify_resource_finalization_internal(
             message: "resource finalization postconditions are not satisfied".into(),
         });
     }
-    Ok(serde_json::json!({
+    let mut result = serde_json::json!({
         "workItemId": work_item_id,
         "state": "verified",
         "disposition": receipt.result.disposition,
@@ -11164,7 +11437,32 @@ fn verify_resource_finalization_internal(
         "headPath": repository_relative_path(&root, &path),
         "headDigest": receipt_digest,
         "receipt": receipt
-    }))
+    });
+    if let Some(recovery) = historical_recovery {
+        result["historical"] = serde_json::json!(true);
+        result["historicalKind"] =
+            serde_json::to_value(recovery.historical_kind).map_err(|error| {
+                ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                }
+            })?;
+        result["assurance"] = recovery.assurance.into();
+        result["recoveryPath"] = repository_relative_path(
+            &root,
+            &historical_finalization_recovery_path(&root, work_item_id),
+        )
+        .into();
+    } else if let Some(historical) = receipt.historical.as_ref() {
+        result["historical"] = serde_json::json!(true);
+        result["historicalKind"] =
+            serde_json::to_value(&historical.kind).map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?;
+        result["assurance"] = historical.assurance.clone().into();
+    }
+    Ok(result)
 }
 
 pub fn close_work_item(root: &Path, work_item_id: &str) -> Result<LifecycleReceipt, ObserverError> {
@@ -11480,8 +11778,11 @@ fn require_resource_finalization_for_close(
     let result = verify_resource_finalization_internal(root, work_item_id, runtime)?;
     let disposition = result["disposition"].as_str().unwrap_or_default();
     let historical_kind = result["receipt"]["historical"]["kind"].as_str();
-    let historical_retained =
-        disposition == "retained" && historical_kind == Some("shared_worktree_retained");
+    let recovered_historical_kind = result["historicalKind"].as_str();
+    let historical_retained = disposition == "retained"
+        && (historical_kind == Some("shared_worktree_retained")
+            || recovered_historical_kind == Some("shared_worktree_retained")
+            || historical_kind == Some("direct_merge_no_pr"));
     if disposition != "deleted" && !historical_retained {
         return Err(ObserverError::State {
             path: resource_finalization_decision_path(root, work_item_id),

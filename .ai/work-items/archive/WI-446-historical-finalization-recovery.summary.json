@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-446-historical-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-446-historical-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T08:30:36Z",
+  "checkpointContractDigest": "sha256:800e13d38cf03a6d5e679d33fe482b07fc35155b3e6ea5394ca9d0a4e3e358ea",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:94005decefae3b180c706082d1e935f49609a3d48ac494aafdf0b187499cf7e6",
+      "recorded": true,
+      "recordedAt": "2026-08-31T08:30:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:65c14efa0d9614138a270c13972ac87bd66e49505c93b2ec94ac05b1f2087f4b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-446-historical-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:d91bf3e2ff0fd3cbbda9df3bd189b193651147dc70afd982d178e0b82d2da5f1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:94005decefae3b180c706082d1e935f49609a3d48ac494aafdf0b187499cf7e6",
+      "previousContractHash": "sha256:94005decefae3b180c706082d1e935f49609a3d48ac494aafdf0b187499cf7e6",
+      "reason": "include the trilingual reference-parity baseline rows updated by this same compatibility batch",
+      "recorded": true,
+      "recordedAt": "2026-08-31T08:55:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:757fc525798d7e87f08740837f67a9fd78defdd60e6d9386941940fff664a141",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-446-historical-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:757fc525798d7e87f08740837f67a9fd78defdd60e6d9386941940fff664a141",
+  "createdAt": "2026-08-31T08:27:07Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T09:03:26Z",
+  "preflightContractDigest": "sha256:800e13d38cf03a6d5e679d33fe482b07fc35155b3e6ea5394ca9d0a4e3e358ea",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:757fc525798d7e87f08740837f67a9fd78defdd60e6d9386941940fff664a141",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T09:03:29Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-446-historical-finalization-recovery"
+}

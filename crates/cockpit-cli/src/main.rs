@@ -408,6 +408,16 @@ enum WorkItemCommand {
         #[arg(long)]
         id: String,
     },
+    /// Classify an immutable legacy finalization receipt without rewriting it.
+    FinalizeRecovery {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// JSON HistoricalFinalizationRecoveryReceipt file.
+        #[arg(long)]
+        input: PathBuf,
+    },
     Status {
         #[arg(long)]
         repo: PathBuf,
@@ -1229,6 +1239,17 @@ fn run() -> Result<()> {
                 require_compatible(&repo, &runtime_context)?;
                 let result = verify_resource_finalization(&repo, &id, &runtime_context)
                     .context("verify resource finalization")?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::FinalizeRecovery { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let result = cockpit_repository::record_historical_finalization_recovery(
+                    &repo,
+                    &id,
+                    &input,
+                    &runtime_context,
+                )
+                .context("record historical finalization recovery")?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
             }
             WorkItemCommand::Status {
