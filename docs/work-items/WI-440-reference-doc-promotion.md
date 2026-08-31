@@ -4,9 +4,13 @@ title: "WI-440 — closed WI-439 documentation promotion"
 workItemId: WI-440-reference-doc-promotion
 description: "Promote the tri-language projections for the closed WI-439 documentation lifecycle."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-440-reference-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-440-reference-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-440-reference-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-440-reference-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-440-reference-doc-promotion.close.json
 ---
 
 # WI-440 — closed WI-439 documentation promotion

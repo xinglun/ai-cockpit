@@ -4,9 +4,13 @@ title: "WI-440——已关闭 WI-439 文档投影晋级"
 workItemId: WI-440-reference-doc-promotion
 description: "晋级已关闭 WI-439 文档生命周期的三语投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-440-reference-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-440-reference-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-440-reference-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-440-reference-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-440-reference-doc-promotion.close.json
 ---
 
 # WI-440——已关闭 WI-439 文档投影晋级
