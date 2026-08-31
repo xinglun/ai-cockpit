@@ -4,9 +4,13 @@ title: "WI-459 — v0.2.53 release and public binary acceptance"
 workItemId: WI-459-release-v0-2-53
 description: "Publish the next reviewed Rust Runtime patch and verify the public binary with the adopter baseline."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-459-release-v0-2-53
+terminalArchive: .ai/work-items/archive/WI-459-release-v0-2-53.contract.json
+terminalVerification: .ai/evidence/WI-459-release-v0-2-53.verification.json
+terminalFinalization: .ai/decisions/WI-459-release-v0-2-53.finalize.json
+terminalDecision: .ai/decisions/WI-459-release-v0-2-53.close.json
 ---
 
 # WI-459 — v0.2.53 release and public binary acceptance
