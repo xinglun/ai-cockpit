@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "Workspace package versions and release documentation advance exactly to v0.2.53 without rewriting reserved release history.",
+    "The reviewed release workflow binds annotated tag, source commit, manifest, SHA256SUMS, SBOM, provenance, and public artifact identities.",
+    "Local strict, version, workflow, documentation, and workspace tests pass; no source fallback is used.",
+    "After merge, the published v0.2.53 binary is downloaded and checksum-verified by the post-release adopter acceptance harness, with runtime identity and cleanup receipts.",
+    "The Runtime repository remains healthy and ready_on_base after release Work Item closure."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:92698b5724f4a2190352899416364a2c1ff3ddd2f3817ae1bfa8958be1d8e2fe",
+      "workItemId": "WI-459-release-v0-2-53"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-459-release-v0-2-53.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-459-release-v0-2-53.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-459-release-v0-2-53.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-459-release-v0-2-53.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-459-release-v0-2-53.contract.json"
+          ],
+          "inference": false,
+          "text": "准备、发布并用公开 v0.2.53 二进制验收 AI Cockpit Runtime，然后恢复参考源逐文件主线。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-459-release-v0-2-53.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-459-release-v0-2-53"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-459-release-v0-2-53.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-459-release-v0-2-53"
+}
