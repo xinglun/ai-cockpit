@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-442-wi441-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T05:57:01Z",
+  "checkpointContractDigest": "sha256:e93834bd69f82f6bb4f37016f32d204436951092ee36917736f576ff136687fb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:422fc90f484cbcb2dd468b64ecbfec56dd55448a98c625a89bed940f7626263d",
+      "recorded": true,
+      "recordedAt": "2026-08-31T05:57:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:810764f9e31749bc68c208bbd7d6c200b883994baba80550068c8b4a6f950a0f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-442-wi441-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e93834bd69f82f6bb4f37016f32d204436951092ee36917736f576ff136687fb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:422fc90f484cbcb2dd468b64ecbfec56dd55448a98c625a89bed940f7626263d",
+      "previousContractHash": "sha256:422fc90f484cbcb2dd468b64ecbfec56dd55448a98c625a89bed940f7626263d",
+      "reason": "Normalize requiredEvidenceClasses to the Runtime evidence class verification; concrete WI-441 terminal paths remain explicit acceptance references.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T06:17:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:810764f9e31749bc68c208bbd7d6c200b883994baba80550068c8b4a6f950a0f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-442-wi441-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:810764f9e31749bc68c208bbd7d6c200b883994baba80550068c8b4a6f950a0f",
+  "createdAt": "2026-08-31T05:56:05Z",
+  "failedGate": "finish.verification",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T06:20:22Z",
+  "preflightContractDigest": "sha256:e93834bd69f82f6bb4f37016f32d204436951092ee36917736f576ff136687fb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:810764f9e31749bc68c208bbd7d6c200b883994baba80550068c8b4a6f950a0f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T06:20:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-442-wi441-doc-promotion"
+}

@@ -25,17 +25,14 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:e5dc74dd0a91ee8c36fea9c51b425d917c895bf0c0d71db10e2bd813d5be7089",
   "requiredEvidenceClasses": [
-    ".ai/work-items/archive/WI-441-reference-entrypoint-parity.archive.json",
-    ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json",
-    ".ai/decisions/WI-441-reference-entrypoint-parity.finalize.json",
-    ".ai/decisions/WI-441-reference-entrypoint-parity.close.json"
+    "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-442-wi441-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/411",
     "worktree": "/private/tmp/ai-cockpit-wi442-wi441-doc-promotion"
   },
   "risk": "normal",

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T15:20:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-442-wi441-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-442-wi441-doc-promotion.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order",
+    "AGENTS.md#outcome-and-release-acceptance-boundaries"
+  ],
+  "predecessorContractDigest": "sha256:e93834bd69f82f6bb4f37016f32d204436951092ee36917736f576ff136687fb",
+  "predecessorEventsDigest": "sha256:f9cfdfdc2bd3a28f977b2932e674b473f884b19aa882ac4c502c60dbd0d4007e",
+  "predecessorOutcomeDigest": "sha256:f8661d1a6344a6cdef5b61c8892f52d200ba64aae1500bc1c92b557102ff2b23",
+  "predecessorSummaryDigest": "sha256:65ae131cf27288c09809947d699efc72cbcb9678c47c01edcba88b8bab30208b",
+  "predecessorWorkItemId": "WI-442-wi441-doc-promotion",
+  "reason": "The first finish attempt correctly failed closed because the verification evidence was created before the finalized resource context was bound. Authorize a clean retry with fresh verification and preflight; no governance facts or evidence are being rewritten.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification after the finalized PR context, record a non-red preflight, then retry finish once.",
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "workItemId": "WI-442-wi441-doc-promotion"
+}
