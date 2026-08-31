@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-434-local-reference-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-434-local-reference-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T01:06:38Z",
+  "checkpointContractDigest": "sha256:18ad2969fa32c5f4fa59c3f23f360f32d2419a7a94b88cc42b83ae8ee735ec84",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:f4bd0ccb22978f0ac37bbba55db3b7a6042fb26369111381b07bfa2d93939b6b",
+      "recorded": true,
+      "recordedAt": "2026-08-31T01:06:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8aa2c14f35cdc786dd4dddce5fb4d58582ff0d1202c0894ee1d4b2cc81d11e87",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-434-local-reference-doc-promotion"
+    },
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:9a1e9edfe05ef9221f5d72813088781e2f065e44156a8240c4e37f01530bd457",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f4bd0ccb22978f0ac37bbba55db3b7a6042fb26369111381b07bfa2d93939b6b",
+      "previousContractHash": "sha256:f4bd0ccb22978f0ac37bbba55db3b7a6042fb26369111381b07bfa2d93939b6b",
+      "reason": "Correct the required evidence class to the Runtime-supported verification receipt class; the docs are the scoped change, while verification remains the authoritative evidence.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T01:07:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8aa2c14f35cdc786dd4dddce5fb4d58582ff0d1202c0894ee1d4b2cc81d11e87",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-434-local-reference-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:85f07adfb6eef7e634ebfd26d874e31fd216a0b8b3ee681725e38c7ad1ffb291",
+  "createdAt": "2026-08-31T01:05:58Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T01:08:55Z",
+  "preflightContractDigest": "sha256:18ad2969fa32c5f4fa59c3f23f360f32d2419a7a94b88cc42b83ae8ee735ec84",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:85f07adfb6eef7e634ebfd26d874e31fd216a0b8b3ee681725e38c7ad1ffb291",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T01:08:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-434-local-reference-doc-promotion"
+}

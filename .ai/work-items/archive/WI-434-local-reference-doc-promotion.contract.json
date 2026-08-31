@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "All six projection files are promoted from in_progress to terminal implemented with exact immutable archive, verification, finalization, and close references."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "67465246908bfc099f78486578a8ae4919277ad6",
+  "createdAt": "2026-08-31T01:05:58Z",
+  "goal": "Keep the six tri-language Work Item and parity projections synchronized with immutable WI-433 close evidence.",
+  "intent": "Promote closed WI-433 local-reference source documentation projections to terminal status.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime code",
+    " reference-source lock",
+    " CI behavior",
+    " historical archive/evidence bytes",
+    " global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2480a9128d3975045d17248940fae8a7db221c4450933defb2fdb800a81238c4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-434-local-reference-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/400",
+    "worktree": "/private/tmp/ai-cockpit-wi434-local-reference"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-433-local-reference-source-binding.md",
+    "docs/work-items/WI-433-local-reference-source-binding.zh-CN.md",
+    "docs/work-items/WI-433-local-reference-source-binding.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-434-local-reference-doc-promotion"
+}
