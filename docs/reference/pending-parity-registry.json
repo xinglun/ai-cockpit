@@ -1,38 +1,4 @@
 {
-  "entries": [
-    {
-      "baseRevision": "67465246908bfc099f78486578a8ae4919277ad6",
-      "createdAt": "2026-08-31T01:45:00Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-434-local-reference-doc-promotion.contract.json",
-        "finalize": ".ai/decisions/WI-434-local-reference-doc-promotion.finalize.json",
-        "verification": ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json"
-      },
-      "headRevision": "667d5153faeafab69d196c3667999eecdcdfcc95",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-434 — local-reference documentation promotion | In progress | [Work Item](../work-items/WI-434-local-reference-doc-promotion.md); archive `.ai/work-items/archive/WI-434-local-reference-doc-promotion.archive.json`; verification `.ai/evidence/WI-434-local-reference-doc-promotion.verification.json`; finalization `.ai/decisions/WI-434-local-reference-doc-promotion.finalize.json`; close `.ai/decisions/WI-434-local-reference-doc-promotion.close.json`. |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-434 — 本地参考源文档晋级 | 进行中 | [Work Item](../work-items/WI-434-local-reference-doc-promotion.zh-CN.md)；archive `.ai/work-items/archive/WI-434-local-reference-doc-promotion.archive.json`；verification `.ai/evidence/WI-434-local-reference-doc-promotion.verification.json`；finalization `.ai/decisions/WI-434-local-reference-doc-promotion.finalize.json`；close `.ai/decisions/WI-434-local-reference-doc-promotion.close.json`。 |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-434 — local-reference documentation promotion | In progress | [Work Item](../work-items/WI-434-local-reference-doc-promotion.ja.md)；archive `.ai/work-items/archive/WI-434-local-reference-doc-promotion.archive.json`；verification `.ai/evidence/WI-434-local-reference-doc-promotion.verification.json`；finalization `.ai/decisions/WI-434-local-reference-doc-promotion.finalize.json`；close `.ai/decisions/WI-434-local-reference-doc-promotion.close.json`。 |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 400,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/400"
-      },
-      "registryBaseRevision": "b0a9191312b4a3a93137207c9699773f53a01357",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-434-local-reference-doc-promotion"
-    }
-  ],
+  "entries": [],
   "schemaVersion": 1
 }

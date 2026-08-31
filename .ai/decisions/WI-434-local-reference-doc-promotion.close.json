@@ -1,0 +1,141 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:85f07adfb6eef7e634ebfd26d874e31fd216a0b8b3ee681725e38c7ad1ffb291",
+      "workItemId": "WI-434-local-reference-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-434-local-reference-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-434-local-reference-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-434-local-reference-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-434-local-reference-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json",
+            ".ai/decisions/WI-434-local-reference-doc-promotion.finalize.368391be6c2399bdde713fb7eb4798ce7622a8310b1a9e9d0a8c57359c04d746.json",
+            ".ai/decisions/WI-434-local-reference-doc-promotion.finalize.8a55aa7a73f9d42a2cb5a0c5b9f548ccdbbb4de42c19e5cb88aa0496ec4ae37b.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-31T01:34:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-434-local-reference-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep the six tri-language Work Item and parity projections synchronized with immutable WI-433 close evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-434-local-reference-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-434-local-reference-doc-promotion"
+  },
+  "finalReportDigest": "sha256:fda4ba964a9422334dea4f60dcd28aac7b7df5117104e1f5c07a2ccb44fe5853",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:49ad13c97f29de78b9893d7aa338c3f5eb35d890ca39b033d4cba98f7335cfd7",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-434-local-reference-doc-promotion.finalize.8a55aa7a73f9d42a2cb5a0c5b9f548ccdbbb4de42c19e5cb88aa0496ec4ae37b.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-31T01:34:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-434-local-reference-doc-promotion.verification.json",
+      ".ai/decisions/WI-434-local-reference-doc-promotion.finalize.368391be6c2399bdde713fb7eb4798ce7622a8310b1a9e9d0a8c57359c04d746.json",
+      ".ai/decisions/WI-434-local-reference-doc-promotion.finalize.8a55aa7a73f9d42a2cb5a0c5b9f548ccdbbb4de42c19e5cb88aa0496ec4ae37b.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:reviewed-pr-before-close",
+      "AGENTS.md:exact-branch-worktree-cleanup"
+    ],
+    "reason": "PR #400 merged as 11df976e6e46213d3cc224bd3ed395645415fc5a after all hosted checks passed; exact branch/worktree cleanup verified; six tri-language projections are bound to immutable WI-433 evidence.",
+    "resumeCondition": "Future reference updates require a new bounded Work Item from synchronized main."
+  },
+  "timestamp": "2026-08-31T01:27:51Z",
+  "workItemId": "WI-434-local-reference-doc-promotion"
+}
