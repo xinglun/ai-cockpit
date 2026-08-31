@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-458-wi457-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-458-wi457-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T21:13:03Z",
+  "checkpointContractDigest": "sha256:ec8da7a53d23628b182772ba2ecc64717cd3ce37cc20815bae61792214afa6ba",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b8be3e6ac55fd2a87a71175cdc5cbb5144cf027da9b2d0eac0f30c23148775b8",
+      "recorded": true,
+      "recordedAt": "2026-08-31T21:13:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8bc17e7f5cad1b7e25af72b1fd475b4d67baa8ffeea40289dc05454cf02901ec",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-458-wi457-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ec8da7a53d23628b182772ba2ecc64717cd3ce37cc20815bae61792214afa6ba",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b8be3e6ac55fd2a87a71175cdc5cbb5144cf027da9b2d0eac0f30c23148775b8",
+      "previousContractHash": "sha256:b8be3e6ac55fd2a87a71175cdc5cbb5144cf027da9b2d0eac0f30c23148775b8",
+      "reason": "Bind the reviewed Draft PR #428, feature branch, dedicated worktree, and GitHub provider before the final verification cycle.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T21:18:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8bc17e7f5cad1b7e25af72b1fd475b4d67baa8ffeea40289dc05454cf02901ec",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-458-wi457-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8bc17e7f5cad1b7e25af72b1fd475b4d67baa8ffeea40289dc05454cf02901ec",
+  "createdAt": "2026-08-31T21:06:20Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T21:21:22Z",
+  "preflightContractDigest": "sha256:ec8da7a53d23628b182772ba2ecc64717cd3ce37cc20815bae61792214afa6ba",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8bc17e7f5cad1b7e25af72b1fd475b4d67baa8ffeea40289dc05454cf02901ec",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T21:21:23Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-458-wi457-doc-promotion"
+}

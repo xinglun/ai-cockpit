@@ -1,38 +1,4 @@
 {
-  "entries": [
-    {
-      "baseRevision": "7254ac7eaa18cd2fdaaddb5011bfba23840bd674",
-      "createdAt": "2026-08-31T20:51:16Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-457-task-outcome-event-parity.contract.json",
-        "finalize": ".ai/decisions/WI-457-task-outcome-event-parity.finalize.json",
-        "verification": ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
-      },
-      "headRevision": "b73535eee76d7aee9dc69c19bc9ff5adc3ac311e",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-457 — Task Outcome event semantic parity | In progress | [Work Item](../work-items/WI-457-task-outcome-event-parity.md); archive `.ai/work-items/archive/WI-457-task-outcome-event-parity.archive.json`; verification `.ai/evidence/WI-457-task-outcome-event-parity.verification.json`; finalization `.ai/decisions/WI-457-task-outcome-event-parity.finalize.json`; close `.ai/decisions/WI-457-task-outcome-event-parity.close.json`. |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-457 ——Task Outcome 事件语义对齐 | 进行中 | [Work Item](../work-items/WI-457-task-outcome-event-parity.zh-CN.md)；archive `.ai/work-items/archive/WI-457-task-outcome-event-parity.archive.json`；verification `.ai/evidence/WI-457-task-outcome-event-parity.verification.json`；finalization `.ai/decisions/WI-457-task-outcome-event-parity.finalize.json`；close `.ai/decisions/WI-457-task-outcome-event-parity.close.json`。 |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-457 — Task Outcome イベント意味論の整合 | In progress | [Work Item](../work-items/WI-457-task-outcome-event-parity.ja.md); archive `.ai/work-items/archive/WI-457-task-outcome-event-parity.archive.json`; verification `.ai/evidence/WI-457-task-outcome-event-parity.verification.json`; finalization `.ai/decisions/WI-457-task-outcome-event-parity.finalize.json`; close `.ai/decisions/WI-457-task-outcome-event-parity.close.json`. |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 427,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/427"
-      },
-      "registryBaseRevision": "97da8d0efb05d8b3de1d1e3d536b54bc52d79c17",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-457-task-outcome-event-parity"
-    }
-  ],
+  "entries": [],
   "schemaVersion": 1
 }
