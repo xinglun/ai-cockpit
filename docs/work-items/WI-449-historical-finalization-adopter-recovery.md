@@ -6,6 +6,7 @@ description: "Provide honest recovery and projection paths for historical finali
 audience: [adopter, maintainer, reviewer]
 status: in_progress
 authority: human-authorized
+lastVerifiedBy: WI-449-historical-finalization-adopter-recovery
 ---
 
 # WI-449 — Historical finalization and adopter recovery

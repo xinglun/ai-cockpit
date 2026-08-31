@@ -6,6 +6,7 @@ description: "過去の finalization 記録に対する誠実な recovery と pr
 audience: [adopter, maintainer, reviewer]
 status: in_progress
 authority: human-authorized
+lastVerifiedBy: WI-449-historical-finalization-adopter-recovery
 ---
 
 # WI-449 — historical finalization と adopter recovery

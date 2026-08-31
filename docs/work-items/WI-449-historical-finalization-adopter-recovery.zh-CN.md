@@ -6,6 +6,7 @@ description: "为历史 finalization 记录提供诚实的恢复与投影路径�
 audience: [adopter, maintainer, reviewer]
 status: in_progress
 authority: human-authorized
+lastVerifiedBy: WI-449-historical-finalization-adopter-recovery
 ---
 
 # WI-449——历史 finalization 与 adopter recovery
