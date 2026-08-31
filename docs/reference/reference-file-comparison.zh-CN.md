@@ -179,13 +179,13 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=223 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=479 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=230 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=472 migrate-gap=0 -->
 
 在当前本地参考源比较基线上，台账包含 4,450 条当前 tracked path：3,681 条
-`generated-history`、223 条 `implemented-different-by-design`、1 条
+`generated-history`、230 条 `implemented-different-by-design`、1 条
 `implemented-equivalent`、4 条 `not-applicable`、62 条 `reference-only` 和 479 条
 `deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。本次重绑定还记录了
-160 条当前源内容发生变化的路径（其中 150 条非历史决定等待重新语义比较），以及上一台账中
+160 条当前源内容发生变化的路径（其中 143 条非历史决定等待重新语义比较），以及上一台账中
 已移除的 669 条路径。capability/profile slice 已没有 `migrate-gap`：
 
 1. `.ai/project/adopter-capability-manifest.json` 已从当前本地 checkout 移除；其旧决定保留在
@@ -210,6 +210,26 @@ paths 和 retired paths。发生变化的非历史记录会保持 `deferred-next
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于
 verification evidence，因此 successor 会隔离保留这段历史，不会改写它。
+
+## WI-437：本地参考源治理规则重新比对
+
+WI-437 重新逐个阅读了此前公共参考台账与维护者本地 checkout 之间发生变化的 7 个治理文件。
+7 个文件全部判定为 `implemented-different-by-design`：没有发现 Rust Runtime 功能遗漏，也不需要
+复制源工程产物。
+
+| 本地参考路径 | Rust 结果 | 文件级决定 |
+| --- | --- | --- |
+| `.ai/cockpit/README.md` | 有意采用不同实现 | 源工程删除了 Python 模板的 Implementation Approach 章节；Rust 仍在 typed Runtime/文档中保留有 evidence 绑定的 approach 与 Outcome projection。 |
+| `.ai/cockpit/README.ja.md` | 有意采用不同实现 | 源工程删除了过时的 `REPORT_LANGUAGE` Make 参数；Runtime 自己的 presentation 本地化已覆盖该边界。 |
+| `.ai/cockpit/adoption.ja.md` | 有意采用不同实现 | 源工程 onboarding 不再传 `REPORT_LANGUAGE`；Rust onboarding 没有模板本地 Make 命令，而是使用显式 `--repo`。 |
+| `.ai/guards/changed_critical_coverage_policy.json` | 有意采用不同实现 | 被删除的 Python 专用 coverage 关联由 native tests、governance integrity 和 typed Runtime controls 承担。 |
+| `.ai/guards/coverage_policy.yaml` | 有意采用不同实现 | 源工程关联注册表不是 Rust 配置面；coverage ownership 由 native tests 和 CI gate manifest 表达。 |
+| `.ai/quality/governance-routing.yaml` | 有意采用不同实现 | 源工程将 route 选择与重复的 depth/evidence 字段分离；Rust 通过 dynamic routing 与版本化 gate manifest 保持相同分离。 |
+| `.ai/schemas/task_outcome.schema.json` | 有意采用不同实现 | 源工程简化了 Python Task Outcome schema；Rust `OutcomeV2`/`humanHandoff` 是独立 typed Protocol/presentation contract，不因源 schema 删除而移除，也不复制源 schema。 |
+
+因此，本次源 diff 是 Python/Make 表面的参考侧清理，不是可移植的功能增量。台账仍保留
+`previousBatch`、`previousClassification`、`sourceChangedSincePrevious` 等源变更溯源信息，同时
+7 个当前记录不再延期。这样可以避免同一批本地源文件在后续比对中反复打开。
 
 ## 批次顺序
 

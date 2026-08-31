@@ -59,6 +59,7 @@ WI368_BATCH = "WI-368-reference-file-comparison-batch-16"
 WI411_BATCH = "WI-411-reference-java-fixture-boundary"
 WI414_BATCH = "WI-414-reference-python-fixture-boundary"
 WI432_BATCH = "WI-432-reference-typescript-fixture-boundary"
+WI437_BATCH = "WI-437-reference-rebaseline-governance"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -120,6 +121,44 @@ WI287_REFERENCE_FILES: dict[str, tuple[list[str], str]] = {
             "crates/cockpit-repository/tests/lifecycle_order.rs",
         ],
         "Rust lifecycle and tamper regressions cover checkpoint ordering, immutable before_edit evidence, amendment lineage, resume freshness, and strict identity bindings; wire formats are intentionally not copied.",
+    ),
+}
+
+WI437_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    ".ai/cockpit/README.ja.md": (
+        "implemented-different-by-design",
+        [".ai/README.md", "docs/reference/agent-workflow.ja.md"],
+        "The local reference no longer carries a source-only REPORT_LANGUAGE Make argument. The Rust target uses Runtime-owned language selection and repository-scoped context; no source Make command or byte-compatible Japanese cockpit file is required.",
+    ),
+    ".ai/cockpit/README.md": (
+        "implemented-different-by-design",
+        [".ai/README.md", "docs/reference/agent-workflow.md", "docs/reference/outcome-report.md"],
+        "The local reference no longer carries a Python-template Implementation Approach section and documents its current diagnostics route. Rust keeps the evidence-bound approach and Outcome projection in typed Runtime surfaces, so source prose changes do not remove a Rust capability or justify copying the template file.",
+    ),
+    ".ai/cockpit/adoption.ja.md": (
+        "implemented-different-by-design",
+        ["docs/getting-started/README.ja.md", "docs/getting-started/adopter-configuration.ja.md"],
+        "The local reference no longer carries a source Make REPORT_LANGUAGE argument. Rust onboarding uses the installed shared Runtime and localized presentation boundary, with no template-local Make command to migrate.",
+    ),
+    ".ai/guards/changed_critical_coverage_policy.json": (
+        "implemented-different-by-design",
+        ["tests/conformance/reference_file_inventory.py", "tests/ci/governance_integrity_gate.py", "crates/cockpit-repository/src/governance_controls.rs"],
+        "The source guard no longer lists Python-only coverage surfaces. Rust keeps coverage and governance integrity in native tests and typed Runtime controls; the source guard JSON is not a target configuration file.",
+    ),
+    ".ai/guards/coverage_policy.yaml": (
+        "implemented-different-by-design",
+        ["tests/ci/governance_integrity_gate.py", "crates/cockpit-repository/src/governance_controls.rs", "docs/reference/ci-quality-gates.md"],
+        "The source guard no longer lists obsolete Python implementation-knowledge, onboarding, status, and outcome associations. Rust coverage ownership is expressed through native tests, CI gate manifests, and Runtime controls rather than a copied YAML association registry.",
+    ),
+    ".ai/quality/governance-routing.yaml": (
+        "implemented-different-by-design",
+        [".github/workflows/ci.yml", "tests/ci/quality_route.py", "tests/ci/run_repository_gates.py", "docs/reference/ci-quality-gates.md"],
+        "The local reference no longer carries duplicated per-profile depth/evidence fields and keeps routing selection separate from gate execution. Rust preserves that separation through the dynamic route and versioned gate manifest; source YAML fields are not wire requirements.",
+    ),
+    ".ai/schemas/task_outcome.schema.json": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-mcp/src/lib.rs", "docs/reference/outcome-report.md"],
+        "The local reference simplifies its Python Task Outcome schema without template-specific handoff fields. Rust OutcomeV2 and humanHandoff are a separate typed Protocol/presentation contract required by this Runtime; the source schema is not copied and does not authorize removal of the Rust projection.",
     ),
 }
 
@@ -2164,6 +2203,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi437 = WI437_REFERENCE_FILES.get(path)
+        if wi437 is not None:
+            classification, counterparts, reason = wi437
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI437_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi270 = wi270_counterpart(path)
         if wi270 is not None:
             counterparts, reason = wi270
@@ -2863,6 +2915,23 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
     }
     if changed_records != changed_path_set:
         errors.append("sourceChangedSincePrevious records do not match referenceChangedPaths")
+    if expected_source == EXPECTED_REFERENCE_COMMIT:
+        wi437_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI437_BATCH
+        ]
+        expected_wi437_paths = set(WI437_REFERENCE_FILES) & current_reference_paths
+        actual_wi437_paths = {
+            record.get("referencePath") for record in wi437_records
+        }
+        if actual_wi437_paths != expected_wi437_paths:
+            errors.append("WI-437 reference rebaseline records do not match the seven scoped paths")
+        for record in wi437_records:
+            if record.get("classification") != "implemented-different-by-design":
+                errors.append(f"{record.get('referencePath')}: WI-437 must be implemented-different-by-design")
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(f"{record.get('referencePath')}: WI-437 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records

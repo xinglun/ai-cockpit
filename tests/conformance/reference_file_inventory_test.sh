@@ -41,7 +41,21 @@ for current_capability_path in \
   .ai/project_profile.yaml; do
   test "$(jq --arg path "$current_capability_path" '[.records[] | select(.referencePath == $path and .batch == "capability-status-projection" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 1
 done
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 150
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 143
+wi437_paths=(
+  .ai/cockpit/README.ja.md
+  .ai/cockpit/README.md
+  .ai/cockpit/adoption.ja.md
+  .ai/guards/changed_critical_coverage_policy.json
+  .ai/guards/coverage_policy.yaml
+  .ai/quality/governance-routing.yaml
+  .ai/schemas/task_outcome.schema.json
+)
+for wi437_path in "${wi437_paths[@]}"; do
+  test "$(jq --arg path "$wi437_path" '[.records[] | select(.referencePath == $path and .batch == "WI-437-reference-rebaseline-governance" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-437-reference-rebaseline-governance")] | length' "$current_manifest")" -eq 7
+test "$(jq '[.records[] | select(.batch == "WI-437-reference-rebaseline-governance" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
 test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0

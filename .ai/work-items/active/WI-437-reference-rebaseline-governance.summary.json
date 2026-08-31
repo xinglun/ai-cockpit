@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-437-reference-rebaseline-governance.contract.json",
+    ".ai/work-items/active/WI-437-reference-rebaseline-governance.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T03:18:19Z",
+  "checkpointContractDigest": "sha256:6d595dff8a94087e4e3254409512a3749867f46b09bdd4121b94af62cbf54644",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:410fdf72a10ef4b2883f120e3ee9d4e20a14d521a822b7ebfa4b5659b2425941",
+      "recorded": true,
+      "recordedAt": "2026-08-31T03:18:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6bc0892afca28d710f82f6b903d09fb572f412fc79d040635dba1b49708a53ac",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-437-reference-rebaseline-governance"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:6d595dff8a94087e4e3254409512a3749867f46b09bdd4121b94af62cbf54644",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:410fdf72a10ef4b2883f120e3ee9d4e20a14d521a822b7ebfa4b5659b2425941",
+      "previousContractHash": "sha256:410fdf72a10ef4b2883f120e3ee9d4e20a14d521a822b7ebfa4b5659b2425941",
+      "reason": "Bind the four acceptance checks to one Runtime verification evidence class; the command itself remains the required evidence boundary and custom labels are recorded in its verification output.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T03:37:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6bc0892afca28d710f82f6b903d09fb572f412fc79d040635dba1b49708a53ac",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-437-reference-rebaseline-governance"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:6bc0892afca28d710f82f6b903d09fb572f412fc79d040635dba1b49708a53ac",
+  "createdAt": "2026-08-31T03:17:36Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T03:38:15Z",
+  "preflightContractDigest": "sha256:6d595dff8a94087e4e3254409512a3749867f46b09bdd4121b94af62cbf54644",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:6bc0892afca28d710f82f6b903d09fb572f412fc79d040635dba1b49708a53ac",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-31T03:38:33Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-437-reference-rebaseline-governance"
+}

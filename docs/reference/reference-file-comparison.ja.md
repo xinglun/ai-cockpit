@@ -189,13 +189,13 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=223 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=479 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=230 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=472 migrate-gap=0 -->
 
 現在の local reference comparison baseline の ledger は 4,450 current tracked paths です。内訳は
-3,681 `generated-history`、223 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、62 `reference-only`、479 `deferred-next-batch` です。
+3,681 `generated-history`、230 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、62 `reference-only`、472 `deferred-next-batch` です。
 Deferred record は予定された比較であり parity claim ではありません。Rebaseline は current source の
-changed path 160 件（non-history decision のうち 150 件は再比較待ち）と、以前の ledger から retired
+changed path 160 件（non-history decision のうち 143 件は再比較待ち）と、以前の ledger から retired
 になった 669 件も記録します。capability/profile slice に `migrate-gap` は残っていません。
 
 1. `.ai/project/adopter-capability-manifest.json` は現在の local checkout から retired になりました。以前の判断は
@@ -223,6 +223,28 @@ WI-274 は target checkout metadata と canonical comparison snapshot だけを�
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
 保持します。最初の commit では parity registration が verification evidence より先だったことを
 証明できないため、successor はその履歴を書き換えずに分離して redelivery します。
+
+## WI-437：local reference governance rebaseline delta
+
+WI-437 は、以前の public-reference ledger と maintainer 管理の local checkout の間で bytes が変化した
+7 つの governance file を一つずつ再確認しました。7 件すべてを
+`implemented-different-by-design` とし、Rust Runtime の omission も source artifact のコピー要求も
+見つかりませんでした。
+
+| Local reference path | Rust result | File-level decision |
+| --- | --- | --- |
+| `.ai/cockpit/README.md` | 意図した別実装 | Source は Python-template の Implementation Approach section を削除しました。Rust は evidence-bound approach と Outcome projection を typed Runtime/docs surface に保持します。 |
+| `.ai/cockpit/README.ja.md` | 意図した別実装 | Source は obsolete な `REPORT_LANGUAGE` Make argument を削除しました。Runtime-owned presentation localization がこの boundary を担います。 |
+| `.ai/cockpit/adoption.ja.md` | 意図した別実装 | Source onboarding は `REPORT_LANGUAGE` を渡さなくなりました。Rust onboarding に template-local Make command はなく、explicit `--repo` を使います。 |
+| `.ai/guards/changed_critical_coverage_policy.json` | 意図した別実装 | 削除された Python-only coverage association は native test、governance integrity、typed Runtime control で表現されます。 |
+| `.ai/guards/coverage_policy.yaml` | 意図した別実装 | Source association registry は Rust configuration surface ではありません。Coverage ownership は native test と CI gate manifest で表現します。 |
+| `.ai/quality/governance-routing.yaml` | 意図した別実装 | Source は route selection と重複した depth/evidence field を分離しました。Rust も dynamic routing と versioned gate manifest で同じ分離を保ちます。 |
+| `.ai/schemas/task_outcome.schema.json` | 意図した別実装 | Source は Python Task Outcome schema を簡素化しました。Rust の `OutcomeV2`/`humanHandoff` は別の typed Protocol/presentation contract であり、source schema の削除で消したりコピーしたりしません。 |
+
+今回の source diff は Python/Make surface の reference-side cleanup であり、portable な feature delta
+ではありません。ledger は `previousBatch`、`previousClassification`、`sourceChangedSincePrevious`
+による source-change provenance を保持しつつ、7 件の current record を deferred から解決しました。
+これにより同じ local source file が後続比較で繰り返し開かれることを防ぎます。
 
 ## Batch order
 

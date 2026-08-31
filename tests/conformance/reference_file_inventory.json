@@ -881,13 +881,13 @@
     },
     {
       "referencePath": ".ai/cockpit/README.ja.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-437-reference-rebaseline-governance",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".ai/README.md",
         "docs/reference/agent-workflow.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The local reference no longer carries a source-only REPORT_LANGUAGE Make argument. The Rust target uses Runtime-owned language selection and repository-scoped context; no source Make command or byte-compatible Japanese cockpit file is required.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -895,13 +895,14 @@
     },
     {
       "referencePath": ".ai/cockpit/README.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-437-reference-rebaseline-governance",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".ai/README.md",
-        "docs/reference/agent-workflow.md"
+        "docs/reference/agent-workflow.md",
+        "docs/reference/outcome-report.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The local reference no longer carries a Python-template Implementation Approach section and documents its current diagnostics route. Rust keeps the evidence-bound approach and Outcome projection in typed Runtime surfaces, so source prose changes do not remove a Rust capability or justify copying the template file.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -909,13 +910,13 @@
     },
     {
       "referencePath": ".ai/cockpit/adoption.ja.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-437-reference-rebaseline-governance",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/README.ja.md",
         "docs/getting-started/adopter-configuration.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The local reference no longer carries a source Make REPORT_LANGUAGE argument. Rust onboarding uses the installed shared Runtime and localized presentation boundary, with no template-local Make command to migrate.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2145,13 +2146,14 @@
     },
     {
       "referencePath": ".ai/guards/changed_critical_coverage_policy.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-437-reference-rebaseline-governance",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-protocol/src/lib.rs"
+        "tests/conformance/reference_file_inventory.py",
+        "tests/ci/governance_integrity_gate.py",
+        "crates/cockpit-repository/src/governance_controls.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source guard no longer lists Python-only coverage surfaces. Rust keeps coverage and governance integrity in native tests and typed Runtime controls; the source guard JSON is not a target configuration file.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2169,13 +2171,14 @@
     },
     {
       "referencePath": ".ai/guards/coverage_policy.yaml",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-437-reference-rebaseline-governance",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-protocol/src/lib.rs"
+        "tests/ci/governance_integrity_gate.py",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "docs/reference/ci-quality-gates.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source guard no longer lists obsolete Python implementation-knowledge, onboarding, status, and outcome associations. Rust coverage ownership is expressed through native tests, CI gate manifests, and Runtime controls rather than a copied YAML association registry.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2563,13 +2566,15 @@
     },
     {
       "referencePath": ".ai/quality/governance-routing.yaml",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-437-reference-rebaseline-governance",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-protocol/src/lib.rs"
+        ".github/workflows/ci.yml",
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "docs/reference/ci-quality-gates.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The local reference no longer carries duplicated per-profile depth/evidence fields and keeps routing selection separate from gate execution. Rust preserves that separation through the dynamic route and versioned gate manifest; source YAML fields are not wire requirements.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2717,13 +2722,15 @@
     },
     {
       "referencePath": ".ai/schemas/task_outcome.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-437-reference-rebaseline-governance",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-protocol/src/lib.rs"
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/reference/outcome-report.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The local reference simplifies its Python Task Outcome schema without template-specific handoff fields. Rust OutcomeV2 and humanHandoff are a separate typed Protocol/presentation contract required by this Runtime; the source schema is not copied and does not authorize removal of the Rust projection.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
