@@ -8,7 +8,7 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: WI-136
+lastVerifiedBy: WI-457
 capabilityClaims:
   - task_outcome_report
 ---
@@ -33,8 +33,8 @@ Rust Runtime は安定した machine object として `OutcomeV2` を保持し�
 ## Lifecycle artifact
 
 `finish` 後、active Work Item には `<id>.outcome.json` と append-only の
-`<id>.events.jsonl` が残ります。イベントは生成された完了、警告、停止、解決を
-記録します。`archive` は event stream を byte-for-byte で移動し、archive
+`<id>.events.jsonl` が残ります。イベントは生成された完了、finding、risk、warning、stop、resolution、
+recurrence prevention、evidence-backed な check-pass-after-fix を記録します。`archive` は event stream を byte-for-byte で移動し、archive
 manifest に digest を束縛します。`close` は検証済み report を `finalReport` と
 `finalReportDigest` として repository-bound close receipt に保存します。
 
@@ -56,7 +56,10 @@ Work Item には、
 
 Malformed JSON、未知フィールド、foreign identity、安全でない evidence path、
 secret らしい内容、重複 ID、未出現イベントへの参照は fail closed です。修正は
-新しい event として記録し、過去の行を暗黙に書き換えません。
+新しい event として記録し、過去の行を暗黙に書き換えません。Finding/risk event は deterministic な
+`findingFingerprint` を持ち、重複は明示的な correction/supersession binding がある場合だけ許可されます。
+Rust の projection は reference event policy の semantic parity であり source JSON の byte-level compatibility
+ではなく、reference Python generator を取り込みません。
 
 ## 人間向け handoff
 
