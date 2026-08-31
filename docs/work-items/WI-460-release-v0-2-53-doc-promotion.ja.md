@@ -4,9 +4,13 @@ title: "WI-460 — v0.2.53 documentation promotion"
 workItemId: WI-460-release-v0-2-53-doc-promotion
 description: "WI-459 の release projection を昇格し、この documentation Work Item を archive 前に登録する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-460-release-v0-2-53-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-460-release-v0-2-53-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-460-release-v0-2-53-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-460-release-v0-2-53-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-460-release-v0-2-53-doc-promotion.close.json
 ---
 
 # WI-460 — v0.2.53 documentation promotion
