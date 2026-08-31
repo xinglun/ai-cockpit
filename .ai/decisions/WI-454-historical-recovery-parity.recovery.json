@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "WI-454 lifecycle recovery",
+  "decidedAt": "2026-09-01T01:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+  ],
+  "policyRefs": [
+    "release-policy"
+  ],
+  "predecessorContractDigest": "sha256:0bc988878b74b3e844b41ed31df89394b704c67f41f007c4ee254331bfa22d8a",
+  "predecessorEventsDigest": "sha256:4be77c3c00313f6d47c87e94b66e95fcffd8e998adfc9c2e7120025b9d989b51",
+  "predecessorOutcomeDigest": "sha256:f5e712ebc213061de3fea906f0b59db59d241db2000463e6e8dc0a3e7930f8f6",
+  "predecessorSummaryDigest": "sha256:18ff9e21646b7ff6078fe927a89943319987e8f22b1c19353eb456bcddd67172",
+  "predecessorWorkItemId": "WI-454-historical-recovery-parity",
+  "reason": "Finalize-plan changed the contract binding after the first verification; retry with fresh preflight and verification before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a non-red preflight and fresh verification bound to the finalized PR context, then continue finish/archive/close.",
+  "runtimeDigest": "sha256:eacd3768d451ed4661759da02714acf47d8139d53a9c89c6087413f67e2befd7",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "workItemId": "WI-454-historical-recovery-parity"
+}

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-31T16:29:18Z",
+  "files": {
+    "contractDigest": "sha256:eed07c432a4827af980a3ddfdd3a2b88e0e55a6d766e0a1d52d385ac90467234",
+    "contractPath": ".ai/work-items/archive/WI-454-historical-recovery-parity.contract.json",
+    "eventsDigest": "sha256:95494cf376d7a47eae85eef415bd254f2a09b72a64ce8e25231c9a1e171ce37c",
+    "eventsPath": ".ai/work-items/archive/WI-454-historical-recovery-parity.events.jsonl",
+    "outcomeDigest": "sha256:463587cfc0f749522ede61c0edd9e95ae42eeb60cbafd580c04713cd7266ae80",
+    "outcomePath": ".ai/work-items/archive/WI-454-historical-recovery-parity.outcome.json",
+    "summaryDigest": "sha256:a3e6b1c7153f8b309258279ca0aa855b158365e3b6940d6802390d8b9402506e",
+    "summaryPath": ".ai/work-items/archive/WI-454-historical-recovery-parity.summary.json",
+    "taskReportDigest": "sha256:a7c7125158ebf187bd3a4d48663d8caac70c2c825721b0150971fcebc987c0e7",
+    "taskReportMarkdownDigest": "sha256:4260172f327378ffed02c8dac3d1bacb476184744b2fc6b181e37f9ae465a7ae",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-454-historical-recovery-parity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-454-historical-recovery-parity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-454-historical-recovery-parity"
+}
