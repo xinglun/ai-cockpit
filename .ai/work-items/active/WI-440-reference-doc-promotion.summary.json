@@ -1,0 +1,63 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-440-reference-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-440-reference-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T04:38:56Z",
+  "checkpointContractDigest": "sha256:390c00a65390da13eea4dd579ffecf9b2e524f8df6e79ed411e6f25048428628",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:390c00a65390da13eea4dd579ffecf9b2e524f8df6e79ed411e6f25048428628",
+      "recorded": true,
+      "recordedAt": "2026-08-31T04:38:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0d67ce9a8950e31273b2a5d19b99a365a182812a91480c8d8122161b2d29365d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-440-reference-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:dad68a6ac0a8c03f8ade08fbd85335233b3d673367c9916d1b4f4e99f8a74f1d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:390c00a65390da13eea4dd579ffecf9b2e524f8df6e79ed411e6f25048428628",
+      "previousContractHash": "sha256:390c00a65390da13eea4dd579ffecf9b2e524f8df6e79ed411e6f25048428628",
+      "reason": "Documentation acceptance requires every parity-scoped active Work Item to have tri-language documentation; added only the three WI-440 docs within the same documentation-only scope",
+      "recorded": true,
+      "recordedAt": "2026-08-31T04:40:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:60500d7e7f374343e37965c60f3b64dec007c476e64f8b0963e73e42f4be0dd0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-440-reference-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0d67ce9a8950e31273b2a5d19b99a365a182812a91480c8d8122161b2d29365d",
+  "createdAt": "2026-08-31T04:38:49Z",
+  "mode": "docs",
+  "preflightAt": "2026-08-31T04:38:56Z",
+  "preflightContractDigest": "sha256:390c00a65390da13eea4dd579ffecf9b2e524f8df6e79ed411e6f25048428628",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:0d67ce9a8950e31273b2a5d19b99a365a182812a91480c8d8122161b2d29365d",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-08-31T04:38:56Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:dad68a6ac0a8c03f8ade08fbd85335233b3d673367c9916d1b4f4e99f8a74f1d",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-08-31T04:40:54Z"
+  },
+  "workItemId": "WI-440-reference-doc-promotion"
+}
