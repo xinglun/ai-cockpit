@@ -94,6 +94,16 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   timestamp の binding が必要です。旧 primary worktree は `historicalKind=shared_worktree_retained`、
   PR のない merge は完全な `historicalKind=direct_merge_no_pr` finalization receipt を使います。
   predecessor は書き換えられず、recovery record だけで Work Item が green になることもありません。
+- `work-item finalize-recovery-plan --repo <path> --id <id>` は read-only の歴史 recovery discovery
+  boundary です。immutable predecessor の path/digest、producer Runtime identity、shared-primary
+  の disposition、未入力の human fields を返します。歴史 direct merge では実際の
+  `--merge-commit <sha>` を渡すと parents を検証し、`pullRequest.number=0` と
+  `historical://direct-merge/<sha>` を含む receipt skeleton を出力します。`.ai/decisions` は変更せず、
+  PR number・authority・human decision を捏造しません。
+- `migrate plan --repo <path>` は schema が compatible でも `historicalFinalization` を追加で
+  報告します。有効な close binding を持つ旧 receipt は `historical_verified`/
+  `historical_low`、pending または読めない receipt は `recovery_required`/`invalid` と safe
+  action を示します。歴史 discovery は schema migration と分離され、predecessor bytes を書き換えません。
 - `finish`、`archive`、`close` は stdout の lifecycle JSON を変更せず、既定では同じ
   検証済み Human Outcome を stderr に render します。機械専用出力には `--json` を
   指定します。`finish` が block された場合、CLI は永続化済みの赤または黄の Outcome
@@ -213,6 +223,9 @@ acceptance receipt には各 isolated root の typed before/after manifest も�
 `allowedPrefixes` は空で、変更されてはいけません。Runtime が書き込めるのは `TMPDIR` と `CARGO_HOME` だけで、allowlist は
 `<TMPDIR>/**` と `<CARGO_HOME>/**` に限定されます。cleanup の結果は `cleanup.json` と `cleanupState`/`cleanupError` に記録され、
 cleanup failure は acceptance を失敗させますが、公開済み Release truth を unpublish または書き換えません。
+
+Runtime は Work Item が `finish_ready` に到達した後の `finalize-plan` を拒否します。
+verification 前に resource context を bind し、記録済みの verification cycle の無効化を防ぎます。checkpointed の Work Item は、明示的な recovery/setup として verification 前に provisional context を bind できます。
 
 `tests/conformance/final_replacement_acceptance.sh` は source repository の最終置換 boundary です。installed Runtime identity、固定した
 reference oracle、conformance/adversarial/performance gate、コピーなし検査を記録し、`acceptance.json` と `SHA256SUMS` を生成します。

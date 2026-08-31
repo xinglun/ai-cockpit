@@ -478,6 +478,10 @@ pub struct RepositoryReadiness {
     /// These are retained audit bytes, not counted as active Work Items.
     #[serde(default)]
     pub orphaned_active_artifacts: Vec<String>,
+    /// Immutable finalization heads produced by an older Runtime.  These are
+    /// discovery projections and never authorize a new lifecycle transition.
+    #[serde(default)]
+    pub historical_finalization: Vec<HistoricalFinalizationInventoryItem>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -487,6 +491,24 @@ pub struct HistoricalDebtItem {
     pub category: String,
     pub assurance: String,
     pub recovery_action: String,
+}
+
+/// Read-only inventory entry for an immutable finalization receipt produced by
+/// an older Runtime.  This is discovery data, not an authorization receipt;
+/// no predecessor bytes are rewritten by producing it.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalFinalizationInventoryItem {
+    pub work_item_id: String,
+    pub state: String,
+    pub assurance: String,
+    pub predecessor_path: String,
+    pub predecessor_digest: Option<Digest>,
+    pub sequence: u64,
+    pub runtime_version: Option<String>,
+    pub runtime_digest: Option<Digest>,
+    pub historical_kind: Option<String>,
+    pub safe_actions: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -552,6 +574,10 @@ pub struct MigrationPlan {
     pub unchanged: Vec<String>,
     pub human_approval_required: bool,
     pub steps: Vec<SchemaMigrationStep>,
+    /// Historical finalization records that need explicit compatibility
+    /// handling when this Runtime is newer than their producer.
+    #[serde(default)]
+    pub historical_finalization: Vec<HistoricalFinalizationInventoryItem>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -3134,6 +3160,17 @@ pub fn compatibility_report(
 }
 
 pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
+    migration_plan_with_runtime(root, None)
+}
+
+/// Build a migration plan with an optional executing Runtime identity.  The
+/// schema migration decision remains unchanged; the additional inventory
+/// makes immutable older finalization records discoverable without treating
+/// them as current evidence.
+pub fn migration_plan_with_runtime(
+    root: &Path,
+    runtime: Option<&RuntimeContext>,
+) -> Result<MigrationPlan, ObserverError> {
     let (config, _, _, _) = migration_inputs(root)?;
     let target = cockpit_protocol::REPOSITORY_SCHEMA_VERSION;
     let (state, migration_type, planned_changes, steps) =
@@ -3165,6 +3202,7 @@ pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
         } else {
             ("INCOMPATIBLE", "unsupported", Vec::new(), Vec::new())
         };
+    let historical_finalization = historical_finalization_inventory(root, runtime)?;
     Ok(MigrationPlan {
         state: state.into(),
         current_schema: config.repository_schema_version,
@@ -3180,6 +3218,7 @@ pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
         ],
         human_approval_required: state == "MIGRATION_REQUIRED",
         steps,
+        historical_finalization,
     })
 }
 
@@ -3304,6 +3343,15 @@ pub fn apply_migration(
 }
 
 pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
+    status_with_runtime(root, None)
+}
+
+/// Read repository status with the executing Runtime identity so stale
+/// finalization records can be surfaced as explicit historical debt.
+pub fn status_with_runtime(
+    root: &Path,
+    runtime: Option<&RuntimeContext>,
+) -> Result<RepositoryStatus, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -3358,7 +3406,12 @@ pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
         .map(|variant| variant.name)
         .collect::<Vec<_>>();
     let orphaned_active_artifacts = orphaned_active_artifact_names(&root)?;
-    let readiness = repository_readiness_from_snapshot(&root, &snapshot, &config.repository_id)?;
+    let readiness = repository_readiness_from_snapshot_with_runtime(
+        &root,
+        &snapshot,
+        &config.repository_id,
+        runtime,
+    )?;
     Ok(RepositoryStatus {
         protocol_version: config.protocol_version,
         repository_schema_version: config.repository_schema_version,
@@ -3401,6 +3454,15 @@ fn repository_readiness_from_snapshot(
     snapshot: &RepositorySnapshot,
     expected_repository_id: &str,
 ) -> Result<RepositoryReadiness, ObserverError> {
+    repository_readiness_from_snapshot_with_runtime(root, snapshot, expected_repository_id, None)
+}
+
+fn repository_readiness_from_snapshot_with_runtime(
+    root: &Path,
+    snapshot: &RepositorySnapshot,
+    expected_repository_id: &str,
+    runtime: Option<&RuntimeContext>,
+) -> Result<RepositoryReadiness, ObserverError> {
     let current_branch = git_text(root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
         .filter(|value| !value.is_empty());
     let current_revision = snapshot.head.clone();
@@ -3409,6 +3471,7 @@ fn repository_readiness_from_snapshot(
     let unclosed_archived_work_items =
         unclosed_archived_work_items_with_id(root, expected_repository_id)?;
     let historical_debt = classify_historical_debt(root, &unclosed_archived_work_items);
+    let historical_finalization = historical_finalization_inventory(root, runtime)?;
     let active_work_items = count_suffix(&root.join(".ai/work-items/active"), ".contract.json");
     let orphaned_active_artifacts = orphaned_active_artifact_names(root)?;
 
@@ -3470,6 +3533,7 @@ fn repository_readiness_from_snapshot(
         unclosed_archived_work_items,
         historical_debt,
         orphaned_active_artifacts,
+        historical_finalization,
     })
 }
 
@@ -3694,6 +3758,167 @@ fn classify_historical_debt(root: &Path, work_items: &[String]) -> Vec<Historica
         });
     }
     result
+}
+
+/// Inventory stale finalization heads without mutating any repository state.
+/// Only a newer executing Runtime can decide whether a producer identity is
+/// stale; callers that do not have one retain the historical schema-only plan.
+fn historical_finalization_inventory(
+    root: &Path,
+    runtime: Option<&RuntimeContext>,
+) -> Result<Vec<HistoricalFinalizationInventoryItem>, ObserverError> {
+    let Some(runtime) = runtime else {
+        return Ok(Vec::new());
+    };
+    let decisions = root.join(".ai/decisions");
+    let entries = match fs::read_dir(&decisions) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: decisions,
+                source,
+            });
+        }
+    };
+    let repository_id = repository_id(root).to_string();
+    let mut inventory = Vec::new();
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: decisions.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let Some(work_item_id) = name.strip_suffix(".finalize.json") else {
+            continue;
+        };
+        if validate_work_item_id(work_item_id).is_err() {
+            continue;
+        }
+        let path = entry.path();
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+            continue;
+        }
+        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        let raw_digest = Digest::sha256_bytes(&bytes);
+        let Ok(value) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
+            inventory.push(HistoricalFinalizationInventoryItem {
+                work_item_id: work_item_id.into(),
+                state: "invalid".into(),
+                assurance: "unknown".into(),
+                predecessor_path: repository_relative_path(root, &path),
+                predecessor_digest: Some(raw_digest),
+                sequence: 0,
+                runtime_version: None,
+                runtime_digest: None,
+                historical_kind: None,
+                safe_actions: vec![format!(
+                    "inspect malformed finalization receipt before recovery: {work_item_id}"
+                )],
+            });
+            continue;
+        };
+        let Ok(receipt) = serde_json::from_value::<ResourceFinalizationReceipt>(value) else {
+            inventory.push(HistoricalFinalizationInventoryItem {
+                work_item_id: work_item_id.into(),
+                state: "invalid".into(),
+                assurance: "unknown".into(),
+                predecessor_path: repository_relative_path(root, &path),
+                predecessor_digest: Some(raw_digest),
+                sequence: 0,
+                runtime_version: None,
+                runtime_digest: None,
+                historical_kind: None,
+                safe_actions: vec![format!(
+                    "inspect legacy finalization receipt schema before recovery: {work_item_id}"
+                )],
+            });
+            continue;
+        };
+        if receipt.runtime_version == runtime.runtime_version
+            && receipt.runtime_digest == runtime.runtime_digest
+        {
+            continue;
+        }
+        let Ok((head, head_path, head_digest, sequence)) =
+            resolve_resource_finalization_head(root, work_item_id)
+        else {
+            inventory.push(HistoricalFinalizationInventoryItem {
+                work_item_id: work_item_id.into(),
+                state: "recovery_required".into(),
+                assurance: "unknown".into(),
+                predecessor_path: repository_relative_path(root, &path),
+                predecessor_digest: Some(raw_digest),
+                sequence: 0,
+                runtime_version: Some(receipt.runtime_version.clone()),
+                runtime_digest: Some(receipt.runtime_digest.clone()),
+                historical_kind: None,
+                safe_actions: vec![format!(
+                    "inspect finalization history before recovery: {work_item_id}"
+                )],
+            });
+            continue;
+        };
+        let kind = closed_finalization_projection_kind(
+            root,
+            work_item_id,
+            &head,
+            &head_path,
+            &head_digest,
+            sequence,
+            &repository_id,
+        );
+        let inferred_kind = kind.or_else(|| {
+            (matches!(
+                head.result.disposition,
+                ResourceFinalizationDisposition::Retained
+            ) && head.before.branch == head.after.branch
+                && head.before.worktree == head.after.worktree)
+                .then_some("shared_worktree_retained")
+        });
+        let state = if kind.is_some() {
+            "historical_verified"
+        } else {
+            "recovery_required"
+        };
+        let safe_actions = if kind.is_some() {
+            vec!["read-only historical projection; no migration required".into()]
+        } else if inferred_kind == Some("shared_worktree_retained") {
+            vec![
+                format!("review historical recovery plan: work-item {work_item_id}"),
+                format!("record explicit historical recovery before close: {work_item_id}"),
+            ]
+        } else {
+            vec![format!(
+                "inspect immutable finalization facts before recovery: {work_item_id}"
+            )]
+        };
+        inventory.push(HistoricalFinalizationInventoryItem {
+            work_item_id: work_item_id.into(),
+            state: state.into(),
+            assurance: if kind.is_some() {
+                "historical_low".into()
+            } else {
+                "unknown".into()
+            },
+            predecessor_path: repository_relative_path(root, &head_path),
+            predecessor_digest: Some(head_digest),
+            sequence,
+            runtime_version: Some(head.runtime_version),
+            runtime_digest: Some(head.runtime_digest),
+            historical_kind: inferred_kind.map(str::to_owned),
+            safe_actions,
+        });
+    }
+    inventory.sort_by(|left, right| left.work_item_id.cmp(&right.work_item_id));
+    Ok(inventory)
 }
 
 /// New archive manifests explicitly opt into the close gate.  Older archive
@@ -6069,7 +6294,14 @@ fn prepare_retryable_lifecycle(
         .as_str()
         .unwrap_or_default()
         .to_owned();
-    let lifecycle_retry = summary["failedGate"].as_str() == Some("finish.lifecycle");
+    // Any failed finish projection is an explicit recovery boundary.  A
+    // finish.governance failure can leave the persisted preflight red (for
+    // example when controls were missing), so requiring green/yellow here
+    // would strand an otherwise recoverable Work Item.  Other lifecycle
+    // failures remain bounded by the same one-checkpoint requirement.
+    let lifecycle_retry = summary["failedGate"]
+        .as_str()
+        .is_some_and(|gate| gate.starts_with("finish."));
     if summary["checkpointCount"] != serde_json::json!(1)
         || (!matches!(preflight_state.as_str(), "green" | "yellow") && !lifecycle_retry)
     {
@@ -10053,12 +10285,11 @@ pub fn plan_resource_finalization(
     let summary = read_json(&summary_path)?;
     if !matches!(
         summary["state"].as_str(),
-        Some("implementation_active" | "checkpointed" | "finish_ready")
+        Some("implementation_active" | "checkpointed")
     ) {
         return Err(ObserverError::State {
             path: summary_path,
-            message: "finalize-plan requires an active, checkpointed, or finish_ready Work Item"
-                .into(),
+            message: "finalize-plan must run before verification/finish_ready; changing resource context after the verification cycle would invalidate lifecycle evidence".into(),
         });
     }
     if let Some(existing) = &contract.resource_context
@@ -10697,6 +10928,45 @@ fn ensure_resource_runtime_identity(
     Ok(())
 }
 
+/// Return the historical classification for an old-runtime finalization head
+/// that is already closed.  Historical bytes remain immutable: the only
+/// authority for this projection is the close receipt binding its exact head
+/// path, digest, sequence, Work Item, and repository identity.
+fn closed_finalization_projection_kind(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &ResourceFinalizationReceipt,
+    receipt_path: &Path,
+    receipt_digest: &Digest,
+    sequence: u64,
+    repository_id: &str,
+) -> Option<&'static str> {
+    if !close_decision_is_valid_for_status(root, work_item_id, repository_id) {
+        return None;
+    }
+    let close_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let close = read_json(&close_path).ok()?;
+    if close.get("resourceFinalizationSequence")?.as_u64()? != sequence
+        || close.get("resourceFinalizationHeadPath")?.as_str()?
+            != repository_relative_path(root, receipt_path)
+        || close.get("resourceFinalizationHeadDigest")?.as_str()? != receipt_digest.to_string()
+    {
+        return None;
+    }
+    if matches!(
+        receipt.result.disposition,
+        ResourceFinalizationDisposition::Retained
+    ) && receipt.before.branch == receipt.after.branch
+        && receipt.before.worktree == receipt.after.worktree
+    {
+        Some("shared_worktree_retained")
+    } else {
+        Some("legacy_runtime")
+    }
+}
+
 fn ensure_resource_finalization_base_binding(
     receipt: &ResourceFinalizationReceipt,
     contract: &Contract,
@@ -11058,6 +11328,150 @@ pub fn record_historical_finalization_recovery(
     }))
 }
 
+/// Produce a read-only, fact-bound recovery plan for a legacy finalization.
+/// The plan deliberately contains no generated human authority or decision;
+/// it only supplies immutable predecessor facts and, when explicitly given,
+/// Git's real direct-merge parents.
+pub fn historical_finalization_recovery_plan(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    merge_commit: Option<&str>,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let repository_id = repository_id(&root).to_string();
+    let mut result = serde_json::json!({
+        "workItemId": work_item_id,
+        "repositoryId": repository_id,
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "state": "needs_human_review",
+        "writesRepositoryState": false,
+        "humanInputRequired": ["authoritySource", "reason", "decidedAt"],
+    });
+
+    if let Ok((receipt, path, digest, sequence)) =
+        resolve_resource_finalization_head(&root, work_item_id)
+    {
+        let contract = archived_contract_digest(&root, work_item_id).ok();
+        let kind = receipt
+            .historical
+            .as_ref()
+            .map(|historical| match historical.kind {
+                HistoricalFinalizationKind::SharedWorktreeRetained => "shared_worktree_retained",
+                HistoricalFinalizationKind::DirectMergeNoPr => "direct_merge_no_pr",
+            })
+            .or_else(|| {
+                (matches!(
+                    receipt.result.disposition,
+                    ResourceFinalizationDisposition::Retained
+                ) && receipt.before.branch == receipt.after.branch
+                    && receipt.before.worktree == receipt.after.worktree)
+                    .then_some("shared_worktree_retained")
+            });
+        let stale = receipt.runtime_version != runtime.runtime_version
+            || receipt.runtime_digest != runtime.runtime_digest;
+        let closed = stale
+            && contract.as_ref().is_some_and(|(contract, _)| {
+                closed_finalization_projection_kind(
+                    &root,
+                    work_item_id,
+                    &receipt,
+                    &path,
+                    &digest,
+                    sequence,
+                    &contract.repository_id,
+                )
+                .is_some()
+            });
+        result["predecessorPath"] = repository_relative_path(&root, &path).into();
+        result["predecessorDigest"] = digest.to_string().into();
+        result["sequence"] = sequence.into();
+        result["predecessorRuntimeVersion"] = receipt.runtime_version.clone().into();
+        result["predecessorRuntimeDigest"] = receipt.runtime_digest.to_string().into();
+        result["historicalKind"] = kind
+            .map(serde_json::Value::from)
+            .unwrap_or(serde_json::Value::Null);
+        result["baseRevision"] = receipt.pull_request.base_revision.clone().into();
+        if closed {
+            result["state"] = "already_closed_historical".into();
+            result["assurance"] = "historical_low".into();
+            result["humanInputRequired"] = serde_json::json!([]);
+        } else if !stale {
+            result["state"] = "current_runtime_no_recovery_required".into();
+            result["humanInputRequired"] = serde_json::json!([]);
+        } else {
+            result["suggestedRecovery"] = serde_json::json!({
+                "kind": "historical_finalization_recovery",
+                "historicalKind": kind,
+                "assurance": "historical_low",
+                "workItemId": work_item_id,
+                "repositoryId": repository_id,
+                "predecessorPath": repository_relative_path(&root, &path),
+                "predecessorReceiptDigest": digest,
+                "baseRevision": receipt.pull_request.base_revision,
+                "runtimeVersion": runtime.runtime_version,
+                "runtimeDigest": runtime.runtime_digest,
+            });
+        }
+        return Ok(result);
+    }
+
+    let Some(merge_commit) = merge_commit else {
+        result["state"] = "predecessor_missing_or_unreadable".into();
+        result["safeAction"] =
+            "provide a real merge commit for historical direct-merge inspection".into();
+        return Ok(result);
+    };
+    let parents = git_text(&root, &["rev-list", "--parents", "-n", "1", merge_commit])
+        .ok_or_else(|| ObserverError::State {
+            path: root.clone(),
+            message: "cannot inspect historical direct-merge commit".into(),
+        })?
+        .split_whitespace()
+        .map(str::to_owned)
+        .collect::<Vec<_>>();
+    if parents.len() < 3 {
+        return Err(ObserverError::State {
+            path: root,
+            message: "historical direct-merge commit must have at least two parents".into(),
+        });
+    }
+    result["state"] = "direct_merge_candidate".into();
+    result["historicalKind"] = "direct_merge_no_pr".into();
+    result["assurance"] = "historical_low".into();
+    result["mergeCommit"] = merge_commit.into();
+    result["mergeParents"] =
+        serde_json::to_value(&parents[1..]).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    result["baseRevision"] = parents[1].clone().into();
+    result["suggestedReceipt"] = serde_json::json!({
+        "pullRequest": {
+            "number": 0,
+            "url": format!("historical://direct-merge/{merge_commit}"),
+            "baseRevision": parents[1],
+            "mergeCommit": merge_commit
+        },
+        "provider": "historical",
+        "historical": {
+            "kind": "direct_merge_no_pr",
+            "assurance": "historical_low",
+            "baseRevision": parents[1],
+            "mergeCommit": merge_commit,
+            "mergeParents": &parents[1..]
+        },
+        "workItemId": work_item_id,
+        "repositoryId": repository_id
+    });
+    Ok(result)
+}
+
 /// Persist a provider-side finalization receipt after strict identity and
 /// local postcondition validation.  The Runtime never calls a provider or
 /// deletes a branch implicitly; it records delegated evidence and refuses
@@ -11414,11 +11828,38 @@ fn verify_resource_finalization_internal(
     } else {
         None
     };
-    if let Some(runtime) = runtime
-        && historical_recovery.is_none()
-    {
-        ensure_resource_runtime_identity(&receipt, runtime, &path)?;
-    }
+    let historical_runtime_projection = if let Some(runtime) = runtime {
+        if historical_recovery.is_none()
+            && (receipt.runtime_version != runtime.runtime_version
+                || receipt.runtime_digest != runtime.runtime_digest)
+        {
+            let kind = closed_finalization_projection_kind(
+                &root,
+                work_item_id,
+                &receipt,
+                &path,
+                &receipt_digest,
+                sequence,
+                &contract.repository_id,
+            );
+            if kind.is_none()
+                && let Err(error) = ensure_resource_runtime_identity(&receipt, runtime, &path)
+            {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: format!(
+                        "{}; inspect with `ai-cockpit work-item finalize-recovery-plan --repo <repository> --id {work_item_id}` before recording historical recovery",
+                        error
+                    ),
+                });
+            }
+            kind
+        } else {
+            None
+        }
+    } else {
+        None
+    };
     if matches!(
         receipt.result.disposition,
         ResourceFinalizationDisposition::Deleted
@@ -11431,7 +11872,11 @@ fn verify_resource_finalization_internal(
     }
     let mut result = serde_json::json!({
         "workItemId": work_item_id,
-        "state": "verified",
+        "state": if historical_runtime_projection.is_some() {
+            "historical_verified"
+        } else {
+            "verified"
+        },
         "disposition": receipt.result.disposition,
         "sequence": sequence,
         "headPath": repository_relative_path(&root, &path),
@@ -11453,6 +11898,12 @@ fn verify_resource_finalization_internal(
             &historical_finalization_recovery_path(&root, work_item_id),
         )
         .into();
+    } else if let Some(kind) = historical_runtime_projection {
+        result["historical"] = serde_json::json!(true);
+        result["historicalKind"] = kind.into();
+        result["assurance"] = "historical_low".into();
+        result["historicalReason"] =
+            "closed predecessor receipt was verified under an older Runtime".into();
     } else if let Some(historical) = receipt.historical.as_ref() {
         result["historical"] = serde_json::json!(true);
         result["historicalKind"] =

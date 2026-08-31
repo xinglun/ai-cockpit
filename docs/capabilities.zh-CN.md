@@ -125,6 +125,13 @@ Migration receipt 记录 source/target schema、迁移前后 digest、Runtime ve
 knowledge 保持 byte-for-byte historical record。`INCOMPATIBLE` 会在写入前停止，需要理解该 schema
 的 Runtime。
 
+当仓库由更新的 Runtime 打开时，`migrate plan` 和 `status` 还会输出
+`historicalFinalization` 清单。已有有效 close 绑定的旧 receipt 会投影为
+`historical_verified`，assurance 为 `historical_low`；待处理或不可读取的 predecessor 会保持为
+`recovery_required` 或 `invalid`。可先使用只读的
+`work-item finalize-recovery-plan` 检查事实，再进入显式 recovery 或完整 direct-merge
+`finalize` 路径。历史 bytes 永不改写，历史状态也不会授权新的 Work Item。
+
 当 attached protocol files 完整存在时，有状态的治理操作（`preflight`、Work Item 创建/生命周期、
 `verify`、knowledge/profile 写入、Agent adapter 写入以及受治理的 MCP 调用）必须先得到
 `COMPATIBLE`。`MIGRATION_REQUIRED` 或 `INCOMPATIBLE` 会在创建新 record 或 evidence 前停止。

@@ -1,0 +1,112 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-31T13:01:21Z",
+  "checkpointContractDigest": "sha256:adc9bbac85944313832afa51872bd7c77152194070a98a3de82522b815718aa2",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:fce21e5888dc1ebd5c91aa7b6da790813de742f09e9ded8a877360765f15d2f5",
+      "recorded": true,
+      "recordedAt": "2026-08-31T13:01:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c4df5e4c2b14a7d1328bca4d60eb7ee628540071411b49e1f4273caf8e89f2f3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-449-historical-finalization-adopter-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:adc9bbac85944313832afa51872bd7c77152194070a98a3de82522b815718aa2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fce21e5888dc1ebd5c91aa7b6da790813de742f09e9ded8a877360765f15d2f5",
+      "previousContractHash": "sha256:fce21e5888dc1ebd5c91aa7b6da790813de742f09e9ded8a877360765f15d2f5",
+      "reason": "Use the Runtime-supported verification evidence class; retain all other acceptance assertions as explicit Contract criteria and test evidence.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T13:19:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c4df5e4c2b14a7d1328bca4d60eb7ee628540071411b49e1f4273caf8e89f2f3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-449-historical-finalization-adopter-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:18a1f355ffd54bc1d00b2da1d8ea8a7ec6d9df64fa1ad66092f278128ca19e70",
+  "createdAt": "2026-08-31T12:41:09Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/superpowers/specs/2026-08-31-historical-finalization-adopter-recovery-design.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-08-31T13:36:18Z",
+  "preflightContractDigest": "sha256:adc9bbac85944313832afa51872bd7c77152194070a98a3de82522b815718aa2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:18a1f355ffd54bc1d00b2da1d8ea8a7ec6d9df64fa1ad66092f278128ca19e70",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "reason": "Covered by the closed legacy projection regression.",
+      "required": true,
+      "scenario": "legacy closed receipt with stale Runtime identity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "reason": "Covered by the immutable recovery binding regression.",
+      "required": true,
+      "scenario": "shared primary worktree retained recovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "reason": "Covered by the real two-parent merge recovery-plan regression.",
+      "required": true,
+      "scenario": "direct merge without Pull Request",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "reason": "Covered by stale, malformed, identity, digest, and symlink regressions.",
+      "required": true,
+      "scenario": "invalid or ambiguous historical input",
+      "status": "verified"
+    },
+    {
+      "evidence": [],
+      "reason": "Public immutable Release acceptance is a post-merge release gate, not a pre-merge source Work Item control.",
+      "required": true,
+      "scenario": "public Release historical-adopter acceptance",
+      "status": "not_applicable"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T13:36:24Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-449-historical-finalization-adopter-recovery"
+}

@@ -1,0 +1,134 @@
+{
+  "acceptanceCriteria": [
+    "旧 Runtime finalization 的 status 与 migrate plan 必须给出历史 recovery 分类和可执行 safe action，且不改写任何历史 bytes。",
+    "finalize-verify 对已关闭或待关闭的旧 receipt 必须提供明确的历史 recovery projection 或下一步命令；当前 Runtime 生成的新 receipt 仍严格要求 runtime identity。",
+    "shared worktree retained 通过 Runtime-bound recovery 输入完成 verify 与 close；direct merge no PR 使用 number=0、真实 merge commit、parents、base、repository identity 与 historical_low，禁止虚构 PR。",
+    "提供只读、Git-fact-derived 的 recovery/receipt scaffold，所有不可推导的 actor、authority、reason 和人类决定保持 unknown 或要求显式输入。",
+    "新增 WI-016、WI-018、WI-027 形态的回归测试，覆盖 stale runtime、missing/zero PR number、tamper、foreign identity、stale base、symlink 与历史 bytes immutable。",
+    "三语命令与 workflow 文档、发布 adopter acceptance 脚本同步；新 Release 必须通过完整 workspace quality、公开 adopter、N-1 upgrade 与历史 recovery acceptance。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "92bcaa7332fb47baa3895666469e0650d54b8ab6",
+  "createdAt": "2026-08-31T12:41:09Z",
+  "goal": "提供历史 finalization 的可发现 recovery/projection 与 Git 事实驱动的候选输入，保持新 Work Item 的严格当前 Runtime gate，并以对象形态回归和发布后验收证明 WI-016、WI-018、WI-027 可安全收口。",
+  "intent": "使已发布 Runtime 能够诚实且可操作地恢复旧版本历史 finalization；对象工程不能因历史 receipt 版本差异或无 PR 本地合并而被迫伪造治理证据。",
+  "mode": "implementation",
+  "outOfScope": [
+    "对象工程文件及其 .ai 数据",
+    "新 Work Item 的当前 finalization policy",
+    "全局 Agent/MCP 配置",
+    "V1 Python/Make 复制",
+    "无关架构拆分",
+    "性能优化"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2cd94caa0cdc77b70df24d152b8f04d73d6a41a6f1365ba566c22647701c2ccd",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-449-historical-finalization-adopter-recovery",
+    "provider": "github",
+    "pullRequest": "pending:WI-449-historical-finalization-adopter-recovery",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-449-historical-finalization-adopter-recovery"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "A valid already-closed legacy receipt is projected as historical_low or receives a precise recovery action and is never reported as a current Runtime failure.",
+      "required": true,
+      "scenario": "legacy closed receipt with stale Runtime identity",
+      "status": "unverified",
+      "verificationPlan": "Run a fixture whose finalization and close receipts were produced by an older Runtime, then execute finalize-verify and read-only status/migrate plan with the current Runtime."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "An immutable retained receipt is classified with a Runtime-bound historical recovery record and can reach explicit close without rewriting predecessor bytes.",
+      "required": true,
+      "scenario": "shared primary worktree retained recovery",
+      "status": "unverified",
+      "verificationPlan": "Record a recovery binding from repository and predecessor facts, verify it, close with structured human authority, and compare predecessor bytes before and after."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "A complete receipt accepts pullRequest.number=0 only with historical.kind=direct_merge_no_pr, real merge commit, at least two parents, base, repository identity, and historical_low assurance; no PR is fabricated.",
+      "required": true,
+      "scenario": "direct merge without Pull Request",
+      "status": "unverified",
+      "verificationPlan": "Build a real two-parent Git merge fixture, record the complete receipt through the CLI path, verify against Git, and close with an explicit decision."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "expected": "Missing/zero PR number without historical metadata, foreign identity, stale predecessor digest, stale base, malformed JSON, symlink, and forged merge parents fail closed with actionable stable diagnostics.",
+      "required": true,
+      "scenario": "invalid or ambiguous historical input",
+      "status": "unverified",
+      "verificationPlan": "Run negative protocol and repository tests for each mutation and assert that no predecessor or archive bytes are rewritten."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "A downloaded immutable Release binary can inspect legacy finalization fixtures, emit a recovery plan, and preserve isolation and cleanup evidence without source fallback.",
+      "required": true,
+      "scenario": "public Release historical-adopter acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run the release acceptance and upgrade acceptance scripts against the published candidate and assert runtime identity, historical recovery, isolation manifests, and cleanup receipt."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests/**",
+    "tests/release/**",
+    "docs/reference/**",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/work-items/**",
+    "docs/superpowers/specs/**",
+    "docs/superpowers/plans/**"
+  ],
+  "sources": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "docs/reference/commands.md",
+    "docs/reference/repository-workflow.md",
+    "docs/work-items/WI-443-historical-finalization-compat.md",
+    "docs/work-items/WI-446-historical-finalization-recovery.md",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --all-targets --all-features -- --test-threads=1",
+    "cargo test --locked -p cockpit-repository --test resource_finalization_transition -- --test-threads=1",
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "bash tests/release/version_consistency_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-449-historical-finalization-adopter-recovery"
+}

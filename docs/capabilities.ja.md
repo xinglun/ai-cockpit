@@ -125,6 +125,13 @@ Migration receipt は source/target schema、前後 digest、Runtime version、R
 knowledge は byte-for-byte の履歴として保持します。`INCOMPATIBLE` は書き込み前に停止し、その schema を
 理解する Runtime が必要です。
 
+新しい Runtime で repository を開くと、`migrate plan` と `status` は
+`historicalFinalization` inventory も返します。有効な close binding を持つ旧 receipt は
+`historical_verified`、assurance は `historical_low` として投影され、pending または読めない
+predecessor は `recovery_required`/`invalid` のままです。明示的な recovery または完全な
+direct-merge `finalize` の前に read-only の `work-item finalize-recovery-plan` で事実を確認します。
+履歴 bytes は書き換えられず、historical status は新しい Work Item を authorize しません。
+
 attached protocol file が揃っている場合、stateful な governance operation（`preflight`、Work Item の
 作成/lifecycle、`verify`、knowledge/profile の書き込み、Agent adapter の書き込み、governed MCP call）は
 `COMPATIBLE` でなければ実行できません。`MIGRATION_REQUIRED` または `INCOMPATIBLE` なら新しい record や

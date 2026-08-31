@@ -719,13 +719,13 @@ fn retry_recovery_accepts_a_lifecycle_state_failure_with_red_preflight() {
         serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
     summary["state"] = json!("finish_ready");
     summary["preflightState"] = json!("red");
-    summary["failedGate"] = json!("finish.lifecycle");
+    summary["failedGate"] = json!("finish.governance");
     summary["recoveryCondition"] = json!("retry after restoring the lifecycle state");
     fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
 
     let mut retry = receipt(
         &directory,
-        "retry the lifecycle transition after a state failure",
+        "retry the governance transition after a red preflight",
     );
     retry["decision"] = json!("retry");
     retry.as_object_mut().unwrap().remove("successorWorkItemId");

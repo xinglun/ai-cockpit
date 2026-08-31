@@ -1,0 +1,138 @@
+{
+  "acceptanceResults": [
+    "旧 Runtime finalization 的 status 与 migrate plan 必须给出历史 recovery 分类和可执行 safe action，且不改写任何历史 bytes。",
+    "finalize-verify 对已关闭或待关闭的旧 receipt 必须提供明确的历史 recovery projection 或下一步命令；当前 Runtime 生成的新 receipt 仍严格要求 runtime identity。",
+    "shared worktree retained 通过 Runtime-bound recovery 输入完成 verify 与 close；direct merge no PR 使用 number=0、真实 merge commit、parents、base、repository identity 与 historical_low，禁止虚构 PR。",
+    "提供只读、Git-fact-derived 的 recovery/receipt scaffold，所有不可推导的 actor、authority、reason 和人类决定保持 unknown 或要求显式输入。",
+    "新增 WI-016、WI-018、WI-027 形态的回归测试，覆盖 stale runtime、missing/zero PR number、tamper、foreign identity、stale base、symlink 与历史 bytes immutable。",
+    "三语命令与 workflow 文档、发布 adopter acceptance 脚本同步；新 Release 必须通过完整 workspace quality、公开 adopter、N-1 upgrade 与历史 recovery acceptance。"
+  ],
+  "createdAt": "2026-08-31T13:36:24Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0a63fae0f5f02a0ddbdebc549df6f6bc4aa5941c4234b88f579bc9aa3d477f42",
+  "evidenceRefs": [
+    ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:18a1f355ffd54bc1d00b2da1d8ea8a7ec6d9df64fa1ad66092f278128ca19e70",
+      "workItemId": "WI-449-historical-finalization-adopter-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-449-historical-finalization-adopter-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-449-historical-finalization-adopter-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "提供历史 finalization 的可发现 recovery/projection 与 Git 事实驱动的候选输入，保持新 Work Item 的严格当前 Runtime gate，并以对象形态回归和发布后验收证明 WI-016、WI-018、WI-027 可安全收口。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-449-historical-finalization-adopter-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-449-historical-finalization-adopter-recovery"
+  },
+  "taskReportDigest": "sha256:a8a67760ced0b2d46460cef0357d8419665e98d7508fd67043eb89d7d4c234c0",
+  "taskReportMarkdownDigest": "sha256:bf820d5297a051df789eb79470da2c5f529e944e754d9b9a0700ab9583fc4a14",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-449-historical-finalization-adopter-recovery"
+}

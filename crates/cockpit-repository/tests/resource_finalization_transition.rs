@@ -7,10 +7,10 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    plan_resource_finalization, preflight_work_item_with_runtime,
-    record_historical_finalization_recovery, record_resource_finalization,
-    record_verification_with_runtime, run_repository_verification, start_work_item_with_options,
-    verify_resource_finalization,
+    historical_finalization_recovery_plan, migration_plan_with_runtime, plan_resource_finalization,
+    preflight_work_item_with_runtime, record_historical_finalization_recovery,
+    record_resource_finalization, record_verification_with_runtime, run_repository_verification,
+    start_work_item_with_options, verify_resource_finalization,
 };
 use serde_json::{Value, json};
 use std::{fs, process::Command};
@@ -414,6 +414,82 @@ fn canonical_verify_rejects_stored_pull_request_base_that_differs_from_archived_
     );
 }
 
+#[test]
+fn closed_legacy_finalization_projects_as_historical_instead_of_runtime_failure() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let legacy_runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"legacy-runtime-0.2.33"),
+    };
+    let mut receipt = blocked(&repository_id, &context, &contract);
+    receipt["runtimeVersion"] = legacy_runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = legacy_runtime.runtime_digest.to_string().into();
+    receipt["pullRequest"] = json!({
+        "number": 191,
+        "url": context.pull_request,
+        "headRevision": "head-191",
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": "unborn",
+        "mergeCommit": "merge-191"
+    });
+    receipt["before"] = json!({
+        "pullRequest": "merged",
+        "branch": "present",
+        "worktree": "clean"
+    });
+    receipt["after"] = json!({
+        "pullRequest": "merged",
+        "branch": "deleted",
+        "worktree": "removed"
+    });
+    receipt["result"] = json!({
+        "disposition": "deleted",
+        "failureCodes": [],
+        "unknownCodes": []
+    });
+    let input = write_input(&directory, "legacy-closed.json", &receipt);
+    record_resource_finalization(directory.path(), ID, &input, &legacy_runtime).unwrap();
+    verify_resource_finalization(directory.path(), ID, &legacy_runtime).unwrap();
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:test".into(),
+            authority_source: "legacy-history".into(),
+            reason: "preserve a valid historical close".into(),
+            evidence_refs: vec![format!(".ai/decisions/{ID}.finalize.json")],
+            policy_refs: vec![],
+            decided_at: "2026-08-31T12:50:00Z".into(),
+            resume_condition: None,
+        },
+        &legacy_runtime,
+    )
+    .unwrap();
+
+    let current = runtime();
+    let projected = verify_resource_finalization(directory.path(), ID, &current)
+        .expect("a valid closed legacy receipt must be projected, not rejected");
+    assert_eq!(projected["state"], "historical_verified");
+    assert_eq!(projected["historical"], true);
+    assert_eq!(projected["assurance"], "historical_low");
+    assert_eq!(projected["receipt"]["runtimeVersion"], "0.2.33");
+
+    let plan = migration_plan_with_runtime(directory.path(), Some(&current)).unwrap();
+    assert_eq!(plan.historical_finalization.len(), 1);
+    assert_eq!(plan.historical_finalization[0].work_item_id, ID);
+    assert_eq!(plan.historical_finalization[0].state, "historical_verified");
+    assert_eq!(plan.historical_finalization[0].assurance, "historical_low");
+
+    let recovery_plan =
+        historical_finalization_recovery_plan(directory.path(), ID, &current, None).unwrap();
+    assert_eq!(recovery_plan["state"], "already_closed_historical");
+    assert_eq!(recovery_plan["writesRepositoryState"], false);
+}
+
 fn transition_path(decisions: &std::path::Path, value: &Value) -> std::path::PathBuf {
     let digest = cockpit_protocol::digest_json(value).unwrap().to_string();
     decisions.join(format!(
@@ -634,9 +710,13 @@ fn historical_runtime_recovery_allows_shared_retained_close_without_rewriting_pr
     let predecessor_digest = cockpit_protocol::digest_json(&retained).unwrap();
     let before = predecessor.clone();
 
+    let error = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect_err("an old Runtime receipt must stay blocked before explicit recovery");
     assert!(
-        verify_resource_finalization(directory.path(), ID, &runtime()).is_err(),
-        "an old Runtime receipt must stay blocked before explicit recovery"
+        error
+            .to_string()
+            .contains("work-item finalize-recovery-plan"),
+        "stale finalization should provide an actionable recovery plan: {error}"
     );
     let recovery = historical_recovery(
         &repository_id,
@@ -826,6 +906,35 @@ fn historical_direct_merge_without_pr_is_verifiable_and_closeable() {
         &runtime(),
     )
     .expect("historical direct merge should permit explicit close");
+}
+
+#[test]
+fn historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing() {
+    let (directory, _context, _contract, base_revision, _feature_head, merge_commit) =
+        direct_merge_repository();
+    let before = fs::read_dir(directory.path().join(".ai/decisions"))
+        .unwrap()
+        .count();
+    let plan = historical_finalization_recovery_plan(
+        directory.path(),
+        ID,
+        &runtime(),
+        Some(&merge_commit),
+    )
+    .unwrap();
+    assert_eq!(plan["state"], "direct_merge_candidate");
+    assert_eq!(plan["historicalKind"], "direct_merge_no_pr");
+    assert_eq!(plan["baseRevision"], base_revision);
+    assert_eq!(plan["mergeCommit"], merge_commit);
+    assert_eq!(plan["suggestedReceipt"]["pullRequest"]["number"], 0);
+    assert_eq!(plan["suggestedReceipt"]["provider"], "historical");
+    assert_eq!(
+        fs::read_dir(directory.path().join(".ai/decisions"))
+            .unwrap()
+            .count(),
+        before,
+        "recovery plan is read-only"
+    );
 }
 
 #[cfg(unix)]

@@ -196,6 +196,42 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
 }
 
 #[test]
+fn finalize_plan_after_finish_ready_is_rejected_before_it_can_invalidate_evidence() {
+    let directory = repository();
+    let id = "WI-ORDER-FINALIZE-TOO-LATE";
+    start(directory.path(), id, &["verification"]);
+    let contract_path = contract(directory.path(), id);
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
+    summary["state"] = serde_json::json!("finish_ready");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("summary bytes"),
+    )
+    .expect("finish-ready fixture");
+
+    let error = plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect_err("finalize-plan after finish_ready must fail closed");
+    assert!(error.to_string().contains("before verification"), "{error}");
+}
+
+#[test]
 fn verification_retry_refreshes_finish_ready_bindings_after_source_change() {
     let directory = repository();
     let id = "WI-ORDER-REVERIFY";
