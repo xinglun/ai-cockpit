@@ -4,9 +4,13 @@ title: "WI-458 — WI-457 ドキュメント promotion"
 workItemId: WI-458-wi457-doc-promotion
 description: "close 済み WI-457 lifecycle を必要な三言語 documentation projection に昇格する。"
 audience: [adopter, maintainer, reviewer]
-status: in progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-458-wi457-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-458-wi457-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-458-wi457-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-458-wi457-doc-promotion.finalize.aeb7d95112ef6b311f61ee2d3216944e9aa64d3a4c91c46344ddc79cabf8c318.json
+terminalDecision: .ai/decisions/WI-458-wi457-doc-promotion.close.json
 ---
 
 # WI-458 — WI-457 ドキュメント promotion
