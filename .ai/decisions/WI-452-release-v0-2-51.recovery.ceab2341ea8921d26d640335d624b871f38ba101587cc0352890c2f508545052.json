@@ -1,0 +1,32 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T01:20:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-452-release-v0-2-51.contract.json",
+    ".ai/work-items/archive/WI-452-release-v0-2-51.summary.json",
+    ".ai/work-items/archive/WI-452-release-v0-2-51.outcome.json",
+    ".ai/work-items/archive/WI-452-release-v0-2-51.events.jsonl",
+    ".ai/evidence/WI-452-release-v0-2-51.verification.json",
+    ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md: recovery successor must be closed before predecessor supersession",
+    "docs/reference/agent-workflow.md: preserve immutable predecessor evidence"
+  ],
+  "predecessorContractDigest": "sha256:1b939eb0f7ee0808e4f362db3e0112911ac773c4466cc1065d71fcd83cabd2d5",
+  "predecessorEventsDigest": "sha256:5966f987f8c0aa455049d2e3c592473954238289fed8f0a4b7eeef2b3d23994d",
+  "predecessorOutcomeDigest": "sha256:514f57f3147ec8b2e4ea92cf7f18a9a4741f0a603c388c673806bed5520ccbad",
+  "predecessorSummaryDigest": "sha256:f0dbe919b0f0eed437079c69783d7423e7f45f8937e708b3e9eedcbb07dc1697",
+  "predecessorWorkItemId": "WI-452-release-v0-2-51",
+  "reason": "WI-453 is the reviewed and closed successor that recovered the provisional WI-452 finalization context without rewriting predecessor bytes; supersede the immutable predecessor and continue from the closed recovery lineage.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue mainline work after the v0.2.51 release and adopter acceptance baseline is complete.",
+  "runtimeDigest": "sha256:eacd3768d451ed4661759da02714acf47d8139d53a9c89c6087413f67e2befd7",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-453-release-v0-2-51-finalization-recovery",
+  "workItemId": "WI-452-release-v0-2-51"
+}
