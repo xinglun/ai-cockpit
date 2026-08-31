@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T22:05:10Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-459-release-v0-2-53.verification.json",
+    ".ai/work-items/active/WI-459-release-v0-2-53.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md: fix in current Work Item and preserve retry evidence",
+    "docs/reference/agent-workflow.md: bind resource context before verification"
+  ],
+  "predecessorContractDigest": "sha256:03ec3bdc7702354e7702cd5d5e7f44973a3ee4fa1dcd581bbaad32a5eaf35312",
+  "predecessorEventsDigest": "sha256:446c3998aac54b798cb8eeeeeef29a9bb0633936b3802bb9e22f821cd22e2510",
+  "predecessorOutcomeDigest": "sha256:b496ed64b552f5a0ef4b19a1cd66cf0352e6af91c1896b84e648be7162824559",
+  "predecessorSummaryDigest": "sha256:f3c1e74661e4d8be9d75e284a559bcd432c004475f28b7936e91a0464c0ad876",
+  "predecessorWorkItemId": "WI-459-release-v0-2-53",
+  "reason": "Finalize-plan was added after the first verification and correctly invalidated that evidence; retry with the real PR-bound Contract and a fresh preflight/verification cycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a non-red preflight and fresh verification bound to PR #429, then continue finish/archive/close.",
+  "runtimeDigest": "sha256:8912fb98f538589f25e4850a8921b1867df36e5df1d26ec15740c533a371fdde",
+  "runtimeVersion": "0.2.52",
+  "schemaVersion": 1,
+  "workItemId": "WI-459-release-v0-2-53"
+}

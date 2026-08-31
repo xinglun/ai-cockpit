@@ -6,14 +6,17 @@
     "After merge, the published v0.2.53 binary is downloaded and checksum-verified by the post-release adopter acceptance harness, with runtime identity and cleanup receipts.",
     "The Runtime repository remains healthy and ready_on_base after release Work Item closure."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-31T22:08:16Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:6a0d17f28c1c7b6085c5a98f466ea16d58f6f4656db5e59a80f5f8d914f73fd4",
   "evidenceRefs": [
     ".ai/evidence/WI-459-release-v0-2-53.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,41 +24,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-459-release-v0-2-53.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:92698b5724f4a2190352899416364a2c1ff3ddd2f3817ae1bfa8958be1d8e2fe",
+      "repositorySnapshotDigest": "sha256:293df39a633b69544a46e2c9a4e55a133a30d67542e56b1b3de2c267b5f18bfb",
       "workItemId": "WI-459-release-v0-2-53"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-459-release-v0-2-53.summary.json"
+            ".ai/work-items/archive/WI-459-release-v0-2-53.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-459-release-v0-2-53.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-459-release-v0-2-53.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-459-release-v0-2-53.summary.json"
+            ".ai/work-items/archive/WI-459-release-v0-2-53.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-459-release-v0-2-53.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-459-release-v0-2-53.summary.json"
         }
       ],
       "evidence": [
@@ -74,15 +74,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-459-release-v0-2-53.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -93,7 +85,7 @@
             ".ai/evidence/WI-459-release-v0-2-53.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -103,15 +95,23 @@
             ".ai/evidence/WI-459-release-v0-2-53.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-459-release-v0-2-53.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-459-release-v0-2-53.contract.json"
+            ".ai/work-items/archive/WI-459-release-v0-2-53.contract.json"
           ],
           "inference": false,
           "text": "准备、发布并用公开 v0.2.53 二进制验收 AI Cockpit Runtime，然后恢复参考源逐文件主线。"
@@ -120,23 +120,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-459-release-v0-2-53.contract.json"
+            ".ai/work-items/archive/WI-459-release-v0-2-53.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-459-release-v0-2-53"
   },
+  "taskReportDigest": "sha256:656276cdcb79f8c3bb8fedda03886b05062cc40f468584902f87d2f149aea641",
+  "taskReportMarkdownDigest": "sha256:01f0bc78fa9bca63ac7f540b9643d15534dede52224472b90b2e6735a11b1e57",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-459-release-v0-2-53.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-459-release-v0-2-53"
 }
