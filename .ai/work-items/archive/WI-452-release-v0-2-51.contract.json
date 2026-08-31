@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "Workspace and all current tri-language release/version documents identify v0.2.51 while failed historical tags remain immutable and are not reused.",
+    "All declared documentation, release-policy, source-archive, checksum, SBOM, and locked workspace gates pass before publication.",
+    "Only the new immutable public v0.2.51 tag and downloaded release artifacts are used for installation and adopter acceptance; no source or workspace-binary fallback is allowed.",
+    "Release and post-release adopter evidence bind repository identity, runtime version/digest, tag, archive and binary checksums, SBOM, and isolated cleanup manifests.",
+    "After reviewed merge, public release, installation, and adopter acceptance, finalization/close receipts and tri-language parity are synchronized; object repositories are not modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c8485cde37e82aaa590b323b4ad7213a2a4e8f99",
+  "createdAt": "2026-08-31T15:01:32Z",
+  "goal": "Release and install v0.2.51, preserving failed-tag history and producing auditable release/adopter evidence.",
+  "intent": "Publish v0.2.51 from clean reviewed main with immutable public artifacts, then verify installation and adopter acceptance using only the downloaded release binary.",
+  "mode": "release",
+  "outOfScope": [
+    "Reference-source feature migration or object repositories",
+    "Runtime behavior changes unrelated to release packaging and documented release identity",
+    "User-global Agent or MCP configuration",
+    "Reusing or mutating any failed historical tag or release receipt"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6b48f6e862acb10573cd3135d37df89063c9f28c15329cc8a1b7c906ced95cfe",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-452-release-v0-2-51",
+    "provider": "github",
+    "pullRequest": "pending:WI-452-release-v0-2-51",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-452-release-v0-2-51"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-452-release-v0-2-51.md",
+    "docs/work-items/WI-452-release-v0-2-51.zh-CN.md",
+    "docs/work-items/WI-452-release-v0-2-51.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/release/**"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/versioning.md",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/release_policy_test.sh",
+    "tests/release/release_source_archive_test.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/version_consistency_test.sh"
+  ],
+  "workItemId": "WI-452-release-v0-2-51"
+}
