@@ -4,9 +4,13 @@ title: "WI-456 — WI-455 ドキュメント promotion"
 workItemId: WI-456-wi455-doc-promotion
 description: "クローズ済み WI-455 lifecycle を terminal documentation projection に昇格する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-456-wi455-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-456-wi455-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-456-wi455-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-456-wi455-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-456-wi455-doc-promotion.close.json
 ---
 
 # WI-456 — WI-455 ドキュメント promotion

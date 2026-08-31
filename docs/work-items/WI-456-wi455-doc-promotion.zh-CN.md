@@ -4,9 +4,13 @@ title: "WI-456——WI-455 文档 promotion"
 workItemId: WI-456-wi455-doc-promotion
 description: "将已关闭的 WI-455 生命周期提升为终态文档投影。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-456-wi455-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-456-wi455-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-456-wi455-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-456-wi455-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-456-wi455-doc-promotion.close.json
 ---
 
 # WI-456——WI-455 文档 promotion
