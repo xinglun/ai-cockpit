@@ -76,7 +76,7 @@ done
 test "$(jq '[.records[] | select(.batch == "WI-441-reference-entrypoint-parity")] | length' "$current_manifest")" -eq 9
 test "$(jq '[.records[] | select(.batch == "WI-441-reference-entrypoint-parity" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
 grep -q "WI-441 local-reference entrypoint and Agent parity" "$root/docs/reference/reference-file-comparison.md"
-grep -q "WI-441 本地参考源入口与 Agent 语义对齐" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-441：本地参考源入口与 Agent 语义对齐" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-441 local-reference entrypoint と Agent parity" "$root/docs/reference/reference-file-comparison.ja.md"
 test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
