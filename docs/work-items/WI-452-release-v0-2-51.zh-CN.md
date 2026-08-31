@@ -32,6 +32,6 @@ lastVerifiedBy: WI-452-release-v0-2-51
 
 - `cargo test --locked --workspace`
 - `bash tests/docs/documentation_acceptance.sh`
-- `bash tests/release/release_policy_test.sh`
-- `bash tests/release/release_source_archive_test.sh`
-- `bash tests/release/release_version_consistency_test.sh`
+- `bash tests/release/workflow_policy.sh .github/workflows/release.yml`
+- `bash tests/release/source_archive_policy_test.sh`
+- `bash tests/release/version_consistency_test.sh`
