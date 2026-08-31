@@ -4,9 +4,13 @@ title: "WI-444 — v0.2.48 Release"
 workItemId: WI-444-release-v0-2-48
 description: "clean に merge 済みの baseline から v0.2.48 Runtime を公開し検証する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-444-release-v0-2-48
+terminalArchive: .ai/work-items/archive/WI-444-release-v0-2-48.contract.json
+terminalVerification: .ai/evidence/WI-444-release-v0-2-48.verification.json
+terminalFinalization: .ai/decisions/WI-444-release-v0-2-48.finalize.json
+terminalDecision: .ai/decisions/WI-444-release-v0-2-48.close.json
 ---
 
 # WI-444 — v0.2.48 Release

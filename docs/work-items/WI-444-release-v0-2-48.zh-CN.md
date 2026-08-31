@@ -4,9 +4,13 @@ title: "WI-444 — 发布 v0.2.48"
 workItemId: WI-444-release-v0-2-48
 description: "从干净的已合并基线发布并验证 v0.2.48 Runtime。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-444-release-v0-2-48
+terminalArchive: .ai/work-items/archive/WI-444-release-v0-2-48.contract.json
+terminalVerification: .ai/evidence/WI-444-release-v0-2-48.verification.json
+terminalFinalization: .ai/decisions/WI-444-release-v0-2-48.finalize.json
+terminalDecision: .ai/decisions/WI-444-release-v0-2-48.close.json
 ---
 
 # WI-444 — 发布 v0.2.48
