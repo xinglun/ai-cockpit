@@ -389,6 +389,7 @@ verification record です。
 | WI-442 — WI-441 documentation projection promotion | Implemented | [Work Item](../work-items/WI-442-wi441-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json`; verification `.ai/evidence/WI-442-wi441-doc-promotion.verification.json`; finalization `.ai/decisions/WI-442-wi441-doc-promotion.finalize.json`; close `.ai/decisions/WI-442-wi441-doc-promotion.close.json`. |
 | WI-443 — historical finalization compatibility | Implemented | [Work Item](../work-items/WI-443-historical-finalization-compat.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-443-historical-finalization-compat.contract.json`; verification `.ai/evidence/WI-443-historical-finalization-compat.verification.json`; finalization `.ai/decisions/WI-443-historical-finalization-compat.finalize.json`; close `.ai/decisions/WI-443-historical-finalization-compat.close.json`. |
 | WI-444 — v0.2.48 Release | Implemented | [Work Item](../work-items/WI-444-release-v0-2-48.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-444-release-v0-2-48.contract.json`; verification `.ai/evidence/WI-444-release-v0-2-48.verification.json`; finalization `.ai/decisions/WI-444-release-v0-2-48.finalize.json`; close `.ai/decisions/WI-444-release-v0-2-48.close.json`. |
+| WI-446 — 歴史 finalization recovery | In progress | [Work Item](../work-items/WI-446-historical-finalization-recovery.ja.md); active implementation: shared-worktree recovery、no-PR direct-merge 検証、low-assurance close 互換。 |
 
 ## 現在の境界
 

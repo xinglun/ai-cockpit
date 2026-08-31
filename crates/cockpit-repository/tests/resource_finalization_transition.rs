@@ -7,7 +7,8 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    plan_resource_finalization, preflight_work_item_with_runtime, record_resource_finalization,
+    plan_resource_finalization, preflight_work_item_with_runtime,
+    record_historical_finalization_recovery, record_resource_finalization,
     record_verification_with_runtime, run_repository_verification, start_work_item_with_options,
     verify_resource_finalization,
 };
@@ -25,6 +26,16 @@ fn runtime() -> RuntimeContext {
 }
 
 fn repository() -> (tempfile::TempDir, ResourceFinalizationContext, Digest) {
+    repository_with_worktree(false)
+}
+
+fn primary_repository() -> (tempfile::TempDir, ResourceFinalizationContext, Digest) {
+    repository_with_worktree(true)
+}
+
+fn repository_with_worktree(
+    primary: bool,
+) -> (tempfile::TempDir, ResourceFinalizationContext, Digest) {
     let directory = tempfile::tempdir().unwrap();
     assert!(
         Command::new("git")
@@ -48,9 +59,14 @@ fn repository() -> (tempfile::TempDir, ResourceFinalizationContext, Digest) {
         },
     )
     .unwrap();
+    let worktree_path = if primary {
+        directory.path().to_string_lossy().to_string()
+    } else {
+        "/tmp/removed-finalization-transition".into()
+    };
     let context = ResourceFinalizationContext {
         branch: "feature/finalization-transition".into(),
-        worktree: "/tmp/removed-finalization-transition".into(),
+        worktree: worktree_path,
         base_branch: "main".into(),
         base_remote: "origin".into(),
         provider: "github".into(),
@@ -163,6 +179,32 @@ fn set_receipt_head(value: &mut Value, head: &str) {
     value["worktree"]["headRevision"] = head.into();
 }
 
+fn historical_recovery(
+    repository_id: &str,
+    predecessor_digest: &Digest,
+    kind: &str,
+    base_revision: &str,
+) -> Value {
+    json!({
+        "schemaVersion": 1,
+        "recoveryId": format!("{ID}-historical-recovery"),
+        "kind": "historical_finalization_recovery",
+        "historicalKind": kind,
+        "assurance": "historical_low",
+        "workItemId": ID,
+        "repositoryId": repository_id,
+        "predecessorPath": format!(".ai/decisions/{ID}.finalize.json"),
+        "predecessorReceiptDigest": predecessor_digest,
+        "baseRevision": base_revision,
+        "runtimeVersion": runtime().runtime_version,
+        "runtimeDigest": runtime().runtime_digest,
+        "actor": "human:test",
+        "authoritySource": "historical-recovery-test",
+        "reason": "classify immutable legacy finalization without rewriting it",
+        "decidedAt": "2026-08-23T00:20:00Z"
+    })
+}
+
 fn git(directory: &tempfile::TempDir, args: &[&str]) -> String {
     let output = Command::new("git")
         .args(args)
@@ -192,6 +234,134 @@ fn write_input(directory: &tempfile::TempDir, name: &str, value: &Value) -> std:
     let path = directory.path().join(name);
     fs::write(&path, serde_json::to_vec_pretty(value).unwrap()).unwrap();
     path
+}
+
+fn direct_merge_repository() -> (
+    tempfile::TempDir,
+    ResourceFinalizationContext,
+    Digest,
+    String,
+    String,
+    String,
+) {
+    let directory = tempfile::tempdir().unwrap();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(directory.path())
+            .status()
+            .unwrap()
+            .success()
+    );
+    git(
+        &directory,
+        &["config", "user.email", "tests@example.invalid"],
+    );
+    git(&directory, &["config", "user.name", "AI Cockpit Tests"]);
+    git(&directory, &["branch", "-M", "main"]);
+    fs::write(directory.path().join("README.md"), "direct merge fixture\n").unwrap();
+    git(&directory, &["add", "README.md"]);
+    git(&directory, &["commit", "-q", "-m", "base"]);
+    let base_revision = git(&directory, &["rev-parse", "HEAD"]);
+
+    git(
+        &directory,
+        &["checkout", "-q", "-b", "feature/direct-merge"],
+    );
+    fs::write(
+        directory.path().join("direct-merge.txt"),
+        "merged history\n",
+    )
+    .unwrap();
+    git(&directory, &["add", "direct-merge.txt"]);
+    git(&directory, &["commit", "-q", "-m", "direct merge feature"]);
+    let feature_head = git(&directory, &["rev-parse", "HEAD"]);
+    git(&directory, &["checkout", "-q", "main"]);
+    git(
+        &directory,
+        &[
+            "merge",
+            "--no-ff",
+            "-q",
+            "feature/direct-merge",
+            "-m",
+            "direct merge",
+        ],
+    );
+    let merge_commit = git(&directory, &["rev-parse", "HEAD"]);
+    git(&directory, &["reset", "--hard", "-q", &base_revision]);
+    git(&directory, &["branch", "-D", "feature/direct-merge"]);
+
+    attach(directory.path()).unwrap();
+    start_work_item_with_options(
+        directory.path(),
+        ID,
+        "record a historical direct merge",
+        "preserve direct merge history",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["direct merge facts remain auditable".into()],
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    let context = ResourceFinalizationContext {
+        branch: "feature/direct-merge".into(),
+        worktree: directory.path().to_string_lossy().to_string(),
+        base_branch: "main".into(),
+        base_remote: "origin".into(),
+        provider: "historical".into(),
+        pull_request: format!("historical://direct-merge/{merge_commit}"),
+    };
+    plan_resource_finalization(directory.path(), ID, &context).unwrap();
+    let current = runtime();
+    let contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{ID}.contract.json"));
+    preflight_work_item_with_runtime(directory.path(), &contract_path, &current).unwrap();
+    checkpoint_work_item(directory.path(), ID).unwrap();
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "project-command-0".into(),
+            program: "true".into(),
+            args: vec![],
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .unwrap();
+    let mut evidence = serde_json::to_value(&run.receipt).unwrap();
+    evidence["runtimeVersion"] = current.runtime_version.clone().into();
+    evidence["runtimeDigest"] = current.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        ID,
+        &evidence,
+        &current,
+        &run.final_snapshot,
+    )
+    .unwrap();
+    finish_work_item_with_runtime(directory.path(), ID, &current).unwrap();
+    archive_work_item_with_runtime(directory.path(), ID, &current).unwrap();
+    let contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/archive/{ID}.contract.json"));
+    let contract_digest = Digest::sha256_bytes(&fs::read(contract_path).unwrap());
+    (
+        directory,
+        context,
+        contract_digest,
+        base_revision,
+        feature_head,
+        merge_commit,
+    )
 }
 
 #[test]
@@ -446,6 +616,247 @@ fn close_rejects_retained_finalization_before_writing_decision() {
             .path()
             .join(format!(".ai/decisions/{ID}.close.json"))
             .exists()
+    );
+}
+
+#[test]
+fn historical_runtime_recovery_allows_shared_retained_close_without_rewriting_predecessor() {
+    let (directory, context, contract) = primary_repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let mut retained = retained_root(&blocked(&repository_id, &context, &contract));
+    retained["runtimeVersion"] = "0.2.47".into();
+    retained["runtimeDigest"] = Digest::sha256_bytes(b"runtime-0.2.47").to_string().into();
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    fs::write(&canonical, serde_json::to_vec_pretty(&retained).unwrap()).unwrap();
+    let predecessor = fs::read(&canonical).unwrap();
+    let predecessor_digest = cockpit_protocol::digest_json(&retained).unwrap();
+    let before = predecessor.clone();
+
+    assert!(
+        verify_resource_finalization(directory.path(), ID, &runtime()).is_err(),
+        "an old Runtime receipt must stay blocked before explicit recovery"
+    );
+    let recovery = historical_recovery(
+        &repository_id,
+        &predecessor_digest,
+        "shared_worktree_retained",
+        "unborn",
+    );
+    let recovery_input = write_input(&directory, "historical-recovery.json", &recovery);
+    let recorded =
+        record_historical_finalization_recovery(directory.path(), ID, &recovery_input, &runtime())
+            .expect("explicit historical recovery should be accepted");
+    assert_eq!(recorded["state"], "recorded");
+
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("historical recovery should permit verification");
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["historical"], true);
+    assert_eq!(verified["assurance"], "historical_low");
+    assert_eq!(fs::read(&canonical).unwrap(), before);
+    assert!(
+        !String::from_utf8_lossy(&predecessor).contains("historical"),
+        "the immutable predecessor must not be rewritten"
+    );
+
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:test".into(),
+            authority_source: "historical-recovery-test".into(),
+            reason: "close a classified legacy shared worktree".into(),
+            evidence_refs: vec![
+                ".ai/decisions/WI-FINALIZATION-TRANSITION.finalize-recovery.json".into(),
+            ],
+            policy_refs: vec![],
+            decided_at: "2026-08-23T00:21:00Z".into(),
+            resume_condition: None,
+        },
+        &runtime(),
+    )
+    .expect("classified historical retained receipt should close");
+}
+
+#[test]
+fn historical_runtime_recovery_rejects_foreign_and_tampered_bindings() {
+    let (directory, context, contract) = primary_repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let mut retained = retained_root(&blocked(&repository_id, &context, &contract));
+    retained["runtimeVersion"] = "0.2.47".into();
+    retained["runtimeDigest"] = Digest::sha256_bytes(b"runtime-0.2.47").to_string().into();
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    fs::write(&canonical, serde_json::to_vec_pretty(&retained).unwrap()).unwrap();
+    let predecessor_digest = cockpit_protocol::digest_json(&retained).unwrap();
+
+    let mut foreign = historical_recovery(
+        &repository_id,
+        &predecessor_digest,
+        "shared_worktree_retained",
+        "unborn",
+    );
+    foreign["repositoryId"] = Digest::sha256_bytes(b"foreign-repository")
+        .to_string()
+        .into();
+    let foreign_input = write_input(&directory, "foreign-recovery.json", &foreign);
+    assert!(
+        record_historical_finalization_recovery(directory.path(), ID, &foreign_input, &runtime(),)
+            .is_err(),
+        "foreign repository recovery must fail closed"
+    );
+
+    let mut tampered = historical_recovery(
+        &repository_id,
+        &predecessor_digest,
+        "shared_worktree_retained",
+        "unborn",
+    );
+    tampered["predecessorReceiptDigest"] = Digest::sha256_bytes(b"tampered").to_string().into();
+    let tampered_input = write_input(&directory, "tampered-recovery.json", &tampered);
+    assert!(
+        record_historical_finalization_recovery(directory.path(), ID, &tampered_input, &runtime(),)
+            .is_err(),
+        "tampered predecessor binding must fail closed"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.finalize-recovery.json"))
+            .exists(),
+        "rejected recovery must not publish a destination"
+    );
+}
+
+#[test]
+fn historical_direct_merge_without_pr_is_verifiable_and_closeable() {
+    let (directory, context, contract, base_revision, feature_head, merge_commit) =
+        direct_merge_repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let receipt = json!({
+        "schemaVersion": 1,
+        "receiptId": "direct-merge-receipt",
+        "operationId": "direct-merge-operation",
+        "repositoryId": repository_id,
+        "workItemId": ID,
+        "runtimeVersion": "test-runtime",
+        "runtimeDigest": runtime().runtime_digest,
+        "provider": "historical",
+        "pullRequest": {
+            "number": 0,
+            "url": context.pull_request,
+            "headRevision": feature_head,
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "baseRevision": base_revision,
+            "mergeCommit": merge_commit
+        },
+        "branch": {
+            "name": context.branch,
+            "remote": "origin",
+            "headRevision": feature_head
+        },
+        "worktree": {
+            "worktreeId": "primary-repository",
+            "path": context.worktree,
+            "branch": context.branch,
+            "headRevision": feature_head
+        },
+        "before": {
+            "pullRequest": "merged",
+            "branch": "present",
+            "worktree": "clean"
+        },
+        "after": {
+            "pullRequest": "merged",
+            "branch": "deleted",
+            "worktree": "clean"
+        },
+        "result": {
+            "disposition": "retained",
+            "failureCodes": [],
+            "unknownCodes": []
+        },
+        "actor": "human:test",
+        "authoritySource": "historical-test",
+        "reason": "record a direct merge without inventing a pull request",
+        "timestamp": "2026-08-23T00:30:00Z",
+        "contractDigest": contract,
+        "resourceContext": context,
+        "historical": {
+            "kind": "direct_merge_no_pr",
+            "assurance": "historical_low",
+            "mergeCommit": merge_commit,
+            "mergeParents": [base_revision, feature_head],
+            "baseRevision": base_revision
+        }
+    });
+    let input = write_input(&directory, "direct-merge.json", &receipt);
+    let recorded = record_resource_finalization(directory.path(), ID, &input, &runtime())
+        .expect("complete direct merge receipt should be accepted");
+    assert_eq!(recorded["state"], "recorded");
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("direct merge receipt should verify against Git");
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["historical"], true);
+    assert_eq!(verified["historicalKind"], "direct_merge_no_pr");
+    assert_eq!(verified["assurance"], "historical_low");
+    assert_eq!(
+        verified["receipt"]["historical"]["kind"],
+        "direct_merge_no_pr"
+    );
+
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:test".into(),
+            authority_source: "historical-test".into(),
+            reason: "close a verified historical direct merge".into(),
+            evidence_refs: vec![format!(".ai/decisions/{ID}.finalize.json")],
+            policy_refs: vec![],
+            decided_at: "2026-08-23T00:31:00Z".into(),
+            resume_condition: None,
+        },
+        &runtime(),
+    )
+    .expect("historical direct merge should permit explicit close");
+}
+
+#[cfg(unix)]
+#[test]
+fn historical_runtime_recovery_rejects_symlink_destination() {
+    use std::os::unix::fs::symlink;
+
+    let (directory, context, contract) = primary_repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let mut retained = retained_root(&blocked(&repository_id, &context, &contract));
+    retained["runtimeVersion"] = "0.2.47".into();
+    retained["runtimeDigest"] = Digest::sha256_bytes(b"runtime-0.2.47").to_string().into();
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    fs::write(&canonical, serde_json::to_vec_pretty(&retained).unwrap()).unwrap();
+    let predecessor_digest = cockpit_protocol::digest_json(&retained).unwrap();
+    let recovery = historical_recovery(
+        &repository_id,
+        &predecessor_digest,
+        "shared_worktree_retained",
+        "unborn",
+    );
+    let input = write_input(&directory, "symlink-recovery-input.json", &recovery);
+    let destination = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize-recovery.json"));
+    symlink(&input, &destination).unwrap();
+    assert!(
+        record_historical_finalization_recovery(directory.path(), ID, &input, &runtime()).is_err(),
+        "symlink recovery destination must fail closed"
     );
 }
 

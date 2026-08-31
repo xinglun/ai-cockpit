@@ -43,7 +43,13 @@ AI Cockpit は、限定された変更ごとに 1 Work Item、1 専用 branch/wo
 → 既定 branch 同期 → 正確な branch/worktree の削除
 ```
 
-PR merge 前に branch を削除せず、provider の自動削除で finalization を迂回しません。`close` には structured human decision、archive evidence、merge 済み PR identity、削除済み finalization receipt、fast-forward 同期済みの既定 branch、clean worktree が必要です。失敗した postcondition は可視のまま fail closed になります。
+PR merge 前に branch を削除せず、provider の自動削除で finalization を迂回しません。新しい
+Work Item の `close` には structured human decision、archive evidence、merge 済み PR identity、
+削除済み finalization receipt、fast-forward 同期済みの既定 branch、clean worktree が必要です。
+検証済みの歴史 shared-worktree または direct-merge receipt は、`historical_low` assurance、
+明示的な human authority、repository に束縛された Git facts がある場合だけ狭い `retained`
+例外を使えます。新しい Work Item には適用されず、歴史 evidence を昇格させません。失敗した
+postcondition は可視のまま fail closed になります。
 
 close の直後に文書投影を同期します。
 
@@ -55,7 +61,7 @@ check が stale を示した場合は、狭い範囲の documentation-promotion 
 
 ## Recovery と adoption
 
-Recovery は append-only で identity-bound です。snapshot の変更、stale receipt、provider conflict は retry、successor、supersede decision として記録します。後続を green にするために古い evidence を編集しません。Install、upgrade、adapter setup は独立した repository Work Item とし、immutable public Release を使います。process-wide な current project を選ぶ command や、provider-global Agent/MCP 設定を変更する command はありません。
+Recovery は append-only で identity-bound です。snapshot の変更、stale receipt、provider conflict は retry、successor、supersede decision として記録します。後続を green にするために古い evidence を編集しません。Install、upgrade、adapter setup、歴史 finalization recovery は独立した repository operation であり、必要に応じて immutable public Release を使います。`work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` は immutable な旧 finalization の唯一の互換 path です。predecessor digest、repository/Work Item/Contract base、current Runtime、actor、authority、reason、timestamp を bind しますが predecessor は編集しません。process-wide な current project を選ぶ command や、provider-global Agent/MCP 設定を変更する command はありません。
 
 新しい Runtime が作成する successor には、正確な predecessor Work Item、Contract digest、recovery path、repository binding が必要です。これらの Contract field が存在する前に作成された historical successor については、recovery receipt 自体が predecessor と successor を bind し、successor に検証済み archive、strict verification evidence、confirmed close decision が揃っている場合にだけ狭い互換経路を許可します。新しい append-only recovery receipt には `successorBindingMode: legacy_terminal_evidence` を記録します。欠落、foreign、stale、malformed、symlink、または不完全な evidence は `recovery_decision_invalid` のまま拒否され、transition を認可しません。この互換 projection は未完了 successor を green にせず、predecessor bytes も書き換えません。
 

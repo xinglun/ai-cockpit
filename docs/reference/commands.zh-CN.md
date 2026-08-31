@@ -23,12 +23,14 @@ parents、base revision、repository identity 与 authority。Runtime 会对照 
 绝不会编造 PR。Readiness 会报告 `historicalDebt` 与 recovery action，同时保持 pending-close
 fail-closed。
 
-现在 `close` 要求当前 finalization head 的 disposition 必须是 `deleted`；
-`retained`、`blocked` 或 `unknown` 的 head 会在写入 close decision 前停止。对于旧
-Runtime 已经产生的不可变记录，`work-item finalize` 允许在 close 后追加一条严格绑定的
+新的 Work Item 仍要求当前 finalization head 的 disposition 必须是 `deleted`；
+`retained`、`blocked` 或 `unknown` 的 head 会在写入 close decision 前停止。唯一的窄兼容
+例外是已经验证的历史 `shared_worktree_retained` 或 `direct_merge_no_pr` receipt：它可以
+保留主 worktree，但必须是 `assurance=historical_low`、有明确人工授权且 Git 事实绑定到本
+repository。该例外不适用于新 Work Item，也不会把历史 evidence 升级为 provider assurance。
+对于旧 Runtime 已经产生的不可变记录，`work-item finalize` 允许在 close 后追加一条严格绑定的
 deleted transition，作为有限的历史 reconciliation。该 transition 必须绑定已关闭 root
-的路径和 digest，并作为 append-only cleanup observation 验证；它不会重写 close receipt，
-也不会让新的 Work Item 采用 retained close。
+的路径和 digest，并作为 append-only cleanup observation 验证；它不会重写 close receipt。
 
 `work-item finalize` 将首个 receipt 写入 `.ai/decisions/<id>.finalize.json`。其中 PR base 必须等于归档 Contract 不可变的 `baseRevision`；记录与 `finalize-verify` 都会拒绝不一致，包括 sequence 0，绝不会把该链报告为 verified。归档前 rebase 要刷新 active Contract 绑定；归档后必须走 recovery，不能改写 receipt 或 archive。若该不可变链根已存在，typed transition envelope 必须绑定唯一 head 的 predecessor digest 与下一 sequence；Runtime 追加 `.finalize.<digest>.json`。`finalize-verify` 返回 `headPath`、`headDigest` 和 `sequence`，`close` 会绑定这些值。当 receipt commit 推进了全部对齐的 head 时，sequence-1 merge observation 还可以绑定 `governanceAppendRevision`。Runtime 要求祖先区间只有新增；除同一 Work Item 的普通 finalization receipt 外，唯一允许的 evidence 新增是完整的固定 schema 文件对 `.ai/evidence/<id>/quality-route-post-finalize.json` 与 `.ai/evidence/<id>/repository-gates-post-finalize.json`。每个路径必须是 `A`-only、`100644` regular blob，且其归档 Contract、PR revision、route digest、manifest、profile 与 passing gate 绑定必须一致。这对文件是 evidence 而非 authority，不能替代仍然必需的 finalization receipt 新增；也不会授权任意 evidence 路径或归档修改。
 
@@ -44,7 +46,7 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision 与 `reviewState`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover` | 读取请求级状态投影或写入显式生命周期记录；`close` 和 recovery 都要求显式 human decision。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`finalize-recovery` | 读取请求级状态投影或写入显式生命周期记录；`close` 和 recovery 都要求显式 human decision。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
@@ -78,6 +80,12 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
   自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。Work Item 完成后还会绑定类型化的
   `*.task-report.json`、面向人的 `*.task-report.md` 和 append-only 的 `*.events.jsonl`；它们是绑定 evidence 的投影，
   不是额外的 authority，也不能替代 Contract 或 verification receipt。
+- `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` 为不可变的旧
+  finalization receipt 记录一条 append-only、绑定当前 Runtime 的历史分类。输入必须绑定准确的
+  predecessor digest、repository/Work Item/Contract base、当前 Runtime、actor、authority、reason
+  和 timestamp。旧主 worktree receipt 使用 `historicalKind=shared_worktree_retained`；无 PR 的
+  合并必须使用完整的 `historicalKind=direct_merge_no_pr` finalization receipt。predecessor 永不
+  改写，recovery 记录本身也不能让 Work Item 变绿。
 - `finish`、`archive`、`close` 保持 stdout 生命周期 JSON 不变，并默认在 stderr
   渲染同一份已校验的人类 Outcome；机器专用输出使用 `--json`。`finish` 被阻止时，
   CLI 先输出已持久化的红色或黄色 Outcome，再返回原有 nonzero 错误，绝不会把失败门禁
@@ -178,10 +186,10 @@ protocol version。`ai-cockpit --version` 只输出简短的 executable version�
 Release binary，在隔离目录中执行 adopter lifecycle，并生成 `acceptance.json` 与 `SHA256SUMS`。不得用 workspace
 build 或本地 target binary 替代；验收失败也不会改变已发布 Release truth。
 
-其中的 lifecycle 必须完整执行：verification 之前先运行 `finalize-plan`，归档后必须通过
-`finalize` 与 `finalize-verify`，并确认 head 为 `deleted`，然后才能用结构化决定执行 `close`。
-fixture 可以使用显式的 retained resource receipt 作为中间 merge observation，再追加 deleted cleanup；
-retained 不能授权新的 close。
+其中的 lifecycle 必须完整执行：verification 之前先运行 `finalize-plan`，普通归档 Work Item 必须通过
+`finalize` 与 `finalize-verify`，并确认 head 为 `deleted`，然后才能用结构化决定执行 `close`。历史
+shared-worktree 或 direct-merge receipt 在 Git 事实验证后可以使用文档规定的低 assurance retained
+例外；retained 不能授权新的 Work Item close。
 
 验收 receipt 还会为每个隔离 root 保存带类型的 before/after manifest。`HOME` 与 `XDG_CONFIG_HOME` 的
 `allowedPrefixes` 必须为空且保持不变；只有 `TMPDIR` 与 `CARGO_HOME` 允许 Runtime 写入，且 allowlist 明确限制为

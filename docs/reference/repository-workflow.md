@@ -55,10 +55,13 @@ latest remote default base → dedicated branch/worktree → implement
 ```
 
 Do not delete a branch before its PR is merged, and do not let provider-side
-auto-delete bypass finalization. `close` requires a structured human decision,
-archived evidence, the merged PR identity, a deleted finalization receipt, a
-fast-forward-synchronized default branch, and clean worktrees. Any failed
-postcondition remains visible and fail-closed.
+auto-delete bypass finalization. New Work Items require a structured human
+decision, archived evidence, the merged PR identity, a deleted finalization
+receipt, a fast-forward-synchronized default branch, and clean worktrees. A
+verified historical shared-worktree or direct-merge receipt may use the narrow
+`retained` exception with `historical_low` assurance and explicit repository-
+bound Git facts; it never applies to new Work Items or upgrades historical
+evidence. Any failed postcondition remains visible and fail-closed.
 
 Immediately after close, synchronize the documentation projection:
 
@@ -76,9 +79,14 @@ not rewrite Contract, evidence, archive, or decision history.
 Recovery is append-only and identity-bound. A changed snapshot, stale receipt,
 or provider conflict must be recorded as a retry, successor, or supersede
 decision; old evidence is not edited to make a later state green. Installation,
-upgrade, and adapter setup are separate repository Work Items and use an
-immutable public Release. No command selects a process-wide current project,
-and no provider-global Agent or MCP configuration is modified.
+upgrade, adapter setup, and historical finalization recovery are separate
+repository operations and use an immutable public Release where applicable.
+`work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` is
+the only compatibility path for an immutable legacy finalization: it binds the
+predecessor digest, repository/Work Item/Contract base, current Runtime, actor,
+authority, reason, and timestamp without editing the predecessor. No command
+selects a process-wide current project, and no provider-global Agent or MCP
+configuration is modified.
 
 New Runtime-created successors must carry the exact predecessor Work Item,
 Contract digest, recovery path, and repository bindings. For a historical

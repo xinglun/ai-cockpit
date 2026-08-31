@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "历史 shared-worktree retained receipt 可通过显式 recovery 被验证为 historical_low，且不改写 predecessor bytes",
+    "recovery 严格绑定 predecessor receipt digest、repositoryId、Work Item、Contract/base、当前 Runtime、actor/authority/reason/decidedAt，并拒绝 foreign/tampered/symlink 输入",
+    "close 仅在有效 historical recovery 且 disposition/真实资源事实允许时通过；不把历史记录投影为当前 provider green",
+    "direct_merge_no_pr 的完整输入可由 CLI 文档和测试明确表达，绑定真实 merge commit、至少两个 parents、base 和 repository identity；无 PR 不产生虚构编号",
+    "对象工程反馈中的 WI-027 与 WI-018 形状各有回归测试或可重复验收 fixture，migrate plan=none 不再掩盖 lifecycle recovery 缺口",
+    "三语命令/工作流文档同步，明确 historical compatibility 与 schema migration 边界；workspace fmt/clippy/tests 通过"
+  ],
+  "createdAt": "2026-08-31T09:03:29Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:80cd7787f762fffd7d0af04269c953735579eb77fa8a87869bd5c061217e92ab",
+  "evidenceRefs": [
+    ".ai/evidence/WI-446-historical-finalization-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-446-historical-finalization-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-446-historical-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:757fc525798d7e87f08740837f67a9fd78defdd60e6d9386941940fff664a141",
+      "workItemId": "WI-446-historical-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-446-historical-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-446-historical-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-446-historical-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-446-historical-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-446-historical-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-446-historical-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-446-historical-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-446-historical-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-446-historical-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-446-historical-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "为旧 Runtime 生成的共享主 worktree retained 记录提供显式低 assurance recovery；确认并改善无 PR direct-merge 的可执行记录路径；保持 immutable history、repository identity、真实 Git facts 和当前 Runtime identity 绑定。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-446-historical-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-446-historical-finalization-recovery"
+  },
+  "taskReportDigest": "sha256:8f0992af44608c44a6f66a2c33ce61197f96d4503744b697360f1b09fa926b24",
+  "taskReportMarkdownDigest": "sha256:037eb7811b2dbf9c03475f2e45b89cea862c7169c537a6e0388bdf4e6c215d28",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-446-historical-finalization-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-446-historical-finalization-recovery"
+}

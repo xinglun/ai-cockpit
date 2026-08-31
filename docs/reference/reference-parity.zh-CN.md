@@ -384,6 +384,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-442——已关闭 WI-441 文档投影晋级 | 已实现 | [Work Item](../work-items/WI-442-wi441-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json`; verification `.ai/evidence/WI-442-wi441-doc-promotion.verification.json`; finalization `.ai/decisions/WI-442-wi441-doc-promotion.finalize.json`; close `.ai/decisions/WI-442-wi441-doc-promotion.close.json`. |
 | WI-443——历史 finalization 兼容 | 已实现 | [Work Item](../work-items/WI-443-historical-finalization-compat.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-443-historical-finalization-compat.contract.json`; verification `.ai/evidence/WI-443-historical-finalization-compat.verification.json`; finalization `.ai/decisions/WI-443-historical-finalization-compat.finalize.json`; close `.ai/decisions/WI-443-historical-finalization-compat.close.json`. |
 | WI-444——发布 v0.2.48 | 已实现 | [Work Item](../work-items/WI-444-release-v0-2-48.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-444-release-v0-2-48.contract.json`; verification `.ai/evidence/WI-444-release-v0-2-48.verification.json`; finalization `.ai/decisions/WI-444-release-v0-2-48.finalize.json`; close `.ai/decisions/WI-444-release-v0-2-48.close.json`. |
+| WI-446——历史 finalization 恢复 | 进行中 | [Work Item](../work-items/WI-446-historical-finalization-recovery.zh-CN.md); 当前实现：历史 shared-worktree recovery、无 PR direct-merge 校验和低 assurance close 兼容。 |
 
 ## 当前边界
 
