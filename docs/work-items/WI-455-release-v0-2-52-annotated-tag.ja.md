@@ -4,9 +4,13 @@ title: "WI-455 — v0.2.52 annotated tag release recovery"
 workItemId: WI-455-release-v0-2-52-annotated-tag
 description: "レビュー済み annotated tag と immutable な公開 artifact だけで次の patch を公開する。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-455-release-v0-2-52-annotated-tag
+terminalArchive: .ai/work-items/archive/WI-455-release-v0-2-52-annotated-tag.contract.json
+terminalVerification: .ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json
+terminalFinalization: .ai/decisions/WI-455-release-v0-2-52-annotated-tag.finalize.json
+terminalDecision: .ai/decisions/WI-455-release-v0-2-52-annotated-tag.close.json
 ---
 
 # WI-455 — v0.2.52 annotated tag release recovery

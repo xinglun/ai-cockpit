@@ -4,9 +4,13 @@ title: "WI-455——v0.2.52 annotated tag 发布恢复"
 workItemId: WI-455-release-v0-2-52-annotated-tag
 description: "仅通过已审查的 annotated tag 和不可变公开制品发布下一 patch。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-455-release-v0-2-52-annotated-tag
+terminalArchive: .ai/work-items/archive/WI-455-release-v0-2-52-annotated-tag.contract.json
+terminalVerification: .ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json
+terminalFinalization: .ai/decisions/WI-455-release-v0-2-52-annotated-tag.finalize.json
+terminalDecision: .ai/decisions/WI-455-release-v0-2-52-annotated-tag.close.json
 ---
 
 # WI-455——v0.2.52 annotated tag 发布恢复
