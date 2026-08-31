@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-31T00:31:10Z",
+  "files": {
+    "approachDigest": "sha256:132ca998e5b903659b0e3c9c037342039ead73c84cae300cda16320e64cf9f65",
+    "approachPath": ".ai/work-items/archive/WI-433-local-reference-source-binding.approach.json",
+    "contractDigest": "sha256:a3d8295f24283a13a34d42a39ec662212f39ffc744eb939c825cf6bb9302216d",
+    "contractPath": ".ai/work-items/archive/WI-433-local-reference-source-binding.contract.json",
+    "eventsDigest": "sha256:c209918f3eee45c09184074fc64cbb87b6200a4316fc2701dc5fdbf7c9dd41d1",
+    "eventsPath": ".ai/work-items/archive/WI-433-local-reference-source-binding.events.jsonl",
+    "outcomeDigest": "sha256:3ee7b6859bed0b58d61ec78db9a3f6647660e0da955ebaf1c76de221e8e9d50a",
+    "outcomePath": ".ai/work-items/archive/WI-433-local-reference-source-binding.outcome.json",
+    "summaryDigest": "sha256:f73dab5ebbc67b872130b666d100eafc5f6fecf613ee5f1be6bf10929ad2ab7f",
+    "summaryPath": ".ai/work-items/archive/WI-433-local-reference-source-binding.summary.json",
+    "taskReportDigest": "sha256:93689ab0c6928e18a622359c558a3719ae95b08cba54947f0a85ce32a9ab62cc",
+    "taskReportMarkdownDigest": "sha256:cb49d8591f2dfa13129945edbfcde0c40dd9721cbdae3019f2dd8731669e4c09",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-433-local-reference-source-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-433-local-reference-source-binding.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-433-local-reference-source-binding"
+}
