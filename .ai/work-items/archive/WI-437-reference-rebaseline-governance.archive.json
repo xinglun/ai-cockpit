@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-31T03:41:20Z",
+  "files": {
+    "approachDigest": "sha256:16976c3d13e82f86fbe7533921377bf001a70eaf10fe4c5d108cf44775affbab",
+    "approachPath": ".ai/work-items/archive/WI-437-reference-rebaseline-governance.approach.json",
+    "contractDigest": "sha256:1170bae6713239a665216410277716b7de055dae8d8bccdb5c828acee615c4cd",
+    "contractPath": ".ai/work-items/archive/WI-437-reference-rebaseline-governance.contract.json",
+    "eventsDigest": "sha256:c9b9903dde65e0b3580d7904a8e58b16f0e98890f59849129cd4ac6095015535",
+    "eventsPath": ".ai/work-items/archive/WI-437-reference-rebaseline-governance.events.jsonl",
+    "outcomeDigest": "sha256:593bf730d8612a45242c59b7c5ddc4ae1cece8fd0926abb4704eac649a8da9f8",
+    "outcomePath": ".ai/work-items/archive/WI-437-reference-rebaseline-governance.outcome.json",
+    "summaryDigest": "sha256:e92b76d4a3d6ea01a96e524d6a811bdb4e37f831699b7331a8b32b86a1ecb5e7",
+    "summaryPath": ".ai/work-items/archive/WI-437-reference-rebaseline-governance.summary.json",
+    "taskReportDigest": "sha256:f15b65e6387dc65c52b56aa57d46a2bf0e602cb735edc6145790e50dc6fae236",
+    "taskReportMarkdownDigest": "sha256:80e0cd102fbb23969036615c27e00cf877ac5d48447299d78c080862c77d1eae",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-437-reference-rebaseline-governance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-437-reference-rebaseline-governance.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-437-reference-rebaseline-governance"
+}

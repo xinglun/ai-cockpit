@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Each of the seven changed local reference paths is inspected against its current source bytes and a Rust-native counterpart or explicit non-portability reason",
+    "Inventory records no deferred classification for this batch and preserves local source commit plus source-change provenance",
+    "Tri-language reference comparison/parity docs state the source-artifact versus Rust-semantic boundary and do not overclaim byte compatibility",
+    "Reference inventory regression, docs acceptance, parity, governance integrity, and Runtime verification pass"
+  ],
+  "createdAt": "2026-08-31T03:41:16Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:015d3fc2408d16714f9edfbe3299fd622de1a73e088ae06ad3a027b51f02d3f6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c83ea1b800cd037d5c89e732e3e93858b5c3db40e315f527a06e7c4a6403a230",
+      "workItemId": "WI-437-reference-rebaseline-governance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-437-reference-rebaseline-governance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-437-reference-rebaseline-governance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-437-reference-rebaseline-governance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-437-reference-rebaseline-governance.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-437-reference-rebaseline-governance.contract.json"
+          ],
+          "inference": false,
+          "text": "Compare seven changed reference paths against Rust-native counterparts, record explicit parity classifications, and preserve local-only reference policy"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-437-reference-rebaseline-governance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-437-reference-rebaseline-governance"
+  },
+  "taskReportDigest": "sha256:f15b65e6387dc65c52b56aa57d46a2bf0e602cb735edc6145790e50dc6fae236",
+  "taskReportMarkdownDigest": "sha256:80e0cd102fbb23969036615c27e00cf877ac5d48447299d78c080862c77d1eae",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-437-reference-rebaseline-governance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-437-reference-rebaseline-governance"
+}
