@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-456-wi455-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-456-wi455-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T18:48:02Z",
+  "checkpointContractDigest": "sha256:86626f3b51d5c2c078df226fe80baff67c3c9077c6c87f65b7a7b954c566ed68",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:1ebbd239dfd3f7990ba44ed7349a81ea0a518714f6ffed972ee7579adfe5061f",
+      "recorded": true,
+      "recordedAt": "2026-08-31T18:48:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3e1ded126f7ee6e95120798813a51d27ca7bfaef0d08c7024cc874aaa8dda72b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-456-wi455-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:a08812749cd81fcfa8c6ebf4a891e5339be8ef7990896bc046a583a80eb9e1c9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1ebbd239dfd3f7990ba44ed7349a81ea0a518714f6ffed972ee7579adfe5061f",
+      "previousContractHash": "sha256:1ebbd239dfd3f7990ba44ed7349a81ea0a518714f6ffed972ee7579adfe5061f",
+      "reason": "Governance parity gate deterministically requires the active Work Item own three-language pages and pre-archive parity rows; include those exact projections in this documentation boundary.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T18:52:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3e1ded126f7ee6e95120798813a51d27ca7bfaef0d08c7024cc874aaa8dda72b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-456-wi455-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:86626f3b51d5c2c078df226fe80baff67c3c9077c6c87f65b7a7b954c566ed68",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1ebbd239dfd3f7990ba44ed7349a81ea0a518714f6ffed972ee7579adfe5061f",
+      "previousContractHash": "sha256:a08812749cd81fcfa8c6ebf4a891e5339be8ef7990896bc046a583a80eb9e1c9",
+      "reason": "Use the canonical verification evidence class for the current Work Item; the prior path-shaped value was not a class and caused preflight to treat valid evidence as missing.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T19:02:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f76e0719feb8a9c795ead56e2cebbddc3886fdc21dfaef1f5cf4a8a2d1f74cf3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-456-wi455-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f76e0719feb8a9c795ead56e2cebbddc3886fdc21dfaef1f5cf4a8a2d1f74cf3",
+  "createdAt": "2026-08-31T18:47:11Z",
+  "mode": "docs",
+  "preflightAt": "2026-08-31T19:03:48Z",
+  "preflightContractDigest": "sha256:86626f3b51d5c2c078df226fe80baff67c3c9077c6c87f65b7a7b954c566ed68",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:f76e0719feb8a9c795ead56e2cebbddc3886fdc21dfaef1f5cf4a8a2d1f74cf3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T19:03:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-456-wi455-doc-promotion"
+}
