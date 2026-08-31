@@ -29,15 +29,16 @@ are independent identities.
 
 ```text
 ai-cockpit --version
-0.2.50
+0.2.51
 
 repository:
 protocol_version = 1
 repository_schema_version = 2
 ```
 
-`v0.2.49` is retained as an unpublished failed-tag history and is not reused;
-`v0.2.50` is the current package identity.
+`v0.2.50` is the preceding public patch release and remains historical evidence.
+The failed `v0.2.49` tag is retained as unpublished history and is not reused;
+`v0.2.51` is the current package identity.
 
 The CLI version identifies the executable package. Protocol version identifies
 the repository storage contract. Runtime version, runtime digest, and protocol
