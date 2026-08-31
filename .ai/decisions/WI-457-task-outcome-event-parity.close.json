@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fe530f3e25fa5e0bee306c6cb213ed44cf4c8696e5ec8aa866fb98fdec9b3900",
+      "workItemId": "WI-457-task-outcome-event-parity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-457-task-outcome-event-parity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-457-task-outcome-event-parity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-457-task-outcome-event-parity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-457-task-outcome-event-parity.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-review-policy at 2026-08-31T21:03:15Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-457-task-outcome-event-parity.contract.json"
+          ],
+          "inference": false,
+          "text": "让事件流能表达参考源要求的 finding/risk/warning/confirmation/stop/resume/resolution/risk-accepted/check-pass-after-fix/prevention/completed/cancelled 语义，重复 finding 可确定性去重，修正只能追加，生成与校验覆盖新增事件族，并在三语文档中明确 Rust 语义映射与非 wire 兼容边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-457-task-outcome-event-parity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-457-task-outcome-event-parity"
+  },
+  "finalReportDigest": "sha256:7143dafdb7aff17ac07871ca8ee91324700acfd94481369af0eef53159407d8c",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:71d6504edd7a3d27338ceb700a9c40e745d3f1226e5a67f8c48875c8be472e90",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-457-task-outcome-event-parity.finalize.d2e8f8795a6a88fc3fcd8bf2633813d2e20d0443e4c48397b5bab254b0ba8a70.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-review-policy",
+    "decidedAt": "2026-08-31T21:03:15Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-457-task-outcome-event-parity.verification.json"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "Reviewed hosted checks, immutable archive, merge observation, exact cleanup, and finalize-verify evidence.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-31T21:03:15Z",
+  "workItemId": "WI-457-task-outcome-event-parity"
+}
