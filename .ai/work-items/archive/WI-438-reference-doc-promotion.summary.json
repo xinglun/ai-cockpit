@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-438-reference-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-438-reference-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-438-reference-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-438-reference-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-08-31T03:51:13Z",
   "checkpointContractDigest": "sha256:922be3616b381fd744504de50da7f662c587a299b74efc41afac95b20aa51fde",
@@ -52,8 +52,8 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-08-31T03:51:13Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T04:11:21Z",
   "verification": [
     {
       "check": "project-command-0",
