@@ -2545,7 +2545,9 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
         )
     return {
         "schemaVersion": 1,
-        "referenceRepository": "https://github.com/spirex-ds-dev/ai-cockpit-template",
+        "referenceRepository": "local-git-checkout",
+        "referencePathEnv": "AI_COCKPIT_REFERENCE_ROOT",
+        "referenceNetworkAccess": False,
         "referenceCommit": source_commit,
         "targetRepository": "https://github.com/xinglun/ai-cockpit",
         "targetCommit": target_commit,
@@ -2563,6 +2565,12 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
     errors: list[str] = []
     if manifest.get("schemaVersion") != 1:
         errors.append("schemaVersion must be 1")
+    if manifest.get("referenceRepository") != "local-git-checkout":
+        errors.append("referenceRepository must identify the local checkout policy")
+    if manifest.get("referencePathEnv") != "AI_COCKPIT_REFERENCE_ROOT":
+        errors.append("referencePathEnv must be AI_COCKPIT_REFERENCE_ROOT")
+    if manifest.get("referenceNetworkAccess") is not False:
+        errors.append("referenceNetworkAccess must be false")
     if manifest.get("referenceCommit") != expected_source:
         errors.append("referenceCommit is not the pinned source commit")
     if manifest.get("targetCommit") != expected_target:

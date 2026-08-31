@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "user-instruction",
+  "decidedAt": "2026-08-31T00:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-433-local-reference-source-binding.verification.json",
+    ".ai/work-items/active/WI-433-local-reference-source-binding.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md repository workflow"
+  ],
+  "predecessorContractDigest": "sha256:554eb3264230bfadd598a0d725aefd3d290a757e8efdc93771a91db1331afeb2",
+  "predecessorEventsDigest": "sha256:62097adedc75f826e7bf3faa5c0058ffa1b7987f4a007dd6cf813fdc3390dcd7",
+  "predecessorOutcomeDigest": "sha256:06adb44fa7345ec114840126a92768f951e114fda53592a6a1c3257b994742d3",
+  "predecessorSummaryDigest": "sha256:00fc0fe81c4e7816bdb7d18e295b9a2bd5ad84b4cd8fbee68da7cb51b13b5786",
+  "predecessorWorkItemId": "WI-433-local-reference-source-binding",
+  "reason": "retry after binding the reviewed PR resource context changed the Contract digest",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "run fresh preflight and verification, then retry finish",
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "workItemId": "WI-433-local-reference-source-binding"
+}

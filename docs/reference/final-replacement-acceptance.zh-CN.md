@@ -20,9 +20,11 @@ capabilityClaims:
 repository identity、锁定的参考源 commit、每个 gate 的结果、`acceptance.json`
 以及 `SHA256SUMS`。
 
-验收 gate 独立覆盖：锁定参考源 conformance、adversarial 负向语料、带负例拒绝的
-性能回归、发布 workflow policy、面向人的 Outcome 输出、可执行参考源 oracle，
+验收 gate 独立覆盖：提交的离线语义 conformance、adversarial 负向语料、带负例拒绝的
+性能回归、发布 workflow policy、面向人的 Outcome 输出、本地参考源锁策略（仅元数据、不联网），
 以及证明没有复制 V1 Runtime 实现的 tracked-path 检查。
 
 脚本 fail-closed，不调用 `cargo build`、`cargo run`、workspace binary 或本地
 `target/` fallback。绿色 receipt 只证明本验收边界通过，不授权合并或发布。
+参考源专用 oracle 只允许维护者在本地执行：将 `AI_COCKPIT_REFERENCE_ROOT` 指向锁定
+commit 的干净 checkout；托管 CI 不会下载参考源。

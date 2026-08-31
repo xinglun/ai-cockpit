@@ -14,14 +14,18 @@ capabilityClaims:
 
 # 参考源逐文件比较
 
-本页说明 Rust 工程如何与公开参考源逐个文件比较。参考源是规格和行为语料，
+本页说明 Rust 工程如何与维护者提供的本地参考源逐个文件比较。参考源是规格和行为语料，
 不是应复制到 Rust Runtime 的目录。
 
 ## 固定基线
 
-- 参考源：[spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)，提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
+- 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
 - Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`。
 - 比较时使用的 Runtime：`ai-cockpit 0.2.33`，binary SHA256 为 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
+
+现有 inventory 台账仍是早期 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 基线的历史快照，
+用于保持已经完成的逐文件记录不可变。后续批次必须从本地 checkout 显式重新建立基线，不能静默混用不同提交。
+本地参考源缺失、dirty 或 commit 不匹配时必须 fail-closed。
 
 本页只报告当前固定的比较基线。历史交付细节保存在 Work Item 归档证据中，不放在面向读者的入口。
 

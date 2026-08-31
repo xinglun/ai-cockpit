@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Local reference source is required explicitly and its Git HEAD is checked against a recorded 40-character commit.",
+    "No active conformance script or GitHub Actions job fetches the public reference URL or requires network access to the reference repository.",
+    "Historical inventory and Work Item evidence remain immutable; current documentation distinguishes historical baseline from the local current source.",
+    "Offline semantic conformance remains executable in hosted CI without copying V1 Runtime code or Python modules.",
+    "Three-language reference documentation and conformance instructions describe the local-source workflow and fail-closed missing/mismatched source behavior."
+  ],
+  "createdAt": "2026-08-31T00:31:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4cb82f52f059ea748a218ed70a73006230a817f89434de20d846c50ca32b3de3",
+  "evidenceRefs": [
+    ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:55f3169635fa745881eaf4bd5ee9840a564e0c1676f23b44761896742b709c5c",
+      "workItemId": "WI-433-local-reference-source-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-433-local-reference-source-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-433-local-reference-source-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-433-local-reference-source-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-433-local-reference-source-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-433-local-reference-source-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind future reference comparisons to an explicit local Git checkout and pinned commit, remove active public-network reference dependency from conformance CI, and document the semantic/non-copy boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-433-local-reference-source-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-433-local-reference-source-binding"
+  },
+  "taskReportDigest": "sha256:93689ab0c6928e18a622359c558a3719ae95b08cba54947f0a85ce32a9ab62cc",
+  "taskReportMarkdownDigest": "sha256:cb49d8591f2dfa13129945edbfcde0c40dd9721cbdae3019f2dd8731669e4c09",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-433-local-reference-source-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-433-local-reference-source-binding"
+}

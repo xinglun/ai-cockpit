@@ -1,6 +1,8 @@
 {
   "schemaVersion": 1,
-  "referenceRepository": "https://github.com/spirex-ds-dev/ai-cockpit-template",
+  "referenceRepository": "local-git-checkout",
+  "referencePathEnv": "AI_COCKPIT_REFERENCE_ROOT",
+  "referenceNetworkAccess": false,
   "referenceCommit": "e5acb677da6621004d96f0ef353c58fe8d3acfbf",
   "targetRepository": "https://github.com/xinglun/ai-cockpit",
   "targetCommit": "bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b",

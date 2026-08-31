@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-433-local-reference-source-binding.contract.json",
+    ".ai/work-items/archive/WI-433-local-reference-source-binding.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T00:01:27Z",
+  "checkpointContractDigest": "sha256:554eb3264230bfadd598a0d725aefd3d290a757e8efdc93771a91db1331afeb2",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:55f3169635fa745881eaf4bd5ee9840a564e0c1676f23b44761896742b709c5c",
+  "createdAt": "2026-08-30T23:52:06Z",
+  "failedGate": "finish.governance",
+  "mode": "documentation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T00:31:01Z",
+  "preflightContractDigest": "sha256:554eb3264230bfadd598a0d725aefd3d290a757e8efdc93771a91db1331afeb2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:55f3169635fa745881eaf4bd5ee9840a564e0c1676f23b44761896742b709c5c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T00:31:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-433-local-reference-source-binding"
+}

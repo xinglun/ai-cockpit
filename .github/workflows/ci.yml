@@ -282,18 +282,12 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
-      - name: check out exact V1 behavioral oracle
+      - name: verify local-only reference-source policy
         shell: bash
         run: |
           set -euo pipefail
-          reference_commit="$(sed -n 's/^commit = "\([0-9a-f]\{40\}\)"$/\1/p' tests/conformance/v1-reference.lock)"
-          test "${#reference_commit}" -eq 40
-          git init -q target/v1-reference
-          git -C target/v1-reference fetch --depth=1 \
-            https://github.com/spirex-ds-dev/ai-cockpit-template.git "${reference_commit}"
-          git -C target/v1-reference checkout -q --detach FETCH_HEAD
-          test "$(git -C target/v1-reference rev-parse HEAD)" = "${reference_commit}"
-      - name: compare Rust semantics with locked V1 runtime
-        env:
-          AI_COCKPIT_V1_ROOT: ${{ github.workspace }}/target/v1-reference
-        run: cargo test -p cockpit-core --test v1_oracle -- --ignored --nocapture
+          python3 tests/conformance/reference_source_policy.py \
+            --lock tests/conformance/reference-source.lock
+          bash tests/conformance/reference_source_policy_check.sh
+      - name: compare Rust semantics with the committed offline corpus
+        run: cargo test -p cockpit-core --test conformance -- --test-threads=1

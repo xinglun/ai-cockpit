@@ -1,0 +1,6 @@
+schema = 1
+source = "local-git-checkout"
+path_env = "AI_COCKPIT_REFERENCE_ROOT"
+commit = "fde3380f81fea5fd2e288f7a8849f737dc074060"
+role = "current-semantic-reference"
+network_access = false

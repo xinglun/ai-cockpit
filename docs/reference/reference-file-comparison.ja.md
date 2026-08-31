@@ -14,14 +14,19 @@ capabilityClaims:
 
 # Reference file comparison
 
-このページは Rust project と公開 reference source を file ごとに比較する方法を説明します。
+このページは Rust project と maintainer が提供する local reference source を file ごとに比較する方法を説明します。
 Reference は specification と behavior corpus であり、Rust Runtime にコピーする directory ではありません。
 
 ## 固定 baseline
 
-- Reference: [spirex-ds-dev/ai-cockpit-template](https://github.com/spirex-ds-dev/ai-cockpit-template)、commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf`。
+- 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
 - Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`。
 - 比較に使う Runtime: `ai-cockpit 0.2.33`、binary SHA256 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
+
+現在の inventory ledger は、完了済みの file-by-file 記録を immutable に保つため、従来の
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf` source baseline の historical snapshot です。
+後続 batch は local checkout から明示的に rebaseline し、source commit を混在させません。
+local source の欠落、dirty、commit mismatch は fail-closed です。
 
 このページは現在固定した比較 baseline だけを説明します。歴史的な delivery detail は
 Work Item archive evidence に保持し、reader-facing route には載せません。
