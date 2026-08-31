@@ -14,16 +14,17 @@ use cockpit_protocol::{
     ConcurrencyBoundary, Contract, DataClassification, DelegatedEvidence, DelegatedEvidenceReceipt,
     DiagnosisState, EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem,
     EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
-    GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision,
-    ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
-    OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
-    PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
-    ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
-    ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
-    TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemCompatibility,
-    WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
-    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
-    repository_schema_migration_chain, validate_evidence_retention, validate_protocol_version,
+    GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HistoricalFinalizationKind,
+    HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
+    OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
+    ParallelSlotLease, PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt,
+    RepositoryConfig, ResourceFinalizationContext, ResourceFinalizationDisposition,
+    ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
+    SchemaMigrationStep, TaskOutcomeEvent, TaskOutcomeReport, TruthState, VerificationStage,
+    VerificationTier, WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence,
+    WorkItemStatusIndex, WorkItemStatusIndexEntry, WorkItemStatusSnapshot,
+    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
+    validate_evidence_retention, validate_protocol_version,
     validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
     validate_resource_finalization_transition,
 };
@@ -468,10 +469,23 @@ pub struct RepositoryReadiness {
     pub default_revision: Option<String>,
     pub dirty_paths: Vec<String>,
     pub unclosed_archived_work_items: Vec<String>,
+    /// Stable classification of repository-wide historical lifecycle debt.
+    /// This guides recovery without weakening the pending-close gate.
+    #[serde(default)]
+    pub historical_debt: Vec<HistoricalDebtItem>,
     /// Recognized failed-attempt artifacts that have no active Contract.
     /// These are retained audit bytes, not counted as active Work Items.
     #[serde(default)]
     pub orphaned_active_artifacts: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalDebtItem {
+    pub work_item_id: String,
+    pub category: String,
+    pub assurance: String,
+    pub recovery_action: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -3393,6 +3407,7 @@ fn repository_readiness_from_snapshot(
     let dirty_paths = non_governance_changed_paths(snapshot);
     let unclosed_archived_work_items =
         unclosed_archived_work_items_with_id(root, expected_repository_id)?;
+    let historical_debt = classify_historical_debt(root, &unclosed_archived_work_items);
     let active_work_items = count_suffix(&root.join(".ai/work-items/active"), ".contract.json");
     let orphaned_active_artifacts = orphaned_active_artifact_names(root)?;
 
@@ -3452,6 +3467,7 @@ fn repository_readiness_from_snapshot(
         default_revision: default_base.map(|base| base.revision),
         dirty_paths,
         unclosed_archived_work_items,
+        historical_debt,
         orphaned_active_artifacts,
     })
 }
@@ -3624,6 +3640,51 @@ fn unclosed_archived_work_items_with_id(
     pending.sort();
     pending.dedup();
     Ok(pending)
+}
+
+fn classify_historical_debt(root: &Path, work_items: &[String]) -> Vec<HistoricalDebtItem> {
+    let mut result = Vec::new();
+    for work_item_id in work_items {
+        let finalize = root
+            .join(".ai/decisions")
+            .join(format!("{work_item_id}.finalize.json"));
+        let value = read_json(&finalize).ok();
+        let historical_kind = value
+            .as_ref()
+            .and_then(|item| item.get("historical"))
+            .and_then(|item| item.get("kind"))
+            .and_then(serde_json::Value::as_str);
+        let disposition = value
+            .as_ref()
+            .and_then(|item| item.get("result"))
+            .and_then(|item| item.get("disposition"))
+            .and_then(serde_json::Value::as_str);
+        let (category, recovery_action) = match historical_kind {
+            Some("shared_worktree_retained") => (
+                "historical_shared_worktree_retained",
+                "record historical shared-worktree finalization, then close with explicit human decision",
+            ),
+            Some("direct_merge_no_pr") => (
+                "historical_direct_merge_no_pr",
+                "record direct-merge receipt bound to merge commit/parents/base, then close with explicit human decision",
+            ),
+            _ if disposition == Some("retained") => (
+                "legacy_retained_requires_classification",
+                "inspect immutable receipt and append an explicit historical compatibility record; do not edit the predecessor",
+            ),
+            _ => (
+                "legacy_missing_or_invalid_finalization",
+                "create a recovery Work Item and attach a human-authorized historical recovery decision",
+            ),
+        };
+        result.push(HistoricalDebtItem {
+            work_item_id: work_item_id.clone(),
+            category: category.into(),
+            assurance: "historical_low".into(),
+            recovery_action: recovery_action.into(),
+        });
+    }
+    result
 }
 
 /// New archive manifests explicitly opt into the close gate.  Older archive
@@ -10641,6 +10702,96 @@ fn ensure_resource_finalization_base_binding(
     Ok(())
 }
 
+/// Validate the additional facts that make a historical compatibility receipt
+/// honest.  The protocol validates the typed shape; this repository-bound
+/// check binds a direct merge to the actual Git commit/parents and restricts
+/// shared-worktree history to the repository's primary checkout.
+fn validate_historical_finalization(
+    root: &Path,
+    receipt: &ResourceFinalizationReceipt,
+    path: &Path,
+) -> Result<(), ObserverError> {
+    let Some(historical) = receipt.historical.as_ref() else {
+        return Ok(());
+    };
+    match historical.kind {
+        HistoricalFinalizationKind::SharedWorktreeRetained => {
+            let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+                path: root.into(),
+                source,
+            })?;
+            let worktree = fs::canonicalize(&receipt.worktree.path).map_err(|source| {
+                ObserverError::State {
+                    path: path.into(),
+                    message: format!("historical shared worktree is not present: {source}"),
+                }
+            })?;
+            if worktree != root || receipt.worktree.branch != receipt.branch.name {
+                return Err(ObserverError::State {
+                    path: path.into(),
+                    message: "historical shared-worktree receipt is not bound to the primary repository worktree".into(),
+                });
+            }
+        }
+        HistoricalFinalizationKind::DirectMergeNoPr => {
+            let merge_commit = receipt
+                .historical
+                .as_ref()
+                .and_then(|value| value.merge_commit.as_deref())
+                .ok_or_else(|| ObserverError::State {
+                    path: path.into(),
+                    message: "historical direct-merge receipt is missing merge commit".into(),
+                })?;
+            let observation = git_text(root, &["rev-list", "--parents", "-n", "1", merge_commit])
+                .ok_or_else(|| ObserverError::State {
+                path: path.into(),
+                message: "historical direct-merge commit is not present in this repository".into(),
+            })?;
+            let parts = observation.split_whitespace().collect::<Vec<_>>();
+            let parents = receipt
+                .historical
+                .as_ref()
+                .map(|value| {
+                    value
+                        .merge_parents
+                        .iter()
+                        .map(String::as_str)
+                        .collect::<Vec<_>>()
+                })
+                .unwrap_or_default();
+            if parts.first().copied() != Some(merge_commit)
+                || parts.get(1..).unwrap_or_default() != parents.as_slice()
+                || parents.len() < 2
+            {
+                return Err(ObserverError::State {
+                    path: path.into(),
+                    message: "historical direct-merge commit parents do not match Git".into(),
+                });
+            }
+            let base = receipt
+                .historical
+                .as_ref()
+                .map(|value| value.base_revision.as_str())
+                .unwrap_or_default();
+            let ancestor = Command::new("git")
+                .arg("-C")
+                .arg(root)
+                .args(["merge-base", "--is-ancestor", base, merge_commit])
+                .status()
+                .map(|status| status.success())
+                .unwrap_or(false);
+            if !ancestor {
+                return Err(ObserverError::State {
+                    path: path.into(),
+                    message: "historical direct-merge base is not an ancestor of merge commit"
+                        .into(),
+                });
+            }
+        }
+    }
+    Ok(())
+}
+
 /// Persist a provider-side finalization receipt after strict identity and
 /// local postcondition validation.  The Runtime never calls a provider or
 /// deletes a branch implicitly; it records delegated evidence and refuses
@@ -10695,6 +10846,7 @@ pub fn record_resource_finalization(
             message: error.to_string(),
         })?;
     }
+    validate_historical_finalization(&root, &receipt, receipt_path)?;
     ensure_resource_finalization_base_binding(&receipt, &contract, receipt_path)?;
     if receipt.provider == "unknown"
         || receipt
@@ -10989,6 +11141,7 @@ fn verify_resource_finalization_internal(
         path: path.clone(),
         message: error.to_string(),
     })?;
+    validate_historical_finalization(&root, &receipt, &path)?;
     ensure_resource_finalization_base_binding(&receipt, &contract, &path)?;
     if let Some(runtime) = runtime {
         ensure_resource_runtime_identity(&receipt, runtime, &path)?;
@@ -11326,7 +11479,10 @@ fn require_resource_finalization_for_close(
 ) -> Result<serde_json::Value, ObserverError> {
     let result = verify_resource_finalization_internal(root, work_item_id, runtime)?;
     let disposition = result["disposition"].as_str().unwrap_or_default();
-    if disposition != "deleted" {
+    let historical_kind = result["receipt"]["historical"]["kind"].as_str();
+    let historical_retained =
+        disposition == "retained" && historical_kind == Some("shared_worktree_retained");
+    if disposition != "deleted" && !historical_retained {
         return Err(ObserverError::State {
             path: resource_finalization_decision_path(root, work_item_id),
             message: format!(

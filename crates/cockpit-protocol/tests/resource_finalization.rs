@@ -1,16 +1,16 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    Contract, RESOURCE_FINALIZATION_CODE_AMBIGUOUS_STATE,
-    RESOURCE_FINALIZATION_CODE_DIRTY_WORKTREE, RESOURCE_FINALIZATION_CODE_PROTECTED_BRANCH,
-    RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST, ResourceFinalizationBranchIdentity,
-    ResourceFinalizationBranchState, ResourceFinalizationContext, ResourceFinalizationDisposition,
-    ResourceFinalizationError, ResourceFinalizationPullRequestIdentity,
-    ResourceFinalizationPullRequestState, ResourceFinalizationReceipt, ResourceFinalizationResult,
-    ResourceFinalizationState, ResourceFinalizationTransitionReceipt,
-    ResourceFinalizationWorktreeIdentity, ResourceFinalizationWorktreeState,
-    validate_resource_finalization_context, validate_resource_finalization_receipt,
-    validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
-    validate_resource_finalization_transition,
+    Contract, HistoricalFinalization, HistoricalFinalizationKind,
+    RESOURCE_FINALIZATION_CODE_AMBIGUOUS_STATE, RESOURCE_FINALIZATION_CODE_DIRTY_WORKTREE,
+    RESOURCE_FINALIZATION_CODE_PROTECTED_BRANCH, RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST,
+    ResourceFinalizationBranchIdentity, ResourceFinalizationBranchState,
+    ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationError,
+    ResourceFinalizationPullRequestIdentity, ResourceFinalizationPullRequestState,
+    ResourceFinalizationReceipt, ResourceFinalizationResult, ResourceFinalizationState,
+    ResourceFinalizationTransitionReceipt, ResourceFinalizationWorktreeIdentity,
+    ResourceFinalizationWorktreeState, validate_resource_finalization_context,
+    validate_resource_finalization_receipt, validate_resource_finalization_receipt_for,
+    validate_resource_finalization_replay, validate_resource_finalization_transition,
 };
 
 const REPOSITORY_ID: &str =
@@ -75,7 +75,53 @@ fn receipt() -> ResourceFinalizationReceipt {
             provider: "github".into(),
             pull_request: "https://github.example/acme/project/pull/158".into(),
         }),
+        historical: None,
     }
+}
+
+#[test]
+fn historical_shared_worktree_retained_is_explicit_and_valid() {
+    let mut value = receipt();
+    value.result.disposition = ResourceFinalizationDisposition::Retained;
+    value.after = ResourceFinalizationState {
+        pull_request: ResourceFinalizationPullRequestState::Merged,
+        branch: ResourceFinalizationBranchState::Present,
+        worktree: ResourceFinalizationWorktreeState::Clean,
+    };
+    value.historical = Some(HistoricalFinalization {
+        kind: HistoricalFinalizationKind::SharedWorktreeRetained,
+        assurance: "historical_low".into(),
+        merge_commit: None,
+        merge_parents: vec![],
+        base_revision: "base-785112b".into(),
+    });
+    validate_resource_finalization_receipt(&value).unwrap();
+}
+
+#[test]
+fn historical_direct_merge_without_pr_uses_zero_sentinel_only_with_binding() {
+    let mut value = receipt();
+    value.pull_request.number = 0;
+    value.pull_request.url = "historical://direct-merge/merge-158".into();
+    value.provider = "historical".into();
+    value.resource_context = Some(ResourceFinalizationContext {
+        branch: value.branch.name.clone(),
+        worktree: value.worktree.path.clone(),
+        base_branch: value.pull_request.base_branch.clone(),
+        base_remote: value.pull_request.base_remote.clone(),
+        provider: "historical".into(),
+        pull_request: value.pull_request.url.clone(),
+    });
+    value.historical = Some(HistoricalFinalization {
+        kind: HistoricalFinalizationKind::DirectMergeNoPr,
+        assurance: "historical_low".into(),
+        merge_commit: Some("merge-158".into()),
+        merge_parents: vec!["parent-a".into(), "parent-b".into()],
+        base_revision: "base-785112b".into(),
+    });
+    validate_resource_finalization_receipt(&value).unwrap();
+    value.historical = None;
+    assert!(validate_resource_finalization_receipt(&value).is_err());
 }
 
 fn transition(previous: &ResourceFinalizationReceipt) -> ResourceFinalizationTransitionReceipt {

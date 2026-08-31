@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "历史 shared-worktree retained 只能通过显式 historical/low-assurance 路径记录，不能误报为新专用 worktree deleted。",
+    "历史 direct-merge 无 PR 必须绑定真实 merge commit、parents、base、repository identity、actor/authority，并明确 historical/low-assurance，不接受伪造 PR number。",
+    "仓库级 pending-close 历史债务可分类、可审计、可 recovery；新 WI 仍 fail-closed，不能绕过未关闭债务。",
+    "新路径有 Rust 回归测试、三语文档、完整 workspace quality gate。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d3282f5f773bb0cc22ce14705c98c5535691fece",
+  "createdAt": "2026-08-31T06:38:17Z",
+  "goal": "让旧对象工程能够在不伪造 PR 或删除语义的前提下完成历史迁移与 recovery，并保持新 WI 使用专用 linked worktree。",
+  "intent": "为历史共享 worktree retained、无 PR direct-merge 与仓库级历史债务提供诚实、可审计、fail-closed 的 Runtime 兼容路径。",
+  "mode": "implementation",
+  "outOfScope": [
+    "对象工程治理文件",
+    "全局 Agent/MCP 配置",
+    "参考源代码复制"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:28c64fe7e8c4d4a0c6805dac9a98c20c2fddd7cc50bd347fda9085255bcef914",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-443-historical-finalization-compat",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/412",
+    "worktree": "/private/tmp/ai-cockpit-wi443-historical-finalization-compat"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/**",
+    "docs/**",
+    "Cargo.toml",
+    "Cargo.lock"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-443-historical-finalization-compat"
+}

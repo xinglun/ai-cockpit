@@ -14,6 +14,15 @@ capabilityClaims:
 
 # 命令参考
 
+历史兼容必须显式且保持低 assurance。旧的共享主 worktree 记录可以使用
+`historical.kind=shared_worktree_retained` 与 `assurance=historical_low`；它必须绑定主
+repository worktree，并且仍需要人工 close 决定。没有 PR 的本地合并可以使用
+`historical.kind=direct_merge_no_pr`、`pullRequest.number=0` 和
+`historical://direct-merge/<mergeCommit>` URL，但必须绑定真实 merge commit、两个
+parents、base revision、repository identity 与 authority。Runtime 会对照 Git 验证这些事实，
+绝不会编造 PR。Readiness 会报告 `historicalDebt` 与 recovery action，同时保持 pending-close
+fail-closed。
+
 现在 `close` 要求当前 finalization head 的 disposition 必须是 `deleted`；
 `retained`、`blocked` 或 `unknown` 的 head 会在写入 close decision 前停止。对于旧
 Runtime 已经产生的不可变记录，`work-item finalize` 允许在 close 后追加一条严格绑定的

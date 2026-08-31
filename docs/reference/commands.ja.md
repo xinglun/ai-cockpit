@@ -14,6 +14,16 @@ capabilityClaims:
 
 # Command reference
 
+歴史互換は明示的かつ低 assurance でなければなりません。旧 shared-primary worktree の
+記録は `historical.kind=shared_worktree_retained` と
+`assurance=historical_low` を使えますが、primary repository worktree に束縛し、明示的な
+human close decision を必要とします。PR のないローカル merge は
+`historical.kind=direct_merge_no_pr`、`pullRequest.number=0`、
+`historical://direct-merge/<mergeCommit>` URL を使えます。ただし実際の merge commit、2 つの
+parent、base revision、repository identity、authority を束縛する必要があります。Runtime は
+Git と照合し、PR を捏造しません。Readiness は `historicalDebt` と recovery action を示し、
+pending-close は引き続き fail-closed です。
+
 現在 `close` は current finalization head の disposition が `deleted` であることを
 要求します。`retained`、`blocked`、`unknown` の head は close decision を書く前に
 停止します。旧 Runtime が作った immutable record については、`work-item finalize` が

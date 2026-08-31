@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "历史 shared-worktree retained 只能通过显式 historical/low-assurance 路径记录，不能误报为新专用 worktree deleted。",
+    "历史 direct-merge 无 PR 必须绑定真实 merge commit、parents、base、repository identity、actor/authority，并明确 historical/low-assurance，不接受伪造 PR number。",
+    "仓库级 pending-close 历史债务可分类、可审计、可 recovery；新 WI 仍 fail-closed，不能绕过未关闭债务。",
+    "新路径有 Rust 回归测试、三语文档、完整 workspace quality gate。"
+  ],
+  "createdAt": "2026-08-31T07:02:54Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4382a6dcb9b445dd57871a7fd1a1c97d31c7bc4c71c315fc80ec60ff45113e05",
+  "evidenceRefs": [
+    ".ai/evidence/WI-443-historical-finalization-compat.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-443-historical-finalization-compat.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-443-historical-finalization-compat.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:911a58d3a46ca3c919d9474254538563df19c3446de5dcee95c7570d725c3749",
+      "workItemId": "WI-443-historical-finalization-compat"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-443-historical-finalization-compat.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-443-historical-finalization-compat.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-443-historical-finalization-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-443-historical-finalization-compat.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-443-historical-finalization-compat.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-443-historical-finalization-compat.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-443-historical-finalization-compat.contract.json"
+          ],
+          "inference": false,
+          "text": "让旧对象工程能够在不伪造 PR 或删除语义的前提下完成历史迁移与 recovery，并保持新 WI 使用专用 linked worktree。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-443-historical-finalization-compat.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-443-historical-finalization-compat"
+  },
+  "taskReportDigest": "sha256:87e57abcae3b3d9be54dc36453a74ee748bf0ce5382ee7a5492eda6fcfdaa128",
+  "taskReportMarkdownDigest": "sha256:8b08213199c5a4c87c8b13df0aeb7f77bdbea48126518861daa1e8b662b139f7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-443-historical-finalization-compat.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-443-historical-finalization-compat"
+}
