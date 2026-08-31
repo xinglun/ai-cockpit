@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "31c895ec3c1f5ef69df2d8ca133495106ec2491c",
+    "name": "codex/wi-437-reference-rebaseline-governance",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1170bae6713239a665216410277716b7de055dae8d8bccdb5c828acee615c4cd",
+  "operationId": "github-pr-403-merge-cleanup-20260831",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0d07f35bde4ceadfbecd53465e1474f4257552b8",
+    "headRevision": "31c895ec3c1f5ef69df2d8ca133495106ec2491c",
+    "mergeCommit": "2d8801e40e221267323515b741be007097669800",
+    "number": 403,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/403"
+  },
+  "reason": "PR #403 passed route, quality, Windows runtime, v1 behavioral oracle, and task-list checks, merged as 2d8801e; the exact feature branch and dedicated worktree were removed after synchronizing main.",
+  "receiptId": "ai-cockpit-WI-437-reference-rebaseline-governance-deleted-20260831",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-437-reference-rebaseline-governance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/403",
+    "worktree": "/private/tmp/ai-cockpit-wi437-reference-rebaseline-governance"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T12:47:34+09:00",
+  "workItemId": "WI-437-reference-rebaseline-governance",
+  "worktree": {
+    "branch": "codex/wi-437-reference-rebaseline-governance",
+    "headRevision": "31c895ec3c1f5ef69df2d8ca133495106ec2491c",
+    "path": "/private/tmp/ai-cockpit-wi437-reference-rebaseline-governance",
+    "worktreeId": "WI-437-reference-rebaseline-governance"
+  }
+}
