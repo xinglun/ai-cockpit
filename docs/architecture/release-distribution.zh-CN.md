@@ -16,7 +16,9 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # 发布分发架构
 
-当前不可变发布基线是 `v0.2.51`。失败的 `v0.2.49` 标签因 workflow run
+发布完成后当前不可变发布基线是 `v0.2.52`；在其 provider Release 存在之前，`v0.2.50` 仍是可安装的公开基线。
+预留的 `v0.2.51` tag 是不可变的发布失败尝试（workflow run `33417057474`），是没有 provider Release 的 lightweight tag，永远不会复用。
+失败的 `v0.2.49` 标签因 workflow run
 `33379366308` 的发布前门禁失败而保留为不可变历史；它没有公开 Release，
 不会作为安装基线。失败的 `v0.2.35` 标签因 workflow run
 `33162800569` 没有公开 Release，作为不可变发布历史保留。更早的失败 `v0.2.34` 标签因 workflow run
@@ -32,6 +34,10 @@ Work Item 的文档 promotion，它没有创建公开 Release，也不是安装�
 ## 目的
 
 本页回答：**发布过程中验证什么、用户如何安装 runtime，以及 Homebrew 的边界在哪里？**
+
+发布只能从已审查且已同步的默认分支推送 annotated tag 开始。provider Release 由 workflow 在源码、制品和 staged acceptance
+门禁全部通过后创建；维护者不得使用 `gh release create` 预创建。lightweight tag 或 peeled commit 不等于已审查 source commit 的 tag
+都会被拒绝，失败的语义版本 tag 永久保留。
 
 ## 读者
 
@@ -114,7 +120,7 @@ Release，并独立上传 receipt。手动触发必须显式提供公开的 `fro
 
 - `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
   hosted checks 和已发布 Release identity。
-- 当前不可变公开基线是 `v0.2.51`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
+- 当前不可变公开基线是 `v0.2.52`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
   独立 provider surface，不由本仓库自动保证。
 - 预留的 `v0.2.24` tag 与不可变的 `v0.2.25` tag 作为发布前失败历史保留，不作为公开 Release，也永远不会复用。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。

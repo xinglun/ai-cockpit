@@ -1,0 +1,138 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.contract.json",
+    ".ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T17:59:36Z",
+  "checkpointContractDigest": "sha256:5e941adf029be175d301bf0e751fcff08c175eab1ac950df36299499356f4ae8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:faa34eb2f57120a6287b89c252a990fa266c1774da4b2c6ddc691b8ba729ce8a",
+      "recorded": true,
+      "recordedAt": "2026-08-31T17:59:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9632cf3f8721b4db41f75bd847d6c5d8a38d753825d102fb8432fbd56de96c06",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3a988ab1c6b9af2db30705b71720143e7358982d7e242860e702f3b06880b352",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:faa34eb2f57120a6287b89c252a990fa266c1774da4b2c6ddc691b8ba729ce8a",
+      "previousContractHash": "sha256:faa34eb2f57120a6287b89c252a990fa266c1774da4b2c6ddc691b8ba729ce8a",
+      "reason": "Add explicit high-risk release scenario coverage after preflight review; preserve original checkpoint receipt and require fresh revalidation.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T18:06:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0b8b67fbd8aeaa45a9e36c92fd4eced84d0abd79c96358e963054a9984405719",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:5e941adf029be175d301bf0e751fcff08c175eab1ac950df36299499356f4ae8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:faa34eb2f57120a6287b89c252a990fa266c1774da4b2c6ddc691b8ba729ce8a",
+      "previousContractHash": "sha256:3a988ab1c6b9af2db30705b71720143e7358982d7e242860e702f3b06880b352",
+      "reason": "Make language-specific documentation paths explicit because Runtime scope matching is exact or /** only; keep all declared release files within the same Contract.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T18:07:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0b8b67fbd8aeaa45a9e36c92fd4eced84d0abd79c96358e963054a9984405719",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:78e367a9b335af74306b1ef20d049967909277140c626fc5ddfc1fe0ea5772d1",
+  "createdAt": "2026-08-31T17:56:17Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:5e941adf029be175d301bf0e751fcff08c175eab1ac950df36299499356f4ae8",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The repository owner confirmed this exact Contract after the declared workspace verification passed; the remaining public adopter acceptance is explicitly deferred to the immutable post-release handoff.",
+    "recordedAt": "2026-09-01T03:40:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:78e367a9b335af74306b1ef20d049967909277140c626fc5ddfc1fe0ea5772d1",
+    "schemaVersion": 1,
+    "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "reason": "Public publication and adopter acceptance require the reviewed merge and immutable Release; no pre-publication claim is made.",
+    "state": "unknown"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T18:29:59Z",
+  "preflightContractDigest": "sha256:5e941adf029be175d301bf0e751fcff08c175eab1ac950df36299499356f4ae8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:78e367a9b335af74306b1ef20d049967909277140c626fc5ddfc1fe0ea5772d1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/annotated_tag_identity.sh",
+        "tests/ci/run_repository_gates.py"
+      ],
+      "expected": "A reviewed annotated tag is peeled to the reviewed source commit and the public Release is created only after every required gate passes.",
+      "reason": "The local strict release route and annotated-tag regression are passing; public publication remains a post-merge handoff.",
+      "required": true,
+      "scenario": "valid_annotated_release",
+      "status": "verified",
+      "verificationPlan": "Push the annotated v0.2.52 tag after reviewed merge and inspect the hosted publication workflow."
+    },
+    {
+      "evidence": [
+        "tests/release/annotated_tag_identity.sh",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "A lightweight tag has no peeled identity and cannot trigger a valid publication.",
+      "reason": "The regression fixture proves the lightweight tag has no peeled identity and the workflow policy requires an annotated tag.",
+      "required": true,
+      "scenario": "lightweight_tag_rejected",
+      "status": "verified",
+      "verificationPlan": "Run the fixture and inspect the release workflow identity check."
+    },
+    {
+      "expected": "A downloaded public artifact passes checksum-bound adopter acceptance in isolated roots without cargo build/run or workspace binary fallback.",
+      "reason": "Immutable public-artifact acceptance is a post-publication handoff; the hosted staged-adopter gates cover the pre-publication candidate and a separate post-release receipt will bind the public binary.",
+      "required": true,
+      "scenario": "public_adopter_without_source_fallback",
+      "status": "not_applicable",
+      "verificationPlan": "Run the public adopter and N-1 acceptance harnesses against the published v0.2.52 Release before installing it."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-31T18:30:03Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}

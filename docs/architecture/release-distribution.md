@@ -16,7 +16,11 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # Release Distribution Architecture
 
-The current immutable release baseline is `v0.2.51`. The failed `v0.2.49` tag
+The current immutable release baseline is `v0.2.52` after publication; before
+its provider Release exists, `v0.2.50` remains the installable public baseline.
+The reserved `v0.2.51` tag is an immutable failed publication attempt
+(workflow run `33417057474`), a lightweight tag with no provider Release; it is
+never reused. The failed `v0.2.49` tag
 is retained as immutable pre-publication history after workflow run
 `33379366308`; it has no public Release and is not an installation baseline.
 The failed `v0.2.35` tag
@@ -40,6 +44,13 @@ promotion was missing before tagging, and it is not an installation baseline.
 
 This page answers: **what is trusted during release, how can a person install
 the runtime, and where does Homebrew stop?**
+
+Publication starts only from a reviewed, synchronized default branch by
+pushing an annotated tag. The provider Release is created by the workflow after
+all source, artifact, and staged-acceptance gates pass; maintainers must not
+pre-create it with `gh release create`. A lightweight tag or a tag whose peeled
+commit is not the reviewed source commit is rejected, and a failed semantic tag
+is permanently reserved.
 
 ## Audience
 
@@ -133,7 +144,7 @@ approval-gated migration branch.
 - `cockpit-release` and the release workflow own the local release contract,
   deterministic manifest, Formula projection, hosted checks, and published
   Release identity.
-- The current immutable public baseline is `v0.2.51`; the public adopter
+- The current immutable public baseline is `v0.2.52`; the public adopter
   acceptance and N-1 upgrade acceptance are post-release evidence. An external Homebrew tap is a separate provider surface
   and is not implied by this repository.
 - The reserved `v0.2.24` tag and immutable `v0.2.25` tag are retained as failed

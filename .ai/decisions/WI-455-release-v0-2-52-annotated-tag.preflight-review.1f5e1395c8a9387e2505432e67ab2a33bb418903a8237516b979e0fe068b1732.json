@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5e941adf029be175d301bf0e751fcff08c175eab1ac950df36299499356f4ae8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "The repository owner confirmed this exact Contract after the declared workspace verification passed; the remaining public adopter acceptance is explicitly deferred to the immutable post-release handoff.",
+  "recordedAt": "2026-09-01T03:40:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:78e367a9b335af74306b1ef20d049967909277140c626fc5ddfc1fe0ea5772d1",
+  "schemaVersion": 1,
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}

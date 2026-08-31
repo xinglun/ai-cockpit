@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "Cargo metadata and release documentation consistently identify v0.2.52 without rewriting historical v0.2.51 failure evidence.",
+    "Release instructions and checks require an annotated tag push, reject lightweight tags, and do not precreate a provider Release.",
+    "Strict release gates, hosted workflow, immutable public artifact checksums, SBOM/provenance, and staged adopter acceptance pass without source or workspace binary fallback.",
+    "The published binary is installed only after checksum verification and the current repository reports healthy inspect, status, doctor, and agent doctor.",
+    "Object-repository inheritance and the immutable failed v0.2.51 publication history are explicitly documented."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:78e367a9b335af74306b1ef20d049967909277140c626fc5ddfc1fe0ea5772d1",
+      "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.52 from the reviewed main commit, verify public artifacts and adopter acceptance using only immutable release artifacts, then install and bind the published runtime to this repository."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}
