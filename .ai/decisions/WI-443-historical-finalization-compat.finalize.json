@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-merge-and-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0c0ab844c48d416c740859df6d8e433039675eed",
+    "name": "codex/wi-443-historical-finalization-compat",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f44dafd0c3a041a1153064bff1345a9e1df72adb6e0b6bad5cf9d2c4156ee8cd",
+  "operationId": "github-pr-412-merge-cleanup-20260831",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d3282f5f773bb0cc22ce14705c98c5535691fece",
+    "headRevision": "0c0ab844c48d416c740859df6d8e433039675eed",
+    "mergeCommit": "06f19f5043ed4204809d73eace2065041b96012d",
+    "number": 412,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/412"
+  },
+  "reason": "PR #412 passed all hosted checks, was merged as 06f19f50, and its exact branch and linked worktree were removed after synchronization.",
+  "receiptId": "github-pr-412-WI-443-historical-finalization-compat",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-443-historical-finalization-compat",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/412",
+    "worktree": "/private/tmp/ai-cockpit-wi443-historical-finalization-compat"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T07:14:00Z",
+  "workItemId": "WI-443-historical-finalization-compat",
+  "worktree": {
+    "branch": "codex/wi-443-historical-finalization-compat",
+    "headRevision": "0c0ab844c48d416c740859df6d8e433039675eed",
+    "path": "/private/tmp/ai-cockpit-wi443-historical-finalization-compat",
+    "worktreeId": "WI-443-historical-finalization-compat"
+  }
+}
