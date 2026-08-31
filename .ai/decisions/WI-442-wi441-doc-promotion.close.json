@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-442-wi441-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:810764f9e31749bc68c208bbd7d6c200b883994baba80550068c8b4a6f950a0f",
+      "workItemId": "WI-442-wi441-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-442-wi441-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-442-wi441-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-442-wi441-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-442-wi441-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-442-wi441-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-442-wi441-doc-promotion.verification.json",
+            ".ai/decisions/WI-442-wi441-doc-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-merge-and-cleanup at 2026-08-31T06:35:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-442-wi441-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-442-wi441-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-442-wi441-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Promote WI-441 terminal evidence into the three reference-parity ledgers without changing governance facts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-442-wi441-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-442-wi441-doc-promotion"
+  },
+  "finalReportDigest": "sha256:586a68ad607a051f60d97ae0ce5744df4728833c6293af8379507b7b05195ebb",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1b442e8f329edadba0342968989b140dd95003a9511229da02e8a99551c3733c",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-442-wi441-doc-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-merge-and-cleanup",
+    "decidedAt": "2026-08-31T06:35:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-442-wi441-doc-promotion.verification.json",
+      ".ai/decisions/WI-442-wi441-doc-promotion.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md#canonical-delivery-order"
+    ],
+    "reason": "PR #411 passed hosted checks, merged as 8b77867edf8fa33f8ea914bd2fda3daa66819ea1, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-31T06:36:31Z",
+  "workItemId": "WI-442-wi441-doc-promotion"
+}
