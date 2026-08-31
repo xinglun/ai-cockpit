@@ -13965,6 +13965,7 @@ fn append_task_outcome_recovery_event(
             .map(|event| vec![event.event_id.clone()])
             .unwrap_or_default(),
         correction_of: None,
+        finding_fingerprint: None,
     });
     let encoded = events
         .iter()
@@ -14001,6 +14002,7 @@ fn validate_task_outcome_events(
     })?;
     let mut events = Vec::new();
     let mut ids = std::collections::BTreeSet::new();
+    let mut finding_fingerprints = BTreeSet::new();
     for (line_number, line) in text.lines().enumerate() {
         if line.trim().is_empty() {
             continue;
@@ -14013,6 +14015,25 @@ fn validate_task_outcome_events(
                     line_number + 1
                 ),
             })?;
+        let is_finding_or_risk = matches!(event.event_type.as_str(), "finding" | "risk");
+        let is_explicit_correction = matches!(
+            event.event_type.as_str(),
+            "event_corrected" | "event_superseded"
+        ) && event.correction_of.is_some();
+        let correction_relationship_valid = !matches!(
+            event.event_type.as_str(),
+            "event_corrected" | "event_superseded"
+        ) || event.correction_of.is_some();
+        let fingerprint_valid = match event.finding_fingerprint.as_deref() {
+            Some(fingerprint) => valid_sha256_digest(fingerprint),
+            None => !is_finding_or_risk,
+        };
+        let fingerprint_is_new = event
+            .finding_fingerprint
+            .as_ref()
+            .is_none_or(|fingerprint| {
+                !finding_fingerprints.contains(fingerprint) || is_explicit_correction
+            });
         if event.schema_version != 1
             || event.repository_id != expected_repository_id
             || event.work_item_id != expected_work_item_id
@@ -14021,7 +14042,7 @@ fn validate_task_outcome_events(
             || event.timestamp.trim().is_empty()
             || event.detail.trim().is_empty()
             || !event_detail_is_safe(&event.detail)
-            || !ids.insert(event.event_id.clone())
+            || ids.contains(&event.event_id)
             || event.related_event_ids.iter().any(|id| !ids.contains(id))
             || event
                 .correction_of
@@ -14029,8 +14050,26 @@ fn validate_task_outcome_events(
                 .is_some_and(|id| !ids.contains(id))
             || !matches!(
                 event.event_type.as_str(),
-                "blocked" | "completed" | "warning" | "stop" | "resolution" | "recovered"
+                "blocked"
+                    | "finding"
+                    | "risk"
+                    | "warning"
+                    | "confirmation"
+                    | "stop"
+                    | "resume"
+                    | "resolution"
+                    | "risk-accepted"
+                    | "check-pass-after-fix"
+                    | "prevention"
+                    | "completed"
+                    | "cancelled"
+                    | "recovered"
+                    | "event_corrected"
+                    | "event_superseded"
             )
+            || !fingerprint_valid
+            || !fingerprint_is_new
+            || !correction_relationship_valid
         {
             return Err(ObserverError::State {
                 path: path.to_path_buf(),
@@ -14050,6 +14089,10 @@ fn validate_task_outcome_events(
                 message: "Task Outcome event evidence reference must be repository-relative".into(),
             });
         }
+        ids.insert(event.event_id.clone());
+        if let Some(fingerprint) = &event.finding_fingerprint {
+            finding_fingerprints.insert(fingerprint.clone());
+        }
         events.push(event);
     }
     if events.is_empty() {
@@ -14065,6 +14108,14 @@ fn validate_task_outcome_events(
 fn event_id(event_type: &str, detail: &str, timestamp: &str) -> String {
     let input = format!("{event_type}\n{detail}\n{timestamp}");
     format!("event-{}", Digest::sha256_bytes(input.as_bytes()))
+}
+
+fn finding_fingerprint(event_type: &str, detail: &str, evidence_refs: &[String]) -> String {
+    let normalized_detail = detail.split_whitespace().collect::<Vec<_>>().join(" ");
+    let mut refs = evidence_refs.to_vec();
+    refs.sort();
+    let input = format!("{event_type}\n{normalized_detail}\n{}", refs.join("\n"));
+    Digest::sha256_bytes(input.as_bytes()).to_string()
 }
 
 fn append_task_outcome_events(
@@ -14103,6 +14154,15 @@ fn append_task_outcome_events(
     };
     let timestamp = now();
     let mut append = |event_type: &str, detail: &str, evidence_refs: Vec<String>| {
+        let fingerprint = matches!(event_type, "finding" | "risk")
+            .then(|| finding_fingerprint(event_type, detail, &evidence_refs));
+        if fingerprint.as_ref().is_some_and(|fingerprint| {
+            events
+                .iter()
+                .any(|event| event.finding_fingerprint.as_ref() == Some(fingerprint))
+        }) {
+            return;
+        }
         let id = format!(
             "{}-{}",
             event_id(event_type, detail, &timestamp),
@@ -14122,6 +14182,7 @@ fn append_task_outcome_events(
                 .map(|event: &TaskOutcomeEvent| vec![event.event_id.clone()])
                 .unwrap_or_default(),
             correction_of: None,
+            finding_fingerprint: fingerprint,
         });
     };
     append(
@@ -14134,6 +14195,12 @@ fn append_task_outcome_events(
             .unwrap_or("Task Outcome report generated."),
         report.bindings.evidence_refs.clone(),
     );
+    for claim in &report.sections.findings {
+        append("finding", &claim.text, claim.evidence_refs.clone());
+    }
+    for claim in &report.sections.risks {
+        append("risk", &claim.text, claim.evidence_refs.clone());
+    }
     for claim in &report.sections.warnings {
         append("warning", &claim.text, claim.evidence_refs.clone());
     }
@@ -14142,6 +14209,21 @@ fn append_task_outcome_events(
     }
     for claim in &report.sections.resolutions {
         append("resolution", &claim.text, claim.evidence_refs.clone());
+    }
+    for claim in &report.sections.recurrence_prevention {
+        append("prevention", &claim.text, claim.evidence_refs.clone());
+    }
+    for claim in &report.sections.avoided_impact {
+        if !claim.inference {
+            append(
+                "check-pass-after-fix",
+                &claim.text,
+                claim.evidence_refs.clone(),
+            );
+        }
+    }
+    for claim in &report.sections.residual_risks {
+        append("risk", &claim.text, claim.evidence_refs.clone());
     }
     let encoded = events
         .iter()

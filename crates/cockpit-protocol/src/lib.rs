@@ -3166,6 +3166,10 @@ pub struct TaskOutcomeEvent {
     pub related_event_ids: Vec<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub correction_of: Option<String>,
+    /// Stable identity for finding/risk events.  Historical event records do
+    /// not require this additive field; new finding and risk events do.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub finding_fingerprint: Option<String>,
 }
 
 /// Repository-bound human decision that authorizes a retry or creates an

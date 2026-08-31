@@ -8,7 +8,7 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: WI-136
+lastVerifiedBy: WI-457
 capabilityClaims:
   - task_outcome_report
 ---
@@ -31,7 +31,8 @@ Rust Runtime 保留 `OutcomeV2` 作为稳定机器对象，并为新生成的 Ou
 ## 生命周期产物
 
 `finish` 后，active Work Item 会包含 `<id>.outcome.json` 和追加写入的
-`<id>.events.jsonl`。事件记录生成的完成、警告、停止和解决。`archive` 会
+`<id>.events.jsonl`。事件记录生成的完成、finding、risk、warning、stop、resolution、
+recurrence prevention 和有证据的 check-pass-after-fix。`archive` 会
 逐字节移动事件流，并在 archive manifest 中绑定 digest。`close` 会把已校验的
 报告作为 `finalReport` 写入 repository-bound close receipt，并写入
 `finalReportDigest`。
@@ -53,7 +54,9 @@ Rust Runtime 保留 `OutcomeV2` 作为稳定机器对象，并为新生成的 Ou
 
 事件流会拒绝 malformed JSON、未知字段、foreign repository/Work Item identity、
 不安全 evidence 路径、疑似 secret 内容、重复 ID，以及引用尚未出现事件的关系。
-修正必须新增事件，不能静默改写历史行。
+修正必须新增事件，不能静默改写历史行。Finding/risk 事件带确定性的
+`findingFingerprint`；重复值只有在显式 correction/supersession 绑定时才可接受。
+Rust 是参考源事件策略的语义 parity，不是 source JSON 的字节兼容，也不会导入参考源 Python generator。
 
 ## 面向人的交接
 

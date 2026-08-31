@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-31T20:41:49Z",
+  "files": {
+    "contractDigest": "sha256:874a2977583cd39af1b6c32ed22be45de9be77e6959a44f2293bc1c3041427ff",
+    "contractPath": ".ai/work-items/archive/WI-457-task-outcome-event-parity.contract.json",
+    "eventsDigest": "sha256:cb23c8641e3c735f709dde460c66dd8183209df6179c7edff50a56a9abea7e41",
+    "eventsPath": ".ai/work-items/archive/WI-457-task-outcome-event-parity.events.jsonl",
+    "outcomeDigest": "sha256:99a3e13915703755a587255ba2049327a7079c6da4daf9887781249851efb388",
+    "outcomePath": ".ai/work-items/archive/WI-457-task-outcome-event-parity.outcome.json",
+    "summaryDigest": "sha256:82ba7e62847f89fc6c6b96f4452ba15c522aec0599d8c61a7b2f290ce05078ae",
+    "summaryPath": ".ai/work-items/archive/WI-457-task-outcome-event-parity.summary.json",
+    "taskReportDigest": "sha256:d76823637dd32a1943344ad137a6954a0ddae06c3e28987357c76e48f0407cc7",
+    "taskReportMarkdownDigest": "sha256:e43c7fd736a155ff01faa65923644bb8c14d7b4989878923924cf6ad99ed4278",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-457-task-outcome-event-parity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-457-task-outcome-event-parity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-457-task-outcome-event-parity"
+}

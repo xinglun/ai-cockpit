@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-pr-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b73535eee76d7aee9dc69c19bc9ff5adc3ac311e",
+    "name": "codex/wi-457-task-outcome-event-parity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:874a2977583cd39af1b6c32ed22be45de9be77e6959a44f2293bc1c3041427ff",
+  "operationId": "github-pr-427-premerge-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7254ac7eaa18cd2fdaaddb5011bfba23840bd674",
+    "headRevision": "b73535eee76d7aee9dc69c19bc9ff5adc3ac311e",
+    "number": 427,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/427"
+  },
+  "reason": "PR #427 is open and unmerged; retain the exact clean branch and worktree until hosted review and merge.",
+  "receiptId": "ai-cockpit-WI-457-task-outcome-event-parity-premerge-20260901",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-457-task-outcome-event-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/427",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-457-task-outcome-event-parity"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8912fb98f538589f25e4850a8921b1867df36e5df1d26ec15740c533a371fdde",
+  "runtimeVersion": "0.2.52",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T20:43:20Z",
+  "workItemId": "WI-457-task-outcome-event-parity",
+  "worktree": {
+    "branch": "codex/wi-457-task-outcome-event-parity",
+    "headRevision": "b73535eee76d7aee9dc69c19bc9ff5adc3ac311e",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-457-task-outcome-event-parity",
+    "worktreeId": "WI-457-task-outcome-event-parity"
+  }
+}

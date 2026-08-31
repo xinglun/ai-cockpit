@@ -8,7 +8,7 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: WI-136
+lastVerifiedBy: WI-457
 capabilityClaims:
   - task_outcome_report
 ---
@@ -34,8 +34,9 @@ release, provider approval, enterprise assurance, or security claim.
 ## Lifecycle artifacts
 
 After `finish`, the active Work Item contains `<id>.outcome.json` and an
-append-only `<id>.events.jsonl`. Events record generated completion, warnings,
-stops, and resolutions. `archive` moves the event stream byte-for-byte and
+append-only `<id>.events.jsonl`. Events record generated completion, findings,
+risks, warnings, stops, resolutions, recurrence prevention, and
+evidence-backed check-pass-after-fix claims. `archive` moves the event stream byte-for-byte and
 binds its digest in the archive manifest. `close` copies the validated report
 into the repository-bound close receipt as `finalReport` with
 `finalReportDigest`.
@@ -60,7 +61,11 @@ it is archived or reconciled.
 Event streams reject malformed JSON, unknown fields, foreign repository or
 Work Item identity, unsafe evidence paths, secret-like content, duplicate IDs,
 and relationships to events that have not already appeared. Corrections must
-be new events; historical lines are never silently edited.
+be new events; historical lines are never silently edited. Finding and risk
+events carry a deterministic `findingFingerprint`; duplicates are rejected
+unless explicitly linked as correction/supersession. This Rust projection is
+semantic parity with the reference event policy, not byte-level source JSON
+compatibility, and it does not import the reference Python generators.
 
 ## Human handoff
 
