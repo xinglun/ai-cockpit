@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-runtime-recovery",
+  "decidedAt": "2026-08-31T13:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:fce21e5888dc1ebd5c91aa7b6da790813de742f09e9ded8a877360765f15d2f5",
+  "predecessorEventsDigest": "sha256:cebf3ffebad1930136ce597dbc050becc2fcb50b9284bc749c323ad30e7ead28",
+  "predecessorOutcomeDigest": "sha256:29e4acffa73f76d1f445724070b7375353b3f6c727c30d9fb00f97a0d7caaa63",
+  "predecessorSummaryDigest": "sha256:f9fba3e02177b713df6ede52ec94e04fe7dd2f5423aea8489ed54899e96cb581",
+  "predecessorWorkItemId": "WI-449-historical-finalization-adopter-recovery",
+  "reason": "Retry after refreshing required preflight and verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun current preflight and finish only after valid verification evidence is bound.",
+  "runtimeDigest": "sha256:eacd3768d451ed4661759da02714acf47d8139d53a9c89c6087413f67e2befd7",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "workItemId": "WI-449-historical-finalization-adopter-recovery"
+}

@@ -15,7 +15,7 @@ use cockpit_repository::{
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
     generate_knowledge, plan_resource_finalization, preflight_work_item_with_runtime,
     record_resource_finalization, resolve_verification_route, run_repository_verification,
-    scaffold_work_item, start_work_item_with_options, status, verify_resource_finalization,
+    scaffold_work_item, start_work_item_with_options, verify_resource_finalization,
 };
 use serde_json::json;
 use std::{fs, path::PathBuf};
@@ -418,6 +418,17 @@ enum WorkItemCommand {
         #[arg(long)]
         input: PathBuf,
     },
+    /// Inspect immutable legacy finalization facts and print a recovery
+    /// skeleton without writing repository state.
+    FinalizeRecoveryPlan {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// Optional real merge commit for a historical direct merge without a PR.
+        #[arg(long)]
+        merge_commit: Option<String>,
+    },
     Status {
         #[arg(long)]
         repo: PathBuf,
@@ -646,7 +657,9 @@ fn run() -> Result<()> {
             println!("{}", serde_json::to_string_pretty(&profile)?);
         }
         CommandKind::Status { repo } => {
-            let repository_status = status(&repo).context("read repository status")?;
+            let repository_status =
+                cockpit_repository::status_with_runtime(&repo, Some(&runtime_context))
+                    .context("read repository status")?;
             let compatibility = cockpit_repository::compatibility_report(&repo, &runtime_context)
                 .context("read repository compatibility")?;
             let mut output = serde_json::to_value(repository_status)?;
@@ -660,8 +673,9 @@ fn run() -> Result<()> {
         }
         CommandKind::Migrate { command } => match command {
             MigrateCommand::Plan { repo } => {
-                let plan = cockpit_repository::migration_plan(&repo)
-                    .context("plan repository migration")?;
+                let plan =
+                    cockpit_repository::migration_plan_with_runtime(&repo, Some(&runtime_context))
+                        .context("plan repository migration")?;
                 println!("{}", serde_json::to_string_pretty(&plan)?);
             }
             MigrateCommand::Apply { repo, approved } => {
@@ -1250,6 +1264,21 @@ fn run() -> Result<()> {
                     &runtime_context,
                 )
                 .context("record historical finalization recovery")?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::FinalizeRecoveryPlan {
+                repo,
+                id,
+                merge_commit,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let result = cockpit_repository::historical_finalization_recovery_plan(
+                    &repo,
+                    &id,
+                    &runtime_context,
+                    merge_commit.as_deref(),
+                )
+                .context("plan historical finalization recovery")?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
             }
             WorkItemCommand::Status {

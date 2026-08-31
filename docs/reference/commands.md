@@ -124,6 +124,20 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   `historicalKind=direct_merge_no_pr` finalization receipt for a no-PR merge.
   The predecessor is never rewritten, and the recovery record cannot by itself
   make a Work Item green.
+- `work-item finalize-recovery-plan --repo <path> --id <id>` is the read-only
+  discovery boundary for that recovery. It reports the immutable predecessor
+  path/digest, producer Runtime identity, inferred shared-primary disposition,
+  and the exact human fields still required. For a historical direct merge,
+  pass the real `--merge-commit <sha>`; the plan verifies its parents and emits
+  a `pullRequest.number=0`/`historical://direct-merge/<sha>` receipt skeleton.
+  It never writes `.ai/decisions` and never invents a PR number, authority, or
+  human decision.
+- `migrate plan --repo <path>` remains schema-compatible when the repository is
+  current, but now also reports `historicalFinalization`. A stale receipt with
+  a valid bound close is `historical_verified`/`historical_low`; a pending or
+  unreadable receipt is `recovery_required` or `invalid` with safe actions.
+  Historical discovery is separate from schema migration and does not rewrite
+  predecessor bytes.
 - `finish`, `archive`, and `close` preserve their lifecycle JSON on stdout and,
   by default, render the same validated human Outcome on stderr. Add `--json`
   for machine-only output. When `finish` is blocked, the CLI first renders the
@@ -306,6 +320,12 @@ verification, and ordinary archived Work Items must pass `finalize` and
 shared-worktree or direct-merge receipts may use the documented low-assurance
 retained exception after their Git facts are verified; retained never
 authorizes a new Work Item close.
+
+The Runtime rejects `finalize-plan` once the Work Item has reached
+`finish_ready`; bind the resource context before verification so a late plan
+cannot invalidate an already recorded verification cycle. A checkpointed item
+may still bind a provisional context before verification, as an explicit
+recovery/setup step.
 
 The acceptance receipt also records typed before/after manifests for every
 isolated root. `HOME` and `XDG_CONFIG_HOME` have empty `allowedPrefixes` and

@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-runtime-recovery",
+  "decidedAt": "2026-08-31T13:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:adc9bbac85944313832afa51872bd7c77152194070a98a3de82522b815718aa2",
+  "predecessorEventsDigest": "sha256:cebf3ffebad1930136ce597dbc050becc2fcb50b9284bc749c323ad30e7ead28",
+  "predecessorOutcomeDigest": "sha256:29e4acffa73f76d1f445724070b7375353b3f6c727c30d9fb00f97a0d7caaa63",
+  "predecessorSummaryDigest": "sha256:912caf13af08aecadb99f9e388ff859298be90584d72f67b6bbd9f91496987e3",
+  "predecessorWorkItemId": "WI-449-historical-finalization-adopter-recovery",
+  "reason": "Retry after Contract amendment with a new identity-bound recovery receipt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun current preflight and finish only after valid verification evidence is bound.",
+  "runtimeDigest": "sha256:eacd3768d451ed4661759da02714acf47d8139d53a9c89c6087413f67e2befd7",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "workItemId": "WI-449-historical-finalization-adopter-recovery"
+}

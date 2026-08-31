@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-runtime-recovery",
+  "decidedAt": "2026-08-31T13:40:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:adc9bbac85944313832afa51872bd7c77152194070a98a3de82522b815718aa2",
+  "predecessorEventsDigest": "sha256:de8624569b096f2d19bcad5063c5ec61f04660f53ac1c11b2898c8697e343269",
+  "predecessorOutcomeDigest": "sha256:f33951a2ff695aea82281050ddd0e45c52e54eb050d80769dc3a75f588c01852",
+  "predecessorSummaryDigest": "sha256:57edc2f41eeb0dc49a7f62e76a4dd943b057e337313330ee1971e65172e1043b",
+  "predecessorWorkItemId": "WI-449-historical-finalization-adopter-recovery",
+  "reason": "Retry after late resource-plan recovery with the source Runtime guard enabled.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun current preflight and finish only after valid verification evidence is bound.",
+  "runtimeDigest": "sha256:61fd643961703dd0ad2da3f7d5585f532213516dfcbb208a91e3cc04d31b52b0",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "workItemId": "WI-449-historical-finalization-adopter-recovery"
+}

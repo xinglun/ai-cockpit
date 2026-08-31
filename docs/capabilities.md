@@ -133,6 +133,15 @@ protocol files and migration record; archived Work Items, evidence, decisions,
 and knowledge remain byte-for-byte historical records. `INCOMPATIBLE` stops
 without a write and requires a Runtime that understands the stored schema.
 
+When a repository is opened with a newer Runtime, `migrate plan` and
+`status` also expose a `historicalFinalization` inventory. A valid close-bound
+old receipt is projected as `historical_verified` with `historical_low`
+assurance; a pending or unreadable predecessor remains `recovery_required` or
+`invalid`. Use the read-only `work-item finalize-recovery-plan` command to
+inspect the facts before the explicit recovery or complete direct-merge
+`finalize` path. Historical bytes are never rewritten and historical status
+does not authorize a new Work Item.
+
 When the attached protocol files are present, stateful governance operations
 (`preflight`, Work Item creation/lifecycle, `verify`, knowledge/profile writes,
 Agent adapter writes, and governed MCP calls) require `COMPATIBLE`. A

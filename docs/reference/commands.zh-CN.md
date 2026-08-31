@@ -86,6 +86,16 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
   和 timestamp。旧主 worktree receipt 使用 `historicalKind=shared_worktree_retained`；无 PR 的
   合并必须使用完整的 `historicalKind=direct_merge_no_pr` finalization receipt。predecessor 永不
   改写，recovery 记录本身也不能让 Work Item 变绿。
+- `work-item finalize-recovery-plan --repo <path> --id <id>` 是只读的历史恢复发现入口。
+  它输出不可变 predecessor 的路径/摘要、生成它的 Runtime identity、推导出的共享主 worktree
+  disposition，以及仍需人工提供的字段。历史 direct merge 可追加真实的
+  `--merge-commit <sha>`；Runtime 会校验真实 parents，并生成带
+  `pullRequest.number=0` 与 `historical://direct-merge/<sha>` 的 receipt 骨架。该命令不写入
+  `.ai/decisions`，不会虚构 PR 号、authority 或 human decision。
+- `migrate plan --repo <path>` 在 schema 已兼容时仍保持兼容，但会额外输出
+  `historicalFinalization`。已有有效 close 绑定的旧 receipt 标记为
+  `historical_verified`/`historical_low`；待恢复或不可读的记录标记为 `recovery_required` 或
+  `invalid`，并给出安全 action。历史发现与 schema migration 分离，不会改写 predecessor bytes。
 - `finish`、`archive`、`close` 保持 stdout 生命周期 JSON 不变，并默认在 stderr
   渲染同一份已校验的人类 Outcome；机器专用输出使用 `--json`。`finish` 被阻止时，
   CLI 先输出已持久化的红色或黄色 Outcome，再返回原有 nonzero 错误，绝不会把失败门禁
@@ -195,6 +205,10 @@ shared-worktree 或 direct-merge receipt 在 Git 事实验证后可以使用文�
 `allowedPrefixes` 必须为空且保持不变；只有 `TMPDIR` 与 `CARGO_HOME` 允许 Runtime 写入，且 allowlist 明确限制为
 `<TMPDIR>/**` 与 `<CARGO_HOME>/**`。清理状态记录在 `cleanup.json` 以及 `cleanupState`/`cleanupError` 中；清理失败
 会使验收失败，但不会撤销或改写已发布 Release truth。
+
+Runtime 在 Work Item 进入 `finish_ready` 后会拒绝 `finalize-plan`；应在
+verification 之前绑定 resource context，避免晚绑定使已记录的验证周期失效。处于 checkpointed 的 Work Item
+仍可在 verification 前绑定 provisional context，作为显式恢复/准备步骤。
 
 `tests/conformance/final_replacement_acceptance.sh` 是源码仓库的最终替代边界，记录安装的 Runtime identity、锁定的
 reference oracle、conformance/adversarial/performance gate 和无复制检查，并生成 `acceptance.json` 与 `SHA256SUMS`。
