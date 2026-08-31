@@ -385,7 +385,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-443——历史 finalization 兼容 | 已实现 | [Work Item](../work-items/WI-443-historical-finalization-compat.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-443-historical-finalization-compat.contract.json`; verification `.ai/evidence/WI-443-historical-finalization-compat.verification.json`; finalization `.ai/decisions/WI-443-historical-finalization-compat.finalize.json`; close `.ai/decisions/WI-443-historical-finalization-compat.close.json`. |
 | WI-444——发布 v0.2.48 | 已实现 | [Work Item](../work-items/WI-444-release-v0-2-48.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-444-release-v0-2-48.contract.json`; verification `.ai/evidence/WI-444-release-v0-2-48.verification.json`; finalization `.ai/decisions/WI-444-release-v0-2-48.finalize.json`; close `.ai/decisions/WI-444-release-v0-2-48.close.json`. |
 | WI-446——历史 finalization 恢复 | 已实现 | [Work Item](../work-items/WI-446-historical-finalization-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-446-historical-finalization-recovery.contract.json`; verification `.ai/evidence/WI-446-historical-finalization-recovery.verification.json`; finalization `.ai/decisions/WI-446-historical-finalization-recovery.finalize.json`; close `.ai/decisions/WI-446-historical-finalization-recovery.close.json`. |
-| WI-447——发布 v0.2.49 | 进行中 | [Work Item](../work-items/WI-447-release-v0-2-49.zh-CN.md); 发布基线和公开制品验收进行中。 |
+| WI-447——发布 v0.2.49 | 进行中 | [Work Item](../work-items/WI-447-release-v0-2-49.zh-CN.md); verification `.ai/evidence/WI-447-release-v0-2-49.verification.json`; 发布基线和公开制品验收进行中；等待评审合并后 finalization/close。 |
 
 ## 当前边界
 
