@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "Local reference source is required explicitly and its Git HEAD is checked against a recorded 40-character commit.",
+    "No active conformance script or GitHub Actions job fetches the public reference URL or requires network access to the reference repository.",
+    "Historical inventory and Work Item evidence remain immutable; current documentation distinguishes historical baseline from the local current source.",
+    "Offline semantic conformance remains executable in hosted CI without copying V1 Runtime code or Python modules.",
+    "Three-language reference documentation and conformance instructions describe the local-source workflow and fail-closed missing/mismatched source behavior."
+  ],
+  "authority": "authorized",
+  "baseRevision": "189a60c1792d82fc4c2c9f65f04e6ce5f33addb5",
+  "createdAt": "2026-08-30T23:52:06Z",
+  "goal": "Bind future reference comparisons to an explicit local Git checkout and pinned commit, remove active public-network reference dependency from conformance CI, and document the semantic/non-copy boundary.",
+  "intent": "Use the operator-maintained local reference checkout as the sole current comparison source after the public reference repository is closed, while preserving historical comparison truth.",
+  "mode": "documentation",
+  "outOfScope": [
+    "Rust Runtime production code",
+    "historical docs/work-items and immutable evidence",
+    "copying the reference Python/Make/runtime or source fixtures",
+    "user-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3c665ec21a9a2fed662f4f34fb12bb31e24b19ee6d9c61a6e1423683694c2344",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "conformance"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-433-local-reference-source",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi433-local-reference"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/**",
+    ".github/workflows/ci.yml",
+    "docs/reference/**",
+    "crates/cockpit-core/tests/conformance.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-433-local-reference-source-binding"
+}

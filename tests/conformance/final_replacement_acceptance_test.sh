@@ -7,7 +7,12 @@ test -x "$script"
 bash -n "$script"
 grep -q -- '--repo' "$script"
 grep -q -- 'runtimeDigest' "$script"
-grep -q -- 'v1ReferenceCommit' "$script"
+grep -q -- 'referenceSourceCommit' "$script"
+public_reference='spirex-ds-dev/'"ai-cockpit-template"
+if grep -q "$public_reference" "$script"; then
+  echo 'final acceptance must not access the public reference repository' >&2
+  exit 1
+fi
 grep -q -- 'SHA256SUMS' "$script"
 grep -q -- 'cargo test -p cockpit-core --test adversarial_v2' "$script"
 grep -q -- 'no-copied-v1-runtime' "$script"

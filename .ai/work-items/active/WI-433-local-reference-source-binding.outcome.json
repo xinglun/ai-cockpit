@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "Local reference source is required explicitly and its Git HEAD is checked against a recorded 40-character commit.",
+    "No active conformance script or GitHub Actions job fetches the public reference URL or requires network access to the reference repository.",
+    "Historical inventory and Work Item evidence remain immutable; current documentation distinguishes historical baseline from the local current source.",
+    "Offline semantic conformance remains executable in hosted CI without copying V1 Runtime code or Python modules.",
+    "Three-language reference documentation and conformance instructions describe the local-source workflow and fail-closed missing/mismatched source behavior."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f84245bdcbebecb24ea59f385dd9746948326ee4465bcc8e3151def53f1b623",
+      "workItemId": "WI-433-local-reference-source-binding"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-433-local-reference-source-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-433-local-reference-source-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-433-local-reference-source-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-433-local-reference-source-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-433-local-reference-source-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-433-local-reference-source-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind future reference comparisons to an explicit local Git checkout and pinned commit, remove active public-network reference dependency from conformance CI, and document the semantic/non-copy boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-433-local-reference-source-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-433-local-reference-source-binding"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-433-local-reference-source-binding.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-433-local-reference-source-binding"
+}

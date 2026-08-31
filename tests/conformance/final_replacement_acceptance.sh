@@ -50,27 +50,18 @@ runtime_version=${runtime_version#ai-cockpit }
 runtime_digest=$(hash_file "$(command -v "$runtime")")
 runtime_path=$(command -v "$runtime")
 repository_id=$("$runtime" status --repo "$repo" | python3 -c 'import json,sys; print(json.load(sys.stdin)["repositoryId"])')
-reference_commit=$(sed -n 's/^commit = "\([0-9a-f]\{40\}\)"$/\1/p' "$root/tests/conformance/v1-reference.lock")
-[[ "$reference_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "invalid V1 reference lock" >&2; exit 1; }
+reference_commit=$(sed -n 's/^commit = "\([0-9a-f]\{40\}\)"$/\1/p' "$root/tests/conformance/reference-source.lock")
+[[ "$reference_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "invalid local reference source lock" >&2; exit 1; }
 
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/ai-cockpit-final-replacement.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
-reference_root="$tmp/v1-reference"
-git init -q "$reference_root"
-git -C "$reference_root" fetch --depth=1 \
-  https://github.com/spirex-ds-dev/ai-cockpit-template.git "$reference_commit"
-git -C "$reference_root" checkout -q --detach FETCH_HEAD
-[[ "$(git -C "$reference_root" rev-parse HEAD)" == "$reference_commit" ]] || {
-  echo "fetched V1 reference does not match the lock" >&2
-  exit 1
-}
 
 printf '%s\n' \
   "runtime=$runtime_path" \
   "version=$runtime_version" \
   "digest=sha256:$runtime_digest" \
   "repositoryId=$repository_id" \
-  "v1ReferenceCommit=$reference_commit" > "$output/runtime.txt"
+  "referenceSourceCommit=$reference_commit" > "$output/runtime.txt"
 
 steps_file="$tmp/steps.tsv"
 : > "$steps_file"
@@ -98,8 +89,8 @@ run_step release-workflow-policy \
   bash "$root/tests/release/workflow_policy.sh" "$root/.github/workflows/release.yml"
 run_step outcome-dialog-test \
   cargo test -p cockpit-cli --test intelligence -- --test-threads=1
-run_step locked-v1-oracle \
-  env AI_COCKPIT_V1_ROOT="$reference_root" cargo test -p cockpit-core --test v1_oracle -- --ignored --test-threads=1
+run_step reference-source-policy \
+  python3 "$root/tests/conformance/reference_source_policy.py" --lock "$root/tests/conformance/reference-source.lock"
 
 tracked_copy=$(git -C "$root" ls-files | grep -E '(^|/)(Makefile\.ai|ai_cockpit/|installer/|runtime/)' || true)
 if [[ -n "$tracked_copy" ]]; then
@@ -129,7 +120,7 @@ payload = {
     "runtimeVersion": version,
     "runtimeDigest": "sha256:" + digest,
     "repositoryId": repository_id,
-    "v1ReferenceCommit": reference_commit,
+    "referenceSourceCommit": reference_commit,
     "steps": steps,
 }
 pathlib.Path(out, "acceptance.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")

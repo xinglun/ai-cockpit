@@ -1,17 +1,25 @@
 {
   "protocolVersion": 1,
   "oracle": {
-    "sourceLock": "v1-reference.lock",
+    "sourceLock": "reference-source.lock",
     "offline": {
       "mode": "offline-semantic-fixtures",
       "runtimeInvoked": false
     },
     "executable": {
-      "mode": "locked-external-v1-runtime",
+      "mode": "offline-semantic-fixtures",
+      "runtimeInvoked": false,
+      "adapter": "crates/cockpit-core/tests/conformance.rs",
+      "test": "cargo test -p cockpit-core --test conformance -- --test-threads=1",
+      "comparison": ["decisionState", "blockers", "unknowns", "safeActions", "requiredChecks", "authority", "outcomeState"]
+    },
+    "localReference": {
+      "mode": "locked-local-reference-runtime",
       "runtimeInvoked": true,
       "adapter": "v1_oracle.py",
       "test": "cargo test -p cockpit-core --test v1_oracle -- --ignored",
-      "comparison": ["decisionState", "blockers", "unknowns", "safeActions", "requiredChecks", "authority", "outcomeState"]
+      "sourcePathEnv": "AI_COCKPIT_REFERENCE_ROOT",
+      "sourceLock": "v1-reference.lock"
     }
   },
   "fixtureLayout": ["repository/", "contract.json", "evidence/", "input.json", "expected.json"],

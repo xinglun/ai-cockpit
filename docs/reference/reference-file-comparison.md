@@ -14,15 +14,24 @@ capabilityClaims:
 
 # Reference file comparison
 
-This page explains how the Rust project compares itself with the public
-reference source one file at a time. The reference is a specification and
-behavior corpus; it is not a directory to copy into the Rust Runtime.
+This page explains how the Rust project compares itself with the operator's
+local reference source one file at a time. The reference is a specification
+and behavior corpus; it is not a directory to copy into the Rust Runtime.
 
 ## Pinned baseline
 
-- Reference: [`spirex-ds-dev/ai-cockpit-template`](https://github.com/spirex-ds-dev/ai-cockpit-template) at `e5acb677da6621004d96f0ef353c58fe8d3acfbf`.
+- Current reference checkout: the local Git checkout supplied through
+  `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
+  `fde3380f81fea5fd2e288f7a8849f737dc074060` in
+  `tests/conformance/reference-source.lock`.
 - Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`.
 - Runtime used for the comparison work: `ai-cockpit 0.2.33`, binary SHA256 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`.
+
+The inventory ledger remains a historical snapshot of the earlier
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf` source baseline so completed
+file-by-file records stay immutable. A future comparison batch must explicitly
+rebaseline the ledger from the local checkout; it must not silently mix source
+commits. Missing, dirty, or mismatched local source is fail-closed.
 
 This page reports only the current pinned comparison baseline. Historical
 delivery details are retained in Work Item archive evidence, not in this

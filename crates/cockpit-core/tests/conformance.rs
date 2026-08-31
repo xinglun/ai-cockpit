@@ -88,8 +88,10 @@ fn corpus_manifest_and_fixture_layout_are_complete() {
     let manifest: serde_json::Value =
         serde_json::from_slice(&fs::read(root.join("manifest.json")).expect("manifest"))
             .expect("manifest JSON");
+    assert_eq!(manifest["oracle"]["sourceLock"], "reference-source.lock");
     assert_eq!(manifest["oracle"]["offline"]["runtimeInvoked"], false);
-    assert_eq!(manifest["oracle"]["executable"]["runtimeInvoked"], true);
+    assert_eq!(manifest["oracle"]["executable"]["runtimeInvoked"], false);
+    assert_eq!(manifest["oracle"]["localReference"]["runtimeInvoked"], true);
     assert_eq!(
         manifest["oracle"]["executable"]["comparison"],
         manifest["comparison"]

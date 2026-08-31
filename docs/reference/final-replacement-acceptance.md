@@ -23,14 +23,17 @@ the exact locked reference commit, each gate result, `acceptance.json`, and a
 
 The gates are deliberately separate:
 
-- locked reference conformance;
+- committed offline semantic conformance;
 - adversarial negative corpus;
 - performance regression with a rejected negative candidate;
 - release workflow policy;
 - human-facing Outcome output;
-- executable locked-reference oracle;
+- local-reference lock policy (metadata only; no network fetch);
 - tracked-path check proving no V1 runtime implementation was copied.
 
 The harness fails closed. It does not call `cargo build`, `cargo run`, a
 workspace binary, or a local `target/` fallback. A green receipt proves this
-acceptance boundary only; it does not authorize merge or publication.
+acceptance boundary only; it does not authorize merge or publication. The
+source-specific oracle is maintainer-local: set `AI_COCKPIT_REFERENCE_ROOT` to
+a clean checkout at the lock's commit before running the ignored oracle test.
+Hosted CI never fetches that source.
