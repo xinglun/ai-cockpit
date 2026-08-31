@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-438-reference-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-08-31T03:51:13Z",
-  "checkpointContractDigest": "sha256:d4fed85d0484d61341b2f48d4279fd5656e84b451859003714fc9350ecb6d88a",
+  "checkpointContractDigest": "sha256:922be3616b381fd744504de50da7f662c587a299b74efc41afac95b20aa51fde",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,22 +42,23 @@
       "workItemId": "WI-438-reference-doc-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:c83ea1b800cd037d5c89e732e3e93858b5c3db40e315f527a06e7c4a6403a230",
+  "checkpointRepositorySnapshotDigest": "sha256:ef944d48e57d29dca1b503a8e65cf8ac7e37b1355c6c51eb35a1c8a3070f49c1",
   "createdAt": "2026-08-31T03:49:40Z",
   "mode": "docs",
-  "preflightAt": "2026-08-31T03:51:09Z",
-  "preflightContractDigest": "sha256:d4fed85d0484d61341b2f48d4279fd5656e84b451859003714fc9350ecb6d88a",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:c83ea1b800cd037d5c89e732e3e93858b5c3db40e315f527a06e7c4a6403a230",
-  "preflightState": "not_run",
+  "preflightAt": "2026-08-31T04:05:03Z",
+  "preflightContractDigest": "sha256:922be3616b381fd744504de50da7f662c587a299b74efc41afac95b20aa51fde",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ef944d48e57d29dca1b503a8e65cf8ac7e37b1355c6c51eb35a1c8a3070f49c1",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-08-31T03:51:13Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:922be3616b381fd744504de50da7f662c587a299b74efc41afac95b20aa51fde",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-08-31T03:54:19Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-438-reference-doc-promotion"
 }
