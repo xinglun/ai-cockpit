@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Tri-language WI-457 Work Item pages are regular files, terminal, linked to immutable archive/evidence/finalization/close records, and pass promote_closed_work_item --check-all.",
+    "The three reference-parity documents contain one terminal WI-457 entry with accurate semantic scope and evidence links, and do not alter WI-445-owned inventory files.",
+    "The WI-457 pending parity registry bridge is removed after terminal parity rows are present; no unrelated registry entries are changed.",
+    "WI-458 owns tri-language documentation, the promotion helper check, documentation acceptance, and reference parity checks; no governance facts or generated .ai records are hand-edited.",
+    "After reviewed PR merge and exact cleanup, promote_closed_work_item --check-all passes and the root repository is ready_on_base."
+  ],
+  "authority": "authorized",
+  "baseRevision": "cdc07b4b195d3a1a191fde759247d9577f412007",
+  "createdAt": "2026-08-31T21:06:20Z",
+  "goal": "Promote WI-457 terminal documentation and parity records so closed Work Item promotion succeeds and the repository can safely resume the next reference-source comparison batch.",
+  "intent": "Restore the required tri-language Work Item documentation projection for the closed WI-457 semantic parity batch, and remove its temporary parity registry bridge without changing immutable runtime evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust runtime code",
+    " runtime tests",
+    " CI workflows",
+    " .ai generated lifecycle records",
+    " historical evidence/archive bytes",
+    " WI-445-owned inventory/parity files",
+    " object repositories",
+    " release packaging",
+    " and global Agent/MCP configuration."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:44837a0b76f84dc1fff39bb4921e106f21a40208814a305a05e42ad12a39c76b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-458-wi457-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-458-wi457-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-457-task-outcome-event-parity.md",
+    "docs/work-items/WI-457-task-outcome-event-parity.zh-CN.md",
+    "docs/work-items/WI-457-task-outcome-event-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-458-wi457-doc-promotion.md",
+    "docs/work-items/WI-458-wi457-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-458-wi457-doc-promotion.ja.md",
+    "docs/reference/pending-parity-registry.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-458-wi457-doc-promotion"
+}
