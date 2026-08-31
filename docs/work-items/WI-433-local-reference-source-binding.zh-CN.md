@@ -4,7 +4,7 @@ title: "WI-433——本地参考源绑定"
 workItemId: WI-433-local-reference-source-binding
 description: "将参考对比绑定到维护者管理的本地 checkout 与固定提交，不提供联网回退或源代码复制。"
 audience: [maintainer, reviewer, adopter]
-status: 进行中
+status: in_progress
 authority: human-authorized
 lastVerifiedBy: WI-433-local-reference-source-binding
 ---
