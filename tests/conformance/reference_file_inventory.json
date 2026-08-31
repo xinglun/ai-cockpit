@@ -35190,8 +35190,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "locales/wizard/en.json",
@@ -35219,32 +35222,44 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "pyproject.toml",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "release-state.json",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "release.json",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "requirements-dev.in",
@@ -35289,8 +35304,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_baseline_evidence.py",
@@ -35387,8 +35405,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_budget_impact.py",
@@ -35458,16 +35479,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_reference_impact.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_registry.py",
@@ -35519,24 +35546,33 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_summary.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_task_outcome.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_test_weakening.py",
@@ -35579,8 +35615,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_common.py",
@@ -35714,8 +35753,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_external_handoff.py",
@@ -35743,16 +35785,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_generate_human_report.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_generate_knowledge_record.py",
@@ -35766,16 +35814,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_generate_task_outcome.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_generate_work_item_status.py",
@@ -35824,8 +35878,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_install_status.py",
@@ -35860,8 +35917,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_installer_detection.py",
@@ -35991,8 +36051,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_outcome_gate.py",
@@ -36038,8 +36101,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_preflight_review.py",
@@ -36120,16 +36186,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_render_task_outcome_multilingual.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_render_task_outcome_pr.py",
@@ -36202,8 +36274,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_start_receipt.py",
@@ -36301,8 +36376,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_verification_runtime.py",
@@ -36316,8 +36394,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_wizard_io.py",
@@ -36398,8 +36479,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/check_ci_release_evidence.sh",
@@ -36441,8 +36525,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/check_instruction_traceability.py",
@@ -36470,8 +36557,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/check_release_preflight.py",
@@ -36492,8 +36582,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/check_system_invariants.py",
@@ -36521,8 +36614,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/determine_quality_scope.py",
@@ -36536,8 +36632,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ensure_locked_dev_environment.py",
@@ -36642,8 +36741,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/installer/ownership.py",
@@ -36692,8 +36794,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/quality_session_lock.py",
@@ -36714,8 +36819,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/real_adopter_reference_validation.py",
@@ -36729,8 +36837,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/run_quality_gate.py",
@@ -36758,8 +36869,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/unsupported_claim_gate.py",
@@ -36882,8 +36996,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "templates/stacks/android.mk",
@@ -37068,8 +37185,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_adoption_evidence.py",
@@ -37097,8 +37217,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_ai_check_agent_risk.py",
@@ -37146,8 +37269,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_ai_check_work_item.py",
@@ -37229,8 +37355,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_ai_parallel_verification.py",
@@ -37254,8 +37383,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_ai_project_doctor.py",
@@ -37395,8 +37527,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_checkpoint_intent.py",
@@ -37451,8 +37586,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_critical_coverage.py",
@@ -37501,8 +37639,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_derived_artifacts.py",
@@ -37565,8 +37706,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_documentation_comprehension_validation.py",
@@ -37587,8 +37731,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_documentation_p0_adoption_security.py",
@@ -37651,8 +37798,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_ensure_locked_dev_environment.py",
@@ -37708,8 +37858,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_finish_process_cleanup.py",
@@ -37737,8 +37890,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_governance_compression.py",
@@ -37752,8 +37908,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_guard_failure_paths.py",
@@ -37788,8 +37947,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_implementation_knowledge.py",
@@ -37838,8 +38000,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_install_script.py",
@@ -37881,16 +38046,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_installer.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_installer_boundaries.sh",
@@ -38040,16 +38211,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_multilingual_semantic_parity.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_negative_scenarios.py",
@@ -38136,8 +38313,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_pre_release_documentation_alignment.py",
@@ -38161,16 +38341,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_project_governance_journey.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_project_profile.py",
@@ -38219,16 +38405,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_quality_measurements.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_quality_scope.py",
@@ -38263,8 +38455,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_quick_install_release.py",
@@ -38313,8 +38508,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_release_archive_contract.sh",
@@ -38328,24 +38526,33 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_release_preflight.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_release_state_consistency.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_release_workflow.py",
@@ -38355,8 +38562,11 @@
         "tests/ci/quality_route_test.py",
         "tests/ci/repository_gate_manifest_test.py"
       ],
-      "reason": "WI-293 adds Rust/Python Contract gate convergence checks; complete release workflow ordering and provider evidence remain deferred.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "WI-293-ci-contract-aware-gates-recovery",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_required_evidence.py",
@@ -38401,24 +38611,33 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_supply_chain.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_sync_published_release_projection.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_system_invariants.py",
@@ -38439,32 +38658,44 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_task_outcome_generator.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_task_outcome_markdown_renderer.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_task_outcome_multilingual.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_task_outcome_pr_summary.py",
@@ -38478,16 +38709,22 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_task_outcome_validator.py",
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_terminology.py",
@@ -38606,8 +38843,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_wizard_fixtures.py",
@@ -38635,8 +38875,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_work_item_intelligence_benchmark.py",
@@ -38657,8 +38900,11 @@
       "batch": "later-batch",
       "classification": "deferred-next-batch",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_work_item_lifecycle_timing.py",
@@ -38682,8 +38928,11 @@
         "tests/ci/quality_route_test.py",
         ".github/workflows/ci.yml"
       ],
-      "reason": "WI-293 adds the Contract gate order and shadow boundary; full workflow graph, timeout, concurrency, and action policy parity remain deferred.",
-      "sourceChangedSincePrevious": true
+      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "WI-293-ci-contract-aware-gates-recovery",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     }
   ]
 }

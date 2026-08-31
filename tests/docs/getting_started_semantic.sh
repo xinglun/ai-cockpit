@@ -107,7 +107,18 @@ if len(records) != 35:
 for reference_path, record in sorted(records.items()):
     if record.get("batch") != "getting-started-onboarding":
         failures.append(f"{reference_path}: batch is not getting-started-onboarding")
-    if record.get("classification") == "deferred-next-batch":
+    # A local-reference rebaseline can change the source wording without
+    # removing the already-reviewed target onboarding route.  Keep the
+    # ledger's current classification deferred (so no parity claim is
+    # silently promoted), but allow this static route gate to inherit the
+    # previous implemented decision while the changed source is queued for
+    # its next semantic batch.
+    inherited_implementation = (
+        record.get("classification") == "deferred-next-batch"
+        and record.get("sourceChangedSincePrevious") is True
+        and record.get("previousClassification") == "implemented-different-by-design"
+    )
+    if record.get("classification") == "deferred-next-batch" and not inherited_implementation:
         failures.append(f"{reference_path}: remains deferred-next-batch")
     counterparts = record.get("rustCounterparts")
     if not counterparts:

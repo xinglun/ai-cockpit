@@ -2656,7 +2656,7 @@ def rebaseline(
         record = previous_record
         if path in changed_paths:
             record["sourceChangedSincePrevious"] = True
-            if record.get("classification") not in {"generated-history", "deferred-next-batch"}:
+            if record.get("classification") != "generated-history":
                 record["previousBatch"] = record.get("batch")
                 record["previousClassification"] = record.get("classification")
                 record["rebaselineBatch"] = "rebaseline-delta"

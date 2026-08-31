@@ -112,12 +112,16 @@ fn oversized_reference_inventory_uses_its_strict_conformance_gate() {
     }));
 
     assert!(!assessment.test_weakening);
-    assert!(!assessment
-        .unknowns
-        .contains(&"test_weakening_inspection_unavailable".into()));
-    assert!(!assessment
-        .unknowns
-        .contains(&"repository_material_inspection_unavailable".into()));
+    assert!(
+        !assessment
+            .unknowns
+            .contains(&"test_weakening_inspection_unavailable".into())
+    );
+    assert!(
+        !assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
 }
 
 #[test]
