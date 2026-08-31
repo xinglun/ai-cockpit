@@ -4,9 +4,13 @@ title: "WI-451 — WI-450 ドキュメント promotion"
 workItemId: WI-451-wi450-doc-promotion
 description: "Closed になった WI-450 の lifecycle を終端ドキュメント投影へ昇格する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-451-wi450-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-451-wi450-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-451-wi450-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-451-wi450-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-451-wi450-doc-promotion.close.json
 ---
 
 # WI-451 — WI-450 ドキュメント promotion

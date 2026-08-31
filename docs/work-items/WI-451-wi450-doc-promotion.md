@@ -4,9 +4,13 @@ title: "WI-451 — WI-450 documentation promotion"
 workItemId: WI-451-wi450-doc-promotion
 description: "Promote the closed WI-450 lifecycle into its terminal documentation projections."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-451-wi450-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-451-wi450-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-451-wi450-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-451-wi450-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-451-wi450-doc-promotion.close.json
 ---
 
 # WI-451 — WI-450 documentation promotion
