@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "WI-452 predecessor bytes remain immutable and recovery receipt binds exact repository, Work Item, and predecessor digests.",
+    "Successor binds actual PR #422 context before verification and archive; no fabricated PR or resource receipt is used.",
+    "Verification, finish, archive, finalize, finalize-verify, and close produce valid evidence and a structured human decision.",
+    "Only after the recovery lineage is closed, v0.2.51 is published from main and downloaded-artifact adopter acceptance is run without source fallback.",
+    "Object repositories are not modified."
+  ],
+  "createdAt": "2026-08-31T15:56:36Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5ea43942843048a0570431b10a42470a734d5198c76027c2f66ea00bc8579896",
+  "evidenceRefs": [
+    ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:258155f633bd9c14ec456813994c15b4b0b7b899a71a6d9e462eb3368bb753ac",
+      "workItemId": "WI-453-release-v0-2-51-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-452-release-v0-2-51.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete an auditable recovery lifecycle for the merged v0.2.51 release change, then publish and accept the downloaded release artifact."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-453-release-v0-2-51-finalization-recovery"
+  },
+  "taskReportDigest": "sha256:219a3ac87eb50895a852f75fde5b483ef87c64371cd13dec3817c72a6be4e85c",
+  "taskReportMarkdownDigest": "sha256:b8d185c8b75cf16c2a41efd2d7282b9a6184c4a8b34e82f0a78742a48004d0db",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-453-release-v0-2-51-finalization-recovery"
+}

@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "WI-452 predecessor bytes remain immutable and recovery receipt binds exact repository, Work Item, and predecessor digests.",
+    "Successor binds actual PR #422 context before verification and archive; no fabricated PR or resource receipt is used.",
+    "Verification, finish, archive, finalize, finalize-verify, and close produce valid evidence and a structured human decision.",
+    "Only after the recovery lineage is closed, v0.2.51 is published from main and downloaded-artifact adopter acceptance is run without source fallback.",
+    "Object repositories are not modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "506b8f981b9d11c32668783a20a7a52c4de92d02",
+  "createdAt": "2026-08-31T15:44:20Z",
+  "goal": "Complete an auditable recovery lifecycle for the merged v0.2.51 release change, then publish and accept the downloaded release artifact.",
+  "intent": "Recover WI-452 release finalization without rewriting immutable predecessor bytes, bind the actual reviewed PR context before publication, and close the v0.2.51 release lineage.",
+  "mode": "release",
+  "outOfScope": [
+    "Object repository /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Runtime source behavior changes",
+    "Rewriting WI-452 archived Contract",
+    " Summary",
+    " Outcome",
+    " Events",
+    " or evidence"
+  ],
+  "predecessorContractDigest": "sha256:1b939eb0f7ee0808e4f362db3e0112911ac773c4466cc1065d71fcd83cabd2d5",
+  "predecessorWorkItemId": "WI-452-release-v0-2-51",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-452-release-v0-2-51.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:03088b67333856e6d274af049b513d472a92e3ae606b61acda4f3ef9f3d8a459",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-453-release-v0-2-51-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/423",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-453-release-v0-2-51-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    "docs/work-items/**",
+    "docs/reference/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-453-release-v0-2-51-finalization-recovery"
+}
