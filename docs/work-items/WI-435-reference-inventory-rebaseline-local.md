@@ -4,9 +4,13 @@ title: "WI-435 — local reference inventory rebaseline"
 workItemId: WI-435-reference-inventory-rebaseline-local
 description: "Rebind the file-level reference ledger to the maintained local semantic reference without silently promoting changed source decisions."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-435-reference-inventory-rebaseline-local
+terminalArchive: .ai/work-items/archive/WI-435-reference-inventory-rebaseline-local.contract.json
+terminalVerification: .ai/evidence/WI-435-reference-inventory-rebaseline-local.verification.json
+terminalFinalization: .ai/decisions/WI-435-reference-inventory-rebaseline-local.finalize.json
+terminalDecision: .ai/decisions/WI-435-reference-inventory-rebaseline-local.close.json
 ---
 
 # WI-435 — local reference inventory rebaseline

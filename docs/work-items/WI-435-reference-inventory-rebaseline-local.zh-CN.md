@@ -4,9 +4,13 @@ title: "WI-435——本地参考源逐文件台账重新基线"
 workItemId: WI-435-reference-inventory-rebaseline-local
 description: "将逐文件参考台账绑定到维护中的本地语义参考源，不静默提升变化源文件的历史决定。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-435-reference-inventory-rebaseline-local
+terminalArchive: .ai/work-items/archive/WI-435-reference-inventory-rebaseline-local.contract.json
+terminalVerification: .ai/evidence/WI-435-reference-inventory-rebaseline-local.verification.json
+terminalFinalization: .ai/decisions/WI-435-reference-inventory-rebaseline-local.finalize.json
+terminalDecision: .ai/decisions/WI-435-reference-inventory-rebaseline-local.close.json
 ---
 
 # WI-435——本地参考源逐文件台账重新基线

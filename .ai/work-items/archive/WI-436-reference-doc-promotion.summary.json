@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-436-reference-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-436-reference-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T02:58:52Z",
+  "checkpointContractDigest": "sha256:cd7a29c2306806f99dcf8a9709d0d2a61a01d93f54ea7862c056730e8b3d5218",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bd6c83425861257273afba5c3bd6bff66938150139b64ab2606c469649c60fbb",
+      "recorded": true,
+      "recordedAt": "2026-08-31T02:58:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a42db72da19484a2c0bb1b6e30afb2f09796020ad8c8e26b38df98479864dbfd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-436-reference-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:e9d78f0ad917d49096e3d6f3dceef5025ed80e409df2c990f4a9c1f247a06ea2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bd6c83425861257273afba5c3bd6bff66938150139b64ab2606c469649c60fbb",
+      "previousContractHash": "sha256:bd6c83425861257273afba5c3bd6bff66938150139b64ab2606c469649c60fbb",
+      "reason": "CI parity gate correctly identified that this documentation-only Work Item itself needs the standard tri-language Work Item documents and pre-archive parity registration. Expand the current Contract to include those six required projections; no Runtime or historical truth changes.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T02:59:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a42db72da19484a2c0bb1b6e30afb2f09796020ad8c8e26b38df98479864dbfd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-436-reference-doc-promotion"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:f05242ffc2c79b2057bebd4f4555f6213f57954d4dc3e96cfdd7cd0bd5b7868a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bd6c83425861257273afba5c3bd6bff66938150139b64ab2606c469649c60fbb",
+      "previousContractHash": "sha256:e9d78f0ad917d49096e3d6f3dceef5025ed80e409df2c990f4a9c1f247a06ea2",
+      "reason": "The active parity gate requires the exact pre-archive status transition and all four terminal receipt paths before verification. Add this explicit acceptance criterion so the current Work Item records the discovered gate boundary instead of relying on an implicit check.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T03:02:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:413781550b9c17031534699ff5e04a4763db71d100052b7dd55438e686b4c392",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-436-reference-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:413781550b9c17031534699ff5e04a4763db71d100052b7dd55438e686b4c392",
+  "createdAt": "2026-08-31T02:57:16Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T03:04:37Z",
+  "preflightContractDigest": "sha256:cd7a29c2306806f99dcf8a9709d0d2a61a01d93f54ea7862c056730e8b3d5218",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:413781550b9c17031534699ff5e04a4763db71d100052b7dd55438e686b4c392",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T03:04:37Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-436-reference-doc-promotion"
+}

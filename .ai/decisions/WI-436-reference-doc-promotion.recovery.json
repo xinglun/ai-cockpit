@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T12:05:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-436-reference-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-436-reference-doc-promotion.events.jsonl",
+    ".ai/work-items/active/WI-436-reference-doc-promotion.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:current-work-item-defect-and-recovery",
+    "AGENTS.md:preflight-before-verification"
+  ],
+  "predecessorContractDigest": "sha256:cd7a29c2306806f99dcf8a9709d0d2a61a01d93f54ea7862c056730e8b3d5218",
+  "predecessorEventsDigest": "sha256:e5a7164fef7029a62408029d0b4a88fb97b78a00e19ec1e5060c0bda47a0f2b0",
+  "predecessorOutcomeDigest": "sha256:0ba1ccc0fbd2beea6aac3aeec3c69a4b0d5b7e7638fce1635a6b6e0a22cdbf8c",
+  "predecessorSummaryDigest": "sha256:974b36068e6b70fc54b5965fcb0f5cc1d545388c2e89188e482a7f8c5dd3ebfa",
+  "predecessorWorkItemId": "WI-436-reference-doc-promotion",
+  "reason": "The post-amendment finalization plan and subsequent documentation changes made the prior verification snapshot stale. Retry the same bounded documentation Work Item through the official recovery path; preserve the failed preflight and rerun fresh checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh preflight and verification after the current documentation snapshot, then finish, archive, reviewed PR, finalization, close, and post-close promotion check.",
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "workItemId": "WI-436-reference-doc-promotion"
+}

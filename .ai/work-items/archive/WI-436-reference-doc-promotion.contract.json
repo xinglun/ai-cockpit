@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "Promote the closed WI-435 terminal lifecycle into all three Work Item documents and all three reference-parity documents using tests/docs/promote_closed_work_item.py.",
+    "The promoted rows must reference the immutable archive, verification, finalization, and close receipts and must report Implemented/已实现/Implemented consistently.",
+    "No reference source bytes, Rust Runtime behavior, Contract/archive/evidence/decision bytes, or unrelated documentation may change.",
+    "The promotion helper must pass for WI-435 and --check-all must report no stale projections; documentation acceptance and parity checks must pass.",
+    "The local reference-source policy remains explicit: /Users/sei-rinn/dev/workspace_python/ai-cockpit-template is the maintained source and public-network fallback is not used.",
+    "While this Work Item is active, each parity document must contain the exact pre-archive status transition and all four expected terminal receipt paths, so the governance gate can validate the projection before archive."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "f06d3ad4b6bed42f9016120eefc54350d4a29aa4",
+  "createdAt": "2026-08-31T02:57:16Z",
+  "goal": "Keep closed Work Item and reference-parity documentation synchronized with immutable lifecycle evidence after rebasing the reference ledger to the maintained local checkout.",
+  "intent": "The post-close promotion gate found six stale documentation projections for WI-435. Apply the repository-owned promotion helper so the local-reference change is auditable and future checks cannot claim the Work Item is still in progress.",
+  "mode": "docs",
+  "outOfScope": [
+    "Changing Runtime or CLI behavior",
+    "Changing reference inventory semantics or source fixtures",
+    "Changing any generated lifecycle receipt or historical archive/evidence/decision bytes",
+    "Adding a public-network reference fallback",
+    "Updating unrelated Work Items or parity rows"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fd2e7ee7573af97d938de70390241625a96b65232e67896458cfb61cdf3533cb",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-436-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/wi-436",
+    "worktree": "/private/tmp/ai-cockpit-wi436-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-436-reference-doc-promotion.md",
+    "docs/work-items/WI-436-reference-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-436-reference-doc-promotion.ja.md",
+    "docs/work-items/WI-435-reference-inventory-rebaseline-local.md",
+    "docs/work-items/WI-435-reference-inventory-rebaseline-local.zh-CN.md",
+    "docs/work-items/WI-435-reference-inventory-rebaseline-local.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "tests/docs/promote_closed_work_item.py",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/repository-workflow.md",
+    ".ai/work-items/archive/WI-435-reference-inventory-rebaseline-local.archive.json",
+    ".ai/evidence/WI-435-reference-inventory-rebaseline-local.verification.json",
+    ".ai/decisions/WI-435-reference-inventory-rebaseline-local.finalize.json",
+    ".ai/decisions/WI-435-reference-inventory-rebaseline-local.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-436-reference-doc-promotion"
+}
