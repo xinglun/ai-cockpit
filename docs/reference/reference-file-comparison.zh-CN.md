@@ -20,12 +20,18 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`。
-- 比较时使用的 Runtime：`ai-cockpit 0.2.33`，binary SHA256 为 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd`。
+- 比较时使用的 Runtime：`ai-cockpit 0.2.47`，binary SHA256 为 `sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53`。
 
-现有 inventory 台账仍是早期 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 基线的历史快照，
-用于保持已经完成的逐文件记录不可变。后续批次必须从本地 checkout 显式重新建立基线，不能静默混用不同提交。
+inventory 台账现在已显式重新绑定到本地 checkout。此前的
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
+仍可恢复，且不会被静默改写。当前 checkout 移除的路径记录在 `retiredReferencePaths`；源内容发生
+变化但尚未重新逐文件审阅的非历史路径标为 `deferred-next-batch`，并保留之前的决定作为历史。
 本地参考源缺失、dirty 或 commit 不匹配时必须 fail-closed。
+
+为保持审计连续性，紧邻的上一比较基线仅作为历史记录保留：目标提交
+`bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`、Runtime `ai-cockpit 0.2.33`、
+二进制摘要 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
 
 本页只报告当前固定的比较基线。历史交付细节保存在 Work Item 归档证据中，不放在面向读者的入口。
 
@@ -173,22 +179,33 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=76 deferred-next-batch=452 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=223 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=479 migrate-gap=0 -->
 
-在固定参考源比较基线上，台账共有 5,119 条记录：4,262 条
-`generated-history`、324 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、76 条 `reference-only` 与 452 条
-`deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。
-capability/profile slice 已没有 `migrate-gap`：
+在当前本地参考源比较基线上，台账包含 4,450 条当前 tracked path：3,681 条
+`generated-history`、223 条 `implemented-different-by-design`、1 条
+`implemented-equivalent`、4 条 `not-applicable`、62 条 `reference-only` 和 479 条
+`deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。本次重绑定还记录了
+160 条当前源内容发生变化的路径（其中 150 条非历史决定等待重新语义比较），以及上一台账中
+已移除的 669 条路径。capability/profile slice 已没有 `migrate-gap`：
 
-1. `.ai/project/adopter-capability-manifest.json` 由 Runtime registry 表达，installer-surface
-   仍是外部边界。
+1. `.ai/project/adopter-capability-manifest.json` 已从当前本地 checkout 移除；其旧决定保留在
+   `retiredReferencePaths` 中，仍是 installer-surface 外部边界，而不是当前记录。
 2. `.ai/project/capabilities.json` 由严格 Rust-native declaration 与显式 operation mapping 表达。
 3. `.ai/project/success_criteria.json` 作为不具授权能力、绑定 snapshot 的可见 projection 表达。
 4. `.ai/project_profile.yaml` 由 `.ai/project.json` 与严格 JSON `profile-policy.json` projection 表达。
 
-治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 已按该基线审阅；
-以上四条是有界的 Rust-native counterpart，452 条 deferred 语义比较仍是后续工作。
+治理入口、getting-started 路线、CI/release 边界与 capability/profile projection 在源内容未变化时
+保留之前有证据的决定。已变化路径明确延期，必须在后续逐文件批次中重新阅读本地源；已移除路径仅
+作为历史记录。以上三条当前记录是有界的 Rust-native counterpart；第四条仅是历史路径。
+
+## WI-435：本地参考源重新绑定
+
+WI-435 将当前台账绑定到维护者提供的本地 checkout 提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060`，但不把“源更新”冒充成“语义比较”。当前 manifest
+包含完整 tracked path 集合，并记录 previous source commit、previous manifest digest、changed
+paths 和 retired paths。发生变化的非历史记录会保持 `deferred-next-batch`，直到后续 Work Item
+重新逐个读取；被移除的路径保留为历史元数据，不会成为看不见的遗漏。这样既不依赖公开参考仓库，
+又保持本地源更新前后的审计连续性。
 
 WI-274 只将目标 checkout metadata 和 canonical comparison snapshot 重新绑定到已审阅的
 默认分支提交。WI-273 保持为不可变的失败交付记录：其首次提交无法证明 parity 登记先于

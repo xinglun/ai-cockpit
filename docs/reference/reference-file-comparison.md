@@ -24,14 +24,21 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`.
-- Runtime used for the comparison work: `ai-cockpit 0.2.33`, binary SHA256 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd`.
+- Runtime used for the comparison work: `ai-cockpit 0.2.47`, binary SHA256 `6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53`.
 
-The inventory ledger remains a historical snapshot of the earlier
-`e5acb677da6621004d96f0ef353c58fe8d3acfbf` source baseline so completed
-file-by-file records stay immutable. A future comparison batch must explicitly
-rebaseline the ledger from the local checkout; it must not silently mix source
-commits. Missing, dirty, or mismatched local source is fail-closed.
+The inventory ledger is now explicitly rebaselined to the local checkout. The
+previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
+from the recorded previous target revision and digest; it is not silently
+rewritten. Source paths removed from the current checkout are listed in
+`retiredReferencePaths`, and non-history paths whose source bytes changed are
+marked `deferred-next-batch` with their previous decision retained as history.
+Missing, dirty, or mismatched local source is fail-closed.
+
+For audit continuity, the immediately previous comparison baseline remains
+historical: target `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`, Runtime
+`ai-cockpit 0.2.33`, binary digest
+`eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`.
 
 This page reports only the current pinned comparison baseline. Historical
 delivery details are retained in Work Item archive evidence, not in this
@@ -210,17 +217,20 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=76 deferred-next-batch=452 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=223 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=479 migrate-gap=0 -->
 
-At the pinned reference comparison baseline, the ledger contains 5,119 records:
-4,262 `generated-history`, 324 `implemented-different-by-design`, one
-`implemented-equivalent`, four `not-applicable`, 76 `reference-only`, and 452
-`deferred-next-batch` records. Deferred records remain scheduled work, not
-parity claims. The capability/profile slice has no remaining `migrate-gap`
-records:
+At the current local reference comparison baseline, the ledger contains 4,450
+current tracked paths: 3,681 `generated-history`, 223
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 62 `reference-only`, and 479 `deferred-next-batch` records.
+Deferred records remain scheduled work, not parity claims. The rebaseline also
+records 160 changed current paths (150 non-history decisions awaiting a fresh
+semantic comparison) and 669 retired paths from the previous ledger. The
+capability/profile slice has no remaining `migrate-gap` records:
 
-1. `.ai/project/adopter-capability-manifest.json` is represented by the
-   Runtime registry and remains an external installer-surface boundary.
+1. `.ai/project/adopter-capability-manifest.json` is retired from the current
+   local checkout. Its prior decision is retained in `retiredReferencePaths`;
+   it remains an external installer-surface boundary, not a current record.
 2. `.ai/project/capabilities.json` is represented by the strict Rust-native
    declaration and explicit operation mapping.
 3. `.ai/project/success_criteria.json` is represented as a non-authoritative,
@@ -229,9 +239,23 @@ records:
    strict JSON `profile-policy.json` projection.
 
 The governance entrypoints, getting-started routes, CI/release boundaries, and
-capability/profile projections have been reviewed at this baseline. The four
-records above are Rust-native, explicitly bounded counterparts; the 463
-deferred semantic comparisons remain scheduled work.
+capability/profile projections retain their prior evidence-backed decisions
+where the source bytes are unchanged. Changed paths are deliberately deferred
+until a later file-by-file batch re-reads the local source; retired paths are
+historical only. The three current capability/profile records above remain
+explicitly bounded Rust-native counterparts; the fourth path is historical only.
+
+## WI-435 local-reference rebaseline
+
+WI-435 binds the active ledger to the operator-maintained checkout at
+`fde3380f81fea5fd2e288f7a8849f737dc074060` without treating a source update as
+a semantic comparison. The current manifest contains the exact tracked path
+set and records the previous source commit, previous manifest digest, changed
+paths, and retired paths. A changed non-history record is intentionally
+`deferred-next-batch` until a later Work Item reads that file again; a removed
+path is retained as historical metadata and does not become an invisible
+omission. This keeps the public reference repository out of the comparison
+path while preserving auditability across local source updates.
 
 WI-274 rebinds only the target checkout metadata and canonical comparison
 snapshot to the reviewed default-branch commit. WI-273 remains an immutable

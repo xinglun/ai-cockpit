@@ -20,6 +20,16 @@ deferred, and which responsibilities remain external. The ordinary user route
 starts at [Current reader route](../current/README.md). For field-level
 mapping, see [Contract and Summary fields](contract-fields.md).
 
+## Current reference source
+
+The maintained semantic reference is the local checkout selected by
+`AI_COCKPIT_REFERENCE_ROOT`, currently pinned to commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060`. The file-level ledger records this
+commit, the previous public-source ledger as historical metadata, changed paths
+awaiting re-review, and retired paths. No network reference or source-content
+copy is required for parity checks; see [Reference file comparison](reference-file-comparison.md)
+for the rebaseline receipt and procedure.
+
 ## Truth states
 
 The matrix uses exactly four states:
@@ -373,6 +383,7 @@ record for each boundary.
 | WI-431 — v0.2.47 release recovery | Implemented | [Work Item](../work-items/WI-431-release-v0-2-47-recovery.md); terminal lifecycle: archive `.ai/work-items/archive/WI-431-release-v0-2-47-recovery.contract.json`; verification `.ai/evidence/WI-431-release-v0-2-47-recovery.verification.json`; finalization `.ai/decisions/WI-431-release-v0-2-47-recovery.finalize.json`; close `.ai/decisions/WI-431-release-v0-2-47-recovery.close.json`. |
 | WI-433 — local reference source binding | Implemented | [Work Item](../work-items/WI-433-local-reference-source-binding.md); terminal lifecycle: archive `.ai/work-items/archive/WI-433-local-reference-source-binding.contract.json`; verification `.ai/evidence/WI-433-local-reference-source-binding.verification.json`; finalization `.ai/decisions/WI-433-local-reference-source-binding.finalize.3dba26b4c6ab10af5e7b49d9edbdb1638014c7d8119c97ea9b995ebb7a855e41.json`; close `.ai/decisions/WI-433-local-reference-source-binding.close.json`. |
 | WI-434 — local-reference documentation promotion | Implemented | [Work Item](../work-items/WI-434-local-reference-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-434-local-reference-doc-promotion.contract.json`; verification `.ai/evidence/WI-434-local-reference-doc-promotion.verification.json`; finalization `.ai/decisions/WI-434-local-reference-doc-promotion.finalize.8a55aa7a73f9d42a2cb5a0c5b9f548ccdbbb4de42c19e5cb88aa0496ec4ae37b.json`; close `.ai/decisions/WI-434-local-reference-doc-promotion.close.json`. |
+| WI-435 — local reference inventory rebaseline | In progress | [Work Item](../work-items/WI-435-reference-inventory-rebaseline-local.md); current ledger is rebound to the maintained local checkout, while changed and retired paths remain explicit and historical decisions are not silently promoted. |
 
 ## Current boundary
 

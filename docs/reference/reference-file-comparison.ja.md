@@ -20,13 +20,18 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`。
-- 比較に使う Runtime: `ai-cockpit 0.2.33`、binary SHA256 `eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd`。
+- 比較に使う Runtime: `ai-cockpit 0.2.47`、binary SHA256 `sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53`。
 
-現在の inventory ledger は、完了済みの file-by-file 記録を immutable に保つため、従来の
-`e5acb677da6621004d96f0ef353c58fe8d3acfbf` source baseline の historical snapshot です。
-後続 batch は local checkout から明示的に rebaseline し、source commit を混在させません。
-local source の欠落、dirty、commit mismatch は fail-closed です。
+inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
+`e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
+静かに書き換えません。現在の checkout から削除された path は `retiredReferencePaths` に保持し、
+source bytes が変わった未再確認の non-history path は `deferred-next-batch` として以前の decision を
+history に残します。local source の欠落、dirty、commit mismatch は fail-closed です。
+
+監査の連続性のため、直前の比較 baseline は historical record として保持します：target
+`bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b`、Runtime `ai-cockpit 0.2.33`、binary digest
+`eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4`。
 
 このページは現在固定した比較 baseline だけを説明します。歴史的な delivery detail は
 Work Item archive evidence に保持し、reader-facing route には載せません。
@@ -184,22 +189,35 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5119 generated-history=4262 implemented-different-by-design=324 implemented-equivalent=1 not-applicable=4 reference-only=76 deferred-next-batch=452 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=223 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=479 migrate-gap=0 -->
 
-固定した reference comparison baseline の ledger は 5,119 records です。内訳は
-4,262 `generated-history`、324 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、76 `reference-only`、452 `deferred-next-batch` です。
-Deferred record は予定された比較であり parity claim ではありません。
-capability/profile slice に `migrate-gap` は残っていません。
+現在の local reference comparison baseline の ledger は 4,450 current tracked paths です。内訳は
+3,681 `generated-history`、223 `implemented-different-by-design`、1
+`implemented-equivalent`、4 `not-applicable`、62 `reference-only`、479 `deferred-next-batch` です。
+Deferred record は予定された比較であり parity claim ではありません。Rebaseline は current source の
+changed path 160 件（non-history decision のうち 150 件は再比較待ち）と、以前の ledger から retired
+になった 669 件も記録します。capability/profile slice に `migrate-gap` は残っていません。
 
-1. `.ai/project/adopter-capability-manifest.json` は Runtime registry で表現し、installer-surface は external boundary とします。
+1. `.ai/project/adopter-capability-manifest.json` は現在の local checkout から retired になりました。以前の判断は
+   `retiredReferencePaths` に保持され、installer-surface は external boundary のままですが、current record ではありません。
 2. `.ai/project/capabilities.json` は strict な Rust-native declaration と明示的な operation mapping で表現します。
 3. `.ai/project/success_criteria.json` は authority を持たない snapshot-bound visibility projection です。
 4. `.ai/project_profile.yaml` は `.ai/project.json` と strict JSON `profile-policy.json` projection で表現します。
 
-Governance entrypoint、getting-started route、CI/release boundary、capability/profile
-projection はこの baseline で review 済みです。上記 4 件は bounded な Rust-native counterpart として登録済みで、
-463 deferred semantic comparison は後続作業として残ります。
+Governance entrypoint、getting-started route、CI/release boundary、capability/profile projection は
+source bytes が変わっていない範囲で従来の evidence-backed decision を保持します。変更された path は
+後続の file-by-file batch で再読するまで明示的に deferred、retired path は historical only です。
+上記 3 件は current の bounded な Rust-native counterpart として登録され、4 件目は historical path のみです。
+
+## WI-435 local-reference rebaseline
+
+WI-435 は現在の台帳を maintainer 管理の local checkout commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` に bind しますが、source の更新を semantic comparison と
+して扱いません。current manifest は tracked path set 全体、previous source commit、previous manifest
+digest、changed path、retired path を記録します。変更された non-history record は、後続 Work Item が
+その file を再読するまで `deferred-next-batch` のままです。削除された path も historical metadata として
+保持されるため、見えない omission にはなりません。これにより public reference repository に依存せず、
+local source 更新前後の audit continuity を保ちます。
 
 WI-274 は target checkout metadata と canonical comparison snapshot だけを、レビュー済み
 default branch commit に再バインドします。WI-273 は immutable な failed-delivery record として
