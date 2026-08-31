@@ -6,6 +6,42 @@
   "checkpointAt": "2026-08-31T03:51:13Z",
   "checkpointContractDigest": "sha256:d4fed85d0484d61341b2f48d4279fd5656e84b451859003714fc9350ecb6d88a",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d4fed85d0484d61341b2f48d4279fd5656e84b451859003714fc9350ecb6d88a",
+      "recorded": true,
+      "recordedAt": "2026-08-31T03:51:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c83ea1b800cd037d5c89e732e3e93858b5c3db40e315f527a06e7c4a6403a230",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-438-reference-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:922be3616b381fd744504de50da7f662c587a299b74efc41afac95b20aa51fde",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d4fed85d0484d61341b2f48d4279fd5656e84b451859003714fc9350ecb6d88a",
+      "previousContractHash": "sha256:d4fed85d0484d61341b2f48d4279fd5656e84b451859003714fc9350ecb6d88a",
+      "reason": "Documentation gate requires this Work Item's tri-language documents and pre-archive parity entry; added them within the same documentation-only scope without changing immutable WI-437 receipts or Runtime behavior",
+      "recorded": true,
+      "recordedAt": "2026-08-31T03:54:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:faf1e1ec961e893186fd4c22d335f1871daf98c85c6944d9affc03fd47694e27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-438-reference-doc-promotion"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:c83ea1b800cd037d5c89e732e3e93858b5c3db40e315f527a06e7c4a6403a230",
   "createdAt": "2026-08-31T03:49:40Z",
   "mode": "docs",
@@ -13,10 +49,15 @@
   "preflightContractDigest": "sha256:d4fed85d0484d61341b2f48d4279fd5656e84b451859003714fc9350ecb6d88a",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:c83ea1b800cd037d5c89e732e3e93858b5c3db40e315f527a06e7c4a6403a230",
-  "preflightState": "yellow",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-08-31T03:51:13Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:922be3616b381fd744504de50da7f662c587a299b74efc41afac95b20aa51fde",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-08-31T03:54:19Z"
+  },
   "workItemId": "WI-438-reference-doc-promotion"
 }

@@ -1,6 +1,7 @@
 {
   "acceptanceCriteria": [
-    "The six tri-language projections are promoted only from the closed WI-437 receipts",
+    "The six tri-language WI-437 projections are promoted only from the closed WI-437 receipts",
+    "This Work Item has matching tri-language documentation and a pre-archive parity entry",
     "promotion check-all reports no stale projections",
     "Documentation acceptance, parity/status checks, and workspace verification remain passing",
     "No governance facts or immutable evidence bytes are rewritten"
@@ -29,11 +30,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-438-reference-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/404",
     "worktree": "/private/tmp/ai-cockpit-wi438-reference-doc-promotion"
   },
   "risk": "normal",
@@ -43,7 +44,10 @@
     "docs/work-items/WI-437-reference-rebaseline-governance.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-438-reference-doc-promotion.md",
+    "docs/work-items/WI-438-reference-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-438-reference-doc-promotion.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",

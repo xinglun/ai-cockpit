@@ -377,6 +377,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-435——本地参考源逐文件台账重新基线 | 已实现 | [Work Item](../work-items/WI-435-reference-inventory-rebaseline-local.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-435-reference-inventory-rebaseline-local.contract.json`; verification `.ai/evidence/WI-435-reference-inventory-rebaseline-local.verification.json`; finalization `.ai/decisions/WI-435-reference-inventory-rebaseline-local.finalize.json`; close `.ai/decisions/WI-435-reference-inventory-rebaseline-local.close.json`. |
 | WI-436——已关闭文档投影晋级 | 已实现 | [Work Item](../work-items/WI-436-reference-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-436-reference-doc-promotion.contract.json`; verification `.ai/evidence/WI-436-reference-doc-promotion.verification.json`; finalization `.ai/decisions/WI-436-reference-doc-promotion.finalize.json`; close `.ai/decisions/WI-436-reference-doc-promotion.close.json`. |
 | WI-437——本地参考源治理规则重新比对 | 已实现 | [Work Item](../work-items/WI-437-reference-rebaseline-governance.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-437-reference-rebaseline-governance.contract.json`; verification `.ai/evidence/WI-437-reference-rebaseline-governance.verification.json`; finalization `.ai/decisions/WI-437-reference-rebaseline-governance.finalize.json`; close `.ai/decisions/WI-437-reference-rebaseline-governance.close.json`. |
+| WI-438——已关闭 WI-437 文档投影晋级 | 进行中 | [Work Item](../work-items/WI-438-reference-doc-promotion.zh-CN.md); 当前 lifecycle 的 pre-archive 文档投影。 |
 
 ## 当前边界
 
