@@ -4,9 +4,13 @@ title: "WI-435 — local reference inventory rebaseline"
 workItemId: WI-435-reference-inventory-rebaseline-local
 description: "維持される local semantic reference に file-level ledger を再バインドし、変更された source の判断を静かに昇格しない。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-435-reference-inventory-rebaseline-local
+terminalArchive: .ai/work-items/archive/WI-435-reference-inventory-rebaseline-local.contract.json
+terminalVerification: .ai/evidence/WI-435-reference-inventory-rebaseline-local.verification.json
+terminalFinalization: .ai/decisions/WI-435-reference-inventory-rebaseline-local.finalize.json
+terminalDecision: .ai/decisions/WI-435-reference-inventory-rebaseline-local.close.json
 ---
 
 # WI-435 — local reference inventory rebaseline
