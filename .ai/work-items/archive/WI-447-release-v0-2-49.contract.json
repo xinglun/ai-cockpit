@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "Current workspace and release documentation consistently identify v0.2.49 and its immutable artifact names.",
+    "Source, package, release-policy, SBOM, checksum, and post-release acceptance gates pass without source or workspace binary fallback.",
+    "The published release artifact contains the merged WI-446 historical recovery Runtime and can be verified by digest.",
+    "The release is installed from its immutable public artifact and the installed Runtime identity is recorded.",
+    "Three-language release documentation and post-release acceptance evidence are synchronized; no active Work Item or branch residue remains for this release."
+  ],
+  "authority": "authorized",
+  "baseRevision": "16172417caf2f1486d2184311deedb49b9ca7780",
+  "createdAt": "2026-08-31T09:22:09Z",
+  "goal": "Produce an auditable v0.2.49 release from the merged historical-finalization recovery Runtime, with versioned manifests, checksums, SBOM, and post-release acceptance readiness.",
+  "intent": "Publish and install v0.2.49 so adopters can honestly recover legacy shared-worktree retained and direct-merge-no-PR finalization records using immutable public artifacts.",
+  "mode": "release",
+  "outOfScope": [
+    "crates/**",
+    ".github/workflows/**",
+    "object repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3cbb32f51ce910efcbc93b2b4c77782febed5779590096b4a6b46acafef81943",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-447-release-v0-2-49",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/415",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-447-release-v0-2-49"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "tests/release/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-447-release-v0-2-49"
+}

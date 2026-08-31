@@ -16,13 +16,13 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # 发布分发架构
 
-当前不可变发布基线是 `v0.2.48`。失败的 `v0.2.35` 标签因 workflow run
+当前不可变发布基线是 `v0.2.49`。失败的 `v0.2.35` 标签因 workflow run
 `33162800569` 没有公开 Release，作为不可变发布历史保留。更早的失败 `v0.2.34` 标签因 workflow run
 `33155382717` 同样保留。失败的 staged `v0.2.32` 标签因 WI-299
 最终化绑定缺陷作为不可变发布历史保留，且没有公开 Release，不是安装基线。
 不可变的 `v0.2.30` 标签因清洁批次发布路由缺陷而作为失败发布历史保留，不是安装基线。
 未公开的 `v0.2.36` 标签保留为不可变的 staged 验收失败历史，不是安装基线。
-此前公开的 `v0.2.45` Release 继续作为历史 evidence 保留，并由当前基线取代。
+此前公开的 `v0.2.48` Release 继续作为历史 evidence 保留，并由当前基线取代。
 失败的 `v0.2.46` 标签（`33330269507`）作为不可变发布历史保留；由于打 tag 前遗漏了已关闭
 Work Item 的文档 promotion，它没有创建公开 Release，也不是安装基线。
 
@@ -111,7 +111,7 @@ Release，并独立上传 receipt。手动触发必须显式提供公开的 `fro
 
 - `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
   hosted checks 和已发布 Release identity。
-- 当前不可变公开基线是 `v0.2.48`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
+- 当前不可变公开基线是 `v0.2.49`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
   独立 provider surface，不由本仓库自动保证。
 - 预留的 `v0.2.24` tag 与不可变的 `v0.2.25` tag 作为发布前失败历史保留，不作为公开 Release，也永远不会复用。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。
