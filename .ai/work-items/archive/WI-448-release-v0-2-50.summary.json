@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-448-release-v0-2-50.contract.json",
+    ".ai/work-items/archive/WI-448-release-v0-2-50.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T10:04:01Z",
+  "checkpointContractDigest": "sha256:8f70094f6f9a38973c31dc91127d68f0d8c50abc3c0d5b532d33106058d961fb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4e1a6fa25e7b7b3f3d504777c5c70399b2c88aa3bfac0c5902967845746d729e",
+      "recorded": true,
+      "recordedAt": "2026-08-31T10:04:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d99ffb68e97fb0fea9a879aad45529c61eeb9c6c6ff6e36ad3da6448a529620",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-448-release-v0-2-50"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:8f70094f6f9a38973c31dc91127d68f0d8c50abc3c0d5b532d33106058d961fb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4e1a6fa25e7b7b3f3d504777c5c70399b2c88aa3bfac0c5902967845746d729e",
+      "previousContractHash": "sha256:4e1a6fa25e7b7b3f3d504777c5c70399b2c88aa3bfac0c5902967845746d729e",
+      "reason": "Bind the reviewed PR #416 resource context before regenerating release verification; prior evidence is intentionally stale and will be superseded by a fresh receipt.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T10:10:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d99ffb68e97fb0fea9a879aad45529c61eeb9c6c6ff6e36ad3da6448a529620",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-448-release-v0-2-50"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9d99ffb68e97fb0fea9a879aad45529c61eeb9c6c6ff6e36ad3da6448a529620",
+  "createdAt": "2026-08-31T09:57:26Z",
+  "failedGate": "finish.verification",
+  "mode": "release",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T10:12:44Z",
+  "preflightContractDigest": "sha256:8f70094f6f9a38973c31dc91127d68f0d8c50abc3c0d5b532d33106058d961fb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9d99ffb68e97fb0fea9a879aad45529c61eeb9c6c6ff6e36ad3da6448a529620",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T10:12:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-448-release-v0-2-50"
+}
