@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "Current version, release docs, and archive names consistently identify v0.2.48.",
+    "Source, staged, and post-release gates remain strict and use immutable public artifacts only.",
+    "No active Work Items, unclosed historical debt, or branch/worktree residue remains before release.",
+    "Three-language release documentation and release policy checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a72a43284841941b652bc568a543c4d22868b110",
+  "createdAt": "2026-08-31T07:16:54Z",
+  "goal": "在已合并的历史 finalization 兼容修复之上发布可审计的 v0.2.48 Runtime Release。",
+  "intent": "发布并验证 v0.2.48，更新当前安装基线与分发文档，确保公开 Release、校验和、SBOM、安装/升级验收一致。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".github/workflows/**",
+    "object repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eab515024a4f227eaa9b3dcecf9596d7fa124cea1aa813270d08a6e9b4d7c431",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-444-release-v0-2-48",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/413",
+    "worktree": "/private/tmp/ai-cockpit-wi444-release-v0-2-48"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "tests/release/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-444-release-v0-2-48"
+}

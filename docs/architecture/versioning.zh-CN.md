@@ -26,7 +26,7 @@ Runtime version、Repository Protocol version 和 repository schema version 是�
 
 ```text
 ai-cockpit --version
-0.2.47
+0.2.48
 
 repository:
 protocol_version = 1
@@ -34,7 +34,7 @@ repository_schema_version = 2
 ```
 
 `v0.2.45` 是前一个公开 patch release，继续作为历史 evidence 保留；未公开且失败的 `v0.2.46`
-标签单独保留，`v0.2.47` 是当前 package identity。
+标签单独保留，`v0.2.48` 是当前 package identity。
 
 CLI version 标识 executable package；protocol version 标识 repository storage contract。Runtime
 version、runtime digest 和 protocol version 会在 `inspect`、`doctor`、MCP `initialize`、verification
