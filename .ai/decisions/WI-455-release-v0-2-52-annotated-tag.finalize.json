@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-review-policy",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "5d5cc327a6ed6c5baa3458f3f95e0dd82b18e714",
+    "name": "codex/wi-455-release-v0-2-52-annotated-tag",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:21587726fb4e9b86095d9c218296646aa3909eed361d90b1c0ebca4911b6fdb9",
+  "operationId": "wi455-v0-2-52-finalization-20260831",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1f503b0a3beb9258efab2cb11e81ff000175335c",
+    "headRevision": "5d5cc327a6ed6c5baa3458f3f95e0dd82b18e714",
+    "mergeCommit": "37c3807cd8149951567699f2ad2e1070302aa6bb",
+    "number": 425,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/425"
+  },
+  "reason": "Reviewed PR 425 merged at the recorded head; exact local and remote branch and worktree cleanup completed.",
+  "receiptId": "wi455-v0-2-52-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-455-release-v0-2-52-annotated-tag",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/425",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-455-release-v0-2-52-annotated-tag"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eacd3768d451ed4661759da02714acf47d8139d53a9c89c6087413f67e2befd7",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T18:44:51Z",
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag",
+  "worktree": {
+    "branch": "codex/wi-455-release-v0-2-52-annotated-tag",
+    "headRevision": "5d5cc327a6ed6c5baa3458f3f95e0dd82b18e714",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-455-release-v0-2-52-annotated-tag",
+    "worktreeId": "wi-455-release-v0-2-52-annotated-tag"
+  }
+}
