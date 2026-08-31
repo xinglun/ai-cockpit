@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "user-instruction",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "667d5153faeafab69d196c3667999eecdcdfcc95",
+    "name": "codex/wi-434-local-reference-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3d63ed7fb3f0e3a08700cfefc5099bc13655639beb4770b50b704049b1089e60",
+  "operationId": "wi-434-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "67465246908bfc099f78486578a8ae4919277ad6",
+    "headRevision": "667d5153faeafab69d196c3667999eecdcdfcc95",
+    "number": 400,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/400"
+  },
+  "reason": "await reviewed PR merge before exact branch and worktree cleanup",
+  "receiptId": "wi-434-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-434-local-reference-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/400",
+    "worktree": "/private/tmp/ai-cockpit-wi434-local-reference"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T01:35:00Z",
+  "workItemId": "WI-434-local-reference-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-434-local-reference-doc-promotion",
+    "headRevision": "667d5153faeafab69d196c3667999eecdcdfcc95",
+    "path": "/private/tmp/ai-cockpit-wi434-local-reference",
+    "worktreeId": "WI-434-local-reference-doc-promotion"
+  }
+}
