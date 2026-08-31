@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-08-31T06:53:41Z",
+  "checkpointContractDigest": "sha256:3c8934299366982faea7610d12b330da867eff299cafa1f90c4c95e3ea63ebab",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f733a018373278122ff464ef0e6bcd3d10b37f5d7a8a0f964900a9ad35352b99",
+      "recorded": true,
+      "recordedAt": "2026-08-31T06:53:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cf7bddd140e161798125bae793bf0931515e8bf85dbeacf1f9d375e276962c15",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-443-historical-finalization-compat"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3c8934299366982faea7610d12b330da867eff299cafa1f90c4c95e3ea63ebab",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f733a018373278122ff464ef0e6bcd3d10b37f5d7a8a0f964900a9ad35352b99",
+      "previousContractHash": "sha256:f733a018373278122ff464ef0e6bcd3d10b37f5d7a8a0f964900a9ad35352b99",
+      "reason": "Bind the post-plan documentation and parity projection paths to the same authorized Contract before fresh verification; preserve the immutable before_edit checkpoint.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T06:58:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:911a58d3a46ca3c919d9474254538563df19c3446de5dcee95c7570d725c3749",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-443-historical-finalization-compat"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:911a58d3a46ca3c919d9474254538563df19c3446de5dcee95c7570d725c3749",
+  "createdAt": "2026-08-31T06:38:17Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T07:02:51Z",
+  "preflightContractDigest": "sha256:3c8934299366982faea7610d12b330da867eff299cafa1f90c4c95e3ea63ebab",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:911a58d3a46ca3c919d9474254538563df19c3446de5dcee95c7570d725c3749",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T07:02:54Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-443-historical-finalization-compat"
+}

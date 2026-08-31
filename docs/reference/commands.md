@@ -14,6 +14,17 @@ capabilityClaims:
 
 # Command reference
 
+Historical compatibility is explicit and low assurance. Legacy shared-primary
+worktree records may use `historical.kind=shared_worktree_retained` with
+`assurance=historical_low`; they identify the primary worktree and still need a
+human close decision. A pre-PR local merge may use
+`historical.kind=direct_merge_no_pr`, `pullRequest.number=0`, and a
+`historical://direct-merge/<mergeCommit>` URL, but must bind the real merge
+commit, both parents, base revision, repository identity, and authority.
+Runtime verifies those facts against Git and never invents a PR. Readiness
+reports `historicalDebt` and recovery actions while keeping pending-close
+fail-closed.
+
 `close` now requires the current finalization head to have disposition
 `deleted`; a retained, blocked, or unknown head stops the operation before a
 close decision is written. For immutable records produced by an older Runtime,
