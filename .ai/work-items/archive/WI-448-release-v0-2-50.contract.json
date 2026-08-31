@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "Workspace and all trilingual release/version documents identify v0.2.50; failed v0.2.49 tag remains immutable history.",
+    "Source, package, release-policy, SBOM, checksum, and post-release gates run without source or workspace-binary fallback.",
+    "Only a new immutable public v0.2.50 tag and its downloaded artifacts are used for installation and adopter acceptance.",
+    "Release and adopter evidence bind repository identity, runtime version/digest, tag, archive/binary checksums, SBOM, and cleanup manifests.",
+    "After reviewed merge and release acceptance, finalization/close receipts and tri-lingual parity are synchronized; object repositories are not modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "96078b69efd5fd491eef8b87c37112d7c98d3251",
+  "createdAt": "2026-08-31T09:57:26Z",
+  "goal": "从已关闭、干净、审查合并的 main 生成可公开安装的 v0.2.50，并用公开制品完成 adopter 验收。",
+  "intent": "在保留失败的 v0.2.49 immutable tag 的前提下，发布并验收 v0.2.50 Runtime。",
+  "mode": "release",
+  "outOfScope": [
+    "crates/**",
+    ".github/workflows/**",
+    "object repositories",
+    "retagging v0.2.49"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4d42c52da8f3a48d8227cf06912113d1bfa36154bdeb6e459783f554a664a2a7",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-448-release-v0-2-50",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/416",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-448-release-v0-2-50"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/**",
+    "tests/release/**",
+    "docs/reference/reference-parity*"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-448-release-v0-2-50"
+}
