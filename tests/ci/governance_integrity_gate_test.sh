@@ -586,11 +586,57 @@ recovery_path.write_text(
             "schemaVersion": 1,
             "workItemId": work_item,
             "predecessorWorkItemId": work_item,
-            "successorWorkItemId": "WI-901-corrective-after-baseline",
+            "successorWorkItemId": "WI-100-release-v1-0-0",
             "decision": "supersede",
             "repositoryId": repository_id,
             "reason": "Preserve the predecessor as immutable history.",
             "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+successor = "WI-100-release-v1-0-0"
+(root / ".ai/work-items/archive" / f"{successor}.contract.json").write_text(
+    json.dumps(
+        {
+            "workItemId": successor,
+            "repositoryId": repository_id,
+            "createdAt": "2025-01-01T00:00:00Z",
+            "baseRevision": "1" * 40,
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+(root / ".ai/work-items/archive" / f"{successor}.archive.json").write_text(
+    json.dumps(
+        {"workItemId": successor, "state": "archived", "createdAt": "2025-01-01T00:00:00Z"},
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+(decisions / f"{successor}.close.json").write_text(
+    json.dumps(
+        {
+            "workItemId": successor,
+            "repositoryId": repository_id,
+            "state": "closed",
+            "decisionState": "confirmed",
+            "humanDecision": "approved",
+            "structuredDecision": {
+                "decision": "approved",
+                "actor": "fixture-human",
+                "authoritySource": "fixture-policy",
+                "reason": "Fixture successor is terminal.",
+                "decidedAt": "2026-03-01T00:00:00Z",
+                "resumeCondition": "None.",
+                "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+                "policyRefs": ["fixture-policy"],
+            },
         },
         indent=2,
     )

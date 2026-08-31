@@ -1196,6 +1196,37 @@ def recovery_decision_candidate(
     return selected
 
 
+def recovery_successor_is_closed(
+    repo: Path, recovery: dict[str, Any]
+) -> bool:
+    """Require a terminal successor before projecting supersession.
+
+    A predecessor recovery receipt is not, by itself, proof that its selected
+    successor completed. The Runtime binds that relationship at close time;
+    the static gate mirrors the same boundary so a valid-looking recovery
+    marker cannot suppress a missing terminal decision.
+    """
+    successor = recovery.get("successorWorkItemId")
+    if not isinstance(successor, str) or not successor:
+        return False
+    archive = repo / ".ai/work-items/archive"
+    if not (
+        (archive / f"{successor}.contract.json").is_file()
+        and not (archive / f"{successor}.contract.json").is_symlink()
+        and (archive / f"{successor}.archive.json").is_file()
+        and not (archive / f"{successor}.archive.json").is_symlink()
+    ):
+        return False
+    close_path = repo / ".ai/decisions" / f"{successor}.close.json"
+    if not close_path.is_file() or close_path.is_symlink():
+        return False
+    try:
+        close = load_json(close_path)
+    except ValueError:
+        return False
+    return valid_close_decision(repo, successor, close)
+
+
 def valid_close_decision(repo: Path, work_item: str, value: dict[str, Any]) -> bool:
     try:
         project = load_json(repo / ".ai/project.json")
@@ -1545,14 +1576,14 @@ def main() -> int:
                 if valid_close_decision(repo, work_item, decision_value):
                     if (
                         recovery_receipt_valid
-                        and decision_value.get("humanDecision") == "superseded"
                         and recovery_value.get("decision") in {"successor", "supersede"}
+                        and recovery_successor_is_closed(repo, recovery_value)
                     ):
-                        # A structured superseded close is a valid historical
-                        # decision, but it is not a green implementation
-                        # projection.  Keep the recovery receipt as the
-                        # terminal inventory path so parity remains explicitly
-                        # recovered and successor-owned.
+                        # A closed predecessor with a terminal successor is a
+                        # valid historical decision, but it is not a green
+                        # implementation projection. Keep the recovery receipt
+                        # as the terminal inventory path so parity remains
+                        # explicitly recovered and successor-owned.
                         decision = str(recovery_path.relative_to(repo))
                         record["decisionPath"] = decision
                         record["lifecycleState"] = "recovered"
