@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-31T19:04:03Z",
+  "files": {
+    "contractDigest": "sha256:5a10082700a6aabe1bebaa5c86fced96e7075ef8b050c8a5d381ae1543ff89a3",
+    "contractPath": ".ai/work-items/archive/WI-456-wi455-doc-promotion.contract.json",
+    "eventsDigest": "sha256:91a4a4c162adef4be6aa2dde882715585f41c373948e2664a54a4155988790e8",
+    "eventsPath": ".ai/work-items/archive/WI-456-wi455-doc-promotion.events.jsonl",
+    "outcomeDigest": "sha256:8d08985337dfb4969b0a213bf4b6ba5afb6f13548cbac6a372f1085033b0a10f",
+    "outcomePath": ".ai/work-items/archive/WI-456-wi455-doc-promotion.outcome.json",
+    "summaryDigest": "sha256:9fa4e6ec5f3b372050c8df5f35e2451749b51febcae84aafab8b10677d2b4ba3",
+    "summaryPath": ".ai/work-items/archive/WI-456-wi455-doc-promotion.summary.json",
+    "taskReportDigest": "sha256:d7a9ac936b2080e8444e94681b1e0733420873405d2353d5ea29231d0cb9dff2",
+    "taskReportMarkdownDigest": "sha256:a568c2ea25de1ec4b7af7a6ef952ff517fed2c19d3639cfb4d4945613c5e396d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-456-wi455-doc-promotion.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-456-wi455-doc-promotion.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-456-wi455-doc-promotion"
+}
