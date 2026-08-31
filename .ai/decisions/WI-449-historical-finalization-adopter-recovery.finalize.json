@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "eb0627e25ef0479e51c25ab9748fef68fc94b44b",
+    "name": "codex/wi-449-historical-finalization-adopter-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:66aa22622b503732e9cba60503c2f129ee28486c982579c366de5f56e7009511",
+  "operationId": "github-pr-417-merge-cleanup-20260831",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "92bcaa7332fb47baa3895666469e0650d54b8ab6",
+    "headRevision": "eb0627e25ef0479e51c25ab9748fef68fc94b44b",
+    "mergeCommit": "a93383a0b6a8c01d370c32905f6e5cc76a636572",
+    "number": 417,
+    "url": "pending:WI-449-historical-finalization-adopter-recovery"
+  },
+  "reason": "PR #417 merged after all hosted checks passed; exact feature branch and dedicated worktree removed and verified.",
+  "receiptId": "ai-cockpit-WI-449-historical-finalization-adopter-recovery-deleted-20260831",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-449-historical-finalization-adopter-recovery",
+    "provider": "github",
+    "pullRequest": "pending:WI-449-historical-finalization-adopter-recovery",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-449-historical-finalization-adopter-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eacd3768d451ed4661759da02714acf47d8139d53a9c89c6087413f67e2befd7",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T14:10:00Z",
+  "workItemId": "WI-449-historical-finalization-adopter-recovery",
+  "worktree": {
+    "branch": "codex/wi-449-historical-finalization-adopter-recovery",
+    "headRevision": "eb0627e25ef0479e51c25ab9748fef68fc94b44b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-449-historical-finalization-adopter-recovery",
+    "worktreeId": "WI-449-historical-finalization-adopter-recovery"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:18a1f355ffd54bc1d00b2da1d8ea8a7ec6d9df64fa1ad66092f278128ca19e70",
+      "workItemId": "WI-449-historical-finalization-adopter-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-31T14:10:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-449-historical-finalization-adopter-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-449-historical-finalization-adopter-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "提供历史 finalization 的可发现 recovery/projection 与 Git 事实驱动的候选输入，保持新 Work Item 的严格当前 Runtime gate，并以对象形态回归和发布后验收证明 WI-016、WI-018、WI-027 可安全收口。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-449-historical-finalization-adopter-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-449-historical-finalization-adopter-recovery"
+  },
+  "finalReportDigest": "sha256:ae4b232f39b67ab7b3a14e047031b0493662b63705e379fb98eebb8a87eb2817",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:0b94693325022f80e2607f00d31f4d70adb1e5630bf1b1ac03ca89d12b3ffab9",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-449-historical-finalization-adopter-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-31T14:10:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "PR #417 merged with all hosted checks passed; historical recovery and lifecycle guard repair is complete.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-31T14:07:07Z",
+  "workItemId": "WI-449-historical-finalization-adopter-recovery"
+}
