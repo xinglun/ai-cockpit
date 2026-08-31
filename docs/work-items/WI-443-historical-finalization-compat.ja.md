@@ -1,4 +1,5 @@
 ---
+author: AI Cockpit maintainers
 title: "WI-443 — Historical finalization compatibility"
 workItemId: WI-443-historical-finalization-compat
 description: "旧 shared worktree と PR のない local merge の正直な recovery 経路。"

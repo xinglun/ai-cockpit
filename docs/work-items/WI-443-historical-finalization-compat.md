@@ -1,4 +1,5 @@
 ---
+author: AI Cockpit maintainers
 title: "WI-443 — Historical finalization compatibility"
 workItemId: WI-443-historical-finalization-compat
 description: "Honest recovery paths for legacy shared worktrees and direct merges without PRs."
