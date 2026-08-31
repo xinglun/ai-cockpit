@@ -4,9 +4,13 @@ title: "WI-438 — closed WI-437 documentation promotion"
 workItemId: WI-438-reference-doc-promotion
 description: "Promote the tri-language projections for the closed WI-437 governance rebaseline."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-438-reference-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-438-reference-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-438-reference-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-438-reference-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-438-reference-doc-promotion.close.json
 ---
 
 # WI-438 — closed WI-437 documentation promotion

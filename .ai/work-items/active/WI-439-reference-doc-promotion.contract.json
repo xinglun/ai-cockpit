@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "The six tri-language WI-438 projections are promoted only from the closed WI-438 receipts",
+    "This Work Item has matching tri-language documentation and a pre-archive parity entry",
+    "promotion check-all reports no stale projections",
+    "Documentation acceptance, parity/status checks, and workspace verification remain passing",
+    "No governance facts or immutable evidence bytes are rewritten"
+  ],
+  "authority": "authorized",
+  "baseRevision": "01735b0b9b1268a99ecdc95ead0597d55f2d4dd1",
+  "createdAt": "2026-08-31T04:19:50Z",
+  "goal": "Run the canonical closed-Work-Item documentation promotion for WI-438 and leave all tri-language projections current without changing governance facts",
+  "intent": "Promote the closed WI-438 status projections so the repository's documented parity state matches verified archive and close receipts",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source or protocol behavior",
+    "Reference inventory classifications or source checkout",
+    "Changing archived Contract",
+    " Summary",
+    " Outcome",
+    " Evidence",
+    " Decision",
+    " or finalization receipts",
+    "Release publication or adopter acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ef944d48e57d29dca1b503a8e65cf8ac7e37b1355c6c51eb35a1c8a3070f49c1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-439-reference-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi439-reference-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-438-reference-doc-promotion.md",
+    "docs/work-items/WI-438-reference-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-438-reference-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-439-reference-doc-promotion.md",
+    "docs/work-items/WI-439-reference-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-439-reference-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-439-reference-doc-promotion"
+}
