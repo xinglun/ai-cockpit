@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ea19ee2d5ad1a049d74fa708e5a0ee6ceb2826e2",
+    "name": "codex/wi-440-reference-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c5bfcb1e0a2db6f9707892f5862967513661e9355967974854120e647e97c127",
+  "operationId": "github-pr-408-merge-cleanup-20260831",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b36d7ef8a0a630a5c70dc4085782e1f12f971388",
+    "headRevision": "ea19ee2d5ad1a049d74fa708e5a0ee6ceb2826e2",
+    "mergeCommit": "6c8dc990b2d2dd4ac8eff05a10782a90d1709555",
+    "number": 408,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/408"
+  },
+  "reason": "Reviewed PR #408 delivered the documentation promotion and merged as 6c8dc990; generated archive receipts were reviewed and merged in follow-up cleanup PR #409 as c4ba595c. The exact feature branch and dedicated worktree were then removed after synchronizing main.",
+  "receiptId": "ai-cockpit-WI-440-reference-doc-promotion-deleted-20260831",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-440-reference-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/408",
+    "worktree": "/private/tmp/ai-cockpit-wi440-reference-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T13:57:46+09:00",
+  "workItemId": "WI-440-reference-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-440-reference-doc-promotion",
+    "headRevision": "ea19ee2d5ad1a049d74fa708e5a0ee6ceb2826e2",
+    "path": "/private/tmp/ai-cockpit-wi440-reference-doc-promotion",
+    "worktreeId": "WI-440-reference-doc-promotion"
+  }
+}
