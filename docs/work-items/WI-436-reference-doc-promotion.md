@@ -4,9 +4,13 @@ title: "WI-436 — closed documentation projection promotion"
 workItemId: WI-436-reference-doc-promotion
 description: "Promote the tri-language documentation projections after WI-435 close."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-436-reference-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-436-reference-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-436-reference-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-436-reference-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-436-reference-doc-promotion.close.json
 ---
 
 # WI-436 — closed documentation projection promotion

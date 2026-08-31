@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-436-reference-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:413781550b9c17031534699ff5e04a4763db71d100052b7dd55438e686b4c392",
+      "workItemId": "WI-436-reference-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-436-reference-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-436-reference-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-436-reference-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-436-reference-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-436-reference-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-436-reference-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-436-reference-doc-promotion.verification.json",
+            ".ai/decisions/WI-436-reference-doc-promotion.finalize.json",
+            "97653bd59ae8a3da6c36c6f8092261cd4e738288"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-31T12:25:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-436-reference-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-436-reference-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-436-reference-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-436-reference-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep closed Work Item and reference-parity documentation synchronized with immutable lifecycle evidence after rebasing the reference ledger to the maintained local checkout."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-436-reference-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-436-reference-doc-promotion"
+  },
+  "finalReportDigest": "sha256:dc15e4c5f570e277ec6f4aadce24716c70fb2159087c0de9f883281f18455aec",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5d565a33ef91a0fdafd86427de4def5d0c8ac1f79939058e30489647bd4e59c7",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-436-reference-doc-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-31T12:25:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-436-reference-doc-promotion.verification.json",
+      ".ai/decisions/WI-436-reference-doc-promotion.finalize.json",
+      "97653bd59ae8a3da6c36c6f8092261cd4e738288"
+    ],
+    "policyRefs": [
+      "AGENTS.md:post-close-documentation-promotion"
+    ],
+    "reason": "确认三语文档投影已按关闭后的不可变生命周期证据晋级；PR #402 托管检查全部通过并合并，分支和工作树已精确清理。",
+    "resumeCondition": "若关闭后的 projection 再次漂移，必须创建新的文档 Work Item；不得手动改写历史 lifecycle receipts。"
+  },
+  "timestamp": "2026-08-31T03:11:45Z",
+  "workItemId": "WI-436-reference-doc-promotion"
+}

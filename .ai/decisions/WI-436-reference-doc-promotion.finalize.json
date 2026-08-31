@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-policy:merge-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "48a07ab8cb4763a00b3e55e86af523bc193b58fa",
+    "name": "codex/wi-436-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b667c1b7006bd58c76dd95cf629d90b97beea14a13cb649435489bb3afb9a973",
+  "operationId": "wi-436-finalization-operation",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "f06d3ad4b6bed42f9016120eefc54350d4a29aa4",
+    "headRevision": "48a07ab8cb4763a00b3e55e86af523bc193b58fa",
+    "mergeCommit": "97653bd59ae8a3da6c36c6f8092261cd4e738288",
+    "number": 402,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/wi-436"
+  },
+  "reason": "Reviewed GitHub PR #402 merged as 97653bd59ae8a3da6c36c6f8092261cd4e738288; exact branch and worktree cleanup are recorded against the pre-archive plan.",
+  "receiptId": "wi-436-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-436-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/wi-436",
+    "worktree": "/private/tmp/ai-cockpit-wi436-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T12:20:00+09:00",
+  "workItemId": "WI-436-reference-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-436-doc-promotion",
+    "headRevision": "48a07ab8cb4763a00b3e55e86af523bc193b58fa",
+    "path": "/private/tmp/ai-cockpit-wi436-doc-promotion",
+    "worktreeId": "wi-436-doc-promotion"
+  }
+}

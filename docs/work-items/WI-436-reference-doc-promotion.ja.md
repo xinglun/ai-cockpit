@@ -4,9 +4,13 @@ title: "WI-436 — close 済み文書投影の昇格"
 workItemId: WI-436-reference-doc-promotion
 description: "WI-435 close 後の三言語文書投影を昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-436-reference-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-436-reference-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-436-reference-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-436-reference-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-436-reference-doc-promotion.close.json
 ---
 
 # WI-436 — close 済み文書投影の昇格

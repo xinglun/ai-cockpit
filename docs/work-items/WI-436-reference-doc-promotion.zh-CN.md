@@ -4,9 +4,13 @@ title: "WI-436——已关闭文档投影晋级"
 workItemId: WI-436-reference-doc-promotion
 description: "在 WI-435 关闭后晋级三语文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-436-reference-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-436-reference-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-436-reference-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-436-reference-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-436-reference-doc-promotion.close.json
 ---
 
 # WI-436——已关闭文档投影晋级
