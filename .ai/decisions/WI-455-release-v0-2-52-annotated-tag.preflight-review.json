@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:faa34eb2f57120a6287b89c252a990fa266c1774da4b2c6ddc691b8ba729ce8a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "The repository owner explicitly authorized the bounded release recovery and annotated-tag publication path; unresolved preflight facts are limited to evidence collection and will be verified before finish.",
+  "recordedAt": "2026-09-01T02:02:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9632cf3f8721b4db41f75bd847d6c5d8a38d753825d102fb8432fbd56de96c06",
+  "schemaVersion": 1,
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}

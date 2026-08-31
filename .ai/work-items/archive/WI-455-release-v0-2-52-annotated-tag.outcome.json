@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Cargo metadata and release documentation consistently identify v0.2.52 without rewriting historical v0.2.51 failure evidence.",
+    "Release instructions and checks require an annotated tag push, reject lightweight tags, and do not precreate a provider Release.",
+    "Strict release gates, hosted workflow, immutable public artifact checksums, SBOM/provenance, and staged adopter acceptance pass without source or workspace binary fallback.",
+    "The published binary is installed only after checksum verification and the current repository reports healthy inspect, status, doctor, and agent doctor.",
+    "Object-repository inheritance and the immutable failed v0.2.51 publication history are explicitly documented."
+  ],
+  "createdAt": "2026-08-31T18:36:14Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:802d2ac0024afe8ec3b4a26457f9b812b4a11591e23703fa5766c458b1aeaf5c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2c633643fd6408cfea6e081ac3110d65b85d7dc540977e4127a539836f050cd4",
+      "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-455-release-v0-2-52-annotated-tag.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-455-release-v0-2-52-annotated-tag.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-455-release-v0-2-52-annotated-tag.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-455-release-v0-2-52-annotated-tag.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-455-release-v0-2-52-annotated-tag.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.52 from the reviewed main commit, verify public artifacts and adopter acceptance using only immutable release artifacts, then install and bind the published runtime to this repository."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-455-release-v0-2-52-annotated-tag.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+  },
+  "taskReportDigest": "sha256:58b422c5c53d74335384cd4fd8416cf67ec209cb55105492133d3159d78ff6a4",
+  "taskReportMarkdownDigest": "sha256:07e848b58f7b817697f5b49534f447c008f73eb7c9a069ccf3b855119591c727",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}

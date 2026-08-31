@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5e941adf029be175d301bf0e751fcff08c175eab1ac950df36299499356f4ae8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The repository owner authorized this exact release recovery Contract after reviewing the unresolved evidence requirements and the annotated-tag failure boundary.",
+  "recordedAt": "2026-09-01T02:08:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0b8b67fbd8aeaa45a9e36c92fd4eced84d0abd79c96358e963054a9984405719",
+  "schemaVersion": 1,
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}

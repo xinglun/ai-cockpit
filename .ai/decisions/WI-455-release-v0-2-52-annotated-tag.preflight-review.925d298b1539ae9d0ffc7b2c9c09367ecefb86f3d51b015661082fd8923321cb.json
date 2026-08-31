@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:67475ecd02b8aebdd7d98a8e55d3b0d1c63431307bf4dac669c5b74a20254edc",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "The repository owner confirmed the actual provider-bound release plan for PR #425 after the strict local route and workspace verification passed; post-release public adopter acceptance remains a separate immutable handoff.",
+  "recordedAt": "2026-09-01T03:55:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2c633643fd6408cfea6e081ac3110d65b85d7dc540977e4127a539836f050cd4",
+  "schemaVersion": 1,
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}

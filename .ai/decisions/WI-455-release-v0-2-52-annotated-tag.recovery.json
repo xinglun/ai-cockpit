@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T04:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-455-release-v0-2-52-annotated-tag.verification.json",
+    ".ai/work-items/active/WI-455-release-v0-2-52-annotated-tag.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:67475ecd02b8aebdd7d98a8e55d3b0d1c63431307bf4dac669c5b74a20254edc",
+  "predecessorEventsDigest": "sha256:a298f8d7c2f15355f32ac663c8010a784c4bcef38489c2bbd45b90246db905a9",
+  "predecessorOutcomeDigest": "sha256:551db4286501be9beac5e5f2c5e6bd8d6192db90b3f122f0ec398623bf460bf3",
+  "predecessorSummaryDigest": "sha256:1852c1bd0b6b46cea399dbb43ee60ddfb2308099750b2fd325683338ba4908b6",
+  "predecessorWorkItemId": "WI-455-release-v0-2-52-annotated-tag",
+  "reason": "Retry after finalize-plan correctly bound the real PR #425 and invalidated the pre-plan verification; preserve the stopped finish Outcome and re-run fresh preflight and verification against the provider-bound Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record a fresh green preflight decision, verify the provider-bound Contract, then retry finish and continue the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:eacd3768d451ed4661759da02714acf47d8139d53a9c89c6087413f67e2befd7",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}

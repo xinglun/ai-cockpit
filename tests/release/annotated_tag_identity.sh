@@ -20,4 +20,14 @@ peeled_commit_sha="$(git -C "$source_repo" ls-remote origin 'refs/tags/v0.1.0^{}
 test -n "$tag_object_sha"
 test "$tag_object_sha" != "$commit_sha"
 test "$peeled_commit_sha" = "$commit_sha"
-printf 'annotated tag object differs from peeled commit; peeled commit is authoritative\n'
+
+# A lightweight tag has no peeled-tag advertisement in ls-remote.  The
+# release workflow intentionally rejects that shape instead of guessing that
+# the tag was reviewed and immutable.
+git -C "$source_repo" tag v0.1.1
+git -C "$source_repo" push -q origin v0.1.1
+lightweight_object_sha="$(git -C "$source_repo" ls-remote origin refs/tags/v0.1.1 | awk '{print $1}')"
+lightweight_peeled_sha="$(git -C "$source_repo" ls-remote origin 'refs/tags/v0.1.1^{}' | awk '{print $1}')"
+test "$lightweight_object_sha" = "$commit_sha"
+test -z "$lightweight_peeled_sha"
+printf 'annotated tag object differs from peeled commit; lightweight tags have no peeled identity and are rejected\n'

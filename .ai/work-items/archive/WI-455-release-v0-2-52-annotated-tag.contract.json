@@ -1,0 +1,91 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and release documentation consistently identify v0.2.52 without rewriting historical v0.2.51 failure evidence.",
+    "Release instructions and checks require an annotated tag push, reject lightweight tags, and do not precreate a provider Release.",
+    "Strict release gates, hosted workflow, immutable public artifact checksums, SBOM/provenance, and staged adopter acceptance pass without source or workspace binary fallback.",
+    "The published binary is installed only after checksum verification and the current repository reports healthy inspect, status, doctor, and agent doctor.",
+    "Object-repository inheritance and the immutable failed v0.2.51 publication history are explicitly documented."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1f503b0a3beb9258efab2cb11e81ff000175335c",
+  "createdAt": "2026-08-31T17:56:17Z",
+  "goal": "Release v0.2.52 from the reviewed main commit, verify public artifacts and adopter acceptance using only immutable release artifacts, then install and bind the published runtime to this repository.",
+  "intent": "Publish the next patch release through an immutable annotated tag and a reviewed hosted workflow, preserving the failed v0.2.51 lightweight-tag history and preventing the same release-process error.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime lifecycle core",
+    "Object repository operations",
+    "Local reference comparison implementation",
+    "Deleting or rewriting v0.2.51 tag",
+    "Provider release precreation",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9632cf3f8721b4db41f75bd847d6c5d8a38d753825d102fb8432fbd56de96c06",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-455-release-v0-2-52-annotated-tag",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/425",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-455-release-v0-2-52-annotated-tag"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A reviewed annotated tag is peeled to the reviewed source commit and the public Release is created only after every required gate passes.",
+      "required": true,
+      "scenario": "valid_annotated_release",
+      "status": "unverified",
+      "verificationPlan": "Run the annotated-tag fixture, strict release route, hosted release workflow, and public artifact checks."
+    },
+    {
+      "evidence": [],
+      "expected": "A lightweight tag has no peeled identity and cannot trigger a valid publication.",
+      "required": true,
+      "scenario": "lightweight_tag_rejected",
+      "status": "unverified",
+      "verificationPlan": "Run the annotated-tag regression fixture and inspect the release workflow identity check."
+    },
+    {
+      "evidence": [],
+      "expected": "A downloaded public artifact passes checksum-bound adopter acceptance in isolated roots without cargo build/run or workspace binary fallback.",
+      "required": true,
+      "scenario": "public_adopter_without_source_fallback",
+      "status": "unverified",
+      "verificationPlan": "Run the public adopter and N-1 acceptance harnesses against the published v0.2.52 Release."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/release.yml",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/release/**",
+    "docs/work-items/**",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+}
