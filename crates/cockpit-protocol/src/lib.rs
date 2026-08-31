@@ -1044,6 +1044,30 @@ pub struct ResourceFinalizationResult {
     pub unknown_codes: Vec<String>,
 }
 
+/// Explicit compatibility metadata for records produced before the dedicated
+/// linked-worktree/PR workflow was adopted.  Historical records are never
+/// promoted to provider assurance: they remain low-assurance facts that must
+/// be bound to the repository and, for direct merges, to the real merge
+/// commit and its parents.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum HistoricalFinalizationKind {
+    SharedWorktreeRetained,
+    DirectMergeNoPr,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalFinalization {
+    pub kind: HistoricalFinalizationKind,
+    pub assurance: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub merge_commit: Option<String>,
+    #[serde(default)]
+    pub merge_parents: Vec<String>,
+    pub base_revision: String,
+}
+
 /// Identity-bound receipt for post-merge branch/worktree finalization.  It is
 /// a pure protocol record: it does not perform provider calls or filesystem
 /// deletion.  Consumers must validate it before treating a Work Item as
@@ -1073,6 +1097,8 @@ pub struct ResourceFinalizationReceipt {
     pub contract_digest: Option<Digest>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub resource_context: Option<ResourceFinalizationContext>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub historical: Option<HistoricalFinalization>,
 }
 
 /// Append-only successor to an immutable canonical resource-finalization
@@ -1197,9 +1223,16 @@ fn validate_resource_finalization_identity(
         return Err(ResourceFinalizationError::InvalidDigest("contractDigest"));
     }
     if receipt.pull_request.number == 0 {
-        return Err(ResourceFinalizationError::InvalidState(
-            "pull request number must be positive",
-        ));
+        let Some(historical) = receipt.historical.as_ref() else {
+            return Err(ResourceFinalizationError::InvalidState(
+                "pull request number must be positive unless historical compatibility is explicit",
+            ));
+        };
+        if !matches!(historical.kind, HistoricalFinalizationKind::DirectMergeNoPr) {
+            return Err(ResourceFinalizationError::InvalidState(
+                "zero pull request number is reserved for historical direct merge",
+            ));
+        }
     }
     for (value, field) in [
         (receipt.pull_request.url.as_str(), "pullRequest.url"),
@@ -1259,6 +1292,71 @@ fn validate_resource_finalization_identity(
             return Err(ResourceFinalizationError::IdentityMismatch(
                 "resource context does not match receipt identity",
             ));
+        }
+    }
+    if let Some(historical) = &receipt.historical {
+        validate_resource_finalization_text(&historical.assurance, "historical.assurance")?;
+        if historical.assurance != "historical_low" {
+            return Err(ResourceFinalizationError::InvalidState(
+                "historical finalization assurance must be historical_low",
+            ));
+        }
+        validate_resource_finalization_revision(
+            &historical.base_revision,
+            "historical.baseRevision",
+        )?;
+        for parent in &historical.merge_parents {
+            validate_resource_finalization_revision(parent, "historical.mergeParents")?;
+        }
+        match historical.kind {
+            HistoricalFinalizationKind::SharedWorktreeRetained => {
+                if receipt.pull_request.number == 0 || historical.merge_commit.is_some() {
+                    return Err(ResourceFinalizationError::InvalidState(
+                        "shared-worktree history requires a real PR and no direct-merge commit",
+                    ));
+                }
+                if !matches!(
+                    receipt.result.disposition,
+                    ResourceFinalizationDisposition::Retained
+                ) {
+                    return Err(ResourceFinalizationError::InvalidDisposition(
+                        "shared-worktree history must retain its primary worktree",
+                    ));
+                }
+            }
+            HistoricalFinalizationKind::DirectMergeNoPr => {
+                if receipt.pull_request.number != 0
+                    || !receipt
+                        .pull_request
+                        .url
+                        .starts_with("historical://direct-merge/")
+                    || !matches!(
+                        receipt.before.pull_request,
+                        ResourceFinalizationPullRequestState::Merged
+                    )
+                    || !matches!(
+                        receipt.after.pull_request,
+                        ResourceFinalizationPullRequestState::Merged
+                    )
+                {
+                    return Err(ResourceFinalizationError::InvalidState(
+                        "direct-merge history requires a merged no-PR identity",
+                    ));
+                }
+                let Some(merge_commit) = historical.merge_commit.as_ref() else {
+                    return Err(ResourceFinalizationError::InvalidState(
+                        "direct-merge history requires mergeCommit",
+                    ));
+                };
+                if historical.merge_parents.len() < 2
+                    || receipt.pull_request.merge_commit.as_deref() != Some(merge_commit)
+                    || receipt.pull_request.base_revision != historical.base_revision
+                {
+                    return Err(ResourceFinalizationError::IdentityMismatch(
+                        "direct-merge commit, parents, and base are not bound",
+                    ));
+                }
+            }
         }
     }
     Ok(())
@@ -1557,6 +1655,7 @@ pub fn validate_resource_finalization_transition(
         || previous.worktree.branch != next.worktree.branch
         || previous.contract_digest != next.contract_digest
         || previous.resource_context != next.resource_context
+        || previous.historical != next.historical
     {
         return Err(ResourceFinalizationError::IdentityMismatch(
             "finalization transition identity",
