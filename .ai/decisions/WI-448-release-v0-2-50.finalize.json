@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-PR-416-merge-and-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "94dfa879954d19916f413ab4074e36608f2ba864",
+    "name": "codex/wi-448-release-v0-2-50",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1a37afeadcd0045daa24bc014898349839df9132ee6efd3897fcf77b17f95716",
+  "operationId": "github-pr-416-merge-cleanup-20260831",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "96078b69efd5fd491eef8b87c37112d7c98d3251",
+    "headRevision": "94dfa879954d19916f413ab4074e36608f2ba864",
+    "mergeCommit": "189769d65b4d9a5c2fed9dc16b6c4aace5f53e46",
+    "number": 416,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/416"
+  },
+  "reason": "PR #416 passed hosted quality, Windows, V1, and task-list checks, merged as 189769d, and the exact feature branch and worktree were removed after synchronization before creating the v0.2.50 tag.",
+  "receiptId": "github-pr-416-finalization-20260831",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-448-release-v0-2-50",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/416",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-448-release-v0-2-50"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b0e4183bee2da252a0522ead3e1b5d9e20dd1577e3ce62b08f3e198c542e1176",
+  "runtimeVersion": "0.2.48",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T10:30:00Z",
+  "workItemId": "WI-448-release-v0-2-50",
+  "worktree": {
+    "branch": "codex/wi-448-release-v0-2-50",
+    "headRevision": "94dfa879954d19916f413ab4074e36608f2ba864",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-448-release-v0-2-50",
+    "worktreeId": "WI-448-release-v0-2-50"
+  }
+}
