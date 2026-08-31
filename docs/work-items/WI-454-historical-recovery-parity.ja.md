@@ -9,6 +9,7 @@ authority: human-authorized
 lastVerifiedBy: WI-454-historical-recovery-parity
 terminalArchive: .ai/work-items/archive/WI-454-historical-recovery-parity.contract.json
 terminalVerification: .ai/evidence/WI-454-historical-recovery-parity.verification.json
+terminalFinalization: .ai/decisions/WI-454-historical-recovery-parity.finalize.json
 terminalDecision: .ai/decisions/WI-454-historical-recovery-parity.close.json
 ---
 

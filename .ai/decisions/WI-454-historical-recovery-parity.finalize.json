@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-exact-resource-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cf8a9a87cff19369764d16562333f31f07f18e90",
+    "name": "codex/wi-454-historical-recovery-parity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:eed07c432a4827af980a3ddfdd3a2b88e0e55a6d766e0a1d52d385ac90467234",
+  "operationId": "github-pr-424-merge-cleanup-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5e6a6cc17c0e14250a88860b1ed95d8a2c6fb6d1",
+    "headRevision": "cf8a9a87cff19369764d16562333f31f07f18e90",
+    "mergeCommit": "e99218f0de4ebb99566707ee7bb421f6fffc497f",
+    "number": 424,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/424"
+  },
+  "reason": "PR #424 passed all hosted checks and merged as e99218f0; the exact dedicated branch and worktree were removed after synchronizing main.",
+  "receiptId": "ai-cockpit-WI-454-historical-recovery-parity-deleted-20260901",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-454-historical-recovery-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/424",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-454-historical-recovery-parity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:eacd3768d451ed4661759da02714acf47d8139d53a9c89c6087413f67e2befd7",
+  "runtimeVersion": "0.2.50",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T01:41:05+09:00",
+  "workItemId": "WI-454-historical-recovery-parity",
+  "worktree": {
+    "branch": "codex/wi-454-historical-recovery-parity",
+    "headRevision": "cf8a9a87cff19369764d16562333f31f07f18e90",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-454-historical-recovery-parity",
+    "worktreeId": "WI-454-historical-recovery-parity"
+  }
+}

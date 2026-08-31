@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d47356d9f71680ae70df042c5b225de3849492d89c183ca22bf1d1120cb8c596",
+      "workItemId": "WI-454-historical-recovery-parity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-454-historical-recovery-parity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-454-historical-recovery-parity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-454-historical-recovery-parity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-454-historical-recovery-parity.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-merge-exact-resource-cleanup at 2026-09-01T01:42:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-454-historical-recovery-parity.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure historical recovery closures have a deterministic, auditable parity projection and regression coverage before release."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-454-historical-recovery-parity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-454-historical-recovery-parity"
+  },
+  "finalReportDigest": "sha256:f185b6e95c236a5d0be20208b1c4126b7306c071e5d1f725e7de7645f915a3d0",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:948b605530567fafe51c03f33a902cf49b352fcb4635b4a5e08190c302a24907",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-454-historical-recovery-parity.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-exact-resource-cleanup",
+    "decidedAt": "2026-09-01T01:42:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-454-historical-recovery-parity.verification.json"
+    ],
+    "policyRefs": [
+      "release-policy"
+    ],
+    "reason": "Reviewed PR #424 passed hosted checks; historical recovery parity is now enforced with auditable successor evidence.",
+    "resumeCondition": "No resume required; continue from synchronized main."
+  },
+  "timestamp": "2026-08-31T16:41:49Z",
+  "workItemId": "WI-454-historical-recovery-parity"
+}
