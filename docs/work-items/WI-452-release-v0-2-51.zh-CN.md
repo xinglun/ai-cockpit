@@ -4,7 +4,7 @@ title: "WI-452——发布 v0.2.51"
 workItemId: WI-452-release-v0-2-51
 description: "从不可变公开制品发布并验收 v0.2.51 Runtime。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-452-release-v0-2-51
 ---
@@ -12,7 +12,8 @@ lastVerifiedBy: WI-452-release-v0-2-51
 # WI-452——发布 v0.2.51
 
 从审查合并且已同步的 `main` 发布 v0.2.51，并仅使用不可变公开制品完成
-安装与 adopter 验收。失败的历史标签保持不可变且绝不复用。
+安装与 adopter 验收。本 Work Item 在归档时 provider 上下文仍为 provisional，
+由 WI-453 在不改写不可变记录的前提下恢复。失败的历史标签保持不可变且绝不复用。
 
 [English](WI-452-release-v0-2-51.md) · [日本語](WI-452-release-v0-2-51.ja.md)
 

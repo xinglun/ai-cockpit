@@ -4,7 +4,7 @@ title: "WI-452 — Release v0.2.51"
 workItemId: WI-452-release-v0-2-51
 description: "Publish and verify the v0.2.51 Runtime from immutable public artifacts."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-452-release-v0-2-51
 ---
@@ -12,8 +12,9 @@ lastVerifiedBy: WI-452-release-v0-2-51
 # WI-452 — Release v0.2.51
 
 Publish v0.2.51 from a reviewed, synchronized `main`, then install and
-accept the immutable public artifact. Failed historical tags remain immutable
-and are never reused.
+accept the immutable public artifact. This Work Item was archived with a
+provisional provider context and is recovered by WI-453 without rewriting its
+immutable records. Failed historical tags remain immutable and are never reused.
 
 [简体中文](WI-452-release-v0-2-51.zh-CN.md) · [日本語](WI-452-release-v0-2-51.ja.md)
 

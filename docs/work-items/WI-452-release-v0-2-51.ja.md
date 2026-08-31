@@ -4,7 +4,7 @@ title: "WI-452 — v0.2.51 Release"
 workItemId: WI-452-release-v0-2-51
 description: "不変な公開 artifact から v0.2.51 Runtime を公開・検証する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-452-release-v0-2-51
 ---
@@ -12,8 +12,9 @@ lastVerifiedBy: WI-452-release-v0-2-51
 # WI-452 — v0.2.51 Release
 
 レビュー済みで同期された `main` から v0.2.51 を公開し、不変な公開 artifact
-だけを使って install と adopter acceptance を行う。失敗した過去の tag は
-不変履歴として保持し、再利用しない。
+だけを使って install と adopter acceptance を行う。この Work Item は provider
+context が provisional のまま archive されたため、immutable な記録を書き換えず
+WI-453 が recovery します。失敗した過去の tag は不変履歴として保持し、再利用しない。
 
 [English](WI-452-release-v0-2-51.md) · [简体中文](WI-452-release-v0-2-51.zh-CN.md)
 
