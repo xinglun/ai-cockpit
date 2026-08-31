@@ -217,14 +217,14 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=223 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=479 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=230 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=472 migrate-gap=0 -->
 
 At the current local reference comparison baseline, the ledger contains 4,450
-current tracked paths: 3,681 `generated-history`, 223
+current tracked paths: 3,681 `generated-history`, 230
 `implemented-different-by-design`, one `implemented-equivalent`, four
-`not-applicable`, 62 `reference-only`, and 479 `deferred-next-batch` records.
+`not-applicable`, 62 `reference-only`, and 472 `deferred-next-batch` records.
 Deferred records remain scheduled work, not parity claims. The rebaseline also
-records 160 changed current paths (150 non-history decisions awaiting a fresh
+records 160 changed current paths (143 non-history decisions awaiting a fresh
 semantic comparison) and 669 retired paths from the previous ledger. The
 capability/profile slice has no remaining `migrate-gap` records:
 
@@ -262,6 +262,30 @@ snapshot to the reviewed default-branch commit. WI-273 remains an immutable
 failed-delivery record: its first commit could not prove that parity
 registration preceded verification evidence, so the successor redelivery
 keeps that history separate and does not rewrite it.
+
+## WI-437 local-reference governance rebaseline delta
+
+WI-437 re-reads the seven governance files whose bytes changed between the
+previous public-reference ledger and the operator-maintained local checkout.
+All seven are `implemented-different-by-design`; none introduces a Rust
+Runtime omission or a requirement to copy source artifacts.
+
+| Local reference path | Rust result | File-level decision |
+| --- | --- | --- |
+| `.ai/cockpit/README.md` | Implemented differently | The source removed a Python-template Implementation Approach section. Rust keeps its evidence-bound approach and Outcome projection in typed Runtime/docs surfaces. |
+| `.ai/cockpit/README.ja.md` | Implemented differently | The source removed the obsolete `REPORT_LANGUAGE` Make argument; Runtime-owned presentation localization already covers this boundary. |
+| `.ai/cockpit/adoption.ja.md` | Implemented differently | The source onboarding example no longer passes `REPORT_LANGUAGE`; Rust onboarding has no template-local Make command and uses explicit `--repo`. |
+| `.ai/guards/changed_critical_coverage_policy.json` | Implemented differently | Removed Python-only coverage associations are represented by native tests, governance integrity, and typed Runtime controls. |
+| `.ai/guards/coverage_policy.yaml` | Implemented differently | The source association registry is not a Rust configuration surface; coverage ownership is expressed by native tests and CI gate manifests. |
+| `.ai/quality/governance-routing.yaml` | Implemented differently | The source separates route selection from duplicated depth/evidence fields; Rust preserves the same separation through dynamic routing and the versioned gate manifest. |
+| `.ai/schemas/task_outcome.schema.json` | Implemented differently | The source simplified its Python Task Outcome schema. Rust `OutcomeV2`/`humanHandoff` is a separate typed Protocol/presentation contract and is not removed or copied from the source schema. |
+
+The source diff was therefore a reference-side cleanup of Python/Make
+surfaces, not a portable feature delta. The ledger retains the source-change
+provenance (`previousBatch`, `previousClassification`, and
+`sourceChangedSincePrevious`) while the seven current records are no longer
+deferred. This explicit result prevents the local rebaseline from reopening
+the same files in every future comparison.
 
 ## Batch order
 
