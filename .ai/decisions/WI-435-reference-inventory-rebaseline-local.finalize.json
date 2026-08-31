@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-policy:merge-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cecf7c324fe479e49c433c760b02ada958b55d49",
+    "name": "codex/wi-435-reference-inventory-rebaseline",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c8acd365d60098901094d8639906865870c48ac38ef6fb7df88c275c8006b0db",
+  "operationId": "wi-435-finalization-operation",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd",
+    "headRevision": "cecf7c324fe479e49c433c760b02ada958b55d49",
+    "mergeCommit": "be5add1db409d80d8d1459ea8b6f84c691657f32",
+    "number": 401,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/wi-435"
+  },
+  "reason": "Reviewed GitHub PR #401 merged as be5add1db409d80d8d1459ea8b6f84c691657f32; exact branch and worktree cleanup recorded against the pre-archive resource plan.",
+  "receiptId": "wi-435-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-435-reference-inventory-rebaseline",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/wi-435",
+    "worktree": "/private/tmp/ai-cockpit-wi435-reference-rebaseline"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-31T12:00:00+09:00",
+  "workItemId": "WI-435-reference-inventory-rebaseline-local",
+  "worktree": {
+    "branch": "codex/wi-435-reference-inventory-rebaseline",
+    "headRevision": "cecf7c324fe479e49c433c760b02ada958b55d49",
+    "path": "/private/tmp/ai-cockpit-wi435-reference-rebaseline",
+    "worktreeId": "wi-435-reference-inventory-rebaseline"
+  }
+}
