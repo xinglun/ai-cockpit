@@ -4,9 +4,13 @@ title: "WI-453——v0.2.51 发布收尾恢复"
 workItemId: WI-453-release-v0-2-51-finalization-recovery
 description: "恢复归档时 provider 上下文仍为 provisional 的 v0.2.51 发布 Work Item。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-453-release-v0-2-51-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-453-release-v0-2-51-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-453-release-v0-2-51-finalization-recovery.close.json
 ---
 
 # WI-453——v0.2.51 发布收尾恢复

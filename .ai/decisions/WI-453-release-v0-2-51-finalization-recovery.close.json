@@ -1,0 +1,143 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:258155f633bd9c14ec456813994c15b4b0b7b899a71a6d9e462eb3368bb753ac",
+      "workItemId": "WI-453-release-v0-2-51-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-452-release-v0-2-51.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via post-merge-exact-resource-cleanup at 2026-09-01T01:10:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete an auditable recovery lifecycle for the merged v0.2.51 release change, then publish and accept the downloaded release artifact."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-453-release-v0-2-51-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:58317b749d635bd746f09f491520ed648ac701aff6cc151320daae4f16ebbfd4",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:b5dd7a11b51b8534db8597e98ea6e443ed9f1b2d955f6b4f070415ef608f07a2",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-453-release-v0-2-51-finalization-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "post-merge-exact-resource-cleanup",
+    "decidedAt": "2026-09-01T01:10:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json"
+    ],
+    "policyRefs": [
+      "release-policy"
+    ],
+    "reason": "PR #423 merged and exact branch/worktree cleanup was verified; the recovery lineage is ready to close.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-31T16:08:27Z",
+  "workItemId": "WI-453-release-v0-2-51-finalization-recovery"
+}

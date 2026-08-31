@@ -4,9 +4,13 @@ title: "WI-453 — v0.2.51 release finalization recovery"
 workItemId: WI-453-release-v0-2-51-finalization-recovery
 description: "Recover the immutable v0.2.51 release Work Item after its provider context was provisional at archive time."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-453-release-v0-2-51-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-453-release-v0-2-51-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-453-release-v0-2-51-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-453-release-v0-2-51-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-453-release-v0-2-51-finalization-recovery.close.json
 ---
 
 # WI-453 — v0.2.51 release finalization recovery
