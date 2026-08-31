@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Promote WI-450 English, Chinese, and Japanese Work Item documents to implemented terminal metadata from the closed terminal evidence.",
+    "Promote WI-450 English, Chinese, and Japanese reference-parity rows with archive, verification, finalization, and close evidence links.",
+    "Register this Work Item in its own tri-language Work Item documents and parity rows before terminal promotion.",
+    "The deterministic closed-Work-Item promotion helper, documentation acceptance, parity status, and governance integrity checks pass without changing Runtime behavior or immutable prior evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9fdc1138e138f52c6741f23752fc561c9dbafe4e",
+  "createdAt": "2026-08-31T14:49:16Z",
+  "goal": "Promote the closed WI-450 terminal lifecycle into its tri-language documentation and parity projections.",
+  "intent": "Close the post-close documentation projection gap reported by promote_closed_work_item.py while preserving Runtime truth and prior Work Item evidence.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime/Core behavior, CLI behavior, schemas, and release artifacts",
+    "Any modification to WI-450 archive, verification, finalization, or close evidence",
+    "Reference-source feature migration or business-project files",
+    "User-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4ff472025b4f07865a603bb5905ee556b001680e477eea32cd4cd52ea2b93e3a",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-451-wi450-doc-promotion-retry",
+    "provider": "github",
+    "pullRequest": "pending:WI-451-wi450-doc-promotion",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-451-wi450-doc-promotion-retry"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-450-closed-work-item-doc-promotion.md",
+    "docs/work-items/WI-450-closed-work-item-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-450-closed-work-item-doc-promotion.ja.md",
+    "docs/work-items/WI-451-wi450-doc-promotion.md",
+    "docs/work-items/WI-451-wi450-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-451-wi450-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".ai/decisions/WI-450-closed-work-item-doc-promotion.close.json",
+    ".ai/decisions/WI-450-closed-work-item-doc-promotion.finalize.json",
+    ".ai/evidence/WI-450-closed-work-item-doc-promotion.verification.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/parity_status_check.sh",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-450-closed-work-item-doc-promotion",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-451-wi450-doc-promotion"
+}
