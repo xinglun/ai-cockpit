@@ -4,9 +4,13 @@ title: "WI-437 — local-reference governance rebaseline delta"
 workItemId: WI-437-reference-rebaseline-governance
 description: "maintainer 管理の local reference checkout で変更された governance file 7 件を再確認する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-437-reference-rebaseline-governance
+terminalArchive: .ai/work-items/archive/WI-437-reference-rebaseline-governance.contract.json
+terminalVerification: .ai/evidence/WI-437-reference-rebaseline-governance.verification.json
+terminalFinalization: .ai/decisions/WI-437-reference-rebaseline-governance.finalize.json
+terminalDecision: .ai/decisions/WI-437-reference-rebaseline-governance.close.json
 ---
 
 # WI-437 — local-reference governance rebaseline delta

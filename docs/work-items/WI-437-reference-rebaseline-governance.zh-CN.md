@@ -4,9 +4,13 @@ title: "WI-437——本地参考源治理规则重新比对"
 workItemId: WI-437-reference-rebaseline-governance
 description: "重新阅读维护者本地参考源中变化的七个治理文件。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-437-reference-rebaseline-governance
+terminalArchive: .ai/work-items/archive/WI-437-reference-rebaseline-governance.contract.json
+terminalVerification: .ai/evidence/WI-437-reference-rebaseline-governance.verification.json
+terminalFinalization: .ai/decisions/WI-437-reference-rebaseline-governance.finalize.json
+terminalDecision: .ai/decisions/WI-437-reference-rebaseline-governance.close.json
 ---
 
 # WI-437——本地参考源治理规则重新比对
