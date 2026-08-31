@@ -11,10 +11,12 @@ the pinned source revision.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import subprocess
 import sys
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -30,8 +32,9 @@ ALLOWED_CLASSIFICATIONS = {
 }
 FIRST_BATCH = "governance-entrypoints"
 GETTING_STARTED_BATCH = "getting-started-onboarding"
-EXPECTED_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
-EXPECTED_TARGET_COMMIT = "bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b"
+EXPECTED_REFERENCE_COMMIT = "fde3380f81fea5fd2e288f7a8849f737dc074060"
+EXPECTED_TARGET_COMMIT = "cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd"
+HISTORICAL_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
 CAPABILITY_STATUS_BATCH = "capability-status-projection"
 WI270_BATCH = "WI-270-reference-contract-batch"
 WI287_BATCH = "WI-287-reference-checkpoint-conformance"
@@ -1968,9 +1971,35 @@ def git_paths(repository: Path, revision: str) -> list[str]:
     return [line for line in result.stdout.splitlines() if line]
 
 
+def git_changed_paths(repository: Path, previous_revision: str, revision: str) -> set[str]:
+    """Return paths whose source bytes or tracked presence changed between commits."""
+    for value in (previous_revision, revision):
+        if len(value) != 40 or any(character not in "0123456789abcdef" for character in value):
+            raise ValueError(f"revision must be a full lowercase commit digest: {value!r}")
+    result = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(repository),
+            "diff",
+            "--name-only",
+            f"{previous_revision}..{revision}",
+            "--",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return {line for line in result.stdout.splitlines() if line}
+
+
 def digest_paths(paths: list[str]) -> str:
     payload = "\n".join(sorted(paths)) + "\n"
     return "sha256:" + hashlib.sha256(payload.encode()).hexdigest()
+
+
+def digest_bytes(path: Path) -> str:
+    return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def is_generated_history(path: str) -> bool:
@@ -2552,6 +2581,10 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
         "targetRepository": "https://github.com/xinglun/ai-cockpit",
         "targetCommit": target_commit,
         "referenceTrackedFileCount": len(reference_paths),
+        "referenceChangedPathCount": 0,
+        "referenceChangedPaths": [],
+        "retiredReferencePathCount": 0,
+        "retiredReferencePaths": [],
         "targetTrackedFileCount": len(target_commit_paths),
         "targetTrackedPathDigest": digest_paths(target_commit_paths),
         "targetWorkingTreeFileCount": len(target_paths),
@@ -2559,6 +2592,135 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
         "allowedClassifications": sorted(ALLOWED_CLASSIFICATIONS),
         "records": records,
     }
+
+
+def rebaseline(
+    previous_manifest_path: Path,
+    reference: Path,
+    target: Path,
+    source_commit: str,
+    target_commit: str,
+) -> dict[str, Any]:
+    """Rebind an existing ledger without silently dropping prior decisions.
+
+    A source checkout is allowed to remove or revise files.  Current records
+    are therefore projected from the previous ledger, while removed paths are
+    retained as compact historical records and changed non-history paths are
+    made explicitly deferred until a later semantic comparison batch reviews
+    the new source bytes.
+    """
+    previous = json.loads(previous_manifest_path.read_text(encoding="utf-8"))
+    previous_records = previous.get("records")
+    if not isinstance(previous_records, list) or not previous_records:
+        raise ValueError("previous manifest must contain a non-empty records list")
+    previous_source = previous.get("referenceCommit")
+    if not isinstance(previous_source, str):
+        raise ValueError("previous manifest is missing referenceCommit")
+    previous_by_path: dict[str, dict[str, Any]] = {}
+    for record in previous_records:
+        if not isinstance(record, dict) or not isinstance(record.get("referencePath"), str):
+            raise ValueError("previous manifest contains an invalid record")
+        previous_by_path[record["referencePath"]] = record
+
+    current_paths = git_paths(reference, source_commit)
+    current_set = set(current_paths)
+    changed_paths = git_changed_paths(reference, previous_source, source_commit)
+    retired_paths = sorted(set(previous_by_path) - current_set)
+    # Preserve the complete prior ledger in ``records``.  Retired source paths
+    # remain available for historical audit, while ``retiredReferencePaths``
+    # explicitly removes them from the current baseline.  This avoids a large
+    # destructive JSON diff and, more importantly, prevents prior decisions
+    # from silently disappearing when the reference checkout changes.
+    current_records: list[dict[str, Any]] = [copy.deepcopy(record) for record in previous_records]
+    records_by_path = {
+        record["referencePath"]: record
+        for record in current_records
+    }
+    for path in current_paths:
+        previous_record = records_by_path.get(path)
+        if previous_record is None:
+            record = {
+                "referencePath": path,
+                "batch": "rebaseline-delta",
+                "classification": "deferred-next-batch",
+                "rustCounterparts": [],
+                "reason": (
+                    f"New path at local reference commit {source_commit}; "
+                    "semantic comparison is required before any parity claim."
+                ),
+                "sourceChangedSincePrevious": True,
+            }
+            current_records.append(record)
+            records_by_path[path] = record
+            continue
+        record = previous_record
+        if path in changed_paths:
+            record["sourceChangedSincePrevious"] = True
+            if record.get("classification") != "generated-history":
+                record["previousBatch"] = record.get("batch")
+                record["previousClassification"] = record.get("classification")
+                record["rebaselineBatch"] = "rebaseline-delta"
+                record["classification"] = "deferred-next-batch"
+                record["rustCounterparts"] = record.get("rustCounterparts", [])
+                record["reason"] = (
+                    f"Source path changed between {previous_source} and {source_commit}; "
+                    "the previous decision is retained as history and must be re-reviewed."
+                )
+        else:
+            # Do not add a per-record false marker.  The changed-path index is
+            # the authoritative set; omitting the default keeps this large
+            # machine ledger reviewable while preserving an explicit marker
+            # for every path whose source bytes changed.
+            record.pop("sourceChangedSincePrevious", None)
+    retired_records: list[str] = []
+    for path in retired_paths:
+        record = records_by_path[path]
+        # A retired record is historical, not part of the current changed set.
+        record.pop("sourceChangedSincePrevious", None)
+        # The complete prior record remains in ``records``.  A compact path
+        # index plus previousManifestGitRevision/digest is sufficient to bind
+        # the historical bytes without duplicating 669 verbose objects.
+        retired_records.append(path)
+
+    target_paths = git_paths(target, target_commit)
+    return {
+        "schemaVersion": 1,
+        "referenceRepository": "local-git-checkout",
+        "referencePathEnv": "AI_COCKPIT_REFERENCE_ROOT",
+        "referenceNetworkAccess": False,
+        "referenceCommit": source_commit,
+        "previousReferenceCommit": previous_source,
+        "previousManifestGitRevision": target_commit,
+        "previousManifestDigest": digest_bytes(previous_manifest_path),
+        "referenceTrackedFileCount": len(current_paths),
+        "recordsIncludeRetiredHistory": True,
+        "referenceChangedPathCount": len(changed_paths & current_set),
+        "referenceChangedPaths": sorted(changed_paths & current_set),
+        "retiredReferencePathCount": len(retired_records),
+        "retiredReferencePaths": retired_records,
+        "retiredReferenceCommit": previous_source,
+        "targetRepository": "https://github.com/xinglun/ai-cockpit",
+        "targetCommit": target_commit,
+        "targetTrackedFileCount": len(target_paths),
+        "targetTrackedPathDigest": digest_paths(target_paths),
+        "targetWorkingTreeFileCount": len(target_paths),
+        "targetWorkingTreePathDigest": digest_paths(target_paths),
+        "allowedClassifications": sorted(ALLOWED_CLASSIFICATIONS),
+        "records": current_records,
+    }
+
+
+def historical_classification(record: dict[str, Any]) -> str | None:
+    """Use the prior batch decision only for structural history checks."""
+    if record.get("sourceChangedSincePrevious") and record.get("previousClassification"):
+        return record.get("previousClassification")
+    return record.get("classification")
+
+
+def is_commit_digest(value: Any) -> bool:
+    return isinstance(value, str) and len(value) == 40 and all(
+        character in "0123456789abcdef" for character in value
+    )
 
 
 def validate(manifest: dict[str, Any], expected_source: str, expected_target: str) -> list[str]:
@@ -2573,6 +2735,21 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
         errors.append("referenceNetworkAccess must be false")
     if manifest.get("referenceCommit") != expected_source:
         errors.append("referenceCommit is not the pinned source commit")
+    if manifest.get("previousReferenceCommit") is not None and not is_commit_digest(
+        manifest.get("previousReferenceCommit")
+    ):
+        errors.append("previousReferenceCommit must be a full lowercase commit digest")
+    if manifest.get("previousManifestGitRevision") is not None and not is_commit_digest(
+        manifest.get("previousManifestGitRevision")
+    ):
+        errors.append("previousManifestGitRevision must be a full lowercase commit digest")
+    previous_manifest_digest = manifest.get("previousManifestDigest")
+    if previous_manifest_digest is not None and (
+        not isinstance(previous_manifest_digest, str)
+        or not previous_manifest_digest.startswith("sha256:")
+        or len(previous_manifest_digest) != len("sha256:") + 64
+    ):
+        errors.append("previousManifestDigest must be a sha256 digest")
     if manifest.get("targetCommit") != expected_target:
         errors.append("targetCommit is not the pinned target baseline")
     if manifest.get("targetWorkingTreeFileCount") != manifest.get("targetTrackedFileCount"):
@@ -2582,6 +2759,36 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
     records = manifest.get("records")
     if not isinstance(records, list) or not records:
         return errors + ["records must be a non-empty list"]
+    tracked_paths = manifest.get("referenceTrackedPaths")
+    if tracked_paths is not None:
+        if not isinstance(tracked_paths, list) or any(not isinstance(path, str) for path in tracked_paths):
+            errors.append("referenceTrackedPaths must be a list of strings")
+            tracked_paths = None
+        elif len(tracked_paths) != len(set(tracked_paths)):
+            errors.append("referenceTrackedPaths contains duplicates")
+    retired_paths = manifest.get("retiredReferencePaths", [])
+    if not isinstance(retired_paths, list):
+        errors.append("retiredReferencePaths must be a list")
+        retired_paths = []
+    for index, retired in enumerate(retired_paths):
+        if isinstance(retired, str):
+            if not retired:
+                errors.append(f"retiredReferencePaths[{index}] must not be empty")
+            continue
+        if not isinstance(retired, dict) or not isinstance(retired.get("referencePath"), str):
+            errors.append(f"retiredReferencePaths[{index}] missing referencePath")
+            continue
+        if not retired.get("lastSeenCommit") or not retired.get("previousClassification"):
+            errors.append(f"retiredReferencePaths[{index}] is missing historical identity")
+    retired_names = {
+        retired if isinstance(retired, str) else retired.get("referencePath")
+        for retired in retired_paths
+        if isinstance(retired, str) or isinstance(retired, dict)
+    }
+    if manifest.get("retiredReferenceCommit") is not None and not is_commit_digest(
+        manifest.get("retiredReferenceCommit")
+    ):
+        errors.append("retiredReferenceCommit must be a full lowercase commit digest")
     paths: set[str] = set()
     for index, record in enumerate(records):
         prefix = f"record[{index}]"
@@ -2593,6 +2800,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(f"duplicate referencePath: {path}")
         paths.add(path)
         classification = record.get("classification")
+        historical = historical_classification(record)
         if classification not in ALLOWED_CLASSIFICATIONS:
             errors.append(f"{path}: invalid classification {classification!r}")
         if not isinstance(record.get("reason"), str) or not record["reason"].strip():
@@ -2600,23 +2808,61 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
         if not isinstance(record.get("rustCounterparts"), list):
             errors.append(f"{path}: rustCounterparts must be a list")
         if record.get("batch") == FIRST_BATCH:
-            if classification == "deferred-next-batch":
+            if classification == "deferred-next-batch" and historical == "deferred-next-batch":
                 errors.append(f"{path}: first-batch file cannot be deferred")
-            if not record.get("rustCounterparts") and classification not in {
+            if not record.get("rustCounterparts") and historical not in {
                 "reference-only",
                 "not-applicable",
                 "migrate-gap",
             }:
                 errors.append(f"{path}: first-batch record needs a counterpart or explicit boundary classification")
         if record.get("batch") == GETTING_STARTED_BATCH:
-            if classification == "deferred-next-batch":
+            if classification == "deferred-next-batch" and historical == "deferred-next-batch":
                 errors.append(f"{path}: getting-started file cannot remain deferred")
-            if not record.get("rustCounterparts") and classification not in {
+            if not record.get("rustCounterparts") and historical not in {
                 "reference-only",
                 "not-applicable",
                 "migrate-gap",
             }:
                 errors.append(f"{path}: getting-started record needs a counterpart or explicit gap")
+    current_record_paths = paths - retired_names
+    if tracked_paths is not None and current_record_paths != set(tracked_paths):
+        errors.append("referenceTrackedPaths does not match non-retired record paths")
+    if manifest.get("referenceTrackedFileCount") != len(current_record_paths):
+        errors.append("referenceTrackedFileCount does not match non-retired record paths")
+    if not retired_names <= paths:
+        errors.append("retiredReferencePaths must have a preserved record")
+    if manifest.get("retiredReferencePathCount") is not None and manifest.get("retiredReferencePathCount") != len(retired_paths):
+        errors.append("retiredReferencePathCount does not match retiredReferencePaths")
+    current_reference_paths = (
+        set(tracked_paths) if tracked_paths is not None else paths - retired_names
+    )
+    # All conformance-batch assertions below describe the current source
+    # baseline.  Historical retired records were already structurally checked
+    # above and must not inflate current batch counts.
+    records = [
+        record
+        for record in records
+        if isinstance(record, dict) and record.get("referencePath") in current_reference_paths
+    ]
+    changed_paths = manifest.get("referenceChangedPaths", [])
+    if not isinstance(changed_paths, list) or any(not isinstance(path, str) for path in changed_paths):
+        errors.append("referenceChangedPaths must be a list of strings")
+        changed_paths = []
+    elif len(changed_paths) != len(set(changed_paths)):
+        errors.append("referenceChangedPaths contains duplicates")
+    changed_path_set = set(changed_paths)
+    if not changed_path_set <= current_reference_paths:
+        errors.append("referenceChangedPaths must be a subset of current reference paths")
+    if manifest.get("referenceChangedPathCount") is not None and manifest.get("referenceChangedPathCount") != len(changed_paths):
+        errors.append("referenceChangedPathCount does not match referenceChangedPaths")
+    changed_records = {
+        record.get("referencePath")
+        for record in records
+        if isinstance(record, dict) and record.get("sourceChangedSincePrevious") is True
+    }
+    if changed_records != changed_path_set:
+        errors.append("sourceChangedSincePrevious records do not match referenceChangedPaths")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -2624,11 +2870,13 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
         and record.get("referencePath") in CAPABILITY_STATUS_RECORDS
     }
     for path in CAPABILITY_STATUS_RECORDS:
+        if path not in current_reference_paths:
+            continue
         record = scoped.get(path)
         if record is None:
             errors.append(f"{path}: capability/status comparison record is missing")
             continue
-        if record.get("classification") in {None, "", "deferred-next-batch"}:
+        if historical_classification(record) in {None, "", "deferred-next-batch"}:
             errors.append(f"{path}: capability/status classification must be non-deferred")
         if not record.get("rustCounterparts") and "no exact Rust counterpart" not in record.get("reason", ""):
             errors.append(f"{path}: capability/status result needs counterparts or an explicit no-counterpart reason")
@@ -2641,7 +2889,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI325_BATCH
         ]
-        expected_wi325_paths = set(WI325_REFERENCE_FILES)
+        expected_wi325_paths = set(WI325_REFERENCE_FILES) & current_reference_paths
         actual_wi325_paths = {
             record.get("referencePath")
             for record in wi325_records
@@ -2656,11 +2904,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-325 batch must contain {len(expected_wi325_paths)} records, found {len(wi325_records)}"
             )
-        wi325_classifications = [record.get("classification") for record in wi325_records]
-        if wi325_classifications.count("implemented-different-by-design") != 8:
-            errors.append("WI-325 batch must contain eight implemented-different-by-design records")
-        if wi325_classifications.count("reference-only") != 1:
-            errors.append("WI-325 batch must contain one reference-only record")
+        wi325_classifications = [historical_classification(record) for record in wi325_records]
+        expected_wi325_classifications = Counter(
+            WI325_REFERENCE_FILES[path][0] for path in expected_wi325_paths
+        )
+        if any(
+            wi325_classifications.count(classification) != count
+            for classification, count in expected_wi325_classifications.items()
+        ):
+            errors.append("WI-325 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi325_classifications
@@ -2675,7 +2927,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI326_BATCH
         ]
-        expected_wi326_paths = set(WI326_REFERENCE_FILES)
+        expected_wi326_paths = set(WI326_REFERENCE_FILES) & current_reference_paths
         actual_wi326_paths = {
             record.get("referencePath")
             for record in wi326_records
@@ -2690,11 +2942,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-326 batch must contain {len(expected_wi326_paths)} records, found {len(wi326_records)}"
             )
-        wi326_classifications = [record.get("classification") for record in wi326_records]
-        if wi326_classifications.count("implemented-different-by-design") != 8:
-            errors.append("WI-326 batch must contain eight implemented-different-by-design records")
-        if wi326_classifications.count("reference-only") != 1:
-            errors.append("WI-326 batch must contain one reference-only record")
+        wi326_classifications = [historical_classification(record) for record in wi326_records]
+        expected_wi326_classifications = Counter(
+            WI326_REFERENCE_FILES[path][0] for path in expected_wi326_paths
+        )
+        if any(
+            wi326_classifications.count(classification) != count
+            for classification, count in expected_wi326_classifications.items()
+        ):
+            errors.append("WI-326 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi326_classifications
@@ -2709,7 +2965,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI327_BATCH
         ]
-        expected_wi327_paths = set(WI327_REFERENCE_FILES)
+        expected_wi327_paths = set(WI327_REFERENCE_FILES) & current_reference_paths
         actual_wi327_paths = {
             record.get("referencePath")
             for record in wi327_records
@@ -2724,11 +2980,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-327 batch must contain {len(expected_wi327_paths)} records, found {len(wi327_records)}"
             )
-        wi327_classifications = [record.get("classification") for record in wi327_records]
-        if wi327_classifications.count("implemented-different-by-design") != 8:
-            errors.append("WI-327 batch must contain eight implemented-different-by-design records")
-        if wi327_classifications.count("reference-only") != 1:
-            errors.append("WI-327 batch must contain one reference-only record")
+        wi327_classifications = [historical_classification(record) for record in wi327_records]
+        expected_wi327_classifications = Counter(
+            WI327_REFERENCE_FILES[path][0] for path in expected_wi327_paths
+        )
+        if any(
+            wi327_classifications.count(classification) != count
+            for classification, count in expected_wi327_classifications.items()
+        ):
+            errors.append("WI-327 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi327_classifications
@@ -2743,7 +3003,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI328_BATCH
         ]
-        expected_wi328_paths = set(WI328_REFERENCE_FILES)
+        expected_wi328_paths = set(WI328_REFERENCE_FILES) & current_reference_paths
         actual_wi328_paths = {
             record.get("referencePath")
             for record in wi328_records
@@ -2758,11 +3018,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-328 batch must contain {len(expected_wi328_paths)} records, found {len(wi328_records)}"
             )
-        wi328_classifications = [record.get("classification") for record in wi328_records]
-        if wi328_classifications.count("implemented-different-by-design") != 5:
-            errors.append("WI-328 batch must contain five implemented-different-by-design records")
-        if wi328_classifications.count("reference-only") != 4:
-            errors.append("WI-328 batch must contain four reference-only records")
+        wi328_classifications = [historical_classification(record) for record in wi328_records]
+        expected_wi328_classifications = Counter(
+            WI328_REFERENCE_FILES[path][0] for path in expected_wi328_paths
+        )
+        if any(
+            wi328_classifications.count(classification) != count
+            for classification, count in expected_wi328_classifications.items()
+        ):
+            errors.append("WI-328 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi328_classifications
@@ -2777,7 +3041,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI331_BATCH
         ]
-        expected_wi331_paths = set(WI331_REFERENCE_FILES)
+        expected_wi331_paths = set(WI331_REFERENCE_FILES) & current_reference_paths
         actual_wi331_paths = {
             record.get("referencePath")
             for record in wi331_records
@@ -2792,9 +3056,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-331 batch must contain {len(expected_wi331_paths)} records, found {len(wi331_records)}"
             )
-        wi331_classifications = [record.get("classification") for record in wi331_records]
-        if wi331_classifications.count("implemented-different-by-design") != len(expected_wi331_paths):
-            errors.append("WI-331 batch must contain two implemented-different-by-design records")
+        wi331_classifications = [historical_classification(record) for record in wi331_records]
+        expected_wi331_classifications = Counter(
+            WI331_REFERENCE_FILES[path][0] for path in expected_wi331_paths
+        )
+        if any(
+            wi331_classifications.count(classification) != count
+            for classification, count in expected_wi331_classifications.items()
+        ):
+            errors.append("WI-331 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi331_classifications
@@ -2809,7 +3079,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI332_BATCH
         ]
-        expected_wi332_paths = set(WI332_REFERENCE_FILES)
+        expected_wi332_paths = set(WI332_REFERENCE_FILES) & current_reference_paths
         actual_wi332_paths = {
             record.get("referencePath")
             for record in wi332_records
@@ -2824,9 +3094,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-332 batch must contain {len(expected_wi332_paths)} records, found {len(wi332_records)}"
             )
-        wi332_classifications = [record.get("classification") for record in wi332_records]
-        if wi332_classifications.count("reference-only") != len(expected_wi332_paths):
-            errors.append("WI-332 batch must contain three reference-only records")
+        wi332_classifications = [historical_classification(record) for record in wi332_records]
+        expected_wi332_classifications = Counter(
+            WI332_REFERENCE_FILES[path][0] for path in expected_wi332_paths
+        )
+        if any(
+            wi332_classifications.count(classification) != count
+            for classification, count in expected_wi332_classifications.items()
+        ):
+            errors.append("WI-332 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi332_classifications
@@ -2841,7 +3117,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI334_BATCH
         ]
-        expected_wi334_paths = set(WI334_REFERENCE_FILES)
+        expected_wi334_paths = set(WI334_REFERENCE_FILES) & current_reference_paths
         actual_wi334_paths = {
             record.get("referencePath")
             for record in wi334_records
@@ -2856,9 +3132,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-334 batch must contain {len(expected_wi334_paths)} records, found {len(wi334_records)}"
             )
-        wi334_classifications = [record.get("classification") for record in wi334_records]
-        if wi334_classifications.count("implemented-different-by-design") != len(expected_wi334_paths):
-            errors.append("WI-334 batch must contain ten implemented-different-by-design records")
+        wi334_classifications = [historical_classification(record) for record in wi334_records]
+        expected_wi334_classifications = Counter(
+            WI334_REFERENCE_FILES[path][0] for path in expected_wi334_paths
+        )
+        if any(
+            wi334_classifications.count(classification) != count
+            for classification, count in expected_wi334_classifications.items()
+        ):
+            errors.append("WI-334 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi334_classifications
@@ -2873,7 +3155,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI342_BATCH
         ]
-        expected_wi342_paths = set(WI342_REFERENCE_FILES)
+        expected_wi342_paths = set(WI342_REFERENCE_FILES) & current_reference_paths
         actual_wi342_paths = {
             record.get("referencePath")
             for record in wi342_records
@@ -2888,11 +3170,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-342 batch must contain {len(expected_wi342_paths)} records, found {len(wi342_records)}"
             )
-        wi342_classifications = [record.get("classification") for record in wi342_records]
-        if wi342_classifications.count("implemented-different-by-design") != 8:
-            errors.append("WI-342 batch must contain eight implemented-different-by-design records")
-        if wi342_classifications.count("reference-only") != 2:
-            errors.append("WI-342 batch must contain two reference-only records")
+        wi342_classifications = [historical_classification(record) for record in wi342_records]
+        expected_wi342_classifications = Counter(
+            WI342_REFERENCE_FILES[path][0] for path in expected_wi342_paths
+        )
+        if any(
+            wi342_classifications.count(classification) != count
+            for classification, count in expected_wi342_classifications.items()
+        ):
+            errors.append("WI-342 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi342_classifications
@@ -2907,7 +3193,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI343_BATCH
         ]
-        expected_wi343_paths = set(WI343_REFERENCE_FILES)
+        expected_wi343_paths = set(WI343_REFERENCE_FILES) & current_reference_paths
         actual_wi343_paths = {
             record.get("referencePath")
             for record in wi343_records
@@ -2922,13 +3208,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-343 batch must contain {len(expected_wi343_paths)} records, found {len(wi343_records)}"
             )
-        wi343_classifications = [record.get("classification") for record in wi343_records]
-        if wi343_classifications.count("implemented-different-by-design") != 1:
-            errors.append("WI-343 batch must contain one implemented-different-by-design record")
-        if wi343_classifications.count("not-applicable") != 1:
-            errors.append("WI-343 batch must contain one not-applicable record")
-        if wi343_classifications.count("reference-only") != 3:
-            errors.append("WI-343 batch must contain three reference-only records")
+        wi343_classifications = [historical_classification(record) for record in wi343_records]
+        expected_wi343_classifications = Counter(
+            WI343_REFERENCE_FILES[path][0] for path in expected_wi343_paths
+        )
+        if any(
+            wi343_classifications.count(classification) != count
+            for classification, count in expected_wi343_classifications.items()
+        ):
+            errors.append("WI-343 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi343_classifications
@@ -2943,7 +3231,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI344_BATCH
         ]
-        expected_wi344_paths = set(WI344_REFERENCE_FILES)
+        expected_wi344_paths = set(WI344_REFERENCE_FILES) & current_reference_paths
         actual_wi344_paths = {
             record.get("referencePath")
             for record in wi344_records
@@ -2958,11 +3246,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-344 batch must contain {len(expected_wi344_paths)} records, found {len(wi344_records)}"
             )
-        wi344_classifications = [record.get("classification") for record in wi344_records]
-        if wi344_classifications.count("implemented-different-by-design") != 3:
-            errors.append("WI-344 batch must contain three implemented-different-by-design records")
-        if wi344_classifications.count("reference-only") != 2:
-            errors.append("WI-344 batch must contain two reference-only records")
+        wi344_classifications = [historical_classification(record) for record in wi344_records]
+        expected_wi344_classifications = Counter(
+            WI344_REFERENCE_FILES[path][0] for path in expected_wi344_paths
+        )
+        if any(
+            wi344_classifications.count(classification) != count
+            for classification, count in expected_wi344_classifications.items()
+        ):
+            errors.append("WI-344 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi344_classifications
@@ -2977,7 +3269,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI346_BATCH
         ]
-        expected_wi346_paths = set(WI346_REFERENCE_FILES)
+        expected_wi346_paths = set(WI346_REFERENCE_FILES) & current_reference_paths
         actual_wi346_paths = {
             record.get("referencePath")
             for record in wi346_records
@@ -2992,9 +3284,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-346 batch must contain {len(expected_wi346_paths)} records, found {len(wi346_records)}"
             )
-        wi346_classifications = [record.get("classification") for record in wi346_records]
-        if wi346_classifications.count("implemented-different-by-design") != len(expected_wi346_paths):
-            errors.append("WI-346 batch must contain six implemented-different-by-design records")
+        wi346_classifications = [historical_classification(record) for record in wi346_records]
+        expected_wi346_classifications = Counter(
+            WI346_REFERENCE_FILES[path][0] for path in expected_wi346_paths
+        )
+        if any(
+            wi346_classifications.count(classification) != count
+            for classification, count in expected_wi346_classifications.items()
+        ):
+            errors.append("WI-346 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi346_classifications
@@ -3009,7 +3307,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI347_BATCH
         ]
-        expected_wi347_paths = set(WI347_REFERENCE_FILES)
+        expected_wi347_paths = set(WI347_REFERENCE_FILES) & current_reference_paths
         actual_wi347_paths = {
             record.get("referencePath")
             for record in wi347_records
@@ -3024,9 +3322,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-347 batch must contain {len(expected_wi347_paths)} records, found {len(wi347_records)}"
             )
-        wi347_classifications = [record.get("classification") for record in wi347_records]
-        if wi347_classifications.count("implemented-different-by-design") != len(expected_wi347_paths):
-            errors.append("WI-347 batch must contain ten implemented-different-by-design records")
+        wi347_classifications = [historical_classification(record) for record in wi347_records]
+        expected_wi347_classifications = Counter(
+            WI347_REFERENCE_FILES[path][0] for path in expected_wi347_paths
+        )
+        if any(
+            wi347_classifications.count(classification) != count
+            for classification, count in expected_wi347_classifications.items()
+        ):
+            errors.append("WI-347 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi347_classifications
@@ -3041,7 +3345,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI348_BATCH
         ]
-        expected_wi348_paths = set(WI348_REFERENCE_FILES)
+        expected_wi348_paths = set(WI348_REFERENCE_FILES) & current_reference_paths
         actual_wi348_paths = {
             record.get("referencePath")
             for record in wi348_records
@@ -3056,11 +3360,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-348 batch must contain {len(expected_wi348_paths)} records, found {len(wi348_records)}"
             )
-        wi348_classifications = [record.get("classification") for record in wi348_records]
-        if wi348_classifications.count("implemented-different-by-design") != 7:
-            errors.append("WI-348 batch must contain seven implemented-different-by-design records")
-        if wi348_classifications.count("reference-only") != 3:
-            errors.append("WI-348 batch must contain three reference-only records")
+        wi348_classifications = [historical_classification(record) for record in wi348_records]
+        expected_wi348_classifications = Counter(
+            WI348_REFERENCE_FILES[path][0] for path in expected_wi348_paths
+        )
+        if any(
+            wi348_classifications.count(classification) != count
+            for classification, count in expected_wi348_classifications.items()
+        ):
+            errors.append("WI-348 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi348_classifications
@@ -3075,7 +3383,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI411_BATCH
         ]
-        expected_wi411_paths = set(WI411_REFERENCE_FILES)
+        expected_wi411_paths = set(WI411_REFERENCE_FILES) & current_reference_paths
         actual_wi411_paths = {
             record.get("referencePath")
             for record in wi411_records
@@ -3090,9 +3398,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-411 batch must contain {len(expected_wi411_paths)} records, found {len(wi411_records)}"
             )
-        wi411_classifications = [record.get("classification") for record in wi411_records]
-        if wi411_classifications.count("reference-only") != len(expected_wi411_paths):
-            errors.append("WI-411 batch must contain nine reference-only records")
+        wi411_classifications = [historical_classification(record) for record in wi411_records]
+        expected_wi411_classifications = Counter(
+            WI411_REFERENCE_FILES[path][0] for path in expected_wi411_paths
+        )
+        if any(
+            wi411_classifications.count(classification) != count
+            for classification, count in expected_wi411_classifications.items()
+        ):
+            errors.append("WI-411 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi411_classifications
@@ -3107,7 +3421,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI414_BATCH
         ]
-        expected_wi414_paths = set(WI414_REFERENCE_FILES)
+        expected_wi414_paths = set(WI414_REFERENCE_FILES) & current_reference_paths
         actual_wi414_paths = {
             record.get("referencePath")
             for record in wi414_records
@@ -3122,9 +3436,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-414 batch must contain {len(expected_wi414_paths)} records, found {len(wi414_records)}"
             )
-        wi414_classifications = [record.get("classification") for record in wi414_records]
-        if wi414_classifications.count("reference-only") != len(expected_wi414_paths):
-            errors.append("WI-414 batch must contain four reference-only records")
+        wi414_classifications = [historical_classification(record) for record in wi414_records]
+        expected_wi414_classifications = Counter(
+            WI414_REFERENCE_FILES[path][0] for path in expected_wi414_paths
+        )
+        if any(
+            wi414_classifications.count(classification) != count
+            for classification, count in expected_wi414_classifications.items()
+        ):
+            errors.append("WI-414 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi414_classifications
@@ -3139,7 +3459,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI432_BATCH
         ]
-        expected_wi432_paths = set(WI432_REFERENCE_FILES)
+        expected_wi432_paths = set(WI432_REFERENCE_FILES) & current_reference_paths
         actual_wi432_paths = {
             record.get("referencePath")
             for record in wi432_records
@@ -3154,9 +3474,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-432 batch must contain {len(expected_wi432_paths)} records, found {len(wi432_records)}"
             )
-        wi432_classifications = [record.get("classification") for record in wi432_records]
-        if wi432_classifications.count("reference-only") != len(expected_wi432_paths):
-            errors.append("WI-432 batch must contain eleven reference-only records")
+        wi432_classifications = [historical_classification(record) for record in wi432_records]
+        expected_wi432_classifications = Counter(
+            WI432_REFERENCE_FILES[path][0] for path in expected_wi432_paths
+        )
+        if any(
+            wi432_classifications.count(classification) != count
+            for classification, count in expected_wi432_classifications.items()
+        ):
+            errors.append("WI-432 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi432_classifications
@@ -3171,7 +3497,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI368_BATCH
         ]
-        expected_wi368_paths = set(WI368_REFERENCE_FILES)
+        expected_wi368_paths = set(WI368_REFERENCE_FILES) & current_reference_paths
         actual_wi368_paths = {
             record.get("referencePath")
             for record in wi368_records
@@ -3186,11 +3512,15 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-368 batch must contain {len(expected_wi368_paths)} records, found {len(wi368_records)}"
             )
-        wi368_classifications = [record.get("classification") for record in wi368_records]
-        if wi368_classifications.count("implemented-different-by-design") != 6:
-            errors.append("WI-368 batch must contain six implemented-different-by-design records")
-        if wi368_classifications.count("reference-only") != 5:
-            errors.append("WI-368 batch must contain five reference-only records")
+        wi368_classifications = [historical_classification(record) for record in wi368_records]
+        expected_wi368_classifications = Counter(
+            WI368_REFERENCE_FILES[path][0] for path in expected_wi368_paths
+        )
+        if any(
+            wi368_classifications.count(classification) != count
+            for classification, count in expected_wi368_classifications.items()
+        ):
+            errors.append("WI-368 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi368_classifications
@@ -3206,7 +3536,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             if isinstance(record, dict)
             and record.get("batch") == "WI-345-reference-governance-cost-batch-15"
         ]
-        expected_wi345_paths = set(WI345_REFERENCE_FILES)
+        expected_wi345_paths = set(WI345_REFERENCE_FILES) & current_reference_paths
         actual_wi345_paths = {
             record.get("referencePath")
             for record in wi345_records
@@ -3221,19 +3551,25 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             errors.append(
                 f"WI-345 batch must contain {len(expected_wi345_paths)} records, found {len(wi345_records)}"
             )
-        wi345_classifications = [record.get("classification") for record in wi345_records]
-        if wi345_classifications.count("implemented-different-by-design") != 3:
-            errors.append("WI-345 batch must contain three implemented-different-by-design records")
-        if wi345_classifications.count("reference-only") != 2:
-            errors.append("WI-345 batch must contain two reference-only records")
+        wi345_classifications = [historical_classification(record) for record in wi345_records]
+        expected_wi345_classifications = Counter(
+            WI345_REFERENCE_FILES[path][0] for path in expected_wi345_paths
+        )
+        if any(
+            wi345_classifications.count(classification) != count
+            for classification, count in expected_wi345_classifications.items()
+        ):
+            errors.append("WI-345 batch classifications do not match current reference paths")
         if any(
             classification in {"deferred-next-batch", "migrate-gap"}
             for classification in wi345_classifications
         ):
             errors.append("WI-345 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
-    if expected_count != len(records):
-        errors.append(f"referenceTrackedFileCount {expected_count!r} != record count {len(records)}")
+    if expected_count != len(current_record_paths):
+        errors.append(
+            f"referenceTrackedFileCount {expected_count!r} != non-retired record count {len(current_record_paths)}"
+        )
     return errors
 
 
@@ -3266,13 +3602,30 @@ def main() -> int:
     parser.add_argument("--target", type=Path)
     parser.add_argument("--manifest", type=Path, default=Path("tests/conformance/reference_file_inventory.json"))
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--rebaseline-from",
+        type=Path,
+        help="project an existing ledger onto a newer local reference commit",
+    )
     parser.add_argument("--source-commit", default=EXPECTED_REFERENCE_COMMIT)
     parser.add_argument("--target-commit", default=EXPECTED_TARGET_COMMIT)
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--apply-getting-started-batch", action="store_true")
     args = parser.parse_args()
 
-    if args.reference and args.target:
+    if args.rebaseline_from:
+        if not args.reference or not args.target:
+            parser.error("--rebaseline-from requires --reference and --target")
+        manifest = rebaseline(
+            args.rebaseline_from,
+            args.reference,
+            args.target,
+            args.source_commit,
+            args.target_commit,
+        )
+        output = args.output or args.manifest
+        output.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    elif args.reference and args.target:
         manifest = generate(args.reference, args.target, args.source_commit, args.target_commit)
         output = args.output or args.manifest
         output.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")

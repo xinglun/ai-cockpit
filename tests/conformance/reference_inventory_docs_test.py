@@ -13,7 +13,19 @@ MARKER = re.compile(r"<!--\s*reference-inventory-counts:\s*(.*?)\s*-->")
 
 
 def expected_counts(manifest: Path) -> dict[str, int]:
-    records = json.loads(manifest.read_text(encoding="utf-8"))["records"]
+    payload = json.loads(manifest.read_text(encoding="utf-8"))
+    retired = {
+        record if isinstance(record, str) else record["referencePath"]
+        for record in payload.get("retiredReferencePaths", [])
+        if isinstance(record, str) or (
+            isinstance(record, dict) and isinstance(record.get("referencePath"), str)
+        )
+    }
+    records = [
+        record
+        for record in payload["records"]
+        if record.get("referencePath") not in retired
+    ]
     counts = Counter(record["classification"] for record in records)
     return {
         "total": len(records),

@@ -1,0 +1,84 @@
+{
+  "acceptanceCriteria": [
+    "当前 inventory 的 referenceCommit 与 reference-source.lock 一致且等于本地 checkout HEAD",
+    "当前 inventory 只包含当前参考提交的 tracked paths，并记录被移除的旧路径及其原始分类/批次，不能静默遗失历史记录",
+    "target metadata 与本 Work Item 基线一致，三语计数与机器台账一致",
+    "旧源 fixture 与新源 fixture 的验证都 fail-closed，缺失/脏/提交不匹配不允许 fallback",
+    "Rust Runtime 行为和对象工程安装边界不改变"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd",
+  "createdAt": "2026-08-31T01:38:29Z",
+  "goal": "重建当前本地参考提交的完整路径台账，记录已从当前源移除的历史路径，并让三语文档、验证脚本和机器校验共同证明当前源边界；不改变 Rust Runtime 行为。",
+  "intent": "将逐文件参考台账显式重新绑定到维护者提供的本地语义参考提交，同时保留旧提交的历史可追溯性，避免在参考源更新后混用提交或静默丢失已记录路径。",
+  "mode": "code",
+  "outOfScope": [
+    "crates",
+    ".github",
+    "通用 Runtime 行为（仅允许本 Work Item 明确列出的 manifest inspection boundary）",
+    "参考源内容复制",
+    "新增语义比较批次"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1f7e3b39297ebdce9e35aeb989d8dc6a1327e27f95190672d7f3f2d0704c0d4a",
+  "requiredEvidenceClasses": [
+    "inventory",
+    "documentation",
+    "verification",
+    "runtime-identity"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-435-reference-inventory-rebaseline",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/wi-435",
+    "worktree": "/private/tmp/ai-cockpit-wi435-reference-rebaseline"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "tests/conformance/reference-source.lock",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-435-reference-inventory-rebaseline-local.md",
+    "docs/work-items/WI-435-reference-inventory-rebaseline-local.zh-CN.md",
+    "docs/work-items/WI-435-reference-inventory-rebaseline-local.ja.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/governance_signals.rs"
+  ],
+  "sources": [
+    "AI_COCKPIT_REFERENCE_ROOT@fde3380f81fea5fd2e288f7a8849f737dc074060",
+    "tests/conformance/reference-source.lock",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-parity.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/governance_signals.rs",
+    "WI-433 historical local-reference-source binding",
+    "WI-434 local-reference documentation promotion"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit <verified-target-commit> --check",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_source_policy.py --lock tests/conformance/reference-source.lock --reference $AI_COCKPIT_REFERENCE_ROOT",
+    "bash tests/conformance/reference_source_policy_check.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-435-reference-inventory-rebaseline-local"
+}

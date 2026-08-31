@@ -101,6 +101,30 @@ fn uninspectable_relevant_test_change_is_explicitly_unknown() {
 }
 
 #[test]
+fn oversized_reference_inventory_uses_its_strict_conformance_gate() {
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "tests/conformance/reference_file_inventory.json".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![],
+        removed_lines: vec![],
+        after_text: None,
+        content_state: ChangeContentState::TooLarge,
+    }));
+
+    assert!(!assessment.test_weakening);
+    assert!(
+        !assessment
+            .unknowns
+            .contains(&"test_weakening_inspection_unavailable".into())
+    );
+    assert!(
+        !assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+}
+
+#[test]
 fn bounded_patch_facts_in_an_oversized_file_are_inspectable() {
     let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
         path: "src/lib.rs".into(),

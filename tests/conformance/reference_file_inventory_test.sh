@@ -2,12 +2,18 @@
 set -euo pipefail
 
 root=$(cd "$(dirname "$0")/../.." && pwd)
-manifest="$root/tests/conformance/reference_file_inventory.json"
+current_manifest="$root/tests/conformance/reference_file_inventory.json"
 script="$root/tests/conformance/reference_file_inventory.py"
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/reference-file-inventory-test.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 
+previous_manifest_revision=$(jq -r '.previousManifestGitRevision' "$current_manifest")
+test "$previous_manifest_revision" != "null"
+git show "${previous_manifest_revision}:tests/conformance/reference_file_inventory.json" > "$tmp/historical.json"
+manifest="$tmp/historical.json"
+
 python3 "$script" --manifest "$manifest" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check
+python3 "$script" --manifest "$current_manifest" --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd --check
 python3 "$root/tests/conformance/reference_source_policy.py" --lock "$root/tests/conformance/reference-source.lock"
 bash "$root/tests/conformance/reference_source_policy_check.sh"
 python3 "$root/tests/conformance/reference_inventory_docs_test.py"
@@ -19,6 +25,24 @@ test "$(jq -r '.referenceNetworkAccess' "$manifest")" = "false"
 test "$(jq -r '.targetWorkingTreeFileCount' "$manifest")" -eq "$(jq -r '.targetTrackedFileCount' "$manifest")"
 test "$(jq -r '.targetWorkingTreePathDigest' "$manifest")" = "$(jq -r '.targetTrackedPathDigest' "$manifest")"
 test "$(jq -r '.targetCommit' "$manifest")" = "bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b"
+test "$(jq -r '.referenceTrackedFileCount' "$current_manifest")" -eq "$(jq '[.retiredReferencePaths[]] as $retired | [.records[] as $r | select(($retired | index($r.referencePath)) == null)] | length' "$current_manifest")"
+test "$(jq -r '.referenceCommit' "$current_manifest")" = "fde3380f81fea5fd2e288f7a8849f737dc074060"
+test "$(jq -r '.targetCommit' "$current_manifest")" = "cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd"
+test "$(jq '[.retiredReferencePaths[]] as $retired | [.records[] as $r | select(($retired | index($r.referencePath)) == null)] | length' "$current_manifest")" -eq "$(jq -r '.referenceTrackedFileCount' "$current_manifest")"
+test "$(jq -r '.referenceChangedPathCount' "$current_manifest")" -eq 160
+test "$(jq -r '.referenceChangedPaths | length' "$current_manifest")" -eq 160
+test "$(jq -r '.retiredReferencePathCount' "$current_manifest")" -eq 669
+test "$(jq '.retiredReferencePaths | length' "$current_manifest")" -eq 669
+test "$(jq '[.retiredReferencePaths[] | select((if type == "object" then .referencePath else . end) == ".ai/project/adopter-capability-manifest.json")] | length' "$current_manifest")" -eq 1
+test "$(jq '[.records[] | select(.referencePath == ".ai/project/adopter-capability-manifest.json")] | length' "$current_manifest")" -eq 1
+for current_capability_path in \
+  .ai/project/capabilities.json \
+  .ai/project/success_criteria.json \
+  .ai/project_profile.yaml; do
+  test "$(jq --arg path "$current_capability_path" '[.records[] | select(.referencePath == $path and .batch == "capability-status-projection" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 150
+test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
 test "$(jq '[.records[] | select(.batch == "WI-304-reference-file-comparison-batch-02")] | length' "$manifest")" -eq 2

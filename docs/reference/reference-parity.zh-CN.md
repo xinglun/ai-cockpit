@@ -18,6 +18,13 @@ capabilityClaims:
 一致、部分实现、延期能力和外部责任。普通用户应从[当前读者路线](../current/README.zh-CN.md)开始；
 字段级映射参见[Contract 与 Summary 字段](contract-fields.zh-CN.md)。
 
+## 当前参考源
+
+维护中的语义参考源是由 `AI_COCKPIT_REFERENCE_ROOT` 选择的本地 checkout，当前固定在提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060`。逐文件台账记录该提交、旧公开参考源台账的历史元数据、
+等待复核的变化路径和已退休路径。对齐检查不依赖网络参考源，也不复制源内容；重新基线的 receipt 和
+流程见[参考源逐文件比较](reference-file-comparison.zh-CN.md)。
+
 ## 真实性状态
 
 矩阵严格使用四种状态：
@@ -367,6 +374,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-431——v0.2.47 发布恢复 | 已实现 | [Work Item](../work-items/WI-431-release-v0-2-47-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-431-release-v0-2-47-recovery.contract.json`; verification `.ai/evidence/WI-431-release-v0-2-47-recovery.verification.json`; finalization `.ai/decisions/WI-431-release-v0-2-47-recovery.finalize.json`; close `.ai/decisions/WI-431-release-v0-2-47-recovery.close.json`. |
 | WI-433——本地参考源绑定 | 已实现 | [Work Item](../work-items/WI-433-local-reference-source-binding.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-433-local-reference-source-binding.contract.json`; verification `.ai/evidence/WI-433-local-reference-source-binding.verification.json`; finalization `.ai/decisions/WI-433-local-reference-source-binding.finalize.3dba26b4c6ab10af5e7b49d9edbdb1638014c7d8119c97ea9b995ebb7a855e41.json`; close `.ai/decisions/WI-433-local-reference-source-binding.close.json`. |
 | WI-434——本地参考源文档晋级 | 已实现 | [Work Item](../work-items/WI-434-local-reference-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-434-local-reference-doc-promotion.contract.json`; verification `.ai/evidence/WI-434-local-reference-doc-promotion.verification.json`; finalization `.ai/decisions/WI-434-local-reference-doc-promotion.finalize.8a55aa7a73f9d42a2cb5a0c5b9f548ccdbbb4de42c19e5cb88aa0496ec4ae37b.json`; close `.ai/decisions/WI-434-local-reference-doc-promotion.close.json`. |
+| WI-435——本地参考源逐文件台账重新基线 | 进行中 | [Work Item](../work-items/WI-435-reference-inventory-rebaseline-local.zh-CN.md)；当前台账绑定维护中的本地 checkout，变化路径和已移除路径保持显式记录，不静默提升历史决定。证据：`.ai/evidence/WI-435-reference-inventory-rebaseline-local.verification.json`。 |
 
 ## 当前边界
 

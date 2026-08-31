@@ -19,6 +19,14 @@ reference product boundary と一致する部分、partial/deferred の部分、
 を記録します。一般利用者は [Current reader route](../current/README.ja.md) から開始し、field-level
 mapping は [Contract と Summary の fields](contract-fields.ja.md) を参照してください。
 
+## Current reference source
+
+維持されている semantic reference は `AI_COCKPIT_REFERENCE_ROOT` で選択する local checkout で、現在は
+commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。file-level ledger はこの commit、以前の
+public source ledger の historical metadata、再確認待ちの changed path、retired path を記録します。
+parity check に network source や source content の copy は必要ありません。rebaseline の receipt と手順は
+[Reference file comparison](reference-file-comparison.ja.md) を参照してください。
+
 ## Truth state
 
 matrix は次の 4 state だけを使います。
@@ -371,6 +379,7 @@ verification record です。
 | WI-431 — v0.2.47 release recovery | Implemented | [Work Item](../work-items/WI-431-release-v0-2-47-recovery.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-431-release-v0-2-47-recovery.contract.json`; verification `.ai/evidence/WI-431-release-v0-2-47-recovery.verification.json`; finalization `.ai/decisions/WI-431-release-v0-2-47-recovery.finalize.json`; close `.ai/decisions/WI-431-release-v0-2-47-recovery.close.json`. |
 | WI-433 — local reference source binding | Implemented | [Work Item](../work-items/WI-433-local-reference-source-binding.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-433-local-reference-source-binding.contract.json`; verification `.ai/evidence/WI-433-local-reference-source-binding.verification.json`; finalization `.ai/decisions/WI-433-local-reference-source-binding.finalize.3dba26b4c6ab10af5e7b49d9edbdb1638014c7d8119c97ea9b995ebb7a855e41.json`; close `.ai/decisions/WI-433-local-reference-source-binding.close.json`. |
 | WI-434 — local-reference documentation promotion | Implemented | [Work Item](../work-items/WI-434-local-reference-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-434-local-reference-doc-promotion.contract.json`; verification `.ai/evidence/WI-434-local-reference-doc-promotion.verification.json`; finalization `.ai/decisions/WI-434-local-reference-doc-promotion.finalize.8a55aa7a73f9d42a2cb5a0c5b9f548ccdbbb4de42c19e5cb88aa0496ec4ae37b.json`; close `.ai/decisions/WI-434-local-reference-doc-promotion.close.json`. |
+| WI-435 — local reference inventory rebaseline | In progress | [Work Item](../work-items/WI-435-reference-inventory-rebaseline-local.ja.md); maintained local checkout に ledger を再バインドし、changed/retired path と historical decision を明示して、静かな昇格を防ぎます。Evidence: `.ai/evidence/WI-435-reference-inventory-rebaseline-local.verification.json`。 |
 
 ## 現在の境界
 

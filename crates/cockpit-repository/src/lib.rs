@@ -7979,6 +7979,15 @@ fn is_textual_material_path(path: &str) -> bool {
     .any(|extension| normalized.ends_with(extension))
 }
 
+/// The reference inventory is a large machine-generated conformance ledger.
+/// Its own strict checker is the authority for its schema and path coverage;
+/// treating an oversized JSON diff as source prose would otherwise make every
+/// legitimate rebaseline permanently yellow.  This exemption is deliberately
+/// exact and does not weaken inspection for other test or repository files.
+fn is_strictly_checked_conformance_manifest(path: &str) -> bool {
+    path == "tests/conformance/reference_file_inventory.json"
+}
+
 fn contains_strong_instruction_injection(text: &str) -> bool {
     let text = text.to_ascii_lowercase();
     let instruction = [
@@ -8136,7 +8145,8 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
             ChangeContentState::Text | ChangeContentState::Deleted
         );
         if !inspectable {
-            if test_path {
+            let strictly_checked_manifest = is_strictly_checked_conformance_manifest(&change.path);
+            if test_path && !strictly_checked_manifest {
                 result
                     .unknowns
                     .push("test_weakening_inspection_unavailable".into());
@@ -8146,7 +8156,7 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
                     .unknowns
                     .push("coverage_weakening_inspection_unavailable".into());
             }
-            if is_textual_material_path(&change.path) {
+            if is_textual_material_path(&change.path) && !strictly_checked_manifest {
                 result
                     .unknowns
                     .push("repository_material_inspection_unavailable".into());

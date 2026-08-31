@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-08-31T11:30:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-435-reference-inventory-rebaseline-local.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:3ea85f9026d0212b0f48c8b66f72b4d89b8f3a56d0638578aabc6704b31c0c0d",
+  "predecessorEventsDigest": "sha256:81de1dd155081f35083f73d69efd07572db3b355c9d4c310e09138ca2f766fec",
+  "predecessorOutcomeDigest": "sha256:d9ebf6cd69a2878b81b4988bfaaaf36b0d05523ab44f33b7ae4bca59db099a1a",
+  "predecessorSummaryDigest": "sha256:2c5f534b26fa4564ea06d15d8df1ffce333b2a9dc66b1149dc893a5324726145",
+  "predecessorWorkItemId": "WI-435-reference-inventory-rebaseline-local",
+  "reason": "Retry after the explicit finalization plan changed the Contract digest and invalidated the prior verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "fresh full workspace verification followed by a green preflight",
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "workItemId": "WI-435-reference-inventory-rebaseline-local"
+}
