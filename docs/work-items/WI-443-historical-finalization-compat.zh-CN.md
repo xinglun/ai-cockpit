@@ -4,9 +4,13 @@ title: "WI-443 — 历史 finalization 兼容"
 workItemId: WI-443-historical-finalization-compat
 description: "为旧共享 worktree 与无 PR 本地合并提供诚实 recovery 路径。"
 audience: [maintainer, adopter, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-443-historical-finalization-compat
+terminalArchive: .ai/work-items/archive/WI-443-historical-finalization-compat.contract.json
+terminalVerification: .ai/evidence/WI-443-historical-finalization-compat.verification.json
+terminalFinalization: .ai/decisions/WI-443-historical-finalization-compat.finalize.json
+terminalDecision: .ai/decisions/WI-443-historical-finalization-compat.close.json
 ---
 
 # WI-443 — 历史 finalization 兼容
