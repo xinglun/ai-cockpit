@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-recovery-review",
+  "decidedAt": "2026-08-31T14:30:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-441-reference-entrypoint-parity.verification.json",
+    ".ai/work-items/active/WI-441-reference-entrypoint-parity.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order",
+    "AGENTS.md#outcome-and-release-acceptance-boundaries"
+  ],
+  "predecessorContractDigest": "sha256:e67562ab9889ca49ef41e3a3dd7981ab0a40fdcc8b110f4dc3c93a45d4b66c91",
+  "predecessorEventsDigest": "sha256:a716bea6fa9e9cbff66ee35712f773f5a26b7705e074bd9217b7a593b9d1a568",
+  "predecessorOutcomeDigest": "sha256:ed1d7eaab7d54a58538c0a71b82aab06cdd8fec3f770cba2eb5d0534aa1c8ef7",
+  "predecessorSummaryDigest": "sha256:d58933cd5f2beaa946295dccfac8551010de76bf251291c9707e5b5a7b9987cd",
+  "predecessorWorkItemId": "WI-441-reference-entrypoint-parity",
+  "reason": "Retry after the first finish and verification attempts correctly stopped on the required resource finalization plan and its resulting stale evidence; preserve the blocked Outcome and bind fresh verification to the reviewed PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun fresh preflight and verification, then finish only with the same non-provisional finalization plan and current repository snapshot.",
+  "runtimeDigest": "sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53",
+  "runtimeVersion": "0.2.47",
+  "schemaVersion": 1,
+  "workItemId": "WI-441-reference-entrypoint-parity"
+}

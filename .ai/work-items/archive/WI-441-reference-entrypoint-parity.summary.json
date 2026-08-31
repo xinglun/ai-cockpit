@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-441-reference-entrypoint-parity.contract.json",
+    ".ai/work-items/archive/WI-441-reference-entrypoint-parity.summary.json"
+  ],
+  "checkpointAt": "2026-08-31T05:06:56Z",
+  "checkpointContractDigest": "sha256:e67562ab9889ca49ef41e3a3dd7981ab0a40fdcc8b110f4dc3c93a45d4b66c91",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:b64b959950b0692ea8d9c4e25acb91d6d8c71545af559a57d5147b99528fa9a3",
+      "recorded": true,
+      "recordedAt": "2026-08-31T05:06:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0cd4889b899ac0802f3fdfe8025d27ce21851db5cead385e3c2522f6b22782b7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-441-reference-entrypoint-parity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:e170f773b8932c6ffa834096df108d030f46e9aea6815fb5a5ab16dfc1f7f795",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b64b959950b0692ea8d9c4e25acb91d6d8c71545af559a57d5147b99528fa9a3",
+      "previousContractHash": "sha256:b64b959950b0692ea8d9c4e25acb91d6d8c71545af559a57d5147b99528fa9a3",
+      "reason": "Include the repository inventory wrapper assertion so the nine file-level classifications are checked by the committed regression path.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T05:12:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f0655ae0a003724222035486d57254fcf071040508a798ca1d319e9f29d89fa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-441-reference-entrypoint-parity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:40030cd74b948fb6f2542ed04ff284b48343818183045b65d7ca8ec6eac68fc6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b64b959950b0692ea8d9c4e25acb91d6d8c71545af559a57d5147b99528fa9a3",
+      "previousContractHash": "sha256:e170f773b8932c6ffa834096df108d030f46e9aea6815fb5a5ab16dfc1f7f795",
+      "reason": "Include the tri-lingual parity matrix rows that the deterministic closed-Work-Item promotion must update for this documented reference batch.",
+      "recorded": true,
+      "recordedAt": "2026-08-31T05:16:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:553ca863a51083eec01b2275c3acd32cad03279707e196b4ebbf9a2686441103",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-441-reference-entrypoint-parity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:84b8022f806d85f2fd02a2ad57a1242b9b03ac830f1dd67bd1a5bda46e692c64",
+  "createdAt": "2026-08-31T05:04:33Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-31T05:36:05Z",
+  "preflightContractDigest": "sha256:e67562ab9889ca49ef41e3a3dd7981ab0a40fdcc8b110f4dc3c93a45d4b66c91",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:84b8022f806d85f2fd02a2ad57a1242b9b03ac830f1dd67bd1a5bda46e692c64",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-31T05:36:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-441-reference-entrypoint-parity"
+}

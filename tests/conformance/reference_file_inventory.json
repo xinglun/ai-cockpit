@@ -30352,12 +30352,15 @@
     },
     {
       "referencePath": "AGENTS.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "AGENTS.md"
+        "AGENTS.md",
+        ".ai/README.md",
+        "docs/reference/agent-workflow.md",
+        "crates/cockpit-agent/src/lib.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source keeps one Work Item/branch/PR, latest-base discovery, explicit closure, and human-controlled boundaries. The Rust target enforces those semantics through AGENTS.md, the repository route, typed lifecycle services, and generated adapters; source make commands and the source hosted-snapshot exception are not target requirements.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -30384,13 +30387,15 @@
     },
     {
       "referencePath": "GEMINI.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        ".ai/agent-interface.json",
-        "crates/cockpit-agent/src/lib.rs"
+        ".ai/README.md",
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-agent/tests/install.rs",
+        "docs/reference/agent-workflow.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source Gemini rules are provider-facing Contract-first, Summary, checkpoint, and fail-closed guidance. The target does not commit a provider-specific GEMINI.md; explicit agent install can generate an owned Gemini adapter from the shared repository route, so absence from this repository is not an omitted global configuration.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -30461,12 +30466,15 @@
     },
     {
       "referencePath": "docs/README.ja.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/README.ja.md"
+        "docs/README.ja.md",
+        "docs/current/README.ja.md",
+        "docs/getting-started/README.ja.md",
+        "docs/reference/README.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The Japanese reader route preserves the source's four-question and goal-first intent through the target's explicit current, getting-started, operations, and reference pages; source-specific page bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -30474,12 +30482,15 @@
     },
     {
       "referencePath": "docs/README.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/README.md"
+        "docs/README.md",
+        "docs/current/README.md",
+        "docs/getting-started/README.md",
+        "docs/reference/README.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source provides a short reader-first North Star and goal route. The target preserves that route with a richer Rust-specific current/getting-started/operations/reference map, explicit Runtime/repository boundaries, and tri-language links; source page structure and claims are not copied byte-for-byte.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -30487,12 +30498,15 @@
     },
     {
       "referencePath": "docs/README.zh-CN.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/README.zh-CN.md"
+        "docs/README.zh-CN.md",
+        "docs/current/README.zh-CN.md",
+        "docs/getting-started/README.zh-CN.md",
+        "docs/reference/README.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The Chinese reader route preserves the source's four-question and goal-first intent through the target's explicit current, getting-started, operations, and reference pages, with Rust Runtime and adopter boundaries kept visible.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -30749,12 +30763,14 @@
     },
     {
       "referencePath": "docs/capabilities.ja.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/capabilities.ja.md"
+        "docs/capabilities.ja.md",
+        "docs/reference/capability-truth-matrix.md",
+        "docs/reference/commands.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The Japanese target page preserves the source capability and external-responsibility boundary while documenting the repository-bound Rust Runtime and adopter inheritance path in Japanese; source status bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -30762,12 +30778,14 @@
     },
     {
       "referencePath": "docs/capabilities.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/capabilities.md"
+        "docs/capabilities.md",
+        "docs/reference/capability-truth-matrix.md",
+        "docs/reference/commands.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source capability page defines the Repository Governance Layer and its external non-claims. The target keeps those boundaries and adds concrete Rust CLI/MCP, scaffold, profile, knowledge, Outcome, and isolation paths without converting source manifest statuses into Runtime authority.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -30775,12 +30793,14 @@
     },
     {
       "referencePath": "docs/capabilities.zh-CN.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/capabilities.zh-CN.md"
+        "docs/capabilities.zh-CN.md",
+        "docs/reference/capability-truth-matrix.md",
+        "docs/reference/commands.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The Chinese target page preserves the source capability and external-responsibility boundary while documenting the repository-bound Rust Runtime and adopter inheritance path in Chinese; it is not a source wire or status manifest copy.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -31059,12 +31079,16 @@
     },
     {
       "referencePath": "docs/features/task-outcome-report.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-441-reference-entrypoint-parity",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/features/task-outcome-report.md"
+        "docs/features/task-outcome-report.md",
+        "docs/reference/outcome-report.md",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source Task Outcome page defines an evidence-backed report separate from status and PR presentation. The target preserves that separation through OutcomeV2, CLI/MCP human handoff, immutable evidence, and repository-bound lifecycle validation; source report wire shape and make commands are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",

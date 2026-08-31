@@ -1,0 +1,82 @@
+{
+  "acceptanceCriteria": [
+    "Read each of the nine pinned local reference paths individually at commit fde3380f81fea5fd2e288f7a8849f737dc074060 and record a non-empty evidence-backed semantic classification.",
+    "The generated inventory contains exactly nine WI-441 classifications with no deferred-next-batch or migrate-gap entry for this batch.",
+    "English, Simplified Chinese, and Japanese parity ledgers and the WI-441 record agree, cross-link, and state the local-only reference boundary.",
+    "Rust-native Agent discovery, reader routes, capability boundaries, and human Outcome behavior are either demonstrably inherited or explicitly classified as implemented-different-by-design; source files, Make commands, and source wire formats are not copied.",
+    "The comparison preserves the shared Runtime/repository-local isolation boundary for adopter repositories and does not add global Agent or MCP configuration.",
+    "Reference policy, documentation acceptance, parity status, Work Item status consistency, governance integrity, and the full locked Rust workspace tests pass on the installed Runtime.",
+    "The Work Item completes the reviewed PR, archive, close, synchronized-base, and exact branch/worktree cleanup requirements."
+  ],
+  "authority": "authorized",
+  "baseRevision": "60e1a270fc5614bf19c9ffc3c99cdc43528f3fa4",
+  "createdAt": "2026-08-31T05:04:33Z",
+  "goal": "逐个复核本地参考源的 Agent 规则、三语文档入口、能力边界和 Task Outcome 路线，记录 Rust 目标的语义对齐或有边界的差异，确保对象工程可继承且不复制源项目实现。",
+  "intent": "参考源已切换为维护者本地的私有 checkout。本 Work Item 复核当前锁定提交的九个入口与 Agent-facing 文件，查找 Rust Runtime 或 adopter 路线中的真实遗漏；只迁移证据支持的治理语义，并保留 source-specific Python/Make、provider 和 wire-format 边界。",
+  "mode": "code",
+  "outOfScope": [
+    "crates/** implementation changes or new CLI/MCP commands",
+    "Copying source AGENTS.md",
+    " GEMINI.md",
+    " Python modules",
+    " Make targets",
+    " installers",
+    " schemas",
+    " or generated source history",
+    "Changing the private reference checkout or restoring public/network access",
+    "Global Agent",
+    " IDE",
+    " or MCP configuration",
+    "Release publication or adopter acceptance beyond the documented inheritance boundary"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0cd4889b899ac0802f3fdfe8025d27ce21851db5cead385e3c2522f6b22782b7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-441-reference-entrypoint-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/410",
+    "worktree": "/private/tmp/ai-cockpit-wi441-reference-entrypoint-parity"
+  },
+  "risk": "normal",
+  "scope": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/README.md",
+    "docs/README.zh-CN.md",
+    "docs/README.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/features/task-outcome-report.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/work-items/WI-441-reference-entrypoint-parity.md",
+    "docs/work-items/WI-441-reference-entrypoint-parity.zh-CN.md",
+    "docs/work-items/WI-441-reference-entrypoint-parity.ja.md"
+  ],
+  "sources": [
+    "local checkout: /Users/sei-rinn/dev/workspace_python/ai-cockpit-template",
+    "reference-source.lock commit: fde3380f81fea5fd2e288f7a8849f737dc074060",
+    "tests/conformance/reference_source_policy.py",
+    "tests/conformance/reference_file_inventory.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-441-reference-entrypoint-parity"
+}
