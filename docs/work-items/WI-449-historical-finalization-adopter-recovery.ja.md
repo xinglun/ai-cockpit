@@ -4,9 +4,13 @@ title: "WI-449 — historical finalization と adopter recovery"
 workItemId: WI-449-historical-finalization-adopter-recovery
 description: "過去の finalization 記録に対する誠実な recovery と projection の経路を提供します。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-449-historical-finalization-adopter-recovery
+terminalArchive: .ai/work-items/archive/WI-449-historical-finalization-adopter-recovery.contract.json
+terminalVerification: .ai/evidence/WI-449-historical-finalization-adopter-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-449-historical-finalization-adopter-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-449-historical-finalization-adopter-recovery.close.json
 ---
 
 # WI-449 — historical finalization と adopter recovery

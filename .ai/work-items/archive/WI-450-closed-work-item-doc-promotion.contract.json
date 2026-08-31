@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "WI-449 English, Chinese, and Japanese Work Item documents show implemented terminal metadata",
+    "WI-449 parity rows bind archive verification finalization and close receipts in all three languages",
+    "promote_closed_work_item.py --check-all passes"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a18c25ac63df7af482c9e65edffbf8d7ab9742e6",
+  "createdAt": "2026-08-31T14:12:11Z",
+  "goal": "Ensure WI-449 documentation and parity projections are terminal and release-ready",
+  "intent": "Promote closed Work Item documentation from verified terminal evidence",
+  "mode": "docs",
+  "outOfScope": [
+    "runtime code",
+    "object repositories",
+    "generated evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:995a8972b94bde82baaa8cbbe5f1d3011a0f04b0a58ec07941e645dc5d844748",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-450-doc-promotion",
+    "provider": "github",
+    "pullRequest": "pending:WI-450-closed-work-item-doc-promotion",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-450-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/**",
+    "docs/reference/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-450-closed-work-item-doc-promotion"
+}
