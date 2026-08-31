@@ -6,7 +6,7 @@ policy="$root/tests/conformance/reference_source_policy.py"
 lock="$root/tests/conformance/reference-source.lock"
 python3 "$policy" --lock "$lock"
 
-tmp=$(mktemp -d "${TMPDIR:-/tmp}/reference-source-policy-test.XXXXXX")
+tmp=$(mktemp -d "${TMPDIR:-/tmp}/reference-source-policy-check.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 fixture="$tmp/reference"
 git init -q "$fixture"

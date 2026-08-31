@@ -9,7 +9,7 @@ trap 'rm -rf "$tmp"' EXIT
 
 python3 "$script" --manifest "$manifest" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check
 python3 "$root/tests/conformance/reference_source_policy.py" --lock "$root/tests/conformance/reference-source.lock"
-bash "$root/tests/conformance/reference_source_policy_test.sh"
+bash "$root/tests/conformance/reference_source_policy_check.sh"
 python3 "$root/tests/conformance/reference_inventory_docs_test.py"
 
 test "$(jq -r '.referenceTrackedFileCount' "$manifest")" -eq "$(jq '.records | length' "$manifest")"

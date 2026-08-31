@@ -288,6 +288,6 @@ jobs:
           set -euo pipefail
           python3 tests/conformance/reference_source_policy.py \
             --lock tests/conformance/reference-source.lock
-          bash tests/conformance/reference_source_policy_test.sh
+          bash tests/conformance/reference_source_policy_check.sh
       - name: compare Rust semantics with the committed offline corpus
         run: cargo test -p cockpit-core --test conformance -- --test-threads=1
