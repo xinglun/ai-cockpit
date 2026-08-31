@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=230 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=472 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=463 migrate-gap=0 -->
 
 現在の local reference comparison baseline の ledger は 4,450 current tracked paths です。内訳は
 3,681 `generated-history`、230 `implemented-different-by-design`、1
@@ -245,6 +245,29 @@ WI-437 は、以前の public-reference ledger と maintainer 管理の local ch
 ではありません。ledger は `previousBatch`、`previousClassification`、`sourceChangedSincePrevious`
 による source-change provenance を保持しつつ、7 件の current record を deferred から解決しました。
 これにより同じ local source file が後続比較で繰り返し開かれることを防ぎます。
+
+## WI-441 local-reference entrypoint と Agent parity
+
+WI-441 は maintainer 管理の local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` で、entrypoint と Agent-facing file 9 件を一つずつ再確認します。
+checkout は `/Users/sei-rinn/dev/workspace_python/ai-cockpit-template` で、public repository には接続しません。hosted CI は
+committed offline corpus だけを使用します。
+
+| Local reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `AGENTS.md` | implemented-different-by-design | `AGENTS.md`、`.ai/README.md`、`docs/reference/agent-workflow.md`、typed lifecycle/adapter service が Contract-first、latest base、human pause、closure、cleanup を保持します。source `make ai-*` は source-only です。 |
+| `GEMINI.md` | implemented-different-by-design | `crates/cockpit-agent` の explicit Gemini adapter が portable な Contract/Summary/checkpoint guidance を投影します。provider 固有 root file と global config は copy しません。 |
+| `docs/README.md` | implemented-different-by-design | `docs/README.md` と current/getting-started/operations/reference route が source の reader-first、goal-first intent と Rust boundary を保持します。 |
+| `docs/README.zh-CN.md` | implemented-different-by-design | 中国語 reader route は同じ intent と language link、Runtime/adopter ownership を保持します。 |
+| `docs/README.ja.md` | implemented-different-by-design | 日本語 reader route は同じ intent と language link、Runtime/adopter ownership を保持します。 |
+| `docs/capabilities.md` | implemented-different-by-design | target は Repository Governance Layer と external non-claim を保持し、Rust CLI/MCP、scaffold、profile、knowledge、Outcome、isolation route を説明します。 |
+| `docs/capabilities.zh-CN.md` | implemented-different-by-design | 中国語 capability route は source boundary と repository-local Runtime/adopter inheritance を保持し、source status byte は copy しません。 |
+| `docs/capabilities.ja.md` | implemented-different-by-design | 日本語 capability route は source boundary と repository-local Runtime/adopter inheritance を保持し、source status byte は copy しません。 |
+| `docs/features/task-outcome-report.md` | implemented-different-by-design | `OutcomeV2`、CLI/MCP human handoff、immutable evidence が report/status/PR separation を保持します。source prose と Make command は wire requirement ではありません。 |
+
+9 record はすべて個別に分類され、deferred ではなくなりました。これは semantic parity であり、source file や JSON wire の parity では
+ありません。Rust repository に `GEMINI.md` がないことは、`agent install --provider gemini` が explicit、owned、reversible、repository-bound
+だから global provider omission ではありません。adopter も shared Runtime と isolated `.ai/` boundary を継承します。
 
 ## Batch order
 

@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=230 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=472 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=463 migrate-gap=0 -->
 
 在当前本地参考源比较基线上，台账包含 4,450 条当前 tracked path：3,681 条
 `generated-history`、230 条 `implemented-different-by-design`、1 条
@@ -230,6 +230,28 @@ WI-437 重新逐个阅读了此前公共参考台账与维护者本地 checkout 
 因此，本次源 diff 是 Python/Make 表面的参考侧清理，不是可移植的功能增量。台账仍保留
 `previousBatch`、`previousClassification`、`sourceChangedSincePrevious` 等源变更溯源信息，同时
 7 个当前记录不再延期。这样可以避免同一批本地源文件在后续比对中反复打开。
+
+## WI-441：本地参考源入口与 Agent 语义对齐
+
+WI-441 在维护者本地参考源提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上，逐个重新阅读 9 个入口和
+Agent-facing 文件。参考 checkout 为 `/Users/sei-rinn/dev/workspace_python/ai-cockpit-template`；不访问公开仓库，
+托管 CI 只使用已提交的离线语料。
+
+| 本地参考路径 | 分类 | Rust 对应物/有界决定 |
+| --- | --- | --- |
+| `AGENTS.md` | implemented-different-by-design | `AGENTS.md`、`.ai/README.md`、`docs/reference/agent-workflow.md` 和 typed lifecycle/adapter 服务保留 Contract-first、最新 base、人工暂停、关闭和清理；源 `make ai-*` 仍只属于源工程。 |
+| `GEMINI.md` | implemented-different-by-design | `crates/cockpit-agent` 生成的显式 Gemini adapter 投影可迁移的 Contract/Summary/checkpoint 语义；不复制 provider 专用根文件或全局配置。 |
+| `docs/README.md` | implemented-different-by-design | `docs/README.md` 与 current/getting-started/operations/reference 路线保留源 reader-first、goal-first 意图，并明确 Rust 边界。 |
+| `docs/README.zh-CN.md` | implemented-different-by-design | 中文读者路线保留相同意图和语言互链，并明确 Runtime/adopter 所有权。 |
+| `docs/README.ja.md` | implemented-different-by-design | 日文读者路线保留相同意图和语言互链，并明确 Runtime/adopter 所有权。 |
+| `docs/capabilities.md` | implemented-different-by-design | 目标保留 Repository Governance Layer 与外部非声明，并提供 Rust CLI/MCP、scaffold、profile、knowledge、Outcome 和隔离路径。 |
+| `docs/capabilities.zh-CN.md` | implemented-different-by-design | 中文能力路线保留源边界，说明 repository-local Runtime/adopter 继承，不复制源状态字节。 |
+| `docs/capabilities.ja.md` | implemented-different-by-design | 日文能力路线保留源边界，说明 repository-local Runtime/adopter 继承，不复制源状态字节。 |
+| `docs/features/task-outcome-report.md` | implemented-different-by-design | `OutcomeV2`、CLI/MCP 面向人的 handoff 与不可变 evidence 保留 report/status/PR 分离；源文字和 Make 命令不是 wire 要求。 |
+
+9 个记录均已逐个分类，不再是 deferred。这里是语义对齐，不是源文件或 JSON wire 对齐：Rust repository 没有
+`GEMINI.md` 并不构成全局 provider 遗漏，因为 `agent install --provider gemini` 是显式、可回滚且绑定 repository 的操作。
+对象工程同样继承一份共享 Runtime 与隔离的 `.ai/` 边界。
 
 ## 批次顺序
 

@@ -60,6 +60,7 @@ WI411_BATCH = "WI-411-reference-java-fixture-boundary"
 WI414_BATCH = "WI-414-reference-python-fixture-boundary"
 WI432_BATCH = "WI-432-reference-typescript-fixture-boundary"
 WI437_BATCH = "WI-437-reference-rebaseline-governance"
+WI441_BATCH = "WI-441-reference-entrypoint-parity"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -159,6 +160,54 @@ WI437_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "implemented-different-by-design",
         ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-mcp/src/lib.rs", "docs/reference/outcome-report.md"],
         "The local reference simplifies its Python Task Outcome schema without template-specific handoff fields. Rust OutcomeV2 and humanHandoff are a separate typed Protocol/presentation contract required by this Runtime; the source schema is not copied and does not authorize removal of the Rust projection.",
+    ),
+}
+
+WI441_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "AGENTS.md": (
+        "implemented-different-by-design",
+        ["AGENTS.md", ".ai/README.md", "docs/reference/agent-workflow.md", "crates/cockpit-agent/src/lib.rs"],
+        "The current source keeps one Work Item/branch/PR, latest-base discovery, explicit closure, and human-controlled boundaries. The Rust target enforces those semantics through AGENTS.md, the repository route, typed lifecycle services, and generated adapters; source make commands and the source hosted-snapshot exception are not target requirements.",
+    ),
+    "GEMINI.md": (
+        "implemented-different-by-design",
+        [".ai/README.md", "crates/cockpit-agent/src/lib.rs", "crates/cockpit-agent/tests/install.rs", "docs/reference/agent-workflow.md"],
+        "The source Gemini rules are provider-facing Contract-first, Summary, checkpoint, and fail-closed guidance. The target does not commit a provider-specific GEMINI.md; explicit agent install can generate an owned Gemini adapter from the shared repository route, so absence from this repository is not an omitted global configuration.",
+    ),
+    "docs/README.md": (
+        "implemented-different-by-design",
+        ["docs/README.md", "docs/current/README.md", "docs/getting-started/README.md", "docs/reference/README.md"],
+        "The current source provides a short reader-first North Star and goal route. The target preserves that route with a richer Rust-specific current/getting-started/operations/reference map, explicit Runtime/repository boundaries, and tri-language links; source page structure and claims are not copied byte-for-byte.",
+    ),
+    "docs/README.zh-CN.md": (
+        "implemented-different-by-design",
+        ["docs/README.zh-CN.md", "docs/current/README.zh-CN.md", "docs/getting-started/README.zh-CN.md", "docs/reference/README.zh-CN.md"],
+        "The Chinese reader route preserves the source's four-question and goal-first intent through the target's explicit current, getting-started, operations, and reference pages, with Rust Runtime and adopter boundaries kept visible.",
+    ),
+    "docs/README.ja.md": (
+        "implemented-different-by-design",
+        ["docs/README.ja.md", "docs/current/README.ja.md", "docs/getting-started/README.ja.md", "docs/reference/README.ja.md"],
+        "The Japanese reader route preserves the source's four-question and goal-first intent through the target's explicit current, getting-started, operations, and reference pages; source-specific page bytes are not copied.",
+    ),
+    "docs/capabilities.md": (
+        "implemented-different-by-design",
+        ["docs/capabilities.md", "docs/reference/capability-truth-matrix.md", "docs/reference/commands.md"],
+        "The current source capability page defines the Repository Governance Layer and its external non-claims. The target keeps those boundaries and adds concrete Rust CLI/MCP, scaffold, profile, knowledge, Outcome, and isolation paths without converting source manifest statuses into Runtime authority.",
+    ),
+    "docs/capabilities.zh-CN.md": (
+        "implemented-different-by-design",
+        ["docs/capabilities.zh-CN.md", "docs/reference/capability-truth-matrix.md", "docs/reference/commands.zh-CN.md"],
+        "The Chinese target page preserves the source capability and external-responsibility boundary while documenting the repository-bound Rust Runtime and adopter inheritance path in Chinese; it is not a source wire or status manifest copy.",
+    ),
+    "docs/capabilities.ja.md": (
+        "implemented-different-by-design",
+        ["docs/capabilities.ja.md", "docs/reference/capability-truth-matrix.md", "docs/reference/commands.ja.md"],
+        "The Japanese target page preserves the source capability and external-responsibility boundary while documenting the repository-bound Rust Runtime and adopter inheritance path in Japanese; source status bytes are not copied.",
+    ),
+    "docs/features/task-outcome-report.md": (
+        "implemented-different-by-design",
+        ["docs/features/task-outcome-report.md", "docs/reference/outcome-report.md", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "crates/cockpit-mcp/src/lib.rs"],
+        "The source Task Outcome page defines an evidence-backed report separate from status and PR presentation. The target preserves that separation through OutcomeV2, CLI/MCP human handoff, immutable evidence, and repository-bound lifecycle validation; source report wire shape and make commands are not copied.",
     ),
 }
 
@@ -2216,6 +2265,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi441 = WI441_REFERENCE_FILES.get(path)
+        if wi441 is not None:
+            classification, counterparts, reason = wi441
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI441_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         wi270 = wi270_counterpart(path)
         if wi270 is not None:
             counterparts, reason = wi270
@@ -2932,6 +2994,29 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{record.get('referencePath')}: WI-437 must be implemented-different-by-design")
             if not record.get("rustCounterparts") or not record.get("reason"):
                 errors.append(f"{record.get('referencePath')}: WI-437 result needs counterparts and reason")
+        wi441_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI441_BATCH
+        ]
+        expected_wi441_paths = set(WI441_REFERENCE_FILES) & current_reference_paths
+        actual_wi441_paths = {
+            record.get("referencePath") for record in wi441_records
+        }
+        if actual_wi441_paths != expected_wi441_paths:
+            errors.append(
+                "WI-441 reference entrypoint records do not match the nine scoped paths: "
+                f"expected {sorted(expected_wi441_paths)!r}, got {sorted(actual_wi441_paths)!r}"
+            )
+        if len(wi441_records) != len(expected_wi441_paths):
+            errors.append(
+                f"WI-441 batch must contain {len(expected_wi441_paths)} records, found {len(wi441_records)}"
+            )
+        for record in wi441_records:
+            if record.get("classification") != "implemented-different-by-design":
+                errors.append(f"{record.get('referencePath')}: WI-441 must be implemented-different-by-design")
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(f"{record.get('referencePath')}: WI-441 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -3665,6 +3750,33 @@ def apply_getting_started_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi441_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI441_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI441_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI441_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI441_REFERENCE_FILES)} WI-441 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -3680,6 +3792,7 @@ def main() -> int:
     parser.add_argument("--target-commit", default=EXPECTED_TARGET_COMMIT)
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--apply-getting-started-batch", action="store_true")
+    parser.add_argument("--apply-wi441-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -3703,6 +3816,13 @@ def main() -> int:
     if args.apply_getting_started_batch:
         try:
             apply_getting_started_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi441_batch:
+        try:
+            apply_wi441_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1
