@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "WI-459 release documentation is promoted to the closed state in English, Simplified Chinese, and Japanese without rewriting historical evidence.",
+    "All three reference-parity rows identify WI-459, link archived Contract and verification evidence, and record the reviewed finalization and close receipts.",
+    "WI-460's own tri-language pages and parity row are registered before archive so documentation governance can track this promotion Work Item without a hidden exception.",
+    "Documentation acceptance, parity status, governance integrity, and the closed-Work-Item promotion check pass with no source fallback.",
+    "The repository remains clean and ready_on_base after the documentation promotion is reviewed and merged."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7677d4e7206693d07ac64474f6166ec16b560a32",
+  "createdAt": "2026-08-31T22:28:37Z",
+  "goal": "Promote the v0.2.53 release Work Item documentation and parity rows to the closed state and clear the pre-release documentation governance blocker.",
+  "intent": "WI-459 release closure exposed stale tri-language Work Item and reference-parity projections; this Work Item promotes only those factual documentation projections without rewriting archived evidence or release semantics.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source or protocol changes",
+    "WI-445-owned reference inventory ledger",
+    "reference source checkout",
+    "object repositories",
+    "release tag or artifact publication",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a7113fff8da43a87f9c7e1411a418a4717a5489164b35fb20d56c7178ff35b76",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-460-release-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/430",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-460-release-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-459-release-v0-2-53.md",
+    "docs/work-items/WI-459-release-v0-2-53.zh-CN.md",
+    "docs/work-items/WI-459-release-v0-2-53.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-460-release-v0-2-53-doc-promotion.md",
+    "docs/work-items/WI-460-release-v0-2-53-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-460-release-v0-2-53-doc-promotion.ja.md"
+  ],
+  "sources": [
+    "tests/docs/promote_closed_work_item.py",
+    ".ai/work-items/archive/WI-459-release-v0-2-53.contract.json",
+    ".ai/decisions/WI-459-release-v0-2-53.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh <repo>",
+    "python3 tests/ci/governance_integrity_gate.py --repo <repo> --report target/governance-integrity-report.json",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-460-release-v0-2-53-doc-promotion"
+}

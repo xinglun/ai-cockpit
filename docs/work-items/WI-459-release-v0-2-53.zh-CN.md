@@ -4,9 +4,13 @@ title: "WI-459 — v0.2.53 发布与公开二进制验收"
 workItemId: WI-459-release-v0-2-53
 description: "发布下一版经过审查的 Rust Runtime，并用 adopter 基线验收公开二进制。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-459-release-v0-2-53
+terminalArchive: .ai/work-items/archive/WI-459-release-v0-2-53.contract.json
+terminalVerification: .ai/evidence/WI-459-release-v0-2-53.verification.json
+terminalFinalization: .ai/decisions/WI-459-release-v0-2-53.finalize.json
+terminalDecision: .ai/decisions/WI-459-release-v0-2-53.close.json
 ---
 
 # WI-459 — v0.2.53 发布与公开二进制验收
