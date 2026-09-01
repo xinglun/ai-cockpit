@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-466-release-v0-2-54.summary.json"
   ],
   "checkpointAt": "2026-09-01T03:27:32Z",
-  "checkpointContractDigest": "sha256:6ea81ec625e62e8bf7e6fbf548df4e026ada945e1d14ba3d7056acab96c53e72",
+  "checkpointContractDigest": "sha256:f76bfc2663255db1a741a2d06c481bb88977025bb2e3ce15203092d6129037e3",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,22 +42,23 @@
       "workItemId": "WI-466-release-v0-2-54"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:016f441689713980f8eb70d3ad07a7cd1c131aaaf6b4fff54e74f7becb3adbdc",
+  "checkpointRepositorySnapshotDigest": "sha256:82efc0e3c88b0f2b1bd1e4a046f3bf24f703673cd0d8ffcbe950500340283133",
   "createdAt": "2026-09-01T03:26:33Z",
   "mode": "release",
-  "preflightAt": "2026-09-01T03:42:14Z",
-  "preflightContractDigest": "sha256:3242f85fa078d3a8f83bb98226da3c4786bfa8c1777921dd407b0fb2fbc5eb42",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:69af8ba1108de09a2b23eafaacd64961673d74395036d8a4e2a427d75bfb3d8e",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-01T03:46:38Z",
+  "preflightContractDigest": "sha256:f76bfc2663255db1a741a2d06c481bb88977025bb2e3ce15203092d6129037e3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:82efc0e3c88b0f2b1bd1e4a046f3bf24f703673cd0d8ffcbe950500340283133",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-01T03:27:32Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:3242f85fa078d3a8f83bb98226da3c4786bfa8c1777921dd407b0fb2fbc5eb42",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-01T03:41:59Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T03:46:48Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-466-release-v0-2-54"
 }

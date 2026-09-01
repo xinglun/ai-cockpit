@@ -34,7 +34,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-466-release-v0-2-54",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/436",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-466-release-v0-2-54"
   },
   "risk": "normal",
