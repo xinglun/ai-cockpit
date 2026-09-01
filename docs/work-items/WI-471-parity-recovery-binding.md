@@ -7,7 +7,7 @@ audience:
   - reviewer
   - adopter
 workItemId: WI-471-parity-recovery-binding
-status: in_progress
+status: recovered
 authority: authorized
 lastVerifiedBy: WI-471-parity-recovery-binding
 ---
@@ -47,7 +47,7 @@ rewrite historical bytes or change Runtime behavior.
 
 ## Recovery boundary
 
-The recovery receipt is an immutable terminal projection selected by the
-Runtime because WI-469 has a closed successor. Listing it in the parity row
-does not reclassify or rewrite the predecessor; it makes the existing decision
-path auditable and prevents a post-close gate from treating it as missing.
+The recovery receipt is an immutable recovery projection selected by the
+Runtime so this Work Item continues through its explicit successor. Listing it
+in the parity row does not reclassify or rewrite the predecessor; it makes the
+recovery path auditable while WI-472 owns the bounded redelivery.

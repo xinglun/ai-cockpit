@@ -61,6 +61,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-472-finalization-context-compatibility"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:24e009e3435180c434510702df8d109116a6fd2c5115b08f8a0427bc97f149b7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ee9da1a1f0d8b6dee60159f703145957b40ef038fa25fbca86b82dc4b088ac3b",
+      "previousContractHash": "sha256:b585020cca4ea0290b59114bc9a55cd0c62bef45a7883346f692e60dafa50819",
+      "reason": "Amend the current compatibility Work Item to repair the WI-471 recovery projection that the hosted documentation gates correctly reject as stale conditional parity.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T08:29:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-472-finalization-context-compatibility"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
@@ -78,7 +98,7 @@
   "preflightContractDigest": "sha256:b585020cca4ea0290b59114bc9a55cd0c62bef45a7883346f692e60dafa50819",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -114,15 +134,28 @@
       "required": true,
       "scenario": "successful retry clears stale failure projection",
       "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+      ],
+      "required": true,
+      "scenario": "historical predecessor recovery is projected consistently",
+      "status": "verified"
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-09-01T08:12:59Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T08:32:09.702863+00:00",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:24e009e3435180c434510702df8d109116a6fd2c5115b08f8a0427bc97f149b7",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-01T08:29:55Z"
+  },
   "workItemId": "WI-472-finalization-context-compatibility"
 }

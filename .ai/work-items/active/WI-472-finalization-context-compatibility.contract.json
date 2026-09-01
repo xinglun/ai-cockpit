@@ -5,7 +5,8 @@
     "WI-471 immutable bytes remain unchanged and are recoverable through the explicit successor chain",
     "tri-language docs and tests state the ordering and recovery boundary",
     "no fabricated PR, runtime identity, or cleanup receipt is accepted",
-    "a successful retry clears only stale generated failure projection fields so CI cannot reject a repaired lifecycle"
+    "a successful retry clears only stale generated failure projection fields so CI cannot reject a repaired lifecycle",
+    "the immutable WI-471 predecessor is projected as recovered in all tri-language parity and Work Item documents, with its explicit successor recovery path"
   ],
   "authority": "authorized",
   "baseRevision": "198f0c9534dbcc81e9ac286c4992d5916e82cb4e",
@@ -71,6 +72,14 @@
       "scenario": "successful retry clears stale failure projection",
       "status": "unverified",
       "verificationPlan": "run the repository regression that seeds a failed finish projection and retries finish after valid evidence"
+    },
+    {
+      "evidence": [],
+      "expected": "the archived WI-471 predecessor is shown as recovered with its immutable recovery receipt and successor link, without a false terminal close claim",
+      "required": true,
+      "scenario": "historical predecessor recovery is projected consistently",
+      "status": "unverified",
+      "verificationPlan": "run the documentation and governance-integrity gates against the tri-language recovery projection"
     }
   ],
   "scope": [
@@ -88,6 +97,9 @@
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-471-parity-recovery-binding.md",
+    "docs/work-items/WI-471-parity-recovery-binding.zh-CN.md",
+    "docs/work-items/WI-471-parity-recovery-binding.ja.md",
     "docs/work-items/WI-472-finalization-context-compatibility.md",
     "docs/work-items/WI-472-finalization-context-compatibility.zh-CN.md",
     "docs/work-items/WI-472-finalization-context-compatibility.ja.md"
