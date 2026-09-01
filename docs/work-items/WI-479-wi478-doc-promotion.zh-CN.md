@@ -6,7 +6,7 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-479-wi478-doc-promotion
 workItemId: WI-479-wi478-doc-promotion
