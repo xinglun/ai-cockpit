@@ -4,9 +4,13 @@ title: "WI-473——WI-472 终态文档提升"
 description: "在发布前保持终态 Work Item 与 parity 投影完整。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-473-wi472-doc-promotion
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-473-wi472-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-473-wi472-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-473-wi472-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-473-wi472-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-473-wi472-doc-promotion.close.json
 ---
 
 # WI-473——WI-472 终态文档提升

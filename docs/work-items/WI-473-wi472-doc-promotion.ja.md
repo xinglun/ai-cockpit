@@ -4,9 +4,13 @@ title: "WI-473 — WI-472 終端ドキュメント昇格"
 description: "release 前に terminal Work Item と parity projection を完全に保つ。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-473-wi472-doc-promotion
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-473-wi472-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-473-wi472-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-473-wi472-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-473-wi472-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-473-wi472-doc-promotion.close.json
 ---
 
 # WI-473 — WI-472 終端ドキュメント昇格

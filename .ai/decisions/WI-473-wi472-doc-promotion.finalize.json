@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "221825b517d14c39b45c2d0d341c5721b09aa0bc",
+    "name": "codex/wi-473-wi472-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:2afdb3b55e1647033d75a339edbadf6766ea0137a912472c80473f4b082c9c5d",
+  "operationId": "github-pr-443-merge-cleanup-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1720a12577d80b33301bed3cd6235a6d7d3aa305",
+    "headRevision": "221825b517d14c39b45c2d0d341c5721b09aa0bc",
+    "mergeCommit": "886814c69f0f8a5ee1fd3edcb55c39adc4f55d9e",
+    "number": 443,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/443"
+  },
+  "reason": "Reviewed PR #443 passed all hosted checks and was merged as 886814c69f0f8a5ee1fd3edcb55c39adc4f55d9e; the exact WI-473 branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-443-finalization-20260901",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-473-wi472-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/443",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-473-wi472-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T09:25:00Z",
+  "workItemId": "WI-473-wi472-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-473-wi472-doc-promotion",
+    "headRevision": "221825b517d14c39b45c2d0d341c5721b09aa0bc",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-473-wi472-doc-promotion",
+    "worktreeId": "WI-473-wi472-doc-promotion"
+  }
+}
