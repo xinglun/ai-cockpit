@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "promote_closed_work_item.py --repo <repo> --work-item WI-475-reference-file-comparison-batch-25 --check passes",
+    "All six tri-language projection files bind WI-475 archive, verification, finalization, and close evidence accurately.",
+    "No governance bytes, Contract facts, or historical evidence are rewritten.",
+    "The six projection files remain semantically equivalent across English, Simplified Chinese, and Japanese."
+  ],
+  "authority": "authorized",
+  "baseRevision": "97e3246663b286d2b2ed74d88851d1ba529b2b13",
+  "createdAt": "2026-09-01T11:57:32Z",
+  "goal": "Make closed Work Item documentation projections accurately bind archive, verification, finalization, close, and merged PR evidence without changing governance truth.",
+  "intent": "Promote the closed WI-475 terminal evidence into the tri-language Work Item and reference-parity documentation projections.",
+  "mode": "docs",
+  "outOfScope": [
+    "crates",
+    "tests/conformance/reference_file_inventory.*",
+    "object repositories",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bc0e01a1590e4656bbc7a0340771fd0fff4f2f83efbd04c57e3d7a803a93cc51",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-476-wi475-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-476-wi475-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-475-reference-file-comparison-batch-25.md",
+    "docs/work-items/WI-475-reference-file-comparison-batch-25.zh-CN.md",
+    "docs/work-items/WI-475-reference-file-comparison-batch-25.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-476-wi475-doc-promotion.md",
+    "docs/work-items/WI-476-wi475-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-476-wi475-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-476-wi475-doc-promotion"
+}

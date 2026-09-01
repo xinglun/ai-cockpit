@@ -9,6 +9,10 @@ audience:
 status: implemented
 authority: canonical
 lastVerifiedBy: WI-475-reference-file-comparison-batch-25
+terminalArchive: .ai/work-items/archive/WI-475-reference-file-comparison-batch-25.contract.json
+terminalVerification: .ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json
+terminalFinalization: .ai/decisions/WI-475-reference-file-comparison-batch-25.finalize.91ec7b22ee68d4dd900265630e69d719a72fc1b973d54e18d16d8651d8358b70.json
+terminalDecision: .ai/decisions/WI-475-reference-file-comparison-batch-25.close.json
 ---
 
 # WI-475——Outcome、事件与质量门参考源比对
