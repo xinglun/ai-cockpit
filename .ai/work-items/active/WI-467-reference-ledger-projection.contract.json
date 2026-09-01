@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "三语当前快照的所有分类数字与 reference_file_inventory.json 中排除 retiredReferencePaths 后的机器计数一致",
+    "历史 sections 和 retired history 不被改写，current 4450 与 append-only 5119 两种口径明确区分",
+    "reference_inventory_docs_test.py 能在当前旧正文上先失败，并在修正后检测三语正文与 marker 的分类/总数一致",
+    "reference_file_inventory_test.sh 运行该门禁，统计分叉时返回非零且不接受仅 marker 正确的情况",
+    "current snapshot 以可读表格呈现 generated-history、implemented-different-by-design、implemented-equivalent、not-applicable、reference-only、deferred-next-batch、migrate-gap",
+    "所有变更仅在本 Work Item 声明范围内，三语文档互链和原文治理边界保持不变"
+  ],
+  "authority": "authorized",
+  "baseRevision": "1a66457a79a5f67ce95a41798fe915e9a76061a9",
+  "createdAt": "2026-09-01T04:58:09Z",
+  "goal": "从机器台账生成唯一当前快照事实，修正三语比较页当前统计，保留历史快照不变，并让 CI 在统计不一致时 fail closed",
+  "intent": "修复参考源逐文件比较台账与三语当前快照统计的可审计一致性，并建立防止统计投影再次分叉的自动门禁",
+  "mode": "code",
+  "outOfScope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference-source.lock",
+    "历史 comparison narrative、参考源 checkout、Runtime/Core、对象工程、CI workflow结构、发布脚本、用户全局配置"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d27197dde6f3d3d8d4d3e68ef43e8f741f524bfe351a0922f3dc5fe0d7d4ae18",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-467-reference-ledger-projection",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-467-reference-ledger-projection"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_inventory_docs_test.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/work-items/WI-467-reference-ledger-projection.md",
+    "docs/work-items/WI-467-reference-ledger-projection.zh-CN.md",
+    "docs/work-items/WI-467-reference-ledger-projection.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-467-reference-ledger-projection"
+}
