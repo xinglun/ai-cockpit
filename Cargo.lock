@@ -217,7 +217,7 @@ checksum = "c8d4a3bb8b1e0c1050499d1815f5ab16d04f0959b233085fb31653fbfc9d98f9"
 
 [[package]]
 name = "cockpit-agent"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "cap-fs-ext",
  "cap-std",
@@ -236,7 +236,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-cli"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "anyhow",
  "clap",
@@ -257,7 +257,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-core"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "hex",
  "serde",
@@ -268,7 +268,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-evidence"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "cockpit-core",
  "serde",
@@ -278,7 +278,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-git"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "hex",
  "serde",
@@ -290,7 +290,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-knowledge"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "cockpit-core",
  "cockpit-protocol",
@@ -301,7 +301,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-mcp"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "cockpit-core",
  "cockpit-git",
@@ -317,7 +317,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-protocol"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "cockpit-core",
  "serde",
@@ -329,7 +329,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-release"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "chrono",
  "clap",
@@ -347,7 +347,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-repository"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "cap-fs-ext",
  "cap-std",
@@ -371,7 +371,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-verification"
-version = "0.2.57"
+version = "0.2.58"
 dependencies = [
  "cockpit-core",
  "cockpit-evidence",
