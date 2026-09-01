@@ -1,0 +1,88 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-477-release-v0-2-56.contract.json",
+    ".ai/work-items/archive/WI-477-release-v0-2-56.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T12:41:40Z",
+  "checkpointContractDigest": "sha256:dfb7427940460fa86adefde266d1193a6eeed4c9c1d63405134dcf9493b33b67",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:36d819cd508e62a3c272da830ab723b024d2a00f89cbd2f476fd8d00a33282f9",
+  "createdAt": "2026-09-01T12:35:20Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:dfb7427940460fa86adefde266d1193a6eeed4c9c1d63405134dcf9493b33b67",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The repository owner confirms the bounded v0.2.56 release Contract after the reviewed source and verification evidence are bound; no scope expansion is authorized.",
+    "recordedAt": "2026-09-01T13:04:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:36d819cd508e62a3c272da830ab723b024d2a00f89cbd2f476fd8d00a33282f9",
+    "schemaVersion": 1,
+    "workItemId": "WI-477-release-v0-2-56"
+  },
+  "intentAlignment": {
+    "reason": "The release intent is bound to the reviewed source and release policy; public publication and adopter benefit remain post-release evidence.",
+    "state": "unknown"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-01T13:03:40Z",
+  "preflightContractDigest": "sha256:dfb7427940460fa86adefde266d1193a6eeed4c9c1d63405134dcf9493b33b67",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:36d819cd508e62a3c272da830ab723b024d2a00f89cbd2f476fd8d00a33282f9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/release/distribution.md",
+        ".github/workflows/release.yml",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "The annotated release tag, source commit, archives, checksums, SBOM, provenance, and release manifest are identity-bound.",
+      "required": true,
+      "scenario": "reviewed source commit produces an immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run release policy and version consistency checks, merge the reviewed PR, push an annotated tag, and inspect the public Release assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public binary creates an isolated Repository Protocol, preserves first-adopter not_ready semantics, reuses valid evidence, and cleans its temporary run root.",
+      "reason": "Post-release public-artifact acceptance is executed only after the v0.2.56 Release is published.",
+      "required": true,
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "status": "not_applicable",
+      "verificationPlan": "Run adopter acceptance against the immutable v0.2.56 Release without source fallback."
+    },
+    {
+      "evidence": [],
+      "expected": "The N-1 public binary upgrade preserves repository identity and protocol compatibility while proving forbidden-root isolation and cleanup.",
+      "reason": "Post-release N-1 acceptance is executed only after the v0.2.56 Release is published.",
+      "required": true,
+      "scenario": "published release upgrades an existing repository without cross-repository state",
+      "status": "not_applicable",
+      "verificationPlan": "Run N-1 upgrade acceptance with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
+    },
+    {
+      "evidence": [],
+      "expected": "The installed immutable artifact reports the expected runtime identity and leaves the repository attached, clean, and ready_on_base.",
+      "reason": "Post-release installation acceptance is executed only after the v0.2.56 Release is published.",
+      "required": true,
+      "scenario": "installation on the Runtime repository remains healthy",
+      "status": "not_applicable",
+      "verificationPlan": "Install the public artifact, then run inspect, status, doctor, agent doctor, and documentation promotion checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T13:07:24Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-477-release-v0-2-56"
+}

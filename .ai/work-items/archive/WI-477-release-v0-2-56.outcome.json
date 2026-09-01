@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "All workspace package versions, Cargo.lock entries, and required tri-language release/versioning documents consistently identify v0.2.56 without rewriting historical release facts.",
+    "The release branch is reviewed through a hosted PR whose required CI checks pass before merge; the annotated v0.2.56 tag points exactly to the synchronized reviewed main commit.",
+    "The public v0.2.56 Release exposes the expected platform archives, SHA256 checksums, SBOM/provenance metadata, and runtime identity; no source checkout or workspace binary is used as fallback.",
+    "Public adopter acceptance and N-1 upgrade acceptance pass or explicitly record a bounded not_ready result, bind runtime/repository identities and digests, prove HOME/XDG forbidden-write isolation, classify TMPDIR/CARGO_HOME writes, and prove temporary run-root cleanup on success and failure.",
+    "The published v0.2.56 binary is installed or upgraded on this repository from the immutable public artifact, and inspect/status/doctor plus agent doctor confirm the repository remains attached, healthy, isolated, and ready_on_base.",
+    "WI-477 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive/finalization/close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree."
+  ],
+  "createdAt": "2026-09-01T13:07:24Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f180ece7cec882477dcdc390a5ca1f4256a1abc741f1e45cb56f64bd29dccb58",
+  "evidenceRefs": [
+    ".ai/evidence/WI-477-release-v0-2-56.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-477-release-v0-2-56.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-477-release-v0-2-56.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:36d819cd508e62a3c272da830ab723b024d2a00f89cbd2f476fd8d00a33282f9",
+      "workItemId": "WI-477-release-v0-2-56"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-477-release-v0-2-56.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-477-release-v0-2-56.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-477-release-v0-2-56.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-477-release-v0-2-56.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-477-release-v0-2-56.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-477-release-v0-2-56.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-477-release-v0-2-56.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-477-release-v0-2-56.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-477-release-v0-2-56.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-477-release-v0-2-56.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.56 from the reviewed mainline, validate the public binary with isolated adopter and N-1 acceptance, install it on this repository, and return to the next reference-source comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-477-release-v0-2-56.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-477-release-v0-2-56"
+  },
+  "taskReportDigest": "sha256:0fe9592b206848cec91140cc8ae740aa774a2e05e34531360539f17934026cb2",
+  "taskReportMarkdownDigest": "sha256:67bd32d8314bda706377173abe922925242442738332d2f8285321b958f581a1",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-477-release-v0-2-56.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-477-release-v0-2-56"
+}

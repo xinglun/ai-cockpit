@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:dfb7427940460fa86adefde266d1193a6eeed4c9c1d63405134dcf9493b33b67",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "The repository owner confirms the bounded v0.2.56 release Contract after the reviewed source and verification evidence are bound; no scope expansion is authorized.",
+  "recordedAt": "2026-09-01T13:04:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:36d819cd508e62a3c272da830ab723b024d2a00f89cbd2f476fd8d00a33282f9",
+  "schemaVersion": 1,
+  "workItemId": "WI-477-release-v0-2-56"
+}
