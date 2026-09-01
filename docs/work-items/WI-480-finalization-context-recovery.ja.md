@@ -6,9 +6,13 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-480-finalization-context-recovery
+terminalArchive: .ai/work-items/archive/WI-480-finalization-context-recovery.contract.json
+terminalVerification: .ai/evidence/WI-480-finalization-context-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-480-finalization-context-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-480-finalization-context-recovery.close.json
 workItemId: WI-480-finalization-context-recovery
 ---
 

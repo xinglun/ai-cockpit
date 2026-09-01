@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "The six named WI-480 documentation projections are promoted from immutable terminal records by the repository helper.",
+    "promote_closed_work_item.py --check-all reports no stale projections after the reviewed merge.",
+    "No archived Contract, Summary, Outcome, Evidence, Finalization, Close, or Recovery bytes are rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1d7bd43e1bda939b8b7cb9ad41fc5dc93f66e025",
+  "createdAt": "2026-09-01T17:29:36Z",
+  "goal": "Make closed Work Item documentation projections current and prove the repository has no stale terminal documentation projections.",
+  "intent": "Promote the WI-480 terminal documentation projections so the current Runtime lifecycle and reference parity remain readable and current without mutating immutable governance evidence.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime code",
+    " schemas",
+    " release artifacts",
+    " reference-source implementation parity beyond the named projections",
+    " and immutable archive/evidence/decision bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0920c3749665b8c66b30b6693795118362a44e014444b5fec86c4cb0b9a31919",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-481-wi480-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-481-wi480-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-480-finalization-context-recovery.md",
+    "docs/work-items/WI-480-finalization-context-recovery.zh-CN.md",
+    "docs/work-items/WI-480-finalization-context-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-481-wi480-doc-promotion.md",
+    "docs/work-items/WI-481-wi480-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-481-wi480-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-481-wi480-doc-promotion"
+}
