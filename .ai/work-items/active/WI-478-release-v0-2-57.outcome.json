@@ -5,16 +5,20 @@
     "The public v0.2.57 Release exposes the expected platform archives, SHA256 checksums, SBOM and provenance metadata, and runtime identity; no source checkout or workspace binary is used as fallback.",
     "Public adopter acceptance and N-1 upgrade acceptance pass or explicitly record a bounded not_ready result, bind runtime and repository identities and digests, prove HOME and XDG forbidden-write isolation, classify TMPDIR and CARGO_HOME writes, and prove temporary run-root cleanup on success and failure.",
     "The published v0.2.57 binary is installed from the immutable public artifact on this repository, and inspect, status, doctor, agent doctor, and documentation promotion checks confirm the repository remains attached, healthy, isolated, and ready_on_base.",
-    "WI-478 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive, finalization, close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree."
+    "WI-478 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive, finalization, close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree.",
+    "Retry recovery clears stale failed-finish markers from a checkpointed Summary and a regression test proves the hosted route can proceed after an explicit recovery receipt."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-01T14:30:09Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:11acd3aabb63609f9e7c53871705c40be5e027e4269259bfe390e4f36eadd075",
   "evidenceRefs": [
     ".ai/evidence/WI-478-release-v0-2-57.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -22,24 +26,21 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-478-release-v0-2-57.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:8b56a07baf58c7fdb7a86d9b8311464f216eaa9807aa75f54e5946f5083dc504",
+      "repositorySnapshotDigest": "sha256:a4582442d7c2b80c19143460ec6b6999187ab18e9660f0800af24f51455a1c1b",
       "workItemId": "WI-478-release-v0-2-57"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -82,15 +83,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-478-release-v0-2-57.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -101,7 +94,7 @@
             ".ai/evidence/WI-478-release-v0-2-57.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -111,10 +104,18 @@
             ".ai/evidence/WI-478-release-v0-2-57.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -135,16 +136,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-478-release-v0-2-57"
   },
+  "taskReportDigest": "sha256:2db9b64f63573edf605be42222a8e7bc15d52fbe88d7b6830d724bb471fbb959",
+  "taskReportMarkdownDigest": "sha256:31c113960b8736d2acd035eef7830790ab8161f93a3999c8d1a3014e3d1c0d08",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-478-release-v0-2-57.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-478-release-v0-2-57"
 }

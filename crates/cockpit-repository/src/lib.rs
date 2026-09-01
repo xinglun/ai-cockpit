@@ -6291,6 +6291,16 @@ fn prepare_retryable_lifecycle(
                 entry.get("stage").and_then(serde_json::Value::as_str) != Some("before_finish")
             });
         }
+        // A failed finish can leave its lifecycle marker on a Summary that
+        // is still checkpointed (for example when a required finalization
+        // plan was missing).  Retry recovery is the explicit correction
+        // boundary; clear the stale marker so CI and later lifecycle checks
+        // do not reject the freshly recoverable state.
+        if let Some(object) = summary.as_object_mut() {
+            object.remove("failedGate");
+            object.remove("recoveryCondition");
+            object.remove("outcomeState");
+        }
         summary["recoveryRetryPending"] = serde_json::json!(true);
         atomic_json(&summary_path, &summary)?;
         return Ok((summary_path, original));

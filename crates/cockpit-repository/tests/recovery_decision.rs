@@ -709,6 +709,37 @@ fn retry_recovery_restores_checkpointed_state_after_failed_finish() {
 }
 
 #[test]
+fn retry_recovery_clears_failed_finish_marker_when_state_is_already_checkpointed() {
+    let directory = repository();
+    let runtime = current_runtime();
+    let summary_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.summary.json");
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    summary["state"] = json!("checkpointed");
+    summary["failedGate"] = json!("finish.governance");
+    summary["recoveryCondition"] = json!("retry after restoring the lifecycle state");
+    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+
+    let mut retry = receipt(&directory, "retry a checkpointed failed finish");
+    retry["decision"] = json!("retry");
+    retry.as_object_mut().unwrap().remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-23T00:06:00Z");
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &runtime)
+        .expect("retry recovery should clear a stale failed-finish marker");
+
+    let recovered: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    assert_eq!(recovered["state"], "checkpointed");
+    assert_eq!(recovered["recoveryRetryPending"], true);
+    assert!(recovered.get("failedGate").is_none());
+    assert!(recovered.get("recoveryCondition").is_none());
+}
+
+#[test]
 fn retry_recovery_accepts_a_lifecycle_state_failure_with_red_preflight() {
     let directory = repository();
     let runtime = current_runtime();

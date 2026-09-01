@@ -5,7 +5,8 @@
     "The public v0.2.57 Release exposes the expected platform archives, SHA256 checksums, SBOM and provenance metadata, and runtime identity; no source checkout or workspace binary is used as fallback.",
     "Public adopter acceptance and N-1 upgrade acceptance pass or explicitly record a bounded not_ready result, bind runtime and repository identities and digests, prove HOME and XDG forbidden-write isolation, classify TMPDIR and CARGO_HOME writes, and prove temporary run-root cleanup on success and failure.",
     "The published v0.2.57 binary is installed from the immutable public artifact on this repository, and inspect, status, doctor, agent doctor, and documentation promotion checks confirm the repository remains attached, healthy, isolated, and ready_on_base.",
-    "WI-478 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive, finalization, close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree."
+    "WI-478 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive, finalization, close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree.",
+    "Retry recovery clears stale failed-finish markers from a checkpointed Summary and a regression test proves the hosted route can proceed after an explicit recovery receipt."
   ],
   "authority": "authorized",
   "baseRevision": "6367e15a9d2039812055d8afe3eb2a96618a2eb3",
@@ -39,50 +40,14 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-478-release-v0-2-57",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/450",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-478-release-v0-2-57"
   },
   "risk": "high",
-  "scope": [
-    "Cargo.toml",
-    "Cargo.lock",
-    "docs/architecture/**",
-    "docs/release/**",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md",
-    "docs/work-items/WI-478-release-v0-2-57.md",
-    "docs/work-items/WI-478-release-v0-2-57.zh-CN.md",
-    "docs/work-items/WI-478-release-v0-2-57.ja.md",
-    "tests/release/**",
-    ".github/workflows/release.yml",
-    "Cargo.toml and Cargo.lock workspace package version alignment for v0.2.57",
-    "Tri-language release and versioning documentation plus release workflow and policy references required by authoritative consistency checks",
-    "WI-478 tri-language Work Item documentation and reference-parity registration before archive",
-    "Reviewed PR",
-    " annotated tag",
-    " public Release assets",
-    " checksums",
-    " SBOM and provenance",
-    " and immutable release identity evidence",
-    "Post-release adopter and N-1 acceptance using only downloaded public Release artifacts in isolated roots with cleanup proof",
-    "Installation of the published v0.2.57 binary on this repository and post-install inspect/status/doctor/agent doctor evidence",
-    "WI-478 lifecycle evidence",
-    " archive",
-    " finalization",
-    " close",
-    " documentation promotion",
-    " and exact branch/worktree cleanup"
-  ],
-  "sources": [],
-  "state": "implementation_active",
-  "verification": [
-    "cargo test --locked --workspace"
-  ],
   "scenarioCoverage": [
     {
       "evidence": [
@@ -128,6 +93,44 @@
       "status": "unverified",
       "verificationPlan": "Install the public artifact, then run inspect, status, doctor, Agent doctor, and documentation promotion checks."
     }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/**",
+    "docs/release/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-478-release-v0-2-57.md",
+    "docs/work-items/WI-478-release-v0-2-57.zh-CN.md",
+    "docs/work-items/WI-478-release-v0-2-57.ja.md",
+    "tests/release/**",
+    ".github/workflows/release.yml",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "Cargo.toml and Cargo.lock workspace package version alignment for v0.2.57",
+    "Tri-language release and versioning documentation plus release workflow and policy references required by authoritative consistency checks",
+    "WI-478 tri-language Work Item documentation and reference-parity registration before archive",
+    "Reviewed PR",
+    " annotated tag",
+    " public Release assets",
+    " checksums",
+    " SBOM and provenance",
+    " and immutable release identity evidence",
+    "Post-release adopter and N-1 acceptance using only downloaded public Release artifacts in isolated roots with cleanup proof",
+    "Installation of the published v0.2.57 binary on this repository and post-install inspect/status/doctor/agent doctor evidence",
+    "WI-478 lifecycle evidence",
+    " archive",
+    " finalization",
+    " close",
+    " documentation promotion",
+    " and exact branch/worktree cleanup"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
   ],
   "workItemId": "WI-478-release-v0-2-57"
 }
