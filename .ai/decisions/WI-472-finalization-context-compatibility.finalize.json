@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "bafca55e8c9205818a6a4325e4c2ff8ae0f6d5ab",
+    "name": "codex/wi-472-finalization-context-compatibility",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f5c2546711220e5478054917def40ae9a7f88bf1af530bcc4fab4cb368f01fa4",
+  "operationId": "github-pr-442-merge-cleanup-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "198f0c9534dbcc81e9ac286c4992d5916e82cb4e",
+    "headRevision": "bafca55e8c9205818a6a4325e4c2ff8ae0f6d5ab",
+    "mergeCommit": "4a5a20471ad5d705a4c35546c5e433a582eab897",
+    "number": 442,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/442"
+  },
+  "reason": "Reviewed PR #442 passed all hosted checks and was merged as 4a5a20471ad5d705a4c35546c5e433a582eab897; the exact WI-472 branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-442-finalization-20260901",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-472-finalization-context-compatibility",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/442",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-472-finalization-context-compatibility"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T08:46:00Z",
+  "workItemId": "WI-472-finalization-context-compatibility",
+  "worktree": {
+    "branch": "codex/wi-472-finalization-context-compatibility",
+    "headRevision": "bafca55e8c9205818a6a4325e4c2ff8ae0f6d5ab",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-472-finalization-context-compatibility",
+    "worktreeId": "WI-472-finalization-context-compatibility"
+  }
+}
