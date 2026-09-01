@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-483-wi482-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-483-wi482-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T19:23:46Z",
+  "checkpointContractDigest": "sha256:4f07d1362669eb8200e3fcfa371755561d730d492f3bd939c09fde91164349a9",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:53eb8d5ab018cc6d82e0fbfe0ded26b4df49194ae6e31a39f9120038be5e5b46",
+      "recorded": true,
+      "recordedAt": "2026-09-01T19:23:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:66edf5ad2f4f7a0b56cb9f624169a2fd049fdb075bef4833bd511851b11f7714",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-483-wi482-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:4f07d1362669eb8200e3fcfa371755561d730d492f3bd939c09fde91164349a9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:53eb8d5ab018cc6d82e0fbfe0ded26b4df49194ae6e31a39f9120038be5e5b46",
+      "previousContractHash": "sha256:53eb8d5ab018cc6d82e0fbfe0ded26b4df49194ae6e31a39f9120038be5e5b46",
+      "reason": "The post-close promotion gate requires every active Work Item to register its own tri-language pages and pre-archive parity row; these paths are within the same documentation-only authority and do not change Runtime or source behavior.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T19:25:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bcf187b2694b2cae3af74b6dfd26754267066dd2ab07de66bdeb74962ba5e607",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-483-wi482-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c08b12bcbaadcae40fa7be95acdd5fd6c1a55f7b3eb1b1e2de0ed22c21aaaad9",
+  "createdAt": "2026-09-01T19:23:21Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T19:26:50Z",
+  "preflightContractDigest": "sha256:4f07d1362669eb8200e3fcfa371755561d730d492f3bd939c09fde91164349a9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c08b12bcbaadcae40fa7be95acdd5fd6c1a55f7b3eb1b1e2de0ed22c21aaaad9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T19:26:54Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-483-wi482-doc-promotion"
+}
