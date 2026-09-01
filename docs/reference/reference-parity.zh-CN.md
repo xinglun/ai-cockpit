@@ -429,7 +429,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-488——WI-487 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-488-wi487-doc-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-488-wi487-doc-promotion.contract.json`; verification `.ai/evidence/WI-488-wi487-doc-promotion.verification.json`; finalization `.ai/decisions/WI-488-wi487-doc-promotion.finalize.json`; close `.ai/decisions/WI-488-wi487-doc-promotion.close.json`. |
 | WI-489——有界终态文档晋级 | 已实现 | [Work Item](../work-items/WI-489-doc-promotion-terminal-boundary.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.contract.json`; verification `.ai/evidence/WI-489-doc-promotion-terminal-boundary.verification.json`; finalization `.ai/decisions/WI-489-doc-promotion-terminal-boundary.finalize.json`; close `.ai/decisions/WI-489-doc-promotion-terminal-boundary.close.json`. |
 | WI-490——WI-489 终态文档投影 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-490-wi489-terminal-doc-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-490-wi489-terminal-doc-promotion.contract.json`; verification `.ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json`; finalization `.ai/decisions/WI-490-wi489-terminal-doc-promotion.finalize.json`; close `.ai/decisions/WI-490-wi489-terminal-doc-promotion.close.json`. |
-| WI-491——发布 v0.2.58 与公开 adopter 验收 | 进行中 | [Work Item](../work-items/WI-491-release-v0-2-58.zh-CN.md)；发布、公开制品验收、安装与终态 evidence 将在 verified close 后补齐。 |
+| WI-491——发布 v0.2.58 与公开 adopter 验收 | 进行中 | [Work Item](../work-items/WI-491-release-v0-2-58.zh-CN.md)；verification `.ai/evidence/WI-491-release-v0-2-58.verification.json`；发布、公开制品验收、安装与终态 evidence 将在 verified close 后补齐。 |
 
 ## 当前边界
 
