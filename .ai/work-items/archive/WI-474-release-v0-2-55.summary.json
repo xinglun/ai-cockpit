@@ -1,0 +1,126 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-474-release-v0-2-55.contract.json",
+    ".ai/work-items/archive/WI-474-release-v0-2-55.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T09:38:47Z",
+  "checkpointContractDigest": "sha256:5d55633551129f426467b6fa0e23b057648127795fac5a1c8d8a0d5786905c03",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:a0c8feee1a2cb483c608b8d4cc25741c9822a4f445dc282e05ecf9d1eb47626b",
+      "recorded": true,
+      "recordedAt": "2026-09-01T09:38:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:40594616ee64f3815e8caa515ab5eb71527c70ef3258277641052b7a03c78858",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-474-release-v0-2-55"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:5d55633551129f426467b6fa0e23b057648127795fac5a1c8d8a0d5786905c03",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a0c8feee1a2cb483c608b8d4cc25741c9822a4f445dc282e05ecf9d1eb47626b",
+      "previousContractHash": "sha256:a0c8feee1a2cb483c608b8d4cc25741c9822a4f445dc282e05ecf9d1eb47626b",
+      "reason": "Bind the reviewed GitHub PR context before the release verification pass; preserve the prior verification as immutable predecessor evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T10:00:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:40594616ee64f3815e8caa515ab5eb71527c70ef3258277641052b7a03c78858",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-474-release-v0-2-55"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:40594616ee64f3815e8caa515ab5eb71527c70ef3258277641052b7a03c78858",
+  "createdAt": "2026-09-01T09:32:15Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:5d55633551129f426467b6fa0e23b057648127795fac5a1c8d8a0d5786905c03",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The repository owner re-confirmed the bounded release Contract after binding the reviewed PR context; no scope expansion is authorized.",
+    "recordedAt": "2026-09-01T10:05:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:40594616ee64f3815e8caa515ab5eb71527c70ef3258277641052b7a03c78858",
+    "schemaVersion": 1,
+    "workItemId": "WI-474-release-v0-2-55"
+  },
+  "failedGate": "finish.governance",
+  "mode": "release",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T10:03:31Z",
+  "preflightContractDigest": "sha256:5d55633551129f426467b6fa0e23b057648127795fac5a1c8d8a0d5786905c03",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:40594616ee64f3815e8caa515ab5eb71527c70ef3258277641052b7a03c78858",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "The annotated release tag, source commit, archives, checksums, SBOM, provenance, and release manifest are identity-bound.",
+      "required": true,
+      "scenario": "reviewed source commit produces an immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run the repository release policy and version consistency checks, merge the reviewed PR, push an annotated tag, and inspect the public Release assets."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_acceptance_test.sh"
+      ],
+      "expected": "The downloaded public binary creates an isolated Repository Protocol, preserves first-adopter not_ready semantics, reuses valid evidence, and cleans its temporary run root.",
+      "required": true,
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "status": "verified",
+      "verificationPlan": "Run adopter_acceptance.sh and adopter_acceptance_test.sh against the immutable v0.2.55 Release without source fallback."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "The N-1 public binary upgrade preserves repository identity and protocol compatibility while proving forbidden-root isolation and cleanup.",
+      "required": true,
+      "scenario": "published release upgrades an existing repository without cross-repository state",
+      "status": "verified",
+      "verificationPlan": "Run adopter_upgrade_acceptance.sh and adopter_upgrade_acceptance_test.sh with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
+    },
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "The installed immutable artifact reports the expected runtime identity and leaves the repository attached, clean, and ready_on_base.",
+      "required": true,
+      "scenario": "installation on the Runtime repository remains healthy",
+      "status": "verified",
+      "verificationPlan": "Install the public artifact, then run inspect, status, doctor, agent doctor, and documentation promotion checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T10:03:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-474-release-v0-2-55"
+}

@@ -1,0 +1,118 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package versions, Cargo.lock entries, and required tri-language release/versioning documents consistently identify v0.2.55 without rewriting historical release facts.",
+    "The release branch is reviewed through a hosted PR whose required CI checks pass before merge; the annotated v0.2.55 tag points exactly to the synchronized reviewed main commit.",
+    "The public v0.2.55 Release exposes the expected platform archives, SHA256 checksums, SBOM/provenance metadata, and runtime identity; no source checkout or workspace binary is used as fallback.",
+    "Public adopter acceptance and N-1 upgrade acceptance pass or explicitly record a bounded not_ready result, bind runtime/repository identities and digests, prove HOME/XDG forbidden-write isolation, classify TMPDIR/CARGO_HOME writes, and prove temporary run-root cleanup on success and failure.",
+    "The published v0.2.55 binary is installed or upgraded on this repository from the immutable public artifact, and inspect/status/doctor plus agent doctor confirm the repository remains attached, healthy, isolated, and ready_on_base.",
+    "WI-474 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive/finalization/close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b1758269977ee59b887c75c0298f8e25bbcf5359",
+  "createdAt": "2026-09-01T09:32:15Z",
+  "goal": "Release v0.2.55 from the reviewed mainline, validate the public binary with isolated adopter and N-1 acceptance, install it on this repository, and return to the next reference-source comparison batch.",
+  "intent": "Publish a new immutable ai-cockpit Runtime release and prove it can be installed and used to govern an isolated adopter while preserving the mainline reference-comparison baseline.",
+  "mode": "release",
+  "outOfScope": [
+    "Reference source changes or semantic comparison batch implementation",
+    "Any modification to /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator or other adopter repositories",
+    "Global Agent",
+    " MCP",
+    " shell",
+    " Homebrew tap",
+    " or user configuration changes",
+    "Runtime architecture or protocol redesign unrelated to release packaging",
+    "Hand-editing generated status",
+    " evidence",
+    " archive",
+    " receipt",
+    " or decision records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:357fbeea2dbcddca34d225d2138ddf5749815e007978725955294403fd309244",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-474-release-v0-2-55",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/444",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-474-release-v0-2-55"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "The annotated release tag, source commit, archives, checksums, SBOM, provenance, and release manifest are identity-bound.",
+      "required": true,
+      "scenario": "reviewed source commit produces an immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run the repository release policy and version consistency checks, merge the reviewed PR, push an annotated tag, and inspect the public Release assets."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_acceptance_test.sh"
+      ],
+      "expected": "The downloaded public binary creates an isolated Repository Protocol, preserves first-adopter not_ready semantics, reuses valid evidence, and cleans its temporary run root.",
+      "required": true,
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "status": "verified",
+      "verificationPlan": "Run adopter_acceptance.sh and adopter_acceptance_test.sh against the immutable v0.2.55 Release without source fallback."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "The N-1 public binary upgrade preserves repository identity and protocol compatibility while proving forbidden-root isolation and cleanup.",
+      "required": true,
+      "scenario": "published release upgrades an existing repository without cross-repository state",
+      "status": "verified",
+      "verificationPlan": "Run adopter_upgrade_acceptance.sh and adopter_upgrade_acceptance_test.sh with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
+    },
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "The installed immutable artifact reports the expected runtime identity and leaves the repository attached, clean, and ready_on_base.",
+      "required": true,
+      "scenario": "installation on the Runtime repository remains healthy",
+      "status": "verified",
+      "verificationPlan": "Install the public artifact, then run inspect, status, doctor, agent doctor, and documentation promotion checks."
+    }
+  ],
+  "scope": [
+    "Cargo.toml and Cargo.lock workspace package version alignment for v0.2.55",
+    "Tri-language release and versioning documentation plus release workflow/policy references required by the authoritative consistency checks",
+    "WI-474 tri-language work-item documentation and tri-language reference-parity registration before archive",
+    "Reviewed PR",
+    " annotated tag",
+    " public Release assets",
+    " checksums",
+    " SBOM/provenance",
+    " and immutable release identity evidence",
+    "Post-release adopter and N-1 acceptance using only downloaded public Release artifacts in isolated roots with cleanup proof",
+    "Installation/upgrade of the published v0.2.55 binary on this repository and post-install inspect/status/doctor evidence",
+    "WI-474 lifecycle evidence",
+    " archive",
+    " finalization",
+    " close",
+    " documentation promotion",
+    " and exact branch/worktree cleanup"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-474-release-v0-2-55"
+}
