@@ -7,14 +7,17 @@
     "current snapshot 以可读表格呈现 generated-history、implemented-different-by-design、implemented-equivalent、not-applicable、reference-only、deferred-next-batch、migrate-gap",
     "所有变更仅在本 Work Item 声明范围内，三语文档互链和原文治理边界保持不变"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-01T05:20:12Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:6e0895174b0d27e9372245bee3abfde39960bacdfb22dc4c7f8aa99b32edae6d",
   "evidenceRefs": [
     ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -22,41 +25,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b365eb698a5a7d3d53002cb534b7ff18ea9ea6d2f74aca5c16fd88bd2e3acef4",
+      "repositorySnapshotDigest": "sha256:fc2c53722529ed68b5bc007d557f7981022b88b716c1a804f0324bd6cc410636",
       "workItemId": "WI-467-reference-ledger-projection"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-467-reference-ledger-projection.summary.json"
+            ".ai/work-items/archive/WI-467-reference-ledger-projection.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-467-reference-ledger-projection.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-467-reference-ledger-projection.summary.json"
+            ".ai/work-items/archive/WI-467-reference-ledger-projection.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-467-reference-ledger-projection.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.summary.json"
         }
       ],
       "evidence": [
@@ -75,15 +75,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -94,7 +86,7 @@
             ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -104,15 +96,23 @@
             ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-467-reference-ledger-projection.contract.json"
+            ".ai/work-items/archive/WI-467-reference-ledger-projection.contract.json"
           ],
           "inference": false,
           "text": "从机器台账生成唯一当前快照事实，修正三语比较页当前统计，保留历史快照不变，并让 CI 在统计不一致时 fail closed"
@@ -121,23 +121,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-467-reference-ledger-projection.contract.json"
+            ".ai/work-items/archive/WI-467-reference-ledger-projection.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-467-reference-ledger-projection"
   },
+  "taskReportDigest": "sha256:329373e5a510aa0d6fdd56e32c5d771cc7b21627cf09ff7acbb524b58c0bc1ab",
+  "taskReportMarkdownDigest": "sha256:31a7e777ce225d142147425ceee49eac6b3b4d636c85a9ce5639ec07aabe7d24",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-467-reference-ledger-projection.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-467-reference-ledger-projection"
 }
