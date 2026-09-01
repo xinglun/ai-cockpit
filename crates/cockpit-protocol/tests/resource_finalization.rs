@@ -340,6 +340,20 @@ fn pending_provider_context_is_provisional_until_reviewed_resource_is_bound() {
 }
 
 #[test]
+fn bare_pending_provider_context_is_provisional() {
+    let pending = ResourceFinalizationContext {
+        branch: "codex/wi-479-wi478-doc-promotion".into(),
+        worktree: "/private/tmp/wi-479".into(),
+        base_branch: "main".into(),
+        base_remote: "origin".into(),
+        provider: "github".into(),
+        pull_request: "pending".into(),
+    };
+
+    assert!(pending.is_provisional());
+}
+
+#[test]
 fn unknown_top_level_and_nested_fields_fail_closed() {
     let mut value = serde_json::to_value(receipt()).unwrap();
     value["unexpected"] = serde_json::json!(true);

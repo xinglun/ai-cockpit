@@ -29,6 +29,14 @@ AI Cockpit は、限定された変更ごとに 1 Work Item、1 専用 branch/wo
 5. 宣言した scope だけを変更し、同じ `--repo` と明示的な argv で verify を記録してから `finish`、`archive` を実行します。
 6. 正確な branch を push し、1 件のレビュー済み PR を作成して必要な hosted check を待ちます。local `main` への merge でレビューを代替してはいけません。
 
+### Finalization context は明示的に束縛する
+
+`start` が書き込む `resourceContext` は、明示的な
+`work-item finalize-plan` でレビュー済み PR、provider、base、branch、worktree
+を束縛するまで provisional です。`pending` と `pending:<stable-reference>` はどちらも
+provisional sentinel であり、`finish` や `archive` を認可できません。実際のレビュー済み
+resource で `finalize-plan` を先に実行してから終端 step に進みます。
+
 ## Repository 全体の serial 境界
 
 新しい Contract を書く前に、Runtime は全 linked worktree を確認します。別の non-detached worktree に active Contract/Summary の組がある場合、または組が壊れている場合は新しい Work Item を停止します。replacement が predecessor を暗黙に終了させることはありません。明示的な recovery/supersede decision を記録し、predecessor の bytes を保全します。

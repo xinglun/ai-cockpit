@@ -1,0 +1,155 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-479-wi478-doc-promotion.recovery.json",
+    ".ai/work-items/active/WI-480-finalization-context-recovery.contract.json",
+    ".ai/work-items/active/WI-480-finalization-context-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T16:20:15Z",
+  "checkpointContractDigest": "sha256:79178bdad03acab21139e35095fec77aa201d1ae324bff08208ef9f9c6f12553",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:79178bdad03acab21139e35095fec77aa201d1ae324bff08208ef9f9c6f12553",
+      "recorded": true,
+      "recordedAt": "2026-09-01T16:20:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0366bf0b2a73eb86b0673d02531d2f3115c3400a6b3fdad0b2b911c3406558eb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-480-finalization-context-recovery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:5aeb3cca2ca8257fcd7018f363bf30b5220b3c0fd1375041fd87ee0b589b1a81",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:79178bdad03acab21139e35095fec77aa201d1ae324bff08208ef9f9c6f12553",
+      "previousContractHash": "sha256:79178bdad03acab21139e35095fec77aa201d1ae324bff08208ef9f9c6f12553",
+      "reason": "Classify this recovery successor as a code Work Item because it changes Runtime and regression tests, while retaining the original scope and authority.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T16:20:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0366bf0b2a73eb86b0673d02531d2f3115c3400a6b3fdad0b2b911c3406558eb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-480-finalization-context-recovery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:40eab2582677525152cd7749d84857663bcc239b0b268856d5f6e8f7da9e964e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:79178bdad03acab21139e35095fec77aa201d1ae324bff08208ef9f9c6f12553",
+      "previousContractHash": "sha256:5aeb3cca2ca8257fcd7018f363bf30b5220b3c0fd1375041fd87ee0b589b1a81",
+      "reason": "Register the required tri-language Work Item and parity projections so the governance gate can audit this lifecycle fix without an untracked release claim.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T16:22:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:776e73111aec2763f5a60fd70a795f2d15eaee03bebc8dace4306ad10de7f419",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-480-finalization-context-recovery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:50e96e94db9fa88452bb88d7ad8fca5f0fdb50a94db26a8ed0485ce960181fd0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:79178bdad03acab21139e35095fec77aa201d1ae324bff08208ef9f9c6f12553",
+      "previousContractHash": "sha256:40eab2582677525152cd7749d84857663bcc239b0b268856d5f6e8f7da9e964e",
+      "reason": "Declare the required high-risk scenarios explicitly in the Contract so preflight and finish evaluate the same bounded cases.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T16:24:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ab713f0f59a703261b5e16730fdfc7533b185f93b615d8c5ebe8dd96dab1720e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-480-finalization-context-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0366bf0b2a73eb86b0673d02531d2f3115c3400a6b3fdad0b2b911c3406558eb",
+  "createdAt": "2026-09-01T16:10:30Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:50e96e94db9fa88452bb88d7ad8fca5f0fdb50a94db26a8ed0485ce960181fd0",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "Human confirms the amended bounded Runtime guard scope; required scenario evidence is declared and verification remains required before finish.",
+    "recordedAt": "2026-09-02T00:28:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ab713f0f59a703261b5e16730fdfc7533b185f93b615d8c5ebe8dd96dab1720e",
+    "schemaVersion": 1,
+    "workItemId": "WI-480-finalization-context-recovery"
+  },
+  "mode": "docs",
+  "predecessorContractDigest": "sha256:a9ab6f618d24543024125a7500e0bac197794f03f0674d2f048e6f257b770758",
+  "predecessorWorkItemId": "WI-479-wi478-doc-promotion",
+  "preflightAt": "2026-09-01T16:25:01Z",
+  "preflightContractDigest": "sha256:50e96e94db9fa88452bb88d7ad8fca5f0fdb50a94db26a8ed0485ce960181fd0",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:ab713f0f59a703261b5e16730fdfc7533b185f93b615d8c5ebe8dd96dab1720e",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-479-wi478-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/reference/repository-workflow.md"
+      ],
+      "required": true,
+      "scenario": "normal explicit reviewed context",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "required": true,
+      "scenario": "edge bare pending sentinel",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "required": true,
+      "scenario": "failure finish rejection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-479-wi478-doc-promotion.recovery.json"
+      ],
+      "required": true,
+      "scenario": "recovery without predecessor rewrite",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T16:25:01.481671+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:50e96e94db9fa88452bb88d7ad8fca5f0fdb50a94db26a8ed0485ce960181fd0",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-01T16:24:39Z"
+  },
+  "workItemId": "WI-480-finalization-context-recovery"
+}

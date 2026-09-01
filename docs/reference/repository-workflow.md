@@ -36,6 +36,14 @@ machines, but Contract, evidence, and repository identity are request-scoped.
 6. Push the exact branch, open one reviewed PR, and wait for its required
    hosted checks. Do not merge into local `main` as a substitute for review.
 
+### Finalization context is explicit
+
+The `resourceContext` written by `start` is provisional until an explicit
+`work-item finalize-plan` binds the reviewed PR, provider, base, branch, and
+worktree. Both `pending` and `pending:<stable-reference>` are provisional
+sentinels; neither can authorize `finish` or `archive`. Run
+`finalize-plan` with the real reviewed resource before those terminal steps.
+
 ## Repository-wide serial boundary
 
 Before writing a new Contract, the Runtime checks every linked worktree for an

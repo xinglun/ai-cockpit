@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:40eab2582677525152cd7749d84857663bcc239b0b268856d5f6e8f7da9e964e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "Human confirms the amended bounded Runtime guard scope; verification and scenario evidence remain required before finish.",
+  "recordedAt": "2026-09-02T00:24:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ab713f0f59a703261b5e16730fdfc7533b185f93b615d8c5ebe8dd96dab1720e",
+  "schemaVersion": 1,
+  "workItemId": "WI-480-finalization-context-recovery"
+}

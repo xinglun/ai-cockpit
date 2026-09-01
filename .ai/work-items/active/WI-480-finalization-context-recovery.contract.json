@@ -1,0 +1,93 @@
+{
+  "acceptanceCriteria": [
+    "Bare pending provider context is classified as provisional and cannot pass finish or archive.",
+    "Regression tests prove the active Contract remains recoverable and no archive is written when the bare pending sentinel is present.",
+    "Existing explicit pending:<stable-reference> behavior remains unchanged.",
+    "No immutable WI-479 Contract, Summary, Outcome, Events, or recovery decision bytes are rewritten.",
+    "Three-language workflow documentation states that provisional context requires an explicit finalize-plan before finish/archive.",
+    "The Work Item record and reference-parity projection are registered in all three languages without claiming unimplemented release behavior.",
+    "Targeted and workspace tests pass with no new warnings.",
+    "Runtime changes remain repository-local and request-scoped; no global Agent or MCP configuration is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "836b6a9402fab831be1a0e0adf058422abf18db9",
+  "createdAt": "2026-09-01T16:10:30Z",
+  "goal": "Classify the exact pending sentinel as provisional, reject it at finish/archive, and document the explicit finalize-plan boundary without rewriting immutable predecessor evidence.",
+  "intent": "Prevent ambiguous provisional resource-finalization contexts from being archived as complete, so every Work Item retains an honest, recoverable lifecycle and future releases cannot strand close.",
+  "mode": "code",
+  "outOfScope": [
+    "release version bump",
+    "GitHub release publication",
+    "object repository changes",
+    "rewriting WI-479 historical bytes",
+    "foreign runtime identity policy"
+  ],
+  "predecessorContractDigest": "sha256:a9ab6f618d24543024125a7500e0bac197794f03f0674d2f048e6f257b770758",
+  "predecessorWorkItemId": "WI-479-wi478-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-479-wi478-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7bc9ca4677612b5e469d4fe615fee9d7f20d993df74fd22d1838f6e4316dd577",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "normal explicit reviewed context",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/reference/repository-workflow.md"]
+    },
+    {
+      "scenario": "edge bare pending sentinel",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ]
+    },
+    {
+      "scenario": "failure finish rejection",
+      "required": true,
+      "status": "verified",
+      "evidence": ["crates/cockpit-repository/tests/archive_integrity.rs"]
+    },
+    {
+      "scenario": "recovery without predecessor rewrite",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/decisions/WI-479-wi478-doc-promotion.recovery.json"]
+    }
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-480-finalization-context-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-480-finalization-context-recovery"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/work-items/WI-480-finalization-context-recovery.md",
+    "docs/work-items/WI-480-finalization-context-recovery.zh-CN.md",
+    "docs/work-items/WI-480-finalization-context-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-480-finalization-context-recovery"
+}
