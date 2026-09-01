@@ -30288,8 +30288,8 @@
     },
     {
       "referencePath": ".github/workflows/compatibility.yml",
-      "batch": "WI-304-reference-file-comparison-batch-02",
-      "classification": "deferred-next-batch",
+      "batch": "WI-464-reference-file-comparison-batch-24",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/ci.yml",
         "tests/ci/quality_route.py",
@@ -30298,7 +30298,7 @@
         "docs/capabilities.md",
         "docs/release/distribution.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source changes its ShellCheck installation and Rust action pin inside a Python/multi-stack compatibility matrix. Rust keeps a pinned-action policy, dynamic quality route, Rust workspace/platform gates, and immutable public adopter acceptance; source install.sh, Python lanes, and multi-stack matrix behavior remain adopter/provider boundaries rather than copied workflow bytes.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-304-reference-file-comparison-batch-02",
       "previousClassification": "implemented-different-by-design",
@@ -30306,16 +30306,17 @@
     },
     {
       "referencePath": ".github/workflows/release.yml",
-      "batch": "WI-302-reference-file-comparison-batch-01",
-      "classification": "deferred-next-batch",
+      "batch": "WI-464-reference-file-comparison-batch-24",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/release.yml",
         "tests/release/workflow_policy.sh",
         "tests/release/version_consistency.sh",
         "tests/release/adopter_acceptance.sh",
-        "tests/release/adopter_upgrade_acceptance.sh"
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source binds a source-side release-digests projection into its Python archive and removes the obsolete release.json dual-asset check. Rust expresses the same immutable tag, archive, checksum, SBOM/provenance, platform smoke, and adopter-isolation responsibilities through release-manifest/SHA256SUMS and Rust-native release tools; source release.json/release-digests bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-302-reference-file-comparison-batch-01",
       "previousClassification": "implemented-different-by-design",
@@ -30323,8 +30324,8 @@
     },
     {
       "referencePath": ".github/workflows/smoke.yml",
-      "batch": "WI-304-reference-file-comparison-batch-02",
-      "classification": "deferred-next-batch",
+      "batch": "WI-464-reference-file-comparison-batch-24",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/ci.yml",
         ".github/workflows/release.yml",
@@ -30334,7 +30335,7 @@
         "docs/reference/reference-file-comparison.md",
         "docs/release/distribution.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source removes a REPORT_LANGUAGE Make argument from its Python smoke route. Rust has no source smoke.yml or Make bridge; CI, release, gate-manifest, and immutable adopter harnesses provide the corresponding repository-bound checks with language-aware human projection and explicit --repo context.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-304-reference-file-comparison-batch-02",
       "previousClassification": "implemented-different-by-design",
@@ -30414,15 +30415,15 @@
     },
     {
       "referencePath": "Makefile",
-      "batch": "WI-302-reference-file-comparison-batch-01",
-      "classification": "deferred-next-batch",
+      "batch": "WI-464-reference-file-comparison-batch-24",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/ci.yml",
         "tests/ci/run_repository_gates.py",
         "docs/reference/commands.md",
         "Cargo.toml"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source removes Python/Make shard, knowledge, and REPORT_LANGUAGE helpers. The Rust target intentionally has no Makefile; Cargo, the Rust CLI, the canonical gate manifest, and explicit repository-bound commands provide the maintained interface, while source Python orchestration and generated knowledge helpers remain source-only.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-302-reference-file-comparison-batch-01",
       "previousClassification": "implemented-different-by-design",

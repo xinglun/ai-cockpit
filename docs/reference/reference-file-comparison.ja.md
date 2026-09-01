@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=248 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=454 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
 
 現在の local reference comparison baseline の ledger は 4,450 current tracked paths です。内訳は
 3,681 `generated-history`、230 `implemented-different-by-design`、1
@@ -289,6 +289,20 @@ checkout は `/Users/sei-rinn/dev/workspace_python/ai-cockpit-template` で、pu
 
 9 record はすべて個別に解決しました。これは semantic/documentation parity であり、source file や JSON-wire parity ではありません。
 Inventory は `sourceChangedSincePrevious`、`previousBatch`、`previousClassification` を比較 provenance として保持しつつ、この batch の deferred status を除去します。
+
+## WI-464 — workflow/build rebaseline
+
+WI-464 は maintainer 管理の local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` で、以前の workflow 比較後に bytes が変わった 4 source path を再読します。source implementation は copy しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `.github/workflows/compatibility.yml` | implemented-different-by-design | source の ShellCheck install と Python/multi-stack matrix は source/provider boundary。Rust は reviewed action-runtime policy、dynamic quality route、Rust workspace/platform checks、public adopter acceptance を持ちます。 |
+| `.github/workflows/release.yml` | implemented-different-by-design | source の `release-digests.json` archive projection と obsolete `release.json` dual-asset check の削除は、Rust の release manifest/`SHA256SUMS`、SBOM/provenance、platform smoke、adopter evidence に対応します。projection bytes は copy しません。 |
+| `.github/workflows/smoke.yml` | implemented-different-by-design | source は `REPORT_LANGUAGE` Make argument を削除しました。Rust に source `smoke.yml` はなく、CI/release/gate manifest/immutable adopter harness が explicit repository context で bounded check を分担します。 |
+| `Makefile` | implemented-different-by-design | source Python/Make shard、knowledge、language helper は source-only。Rust は Cargo、CLI、canonical gate manifest、explicit `--repo` を使い、第二の Make governance layer は持ちません。 |
+
+Target action pin は target 自身の reviewed action-runtime policy が管理し、source matrix pin を Rust route に暗黙に置き換えません。ledger は 4 source-change record を解決し、`sourceChangedSincePrevious` provenance を保持します。Rust omission はなく、object/adopter repository は source workflow file ではなく shared Runtime と isolated repository evidence boundary を継承します。これは semantic/documentation parity であり、source file、provider、Python/Make、JSON-wire compatibility ではありません。
 
 ## Batch order
 

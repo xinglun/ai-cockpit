@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=248 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=454 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
 
 在当前本地参考源比较基线上，台账包含 4,450 条当前 tracked path：3,681 条
 `generated-history`、230 条 `implemented-different-by-design`、1 条
@@ -273,6 +273,22 @@ WI-461 重新阅读历史比较提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf`
 
 9 条记录现已逐一完成决定。本批是语义/文档对等，不是源文件或 JSON wire 对等。台账继续保留
 `sourceChangedSincePrevious`、`previousBatch`、`previousClassification` 比对溯源，同时移除本批记录的 deferred 状态。
+
+## WI-464：工作流与构建重新基线
+
+WI-464 在维护者本地参考源固定提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060` 上，重新阅读此前工作流比对后发生变化的四个源路径。
+不复制源实现。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `.github/workflows/compatibility.yml` | implemented-different-by-design | 源 ShellCheck 安装和 Python/多技术栈矩阵仍属于源/provider 边界。Rust 保留自身审核过的 action-runtime policy、动态质量路由、Rust workspace/平台检查和公开 adopter 验收。 |
+| `.github/workflows/release.yml` | implemented-different-by-design | 源 `release-digests.json` 归档投影及删除旧 `release.json` 双资产检查，对应 Rust release manifest/`SHA256SUMS`、SBOM/provenance、平台 smoke 和 adopter 证据；不复制源投影 bytes。 |
+| `.github/workflows/smoke.yml` | implemented-different-by-design | 源文件移除了 `REPORT_LANGUAGE` Make 参数。Rust 没有源 `smoke.yml`；CI、release、gate manifest 和不可变 adopter harness 通过显式仓库上下文承担有界检查。 |
+| `Makefile` | implemented-different-by-design | 源 Python/Make 分片、knowledge 和语言辅助逻辑仅属于源工程。Rust 使用 Cargo、CLI、规范 gate manifest 和显式 `--repo`，不需要第二套 Make 治理层。 |
+
+目标工程的 action pin 继续由自身审核过的 action-runtime policy 管理，不会把源矩阵 pin 静默替换到 Rust 路径。台账解决这四个源变更记录，同时保留
+`sourceChangedSincePrevious` 溯源；没有发现 Rust 遗漏。对象/采用方工程继承共享 Runtime 与隔离的仓库证据边界，而不是源工作流文件。本批是语义/文档对等，不是源文件、provider、Python/Make 或 JSON wire 兼容。
 
 ## 批次顺序
 

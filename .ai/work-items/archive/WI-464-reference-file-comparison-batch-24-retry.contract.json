@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "Each of the four pinned source files is compared section by section at reference commit fde3380f81fea5fd2e288f7a8849f737dc074060 and receives an explicit semantic classification.",
+    "Rust-native counterparts preserve the source governance intent where applicable, while source Python/Make/installer bytes and non-target provider behavior remain explicitly bounded rather than copied.",
+    "Any discovered in-scope omission is repaired in this Work Item or recorded as a precise non-applicable/deferred boundary with evidence; no unreviewed gap is silently left.",
+    "The tri-language comparison ledger and Work Item documentation link exact verification evidence and pass all declared documentation/parity gates.",
+    "The machine-readable inventory records the four paths under this batch with non-deferred classifications and preserves source-change provenance."
+  ],
+  "authority": "human:owner",
+  "baseRevision": "86b4dbbbaf5de34728eb4c8580ad08d874e8aa19",
+  "createdAt": "2026-09-01T01:41:49Z",
+  "goal": "Retry the bounded source-to-target file-level semantic comparison with a real reviewed provider context, without copying source implementation or changing the comparison scope.",
+  "intent": "Preserve WI-464's immutable evidence and complete the same four-file reference comparison on a dedicated retry branch whose PR identity is bound only after the real PR exists.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "tests outside the declared comparison inventory and its regression",
+    "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template",
+    "object repositories",
+    "global Agent/MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:c433f8b4e6652d1975ea54800d2b71f83047b9e87ec3c9c1d287015bdcdda6a7",
+  "predecessorWorkItemId": "WI-464-reference-file-comparison-batch-24",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-464-reference-file-comparison-batch-24.recovery.bdf111e39b5c8cabc29c155240f48c5bdd67d1b6628eb3a0aa6d37b31095b102.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:940750f425cc5de10e0a39fc3313072c25a8ecf9f1b684f7e3ee3f66ac326d0c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-464-reference-file-comparison-batch-24-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/434",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-464-reference-file-comparison-batch-24"
+  },
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/work-items/WI-464-reference-file-comparison-batch-24-retry.md",
+    "docs/work-items/WI-464-reference-file-comparison-batch-24-retry.zh-CN.md",
+    "docs/work-items/WI-464-reference-file-comparison-batch-24-retry.ja.md"
+  ],
+  "sources": [
+    "fde3380f81fea5fd2e288f7a8849f737dc074060"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-464-reference-file-comparison-batch-24-retry"
+}

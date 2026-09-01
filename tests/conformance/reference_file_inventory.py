@@ -62,6 +62,7 @@ WI432_BATCH = "WI-432-reference-typescript-fixture-boundary"
 WI437_BATCH = "WI-437-reference-rebaseline-governance"
 WI441_BATCH = "WI-441-reference-entrypoint-parity"
 WI461_BATCH = GETTING_STARTED_BATCH
+WI464_BATCH = "WI-464-reference-file-comparison-batch-24"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -299,6 +300,60 @@ WI461_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/getting-started/first-work-item.ja.md",
         ],
         "現行 source は obsolete な REPORT_LANGUAGE Make argument を削除しました。Rust 日本語 guide は reader-first の install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup、close route を shared repository-bound Runtime で保持し、source Make workflow bytes はコピーしません。",
+    ),
+}
+
+# WI-464 re-reads the four workflow/build paths changed in the maintained
+# local reference after the earlier WI-302/WI-304 decisions.  The source
+# remains a Python/Make provider surface; the Rust target keeps its own
+# explicit CI/release/adopter boundaries and must not copy source bytes.
+WI464_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    ".github/workflows/compatibility.yml": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/ci.yml",
+            "tests/ci/quality_route.py",
+            "tests/ci/run_repository_gates.py",
+            "tests/release/adopter_acceptance.sh",
+            "docs/capabilities.md",
+            "docs/release/distribution.md",
+        ],
+        "The current source changes its ShellCheck installation and Rust action pin inside a Python/multi-stack compatibility matrix. Rust keeps a pinned-action policy, dynamic quality route, Rust workspace/platform gates, and immutable public adopter acceptance; source install.sh, Python lanes, and multi-stack matrix behavior remain adopter/provider boundaries rather than copied workflow bytes.",
+    ),
+    ".github/workflows/release.yml": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/release.yml",
+            "tests/release/workflow_policy.sh",
+            "tests/release/version_consistency.sh",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/release/distribution.md",
+        ],
+        "The current source binds a source-side release-digests projection into its Python archive and removes the obsolete release.json dual-asset check. Rust expresses the same immutable tag, archive, checksum, SBOM/provenance, platform smoke, and adopter-isolation responsibilities through release-manifest/SHA256SUMS and Rust-native release tools; source release.json/release-digests bytes are not copied.",
+    ),
+    ".github/workflows/smoke.yml": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/ci.yml",
+            ".github/workflows/release.yml",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/reference/reference-file-comparison.md",
+            "docs/release/distribution.md",
+        ],
+        "The current source removes a REPORT_LANGUAGE Make argument from its Python smoke route. Rust has no source smoke.yml or Make bridge; CI, release, gate-manifest, and immutable adopter harnesses provide the corresponding repository-bound checks with language-aware human projection and explicit --repo context.",
+    ),
+    "Makefile": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/ci.yml",
+            "tests/ci/run_repository_gates.py",
+            "docs/reference/commands.md",
+            "Cargo.toml",
+        ],
+        "The current source removes Python/Make shard, knowledge, and REPORT_LANGUAGE helpers. The Rust target intentionally has no Makefile; Cargo, the Rust CLI, the canonical gate manifest, and explicit repository-bound commands provide the maintained interface, while source Python orchestration and generated knowledge helpers remain source-only.",
     ),
 }
 
@@ -3130,6 +3185,29 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{record.get('referencePath')}: WI-461 must be implemented-different-by-design")
             if not record.get("rustCounterparts") or not record.get("reason"):
                 errors.append(f"{record.get('referencePath')}: WI-461 result needs counterparts and reason")
+        wi464_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI464_BATCH
+            and record.get("referencePath") in WI464_REFERENCE_FILES
+        ]
+        expected_wi464_paths = set(WI464_REFERENCE_FILES) & current_reference_paths
+        actual_wi464_paths = {record.get("referencePath") for record in wi464_records}
+        if actual_wi464_paths != expected_wi464_paths:
+            errors.append(
+                "WI-464 workflow/build records do not match the four scoped paths: "
+                f"expected {sorted(expected_wi464_paths)!r}, got {sorted(actual_wi464_paths)!r}"
+            )
+        if len(wi464_records) != len(expected_wi464_paths):
+            errors.append(
+                f"WI-464 batch must contain {len(expected_wi464_paths)} records, found {len(wi464_records)}"
+            )
+        for record in wi464_records:
+            if record.get("classification") != "implemented-different-by-design":
+                errors.append(f"{record.get('referencePath')}: WI-464 must be implemented-different-by-design")
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(f"{record.get('referencePath')}: WI-464 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -3917,6 +3995,33 @@ def apply_wi461_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi464_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI464_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI464_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI464_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI464_REFERENCE_FILES)} WI-464 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -3934,6 +4039,7 @@ def main() -> int:
     parser.add_argument("--apply-getting-started-batch", action="store_true")
     parser.add_argument("--apply-wi441-batch", action="store_true")
     parser.add_argument("--apply-wi461-batch", action="store_true")
+    parser.add_argument("--apply-wi464-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -3971,6 +4077,13 @@ def main() -> int:
     if args.apply_wi461_batch:
         try:
             apply_wi461_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi464_batch:
+        try:
+            apply_wi464_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

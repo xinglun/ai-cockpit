@@ -102,6 +102,65 @@ run_case missing-close 1 missing_terminal_decision
 run_case historical-exemption 0 none
 run_case unknown-issue 1 unknown_problem
 run_case ambiguous-current 1 ambiguous_short_id
+
+# Recovery retries may retain the predecessor's numeric short id.  The gate
+# must allow that explicit, repository-bound lineage while continuing to reject
+# unrelated duplicate short ids.
+python3 - "$tmp/recovery-short-id" "$gate" <<'PY'
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+gate_path = Path(sys.argv[2])
+archive = repo / ".ai/work-items/archive"
+decisions = repo / ".ai/decisions"
+archive.mkdir(parents=True)
+decisions.mkdir(parents=True)
+repository_id = "sha256:" + "e" * 64
+(repo / ".ai").mkdir(exist_ok=True)
+(repo / ".ai/project.json").write_text(
+    json.dumps({"repositoryId": repository_id}) + "\n", encoding="utf-8"
+)
+predecessor = "WI-901-before-retry"
+successor = "WI-901-before-retry-retry"
+for work_item, predecessor_id in ((predecessor, None), (successor, predecessor)):
+    (archive / f"{work_item}.contract.json").write_text(
+        json.dumps(
+            {
+                "workItemId": work_item,
+                "repositoryId": repository_id,
+                "predecessorWorkItemId": predecessor_id,
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+(decisions / f"{predecessor}.recovery.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "workItemId": predecessor,
+            "predecessorWorkItemId": predecessor,
+            "successorWorkItemId": successor,
+            "repositoryId": repository_id,
+            "decision": "successor",
+            "reason": "retry the same bounded scope",
+            "evidenceRefs": [f".ai/work-items/archive/{predecessor}.contract.json"],
+        }
+    )
+    + "\n",
+    encoding="utf-8",
+)
+spec = importlib.util.spec_from_file_location("governance_gate", gate_path)
+module = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(module)
+assert module.recovery_alias_group(repo, [predecessor, successor])
+assert not module.recovery_alias_group(repo, [predecessor, "WI-901-unrelated"])
+PY
+printf 'governance recovery short-id alias regression passed\n'
 run_case invalid-outcome 1 invalid_outcome
 run_case archive-timestamp-current 0 none
 run_case awaiting-merge-close 0 none

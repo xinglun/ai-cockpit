@@ -43,7 +43,7 @@ for current_capability_path in \
 done
 # WI-441 and WI-461 resolve changed source records in bounded batches; keep
 # this regression count tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 125
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 121
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -89,6 +89,17 @@ for wi461_path in "${wi461_paths[@]}"; do
   test "$(jq --arg path "$wi461_path" '[.records[] | select(.referencePath == $path and .batch == "getting-started-onboarding" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
 done
 test "$(jq '[.records[] | select(.batch == "getting-started-onboarding" and (.referencePath as $p | $p == "docs/getting-started/first-work-item.md" or $p == "docs/getting-started/first-work-item.zh-CN.md" or $p == "docs/getting-started/first-work-item.ja.md" or $p == "docs/getting-started/security-release-verification.md" or $p == "docs/getting-started/security-release-verification.zh-CN.md" or $p == "docs/getting-started/security-release-verification.ja.md" or $p == "docs/getting-started/standard-adoption-guide.md" or $p == "docs/getting-started/standard-adoption-guide.zh-CN.md" or $p == "docs/getting-started/standard-adoption-guide.ja.md"))] | length' "$current_manifest")" -eq 9
+wi464_paths=(
+  .github/workflows/compatibility.yml
+  .github/workflows/release.yml
+  .github/workflows/smoke.yml
+  Makefile
+)
+for wi464_path in "${wi464_paths[@]}"; do
+  test "$(jq --arg path "$wi464_path" '[.records[] | select(.referencePath == $path and .batch == "WI-464-reference-file-comparison-batch-24" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-464-reference-file-comparison-batch-24")] | length' "$current_manifest")" -eq 4
+test "$(jq '[.records[] | select(.batch == "WI-464-reference-file-comparison-batch-24" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
 grep -q "WI-441 local-reference entrypoint and Agent parity" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-441：本地参考源入口与 Agent 语义对齐" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-441 local-reference entrypoint と Agent parity" "$root/docs/reference/reference-file-comparison.ja.md"
