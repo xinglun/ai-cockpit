@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized recovery after Contract path and evidence-class corrections",
+  "decidedAt": "2026-09-01T21:31:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-488-wi487-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-488-wi487-doc-promotion.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:ffcef49e44454a4b8e2621bea0605260c2e0c1a6ef18ce447ff5a055ecacb1d4",
+  "predecessorEventsDigest": "sha256:918accfb4f0600dfc76d9f449baf398e80ae1482df39d90efa931607fe063d42",
+  "predecessorOutcomeDigest": "sha256:099a937b6c05118b6c2740058c458c78cecc9d4ded37723a0ac5af7dd56cf333",
+  "predecessorSummaryDigest": "sha256:f67548b855e6400ed9a4fb2000fe99b347bd017d94ab76861b7d3984c6f941b1",
+  "predecessorWorkItemId": "WI-488-wi487-doc-promotion",
+  "reason": "The first verification attempt used a corrected Contract but retained an incompatible evidence-class declaration; preserve the failed projection and rerun a fresh verification after the bounded Contract amendments.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the corrected docs-only Contract, then retry finish.",
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "workItemId": "WI-488-wi487-doc-promotion"
+}

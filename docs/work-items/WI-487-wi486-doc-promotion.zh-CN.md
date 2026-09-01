@@ -4,9 +4,13 @@ title: "WI-487——WI-486 终态文档晋级"
 description: "将已关闭的 WI-486 文档投影提升为有终态证据绑定的元数据。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-487-wi486-doc-promotion
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-487-wi486-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-487-wi486-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-487-wi486-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-487-wi486-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-487-wi486-doc-promotion.close.json
 ---
 
 # WI-487——WI-486 终态文档晋级

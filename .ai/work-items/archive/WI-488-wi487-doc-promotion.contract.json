@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-487 Work Item pages declare implemented status and exact terminal evidence paths.",
+    "All three reference-parity ledgers mark WI-487 Implemented with exact terminal evidence paths.",
+    "The current WI-488 pages and parity registrations are present before verification and are promoted after close.",
+    "The closed Work Item promotion checker passes with --check-all.",
+    "No immutable governance records or unrelated documentation are changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b336f071b67bc14c14c120837bceb9919e4f0729",
+  "createdAt": "2026-09-01T21:24:50Z",
+  "goal": "Synchronize the six WI-487 tri-language documentation projections, register this Work Item before verification, and verify the repository is ready for the next reference-comparison batch.",
+  "intent": "Promote the closed WI-487 documentation projections so terminal evidence remains discoverable and the closed-work-item checker is green.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    " schemas",
+    " CI",
+    " release",
+    " reference feature implementation",
+    " and immutable governance records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8692bbe62a3e1847b1b71a26659ae73a0d0c5867479a41a9373b2f768f3a179f",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-488-wi487-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/461",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-488-wi487-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-487-wi486-doc-promotion.md",
+    "docs/work-items/WI-487-wi486-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-487-wi486-doc-promotion.ja.md",
+    "docs/work-items/WI-488-wi487-doc-promotion.md",
+    "docs/work-items/WI-488-wi487-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-488-wi487-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-488-wi487-doc-promotion"
+}
