@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5d55633551129f426467b6fa0e23b057648127795fac5a1c8d8a0d5786905c03",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "The repository owner re-confirmed the bounded release Contract after binding the reviewed PR context; no scope expansion is authorized.",
+  "recordedAt": "2026-09-01T10:05:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:40594616ee64f3815e8caa515ab5eb71527c70ef3258277641052b7a03c78858",
+  "schemaVersion": 1,
+  "workItemId": "WI-474-release-v0-2-55"
+}

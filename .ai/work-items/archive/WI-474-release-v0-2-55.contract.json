@@ -36,46 +36,58 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-474-release-v0-2-55",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/444",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-474-release-v0-2-55"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "reviewed source commit produces an immutable public release",
-      "required": true,
-      "status": "verified",
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
       "expected": "The annotated release tag, source commit, archives, checksums, SBOM, provenance, and release manifest are identity-bound.",
-      "verificationPlan": "Run the repository release policy and version consistency checks, merge the reviewed PR, push an annotated tag, and inspect the public Release assets.",
-      "evidence": ["tests/release/version_consistency.sh", ".github/workflows/release.yml"]
+      "required": true,
+      "scenario": "reviewed source commit produces an immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run the repository release policy and version consistency checks, merge the reviewed PR, push an annotated tag, and inspect the public Release assets."
     },
     {
-      "scenario": "public release binary governs a fresh isolated adopter",
-      "required": true,
-      "status": "verified",
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_acceptance_test.sh"
+      ],
       "expected": "The downloaded public binary creates an isolated Repository Protocol, preserves first-adopter not_ready semantics, reuses valid evidence, and cleans its temporary run root.",
-      "verificationPlan": "Run adopter_acceptance.sh and adopter_acceptance_test.sh against the immutable v0.2.55 Release without source fallback.",
-      "evidence": ["tests/release/adopter_acceptance.sh", "tests/release/adopter_acceptance_test.sh"]
+      "required": true,
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "status": "verified",
+      "verificationPlan": "Run adopter_acceptance.sh and adopter_acceptance_test.sh against the immutable v0.2.55 Release without source fallback."
     },
     {
-      "scenario": "published release upgrades an existing repository without cross-repository state",
-      "required": true,
-      "status": "verified",
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
       "expected": "The N-1 public binary upgrade preserves repository identity and protocol compatibility while proving forbidden-root isolation and cleanup.",
-      "verificationPlan": "Run adopter_upgrade_acceptance.sh and adopter_upgrade_acceptance_test.sh with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME.",
-      "evidence": ["tests/release/adopter_upgrade_acceptance.sh", "tests/release/adopter_upgrade_acceptance_test.sh"]
+      "required": true,
+      "scenario": "published release upgrades an existing repository without cross-repository state",
+      "status": "verified",
+      "verificationPlan": "Run adopter_upgrade_acceptance.sh and adopter_upgrade_acceptance_test.sh with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME."
     },
     {
-      "scenario": "installation on the Runtime repository remains healthy",
-      "required": true,
-      "status": "verified",
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/docs/promote_closed_work_item.py"
+      ],
       "expected": "The installed immutable artifact reports the expected runtime identity and leaves the repository attached, clean, and ready_on_base.",
-      "verificationPlan": "Install the public artifact, then run inspect, status, doctor, agent doctor, and documentation promotion checks.",
-      "evidence": ["tests/release/version_consistency.sh", "tests/docs/promote_closed_work_item.py"]
+      "required": true,
+      "scenario": "installation on the Runtime repository remains healthy",
+      "status": "verified",
+      "verificationPlan": "Install the public artifact, then run inspect, status, doctor, agent doctor, and documentation promotion checks."
     }
   ],
   "scope": [
