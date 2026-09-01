@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T22:02:55Z",
+  "files": {
+    "contractDigest": "sha256:4cc002939258d35f40f9969e70b815ecceeca266549b46e5ec5b58667dbb60f8",
+    "contractPath": ".ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.contract.json",
+    "eventsDigest": "sha256:9f37ff1e3513ff513e5280c8bb5fe6989d61687785939ab5e85cb75d60be0024",
+    "eventsPath": ".ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.events.jsonl",
+    "outcomeDigest": "sha256:a2ba7ee9f646c685fcd2aebf2cd6dfa47d0c11bd7cdebff3192f36b84c3589b5",
+    "outcomePath": ".ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.outcome.json",
+    "summaryDigest": "sha256:243783f2cfc4ac10fa1b617ef4c061479c5a37ad096c79ae4da2acaf828b9786",
+    "summaryPath": ".ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.summary.json",
+    "taskReportDigest": "sha256:38d8ac4c9578cc76bc7cb0de54b5008e2e2a8dc3ebad7db962561430fcf0c119",
+    "taskReportMarkdownDigest": "sha256:d1ff5021a3032a642fcd7f5f635585d13eef71239dbbd063afd1b8fdfb7a0970",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-489-doc-promotion-terminal-boundary"
+}

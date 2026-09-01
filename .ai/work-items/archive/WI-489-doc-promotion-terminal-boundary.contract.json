@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "A closed documentation-promotion Work Item is recognized by an explicit, validated marker and does not require an unbounded successor solely to promote its own projection.",
+    "Non-documentation Work Items and malformed or missing markers remain fail-closed and still require terminal promotion.",
+    "The check-all helper and status consistency checker agree across English, Chinese, and Japanese projections.",
+    "Regression tests prove the boundary, preserve no-write behavior on invalid evidence, and prevent recursive promotion.",
+    "No Runtime governance evidence, historical Work Item bytes, or user-global configuration is rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bdf5a0bacac98eeb71a91f985430187bb0024181",
+  "createdAt": "2026-09-01T21:47:41Z",
+  "goal": "Define and test a bounded, explicit self-terminal boundary for documentation-promotion Work Items across the promotion helper, status consistency check, and governance documentation.",
+  "intent": "Prevent the terminal documentation promotion check from creating an unbounded self-successor chain while preserving evidence-backed terminal documentation checks.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "release",
+    "reference inventory"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9b3fb4237fc4b62fa7405f2c4eacdb14fc5b8bf34b0eddff8e1f3cee2f9a229b",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-489-doc-promotion-terminal-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/462",
+    "worktree": "/private/tmp/ai-cockpit-wi489-doc-promotion-terminal-boundary"
+  },
+  "risk": "low",
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-489-doc-promotion-terminal-boundary"
+}
