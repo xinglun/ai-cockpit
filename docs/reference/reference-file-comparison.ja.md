@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=463 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=248 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=454 migrate-gap=0 -->
 
 現在の local reference comparison baseline の ledger は 4,450 current tracked paths です。内訳は
 3,681 `generated-history`、230 `implemented-different-by-design`、1
@@ -268,6 +268,27 @@ committed offline corpus だけを使用します。
 9 record はすべて個別に分類され、deferred ではなくなりました。これは semantic parity であり、source file や JSON wire の parity では
 ありません。Rust repository に `GEMINI.md` がないことは、`agent install --provider gemini` が explicit、owned、reversible、repository-bound
 だから global provider omission ではありません。adopter も shared Runtime と isolated `.ai/` boundary を継承します。
+
+## WI-461 — getting-started onboarding rebaseline
+
+WI-461 は、履歴比較 commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` と maintainer 管理の
+local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の間で変更された onboarding 9 page を再確認します。
+checkout は `/Users/sei-rinn/dev/workspace_python/ai-cockpit-template` で、public reference と source implementation は copy しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/getting-started/first-work-item.md` | implemented-different-by-design | Rust tri-language first-Work-Item page は repository-bound lifecycle、visible Outcome、human-review stop、exact cleanup を native CLI で保持します。source Make command と削除された `REPORT_LANGUAGE` argument は copy しません。 |
+| `docs/getting-started/first-work-item.zh-CN.md` | implemented-different-by-design | Chinese page は同じ lifecycle と明示的な `--repo` boundary を保持し、presentation language は Contract fact を変えません。 |
+| `docs/getting-started/first-work-item.ja.md` | implemented-different-by-design | Japanese page は同じ lifecycle と provider-resource boundary を保持し、この batch で重複した merge paragraph を修正しました。 |
+| `docs/getting-started/security-release-verification.md` | implemented-different-by-design | Rust release/distribution と installation-security page は current manifest/SHA256SUMS route で tag、digest、SBOM、provenance、provider responsibility、adopter isolation semantics を保持し、source `release.json` projection は copy しません。 |
+| `docs/getting-started/security-release-verification.zh-CN.md` | implemented-different-by-design | Chinese release route は Rust-native asset と external-provider boundary で evidence separation と mismatch fail-closed handling を保持します。 |
+| `docs/getting-started/security-release-verification.ja.md` | implemented-different-by-design | Japanese release route は digest、provenance、SBOM、public-adopter limit を保持し、source installer behavior は取り込みません。 |
+| `docs/getting-started/standard-adoption-guide.md` | implemented-different-by-design | Rust guide は reader-first の install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup、close を shared repository-bound Runtime で保持します。 |
+| `docs/getting-started/standard-adoption-guide.zh-CN.md` | implemented-different-by-design | Chinese guide は ordered adoption boundary と明示的な repository ownership を Rust CLI route で保持します。 |
+| `docs/getting-started/standard-adoption-guide.ja.md` | implemented-different-by-design | Japanese guide は ordered adoption route と shared Runtime boundary を保持し、source-specific command は copy しません。 |
+
+9 record はすべて個別に解決しました。これは semantic/documentation parity であり、source file や JSON-wire parity ではありません。
+Inventory は `sourceChangedSincePrevious`、`previousBatch`、`previousClassification` を比較 provenance として保持しつつ、この batch の deferred status を除去します。
 
 ## Batch order
 

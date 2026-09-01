@@ -97,11 +97,10 @@ Runtime が canonical finalization receipt を書きます。次の governance c
 commit/push し、source、documentation、archive、その他の governance change を同じ head advance に
 混ぜません。hosted checks を要求して reviewed pull request を
 merge します。Local `main` への shortcut merge や cleanup evidence 前の provider branch deletion
-は禁止です。Provider-derived merge-observation と exact cleanup receipt を追加の
-Merge 後は `--repo` を surviving かつ fast-forward synchronized な default-branch checkout
-へ切り替えます。削除済み feature worktree は command root にできません。Provider-derived
-merge-observation と exact cleanup receipt を追加の `work-item finalize` call で append し、
-immutable linear chain を保ちます。
+は禁止です。Merge 後は `--repo` を surviving かつ fast-forward synchronized な default-branch
+checkout へ切り替えます。削除済み feature worktree は command root にできません。Provider-derived
+merge-observation と exact cleanup receipt を追加の `work-item finalize` call で append し、immutable
+linear chain を保ちます。
 
 ```bash
 repo=/path/to/synchronized-default-branch-worktree

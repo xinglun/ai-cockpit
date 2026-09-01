@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=463 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=248 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=454 migrate-gap=0 -->
 
 在当前本地参考源比较基线上，台账包含 4,450 条当前 tracked path：3,681 条
 `generated-history`、230 条 `implemented-different-by-design`、1 条
@@ -252,6 +252,27 @@ Agent-facing 文件。参考 checkout 为 `/Users/sei-rinn/dev/workspace_python/
 9 个记录均已逐个分类，不再是 deferred。这里是语义对齐，不是源文件或 JSON wire 对齐：Rust repository 没有
 `GEMINI.md` 并不构成全局 provider 遗漏，因为 `agent install --provider gemini` 是显式、可回滚且绑定 repository 的操作。
 对象工程同样继承一份共享 Runtime 与隔离的 `.ai/` 边界。
+
+## WI-461：getting-started onboarding 重新基线
+
+WI-461 重新阅读历史比较提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 到维护者本地参考源固定提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060` 之间发生变更的九个入门页面。参考 checkout 为
+`/Users/sei-rinn/dev/workspace_python/ai-cockpit-template`；不访问公开参考仓库，也不复制源实现。
+
+| 固定参考路径 | 分类 | Rust 对应物/有界决定 |
+| --- | --- | --- |
+| `docs/getting-started/first-work-item.md` | implemented-different-by-design | Rust 三语 first-Work-Item 页面保留 repository-bound 全生命周期、可见 Outcome、人工 review 停止点和精确清理，并使用原生 CLI；不复制源 Make 命令及已删除的 `REPORT_LANGUAGE` 参数。 |
+| `docs/getting-started/first-work-item.zh-CN.md` | implemented-different-by-design | 中文页面保留相同生命周期和显式 `--repo` 边界；展示语言不会改变 Contract 事实。 |
+| `docs/getting-started/first-work-item.ja.md` | implemented-different-by-design | 日文页面保留相同生命周期与 provider-resource 边界，本批修正重复的 merge 段落。 |
+| `docs/getting-started/security-release-verification.md` | implemented-different-by-design | Rust release/distribution 与 installation-security 页面通过当前 manifest/SHA256SUMS 路径保留 tag、digest、SBOM、provenance、provider 责任和 adopter 隔离语义；不复制源 `release.json` 投影。 |
+| `docs/getting-started/security-release-verification.zh-CN.md` | implemented-different-by-design | 中文发布路线使用 Rust 原生资产与外部 provider 边界，保留证据分离和不一致时 fail-closed 处理。 |
+| `docs/getting-started/security-release-verification.ja.md` | implemented-different-by-design | 日文发布路线保留 digest、provenance、SBOM 和公开 adopter 限制，不导入源安装器行为。 |
+| `docs/getting-started/standard-adoption-guide.md` | implemented-different-by-design | Rust 指南保留 reader-first 的 install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup、close 阶段，并使用共享 repository-bound Runtime。 |
+| `docs/getting-started/standard-adoption-guide.zh-CN.md` | implemented-different-by-design | 中文指南保留有序 adoption 边界和显式仓库所有权，并使用 Rust CLI 路径。 |
+| `docs/getting-started/standard-adoption-guide.ja.md` | implemented-different-by-design | 日文指南保留有序 adoption 路径与共享 Runtime 边界，不复制源专用命令。 |
+
+9 条记录现已逐一完成决定。本批是语义/文档对等，不是源文件或 JSON wire 对等。台账继续保留
+`sourceChangedSincePrevious`、`previousBatch`、`previousClassification` 比对溯源，同时移除本批记录的 deferred 状态。
 
 ## 批次顺序
 

@@ -41,10 +41,9 @@ for current_capability_path in \
   .ai/project_profile.yaml; do
   test "$(jq --arg path "$current_capability_path" '[.records[] | select(.referencePath == $path and .batch == "capability-status-projection" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 1
 done
-# WI-441 resolves nine previously deferred entrypoint records; keep this
-# regression count tied to the current pinned source ledger rather than the
-# pre-WI-441 baseline.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 134
+# WI-441 and WI-461 resolve changed source records in bounded batches; keep
+# this regression count tied to the current pinned source ledger.
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 125
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -75,6 +74,21 @@ for wi441_path in "${wi441_paths[@]}"; do
 done
 test "$(jq '[.records[] | select(.batch == "WI-441-reference-entrypoint-parity")] | length' "$current_manifest")" -eq 9
 test "$(jq '[.records[] | select(.batch == "WI-441-reference-entrypoint-parity" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+wi461_paths=(
+  docs/getting-started/first-work-item.md
+  docs/getting-started/first-work-item.zh-CN.md
+  docs/getting-started/first-work-item.ja.md
+  docs/getting-started/security-release-verification.md
+  docs/getting-started/security-release-verification.zh-CN.md
+  docs/getting-started/security-release-verification.ja.md
+  docs/getting-started/standard-adoption-guide.md
+  docs/getting-started/standard-adoption-guide.zh-CN.md
+  docs/getting-started/standard-adoption-guide.ja.md
+)
+for wi461_path in "${wi461_paths[@]}"; do
+  test "$(jq --arg path "$wi461_path" '[.records[] | select(.referencePath == $path and .batch == "getting-started-onboarding" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "getting-started-onboarding" and (.referencePath as $p | $p == "docs/getting-started/first-work-item.md" or $p == "docs/getting-started/first-work-item.zh-CN.md" or $p == "docs/getting-started/first-work-item.ja.md" or $p == "docs/getting-started/security-release-verification.md" or $p == "docs/getting-started/security-release-verification.zh-CN.md" or $p == "docs/getting-started/security-release-verification.ja.md" or $p == "docs/getting-started/standard-adoption-guide.md" or $p == "docs/getting-started/standard-adoption-guide.zh-CN.md" or $p == "docs/getting-started/standard-adoption-guide.ja.md"))] | length' "$current_manifest")" -eq 9
 grep -q "WI-441 local-reference entrypoint and Agent parity" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-441：本地参考源入口与 Agent 语义对齐" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-441 local-reference entrypoint と Agent parity" "$root/docs/reference/reference-file-comparison.ja.md"

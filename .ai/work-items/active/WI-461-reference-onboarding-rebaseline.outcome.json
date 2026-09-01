@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "All nine pinned onboarding paths are read and individually classified with current-source evidence.",
+    "The three first-work-item pages contain the current Runtime lifecycle in order, visible Outcome boundary, human review stop, and exact cleanup/close semantics.",
+    "The three security-release-verification pages preserve release identity, digest, SBOM/provenance, external responsibility, and public-adopter boundaries without source-only commands.",
+    "The three standard-adoption-guide pages point to the current install/attach/calibration/adapter/Work Item route and do not claim source Make/Python behavior.",
+    "Inventory and tri-language parity records classify all nine paths as implemented-different-by-design with evidence-backed reasons; no deferred or migrate-gap remains for this batch.",
+    "The Japanese onboarding route has no duplicated or contradictory lifecycle instruction.",
+    "Reference comparison, documentation acceptance, and declared Runtime verification pass; no unrelated repository bytes change."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:76f324ba96ce5f8df75ddbdf9077f891e2b8507b0a46d26921bceb84bb2c07fb",
+      "workItemId": "WI-461-reference-onboarding-rebaseline"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-461-reference-onboarding-rebaseline.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-461-reference-onboarding-rebaseline.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-461-reference-onboarding-rebaseline.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-461-reference-onboarding-rebaseline.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-461-reference-onboarding-rebaseline.contract.json"
+          ],
+          "inference": false,
+          "text": "Close the onboarding rebaseline gap with complete tri-language semantic coverage and no undocumented omission."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-461-reference-onboarding-rebaseline.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-461-reference-onboarding-rebaseline"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-461-reference-onboarding-rebaseline"
+}

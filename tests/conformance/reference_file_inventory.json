@@ -31348,11 +31348,13 @@
     {
       "referencePath": "docs/getting-started/first-work-item.ja.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/first-work-item.ja.md"
+        "docs/getting-started/first-work-item.ja.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/outcome-report.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "現行 source は obsolete な REPORT_LANGUAGE Make argument を削除しました。Rust 日本語ページは start から close までの lifecycle、visible human Outcome、明示的な repository binding、review 停止境界を native CLI で保持し、source の Make syntax と bytes はコピーしません。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
@@ -31361,11 +31363,13 @@
     {
       "referencePath": "docs/getting-started/first-work-item.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/first-work-item.md"
+        "docs/getting-started/first-work-item.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/outcome-report.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source removes its obsolete REPORT_LANGUAGE Make argument. The Rust page preserves the complete start-to-close lifecycle, visible human Outcome, explicit repository binding, and review stop boundary with native CLI commands; source Make syntax and bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
@@ -31374,11 +31378,13 @@
     {
       "referencePath": "docs/getting-started/first-work-item.zh-CN.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/first-work-item.zh-CN.md"
+        "docs/getting-started/first-work-item.zh-CN.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/outcome-report.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "源文件仅移除了过时的 REPORT_LANGUAGE Make 参数。Rust 中文页面保留完整的 start 到 close 生命周期、可见的人类 Outcome、显式仓库绑定和人工 review 停止边界，并使用 Rust CLI；不复制源 Make 语法或文件字节。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
@@ -31441,11 +31447,13 @@
     {
       "referencePath": "docs/getting-started/security-release-verification.ja.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/security-release-verification.ja.md"
+        "docs/getting-started/security-release-verification.ja.md",
+        "docs/release/distribution.ja.md",
+        "docs/getting-started/installation-security.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "現行 source は release route を release-digests.json に絞り、obsolete な release.json dual-asset 説明を削除しました。Rust 日本語文書は release manifest/SHA256SUMS route で digest、tag、SBOM、provenance、provider responsibility、adopter isolation の境界を示し、source projection file はコピーしません。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
@@ -31454,11 +31462,13 @@
     {
       "referencePath": "docs/getting-started/security-release-verification.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/security-release-verification.md"
+        "docs/getting-started/security-release-verification.md",
+        "docs/release/distribution.md",
+        "docs/getting-started/installation-security.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source narrows the release route to release-digests.json and removes the obsolete release.json dual-asset paragraph. The Rust pages express the same digest, tag, SBOM, provenance, provider-responsibility, and adopter-isolation boundaries through its release manifest/SHA256SUMS route; source release projections are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
@@ -31467,11 +31477,13 @@
     {
       "referencePath": "docs/getting-started/security-release-verification.zh-CN.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/security-release-verification.zh-CN.md"
+        "docs/getting-started/security-release-verification.zh-CN.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/getting-started/installation-security.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "源文件将发布路径收窄为 release-digests.json，并删除旧的 release.json 双资产说明。Rust 中文文档通过 release manifest/SHA256SUMS 路径表达相同的 digest、tag、SBOM、provenance、provider 责任和 adopter 隔离边界；不复制源投影文件。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
@@ -31480,11 +31492,13 @@
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.ja.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/standard-adoption-guide.ja.md"
+        "docs/getting-started/standard-adoption-guide.ja.md",
+        "docs/getting-started/installation.ja.md",
+        "docs/getting-started/first-work-item.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "現行 source は obsolete な REPORT_LANGUAGE Make argument を削除しました。Rust 日本語 guide は reader-first の install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup、close route を shared repository-bound Runtime で保持し、source Make workflow bytes はコピーしません。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
@@ -31493,11 +31507,13 @@
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/standard-adoption-guide.md"
+        "docs/getting-started/standard-adoption-guide.md",
+        "docs/getting-started/installation.md",
+        "docs/getting-started/first-work-item.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The current source removes its obsolete REPORT_LANGUAGE Make argument. The Rust guide keeps the reader-first install, attach, calibration, adapter, Work Item, Outcome, merge, cleanup, and close route while using the shared repository-bound Runtime rather than source Make workflow bytes.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
@@ -31506,11 +31522,13 @@
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.zh-CN.md",
       "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/getting-started/standard-adoption-guide.zh-CN.md"
+        "docs/getting-started/standard-adoption-guide.zh-CN.md",
+        "docs/getting-started/installation.zh-CN.md",
+        "docs/getting-started/first-work-item.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "源文件仅移除了过时的 REPORT_LANGUAGE Make 参数。Rust 中文指南保留面向读者的 install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup 和 close 路径，并使用共享的仓库绑定 Runtime；不复制源 Make 工作流字节。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
