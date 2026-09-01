@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "The recovered predecessor projection is status=recovered in all three language documents.",
+    "The WI-469 parity row is registered before verification evidence appears in repository history.",
+    "The manifest-derived snapshot remains identical across the three comparison pages and the docs regression gate rejects drift.",
+    "No predecessor archive, evidence, or recovery bytes are rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1a66457a79a5f67ce95a41798fe915e9a76061a9",
+  "createdAt": "2026-09-01T05:46:29Z",
+  "goal": "Prove tri-language reference comparison projections remain deterministic and satisfy the fail-closed parity and status-consistency gates before release.",
+  "intent": "Re-deliver the manifest-derived reference ledger with parity registration ordered before verification and recover predecessor documentation status.",
+  "mode": "code",
+  "outOfScope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "historical docs",
+    "Runtime/Core",
+    "object repositories",
+    "release scripts",
+    "global Agent/MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:773490ba50c4ebc2b43d6899eea637125cc1501595bae4c12a8ae32032b16e1f",
+  "predecessorWorkItemId": "WI-468-reference-ledger-parity-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-468-reference-ledger-parity-promotion.recovery.2ba7c3cba4d8f32b33aa34b0475b16197cae9be752ad355ac1236744bf5b605a.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d27197dde6f3d3d8d4d3e68ef43e8f741f524bfe351a0922f3dc5fe0d7d4ae18",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-469-reference-ledger-parity-order-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/439",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-467-reference-ledger-projection"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "docs/work-items/WI-467-reference-ledger-projection.md",
+    "docs/work-items/WI-467-reference-ledger-projection.zh-CN.md",
+    "docs/work-items/WI-467-reference-ledger-projection.ja.md",
+    "docs/work-items/WI-468-reference-ledger-parity-promotion.md",
+    "docs/work-items/WI-468-reference-ledger-parity-promotion.zh-CN.md",
+    "docs/work-items/WI-468-reference-ledger-parity-promotion.ja.md",
+    "docs/work-items/WI-469-reference-ledger-parity-order-recovery.md",
+    "docs/work-items/WI-469-reference-ledger-parity-order-recovery.zh-CN.md",
+    "docs/work-items/WI-469-reference-ledger-parity-order-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-469-reference-ledger-parity-order-recovery"
+}

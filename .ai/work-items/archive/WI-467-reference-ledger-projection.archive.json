@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T05:20:17Z",
+  "files": {
+    "contractDigest": "sha256:51debad593ca44aafc362cc44257423db7424885b1a719289c9eeebbb22b2a64",
+    "contractPath": ".ai/work-items/archive/WI-467-reference-ledger-projection.contract.json",
+    "eventsDigest": "sha256:313c90045a89e21de817ea12e2c328a04efef37a56c95cca930fac3a107013e4",
+    "eventsPath": ".ai/work-items/archive/WI-467-reference-ledger-projection.events.jsonl",
+    "outcomeDigest": "sha256:f509ed1b4b77c9c2d5f619de67130957f1779681eb7fa24cdff67a2da49ceec7",
+    "outcomePath": ".ai/work-items/archive/WI-467-reference-ledger-projection.outcome.json",
+    "summaryDigest": "sha256:ef3f8ab04b06bd279f11ca24a0691e66aefc50989e367c5011ac22ecf584fa03",
+    "summaryPath": ".ai/work-items/archive/WI-467-reference-ledger-projection.summary.json",
+    "taskReportDigest": "sha256:329373e5a510aa0d6fdd56e32c5d771cc7b21627cf09ff7acbb524b58c0bc1ab",
+    "taskReportMarkdownDigest": "sha256:31a7e777ce225d142147425ceee49eac6b3b4d636c85a9ce5639ec07aabe7d24",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-467-reference-ledger-projection.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-467-reference-ledger-projection.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-467-reference-ledger-projection"
+}

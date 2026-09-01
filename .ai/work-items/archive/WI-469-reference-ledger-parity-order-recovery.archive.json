@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T05:59:21Z",
+  "files": {
+    "contractDigest": "sha256:976324b5f4ad6f08d1d8393f0f698b14ea9deffc22493d079f6bda8c7ac94873",
+    "contractPath": ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.contract.json",
+    "eventsDigest": "sha256:9712ee6810c783bac041042d40521e1827edf9544d0d9c1b99cf7a1ce7541a04",
+    "eventsPath": ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.events.jsonl",
+    "outcomeDigest": "sha256:e1add8b13f824776f48644e7acfdfe99af8fb36f459ae6b8ea799186d6aba6e1",
+    "outcomePath": ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.outcome.json",
+    "summaryDigest": "sha256:f2a079e42ceea70ca5a81145044885938d89fdf6ed5b0b0330b0509ab2ea21fd",
+    "summaryPath": ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json",
+    "taskReportDigest": "sha256:47a48063a3644ef31107a4c5c877ffc2707af5108a76baa3af3047483d9d5323",
+    "taskReportMarkdownDigest": "sha256:89b6bc8b99a8bac456cf83235a1633fc4ba196191ebe91445149dc3dd171d1f7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-469-reference-ledger-parity-order-recovery"
+}

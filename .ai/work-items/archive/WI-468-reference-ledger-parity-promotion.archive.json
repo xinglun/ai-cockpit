@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T05:34:37Z",
+  "files": {
+    "contractDigest": "sha256:f4e289ae3191ef575d1205fb76e0717876e755d4561a5cb7a0855a4cee5b3893",
+    "contractPath": ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.contract.json",
+    "eventsDigest": "sha256:2b57d0fc25a68fe2b483727e8de0c38c261e38856d47bfa8b60748d0f1275595",
+    "eventsPath": ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.events.jsonl",
+    "outcomeDigest": "sha256:4f3afdf826bd8c8dc41bcc3c551066f32c1ba583f6f060590227235434e2c124",
+    "outcomePath": ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.outcome.json",
+    "summaryDigest": "sha256:fe1086de5cc712f3e8d0cd9ece81f11c483882607900f8f86b4ff68c52b5af8a",
+    "summaryPath": ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.summary.json",
+    "taskReportDigest": "sha256:97a212e6258f0ec7fea67c555432495e560521bea16d753bce6446f9c9ae08d1",
+    "taskReportMarkdownDigest": "sha256:888d641d62049d1608d2967332fd988077fc2893ba6e4d2c04c6aac7f2db74f4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-468-reference-ledger-parity-promotion"
+}
