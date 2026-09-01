@@ -20,8 +20,8 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd`。
-- 比較に使う Runtime: `ai-cockpit 0.2.47`、binary SHA256 `sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.57`、binary SHA256 `sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=259 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=443 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=435 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -201,11 +201,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 259 |
+| `implemented-different-by-design` | 267 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 62 |
-| `deferred-next-batch` | 443 |
+| `deferred-next-batch` | 435 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1174,3 +1174,30 @@ Make target、report、quality config は受け取りません。WI-475 ledger �
 prior classification を保持し deferred を解消します。現在は 4,262 `generated-history`、303
 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、66 `reference-only`、
 483 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-482 — lifecycle、parallel、trust-layer の reference 比較
+
+WI-482 は前回の比較以後、maintained local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` で変更された 8 path を再読します。Rust の現行 baseline は
+`origin/main` `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`、比較には published `ai-cockpit 0.2.57`
+（`f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`）を使います。source の変更は
+short lifecycle route を絞り、parallel/handoff の詳細を専用 reference に移し、template 専用の
+quality-shard section と obsolete な `REPORT_LANGUAGE` 引数を削除しました。source Python、Makefile、provider config、
+同一 path の文書は copy しません。
+
+| Pinned reference path | Classification | Rust counterpart と bounded decision |
+| --- | --- | --- |
+| `docs/operations/work-item-lifecycle.md` | implemented-different-by-design | `docs/reference/agent-workflow.md`、`docs/reference/outcome-report.md`、本比較 route が Rust-native lifecycle、human pause、exact cleanup、current Work Item boundary を担います。短い source route は reader-facing な構成であり Runtime gap ではありません。 |
+| `docs/operations/work-item-lifecycle.zh-CN.md` | implemented-different-by-design | Chinese の Agent workflow と Outcome route が explicit `--repo` で同じ lifecycle/stop rule を保ち、source wording と Make command は install しません。 |
+| `docs/operations/work-item-lifecycle.ja.md` | implemented-different-by-design | Japanese の Agent workflow と Outcome route が explicit repository context で同じ lifecycle/stop rule を保ち、source wording と Make command は copy しません。 |
+| `docs/reference/agent-parallel-work-items.md` | implemented-different-by-design | `docs/reference/cross-work-item-dedup.md`、`docs/reference/affected-verification.md`、`docs/reference/agent-workflow.md`、`AGENTS.md`、`.ai/README.md` が dedicated worktree、scope、evidence、serialization、visible handoff boundary を保持します。conversation delivery は adapter の責任です。 |
+| `docs/reference/ai-cockpit-work-item-lifecycle.md` | implemented-different-by-design | Rust lifecycle と pre-finish boundary は `docs/reference/agent-workflow.md`、`docs/reference/outcome-report.md`、`docs/reference/ci-quality-gates.md`、Runtime にあります。template-only pytest shard と `REPORT_LANGUAGE` は target requirement ではありません。 |
+| `docs/trust-layer.md` | implemented-different-by-design | `docs/philosophy.md`、`docs/security/enterprise-governance.md`、`docs/architecture.md`、`docs/capabilities.md` が trust-chain、delegated evidence、human decision、limitation を Rust-native boundary で保持します。 |
+| `docs/trust-layer.zh-CN.md` | implemented-different-by-design | Chinese の philosophy、enterprise-governance、architecture、capabilities route が同じ trust semantic と明示的な external-provider boundary を保ちます。 |
+| `docs/trust-layer.ja.md` | implemented-different-by-design | Japanese の philosophy、enterprise-governance、architecture、capabilities route が同じ trust semantic と明示的な external-provider boundary を保ちます。 |
+
+この batch で implementation omission は見つかりませんでした。target に同じ path の
+`docs/operations/*`、`docs/trust-layer.*`、agent-handoff appendix がないのは意図した layout boundary です。
+責任は Rust-native reader route と明示的な Agent adapter に分割されています。Contract の intent と acceptance criteria は
+authored language を保ち、localization は presentation だけを変更します。ledger は 8 path をすべて
+`implemented-different-by-design` とし、`sourceChangedSincePrevious` と prior classification を保持し、deferred は 475 件になります。

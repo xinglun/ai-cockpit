@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "All 8 pinned reference paths are read at commit fde3380f81fea5fd2e288f7a8849f737dc074060 and each receives an explicit file-level decision.",
+    "Every decision names Rust-native counterparts and records whether behavior is equivalent, intentionally different, reference-only, or not applicable; no source implementation is copied.",
+    "Three-language documentation remains synchronized and preserves reader-facing lifecycle, parallelism, trust, and explicit repository-context boundaries.",
+    "The inventory and three-language comparison ledger remove only these 8 records from deferred-next-batch and preserve source-change history.",
+    "A deterministic conformance and documentation test set passes, and any discovered in-scope omission is fixed before finish."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f",
+  "createdAt": "2026-09-01T18:32:44Z",
+  "goal": "完成 reference batch 26 的文件级语义对比、三语文档与 inventory/parity 记录，使每个文件都有可审计的等价、差异设计、reference-only 或其他明确结论。",
+  "intent": "逐个比对本地参考源当前发生变化的 8 个文档，确保 Rust 目标保留必要治理语义且不复制 Python/Make/source-only 实现；发现范围内遗漏就在本 Work Item 内修复并记录。",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust Runtime/Core architecture split",
+    "new runtime features unrelated to these changed reference paths",
+    "object repositories and global Agent/MCP configuration",
+    "release publication and adopter acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2e20d3e18e1bded66f7c3209a2dd30ce7bc30670c9666d9f5b92f1cd379b5823",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-482-reference-file-comparison-batch-26",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/455",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-482-reference-file-comparison-batch-26"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/operations/work-item-lifecycle.md",
+    "docs/operations/work-item-lifecycle.zh-CN.md",
+    "docs/operations/work-item-lifecycle.ja.md",
+    "docs/reference/agent-parallel-work-items.md",
+    "docs/reference/ai-cockpit-work-item-lifecycle.md",
+    "docs/trust-layer.md",
+    "docs/trust-layer.zh-CN.md",
+    "docs/trust-layer.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-482-reference-file-comparison-batch-26.md",
+    "docs/work-items/WI-482-reference-file-comparison-batch-26.zh-CN.md",
+    "docs/work-items/WI-482-reference-file-comparison-batch-26.ja.md"
+  ],
+  "sources": [
+    "local reference checkout commit fde3380f81fea5fd2e288f7a8849f737dc074060"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --check",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-482-reference-file-comparison-batch-26"
+}
