@@ -4,9 +4,13 @@ title: "WI-489 — 有界な終端ドキュメント昇格"
 description: "クローズ済みドキュメント昇格 Work Item が自身のページだけを理由に無限の successor を作らないようにする。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-489-doc-promotion-terminal-boundary
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-489-doc-promotion-terminal-boundary
+terminalArchive: .ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.contract.json
+terminalVerification: .ai/evidence/WI-489-doc-promotion-terminal-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-489-doc-promotion-terminal-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-489-doc-promotion-terminal-boundary.close.json
 ---
 
 # WI-489 — 有界な終端ドキュメント昇格
