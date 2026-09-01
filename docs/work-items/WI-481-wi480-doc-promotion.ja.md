@@ -7,9 +7,13 @@ audience:
   - reviewer
   - adopter
 workItemId: WI-481-wi480-doc-promotion
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-481-wi480-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-481-wi480-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-481-wi480-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-481-wi480-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-481-wi480-doc-promotion.close.json
 ---
 
 # WI-481 — WI-480 terminal documentation promotion
