@@ -1,19 +1,28 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-01T21:08:29Z",
-  "checkpointContractDigest": "sha256:eb6c27ec5eff7644993cd207d8e4ffafe5d08d63fd9f133681982bafe1210be2",
+  "checkpointContractDigest": "sha256:0aed2717a4c8053dfb41bd6826ab4995cb766a7ef27a32f97b52bfa4c56579e6",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:8692bbe62a3e1847b1b71a26659ae73a0d0c5867479a41a9373b2f768f3a179f",
   "createdAt": "2026-09-01T21:04:05Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-01T21:08:24Z",
-  "preflightContractDigest": "sha256:eb6c27ec5eff7644993cd207d8e4ffafe5d08d63fd9f133681982bafe1210be2",
+  "preflightAt": "2026-09-01T21:11:08Z",
+  "preflightContractDigest": "sha256:0aed2717a4c8053dfb41bd6826ab4995cb766a7ef27a32f97b52bfa4c56579e6",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:8692bbe62a3e1847b1b71a26659ae73a0d0c5867479a41a9373b2f768f3a179f",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryRetryDecisionDigest": "sha256:bd83fad5acf6fb5833262aba4a776166a542291b58ea03a237870d05858e6f77",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-487-wi486-doc-promotion.recovery.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-01T21:08:29Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-487-wi486-doc-promotion"
 }
