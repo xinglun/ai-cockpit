@@ -28,16 +28,16 @@ Runtime version、Repository Protocol version、repository schema version は独
 
 ```text
 ai-cockpit --version
-0.2.53
+0.2.54
 
 repository:
 protocol_version = 1
 repository_schema_version = 2
 ```
 
-直前の公開 patch release `v0.2.52` は historical evidence として保持します。`v0.2.50` もさらに前の歴史として保持します。予約済みの `v0.2.51` tag は
+直前の公開 patch release `v0.2.53` は historical evidence として保持します。`v0.2.52` もさらに前の歴史として保持します。予約済みの `v0.2.51` tag は
 workflow run `33417057474` の immutable な lightweight-tag 公開失敗で、provider Release はなく再利用しません。未公開で失敗した
-`v0.2.49` tag は再利用せず、現在の package identity は `v0.2.53` です。
+`v0.2.49` tag は再利用せず、現在の package identity は `v0.2.54` です。
 
 CLI version は executable package を示し、protocol version は repository storage contract
 を示します。Runtime version、runtime digest、protocol version は `inspect`、`doctor`、MCP
