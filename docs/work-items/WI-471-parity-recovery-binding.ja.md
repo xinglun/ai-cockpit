@@ -7,7 +7,7 @@ audience:
   - reviewer
   - adopter
 workItemId: WI-471-parity-recovery-binding
-status: in_progress
+status: recovered
 authority: authorized
 lastVerifiedBy: WI-471-parity-recovery-binding
 ---
@@ -44,6 +44,6 @@ Item はその既存 path を明示するだけで、履歴 bytes と Runtime �
 
 ## Recovery boundary
 
-この recovery receipt は、WI-469 に closed successor があるため Runtime が選択した
-immutable terminal projection です。parity 行に記載しても predecessor の分類や bytes
-は変わらず、既存の decision path を監査可能にするだけです。
+この recovery receipt は、この Work Item を明示的な successor で継続するため Runtime が
+選択した immutable recovery projection です。parity 行に記載しても predecessor の分類や
+bytes は変更せず、recovery path を監査可能にし、WI-472 が限定的な再配信を担うことを示します。

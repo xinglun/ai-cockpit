@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-instruction",
+  "decidedAt": "2026-09-01T08:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-471-parity-recovery-binding.outcome.json",
+    ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "predecessorContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
+  "predecessorEventsDigest": "sha256:3eb912bb421159c28f4db2ee73789775f7fd381e827972e14649e7542c49b583",
+  "predecessorOutcomeDigest": "sha256:dc820834975c1a4fdde3b32d5b07d0cd1bbbbf5bc747760b09ee3f20875c4391",
+  "predecessorSummaryDigest": "sha256:abc1677ff62fd1765b40bd50ae19b177ebd988a912c6baa195577984f7f4d5a6",
+  "predecessorWorkItemId": "WI-471-parity-recovery-binding",
+  "reason": "WI-471 was archived with a pending provider context after the real PR was created. Preserve its immutable bytes and continue through a bounded Runtime compatibility successor that rejects pending contexts before archive and records the recovery path without fabricated provider evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the Runtime pending-context guard and its regression evidence, then finalize and close the successor before releasing the next version.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-472-finalization-context-compatibility",
+  "workItemId": "WI-471-parity-recovery-binding"
+}

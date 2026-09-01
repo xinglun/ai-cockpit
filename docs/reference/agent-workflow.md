@@ -316,7 +316,10 @@ after `finalize-verify` accepts an identity-bound `Deleted` receipt. A
 recovery fact; it never authorizes a new close. Archived verification evidence
 remains immutable historical truth: after a Runtime upgrade it is projected as
 historical rather than revalidated as a current result, while a new
-finalization receipt is bound to the Runtime executing the close request.
+finalization receipt is bound to the Runtime executing the close request. The
+`pending:<stable-reference>` provider sentinel is provisional, like `unknown`,
+and cannot pass `finish` or `archive`; replace it with the exact reviewed
+resource context before recording verification and terminal lifecycle evidence.
 
 Structural close is followed by a controlled documentation projection and the
 terminal default-branch check:

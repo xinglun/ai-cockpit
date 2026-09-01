@@ -1,0 +1,153 @@
+{
+  "acceptanceResults": [
+    "pending:* provider context is classified as provisional and cannot pass finish/archive",
+    "a real non-provisional finalize-plan remains the only path to provider-bound archive",
+    "WI-471 immutable bytes remain unchanged and are recoverable through the explicit successor chain",
+    "tri-language docs and tests state the ordering and recovery boundary",
+    "no fabricated PR, runtime identity, or cleanup receipt is accepted",
+    "a successful retry clears only stale generated failure projection fields so CI cannot reject a repaired lifecycle",
+    "the immutable WI-471 predecessor is projected as recovered in all tri-language parity and Work Item documents, with its explicit successor recovery path"
+  ],
+  "createdAt": "2026-09-01T08:36:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:59de5ab25e38ed10b38898eb3f39fee0106de5a43133489e9396e59009e2fefa",
+  "evidenceRefs": [
+    ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c7871ed76280bec164fd6f89b39871f6089ed3dde4e1d01ad45983fcd217ed0c",
+      "workItemId": "WI-472-finalization-context-compatibility"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-471-parity-recovery-binding.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-472-finalization-context-compatibility.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-472-finalization-context-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "让 pending provider context 在 finish/archive 前 fail closed，同时保留 WI-471 原始字节并完成可审计的 Runtime 兼容恢复。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-472-finalization-context-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-472-finalization-context-compatibility"
+  },
+  "taskReportDigest": "sha256:b48924109350feaf5b3028633d53fa1325bf633263dcfe84f1ca35b3d1f93276",
+  "taskReportMarkdownDigest": "sha256:a5d9f174b1bf8e872244c0f344eb196680a406539972f8085025cff0c9e0f81c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-472-finalization-context-compatibility.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-472-finalization-context-compatibility"
+}

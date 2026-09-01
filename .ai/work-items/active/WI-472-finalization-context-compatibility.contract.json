@@ -1,0 +1,113 @@
+{
+  "acceptanceCriteria": [
+    "pending:* provider context is classified as provisional and cannot pass finish/archive",
+    "a real non-provisional finalize-plan remains the only path to provider-bound archive",
+    "WI-471 immutable bytes remain unchanged and are recoverable through the explicit successor chain",
+    "tri-language docs and tests state the ordering and recovery boundary",
+    "no fabricated PR, runtime identity, or cleanup receipt is accepted",
+    "a successful retry clears only stale generated failure projection fields so CI cannot reject a repaired lifecycle",
+    "the immutable WI-471 predecessor is projected as recovered in all tri-language parity and Work Item documents, with its explicit successor recovery path"
+  ],
+  "authority": "authorized",
+  "baseRevision": "198f0c9534dbcc81e9ac286c4992d5916e82cb4e",
+  "createdAt": "2026-09-01T07:34:01Z",
+  "goal": "让 pending provider context 在 finish/archive 前 fail closed，同时保留 WI-471 原始字节并完成可审计的 Runtime 兼容恢复。",
+  "intent": "修复归档前 provider finalization context 的 pending 哨兵误判，避免未来 Work Item 在真实 PR 绑定前被归档，并为历史恢复保留不可变边界。",
+  "mode": "docs",
+  "outOfScope": [
+    "对象工程 /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "WI-471 与其他历史 archive/evidence/decision bytes",
+    "发布版本号、GitHub Release、Homebrew 与 adopter acceptance",
+    "主线下一批参考源逐文件语义比对",
+    "用户全局 Agent/MCP 配置"
+  ],
+  "predecessorContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
+  "predecessorWorkItemId": "WI-471-parity-recovery-binding",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2cd255b5c14959711b816395162f2eb3a18d64942f723c1ed3e24f235bc5a5fe",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-472-finalization-context-compatibility",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/442",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-472-finalization-context-compatibility"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "finish and archive reject a pending provider context before writing terminal archive bytes",
+      "required": true,
+      "scenario": "pending provider context is rejected before archive",
+      "status": "unverified",
+      "verificationPlan": "run the protocol and repository lifecycle regressions for pending context"
+    },
+    {
+      "evidence": [],
+      "expected": "a complete identity-bound finalize-plan remains accepted by finish and archive",
+      "required": true,
+      "scenario": "real provider context remains archiveable",
+      "status": "unverified",
+      "verificationPlan": "run the existing resource finalization transition, archive integrity, and lifecycle-order regressions"
+    },
+    {
+      "evidence": [],
+      "expected": "the WI-471 predecessor bytes remain unchanged while an explicit successor recovery is recorded",
+      "required": true,
+      "scenario": "historical recovery preserves immutable predecessor",
+      "status": "unverified",
+      "verificationPlan": "run recovery binding and archive immutability regressions"
+    },
+    {
+      "evidence": [],
+      "expected": "a fresh successful finish removes stale failedGate/recoveryCondition/outcomeState projection without deleting append-only failure events",
+      "required": true,
+      "scenario": "successful retry clears stale failure projection",
+      "status": "unverified",
+      "verificationPlan": "run the repository regression that seeds a failed finish projection and retries finish after valid evidence"
+    },
+    {
+      "evidence": [],
+      "expected": "the archived WI-471 predecessor is shown as recovered with its immutable recovery receipt and successor link, without a false terminal close claim",
+      "required": true,
+      "scenario": "historical predecessor recovery is projected consistently",
+      "status": "unverified",
+      "verificationPlan": "run the documentation and governance-integrity gates against the tri-language recovery projection"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-471-parity-recovery-binding.md",
+    "docs/work-items/WI-471-parity-recovery-binding.zh-CN.md",
+    "docs/work-items/WI-471-parity-recovery-binding.ja.md",
+    "docs/work-items/WI-472-finalization-context-compatibility.md",
+    "docs/work-items/WI-472-finalization-context-compatibility.zh-CN.md",
+    "docs/work-items/WI-472-finalization-context-compatibility.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-472-finalization-context-compatibility"
+}

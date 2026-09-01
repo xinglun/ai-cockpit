@@ -221,7 +221,8 @@ context/receipt；Runtime 不会隐式删除资源。Work Item 只有在 verific
 只能表示中间 merge observation 或旧记录的历史事实，不能授权新的 close；旧的已关闭记录
 只能按上文追加有限的 deleted reconciliation。Archived verification evidence 保持为不可变的
 历史事实；Runtime 升级后不把它重新标记为当前结果，而是显示为历史 evidence。新的
-finalization receipt 始终绑定执行 close 的 Runtime。
+finalization receipt 始终绑定执行 close 的 Runtime。`pending:<stable-reference>` provider 哨兵值与 `unknown` 一样属于
+provisional，不能通过 `finish` 或 `archive`；在记录 verification 和终态生命周期 evidence 前，必须替换为准确的已审查资源上下文。
 
 结构化 close 后还必须完成受控文档 projection 与 default-branch terminal check：
 

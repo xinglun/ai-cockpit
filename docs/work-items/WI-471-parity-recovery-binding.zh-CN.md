@@ -7,7 +7,7 @@ audience:
   - reviewer
   - adopter
 workItemId: WI-471-parity-recovery-binding
-status: in_progress
+status: recovered
 authority: authorized
 lastVerifiedBy: WI-471-parity-recovery-binding
 ---
@@ -43,6 +43,6 @@ receipt。本 Work Item 只补充这一明确绑定，不重写历史字节，�
 
 ## 恢复边界
 
-该 recovery receipt 是 Runtime 因 WI-469 存在已关闭 successor 而选定的不可变终态投影。
-在 parity 行中列出它不会重新分类或改写 predecessor，只是让现有决策路径可审计，避免
-关闭后的门禁误判为缺失。
+该 recovery receipt 是 Runtime 为这个 Work Item 选择的不可变恢复投影，后续交付由显式
+successor 继续。在 parity 行中列出它不会重新分类或改写 predecessor，只是让恢复路径可
+审计，并明确由 WI-472 负责受限的重新交付。

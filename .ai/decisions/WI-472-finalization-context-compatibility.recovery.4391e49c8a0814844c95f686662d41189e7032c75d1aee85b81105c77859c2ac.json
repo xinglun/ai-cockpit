@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T08:35:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-472-finalization-context-compatibility.outcome.json",
+    ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:24e009e3435180c434510702df8d109116a6fd2c5115b08f8a0427bc97f149b7",
+  "predecessorEventsDigest": "sha256:392609cd75574f49a7dcfe5f9b0684e2cb956400e3f621ea45580715f851b114",
+  "predecessorOutcomeDigest": "sha256:7d6ffca64928e116a32e466ee8d692132d388d7dd020c470d89907d6e701132c",
+  "predecessorSummaryDigest": "sha256:1f8c4147c73e1c5de79355f6122f0cc258e80576c365ffa6c48204863f7944f6",
+  "predecessorWorkItemId": "WI-472-finalization-context-compatibility",
+  "reason": "Retry after the amended recovery projection invalidated the previous finish attempt; preserve the blocked attempt and regenerate current verification and Outcome evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence matches the amended Contract, repository snapshot, and Runtime identity.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "workItemId": "WI-472-finalization-context-compatibility"
+}
