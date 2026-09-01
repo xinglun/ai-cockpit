@@ -1,0 +1,25 @@
+{
+  "actor": "AI Cockpit maintainers",
+  "authoritySource": "authorized user release instruction",
+  "decidedAt": "2026-09-01T14:35:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+  ],
+  "policyRefs": [
+    "docs/release/distribution.md"
+  ],
+  "predecessorContractDigest": "sha256:749c832de85baa04cb8a5134b5a6cbac879110da90361c8ee710ebbbce048fc1",
+  "predecessorEventsDigest": "sha256:c5839a25ec801cba037589af89099087702c1c674980b9b1cb6a42fd0257315b",
+  "predecessorOutcomeDigest": "sha256:9170dc26a69a0b7195196a28ea4dd847156ccb00c0ecdf6297de4965d033ffd8",
+  "predecessorSummaryDigest": "sha256:9a97d4610594a814506eec99dc2504f489d6809408bfed869c69289ed374b276",
+  "predecessorWorkItemId": "WI-478-release-v0-2-57",
+  "reason": "Retry the failed finish transition after binding the required PR finalization context; preserve the blocked attempt and do not rewrite its evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the reviewed PR finalization context, rerun the required lifecycle checks, and retry finish.",
+  "runtimeDigest": "sha256:312471a9bc1bd58cc4d80f773e35a251f59caddebfa3108df0b5c23fa84ae438",
+  "runtimeVersion": "0.2.55",
+  "schemaVersion": 1,
+  "workItemId": "WI-478-release-v0-2-57"
+}

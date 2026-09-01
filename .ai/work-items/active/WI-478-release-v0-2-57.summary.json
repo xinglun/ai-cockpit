@@ -1,0 +1,114 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-477-release-v0-2-56.recovery.eeb777d2322be8152808dce12241e4ca6d1901846d38ade6cfcdb50a1ad2f025.json",
+    ".ai/work-items/active/WI-478-release-v0-2-57.contract.json",
+    ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T13:57:48Z",
+  "checkpointContractDigest": "sha256:749c832de85baa04cb8a5134b5a6cbac879110da90361c8ee710ebbbce048fc1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:3fc374c2deadf2934e8a3d6a8b79bc2388a66c96baa724a32a1acd6647acfeea",
+      "recorded": true,
+      "recordedAt": "2026-09-01T13:57:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8b56a07baf58c7fdb7a86d9b8311464f216eaa9807aa75f54e5946f5083dc504",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-478-release-v0-2-57"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:749c832de85baa04cb8a5134b5a6cbac879110da90361c8ee710ebbbce048fc1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3fc374c2deadf2934e8a3d6a8b79bc2388a66c96baa724a32a1acd6647acfeea",
+      "previousContractHash": "sha256:3fc374c2deadf2934e8a3d6a8b79bc2388a66c96baa724a32a1acd6647acfeea",
+      "reason": "Include the in-scope recovery marker cleanup fix and its regression test discovered by the hosted route.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T14:13:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:18b9ad362029e989278da77cec3b9b95d88e41f57efb2445712742a6e3188fb8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-478-release-v0-2-57"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:5538767746e1e1af4264e4c9464ee8f8d15e3c2411203b0b44bbbd7018f838de",
+  "createdAt": "2026-09-01T13:47:02Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release Work Item binds reviewed source, an immutable public artifact, isolated adopter acceptance, and installation without expanding into the next reference-source parity batch.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "predecessorContractDigest": "sha256:dfb7427940460fa86adefde266d1193a6eeed4c9c1d63405134dcf9493b33b67",
+  "predecessorWorkItemId": "WI-477-release-v0-2-56",
+  "preflightAt": "2026-09-01T15:01:29Z",
+  "preflightContractDigest": "sha256:749c832de85baa04cb8a5134b5a6cbac879110da90361c8ee710ebbbce048fc1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5538767746e1e1af4264e4c9464ee8f8d15e3c2411203b0b44bbbd7018f838de",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-477-release-v0-2-56.recovery.eeb777d2322be8152808dce12241e4ca6d1901846d38ade6cfcdb50a1ad2f025.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "The reviewed source, release tag, and package identity are bound.",
+      "required": true,
+      "scenario": "reviewed source commit produces an immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run source-quality and release policy checks before publication."
+    },
+    {
+      "evidence": [],
+      "reason": "The public v0.2.57 Release does not exist until the reviewed source is merged and tagged.",
+      "required": true,
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "status": "not_applicable",
+      "verificationPlan": "Run the public adopter acceptance harness after publication using only downloaded artifacts."
+    },
+    {
+      "evidence": [],
+      "reason": "N-1 acceptance is a post-release boundary and cannot run before publication.",
+      "required": true,
+      "scenario": "published release upgrades an existing repository without cross-repository state",
+      "status": "not_applicable",
+      "verificationPlan": "Run the N-1 acceptance harness after publication with isolated roots."
+    },
+    {
+      "evidence": [],
+      "reason": "Installation acceptance requires the public v0.2.57 artifact.",
+      "required": true,
+      "scenario": "installation on the Runtime repository remains healthy",
+      "status": "not_applicable",
+      "verificationPlan": "Install the public artifact after publication and run inspect, status, doctor, Agent doctor, and documentation promotion."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T15:01:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-478-release-v0-2-57"
+}
