@@ -5,7 +5,7 @@
     ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
   ],
   "checkpointAt": "2026-09-01T07:38:25Z",
-  "checkpointContractDigest": "sha256:ee9da1a1f0d8b6dee60159f703145957b40ef038fa25fbca86b82dc4b088ac3b",
+  "checkpointContractDigest": "sha256:eb291dd7220fa3e9fafe5ca6c2bc52089af7f824a329be7d0df2c2a44d0b8e09",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -43,25 +43,61 @@
       "workItemId": "WI-472-finalization-context-compatibility"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:2cd255b5c14959711b816395162f2eb3a18d64942f723c1ed3e24f235bc5a5fe",
+  "checkpointRepositorySnapshotDigest": "sha256:dc88fbd7bcdb18be4e6cd5a7b376b53cb1e9e9d142ad3f108c8ec6adf6938f73",
   "createdAt": "2026-09-01T07:34:01Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-472-finalization-context-compatibility.md"
+    ],
+    "state": "resolved"
+  },
   "mode": "docs",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
   "predecessorWorkItemId": "WI-471-parity-recovery-binding",
-  "preflightAt": "2026-09-01T07:38:43Z",
-  "preflightContractDigest": "sha256:8a9e19e70611696a79dd0fd11e3a678da23b520d4945ac1e1db611db3b8379e1",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:2cd255b5c14959711b816395162f2eb3a18d64942f723c1ed3e24f235bc5a5fe",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-01T07:58:45Z",
+  "preflightContractDigest": "sha256:eb291dd7220fa3e9fafe5ca6c2bc52089af7f824a329be7d0df2c2a44d0b8e09",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:dc88fbd7bcdb18be4e6cd5a7b376b53cb1e9e9d142ad3f108c8ec6adf6938f73",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-01T07:38:25Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:8a9e19e70611696a79dd0fd11e3a678da23b520d4945ac1e1db611db3b8379e1",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-01T07:38:43Z"
-  },
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+      ],
+      "required": true,
+      "scenario": "pending provider context is rejected before archive",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+      ],
+      "required": true,
+      "scenario": "real provider context remains archiveable",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+      ],
+      "required": true,
+      "scenario": "historical recovery preserves immutable predecessor",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T07:58:50Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-472-finalization-context-compatibility"
 }

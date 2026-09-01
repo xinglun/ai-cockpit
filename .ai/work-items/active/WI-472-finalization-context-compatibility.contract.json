@@ -29,41 +29,41 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
-  "scenarioCoverage": [
-    {
-      "scenario": "pending provider context is rejected before archive",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "finish and archive reject a pending provider context before writing terminal archive bytes",
-      "verificationPlan": "run the protocol and repository lifecycle regressions for pending context"
-    },
-    {
-      "scenario": "real provider context remains archiveable",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "a complete identity-bound finalize-plan remains accepted by finish and archive",
-      "verificationPlan": "run the existing resource finalization transition, archive integrity, and lifecycle-order regressions"
-    },
-    {
-      "scenario": "historical recovery preserves immutable predecessor",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "the WI-471 predecessor bytes remain unchanged while an explicit successor recovery is recorded",
-      "verificationPlan": "run recovery binding and archive immutability regressions"
-    }
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-472-finalization-context-compatibility",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/442",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-472-finalization-context-compatibility"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "finish and archive reject a pending provider context before writing terminal archive bytes",
+      "required": true,
+      "scenario": "pending provider context is rejected before archive",
+      "status": "unverified",
+      "verificationPlan": "run the protocol and repository lifecycle regressions for pending context"
+    },
+    {
+      "evidence": [],
+      "expected": "a complete identity-bound finalize-plan remains accepted by finish and archive",
+      "required": true,
+      "scenario": "real provider context remains archiveable",
+      "status": "unverified",
+      "verificationPlan": "run the existing resource finalization transition, archive integrity, and lifecycle-order regressions"
+    },
+    {
+      "evidence": [],
+      "expected": "the WI-471 predecessor bytes remain unchanged while an explicit successor recovery is recorded",
+      "required": true,
+      "scenario": "historical recovery preserves immutable predecessor",
+      "status": "unverified",
+      "verificationPlan": "run recovery binding and archive immutability regressions"
+    }
+  ],
   "scope": [
     "crates/cockpit-protocol/src/lib.rs",
     "crates/cockpit-repository/src/lib.rs",
