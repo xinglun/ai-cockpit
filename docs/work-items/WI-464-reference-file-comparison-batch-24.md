@@ -1,12 +1,14 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-464 — workflow and build rebaseline"
+workItemId: WI-464-reference-file-comparison-batch-24
 description: "Four source-change paths compared against the Rust-native CI and release boundaries."
 audience:
   - maintainer
   - reviewer
-status: current
+status: recovered
 authority: canonical
+lastVerifiedBy: WI-464-reference-file-comparison-batch-24
 ---
 
 # WI-464 — workflow and build rebaseline
@@ -34,9 +36,11 @@ provider, or JSON-wire compatibility. Object/adopter repositories inherit the
 Rust shared Runtime and repository-local evidence boundary, not these source
 workflow files.
 
+This predecessor remains an immutable recovery record; the reviewed retry is
+the delivery path for the same bounded comparison.
+
 ## Verification
 
 - `python3 tests/conformance/reference_file_inventory.py --check`
 - `bash tests/conformance/reference_file_inventory_test.sh`
 - the declared documentation and repository gate checks for this Work Item
-

@@ -1,12 +1,14 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-464——工作流与构建重新基线"
+workItemId: WI-464-reference-file-comparison-batch-24
 description: "逐个比对四个发生源变更的路径，并记录 Rust 原生 CI 与发布边界。"
 audience:
   - maintainer
   - reviewer
-status: current
+status: recovered
 authority: canonical
+lastVerifiedBy: WI-464-reference-file-comparison-batch-24
 ---
 
 # WI-464——工作流与构建重新基线
@@ -34,4 +36,3 @@ action-runtime policy 管理；不会把源矩阵的 pin 静默替换到 Rust CI
 - `python3 tests/conformance/reference_file_inventory.py --check`
 - `bash tests/conformance/reference_file_inventory_test.sh`
 - 本 Work Item 声明的文档和 repository gate 检查
-

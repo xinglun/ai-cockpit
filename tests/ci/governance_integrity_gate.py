@@ -72,6 +72,53 @@ def short_id(work_item: str) -> str:
     return match.group(1).upper() if match else work_item
 
 
+def recovery_alias_group(repo: Path, work_items: list[str]) -> bool:
+    """Return true only for a complete, repository-bound recovery lineage.
+
+    Work Item recovery successors commonly keep the predecessor's numeric
+    short id (for example ``WI-464-...`` and ``WI-464-...-retry``).  They are
+    distinct immutable records, but the parity ledger intentionally has one
+    row per numeric id.  Treating that explicit predecessor/successor chain as
+    an ambiguous id would reject an otherwise auditable retry.  Unrelated
+    records must continue to fail closed, so every member must be connected by
+    a valid Runtime recovery receipt and the successor Contract must bind back
+    to its predecessor.
+    """
+    if len(work_items) < 2:
+        return False
+    members = set(work_items)
+    graph: dict[str, set[str]] = {item: set() for item in members}
+    for predecessor in members:
+        candidate = recovery_decision_candidate(repo, predecessor)
+        if candidate is None:
+            continue
+        recovery = candidate[1]
+        successor = recovery.get("successorWorkItemId")
+        if not isinstance(successor, str) or successor not in members:
+            continue
+        try:
+            successor_contract = load_json(
+                repo / ".ai/work-items" / "archive" / f"{successor}.contract.json"
+            )
+        except ValueError:
+            continue
+        if successor_contract.get("predecessorWorkItemId") != predecessor:
+            continue
+        graph[predecessor].add(successor)
+        graph[successor].add(predecessor)
+
+    root = next(iter(members))
+    visited = {root}
+    pending = [root]
+    while pending:
+        current = pending.pop()
+        for neighbor in graph[current]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                pending.append(neighbor)
+    return visited == members
+
+
 def created_at(path: Path) -> datetime | None:
     try:
         value = load_json(path).get("createdAt")
@@ -1353,7 +1400,7 @@ def main() -> int:
     for work_item in locations:
         full_ids_by_short.setdefault(short_id(work_item), []).append(work_item)
     for registered_id, full_ids in sorted(full_ids_by_short.items()):
-        if len(full_ids) > 1:
+        if len(full_ids) > 1 and not recovery_alias_group(repo, full_ids):
             severity = (
                 "error"
                 if any(classifications[item].startswith("current") for item in full_ids)

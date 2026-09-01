@@ -1,12 +1,14 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-464 — workflow/build rebaseline"
+workItemId: WI-464-reference-file-comparison-batch-24
 description: "source 変更 4 path を Rust-native CI/release boundary と再比較します。"
 audience:
   - maintainer
   - reviewer
-status: current
+status: recovered
 authority: canonical
+lastVerifiedBy: WI-464-reference-file-comparison-batch-24
 ---
 
 # WI-464 — workflow/build rebaseline
@@ -37,4 +39,3 @@ shared Rust Runtime と repository-local evidence boundary を継承します。
 - `python3 tests/conformance/reference_file_inventory.py --check`
 - `bash tests/conformance/reference_file_inventory_test.sh`
 - この Work Item が宣言した documentation/repository gate checks
-

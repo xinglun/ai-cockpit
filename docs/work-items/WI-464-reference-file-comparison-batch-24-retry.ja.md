@@ -1,3 +1,16 @@
+---
+author: AI Cockpit maintainers
+title: "WI-464 — 参照ファイル比較バッチ 24 リカバリー再試行"
+workItemId: WI-464-reference-file-comparison-batch-24-retry
+description: "実際の provider context で限定的な source 比較を再配信します。"
+audience:
+  - maintainer
+  - reviewer
+status: in_progress
+authority: human-authorized
+lastVerifiedBy: WI-464-reference-file-comparison-batch-24-retry
+---
+
 # WI-464 参照ファイル比較バッチ 24 — リカバリー再試行
 
 ## Intent

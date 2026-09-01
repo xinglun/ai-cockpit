@@ -1,3 +1,16 @@
+---
+author: AI Cockpit maintainers
+title: "WI-464——参考源文件比对第 24 批恢复重试"
+workItemId: WI-464-reference-file-comparison-batch-24-retry
+description: "在真实 provider context 下重新交付受限的源文件比对。"
+audience:
+  - maintainer
+  - reviewer
+status: in_progress
+authority: human-authorized
+lastVerifiedBy: WI-464-reference-file-comparison-batch-24-retry
+---
+
 # WI-464 参考源文件比对第 24 批——恢复重试
 
 ## 意图

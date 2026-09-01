@@ -1,3 +1,16 @@
+---
+author: AI Cockpit maintainers
+title: "WI-464 — reference file comparison batch 24 recovery retry"
+workItemId: WI-464-reference-file-comparison-batch-24-retry
+description: "Redeliver the bounded source comparison with a real provider context."
+audience:
+  - maintainer
+  - reviewer
+status: in_progress
+authority: human-authorized
+lastVerifiedBy: WI-464-reference-file-comparison-batch-24-retry
+---
+
 # WI-464 Reference File Comparison Batch 24 — Recovery Retry
 
 ## Intent
