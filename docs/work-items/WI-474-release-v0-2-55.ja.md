@@ -3,9 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-474 — v0.2.55 release と公開 adopter acceptance"
 description: "レビュー済み Runtime patch を公開し、adopter repository を変更せず immutable な公開 binary を検証する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-474-release-v0-2-55
+terminalArchive: .ai/work-items/archive/WI-474-release-v0-2-55.contract.json
+terminalVerification: .ai/evidence/WI-474-release-v0-2-55.verification.json
+terminalFinalization: .ai/decisions/WI-474-release-v0-2-55.finalize.json
+terminalDecision: .ai/decisions/WI-474-release-v0-2-55.close.json
 workItemId: WI-474-release-v0-2-55
 ---
 

@@ -3,9 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-474——发布 v0.2.55 与公开 adopter 验收"
 description: "从已审查主线发布 Runtime 补丁，并在不修改 adopter 工程的前提下验证不可变公开二进制。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-474-release-v0-2-55
+terminalArchive: .ai/work-items/archive/WI-474-release-v0-2-55.contract.json
+terminalVerification: .ai/evidence/WI-474-release-v0-2-55.verification.json
+terminalFinalization: .ai/decisions/WI-474-release-v0-2-55.finalize.json
+terminalDecision: .ai/decisions/WI-474-release-v0-2-55.close.json
 workItemId: WI-474-release-v0-2-55
 ---
 
