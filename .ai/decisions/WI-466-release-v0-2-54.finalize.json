@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "bb3b7626f894d8745cd2af23810d4c2950bc32b7",
+    "name": "codex/wi-466-release-v0-2-54",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3c89c3e640d0423526f30eac47802135eacadb806124719172e4e79293d59a07",
+  "operationId": "github-pr-436-merge-cleanup-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e4fef83c36b7bc6c325bae2ce642287acfc1daa5",
+    "headRevision": "bb3b7626f894d8745cd2af23810d4c2950bc32b7",
+    "mergeCommit": "aca5c0e361435b4de1879ff5bc0242c19c569031",
+    "number": 436,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/436"
+  },
+  "reason": "Reviewed PR #436 passed all hosted checks and was merged as aca5c0e361435b4de1879ff5bc0242c19c569031; the exact WI-466 branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-436-finalization-20260901",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-466-release-v0-2-54",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/436",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-466-release-v0-2-54"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T04:01:30Z",
+  "workItemId": "WI-466-release-v0-2-54",
+  "worktree": {
+    "branch": "codex/wi-466-release-v0-2-54",
+    "headRevision": "bb3b7626f894d8745cd2af23810d4c2950bc32b7",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-466-release-v0-2-54",
+    "worktreeId": "WI-466-release-v0-2-54"
+  }
+}
