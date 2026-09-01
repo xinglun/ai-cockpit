@@ -1,0 +1,83 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-465-closed-work-item-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-465-closed-work-item-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T02:32:09Z",
+  "checkpointContractDigest": "sha256:20c0bea3779974db0d7e4f107a52adc4e8d79d8ef5068b09b95212fb0f60a227",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:20c0bea3779974db0d7e4f107a52adc4e8d79d8ef5068b09b95212fb0f60a227",
+      "recorded": true,
+      "recordedAt": "2026-09-01T02:32:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bbab820c13f425b47a3d8cd638f7d8778215175cff3741c1d78c15065c9c355e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-465-closed-work-item-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9698e450c96a735427bfc2d00014ca43bb6260e0e9f98619e2b41dc67f54a14a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:20c0bea3779974db0d7e4f107a52adc4e8d79d8ef5068b09b95212fb0f60a227",
+      "previousContractHash": "sha256:20c0bea3779974db0d7e4f107a52adc4e8d79d8ef5068b09b95212fb0f60a227",
+      "reason": "Include this Work Item’s own tri-language pages so post-close promotion --check-all cannot create a new stale documentation debt.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T02:32:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de1c888b7280217c6d524f5273d16eca8d59692dab3537e3415f1f87214e72b8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-465-closed-work-item-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:2948bd4cf4664a173bab9ba4f13e2029fbe2554a4ad4ee2437c8a6af8dd5117c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:20c0bea3779974db0d7e4f107a52adc4e8d79d8ef5068b09b95212fb0f60a227",
+      "previousContractHash": "sha256:9698e450c96a735427bfc2d00014ca43bb6260e0e9f98619e2b41dc67f54a14a",
+      "reason": "Use the repository-native parity_status_check wrapper so the declared governance-integrity verification command has its required report output.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T02:35:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:33ad74accc61de173ecd272dcf64ff01da1d4edf7178e81c8b69f3166b9ab457",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-465-closed-work-item-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bbab820c13f425b47a3d8cd638f7d8778215175cff3741c1d78c15065c9c355e",
+  "createdAt": "2026-09-01T02:32:06Z",
+  "mode": "documentation",
+  "preflightAt": "2026-09-01T02:35:27Z",
+  "preflightContractDigest": "sha256:2948bd4cf4664a173bab9ba4f13e2029fbe2554a4ad4ee2437c8a6af8dd5117c",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:33ad74accc61de173ecd272dcf64ff01da1d4edf7178e81c8b69f3166b9ab457",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T02:32:09Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:2948bd4cf4664a173bab9ba4f13e2029fbe2554a4ad4ee2437c8a6af8dd5117c",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-01T02:35:27Z"
+  },
+  "workItemId": "WI-465-closed-work-item-doc-promotion"
+}

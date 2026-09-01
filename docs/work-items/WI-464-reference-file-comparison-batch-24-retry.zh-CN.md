@@ -6,9 +6,13 @@ description: "在真实 provider context 下重新交付受限的源文件比对
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-464-reference-file-comparison-batch-24-retry
+terminalArchive: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.contract.json
+terminalVerification: .ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json
+terminalFinalization: .ai/decisions/WI-464-reference-file-comparison-batch-24-retry.finalize.json
+terminalDecision: .ai/decisions/WI-464-reference-file-comparison-batch-24-retry.close.json
 ---
 
 # WI-464 参考源文件比对第 24 批——恢复重试
