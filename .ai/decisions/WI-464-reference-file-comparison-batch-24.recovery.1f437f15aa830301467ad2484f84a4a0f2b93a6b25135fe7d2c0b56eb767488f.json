@@ -1,0 +1,29 @@
+{
+  "actor": "codex",
+  "authoritySource": "human-authorized-recovery",
+  "decidedAt": "2026-09-01T02:30:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24.archive.json",
+    ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.close.json",
+    ".ai/decisions/WI-464-reference-file-comparison-batch-24.recovery.bdf111e39b5c8cabc29c155240f48c5bdd67d1b6628eb3a0aa6d37b31095b102.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:c433f8b4e6652d1975ea54800d2b71f83047b9e87ec3c9c1d287015bdcdda6a7",
+  "predecessorEventsDigest": "sha256:ac861e0c67bc88be22df640003bd9cd2cc79be17f5e7e7099362cc5bb590e282",
+  "predecessorOutcomeDigest": "sha256:930abc45af7b0edf9ae08036db58bad53c2701faddaea14481a3a3379af8052c",
+  "predecessorSummaryDigest": "sha256:d6b396fa46196af2635870ba72e5447d1ac0bc674bbba1ea9c736f215282769b",
+  "predecessorWorkItemId": "WI-464-reference-file-comparison-batch-24",
+  "reason": "The immutable placeholder delivery was superseded by the reviewed and merged recovery retry; close the predecessor without rewriting its historical bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue the next bounded comparison only from a synchronized, clean main branch after Runtime and documentation promotion checks pass.",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-464-reference-file-comparison-batch-24-retry",
+  "workItemId": "WI-464-reference-file-comparison-batch-24"
+}
