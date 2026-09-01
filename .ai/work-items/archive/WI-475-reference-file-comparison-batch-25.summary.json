@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-01T10:56:11Z",
-  "checkpointContractDigest": "sha256:1e7e774b1c78206561347e0cffbc89a49d61a70276da524f1999e0f954b291b2",
+  "checkpointContractDigest": "sha256:a1fd5521110e4484e7f0effe9521c750d40b53a811fa0bbb881b30553ae20ef6",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,23 +37,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-475-reference-file-comparison-batch-25"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a1fd5521110e4484e7f0effe9521c750d40b53a811fa0bbb881b30553ae20ef6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b84d8028b01f05fc49d62e065cad490d56a4514045d2648a2d6ef8692f1eeefa",
+      "previousContractHash": "sha256:1e7e774b1c78206561347e0cffbc89a49d61a70276da524f1999e0f954b291b2",
+      "reason": "Bind the reviewed PR #445 resource context after the initial verification; invalidate the earlier snapshot evidence and require fresh preflight and verification for the committed batch.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T11:20:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:83cc14e0f5c770285a306a79be3d5036effadec4de135b8c54fee137f3ea2df6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-475-reference-file-comparison-batch-25"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:9cbf9e96b974af9d21ea48f580ac8d552ed155eca252e2d26ba98009ce702085",
+  "checkpointRepositorySnapshotDigest": "sha256:83cc14e0f5c770285a306a79be3d5036effadec4de135b8c54fee137f3ea2df6",
   "createdAt": "2026-09-01T10:55:24Z",
-  "failedGate": "finish.governance",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-01T11:15:27Z",
-  "preflightContractDigest": "sha256:1e7e774b1c78206561347e0cffbc89a49d61a70276da524f1999e0f954b291b2",
+  "preflightAt": "2026-09-01T11:25:10Z",
+  "preflightContractDigest": "sha256:a1fd5521110e4484e7f0effe9521c750d40b53a811fa0bbb881b30553ae20ef6",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:9cbf9e96b974af9d21ea48f580ac8d552ed155eca252e2d26ba98009ce702085",
+  "preflightRepositorySnapshotDigest": "sha256:83cc14e0f5c770285a306a79be3d5036effadec4de135b8c54fee137f3ea2df6",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-01T11:16:18Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T11:25:13Z",
   "verification": [
     {
       "check": "project-command-0",

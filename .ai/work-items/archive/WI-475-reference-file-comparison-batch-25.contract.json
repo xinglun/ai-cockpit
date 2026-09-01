@@ -31,7 +31,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-475-reference-file-comparison-batch-25",
     "provider": "github",
-    "pullRequest": "pending:review",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/445",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-475-reference-file-comparison-batch-25"
   },
   "risk": "normal",
