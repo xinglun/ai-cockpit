@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-461-reference-onboarding-rebaseline.contract.json",
-    ".ai/work-items/active/WI-461-reference-onboarding-rebaseline.summary.json"
+    ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.contract.json",
+    ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.summary.json"
   ],
   "checkpointAt": "2026-08-31T23:41:11Z",
-  "checkpointContractDigest": "sha256:efe8f94020c792d44f0b2d909170af75125844a080823bd375bd3c520ba74f16",
+  "checkpointContractDigest": "sha256:d63492fed1837fb09d25fe09ea91b23a6f872884a9a5b71af9cba8764ea7c3db",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -82,21 +82,21 @@
       "workItemId": "WI-461-reference-onboarding-rebaseline"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:76f324ba96ce5f8df75ddbdf9077f891e2b8507b0a46d26921bceb84bb2c07fb",
+  "checkpointRepositorySnapshotDigest": "sha256:eaf0c7a988837269791167ff783c5bc1fed583fd09465f55deb0e73e3fd2fcc3",
   "createdAt": "2026-08-31T23:40:30Z",
-  "failedGate": "finish.governance",
+  "failedGate": "finish.preflight",
   "mode": "docs",
   "outcomeState": "blocked",
-  "preflightAt": "2026-09-01T00:00:36Z",
-  "preflightContractDigest": "sha256:efe8f94020c792d44f0b2d909170af75125844a080823bd375bd3c520ba74f16",
+  "preflightAt": "2026-09-01T00:10:17Z",
+  "preflightContractDigest": "sha256:d63492fed1837fb09d25fe09ea91b23a6f872884a9a5b71af9cba8764ea7c3db",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:76f324ba96ce5f8df75ddbdf9077f891e2b8507b0a46d26921bceb84bb2c07fb",
+  "preflightRepositorySnapshotDigest": "sha256:eaf0c7a988837269791167ff783c5bc1fed583fd09465f55deb0e73e3fd2fcc3",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-01T00:00:37Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T00:10:43Z",
   "verification": [
     {
       "check": "project-command-0",
