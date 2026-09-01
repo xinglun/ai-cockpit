@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "All nine pinned onboarding paths are read and individually classified with current-source evidence.",
+    "The three first-work-item pages contain the current Runtime lifecycle in order, visible Outcome boundary, human review stop, and exact cleanup/close semantics.",
+    "The three security-release-verification pages preserve release identity, digest, SBOM/provenance, external responsibility, and public-adopter boundaries without source-only commands.",
+    "The three standard-adoption-guide pages point to the current install/attach/calibration/adapter/Work Item route and do not claim source Make/Python behavior.",
+    "Inventory and tri-language parity records classify all nine paths as implemented-different-by-design with evidence-backed reasons; no deferred or migrate-gap remains for this batch.",
+    "The Japanese onboarding route has no duplicated or contradictory lifecycle instruction.",
+    "Reference comparison, documentation acceptance, and declared Runtime verification pass; no unrelated repository bytes change."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5356a2d579fcfa248b8fbd6e3d47fbdfa42d3606",
+  "createdAt": "2026-08-31T23:40:30Z",
+  "goal": "Close the onboarding rebaseline gap with complete tri-language semantic coverage and no undocumented omission.",
+  "intent": "Re-review the nine changed pinned onboarding reference pages against the Rust reader route, preserve applicable semantics without copying source-only Make/Python behavior, and record an evidence-backed inventory rebaseline.",
+  "mode": "docs",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "AGENTS.md",
+    "Runtime .ai evidence, decision, archive, and unrelated repository state",
+    "reference source checkout/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2ef4b12a673b5ec8682a8055f7664defd5a5dac78e4d7aa09bb74ea977032e5b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-461-reference-onboarding-rebaseline",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/431",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-461-reference-onboarding-rebaseline"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/getting-started/first-work-item.md",
+    "docs/getting-started/first-work-item.zh-CN.md",
+    "docs/getting-started/first-work-item.ja.md",
+    "docs/getting-started/security-release-verification.md",
+    "docs/getting-started/security-release-verification.zh-CN.md",
+    "docs/getting-started/security-release-verification.ja.md",
+    "docs/getting-started/standard-adoption-guide.md",
+    "docs/getting-started/standard-adoption-guide.zh-CN.md",
+    "docs/getting-started/standard-adoption-guide.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/getting_started_semantic.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-461-reference-onboarding-rebaseline.md",
+    "docs/work-items/WI-461-reference-onboarding-rebaseline.zh-CN.md",
+    "docs/work-items/WI-461-reference-onboarding-rebaseline.ja.md",
+    ".ai/work-items/active/WI-461-reference-onboarding-rebaseline.contract.json",
+    ".ai/work-items/active/WI-461-reference-onboarding-rebaseline.summary.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-461-reference-onboarding-rebaseline"
+}

@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=239 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=463 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=248 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=454 migrate-gap=0 -->
 
 At the current local reference comparison baseline, the ledger contains 4,450
 current tracked paths: 3,681 `generated-history`, 230
@@ -312,6 +312,31 @@ source file or JSON-wire parity: the Rust repository does not need a committed
 `GEMINI.md` because `agent install --provider gemini` is explicit, owned,
 reversible, and repository-bound. Adopter repositories inherit the same shared
 Runtime and isolated `.ai/` boundary.
+
+## WI-461 — getting-started onboarding rebaseline
+
+WI-461 re-reads the nine onboarding pages changed between the historical
+comparison commit `e5acb677da6621004d96f0ef353c58fe8d3acfbf` and the maintained
+local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. The source
+checkout is `/Users/sei-rinn/dev/workspace_python/ai-cockpit-template`; no
+public reference or source implementation is copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/getting-started/first-work-item.md` | implemented-different-by-design | Rust tri-language first-Work-Item pages preserve the complete repository-bound lifecycle, visible Outcome, review stop, and exact cleanup with native CLI commands; the source Make command and removed `REPORT_LANGUAGE` argument are not copied. |
+| `docs/getting-started/first-work-item.zh-CN.md` | implemented-different-by-design | The Chinese page preserves the same lifecycle and explicit `--repo` boundary; presentation language does not alter Contract facts. |
+| `docs/getting-started/first-work-item.ja.md` | implemented-different-by-design | The Japanese page preserves the same lifecycle and provider-resource boundary; its duplicated merge paragraph was corrected in this batch. |
+| `docs/getting-started/security-release-verification.md` | implemented-different-by-design | Rust release/distribution and installation-security pages preserve tag, digest, SBOM, provenance, provider-responsibility, and adopter-isolation semantics through the current manifest/SHA256SUMS route; source `release.json` projection is not copied. |
+| `docs/getting-started/security-release-verification.zh-CN.md` | implemented-different-by-design | The Chinese release route keeps evidence separation and fail-closed mismatch handling with Rust-native assets and external-provider boundaries. |
+| `docs/getting-started/security-release-verification.ja.md` | implemented-different-by-design | The Japanese release route keeps digest, provenance, SBOM, and public-adopter limits without importing source installer behavior. |
+| `docs/getting-started/standard-adoption-guide.md` | implemented-different-by-design | The Rust guide retains reader-first install, attach, calibration, adapter, Work Item, Outcome, merge, cleanup, and close stages with the shared repository-bound Runtime. |
+| `docs/getting-started/standard-adoption-guide.zh-CN.md` | implemented-different-by-design | The Chinese guide preserves ordered adoption boundaries and explicit repository ownership with Rust CLI routes. |
+| `docs/getting-started/standard-adoption-guide.ja.md` | implemented-different-by-design | The Japanese guide preserves the ordered adoption route and shared Runtime boundary without source-specific commands. |
+
+All nine records are now individually resolved. This is semantic/documentation
+parity, not source-file or JSON-wire parity. The inventory retains
+`sourceChangedSincePrevious`, `previousBatch`, and `previousClassification` as
+comparison provenance while removing the deferred status for this batch.
 
 ## Batch order
 

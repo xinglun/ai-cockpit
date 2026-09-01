@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T00:10:49Z",
+  "files": {
+    "contractDigest": "sha256:608909774caeb16b16558df12a26867f6a34409c9565c6525b20c8db81d82f54",
+    "contractPath": ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.contract.json",
+    "eventsDigest": "sha256:8d20383f288d8ce9f6bf431b24243dd263aab3c74d8b1b510c23d14eebf59503",
+    "eventsPath": ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.events.jsonl",
+    "outcomeDigest": "sha256:e2d554a4b2ab4c5d629c0dd9f3b4988aa0a847bf46088313efc693dff1b8dfee",
+    "outcomePath": ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.outcome.json",
+    "summaryDigest": "sha256:e7c6597ca9ec4f4bf7798ef900dd01ca4005c117ee77dec4f5f8d6b87f73dd07",
+    "summaryPath": ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.summary.json",
+    "taskReportDigest": "sha256:626a97abb3766c0c4583ac15f139a6580666105f25252d241d398e72ac678e2e",
+    "taskReportMarkdownDigest": "sha256:128f684e9c4032d56a55d838714970bc66bf7484c2df7e825dbee1e524cdf336",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-461-reference-onboarding-rebaseline"
+}

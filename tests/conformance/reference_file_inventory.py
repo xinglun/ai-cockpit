@@ -61,6 +61,7 @@ WI414_BATCH = "WI-414-reference-python-fixture-boundary"
 WI432_BATCH = "WI-432-reference-typescript-fixture-boundary"
 WI437_BATCH = "WI-437-reference-rebaseline-governance"
 WI441_BATCH = "WI-441-reference-entrypoint-parity"
+WI461_BATCH = GETTING_STARTED_BATCH
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -208,6 +209,96 @@ WI441_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "implemented-different-by-design",
         ["docs/features/task-outcome-report.md", "docs/reference/outcome-report.md", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "crates/cockpit-mcp/src/lib.rs"],
         "The source Task Outcome page defines an evidence-backed report separate from status and PR presentation. The target preserves that separation through OutcomeV2, CLI/MCP human handoff, immutable evidence, and repository-bound lifecycle validation; source report wire shape and make commands are not copied.",
+    ),
+}
+
+# WI-461 is a narrow rebaseline of the nine onboarding pages whose pinned
+# source bytes changed after the earlier getting-started comparison.  Keep the
+# prior source-change metadata on each record, but replace the deferred status
+# only after this batch has re-read the current source and the Rust reader
+# route.  The source commands and wire shape remain non-portable; these are
+# semantic/documentation decisions, not template-file copies.
+WI461_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/getting-started/first-work-item.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/first-work-item.md",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/outcome-report.md",
+        ],
+        "The current source removes its obsolete REPORT_LANGUAGE Make argument. The Rust page preserves the complete start-to-close lifecycle, visible human Outcome, explicit repository binding, and review stop boundary with native CLI commands; source Make syntax and bytes are not copied.",
+    ),
+    "docs/getting-started/first-work-item.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/first-work-item.zh-CN.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/outcome-report.zh-CN.md",
+        ],
+        "源文件仅移除了过时的 REPORT_LANGUAGE Make 参数。Rust 中文页面保留完整的 start 到 close 生命周期、可见的人类 Outcome、显式仓库绑定和人工 review 停止边界，并使用 Rust CLI；不复制源 Make 语法或文件字节。",
+    ),
+    "docs/getting-started/first-work-item.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/first-work-item.ja.md",
+            "docs/reference/agent-workflow.ja.md",
+            "docs/reference/outcome-report.ja.md",
+        ],
+        "現行 source は obsolete な REPORT_LANGUAGE Make argument を削除しました。Rust 日本語ページは start から close までの lifecycle、visible human Outcome、明示的な repository binding、review 停止境界を native CLI で保持し、source の Make syntax と bytes はコピーしません。",
+    ),
+    "docs/getting-started/security-release-verification.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/security-release-verification.md",
+            "docs/release/distribution.md",
+            "docs/getting-started/installation-security.md",
+        ],
+        "The current source narrows the release route to release-digests.json and removes the obsolete release.json dual-asset paragraph. The Rust pages express the same digest, tag, SBOM, provenance, provider-responsibility, and adopter-isolation boundaries through its release manifest/SHA256SUMS route; source release projections are not copied.",
+    ),
+    "docs/getting-started/security-release-verification.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/security-release-verification.zh-CN.md",
+            "docs/release/distribution.zh-CN.md",
+            "docs/getting-started/installation-security.zh-CN.md",
+        ],
+        "源文件将发布路径收窄为 release-digests.json，并删除旧的 release.json 双资产说明。Rust 中文文档通过 release manifest/SHA256SUMS 路径表达相同的 digest、tag、SBOM、provenance、provider 责任和 adopter 隔离边界；不复制源投影文件。",
+    ),
+    "docs/getting-started/security-release-verification.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/security-release-verification.ja.md",
+            "docs/release/distribution.ja.md",
+            "docs/getting-started/installation-security.ja.md",
+        ],
+        "現行 source は release route を release-digests.json に絞り、obsolete な release.json dual-asset 説明を削除しました。Rust 日本語文書は release manifest/SHA256SUMS route で digest、tag、SBOM、provenance、provider responsibility、adopter isolation の境界を示し、source projection file はコピーしません。",
+    ),
+    "docs/getting-started/standard-adoption-guide.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/standard-adoption-guide.md",
+            "docs/getting-started/installation.md",
+            "docs/getting-started/first-work-item.md",
+        ],
+        "The current source removes its obsolete REPORT_LANGUAGE Make argument. The Rust guide keeps the reader-first install, attach, calibration, adapter, Work Item, Outcome, merge, cleanup, and close route while using the shared repository-bound Runtime rather than source Make workflow bytes.",
+    ),
+    "docs/getting-started/standard-adoption-guide.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/standard-adoption-guide.zh-CN.md",
+            "docs/getting-started/installation.zh-CN.md",
+            "docs/getting-started/first-work-item.zh-CN.md",
+        ],
+        "源文件仅移除了过时的 REPORT_LANGUAGE Make 参数。Rust 中文指南保留面向读者的 install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup 和 close 路径，并使用共享的仓库绑定 Runtime；不复制源 Make 工作流字节。",
+    ),
+    "docs/getting-started/standard-adoption-guide.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/getting-started/standard-adoption-guide.ja.md",
+            "docs/getting-started/installation.ja.md",
+            "docs/getting-started/first-work-item.ja.md",
+        ],
+        "現行 source は obsolete な REPORT_LANGUAGE Make argument を削除しました。Rust 日本語 guide は reader-first の install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup、close route を shared repository-bound Runtime で保持し、source Make workflow bytes はコピーしません。",
     ),
 }
 
@@ -3017,6 +3108,28 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{record.get('referencePath')}: WI-441 must be implemented-different-by-design")
             if not record.get("rustCounterparts") or not record.get("reason"):
                 errors.append(f"{record.get('referencePath')}: WI-441 result needs counterparts and reason")
+        wi461_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI461_BATCH
+            and record.get("referencePath") in WI461_REFERENCE_FILES
+        ]
+        expected_wi461_paths = set(WI461_REFERENCE_FILES) & current_reference_paths
+        actual_wi461_paths = {record.get("referencePath") for record in wi461_records}
+        if actual_wi461_paths != expected_wi461_paths:
+            errors.append(
+                "WI-461 onboarding rebaseline records do not match the nine scoped paths: "
+                f"expected {sorted(expected_wi461_paths)!r}, got {sorted(actual_wi461_paths)!r}"
+            )
+        if len(wi461_records) != len(expected_wi461_paths):
+            errors.append(
+                f"WI-461 batch must contain {len(expected_wi461_paths)} records, found {len(wi461_records)}"
+            )
+        for record in wi461_records:
+            if record.get("classification") != "implemented-different-by-design":
+                errors.append(f"{record.get('referencePath')}: WI-461 must be implemented-different-by-design")
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(f"{record.get('referencePath')}: WI-461 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -3777,6 +3890,33 @@ def apply_wi441_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi461_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI461_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI461_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI461_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI461_REFERENCE_FILES)} WI-461 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -3793,6 +3933,7 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--apply-getting-started-batch", action="store_true")
     parser.add_argument("--apply-wi441-batch", action="store_true")
+    parser.add_argument("--apply-wi461-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -3823,6 +3964,13 @@ def main() -> int:
     if args.apply_wi441_batch:
         try:
             apply_wi441_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi461_batch:
+        try:
+            apply_wi461_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

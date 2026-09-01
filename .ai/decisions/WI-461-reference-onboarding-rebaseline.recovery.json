@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-09-01T00:07:44Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:d63492fed1837fb09d25fe09ea91b23a6f872884a9a5b71af9cba8764ea7c3db",
+  "predecessorEventsDigest": "sha256:d43cbaff705031f198fce168db397704aac9146da88507ad959f3ae72344d9f2",
+  "predecessorOutcomeDigest": "sha256:460caf0fa45c090d318e2fb24acfd0e517bea1d6a58b63fedc625dc2010940ad",
+  "predecessorSummaryDigest": "sha256:9a014a4615523c5c07465f5e8a396ac573e06fa0650db2177b98271d82ee8f13",
+  "predecessorWorkItemId": "WI-461-reference-onboarding-rebaseline",
+  "reason": "Retry verification after finalize-plan bound the current GitHub resource context and invalidated the earlier snapshot evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh verification and preflight evidence bound to the current Contract, repository snapshot, and Runtime context.",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "workItemId": "WI-461-reference-onboarding-rebaseline"
+}
