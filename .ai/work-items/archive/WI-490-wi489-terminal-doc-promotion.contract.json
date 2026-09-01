@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "Promote the three WI-489 Work Item pages and this Work Item documentation to terminal evidence-backed metadata without changing authored content.",
+    "Promote the three parity registrations with immutable archive, verification, finalization, and close references.",
+    "Post-close promotion and status consistency checks recognize this exact docs-only scope as self-terminal.",
+    "All promotion and status checks pass in English, Chinese, and Japanese, with no changes to immutable governance evidence or global configuration."
+  ],
+  "authority": "authorized",
+  "baseRevision": "071934dc67f33f818370fd149e2cdfc4098a46bc",
+  "createdAt": "2026-09-01T22:19:03Z",
+  "goal": "Promote WI-489's tri-language pages and parity registration as one bounded terminal documentation projection.",
+  "intent": "Resolve the post-close documentation projection required by the terminal promotion gate without creating an unbounded successor chain.",
+  "mode": "docs",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1af959fc765387a100c84c847ff48630adedcc51bb18bbbf3db29493eae2b20a",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-490-wi489-terminal-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/463",
+    "worktree": "/private/tmp/ai-cockpit-wi490-wi489-terminal-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-489-doc-promotion-terminal-boundary.md",
+    "docs/work-items/WI-489-doc-promotion-terminal-boundary.zh-CN.md",
+    "docs/work-items/WI-489-doc-promotion-terminal-boundary.ja.md",
+    "docs/work-items/WI-490-wi489-terminal-doc-promotion.md",
+    "docs/work-items/WI-490-wi489-terminal-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-490-wi489-terminal-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-490-wi489-terminal-doc-promotion"
+}
