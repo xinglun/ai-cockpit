@@ -6,9 +6,13 @@ description: "Redeliver the bounded source comparison with a real provider conte
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-464-reference-file-comparison-batch-24-retry
+terminalArchive: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.contract.json
+terminalVerification: .ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json
+terminalFinalization: .ai/decisions/WI-464-reference-file-comparison-batch-24-retry.finalize.json
+terminalDecision: .ai/decisions/WI-464-reference-file-comparison-batch-24-retry.close.json
 ---
 
 # WI-464 Reference File Comparison Batch 24 — Recovery Retry

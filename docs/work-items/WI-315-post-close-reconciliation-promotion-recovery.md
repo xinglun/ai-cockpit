@@ -6,7 +6,7 @@ description: "Correct recovered-predecessor promotion semantics without rewritin
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-315-post-close-reconciliation-promotion-recovery
 ---

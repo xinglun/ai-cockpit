@@ -6,7 +6,7 @@ description: "在不可变 hosted quality 失败后重新交付 cleanup-before-c
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-314-finalization-reconciliation-redelivery
 ---

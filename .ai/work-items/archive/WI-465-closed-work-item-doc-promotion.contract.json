@@ -1,0 +1,88 @@
+{
+  "acceptanceCriteria": [
+    "All six WI-464 retry documentation projections are promoted from immutable archive/verification/finalization/close evidence.",
+    "Historical recovered Work Items WI-297, WI-314, WI-315, and WI-316 recognize valid content-bound digest-suffixed recovery receipts without rewriting immutable evidence, and their three-language projections match the recovered parity status.",
+    "Status consistency accepts only identity-bound, canonical recovery filenames and rejects malformed or foreign recovery records.",
+    "promote_closed_work_item.py --check-all passes after promotion and rejects a synthetic stale projection in regression coverage.",
+    "The canonical CI gate manifest runs the closed Work Item promotion check and its regression test before release.",
+    "Documentation acceptance, inventory checks, governance integrity, formatting, lint, and workspace tests pass.",
+    "Historical Work Item/evidence/archive bytes remain unchanged; no source implementation is copied."
+  ],
+  "authority": "authorized",
+  "baseRevision": "39869cf5d2d43a6d86d1b1c5e7f0e4e32a34428c",
+  "createdAt": "2026-09-01T02:32:06Z",
+  "goal": "Promote the closed WI-464 retry documentation from immutable terminal evidence, prove the promotion helper and canonical quality manifest reject stale projections, and leave the repository ready for release without altering historical evidence.",
+  "intent": "Prevent closed Work Item documentation from remaining stale after Runtime close, and make the post-close promotion check an explicit release-bound gate.",
+  "mode": "documentation",
+  "outOfScope": [
+    "Runtime protocol schema and lifecycle semantics",
+    "Reference source bytes and object repositories",
+    "Release version bump and publication assets",
+    "User-global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bbab820c13f425b47a3d8cd638f7d8778215175cff3741c1d78c15065c9c355e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-465-closed-work-item-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/435",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-465-closed-work-item-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-464-reference-file-comparison-batch-24-retry.md",
+    "docs/work-items/WI-464-reference-file-comparison-batch-24-retry.zh-CN.md",
+    "docs/work-items/WI-464-reference-file-comparison-batch-24-retry.ja.md",
+    "docs/work-items/WI-465-closed-work-item-doc-promotion.md",
+    "docs/work-items/WI-465-closed-work-item-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-465-closed-work-item-doc-promotion.ja.md",
+    "docs/work-items/WI-297-release-v0-2-32.md",
+    "docs/work-items/WI-297-release-v0-2-32.zh-CN.md",
+    "docs/work-items/WI-297-release-v0-2-32.ja.md",
+    "docs/work-items/WI-314-finalization-reconciliation-redelivery.md",
+    "docs/work-items/WI-314-finalization-reconciliation-redelivery.zh-CN.md",
+    "docs/work-items/WI-314-finalization-reconciliation-redelivery.ja.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.zh-CN.md",
+    "docs/work-items/WI-315-post-close-reconciliation-promotion-recovery.ja.md",
+    "docs/work-items/WI-316-post-close-reconciliation-promotion-base-fix.md",
+    "docs/work-items/WI-316-post-close-reconciliation-promotion-base-fix.zh-CN.md",
+    "docs/work-items/WI-316-post-close-reconciliation-promotion-base-fix.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/ci/repository_gate_manifest.json",
+    ".github/workflows/release.yml"
+  ],
+  "sources": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "docs/work-items/WI-464-reference-file-comparison-batch-24-retry.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/promote_closed_work_item_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/docs/parity_status_check.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-465-closed-work-item-doc-promotion"
+}

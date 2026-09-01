@@ -6,7 +6,7 @@ description: "在发布前同步 Runtime 包版本、发布文档和发布门基
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-297-release-v0-2-32
 authority: canonical
 ---

@@ -6,7 +6,7 @@ description: "Redeliver cleanup-before-close and append-only finalization reconc
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-314-finalization-reconciliation-redelivery
 ---

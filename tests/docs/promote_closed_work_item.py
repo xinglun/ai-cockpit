@@ -527,6 +527,25 @@ def promoted_parity(
     index = indexes[0]
     cells = [cell.strip() for cell in lines[index].rstrip("\n").split("|")[1:-1]]
     require(len(cells) >= 3, f"parity row for {short_id} is malformed")
+    existing = lines[index]
+    # A recovery retry can share the predecessor's numeric parity row.  In
+    # that case the row intentionally carries both terminal projections and
+    # both immutable evidence lineages; normal promotion must validate the
+    # retry references without erasing the predecessor recovery boundary.
+    recovery_marker = "recovered" in cells[1].casefold() or "已恢复" in cells[1]
+    if recovery_marker:
+        required_retry_references = (
+            f"[Work Item](../work-items/{evidence.work_item_id}{suffix}.md)",
+            f"`{evidence.archive_path}`",
+            f"`{evidence.evidence_path}`",
+            f"`{evidence.finalization_path}`",
+            f"`{evidence.close_path}`",
+        )
+        require(
+            all(reference in existing for reference in required_retry_references),
+            "mixed recovery/retry parity row is missing retry evidence",
+        )
+        return "".join(lines)
     evidence_parts = [
         f"[Work Item](../work-items/{evidence.work_item_id}{suffix}.md)",
         f"{label}: archive `{evidence.archive_path}`",

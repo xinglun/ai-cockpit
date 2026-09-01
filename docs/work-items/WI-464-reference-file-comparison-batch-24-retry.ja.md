@@ -6,9 +6,13 @@ description: "実際の provider context で限定的な source 比較を再配�
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-464-reference-file-comparison-batch-24-retry
+terminalArchive: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.contract.json
+terminalVerification: .ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json
+terminalFinalization: .ai/decisions/WI-464-reference-file-comparison-batch-24-retry.finalize.json
+terminalDecision: .ai/decisions/WI-464-reference-file-comparison-batch-24-retry.close.json
 ---
 
 # WI-464 参照ファイル比較バッチ 24 — リカバリー再試行

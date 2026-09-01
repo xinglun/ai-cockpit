@@ -6,7 +6,7 @@ description: "Rebind the recovered promotion correction to the latest remote def
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-316-post-close-reconciliation-promotion-base-fix
 ---
