@@ -4,9 +4,13 @@ title: "WI-463 — reference parity documentation promotion retry"
 workItemId: WI-463-reference-parity-promotion-retry
 description: "CI governance evidence の順序で停止した前回の不変 delivery を、clean base から再 delivery する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-463-reference-parity-promotion-retry
+terminalArchive: .ai/work-items/archive/WI-463-reference-parity-promotion-retry.contract.json
+terminalVerification: .ai/evidence/WI-463-reference-parity-promotion-retry.verification.json
+terminalFinalization: .ai/decisions/WI-463-reference-parity-promotion-retry.finalize.json
+terminalDecision: .ai/decisions/WI-463-reference-parity-promotion-retry.close.json
 ---
 
 # WI-463 — reference parity documentation promotion retry

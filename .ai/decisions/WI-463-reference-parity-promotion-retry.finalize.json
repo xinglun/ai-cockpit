@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "97a388e4f38afcb8ff77e7428b360fb58fa72dad",
+    "name": "codex/wi-463-reference-parity-promotion-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:24c42eea40785c64277043ea0bddba1208baacbf4cb7cef01ef2788c9986a07f",
+  "operationId": "WI-463-reference-parity-promotion-retry-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "27f22010b1e53901cda2d4d26669f161518b5213",
+    "headRevision": "97a388e4f38afcb8ff77e7428b360fb58fa72dad",
+    "mergeCommit": "c426ae630e9c1a5bbbac9e2ee3e2c6bcd4b1aadd",
+    "number": 433,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/433"
+  },
+  "reason": "Reviewed PR #433 is merged into the synchronized default branch; remove the exact feature branch and dedicated worktree.",
+  "receiptId": "WI-463-reference-parity-promotion-retry-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-463-reference-parity-promotion-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/433",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-463-reference-parity-promotion-retry"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T01:05:00Z",
+  "workItemId": "WI-463-reference-parity-promotion-retry",
+  "worktree": {
+    "branch": "codex/wi-463-reference-parity-promotion-retry",
+    "headRevision": "97a388e4f38afcb8ff77e7428b360fb58fa72dad",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-463-reference-parity-promotion-retry",
+    "worktreeId": "WI-463-reference-parity-promotion-retry"
+  }
+}

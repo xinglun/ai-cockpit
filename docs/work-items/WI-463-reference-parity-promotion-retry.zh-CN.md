@@ -4,9 +4,13 @@ title: "WI-463——reference parity 文档 promotion 重试"
 workItemId: WI-463-reference-parity-promotion-retry
 description: "在干净基线重试 WI-461 parity 投影，保留之前被 CI 治理证据顺序阻塞的不可变交付记录。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-463-reference-parity-promotion-retry
+terminalArchive: .ai/work-items/archive/WI-463-reference-parity-promotion-retry.contract.json
+terminalVerification: .ai/evidence/WI-463-reference-parity-promotion-retry.verification.json
+terminalFinalization: .ai/decisions/WI-463-reference-parity-promotion-retry.finalize.json
+terminalDecision: .ai/decisions/WI-463-reference-parity-promotion-retry.close.json
 ---
 
 # WI-463——reference parity 文档 promotion 重试

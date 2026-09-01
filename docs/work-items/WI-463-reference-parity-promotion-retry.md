@@ -4,9 +4,13 @@ title: "WI-463 — reference parity documentation promotion retry"
 workItemId: WI-463-reference-parity-promotion-retry
 description: "Redeliver the WI-461 parity projection from a clean base after the prior immutable delivery was blocked by CI governance evidence ordering."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-463-reference-parity-promotion-retry
+terminalArchive: .ai/work-items/archive/WI-463-reference-parity-promotion-retry.contract.json
+terminalVerification: .ai/evidence/WI-463-reference-parity-promotion-retry.verification.json
+terminalFinalization: .ai/decisions/WI-463-reference-parity-promotion-retry.finalize.json
+terminalDecision: .ai/decisions/WI-463-reference-parity-promotion-retry.close.json
 ---
 
 # WI-463 — reference parity documentation promotion retry
