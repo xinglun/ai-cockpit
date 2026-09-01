@@ -7,12 +7,47 @@ use cockpit_repository::{
     finish_work_item, finish_work_item_with_runtime, outcome_v2, outcome_v2_with_runtime,
     plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime,
     record_recovery_decision, record_verification_with_runtime, render_human_outcome,
-    repository_id, revalidate_contract_amendment, run_repository_verification,
+    repository_id, revalidate_contract_amendment, run_repository_verification, snapshot_digest,
     start_work_item_with_options,
 };
 use serde_json::json;
 use std::fs;
 use std::process::Command;
+
+fn commit(path: &std::path::Path, message: &str) {
+    assert!(
+        Command::new("git")
+            .args(["add", "."])
+            .current_dir(path)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.email=test@example.invalid",
+                "-c",
+                "user.name=test",
+                "commit",
+                "-qm",
+                message,
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+}
+
+fn repository_snapshot_digest(path: &std::path::Path) -> Digest {
+    let snapshot = cockpit_git::GitRepository::discover(path)
+        .expect("discover")
+        .snapshot()
+        .expect("snapshot");
+    snapshot_digest(&snapshot).expect("snapshot digest")
+}
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -1381,6 +1416,36 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
             .unknowns
             .contains(&"recovery_decision_invalid".into())
     );
+}
+
+#[test]
+fn snapshot_digest_is_stable_when_the_same_source_change_is_committed() {
+    let directory = tempfile::tempdir().expect("tempdir");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(directory.path())
+            .status()
+            .expect("git init")
+            .success()
+    );
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    commit(directory.path(), "initial source");
+
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 2 }\n",
+    )
+    .expect("updated source");
+    let dirty = repository_snapshot_digest(directory.path());
+    commit(directory.path(), "commit the same source change");
+    let committed = repository_snapshot_digest(directory.path());
+
+    assert_eq!(dirty, committed);
 }
 
 #[test]

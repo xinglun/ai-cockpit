@@ -39,7 +39,7 @@ use std::fmt;
 use std::fs;
 use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
@@ -7722,7 +7722,16 @@ fn delegated_evidence_satisfies(
 }
 
 fn source_tree_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverError> {
-    if let Some(captured) = &snapshot.source_tree_digest {
+    // A governance-only edit does not change the source tree, so the captured
+    // index digest is already the stable post-commit value.  When source paths
+    // are dirty, rebuild the index representation with the current worktree
+    // blobs; this makes the digest equal before and after committing the same
+    // source change while preserving the existing digest wire shape.
+    let source_changed = snapshot
+        .changed_paths
+        .iter()
+        .any(|path| path != ".ai" && !path.starts_with(".ai/"));
+    if !source_changed && let Some(captured) = &snapshot.source_tree_digest {
         return captured.parse().map_err(|_| ObserverError::State {
             path: snapshot.git_root.clone(),
             message: "captured source tree digest is invalid".into(),
@@ -7743,20 +7752,187 @@ fn source_tree_digest(snapshot: &RepositorySnapshot) -> Result<Digest, ObserverE
             message: "cannot enumerate the repository source tree".into(),
         });
     }
-    let mut hasher = Sha256::new();
+    let mut entries = BTreeMap::<String, (String, String)>::new();
     for line in String::from_utf8_lossy(&output.stdout).lines() {
-        let Some((_, path)) = line.split_once('\t') else {
+        let Some((metadata, path)) = line.split_once('\t') else {
             continue;
         };
-        if path == ".ai" || path.starts_with(".ai/") {
+        let Some(path) = stable_source_path(path) else {
             continue;
+        };
+        let mut fields = metadata.split_whitespace();
+        let (Some(mode), Some(object_id)) = (fields.next(), fields.next()) else {
+            continue;
+        };
+        entries.insert(path, (mode.to_owned(), object_id.to_owned()));
+    }
+
+    if source_changed {
+        let status = Command::new("git")
+            .arg("-C")
+            .arg(&snapshot.git_root)
+            .args(["status", "--short", "--untracked-files=all"])
+            .output()
+            .map_err(|source| ObserverError::Read {
+                path: snapshot.git_root.clone(),
+                source,
+            })?;
+        if !status.status.success() {
+            return Err(ObserverError::State {
+                path: snapshot.git_root.clone(),
+                message: "cannot inspect the source working tree".into(),
+            });
         }
+        let mut changes = BTreeMap::<String, bool>::new();
+        for line in String::from_utf8_lossy(&status.stdout).lines() {
+            let Some(raw_path) = line.get(3..) else {
+                continue;
+            };
+            let code = line.get(..2).unwrap_or("  ");
+            if code.contains('R')
+                && let Some((source, target)) = raw_path.rsplit_once(" -> ")
+            {
+                if let Some(source) = stable_source_path(source) {
+                    changes.insert(source, false);
+                }
+                if let Some(target) = stable_source_path(target) {
+                    changes.insert(target, true);
+                }
+                continue;
+            }
+            if let Some(path) = stable_source_path(raw_path) {
+                changes.insert(path, !code.contains('D'));
+            }
+        }
+        let paths = changes
+            .iter()
+            .filter_map(|(path, present)| {
+                if !present {
+                    return None;
+                }
+                let candidate = snapshot.git_root.join(path);
+                let metadata = fs::symlink_metadata(candidate).ok()?;
+                (metadata.file_type().is_file() || metadata.file_type().is_symlink())
+                    .then_some(path.clone())
+            })
+            .collect::<Vec<_>>();
+        let hashes = git_hash_object_paths(&snapshot.git_root, &paths)?;
+        for (path, present) in changes {
+            if !present {
+                entries.remove(&path);
+                continue;
+            }
+            let Some(object_id) = hashes.get(&path) else {
+                entries.remove(&path);
+                continue;
+            };
+            entries.insert(
+                path.clone(),
+                (
+                    worktree_mode(&snapshot.git_root.join(path)),
+                    object_id.clone(),
+                ),
+            );
+        }
+    }
+
+    let mut hasher = Sha256::new();
+    for (path, (mode, object_id)) in entries {
         hasher.update(path.as_bytes());
         hasher.update([0]);
-        hasher.update(line.as_bytes());
+        hasher.update(format!("{mode} {object_id} 0\t{path}").as_bytes());
         hasher.update([0]);
     }
     Ok(Digest::sha256_bytes(&hasher.finalize()))
+}
+
+fn stable_source_path(raw: &str) -> Option<String> {
+    let path = raw.trim().trim_matches('"').replace('\\', "/");
+    if path == ".ai" || path.starts_with(".ai/") || path.is_empty() {
+        return None;
+    }
+    let candidate = Path::new(&path);
+    if candidate.is_absolute()
+        || candidate
+            .components()
+            .any(|component| matches!(component, std::path::Component::ParentDir))
+    {
+        return None;
+    }
+    Some(path)
+}
+
+fn git_hash_object_paths(
+    root: &Path,
+    paths: &[String],
+) -> Result<BTreeMap<String, String>, ObserverError> {
+    if paths.is_empty() {
+        return Ok(BTreeMap::new());
+    }
+    let mut child = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["hash-object", "--no-filters", "--stdin-paths"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|source| ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        })?;
+    {
+        let Some(stdin) = child.stdin.as_mut() else {
+            return Err(ObserverError::State {
+                path: root.to_path_buf(),
+                message: "cannot open git hash-object input".into(),
+            });
+        };
+        for path in paths {
+            stdin
+                .write_all(path.as_bytes())
+                .and_then(|_| stdin.write_all(b"\n"))
+                .map_err(|source| ObserverError::Read {
+                    path: root.to_path_buf(),
+                    source,
+                })?;
+        }
+    }
+    let output = child
+        .wait_with_output()
+        .map_err(|source| ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        })?;
+    if !output.status.success() {
+        return Err(ObserverError::State {
+            path: root.to_path_buf(),
+            message: String::from_utf8_lossy(&output.stderr).trim().into(),
+        });
+    }
+    let hashes = String::from_utf8_lossy(&output.stdout);
+    Ok(paths
+        .iter()
+        .zip(hashes.lines())
+        .map(|(path, hash)| (path.clone(), hash.to_owned()))
+        .collect())
+}
+
+fn worktree_mode(path: &Path) -> String {
+    let Ok(metadata) = fs::symlink_metadata(path) else {
+        return "000000".into();
+    };
+    if metadata.file_type().is_symlink() {
+        return "120000".into();
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        if metadata.permissions().mode() & 0o111 != 0 {
+            return "100755".into();
+        }
+    }
+    "100644".into()
 }
 
 /// Digest the repository facts that govern source verification, not the
@@ -7776,9 +7952,15 @@ pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, Observer
     // digest or make governance-only changes look like source changes.
     stable.git_calls = 0;
     stable.tree_digest = source_tree_digest(snapshot)?.to_string();
-    stable
-        .changed_paths
-        .retain(|path| !path.starts_with(".ai/"));
+    // Diff shape and read/measurement counters describe the current checkout
+    // representation, not the source content.  Exclude them so verification
+    // remains valid after the same worktree content is committed or exposed
+    // through a hosted synthetic merge ref.
+    stable.diff_digest =
+        "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855".into();
+    stable.files_read = 0;
+    stable.files_hashed = 0;
+    stable.changed_paths.clear();
     stable
         .change_evidence
         .retain(|change| !change.path.starts_with(".ai/"));

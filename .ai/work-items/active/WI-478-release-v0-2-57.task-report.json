@@ -4,7 +4,7 @@
       ".ai/evidence/WI-478-release-v0-2-57.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a4582442d7c2b80c19143460ec6b6999187ab18e9660f0800af24f51455a1c1b",
+    "repositorySnapshotDigest": "sha256:5538767746e1e1af4264e4c9464ee8f8d15e3c2411203b0b44bbbd7018f838de",
     "workItemId": "WI-478-release-v0-2-57"
   },
   "format": "ai-cockpit.task-outcome",

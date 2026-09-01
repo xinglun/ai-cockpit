@@ -8,9 +8,9 @@
     "WI-478 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive, finalization, close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree.",
     "Retry recovery clears stale failed-finish markers from a checkpointed Summary and a regression test proves the hosted route can proceed after an explicit recovery receipt."
   ],
-  "createdAt": "2026-09-01T14:30:09Z",
+  "createdAt": "2026-09-01T15:01:45Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:11acd3aabb63609f9e7c53871705c40be5e027e4269259bfe390e4f36eadd075",
+  "evidenceDigest": "sha256:5beb06ef9d5eda03550791384d2d0a917d4e11f0cd8495edfa40c88f2e55017f",
   "evidenceRefs": [
     ".ai/evidence/WI-478-release-v0-2-57.verification.json"
   ],
@@ -36,7 +36,7 @@
         ".ai/evidence/WI-478-release-v0-2-57.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a4582442d7c2b80c19143460ec6b6999187ab18e9660f0800af24f51455a1c1b",
+      "repositorySnapshotDigest": "sha256:5538767746e1e1af4264e4c9464ee8f8d15e3c2411203b0b44bbbd7018f838de",
       "workItemId": "WI-478-release-v0-2-57"
     },
     "format": "ai-cockpit.task-outcome",
@@ -139,7 +139,7 @@
     "status": "verified",
     "workItemId": "WI-478-release-v0-2-57"
   },
-  "taskReportDigest": "sha256:2db9b64f63573edf605be42222a8e7bc15d52fbe88d7b6830d724bb471fbb959",
+  "taskReportDigest": "sha256:756ba34a23dd409b33c61fcfe265b2d9fd013991d3669c3c6e478b2315ee13ea",
   "taskReportMarkdownDigest": "sha256:31c113960b8736d2acd035eef7830790ab8161f93a3999c8d1a3014e3d1c0d08",
   "unknowns": [
     "user_visible_benefit_not_declared"

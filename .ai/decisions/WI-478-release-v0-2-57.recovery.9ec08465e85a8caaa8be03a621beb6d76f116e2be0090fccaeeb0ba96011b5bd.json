@@ -1,0 +1,25 @@
+{
+  "actor": "AI Cockpit maintainers",
+  "authoritySource": "authorized user release instruction",
+  "decidedAt": "2026-09-01T14:58:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+  ],
+  "policyRefs": [
+    "docs/release/distribution.md"
+  ],
+  "predecessorContractDigest": "sha256:749c832de85baa04cb8a5134b5a6cbac879110da90361c8ee710ebbbce048fc1",
+  "predecessorEventsDigest": "sha256:24adc638f7afcd65cddd2e4891d2a3df90a328d86f6a26b798509cb910290f9b",
+  "predecessorOutcomeDigest": "sha256:2a52171a33179be0e215cfa3e2d68b78452c29b08d809692acd0f7bb05ad4e30",
+  "predecessorSummaryDigest": "sha256:d4bbb93c53dbf268997167c52912e6bc5b5cbd9d9a387b898dfeca34daf21811",
+  "predecessorWorkItemId": "WI-478-release-v0-2-57",
+  "reason": "Retry after source snapshot identity fix; preserve prior blocked attempt and regenerate current evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification, then retry finish.",
+  "runtimeDigest": "sha256:f7a152afd308cdd55c2cf902a621514bb51d451566da53f4b3163eb34815a8f0",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "workItemId": "WI-478-release-v0-2-57"
+}
