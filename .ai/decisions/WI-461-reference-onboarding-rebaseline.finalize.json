@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2aba72c66b3304c5747138c4a6d882d3e9bb4379",
+    "name": "codex/wi-461-reference-onboarding-rebaseline",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:608909774caeb16b16558df12a26867f6a34409c9565c6525b20c8db81d82f54",
+  "operationId": "WI-461-reference-onboarding-rebaseline-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5356a2d579fcfa248b8fbd6e3d47fbdfa42d3606",
+    "headRevision": "2aba72c66b3304c5747138c4a6d882d3e9bb4379",
+    "mergeCommit": "1850e8bbad33c70653f00f924eea97bc62ff2bed",
+    "number": 431,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/431"
+  },
+  "reason": "Reviewed PR #431 is merged into the synchronized default branch; remove the exact feature branch and dedicated worktree.",
+  "receiptId": "WI-461-reference-onboarding-rebaseline-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-461-reference-onboarding-rebaseline",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/431",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-461-reference-onboarding-rebaseline"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T00:16:58Z",
+  "workItemId": "WI-461-reference-onboarding-rebaseline",
+  "worktree": {
+    "branch": "codex/wi-461-reference-onboarding-rebaseline",
+    "headRevision": "2aba72c66b3304c5747138c4a6d882d3e9bb4379",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-461-reference-onboarding-rebaseline",
+    "worktreeId": "WI-461-reference-onboarding-rebaseline"
+  }
+}

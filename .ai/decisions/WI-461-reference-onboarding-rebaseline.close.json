@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eaf0c7a988837269791167ff783c5bc1fed583fd09465f55deb0e73e3fd2fcc3",
+      "workItemId": "WI-461-reference-onboarding-rebaseline"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-461-reference-onboarding-rebaseline.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-461-reference-onboarding-rebaseline.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json",
+            ".ai/decisions/WI-461-reference-onboarding-rebaseline.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:owner via explicit-user-authorized at 2026-09-01T00:18:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.contract.json"
+          ],
+          "inference": false,
+          "text": "Close the onboarding rebaseline gap with complete tri-language semantic coverage and no undocumented omission."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-461-reference-onboarding-rebaseline.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-461-reference-onboarding-rebaseline"
+  },
+  "finalReportDigest": "sha256:7fa6c38996ca8b27eef59f8f63e45b1b32a38d9d84082ddd46abfcbe962dcd25",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:6086536b618cefb4d96d3fd13c724fa0a792ee9eb92286034b5c8c954a5933dc",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-461-reference-onboarding-rebaseline.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "explicit-user-authorized",
+    "decidedAt": "2026-09-01T00:18:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-461-reference-onboarding-rebaseline.verification.json",
+      ".ai/decisions/WI-461-reference-onboarding-rebaseline.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "User authorized the reviewed reference-comparison batch to be merged, released, and closed after all hosted checks and cleanup passed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-01T00:17:26Z",
+  "workItemId": "WI-461-reference-onboarding-rebaseline"
+}
