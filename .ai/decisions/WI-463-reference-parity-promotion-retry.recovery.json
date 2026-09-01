@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized",
+  "decidedAt": "2026-09-01T01:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-463-reference-parity-promotion-retry.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:05558dbc7b137da19c0b09fbb3f6da7551f1573b7c26c72a1b9c849af7c0dda3",
+  "predecessorEventsDigest": "sha256:d1f5aeae231497eb18d4245212afe025420e880c1fe638303363aad1a5cb96fa",
+  "predecessorOutcomeDigest": "sha256:bf62898848f90f0874302d3b66e0b83909e98f1c7a6a17574cd6f7ae4a00558c",
+  "predecessorSummaryDigest": "sha256:3890c4e0453d227eb4c53d19df282fbad2c91fd3c559d6dfb353ce92878533a5",
+  "predecessorWorkItemId": "WI-463-reference-parity-promotion-retry",
+  "reason": "Retry after binding the reviewed PR resource context invalidated the earlier verification projection; preserve the failed attempt and revalidate from the current Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalization-plan Contract before finish.",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "workItemId": "WI-463-reference-parity-promotion-retry"
+}
