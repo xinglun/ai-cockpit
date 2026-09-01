@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=248 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=454 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
 
 At the current local reference comparison baseline, the ledger contains 4,450
 current tracked paths: 3,681 `generated-history`, 230
@@ -337,6 +337,27 @@ All nine records are now individually resolved. This is semantic/documentation
 parity, not source-file or JSON-wire parity. The inventory retains
 `sourceChangedSincePrevious`, `previousBatch`, and `previousClassification` as
 comparison provenance while removing the deferred status for this batch.
+
+## WI-464 — workflow and build rebaseline
+
+WI-464 re-reads the four source paths whose bytes changed after the earlier
+workflow comparisons at the maintained local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060`. No source implementation is copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `.github/workflows/compatibility.yml` | implemented-different-by-design | Source ShellCheck installation and Python/multi-stack matrix remain source/provider concerns. Rust keeps its reviewed action-runtime policy, dynamic quality route, Rust workspace/platform gates, and public adopter acceptance. |
+| `.github/workflows/release.yml` | implemented-different-by-design | Source `release-digests.json` archive projection and removal of the obsolete `release.json` dual-asset check map to Rust release-manifest/`SHA256SUMS`, SBOM/provenance, platform smoke, and adopter evidence. Source projection bytes are not copied. |
+| `.github/workflows/smoke.yml` | implemented-different-by-design | Source removes a `REPORT_LANGUAGE` Make argument. Rust has no source `smoke.yml`; CI, release, gate-manifest, and immutable adopter harnesses provide the bounded checks with explicit repository context. |
+| `Makefile` | implemented-different-by-design | Source Python/Make shard, knowledge, and language helpers remain source-only. Rust uses Cargo, the CLI, the canonical gate manifest, and explicit `--repo`; no second Make governance layer is required. |
+
+The target action pins remain governed by the target's own reviewed action-runtime
+policy; the source matrix pin is not silently substituted. The ledger resolves
+these four source-change records while retaining their
+`sourceChangedSincePrevious` provenance. No Rust omission was found, and object
+or adopter repositories inherit the shared Runtime and isolated repository
+evidence boundary rather than source workflow files. This is semantic/documentation
+parity, not source-file, provider, Python/Make, or JSON-wire compatibility.
 
 ## Batch order
 

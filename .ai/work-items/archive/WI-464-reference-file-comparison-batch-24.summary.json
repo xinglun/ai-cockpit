@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-01T01:20:47Z",
+  "checkpointContractDigest": "sha256:c433f8b4e6652d1975ea54800d2b71f83047b9e87ec3c9c1d287015bdcdda6a7",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:04ed8f473f0b665d57fa733193c616b3cf749efc9bc1e2f268f6ba5b7a723b63",
+      "recorded": true,
+      "recordedAt": "2026-09-01T01:20:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:940750f425cc5de10e0a39fc3313072c25a8ecf9f1b684f7e3ee3f66ac326d0c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-464-reference-file-comparison-batch-24"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9c11c82193ab1ab2d0815e54d9e4b5b65fd4573d6318a7ef8558191f23855f8b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:04ed8f473f0b665d57fa733193c616b3cf749efc9bc1e2f268f6ba5b7a723b63",
+      "previousContractHash": "sha256:04ed8f473f0b665d57fa733193c616b3cf749efc9bc1e2f268f6ba5b7a723b63",
+      "reason": "Bind the machine-readable inventory update as an explicit acceptance obligation so source-change records cannot silently remain deferred.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T01:21:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:940750f425cc5de10e0a39fc3313072c25a8ecf9f1b684f7e3ee3f66ac326d0c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-464-reference-file-comparison-batch-24"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:34c70e18b328bc31394bffa0a1d8077810d5e63f4ffb96c9f5eb0248da197b91",
+  "createdAt": "2026-09-01T01:14:10Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-01T01:35:35Z",
+  "preflightContractDigest": "sha256:c433f8b4e6652d1975ea54800d2b71f83047b9e87ec3c9c1d287015bdcdda6a7",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:34c70e18b328bc31394bffa0a1d8077810d5e63f4ffb96c9f5eb0248da197b91",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T01:35:39Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-464-reference-file-comparison-batch-24"
+}

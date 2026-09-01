@@ -1,0 +1,27 @@
+{
+  "actor": "codex",
+  "authoritySource": "human-authorized-recovery",
+  "decidedAt": "2026-09-01T01:33:31Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-464-reference-file-comparison-batch-24.verification.json",
+    ".ai/work-items/active/WI-464-reference-file-comparison-batch-24.events.jsonl"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:c433f8b4e6652d1975ea54800d2b71f83047b9e87ec3c9c1d287015bdcdda6a7",
+  "predecessorEventsDigest": "sha256:debe01f203a073a07da9ce7058f8df5cda7cf14e750148eac4270e7754c6b188",
+  "predecessorOutcomeDigest": "sha256:b80164382f797e32153fa468c6d867d105bf4a9fedeed5d8ae236de6d62f2092",
+  "predecessorSummaryDigest": "sha256:7517a17e951b5c080a2307a5fa22aa8f7b6a29eff9bb27381b7c8087dd35eea1",
+  "predecessorWorkItemId": "WI-464-reference-file-comparison-batch-24",
+  "reason": "Recover the current Work Item after a sequential lifecycle operation race left a blocked Outcome projection over an otherwise valid verification receipt; preserve the blocked attempt immutably and retry the same scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification serially, then finish and archive only after the current Contract and snapshot remain bound.",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "workItemId": "WI-464-reference-file-comparison-batch-24"
+}
