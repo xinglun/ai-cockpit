@@ -191,12 +191,24 @@ complete parity とは扱いません。
 
 <!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
 
-現在の local reference comparison baseline の ledger は 4,450 current tracked paths です。内訳は
-3,681 `generated-history`、230 `implemented-different-by-design`、1
-`implemented-equivalent`、4 `not-applicable`、62 `reference-only`、472 `deferred-next-batch` です。
-Deferred record は予定された比較であり parity claim ではありません。Rebaseline は current source の
-changed path 160 件（non-history decision のうち 143 件は再比較待ち）と、以前の ledger から retired
-になった 669 件も記録します。capability/profile slice に `migrate-gap` は残っていません。
+下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
+key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
+baseline から retired になった 669 path を保持するため 5,119 record です。Deferred record は予定された
+比較であり parity claim ではありません。Rebaseline は changed current path 160 件を記録し、capability/profile
+slice に `migrate-gap` は残っていません。
+
+| Metric | Count |
+| --- | ---: |
+| `current-tracked-paths` | 4,450 |
+| `generated-history` | 3,681 |
+| `implemented-different-by-design` | 252 |
+| `implemented-equivalent` | 1 |
+| `not-applicable` | 4 |
+| `reference-only` | 62 |
+| `deferred-next-batch` | 450 |
+| `migrate-gap` | 0 |
+| `retired-reference-paths` | 669 |
+| `append-only-ledger-records` | 5,119 |
 
 1. `.ai/project/adopter-capability-manifest.json` は現在の local checkout から retired になりました。以前の判断は
    `retiredReferencePaths` に保持され、installer-surface は external boundary のままですが、current record ではありません。

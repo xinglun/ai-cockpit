@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-09-01T05:26:35Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-467-reference-ledger-projection.archive.json",
+    ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+  ],
+  "policyRefs": [
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "predecessorContractDigest": "sha256:def680e7e64711fa7e442d21ff1cd138c601bc45e876f5c88f15c9544bb71b55",
+  "predecessorEventsDigest": "sha256:313c90045a89e21de817ea12e2c328a04efef37a56c95cca930fac3a107013e4",
+  "predecessorOutcomeDigest": "sha256:f157b5b4e69f70fb0d36e3ad6f418e82265030f331856bbd1a7e0948c89a5896",
+  "predecessorSummaryDigest": "sha256:e027bbfcaadb466cf24cfc1d0a9ea2d5b99a7ec7570efd1b97546d7ec98f3259",
+  "predecessorWorkItemId": "WI-467-reference-ledger-projection",
+  "reason": "The immutable WI-467 delivery exposed a repository governance gate omission: its archived Work Item was not registered in all three reference-parity ledgers. Redeliver the same manifest-derived correction with the required parity projection before merge.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create the successor Contract with parity-ledger scope, add the three-language reference-parity row, run fresh preflight and verification, then deliver a reviewed PR.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-468-reference-ledger-parity-promotion",
+  "workItemId": "WI-467-reference-ledger-projection"
+}

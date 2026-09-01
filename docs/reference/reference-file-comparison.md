@@ -219,14 +219,26 @@ green parity.
 
 <!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
 
-At the current local reference comparison baseline, the ledger contains 4,450
-current tracked paths: 3,681 `generated-history`, 230
-`implemented-different-by-design`, one `implemented-equivalent`, four
-`not-applicable`, 62 `reference-only`, and 472 `deferred-next-batch` records.
-Deferred records remain scheduled work, not parity claims. The rebaseline also
-records 160 changed current paths (143 non-history decisions awaiting a fresh
-semantic comparison) and 669 retired paths from the previous ledger. The
-capability/profile slice has no remaining `migrate-gap` records:
+The machine-checked table below is the single source for the current snapshot;
+the same canonical keys are used in all three language pages. The current
+reference set has 4,450 paths. The append-only ledger has 5,119 records because
+it retains 669 retired paths from the previous reference baseline. Deferred
+records remain scheduled work, not parity claims. The rebaseline records 160
+changed current paths, and the capability/profile slice has no remaining
+`migrate-gap` records:
+
+| Metric | Count |
+| --- | ---: |
+| `current-tracked-paths` | 4,450 |
+| `generated-history` | 3,681 |
+| `implemented-different-by-design` | 252 |
+| `implemented-equivalent` | 1 |
+| `not-applicable` | 4 |
+| `reference-only` | 62 |
+| `deferred-next-batch` | 450 |
+| `migrate-gap` | 0 |
+| `retired-reference-paths` | 669 |
+| `append-only-ledger-records` | 5,119 |
 
 1. `.ai/project/adopter-capability-manifest.json` is retired from the current
    local checkout. Its prior decision is retained in `retiredReferencePaths`;

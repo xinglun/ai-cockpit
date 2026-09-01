@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-467-reference-ledger-projection.contract.json",
+    ".ai/work-items/archive/WI-467-reference-ledger-projection.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T05:04:59Z",
+  "checkpointContractDigest": "sha256:def680e7e64711fa7e442d21ff1cd138c601bc45e876f5c88f15c9544bb71b55",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:1243d47e0bb8293526372636f414d4f2eda2cae1baac95040a9383df48bd236b",
+      "recorded": true,
+      "recordedAt": "2026-09-01T05:04:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b365eb698a5a7d3d53002cb534b7ff18ea9ea6d2f74aca5c16fd88bd2e3acef4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-467-reference-ledger-projection"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:0a055133668ec96f81e695c6d2733061346f8bd665bb01714563fe3542e4bf3b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1243d47e0bb8293526372636f414d4f2eda2cae1baac95040a9383df48bd236b",
+      "previousContractHash": "sha256:1243d47e0bb8293526372636f414d4f2eda2cae1baac95040a9383df48bd236b",
+      "reason": "Align required evidence declaration with the Runtime-supported verification class so the current documentation gate receipt can be regenerated without inventing unsupported evidence classes.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T05:06:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b365eb698a5a7d3d53002cb534b7ff18ea9ea6d2f74aca5c16fd88bd2e3acef4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-467-reference-ledger-projection"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:def680e7e64711fa7e442d21ff1cd138c601bc45e876f5c88f15c9544bb71b55",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1243d47e0bb8293526372636f414d4f2eda2cae1baac95040a9383df48bd236b",
+      "previousContractHash": "sha256:0a055133668ec96f81e695c6d2733061346f8bd665bb01714563fe3542e4bf3b",
+      "reason": "Bind the reviewed GitHub pull request and exact branch/worktree context before the final verification cycle; the Runtime plan changed only the resource context.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T05:17:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fc2c53722529ed68b5bc007d557f7981022b88b716c1a804f0324bd6cc410636",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-467-reference-ledger-projection"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:fc2c53722529ed68b5bc007d557f7981022b88b716c1a804f0324bd6cc410636",
+  "createdAt": "2026-09-01T04:58:09Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T05:20:07Z",
+  "preflightContractDigest": "sha256:def680e7e64711fa7e442d21ff1cd138c601bc45e876f5c88f15c9544bb71b55",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:fc2c53722529ed68b5bc007d557f7981022b88b716c1a804f0324bd6cc410636",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T05:20:12Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-467-reference-ledger-projection"
+}

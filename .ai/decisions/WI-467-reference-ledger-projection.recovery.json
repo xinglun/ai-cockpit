@@ -1,0 +1,24 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-09-01T05:19:38Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-467-reference-ledger-projection.outcome.json",
+    ".ai/work-items/active/WI-467-reference-ledger-projection.events.jsonl"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:def680e7e64711fa7e442d21ff1cd138c601bc45e876f5c88f15c9544bb71b55",
+  "predecessorEventsDigest": "sha256:629571a3b7259019cb2509430d83e9370d8c0c14826f56c75abdb40456014e52",
+  "predecessorOutcomeDigest": "sha256:ccc30d5e4b50e98ca4da3867ecbd02ddf2f50ffc8711c7b8822aafb3a905aaea",
+  "predecessorSummaryDigest": "sha256:a16e9e3925dc6e75c69de17c71a9670fccd37e4c6ab826dc3054e9e169a19a58",
+  "predecessorWorkItemId": "WI-467-reference-ledger-projection",
+  "reason": "The implementation was verified before the Runtime-required finalize-plan binding; retry the same Work Item with the reviewed PR context bound before a fresh verification cycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Re-run preflight and verification after the finalized PR context is bound, then finish and archive without editing predecessor evidence.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "workItemId": "WI-467-reference-ledger-projection"
+}

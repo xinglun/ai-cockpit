@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "All three reference-parity ledgers register WI-468 with identical status and record links.",
+    "The three comparison pages expose the manifest-derived current snapshot without rewriting historical sections.",
+    "The documentation regression gate rejects stale or divergent current counts and passes for the corrected pages.",
+    "No generated archive, evidence, or predecessor bytes are rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1a66457a79a5f67ce95a41798fe915e9a76061a9",
+  "createdAt": "2026-09-01T05:26:44Z",
+  "goal": "Make current inventory counts and their parity status deterministic, readable, and fail-closed in CI.",
+  "intent": "Redeliver the manifest-derived reference ledger correction with the required three-language parity registration.",
+  "mode": "code",
+  "outOfScope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "historical docs",
+    "Runtime/Core",
+    "object repositories"
+  ],
+  "predecessorContractDigest": "sha256:def680e7e64711fa7e442d21ff1cd138c601bc45e876f5c88f15c9544bb71b55",
+  "predecessorWorkItemId": "WI-467-reference-ledger-projection",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-467-reference-ledger-projection.recovery.41ffa26ef4eac021436f87757c00ad0ee97ecbde9dc43d54699d70f412a66675.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d27197dde6f3d3d8d4d3e68ef43e8f741f524bfe351a0922f3dc5fe0d7d4ae18",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-468-reference-ledger-parity-promotion-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/438",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-467-reference-ledger-projection"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "docs/work-items/WI-468-reference-ledger-parity-promotion.md",
+    "docs/work-items/WI-468-reference-ledger-parity-promotion.zh-CN.md",
+    "docs/work-items/WI-468-reference-ledger-parity-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-468-reference-ledger-parity-promotion"
+}

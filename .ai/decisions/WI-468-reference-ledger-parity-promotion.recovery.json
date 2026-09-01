@@ -1,0 +1,37 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-WI-469-successor-authorization",
+  "decidedAt": "2026-09-01T05:45:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.archive.json",
+    ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.contract.json",
+    ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.summary.json",
+    ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.outcome.json",
+    ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.events.jsonl",
+    ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/438"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/docs/work_item_status_consistency.py",
+    "docs/reference/reference-parity.md"
+  ],
+  "predecessorContractDigest": "sha256:773490ba50c4ebc2b43d6899eea637125cc1501595bae4c12a8ae32032b16e1f",
+  "predecessorEventsDigest": "sha256:2b57d0fc25a68fe2b483727e8de0c38c261e38856d47bfa8b60748d0f1275595",
+  "predecessorOutcomeDigest": "sha256:dab08cc2a7fffe0be08d7d1019a61e1a51d71925e433da668c26aa3e477f1109",
+  "predecessorSummaryDigest": "sha256:bebf97b97b0e2cde0900151d60eacaca92badb90ff8727d0023b43088e1b9449",
+  "predecessorWorkItemId": "WI-468-reference-ledger-parity-promotion",
+  "reason": "The immutable WI-468 delivery exposed the same parity projection ordering defect in its own row: the tri-language terminal row was first introduced after verification evidence, so the CI gate correctly rejects it as stale. Preserve WI-468 bytes and redeliver the bounded ledger projection with the row registered before evidence and with recovered predecessor documentation status.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create WI-469 from the latest origin/main with immutable WI-468 recovery lineage, update predecessor projections to recovered, register the WI-469 parity row before verification, then run fresh preflight, verification, reviewed PR, merge, close, and documentation consistency checks.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-469-reference-ledger-parity-order-recovery",
+  "workItemId": "WI-468-reference-ledger-parity-promotion"
+}
