@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-09-01T13:46:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-477-release-v0-2-56.recovery.json",
+    ".ai/decisions/WI-477-release-v0-2-56.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/release-distribution.md"
+  ],
+  "predecessorContractDigest": "sha256:dfb7427940460fa86adefde266d1193a6eeed4c9c1d63405134dcf9493b33b67",
+  "predecessorEventsDigest": "sha256:7b7699675709e4f229359c812b628272de9cd390a93fea75a423ff532760829a",
+  "predecessorOutcomeDigest": "sha256:188cfbc2780335fcfc3f42f8f087c9df6d7ba2aa2e3a2c4e97cbf0d6bebc20c0",
+  "predecessorSummaryDigest": "sha256:b602234df98d64f93c40e24648e3f1fe2c332c8d877f5177146c76df2831a6e3",
+  "predecessorWorkItemId": "WI-477-release-v0-2-56",
+  "reason": "Regenerate the Runtime-owned WI-478 successor scaffold after the WI-477 recovery baseline was merged; keep the predecessor bytes immutable and continue the corrected release order.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate WI-478 from this synchronized dedicated worktree, complete its reviewed close, then create an immutable v0.2.57 tag.",
+  "runtimeDigest": "sha256:312471a9bc1bd58cc4d80f773e35a251f59caddebfa3108df0b5c23fa84ae438",
+  "runtimeVersion": "0.2.55",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-478-release-v0-2-57",
+  "workItemId": "WI-477-release-v0-2-56"
+}

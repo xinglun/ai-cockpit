@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "All workspace package versions, Cargo.lock entries, and required tri-language release/versioning documents consistently identify v0.2.57 without rewriting historical release facts.",
+    "The release branch is reviewed through a hosted PR whose required CI checks pass before merge; the annotated v0.2.57 tag points exactly to the synchronized reviewed main commit, and the tag is created only after WI-478 is closed.",
+    "The public v0.2.57 Release exposes the expected platform archives, SHA256 checksums, SBOM and provenance metadata, and runtime identity; no source checkout or workspace binary is used as fallback.",
+    "Public adopter acceptance and N-1 upgrade acceptance pass or explicitly record a bounded not_ready result, bind runtime and repository identities and digests, prove HOME and XDG forbidden-write isolation, classify TMPDIR and CARGO_HOME writes, and prove temporary run-root cleanup on success and failure.",
+    "The published v0.2.57 binary is installed from the immutable public artifact on this repository, and inspect, status, doctor, agent doctor, and documentation promotion checks confirm the repository remains attached, healthy, isolated, and ready_on_base.",
+    "WI-478 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive, finalization, close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8b56a07baf58c7fdb7a86d9b8311464f216eaa9807aa75f54e5946f5083dc504",
+      "workItemId": "WI-478-release-v0-2-57"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-477-release-v0-2-56.recovery.eeb777d2322be8152808dce12241e4ca6d1901846d38ade6cfcdb50a1ad2f025.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-478-release-v0-2-57.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.57 from the reviewed mainline, validate the public binary with isolated adopter acceptance, install it on this repository, and return to the next reference-source comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-478-release-v0-2-57"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-478-release-v0-2-57.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-478-release-v0-2-57"
+}

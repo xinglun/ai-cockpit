@@ -1,0 +1,81 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-477-release-v0-2-56.recovery.eeb777d2322be8152808dce12241e4ca6d1901846d38ade6cfcdb50a1ad2f025.json",
+    ".ai/work-items/active/WI-478-release-v0-2-57.contract.json",
+    ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T13:57:48Z",
+  "checkpointContractDigest": "sha256:3fc374c2deadf2934e8a3d6a8b79bc2388a66c96baa724a32a1acd6647acfeea",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8b56a07baf58c7fdb7a86d9b8311464f216eaa9807aa75f54e5946f5083dc504",
+  "createdAt": "2026-09-01T13:47:02Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release Work Item binds reviewed source, an immutable public artifact, isolated adopter acceptance, and installation without expanding into the next reference-source parity batch.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:dfb7427940460fa86adefde266d1193a6eeed4c9c1d63405134dcf9493b33b67",
+  "predecessorWorkItemId": "WI-477-release-v0-2-56",
+  "preflightAt": "2026-09-01T14:05:25Z",
+  "preflightContractDigest": "sha256:3fc374c2deadf2934e8a3d6a8b79bc2388a66c96baa724a32a1acd6647acfeea",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8b56a07baf58c7fdb7a86d9b8311464f216eaa9807aa75f54e5946f5083dc504",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-477-release-v0-2-56.recovery.eeb777d2322be8152808dce12241e4ca6d1901846d38ade6cfcdb50a1ad2f025.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "The reviewed source, release tag, and package identity are bound.",
+      "required": true,
+      "scenario": "reviewed source commit produces an immutable public release",
+      "status": "verified",
+      "verificationPlan": "Run source-quality and release policy checks before publication."
+    },
+    {
+      "evidence": [],
+      "reason": "The public v0.2.57 Release does not exist until the reviewed source is merged and tagged.",
+      "required": true,
+      "scenario": "public release binary governs a fresh isolated adopter",
+      "status": "not_applicable",
+      "verificationPlan": "Run the public adopter acceptance harness after publication using only downloaded artifacts."
+    },
+    {
+      "evidence": [],
+      "reason": "N-1 acceptance is a post-release boundary and cannot run before publication.",
+      "required": true,
+      "scenario": "published release upgrades an existing repository without cross-repository state",
+      "status": "not_applicable",
+      "verificationPlan": "Run the N-1 acceptance harness after publication with isolated roots."
+    },
+    {
+      "evidence": [],
+      "reason": "Installation acceptance requires the public v0.2.57 artifact.",
+      "required": true,
+      "scenario": "installation on the Runtime repository remains healthy",
+      "status": "not_applicable",
+      "verificationPlan": "Install the public artifact after publication and run inspect, status, doctor, Agent doctor, and documentation promotion."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T14:06:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-478-release-v0-2-57"
+}
