@@ -4,9 +4,13 @@ title: "WI-484 — WI-483 terminal documentation promotion"
 description: "Promote the WI-483 terminal documentation projections without rewriting immutable evidence."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-484-wi483-doc-promotion
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-484-wi483-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-484-wi483-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-484-wi483-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-484-wi483-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-484-wi483-doc-promotion.close.json
 ---
 
 # WI-484 — WI-483 terminal documentation promotion
