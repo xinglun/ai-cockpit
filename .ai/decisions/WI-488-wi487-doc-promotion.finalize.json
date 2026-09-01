@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "authorized user instruction to merge, clean, and close the reviewed documentation promotion",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3d2a33834344661324b247d965700c6454f4204e",
+    "name": "codex/wi-488-wi487-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:02635d9817000ef344fc0996f749a88d728d2e1677290049aa94fa7fd595990f",
+  "operationId": "operation-WI-488-wi487-doc-promotion-post-merge-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b336f071b67bc14c14c120837bceb9919e4f0729",
+    "headRevision": "3d2a33834344661324b247d965700c6454f4204e",
+    "mergeCommit": "2e46987a0c57a0aec8e09881e82961bbf02e5e0d",
+    "number": 461,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/461"
+  },
+  "reason": "PR #461 passed route, quality, Windows, V1 oracle, and task-list checks, merged as 2e46987a, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-488-wi487-doc-promotion-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-488-wi487-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/461",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-488-wi487-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T21:45:00Z",
+  "workItemId": "WI-488-wi487-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-488-wi487-doc-promotion",
+    "headRevision": "3d2a33834344661324b247d965700c6454f4204e",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-488-wi487-doc-promotion",
+    "worktreeId": "WI-488-wi487-doc-promotion"
+  }
+}
