@@ -5,7 +5,7 @@
     ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
   ],
   "checkpointAt": "2026-09-01T07:38:25Z",
-  "checkpointContractDigest": "sha256:b585020cca4ea0290b59114bc9a55cd0c62bef45a7883346f692e60dafa50819",
+  "checkpointContractDigest": "sha256:24e009e3435180c434510702df8d109116a6fd2c5115b08f8a0427bc97f149b7",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -83,7 +83,7 @@
       "workItemId": "WI-472-finalization-context-compatibility"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
+  "checkpointRepositorySnapshotDigest": "sha256:c7871ed76280bec164fd6f89b39871f6089ed3dde4e1d01ad45983fcd217ed0c",
   "createdAt": "2026-09-01T07:34:01Z",
   "intentAlignment": {
     "evidence": [
@@ -94,11 +94,11 @@
   "mode": "docs",
   "predecessorContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
   "predecessorWorkItemId": "WI-471-parity-recovery-binding",
-  "preflightAt": "2026-09-01T08:20:20Z",
-  "preflightContractDigest": "sha256:b585020cca4ea0290b59114bc9a55cd0c62bef45a7883346f692e60dafa50819",
+  "preflightAt": "2026-09-01T08:36:05Z",
+  "preflightContractDigest": "sha256:24e009e3435180c434510702df8d109116a6fd2c5115b08f8a0427bc97f149b7",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:c7871ed76280bec164fd6f89b39871f6089ed3dde4e1d01ad45983fcd217ed0c",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -144,18 +144,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-01T08:32:09.702863+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T08:36:05Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:24e009e3435180c434510702df8d109116a6fd2c5115b08f8a0427bc97f149b7",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-01T08:29:55Z"
-  },
   "workItemId": "WI-472-finalization-context-compatibility"
 }

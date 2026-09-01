@@ -4,7 +4,7 @@
       ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
+    "repositorySnapshotDigest": "sha256:c7871ed76280bec164fd6f89b39871f6089ed3dde4e1d01ad45983fcd217ed0c",
     "workItemId": "WI-472-finalization-context-compatibility"
   },
   "format": "ai-cockpit.task-outcome",
