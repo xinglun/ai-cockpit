@@ -21,11 +21,11 @@
   "repositorySnapshotDigest": "sha256:de6e6e6333324c975fb6d258fdb0c79aa3d007703b6271512f060d01d9523564",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-486-wi485-parity-redelivery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/459",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-486-wi485-parity-redelivery"
   },
   "risk": "medium",

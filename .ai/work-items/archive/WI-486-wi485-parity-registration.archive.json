@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T20:48:14Z",
+  "files": {
+    "contractDigest": "sha256:df980d5af5f96873013467289000fdd350f305421f1660c59142305e903eb8c2",
+    "contractPath": ".ai/work-items/archive/WI-486-wi485-parity-registration.contract.json",
+    "eventsDigest": "sha256:8ba8bdb79a879906b0687a035a19e9c31e6d88edcf03cf2c73b9ea8036fb8c41",
+    "eventsPath": ".ai/work-items/archive/WI-486-wi485-parity-registration.events.jsonl",
+    "outcomeDigest": "sha256:7a3ec02fb3a62cb05588487991f81acd2de0e1514f681f10147cb51a84dcff5f",
+    "outcomePath": ".ai/work-items/archive/WI-486-wi485-parity-registration.outcome.json",
+    "summaryDigest": "sha256:39775af18e47bb4a4f0343e9d9c7db6710932dd84aff1f5f6d187bc93f3a3980",
+    "summaryPath": ".ai/work-items/archive/WI-486-wi485-parity-registration.summary.json",
+    "taskReportDigest": "sha256:16941cc8f20ed61b61c6e9e3861d1908271dde161d631cd8ace7a8bf781da00c",
+    "taskReportMarkdownDigest": "sha256:834478d300d88dbd8655d3f7f86c9787f0dfb6f8c3efdedff17438d9cf49b322",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-486-wi485-parity-registration.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-486-wi485-parity-registration.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-486-wi485-parity-registration"
+}

@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:328ac5d533d161298a60da99ab7fd9dfae44ae6b613000190a9fca92d1c00b6d",
-  "createdAt": "2026-09-01T20:44:43Z",
+  "contractDigest": "sha256:dfc3740bab8f89c3608edb2151fb596c7ce34843e469c24d6a20b4ef4b5bac19",
+  "createdAt": "2026-09-01T20:47:47Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 421,
-      "executionElapsedMs": 272,
+      "elapsedMs": 540,
+      "executionElapsedMs": 383,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 421,
-    "executionElapsedMs": 272,
+    "elapsedMs": 540,
+    "executionElapsedMs": 383,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 272,
+      "executionElapsedMs": 383,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.57",
     "workItemId": "WI-486-wi485-parity-registration"
   },
-  "receiptDigest": "sha256:1bc6db80b2c3994b26c8efff2ae6907090fb3f3513890ff7dc102fa872aed537",
+  "receiptDigest": "sha256:ce9534b47b9d1e3d48e01f1c958bdb0b76e129723b93c7c943527ed1d2637b2e",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:b186c497ba925a9745b1984ecd5b9dc1cfaee7f25dfc5238ff43d32ac87acc06",
   "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",

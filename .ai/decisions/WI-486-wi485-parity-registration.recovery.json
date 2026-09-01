@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized recovery of the failed finish attempt after finalize-plan revalidation",
+  "decidedAt": "2026-09-01T20:51:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-486-wi485-parity-registration.verification.json",
+    ".ai/work-items/active/WI-486-wi485-parity-registration.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:dfc3740bab8f89c3608edb2151fb596c7ce34843e469c24d6a20b4ef4b5bac19",
+  "predecessorEventsDigest": "sha256:654d2514a00cc72bf3a8ff63751d523c7d36a9e0f79b826f1d51f73a59ab1fdb",
+  "predecessorOutcomeDigest": "sha256:2c7fbe10edf1602acd49a0ffa346d37af958ae735e683719b2bbad82f25fe060",
+  "predecessorSummaryDigest": "sha256:cc3df084dac57979bf059cfa9610c0455b03a66e25667ed3d52c885fa71beaa9",
+  "predecessorWorkItemId": "WI-486-wi485-parity-registration",
+  "reason": "Finalize-plan changed the Work Item resource binding and invalidated the prior verification; preserve that evidence and rerun fresh preflight and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized resource context, then retry finish.",
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "workItemId": "WI-486-wi485-parity-registration"
+}
