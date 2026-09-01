@@ -4,9 +4,13 @@ title: "WI-466 — release v0.2.54 and published-adopter acceptance"
 workItemId: WI-466-release-v0-2-54
 description: "Publish the v0.2.54 Runtime from the reviewed main branch and validate the public binary in an isolated adopter flow."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-466-release-v0-2-54
+terminalArchive: .ai/work-items/archive/WI-466-release-v0-2-54.contract.json
+terminalVerification: .ai/evidence/WI-466-release-v0-2-54.verification.json
+terminalFinalization: .ai/decisions/WI-466-release-v0-2-54.finalize.json
+terminalDecision: .ai/decisions/WI-466-release-v0-2-54.close.json
 ---
 
 # WI-466 — release v0.2.54 and published-adopter acceptance

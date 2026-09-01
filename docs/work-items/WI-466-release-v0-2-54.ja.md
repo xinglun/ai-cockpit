@@ -4,9 +4,13 @@ title: "WI-466 — v0.2.54 release と公開 adopter acceptance"
 workItemId: WI-466-release-v0-2-54
 description: "レビュー済み main から v0.2.54 Runtime を公開し、隔離した adopter flow で公開 binary を検証する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-466-release-v0-2-54
+terminalArchive: .ai/work-items/archive/WI-466-release-v0-2-54.contract.json
+terminalVerification: .ai/evidence/WI-466-release-v0-2-54.verification.json
+terminalFinalization: .ai/decisions/WI-466-release-v0-2-54.finalize.json
+terminalDecision: .ai/decisions/WI-466-release-v0-2-54.close.json
 ---
 
 # WI-466 — v0.2.54 release と公開 adopter acceptance

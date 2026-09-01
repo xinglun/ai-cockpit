@@ -4,9 +4,13 @@ title: "WI-466 — 发布 v0.2.54 与公开 adopter 验收"
 workItemId: WI-466-release-v0-2-54
 description: "从已审查的主线发布 v0.2.54 Runtime，并在隔离 adopter 流程中验证公开二进制。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-466-release-v0-2-54
+terminalArchive: .ai/work-items/archive/WI-466-release-v0-2-54.contract.json
+terminalVerification: .ai/evidence/WI-466-release-v0-2-54.verification.json
+terminalFinalization: .ai/decisions/WI-466-release-v0-2-54.finalize.json
+terminalDecision: .ai/decisions/WI-466-release-v0-2-54.close.json
 ---
 
 # WI-466 — 发布 v0.2.54 与公开 adopter 验收
