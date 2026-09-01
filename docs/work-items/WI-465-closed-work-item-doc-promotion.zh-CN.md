@@ -4,9 +4,13 @@ title: "WI-465——已关闭 Work Item 文档晋级"
 workItemId: WI-465-closed-work-item-doc-promotion
 description: "在不改写不可变记录的前提下，将已关闭 Work Item 证据晋级到面向读者的文档。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-465-closed-work-item-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-465-closed-work-item-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-465-closed-work-item-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-465-closed-work-item-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-465-closed-work-item-doc-promotion.close.json
 ---
 
 # WI-465——已关闭 Work Item 文档晋级

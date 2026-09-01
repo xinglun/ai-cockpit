@@ -4,9 +4,13 @@ title: "WI-465 — closed Work Item documentation promotion"
 workItemId: WI-465-closed-work-item-doc-promotion
 description: "Promote closed Work Item evidence into reader-facing documentation without rewriting immutable records."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-465-closed-work-item-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-465-closed-work-item-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-465-closed-work-item-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-465-closed-work-item-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-465-closed-work-item-doc-promotion.close.json
 ---
 
 # WI-465 — closed Work Item documentation promotion

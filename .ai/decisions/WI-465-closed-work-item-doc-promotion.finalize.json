@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1d3d04dea1b2ebf101c46581f96d1d510e255405",
+    "name": "codex/wi-465-closed-work-item-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4cbbe7b3abe709c5fea3c2c2ac9233057bb52ccbd05946d3f9dde760e0fdf0ac",
+  "operationId": "github-pr-435-merge-cleanup-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "39869cf5d2d43a6d86d1b1c5e7f0e4e32a34428c",
+    "headRevision": "1d3d04dea1b2ebf101c46581f96d1d510e255405",
+    "mergeCommit": "9c2f62dab082ffa268bdaa088b949d7a9c9d2010",
+    "number": 435,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/435"
+  },
+  "reason": "Reviewed PR #435 passed all hosted checks and was merged as 9c2f62dab082ffa268bdaa088b949d7a9c9d2010; the exact WI-465 branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-435-finalization-20260901",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-465-closed-work-item-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/435",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-465-closed-work-item-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T03:23:16Z",
+  "workItemId": "WI-465-closed-work-item-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-465-closed-work-item-doc-promotion",
+    "headRevision": "1d3d04dea1b2ebf101c46581f96d1d510e255405",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-465-closed-work-item-doc-promotion",
+    "worktreeId": "WI-465-closed-work-item-doc-promotion"
+  }
+}

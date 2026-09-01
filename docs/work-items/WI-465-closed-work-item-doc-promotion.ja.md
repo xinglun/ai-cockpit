@@ -4,9 +4,13 @@ title: "WI-465 — closed Work Item ドキュメント昇格"
 workItemId: WI-465-closed-work-item-doc-promotion
 description: "immutable な記録を書き換えず、closed Work Item の evidence を読者向け文書へ昇格します。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-465-closed-work-item-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-465-closed-work-item-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-465-closed-work-item-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-465-closed-work-item-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-465-closed-work-item-doc-promotion.close.json
 ---
 
 # WI-465 — closed Work Item ドキュメント昇格
