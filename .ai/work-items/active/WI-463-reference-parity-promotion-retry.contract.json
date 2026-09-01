@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "All three parity projections identify WI-461 as implemented after its verified close and link immutable evidence.",
+    "The promotion changes only the six declared documentation files and preserves tri-language links and formatting.",
+    "Documentation acceptance, parity status checks, and current Runtime verification pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "27f22010b1e53901cda2d4d26669f161518b5213",
+  "createdAt": "2026-09-01T00:47:02Z",
+  "goal": "Keep the tri-language parity ledger and Work Item documentation consistent with the verified closed WI-461 record.",
+  "intent": "Redeliver the post-close reference parity documentation promotion from a clean base without malformed recovery artifacts, preserving the immutable WI-461 evidence and tri-language reader path.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    "reference source checkout/**",
+    "Runtime .ai evidence",
+    "unrelated repository state"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eaf0c7a988837269791167ff783c5bc1fed583fd09465f55deb0e73e3fd2fcc3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-463-reference-parity-promotion-retry",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-463-reference-parity-promotion-retry"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-463-reference-parity-promotion-retry.md",
+    "docs/work-items/WI-463-reference-parity-promotion-retry.zh-CN.md",
+    "docs/work-items/WI-463-reference-parity-promotion-retry.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-463-reference-parity-promotion-retry"
+}
