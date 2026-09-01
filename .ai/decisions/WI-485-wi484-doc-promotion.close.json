@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-485-wi484-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7cd4ce20ebb0c3c0b726ac328c0632a0b2ffbc37b65cb0c467aa633a9cebbed6",
+      "workItemId": "WI-485-wi484-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-485-wi484-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-485-wi484-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-485-wi484-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-485-wi484-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-485-wi484-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-485-wi484-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-485-wi484-doc-promotion.archive.json",
+            ".ai/decisions/WI-485-wi484-doc-promotion.recovery.ab17c8b65da6faa064d39019801abb9796a7d8d4ec9262d9bde4f2b914c5b584.json",
+            ".ai/decisions/WI-486-wi485-parity-registration.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via authorized user instruction to complete the WI-485 recovery boundary after WI-486 successor closure at 2026-09-02T00:15:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-485-wi484-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-485-wi484-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-485-wi484-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-485-wi484-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Promote the closed WI-484 documentation projections to terminal evidence-backed metadata without changing governance facts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-485-wi484-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-485-wi484-doc-promotion"
+  },
+  "finalReportDigest": "sha256:b6075d58bb596dee1bcc0c33501e7a8ca3bde7c181fb3a40539071014901da74",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "authorized user instruction to complete the WI-485 recovery boundary after WI-486 successor closure",
+    "decidedAt": "2026-09-02T00:15:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-485-wi484-doc-promotion.archive.json",
+      ".ai/decisions/WI-485-wi484-doc-promotion.recovery.ab17c8b65da6faa064d39019801abb9796a7d8d4ec9262d9bde4f2b914c5b584.json",
+      ".ai/decisions/WI-486-wi485-parity-registration.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "tests/ci/governance_integrity_gate.py"
+    ],
+    "reason": "WI-486 restored the missing tri-language parity registration in reviewed PR #459, merged as 0d76cefd, and closed with exact cleanup; WI-485 predecessor bytes remain immutable and are superseded by that successor.",
+    "resumeCondition": "None; predecessor recovery boundary superseded after successor closure."
+  },
+  "timestamp": "2026-09-01T21:03:00Z",
+  "workItemId": "WI-485-wi484-doc-promotion"
+}
