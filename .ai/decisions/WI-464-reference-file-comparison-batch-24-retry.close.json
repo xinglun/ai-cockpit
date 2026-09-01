@@ -1,0 +1,207 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f414891a3795e261869d2b242a2110eb0135719ce5856d3717a6602986e442f3",
+      "workItemId": "WI-464-reference-file-comparison-batch-24-retry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-464-reference-file-comparison-batch-24.recovery.bdf111e39b5c8cabc29c155240f48c5bdd67d1b6628eb3a0aa6d37b31095b102.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-464-reference-file-comparison-batch-24.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-464-reference-file-comparison-batch-24.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-464-reference-file-comparison-batch-24.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-01T02:18:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "Retry the bounded source-to-target file-level semantic comparison with a real reviewed provider context, without copying source implementation or changing the comparison scope."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-464-reference-file-comparison-batch-24-retry"
+  },
+  "finalReportDigest": "sha256:d965ea86e1e425ae560ee22626d2963b3c8da35b7fc989ba164a2e33cbe81248",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:64c9ffc2a2cb97c3a81ff762ba0f14bb5741cff18b8bc561c394d2c960a032b1",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-464-reference-file-comparison-batch-24-retry.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-01T02:18:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-464-reference-file-comparison-batch-24-retry.verification.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md",
+      ".ai/glossary.md"
+    ],
+    "reason": "Reviewed PR #434 passed hosted checks and the merged branch/worktree cleanup is verified.",
+    "resumeCondition": "Continue the next bounded reference comparison only from synchronized main."
+  },
+  "timestamp": "2026-09-01T02:16:18Z",
+  "workItemId": "WI-464-reference-file-comparison-batch-24-retry"
+}

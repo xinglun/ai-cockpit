@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fc2f948913b01d2a03c264fdd33c14ee25cb5c41",
+    "name": "codex/wi-464-reference-file-comparison-batch-24-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:fce5798471ccfe1feafe807c15529d1a14462941aee713c54297192073f33afe",
+  "operationId": "github-pr-434-merge-cleanup-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "86b4dbbbaf5de34728eb4c8580ad08d874e8aa19",
+    "headRevision": "fc2f948913b01d2a03c264fdd33c14ee25cb5c41",
+    "mergeCommit": "bae796b8546af53e87c1f59c050b25f9bf99eb83",
+    "number": 434,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/434"
+  },
+  "reason": "PR #434 passed hosted checks and was merged; the exact feature branch and worktree were removed and verified.",
+  "receiptId": "github-pr-434-finalization-20260901",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-464-reference-file-comparison-batch-24-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/434",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-464-reference-file-comparison-batch-24"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T02:16:00Z",
+  "workItemId": "WI-464-reference-file-comparison-batch-24-retry",
+  "worktree": {
+    "branch": "codex/wi-464-reference-file-comparison-batch-24-retry",
+    "headRevision": "fc2f948913b01d2a03c264fdd33c14ee25cb5c41",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-464-reference-file-comparison-batch-24",
+    "worktreeId": "WI-464-reference-file-comparison-batch-24-retry"
+  }
+}
