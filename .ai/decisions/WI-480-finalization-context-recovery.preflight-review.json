@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:79178bdad03acab21139e35095fec77aa201d1ae324bff08208ef9f9c6f12553",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "Human confirms this bounded high-risk Runtime guard scope for implementation; missing verification evidence remains a preflight unknown and must be collected before finish.",
+  "recordedAt": "2026-09-02T00:20:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0366bf0b2a73eb86b0673d02531d2f3115c3400a6b3fdad0b2b911c3406558eb",
+  "schemaVersion": 1,
+  "workItemId": "WI-480-finalization-context-recovery"
+}

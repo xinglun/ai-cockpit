@@ -29,6 +29,13 @@ AI Cockpit 对一个有界变更使用一个 Work Item、一个专用分支/work
 5. 只修改声明范围，用同一个 `--repo` 和显式 argv 记录验证，然后运行 `finish` 与 `archive`。
 6. 推送精确分支，创建一个经过评审的 PR，等待必需的托管检查。不能用本地合并到 `main` 替代评审。
 
+### Finalization 上下文必须明确
+
+`start` 写入的 `resourceContext` 在显式运行
+`work-item finalize-plan` 绑定已评审的 PR、provider、base、分支和 worktree
+之前都属于临时上下文。`pending` 和 `pending:<stable-reference>` 都是临时哨兵，
+不能授权 `finish` 或 `archive`。必须先用真实的已评审资源运行 `finalize-plan`，再执行终态步骤。
+
 ## 仓库级串行边界
 
 Runtime 在写入新 Contract 前会检查所有 linked worktree。其他非 detached worktree 中的 active Contract/Summary，或不完整的记录对，都会阻止新 Work Item。Replacement 不会暗中终止 predecessor；应使用显式 recovery/supersede decision 并保留 predecessor bytes。

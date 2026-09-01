@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b4f696f61b46670ab14dd8ded625f546fb2f7cba797200f1690c04fe2179c905",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Human confirms the finalization-bound Runtime guard scope; verification evidence must still be collected before finish.",
+  "recordedAt": "2026-09-02T00:30:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ab713f0f59a703261b5e16730fdfc7533b185f93b615d8c5ebe8dd96dab1720e",
+  "schemaVersion": 1,
+  "workItemId": "WI-480-finalization-context-recovery"
+}

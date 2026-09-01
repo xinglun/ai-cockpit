@@ -1034,7 +1034,7 @@ impl ResourceFinalizationContext {
             self.pull_request.as_str(),
         ]
         .iter()
-        .any(|value| *value == "unknown" || value.starts_with("pending:"))
+        .any(|value| *value == "unknown" || *value == "pending" || value.starts_with("pending:"))
     }
 }
 

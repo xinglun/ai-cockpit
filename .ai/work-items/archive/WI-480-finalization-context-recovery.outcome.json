@@ -1,0 +1,154 @@
+{
+  "acceptanceResults": [
+    "Bare pending provider context is classified as provisional and cannot pass finish or archive.",
+    "Regression tests prove the active Contract remains recoverable and no archive is written when the bare pending sentinel is present.",
+    "Existing explicit pending:<stable-reference> behavior remains unchanged.",
+    "No immutable WI-479 Contract, Summary, Outcome, Events, or recovery decision bytes are rewritten.",
+    "Three-language workflow documentation states that provisional context requires an explicit finalize-plan before finish/archive.",
+    "The Work Item record and reference-parity projection are registered in all three languages without claiming unimplemented release behavior.",
+    "Targeted and workspace tests pass with no new warnings.",
+    "Runtime changes remain repository-local and request-scoped; no global Agent or MCP configuration is modified."
+  ],
+  "createdAt": "2026-09-01T16:36:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:de7d0abc468ecdcd819266099e3b69ca31d923eeddeffd468431514e7d067215",
+  "evidenceRefs": [
+    ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ab713f0f59a703261b5e16730fdfc7533b185f93b615d8c5ebe8dd96dab1720e",
+      "workItemId": "WI-480-finalization-context-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-479-wi478-doc-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-480-finalization-context-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-480-finalization-context-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Classify the exact pending sentinel as provisional, reject it at finish/archive, and document the explicit finalize-plan boundary without rewriting immutable predecessor evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-480-finalization-context-recovery"
+  },
+  "taskReportDigest": "sha256:10aab3bd6407163138a83997cca0f4a227631a94e02f05ff92b6d336cf2e3273",
+  "taskReportMarkdownDigest": "sha256:4c12127ef984bd02d3a48a71d9ef6dc978243f562e943289238bd3db0b3bbb0f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-480-finalization-context-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-480-finalization-context-recovery"
+}

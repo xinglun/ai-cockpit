@@ -49,6 +49,7 @@ capabilityClaims:
 | Work Item 生命周期和治理决定 | 部分实现 | 核心生命周期和 human decision record 已存在；参考源更广的 status、cost、recovery projection 尚未统一为一个 adopter 接口。 |
 | 参考源专属的跨 Work Item 聚合、Dependabot 接入和过时资产 registry | 外部边界 | 源聚合报告、bot 分支接入和面向当前内容的删除扫描属于源/provider 工具。Rust 保留每个 Work Item 的 archive/Outcome 权威、通用 delegated evidence 和精确审查清理，不提供这些命令，也不把其文件当作 Runtime authority。 |
 | 资源收尾与准确的 branch/worktree 关闭 | 已实现 | Runtime 提供 `finalize-plan`、`finalize`、`finalize-verify`；严格 typed receipt 绑定 repository、Work Item、Contract、PR、branch、worktree 和 Runtime identity。缺失/unknown 清理会 fail-closed，Runtime 升级后的归档证据明确作为历史事实投影。 |
+| 临时 resource context 哨兵 | 已实现（WI-480） | 精确的 `pending` 和 `pending:<stable-reference>` 都是临时上下文；finish/archive 必须先用已评审资源显式运行 `finalize-plan`。 |
 | Task Outcome 与 Human Benefit 报告 | 部分实现 | WI-136 增加 Rust-native 严格报告投影、追加事件流、archive 绑定和 close final report；完整 recovery/event 重建仍不在本边界。证据：`.ai/evidence/WI-136-task-outcome-report.verification.json`。 |
 | 归档 Outcome 路径投影 | 已实现 | WI-148 在绑定 manifest 前将新归档生成的报告引用和 `changedPaths` 从 active 投影到 archive；历史 archive bytes 保持不可变。 |
 | Contract preflight 人工确认门 | 已实现 | 不完整的 scaffold Contract 返回带显式 `reviewState` 的 yellow，持久化 repository/Contract/snapshot 绑定，未经人工确认不能越过 checkpoint。 |
@@ -416,7 +417,8 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-476——WI-475 终态文档提升 | 已实现 | [Work Item](../work-items/WI-476-wi475-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-476-wi475-doc-promotion.contract.json`; verification `.ai/evidence/WI-476-wi475-doc-promotion.verification.json`; finalization `.ai/decisions/WI-476-wi475-doc-promotion.finalize.json`; close `.ai/decisions/WI-476-wi475-doc-promotion.close.json`. |
 | WI-477——发布 v0.2.56 与公开 adopter 验收 | 已实现（已被后继 WI-478 取代） | [Work Item](../work-items/WI-477-release-v0-2-56.zh-CN.md); 不可变归档 Contract `.ai/work-items/archive/WI-477-release-v0-2-56.contract.json`、verification `.ai/evidence/WI-477-release-v0-2-56.verification.json`、recovery `.ai/decisions/WI-477-release-v0-2-56.recovery.json` 与取代性 close `.ai/decisions/WI-477-release-v0-2-56.close.json` 均已记录。v0.2.56 tag 保留为失败发布历史；修正后的 v0.2.57 发布顺序与公开验收由 WI-478 负责。 |
 | WI-478——发布 v0.2.57 与公开 adopter 验收 | 已实现 | [Work Item](../work-items/WI-478-release-v0-2-57.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-478-release-v0-2-57.contract.json`; verification `.ai/evidence/WI-478-release-v0-2-57.verification.json`; finalization `.ai/decisions/WI-478-release-v0-2-57.finalize.json`; close `.ai/decisions/WI-478-release-v0-2-57.close.json`. |
-| WI-479——WI-478 终态文档 promotion | 进行中 | [Work Item](../work-items/WI-479-wi478-doc-promotion.zh-CN.md); verification `.ai/evidence/WI-479-wi478-doc-promotion.verification.json`; 本文档 promotion Work Item 的 pre-archive 登记；终态 archive/finalization/close 链接在 verified close 后晋级。 |
+| WI-479——WI-478 终态文档 promotion | 已恢复 | [Work Item](../work-items/WI-479-wi478-doc-promotion.zh-CN.md); verification `.ai/evidence/WI-479-wi478-doc-promotion.verification.json`; 不可变 recovery `.ai/decisions/WI-479-wi478-doc-promotion.recovery.json` 绑定 successor，并在不改写 predecessor 的前提下保留归档记录。 |
+| WI-480——finalization 上下文恢复门禁 | 进行中 | [Work Item](../work-items/WI-480-finalization-context-recovery.zh-CN.md); verification `.ai/evidence/WI-480-finalization-context-recovery.verification.json`; Runtime 门禁已归档，等待评审 PR merge、finalize-verify 与 close。 |
 
 ## 当前边界
 
