@@ -578,6 +578,151 @@ def planned_changes(repository: Path, evidence: TerminalEvidence) -> dict[Path, 
     return changes
 
 
+def bounded_documentation_projection(repository: Path, work_item_id: str) -> bool:
+    """Return whether a closed Work Item is a bounded self-projection task.
+
+    Documentation promotion is intentionally a terminal projection boundary:
+    its own planning pages are registered before close, so rewriting them after
+    close would create an unbounded chain of documentation-only successors.
+    The exception is deliberately narrow and derived from the immutable
+    archived Contract scope; arbitrary documentation-only Work Items do not
+    qualify.  Terminal evidence is still validated by the caller.
+    """
+    contract_path = repository / ".ai/work-items/archive" / f"{work_item_id}.contract.json"
+    try:
+        contract = read_json(contract_path)
+    except PromotionError:
+        return False
+    scope = contract.get("scope")
+    if not isinstance(scope, list) or not scope:
+        return False
+    paths = [item for item in scope if isinstance(item, str)]
+    if len(paths) != len(scope) or any(
+        not item
+        or item.startswith(("/", "\\"))
+        or ".." in Path(item).parts
+        or "*" in item
+        for item in paths
+    ):
+        return False
+    parity_paths = {
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+    }
+    own_documents = {
+        f"docs/work-items/{work_item_id}.md",
+        f"docs/work-items/{work_item_id}.zh-CN.md",
+        f"docs/work-items/{work_item_id}.ja.md",
+    }
+    if not parity_paths.issubset(paths) or not own_documents.issubset(paths):
+        return False
+    for item in paths:
+        if item in parity_paths:
+            continue
+        if not item.startswith("docs/work-items/") or not item.endswith((".md", ".zh-CN.md", ".ja.md")):
+            return False
+    return True
+
+
+def self_projection_pending(
+    repository: Path,
+    work_item_id: str,
+    changes: dict[Path, str],
+    stale: list[Path],
+) -> bool:
+    """Validate the exact pre-archive shape of a self-projection task.
+
+    Only the current Work Item's three pages and three parity rows may remain
+    conditional.  Their bodies/rows must otherwise equal the deterministic
+    promoted form, preventing this exception from hiding arbitrary drift.
+    """
+    if not bounded_documentation_projection(repository, work_item_id):
+        return False
+    allowed = {
+        repository / f"docs/work-items/{work_item_id}{suffix}.md"
+        for suffix in ("", ".zh-CN", ".ja")
+    }
+    allowed.update(
+        repository / f"docs/reference/reference-parity{suffix}.md"
+        for suffix in ("", ".zh-CN", ".ja")
+    )
+    if not stale or any(path not in allowed for path in stale):
+        return False
+
+    for path in stale:
+        current = path.read_text(encoding="utf-8")
+        expected = changes[path]
+        if path.parent.name == "work-items":
+            if not current.startswith("---\n") or "\n---\n" not in current[4:]:
+                return False
+            end = current.find("\n---\n", 4)
+            current_frontmatter = current[4:end].splitlines()
+            expected_end = expected.find("\n---\n", 4)
+            expected_frontmatter = expected[4:expected_end].splitlines()
+            current_values: dict[str, list[str]] = {}
+            expected_values: dict[str, list[str]] = {}
+            for line in current_frontmatter:
+                key = line.split(":", 1)[0] if ":" in line else ""
+                current_values.setdefault(key, []).append(line)
+            for line in expected_frontmatter:
+                key = line.split(":", 1)[0] if ":" in line else ""
+                expected_values.setdefault(key, []).append(line)
+            if current_values.get("status") != ["status: in_progress"]:
+                return False
+            if current_values.get("lastVerifiedBy") != [f"lastVerifiedBy: {work_item_id}"]:
+                return False
+            if any(current_values.get(field) for field in TERMINAL_FIELDS):
+                return False
+            for key in set(current_values) | set(expected_values):
+                if key in {"status", "lastVerifiedBy", *TERMINAL_FIELDS}:
+                    continue
+                if current_values.get(key) != expected_values.get(key):
+                    return False
+            if current[end:] != expected[expected_end:]:
+                return False
+        else:
+            current_lines = current.splitlines(keepends=True)
+            expected_lines = expected.splitlines(keepends=True)
+            short_id = "-".join(work_item_id.split("-", 2)[:2])
+            row_pattern = re.compile(rf"^\|\s*{re.escape(short_id)}(?=\s|—|\|)", re.IGNORECASE)
+            indexes = [index for index, line in enumerate(current_lines) if row_pattern.match(line)]
+            if len(indexes) != 1 or len(expected_lines) != len(current_lines):
+                return False
+            index = indexes[0]
+            cells = [cell.strip() for cell in current_lines[index].rstrip("\n").split("|")[1:-1]]
+            if len(cells) < 3:
+                return False
+            suffix = (
+                ".zh-CN"
+                if path.name.endswith(".zh-CN.md")
+                else (".ja" if path.name.endswith(".ja.md") else "")
+            )
+            required_references = (
+                f"[Work Item](../work-items/{work_item_id}{suffix}.md)",
+                f"archive `.ai/work-items/archive/{work_item_id}.contract.json`",
+                f"verification `.ai/evidence/{work_item_id}.verification.json`",
+                f"finalization `.ai/decisions/{work_item_id}.finalize.json`",
+                f"close `.ai/decisions/{work_item_id}.close.json`",
+            )
+            if any(reference not in current_lines[index] for reference in required_references):
+                return False
+            expected_status = (
+                "进行中 → 验证关闭后已实现"
+                if path.name.endswith(".zh-CN.md")
+                else (
+                    "In progress → verified close 後 Implemented"
+                    if path.name.endswith(".ja.md")
+                    else "In progress → Implemented after verified close"
+                )
+            )
+            if cells[1] != expected_status:
+                return False
+            if current_lines[:index] != expected_lines[:index] or current_lines[index + 1 :] != expected_lines[index + 1 :]:
+                return False
+    return True
+
+
 def write_all(changes: dict[Path, str]) -> None:
     pending: list[tuple[Path, Path]] = []
     try:
@@ -604,6 +749,19 @@ def promote(repository: Path, work_item_id: str, *, check: bool) -> dict[str, An
     evidence = validate_terminal_evidence(repository, work_item_id)
     changes = planned_changes(repository, evidence)
     stale = [path for path, expected in changes.items() if path.read_text(encoding="utf-8") != expected]
+    if check and stale and self_projection_pending(repository, work_item_id, changes, stale):
+        return {
+            "changedPaths": [path.relative_to(repository).as_posix() for path in stale],
+            "mode": "check",
+            "state": "self_terminal",
+            "terminalEvidence": {
+                "archive": evidence.archive_path,
+                "close": evidence.close_path,
+                "finalization": evidence.finalization_path,
+                "verification": evidence.evidence_path,
+            },
+            "workItemId": work_item_id,
+        }
     if check and stale:
         paths = ", ".join(path.relative_to(repository).as_posix() for path in stale)
         raise PromotionError(f"{work_item_id}: promotion required for {paths}")

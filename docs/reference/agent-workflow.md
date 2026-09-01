@@ -339,6 +339,14 @@ truth. Invalid input fails before writes; a stale projection fails the quality
 gate. This is an explicit repository workflow helper, not an automatic Runtime
 Core Markdown mutation.
 
+There is one bounded terminal exception. A documentation-promotion Work Item
+whose archived Contract has an exact docs-only scope containing its own
+tri-language pages and all three parity ledgers is the projection boundary
+itself. Its conditional pre-archive row remains intentional after close;
+`--check-all` validates the terminal evidence but does not create a recursive
+successor to rewrite the same Work Item. Any mixed, wildcard, or malformed
+scope remains subject to normal fail-closed promotion.
+
 ## Release-tag transition ordering
 
 The release tag is created only after the PR has merged and a valid pre-merge

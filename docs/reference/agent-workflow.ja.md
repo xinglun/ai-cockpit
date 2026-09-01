@@ -268,6 +268,13 @@ input は write 前に fail closed となり、stale projection は quality gate
 これは explicit repository workflow helper であり、Runtime Core による自動 Markdown
 mutation ではありません。
 
+有界な terminal exception があります。documentation-promotion Work Item の archived
+Contract が、自身の三言語ページと三つの parity ledger を含む正確な docs-only scope を
+持つ場合、その Work Item 自体が projection boundary です。close 後も pre-archive の
+conditional row は意図的に残り、`--check-all` は terminal evidence を検証しますが、
+同じ Work Item を書き換えるための再帰的 successor は作成しません。混在、wildcard、または
+不正な scope は通常どおり fail closed です。
+
 ## Release tag の transition 順序
 
 PR の merge と有効な pre-merge finalization receipt の commit が完了してから Release

@@ -110,6 +110,50 @@ def valid_contract(path: Path, work_item_id: str, repository_id: str) -> bool:
     )
 
 
+def bounded_documentation_projection(repository: Path, work_item_id: str) -> bool:
+    """Recognize the narrow self-projection boundary used by doc promotions.
+
+    A documentation-promotion Work Item registers its own tri-language pages
+    and parity ledgers before close.  Requiring those same pages to be rewritten
+    after close would create an infinite chain.  Only an exact docs-only scope
+    with the three own pages and three parity ledgers receives this bounded
+    projection treatment; mixed or wildcard scopes remain fail-closed.
+    """
+    contract = load_regular_json(
+        repository / ".ai/work-items/archive" / f"{work_item_id}.contract.json"
+    )
+    if not contract:
+        return False
+    scope = contract.get("scope")
+    if not isinstance(scope, list) or not scope or any(not isinstance(item, str) for item in scope):
+        return False
+    if any(
+        not item
+        or item.startswith(("/", "\\"))
+        or ".." in Path(item).parts
+        or "*" in item
+        for item in scope
+    ):
+        return False
+    parity_paths = {
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+    }
+    own_documents = {
+        f"docs/work-items/{work_item_id}.md",
+        f"docs/work-items/{work_item_id}.zh-CN.md",
+        f"docs/work-items/{work_item_id}.ja.md",
+    }
+    if not parity_paths.issubset(scope) or not own_documents.issubset(scope):
+        return False
+    return all(
+        item in parity_paths
+        or (item.startswith("docs/work-items/") and item.endswith(".md"))
+        for item in scope
+    )
+
+
 def valid_close(path: Path, work_item_id: str, repository_id: str) -> bool:
     value = load_regular_json(path)
     return bool(
@@ -246,6 +290,11 @@ def check(repository: Path) -> list[str]:
 
         parity = rows.get(short, [])
         if "conditional" in parity:
+            if bounded_documentation_projection(repository, work_item_id):
+                # The current documentation-promotion Work Item is itself the
+                # bounded projection boundary; its pre-archive conditional
+                # row is intentional and must not spawn another successor.
+                continue
             errors.append(
                 f"{english.relative_to(repository)}: terminal Work Item retains conditional parity status"
             )

@@ -145,6 +145,30 @@ if python3 "$checker" --repo "$fixture" >"$tmp/conditional.out" 2>"$tmp/conditio
 fi
 grep -Fq 'terminal Work Item retains conditional parity status' "$tmp/conditional.err"
 
+# A bounded documentation-promotion Contract is the one intentional terminal
+# exception: its own conditional row remains a pre-archive projection after
+# close and must not create a recursive successor.
+python3 - "$fixture" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-status-drift-fixture"
+path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(path.read_text(encoding="utf-8"))
+contract["scope"] = [
+    f"docs/work-items/{work_item}.md",
+    f"docs/work-items/{work_item}.zh-CN.md",
+    f"docs/work-items/{work_item}.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+path.write_text(json.dumps(contract) + "\n", encoding="utf-8")
+PY
+python3 "$checker" --repo "$fixture"
+
 for parity_document in \
   "$fixture/docs/reference/reference-parity.md" \
   "$fixture/docs/reference/reference-parity.ja.md"; do
