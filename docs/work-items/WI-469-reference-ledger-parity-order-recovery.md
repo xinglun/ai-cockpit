@@ -8,9 +8,13 @@ audience:
   - adopter
 workItemId: WI-469-reference-ledger-parity-order-recovery
 predecessorWorkItemId: WI-468-reference-ledger-parity-promotion
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-469-reference-ledger-parity-order-recovery
+terminalArchive: .ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.contract.json
+terminalVerification: .ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-469-reference-ledger-parity-order-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-469-reference-ledger-parity-order-recovery.close.json
 ---
 
 # WI-469 — reference ledger parity order recovery
