@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "authorized user instruction to merge and clean the reviewed PR",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "9b1a73541d466c6117d7cd4756dc40637b59a0fb",
+    "name": "codex/wi-491-release-v0-2-58",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d54fdd6bf2c15994cc8585ff767cbf168b081b1837bde748a163469c6d7b8736",
+  "operationId": "WI-491-release-v0-2-58-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "cb3fc6fe5ec37124699c27f3624e5dcfcc654298",
+    "headRevision": "9b1a73541d466c6117d7cd4756dc40637b59a0fb",
+    "mergeCommit": "9bb0d012868aba101e15221f513ff7a8d51fdc9f",
+    "number": 464,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/464"
+  },
+  "reason": "PR #464 passed all hosted checks, was merged as 9bb0d012868aba101e15221f513ff7a8d51fdc9f, and the exact feature branch and worktree were removed after cleanup verification.",
+  "receiptId": "ai-cockpit-WI-491-release-v0-2-58-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-491-release-v0-2-58",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/464",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-491-release-v0-2-58"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T23:40:41Z",
+  "workItemId": "WI-491-release-v0-2-58",
+  "worktree": {
+    "branch": "codex/wi-491-release-v0-2-58",
+    "headRevision": "9b1a73541d466c6117d7cd4756dc40637b59a0fb",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-491-release-v0-2-58",
+    "worktreeId": "WI-491-release-v0-2-58"
+  }
+}
