@@ -4,7 +4,7 @@ title: "WI-486 — WI-485 parity 登録 recovery"
 description: "WI-485 に不足していた三言語 parity 投影を登録します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-486-wi485-parity-registration
-status: 進行中
+status: in_progress
 authority: human-authorized
 lastVerifiedBy: WI-486-wi485-parity-registration
 ---

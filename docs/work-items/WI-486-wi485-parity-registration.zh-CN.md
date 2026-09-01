@@ -4,7 +4,7 @@ title: "WI-486——WI-485 parity 登记恢复"
 description: "登记 WI-485 缺失的三语 parity 投影。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-486-wi485-parity-registration
-status: 进行中
+status: in_progress
 authority: human-authorized
 lastVerifiedBy: WI-486-wi485-parity-registration
 ---
