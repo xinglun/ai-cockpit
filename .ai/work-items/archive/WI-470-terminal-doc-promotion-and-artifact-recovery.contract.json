@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "The missing WI-468 task-report files are restored byte-for-byte from the recorded archive source and the existing manifest validates.",
+    "All WI-469 terminal Work Item and reference-parity projections are promoted consistently in English, Chinese, and Japanese.",
+    "promote_closed_work_item.py --check-all and the documented conformance gates pass with no predecessor archive, evidence, or recovery bytes rewritten.",
+    "Recovered WI-467 and WI-468 parity rows bind their supersede and close receipts in all three language ledgers."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d2e7bd1c6487c95ced82f0f0570101c8702ada07",
+  "createdAt": "2026-09-01T06:18:01Z",
+  "goal": "Prove post-close documentation checks and archive manifest integrity pass without rewriting immutable predecessor bytes.",
+  "intent": "Restore missing manifest-referenced historical artifacts and promote the closed WI-469 terminal documentation projections.",
+  "mode": "code",
+  "outOfScope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "Runtime/Core source",
+    "object repositories",
+    "release/adopter scripts",
+    "global Agent/MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:2cd637765a96a279f222a4e1112dd36601cfda8177e0284b6bc1af3bc162a9f7",
+  "predecessorWorkItemId": "WI-469-reference-ledger-parity-order-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-469-reference-ledger-parity-order-recovery.recovery.53d8d1028ea06a759c858975490dd6de67e59d9c39625cd46df65b7cff3fe122.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a6241aa85c4f691b0e804fe9f2bb52ee00875117aae0e5fec978628de52c784",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-470-terminal-doc-promotion-and-artifact-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/440",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-470-terminal-doc-promotion-and-artifact-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-469-reference-ledger-parity-order-recovery.md",
+    "docs/work-items/WI-469-reference-ledger-parity-order-recovery.zh-CN.md",
+    "docs/work-items/WI-469-reference-ledger-parity-order-recovery.ja.md",
+    "docs/work-items/WI-470-terminal-doc-promotion-and-artifact-recovery.md",
+    "docs/work-items/WI-470-terminal-doc-promotion-and-artifact-recovery.zh-CN.md",
+    "docs/work-items/WI-470-terminal-doc-promotion-and-artifact-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.task-report.json",
+    ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.task-report.md",
+    ".ai/work-items/archive/WI-467-reference-ledger-projection.task-report.json",
+    ".ai/work-items/archive/WI-467-reference-ledger-projection.task-report.md",
+    ".ai/decisions/WI-467-reference-ledger-projection.close.json",
+    ".ai/decisions/WI-467-reference-ledger-projection.recovery.311aa3f51146cb3920dabb599dbf86d4e1d31cdc7a91e3e3ab165ed6943e70b8.json",
+    ".ai/decisions/WI-468-reference-ledger-parity-promotion.close.json",
+    ".ai/decisions/WI-468-reference-ledger-parity-promotion.recovery.fd46942a5d7272a513f04705d2aa0198d394a441f6a1d9ccb72130d9d9a39179.json",
+    ".ai/decisions/WI-469-reference-ledger-parity-order-recovery.recovery.53d8d1028ea06a759c858975490dd6de67e59d9c39625cd46df65b7cff3fe122.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+}

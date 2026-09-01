@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "decidedAt": "2026-09-01T06:14:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.archive.json",
+    ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.contract.json",
+    ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json",
+    ".ai/decisions/WI-469-reference-ledger-parity-order-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "predecessorContractDigest": "sha256:773490ba50c4ebc2b43d6899eea637125cc1501595bae4c12a8ae32032b16e1f",
+  "predecessorEventsDigest": "sha256:2b57d0fc25a68fe2b483727e8de0c38c261e38856d47bfa8b60748d0f1275595",
+  "predecessorOutcomeDigest": "sha256:dab08cc2a7fffe0be08d7d1019a61e1a51d71925e433da668c26aa3e477f1109",
+  "predecessorSummaryDigest": "sha256:bebf97b97b0e2cde0900151d60eacaca92badb90ff8727d0023b43088e1b9449",
+  "predecessorWorkItemId": "WI-468-reference-ledger-parity-promotion",
+  "reason": "WI-469 is closed with verified replacement evidence; supersede the immutable WI-468 predecessor without rewriting its historical bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue only on the closed WI-469 successor lineage; do not mutate WI-468 archive bytes.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-469-reference-ledger-parity-order-recovery",
+  "workItemId": "WI-468-reference-ledger-parity-promotion"
+}

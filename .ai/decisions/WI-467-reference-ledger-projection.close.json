@@ -1,0 +1,135 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fc2c53722529ed68b5bc007d557f7981022b88b716c1a804f0324bd6cc410636",
+      "workItemId": "WI-467-reference-ledger-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-467-reference-ledger-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-467-reference-ledger-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.archive.json",
+            ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json",
+            ".ai/decisions/WI-468-reference-ledger-parity-promotion.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorized-recovery at 2026-09-01T15:40:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-467-reference-ledger-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-467-reference-ledger-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "从机器台账生成唯一当前快照事实，修正三语比较页当前统计，保留历史快照不变，并让 CI 在统计不一致时 fail closed"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-467-reference-ledger-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-467-reference-ledger-projection"
+  },
+  "finalReportDigest": "sha256:d768234fd82b54ef821ec06d8126b99118da78d2b4b318adf57ccf6c7d39a744",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-recovery",
+    "decidedAt": "2026-09-01T15:40:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.archive.json",
+      ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json",
+      ".ai/decisions/WI-468-reference-ledger-parity-promotion.close.json"
+    ],
+    "policyRefs": [],
+    "reason": "WI-468 and its verified successor WI-469 are closed; close the immutable historical WI-467 through its recorded supersede recovery without rewriting predecessor bytes.",
+    "resumeCondition": "No resume; WI-469 is the terminal successor."
+  },
+  "timestamp": "2026-09-01T06:25:46Z",
+  "workItemId": "WI-467-reference-ledger-projection"
+}

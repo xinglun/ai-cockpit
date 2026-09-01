@@ -1,0 +1,157 @@
+{
+  "acceptanceResults": [
+    "The missing WI-468 task-report files are restored byte-for-byte from the recorded archive source and the existing manifest validates.",
+    "All WI-469 terminal Work Item and reference-parity projections are promoted consistently in English, Chinese, and Japanese.",
+    "promote_closed_work_item.py --check-all and the documented conformance gates pass with no predecessor archive, evidence, or recovery bytes rewritten.",
+    "Recovered WI-467 and WI-468 parity rows bind their supersede and close receipts in all three language ledgers."
+  ],
+  "createdAt": "2026-09-01T06:44:18Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8040c38dd9ec24f7a8ec3b922e723b9926d710f5fca48f3b57f06134f34eb20a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c42e62399edb7688b8eca0b7a173b53f7750d9733cc5402049fc34a2e972eec7",
+      "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-468-reference-ledger-parity-promotion.recovery.fd46942a5d7272a513f04705d2aa0198d394a441f6a1d9ccb72130d9d9a39179.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-469-reference-ledger-parity-order-recovery.recovery.53d8d1028ea06a759c858975490dd6de67e59d9c39625cd46df65b7cff3fe122.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove post-close documentation checks and archive manifest integrity pass without rewriting immutable predecessor bytes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+  },
+  "taskReportDigest": "sha256:6bd4ed60cfc04bca1adb6df65fb2d9a145d5831b2e536c084a2b5f4dea024c79",
+  "taskReportMarkdownDigest": "sha256:ea7a1d737598683341c8301accb83b6d64f9345affa0e22143defa7fee718981",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+}
