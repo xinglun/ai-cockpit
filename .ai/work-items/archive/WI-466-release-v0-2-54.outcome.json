@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-466-release-v0-2-54.summary.json"
+            ".ai/work-items/archive/WI-466-release-v0-2-54.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-466-release-v0-2-54.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-466-release-v0-2-54.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-466-release-v0-2-54.summary.json"
+            ".ai/work-items/archive/WI-466-release-v0-2-54.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-466-release-v0-2-54.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-466-release-v0-2-54.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-466-release-v0-2-54.contract.json"
+            ".ai/work-items/archive/WI-466-release-v0-2-54.contract.json"
           ],
           "inference": false,
           "text": "准备、发布并用公开 v0.2.54 二进制验收 AI Cockpit Runtime，然后恢复参考源逐文件主线。"
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-466-release-v0-2-54.contract.json"
+            ".ai/work-items/archive/WI-466-release-v0-2-54.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-466-release-v0-2-54"
   },
-  "taskReportDigest": "sha256:07765ff4aec9bae5e9e69ebbbe4cb4cabf524a3bd6c34dda70fa5149b0d221f6",
-  "taskReportMarkdownDigest": "sha256:86ba762158ec2c286d490cc18f8a0b90f7fc0f8b32b31e27fb1348746afdaa52",
+  "taskReportDigest": "sha256:e853132041d0a4c75ce09d045f87003bd6be809f8d4f297d69b7b7046b7a50ee",
+  "taskReportMarkdownDigest": "sha256:2da9a9c423ac14eca6be1eab2b2e4a126f3183957b75fa02925e50de994bb025",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

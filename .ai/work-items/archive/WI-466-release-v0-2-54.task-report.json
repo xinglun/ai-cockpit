@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-466-release-v0-2-54.summary.json"
+          ".ai/work-items/archive/WI-466-release-v0-2-54.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-466-release-v0-2-54.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-466-release-v0-2-54.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-466-release-v0-2-54.summary.json"
+          ".ai/work-items/archive/WI-466-release-v0-2-54.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-466-release-v0-2-54.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-466-release-v0-2-54.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-466-release-v0-2-54.contract.json"
+          ".ai/work-items/archive/WI-466-release-v0-2-54.contract.json"
         ],
         "inference": false,
         "text": "准备、发布并用公开 v0.2.54 二进制验收 AI Cockpit Runtime，然后恢复参考源逐文件主线。"
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-466-release-v0-2-54.contract.json"
+          ".ai/work-items/archive/WI-466-release-v0-2-54.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
