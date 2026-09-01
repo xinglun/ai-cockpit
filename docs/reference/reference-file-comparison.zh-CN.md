@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=259 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=443 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -190,11 +190,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 252 |
+| `implemented-different-by-design` | 259 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 62 |
-| `deferred-next-batch` | 450 |
+| `deferred-next-batch` | 443 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1105,3 +1105,31 @@ WI-421 在固定参考提交 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 上逐�
 mixed-stack 工具链支持，也不构成第二技术栈 adopter 验收。WI-421 后台账为 4,262 条
 `generated-history`、324 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、
 4 条 `not-applicable`、65 条 `reference-only` 与 463 条 `deferred-next-batch`；`migrate-gap` 仍为 0。
+
+## WI-475：Outcome、事件与质量门参考源比对
+
+WI-475 在维护中的本地参考源提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060` 上重新逐节阅读七个发生变化的路径。
+本次记录有界的语义决定；不把源 Python/Make/provider bytes 复制到 Rust 仓库。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/features/human-benefit-report.md` | implemented-different-by-design | Rust `OutcomeV2`/`humanHandoff`、Task Outcome 参考和 CLI/MCP 测试保留确定性人类投影、evidence 计数、归档归属和明确非声明。源 `ai-finish`/`check-ai-pr` 报告文件仍是 source/provider 表面。 |
+| `docs/features/human-benefit-report.zh-CN.md` | implemented-different-by-design | 中文读者路线通过本地化 Rust 参考保留相同的投影、计数、归档和非声明语义；不复制源报告命令或字节。 |
+| `docs/features/human-benefit-report.ja.md` | implemented-different-by-design | 日文读者路线通过本地化 Rust 参考保留相同的确定性投影和 evidence 边界；源报告命令和字节不属于目标 Contract。 |
+| `docs/maintainers/task-outcome-events.md` | implemented-different-by-design | 三语 Rust 事件参考、严格事件模型和回归覆盖追加式历史、修正/取代、fingerprint、关系、隐私和 provider evidence 边界。源 Python generator/validator/renderer 仅作为语义材料。 |
+| `docs/operations/quality-gates.md` | implemented-different-by-design | Rust Contract 感知 CI gate、governance-integrity 检查、审核过的 gate manifest、CI/release 表面和 runner 测试保留动态 profile、shadow 对照、证据归属、超时、性能样本和可追溯性。源 `make quality`、`Makefile.ai.stack` 与 Python runner bytes 仍是 adopter/provider 边界。 |
+| `docs/operations/quality-gates.zh-CN.md` | implemented-different-by-design | 中文 CI 参考和 gate manifest 通过显式 `--repo` 保留源质量层级、动态路由、分片/evidence、超时、性能和追踪语义；不向 adopter 安装源 Make/Python 配置。 |
+| `docs/operations/quality-gates.ja.md` | implemented-different-by-design | 日文 CI 参考和 gate manifest 通过显式 repository context 保留源质量层级、动态路由、分片/evidence、超时、性能和追踪语义；不复制源 Make/Python 配置。 |
+
+本次没有发现实现遗漏。目标有意将这些责任放在 `docs/features`/`docs/reference` 和
+typed Runtime/gate 表面，而不是新增源专属的 `docs/maintainers` 或 `docs/operations` 文件。
+所以同路径文件缺失是明确的布局边界，不是未审查遗漏。Contract intent 与 acceptance criteria
+保持 authored language；本地化只改变展示，不改变治理事实。
+
+共享 Runtime 只在 adopter 外部安装一份。每个 attach 的对象/采用方工程通过显式 `--repo`
+继承自己独立的 `.ai/`、Contract、evidence、knowledge 和 adapter context；不复制源 Python
+模块、Make target、报告文件或质量配置。WI-475 台账保留七个路径的
+`sourceChangedSincePrevious` 与此前分类，并移除其 deferred 状态。当前为 4,262 条
+`generated-history`、303 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、
+4 条 `not-applicable`、66 条 `reference-only`、483 条 `deferred-next-batch`；`migrate-gap` 仍为 0。

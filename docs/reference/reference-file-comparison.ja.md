@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=259 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=443 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -201,11 +201,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 252 |
+| `implemented-different-by-design` | 259 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 62 |
-| `deferred-next-batch` | 450 |
+| `deferred-next-batch` | 443 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1146,3 +1146,31 @@ control を継承し、repository identity と fact は明示的な `--repo` で
 toolchain support や second-technology adopter acceptance を主張しません。WI-421 後の ledger は 4,262
 `generated-history`、324 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、
 65 `reference-only`、463 `deferred-next-batch`、`migrate-gap` は 0 です。
+
+## WI-475 — Outcome、event、quality gate の reference 比較
+
+WI-475 は maintained local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` で変更された七つの path を section ごとに再読します。
+bounded な semantic decision を記録し、source Python/Make/provider bytes は Rust repository に copy しません。
+
+| Pinned reference path | Classification | Rust counterpart と bounded decision |
+| --- | --- | --- |
+| `docs/features/human-benefit-report.md` | implemented-different-by-design | Rust `OutcomeV2`/`humanHandoff`、Task Outcome reference、CLI/MCP test が deterministic human projection、evidence count、archive ownership、non-claim を保持します。source `ai-finish`/`check-ai-pr` report は source/provider surface です。 |
+| `docs/features/human-benefit-report.zh-CN.md` | implemented-different-by-design | Chinese reader route は localized Rust reference で同じ projection、count、archive、non-claim semantic を保持し、source report command/bytes は copy しません。 |
+| `docs/features/human-benefit-report.ja.md` | implemented-different-by-design | Japanese reader route は localized Rust reference で同じ deterministic projection と evidence boundary を保持します。source report command/bytes は target contract の外です。 |
+| `docs/maintainers/task-outcome-events.md` | implemented-different-by-design | Tri-language Rust event reference、strict event model、regression が append-only history、correction/supersession、fingerprint、relationship、privacy、provider-evidence boundary を cover します。source Python generator/validator/renderer は semantic material のみです。 |
+| `docs/operations/quality-gates.md` | implemented-different-by-design | Rust Contract-aware CI gate、governance-integrity check、reviewed gate manifest、CI/release surface、runner test が dynamic profile、shadow comparison、evidence ownership、timeout、performance sample、traceability を保持します。source `make quality`、`Makefile.ai.stack`、Python runner bytes は adopter/provider boundary です。 |
+| `docs/operations/quality-gates.zh-CN.md` | implemented-different-by-design | Chinese CI reference と gate manifest が explicit `--repo` で quality hierarchy、dynamic route、shard/evidence、timeout、performance、traceability を保持します。source Make/Python config は adopter に install しません。 |
+| `docs/operations/quality-gates.ja.md` | implemented-different-by-design | Japanese CI reference と gate manifest が explicit repository context で quality hierarchy、dynamic route、shard/evidence、timeout、performance、traceability を保持します。source Make/Python config は copy しません。 |
+
+この再読で implementation omission は見つかりませんでした。target は source-only path を
+`docs/maintainers`/`docs/operations` に追加せず、Rust-native `OutcomeV2`、repository-bound event record、
+Contract-aware gate surface を使います。同じ path の file がないことは明示的な layout boundary です。
+Contract intent と acceptance criteria は authored language を保ち、localization は presentation のみを変更します。
+
+shared Runtime は adopter の外部に一度だけ install します。各 attached object/adopter repository は
+explicit `--repo` で独立した `.ai/`、Contract、evidence、knowledge、adapter context を持ち、source Python module、
+Make target、report、quality config は受け取りません。WI-475 ledger は七つの path の source-change provenance と
+prior classification を保持し deferred を解消します。現在は 4,262 `generated-history`、303
+`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、66 `reference-only`、
+483 `deferred-next-batch`、`migrate-gap` は 0 です。

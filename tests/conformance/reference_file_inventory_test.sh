@@ -43,7 +43,7 @@ for current_capability_path in \
 done
 # WI-441 and WI-461 resolve changed source records in bounded batches; keep
 # this regression count tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 121
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 114
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -100,9 +100,26 @@ for wi464_path in "${wi464_paths[@]}"; do
 done
 test "$(jq '[.records[] | select(.batch == "WI-464-reference-file-comparison-batch-24")] | length' "$current_manifest")" -eq 4
 test "$(jq '[.records[] | select(.batch == "WI-464-reference-file-comparison-batch-24" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+wi475_paths=(
+  docs/features/human-benefit-report.md
+  docs/features/human-benefit-report.zh-CN.md
+  docs/features/human-benefit-report.ja.md
+  docs/maintainers/task-outcome-events.md
+  docs/operations/quality-gates.md
+  docs/operations/quality-gates.zh-CN.md
+  docs/operations/quality-gates.ja.md
+)
+for wi475_path in "${wi475_paths[@]}"; do
+  test "$(jq --arg path "$wi475_path" '[.records[] | select(.referencePath == $path and .batch == "WI-475-reference-file-comparison-batch-25" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-475-reference-file-comparison-batch-25")] | length' "$current_manifest")" -eq 7
+test "$(jq '[.records[] | select(.batch == "WI-475-reference-file-comparison-batch-25" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
 grep -q "WI-441 local-reference entrypoint and Agent parity" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-441：本地参考源入口与 Agent 语义对齐" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-441 local-reference entrypoint と Agent parity" "$root/docs/reference/reference-file-comparison.ja.md"
+grep -q "WI-475" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-475" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-475" "$root/docs/reference/reference-file-comparison.ja.md"
 test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0

@@ -31008,16 +31008,17 @@
     },
     {
       "referencePath": "docs/features/human-benefit-report.ja.md",
-      "batch": "WI-323-reference-documentation-foundation",
-      "classification": "deferred-next-batch",
+      "batch": "WI-475-reference-file-comparison-batch-25",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/human-benefit-report.ja.md",
+        "docs/features/task-outcome-report.ja.md",
         "docs/reference/outcome-report.ja.md",
         "docs/reference/task-outcome-events.ja.md",
         "crates/cockpit-cli/tests/outcome_handoff.rs",
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "source の deterministic な human projection、evidence count、archive ownership、non-claim 境界を Rust の OutcomeV2/humanHandoff、Task Outcome reference、CLI/MCP regression で表します。source の ai-finish/check-ai-pr report と Python/Make path は source/provider boundary であり、target file として copy しません。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-323-reference-documentation-foundation",
       "previousClassification": "implemented-different-by-design",
@@ -31025,16 +31026,17 @@
     },
     {
       "referencePath": "docs/features/human-benefit-report.md",
-      "batch": "WI-323-reference-documentation-foundation",
-      "classification": "deferred-next-batch",
+      "batch": "WI-475-reference-file-comparison-batch-25",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/human-benefit-report.md",
+        "docs/features/task-outcome-report.md",
         "docs/reference/outcome-report.md",
         "docs/reference/task-outcome-events.md",
         "crates/cockpit-cli/tests/outcome_handoff.rs",
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source report's deterministic human projection, evidence-count semantics, archive ownership, and explicit non-claims are represented by Rust OutcomeV2/humanHandoff, task-outcome references, and CLI/MCP regressions. Source ai-finish/check-ai-pr reports and Python/Make paths remain source/provider surfaces rather than copied target files.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-323-reference-documentation-foundation",
       "previousClassification": "implemented-different-by-design",
@@ -31042,16 +31044,17 @@
     },
     {
       "referencePath": "docs/features/human-benefit-report.zh-CN.md",
-      "batch": "WI-323-reference-documentation-foundation",
-      "classification": "deferred-next-batch",
+      "batch": "WI-475-reference-file-comparison-batch-25",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/human-benefit-report.zh-CN.md",
+        "docs/features/task-outcome-report.zh-CN.md",
         "docs/reference/outcome-report.zh-CN.md",
         "docs/reference/task-outcome-events.zh-CN.md",
         "crates/cockpit-cli/tests/outcome_handoff.rs",
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "中文页面保留 source 的确定性人类投影、evidence 计数语义、归档归属和非声明边界；Rust 通过 OutcomeV2/humanHandoff、Task Outcome 参考和 CLI/MCP 回归承载。源 ai-finish/check-ai-pr 报告及 Python/Make 路径是 source/provider 边界，不复制为目标文件。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-323-reference-documentation-foundation",
       "previousClassification": "implemented-different-by-design",
@@ -31598,16 +31601,18 @@
     },
     {
       "referencePath": "docs/maintainers/task-outcome-events.md",
-      "batch": "WI-325-reference-file-comparison-batch-05",
-      "classification": "deferred-next-batch",
+      "batch": "WI-475-reference-file-comparison-batch-25",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/task-outcome-events.md",
+        "docs/reference/task-outcome-events.zh-CN.md",
+        "docs/reference/task-outcome-events.ja.md",
         "docs/features/task-outcome-report.md",
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-repository/tests/task_outcome_events.rs",
         "crates/cockpit-cli/tests/outcome_handoff.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source append-only event, correction, fingerprint, relationship, privacy, and provider-evidence responsibilities are implemented by the strict Rust event stream and tri-language references. Source generator/validator/renderer scripts remain semantic material; no Python schema or Make target is copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-325-reference-file-comparison-batch-05",
       "previousClassification": "implemented-different-by-design",
@@ -31626,15 +31631,17 @@
     },
     {
       "referencePath": "docs/operations/quality-gates.ja.md",
-      "batch": "WI-326-reference-file-comparison-batch-06",
-      "classification": "deferred-next-batch",
+      "batch": "WI-475-reference-file-comparison-batch-25",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/ci-quality-gates.ja.md",
-        "docs/reference/quality-gate-manifest.ja.md",
+        "docs/reference/governance-integrity-gate.ja.md",
         "tests/ci/repository_gate_manifest.json",
-        "tests/ci/run_repository_gates.py"
+        "tests/ci/run_repository_gates.py",
+        ".github/workflows/ci.yml",
+        "docs/release/distribution.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "source の quality hierarchy、dynamic route、shadow 比較、shard ownership、timing/JUnit/coverage evidence、timeout、performance sample、traceability を Rust Contract gate、reviewed gate manifest、CI/release reference で表します。source の make quality、Makefile.ai.stack、Python runner bytes は adopter/provider boundary として copy しません。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-326-reference-file-comparison-batch-06",
       "previousClassification": "implemented-different-by-design",
@@ -31642,15 +31649,17 @@
     },
     {
       "referencePath": "docs/operations/quality-gates.md",
-      "batch": "WI-326-reference-file-comparison-batch-06",
-      "classification": "deferred-next-batch",
+      "batch": "WI-475-reference-file-comparison-batch-25",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/ci-quality-gates.md",
-        "docs/reference/quality-gate-manifest.md",
+        "docs/reference/governance-integrity-gate.md",
         "tests/ci/repository_gate_manifest.json",
-        "tests/ci/run_repository_gates.py"
+        "tests/ci/run_repository_gates.py",
+        ".github/workflows/ci.yml",
+        "docs/release/distribution.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source quality hierarchy, dynamic routing, shadow comparison, shard ownership, timing/JUnit/coverage evidence, timeout, performance-sample, and traceability responsibilities are represented by Rust Contract gates plus the reviewed gate manifest and CI/release surfaces. Source make quality, Makefile.ai.stack, and Python runner bytes remain adopter/provider boundaries and are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-326-reference-file-comparison-batch-06",
       "previousClassification": "implemented-different-by-design",
@@ -31658,15 +31667,17 @@
     },
     {
       "referencePath": "docs/operations/quality-gates.zh-CN.md",
-      "batch": "WI-326-reference-file-comparison-batch-06",
-      "classification": "deferred-next-batch",
+      "batch": "WI-475-reference-file-comparison-batch-25",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/ci-quality-gates.zh-CN.md",
-        "docs/reference/quality-gate-manifest.zh-CN.md",
+        "docs/reference/governance-integrity-gate.zh-CN.md",
         "tests/ci/repository_gate_manifest.json",
-        "tests/ci/run_repository_gates.py"
+        "tests/ci/run_repository_gates.py",
+        ".github/workflows/ci.yml",
+        "docs/release/distribution.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "中文责任由 Rust Contract gate、审核过的 gate manifest、CI/release 页面承载：保留 source 的质量层级、动态路由、shadow 对照、分片责任、计时/JUnit/coverage、超时、性能样本和可追溯性。源 make quality、Makefile.ai.stack 和 Python runner bytes 属于 adopter/provider 边界，不复制。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-326-reference-file-comparison-batch-06",
       "previousClassification": "implemented-different-by-design",

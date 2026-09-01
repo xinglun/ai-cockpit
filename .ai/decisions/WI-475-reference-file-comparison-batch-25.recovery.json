@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-recovery",
+  "decidedAt": "2026-09-01T11:22:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-475-reference-file-comparison-batch-25.outcome.json",
+    ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:a1fd5521110e4484e7f0effe9521c750d40b53a811fa0bbb881b30553ae20ef6",
+  "predecessorEventsDigest": "sha256:136914209a5e7613c0956999f8ab28af422f371c17ddac138d959033268b9951",
+  "predecessorOutcomeDigest": "sha256:d0e55d9c9ce81c80268e6ecad24c5e49ae1936251a8c6441f21907ccc24e8aeb",
+  "predecessorSummaryDigest": "sha256:863d7bbcb8d68d6080e2899f4a9b6f00d6c99481fd05dab7fbf2e3244a26644c",
+  "predecessorWorkItemId": "WI-475-reference-file-comparison-batch-25",
+  "reason": "Retry after the reviewed PR resource context and committed snapshot invalidated the provisional verification; preserve all prior evidence and require fresh preflight and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence matches the current Contract, repository snapshot, reviewed PR context, and Runtime identity.",
+  "runtimeDigest": "sha256:312471a9bc1bd58cc4d80f773e35a251f59caddebfa3108df0b5c23fa84ae438",
+  "runtimeVersion": "0.2.55",
+  "schemaVersion": 1,
+  "workItemId": "WI-475-reference-file-comparison-batch-25"
+}
