@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized recovery after the blocked finish projection",
+  "decidedAt": "2026-09-01T23:16:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-491-release-v0-2-58.verification.json",
+    ".ai/work-items/active/WI-491-release-v0-2-58.summary.json",
+    ".ai/work-items/active/WI-491-release-v0-2-58.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:c1195533e73bd49e90926c9613c2d87dedb524d35900179dae639479a166bd23",
+  "predecessorEventsDigest": "sha256:f076d60c244d5d7c1a29d29bfe85b2f3d6836e5816b211beffa636732148b015",
+  "predecessorOutcomeDigest": "sha256:0c6eb6b8221c52d012ae16f1249db1b217206eb88fa8d0543c195be49d957992",
+  "predecessorSummaryDigest": "sha256:3436c94834e284864f4d65ac3df6f6fcc4d599faac2af361f708af085d80e243",
+  "predecessorWorkItemId": "WI-491-release-v0-2-58",
+  "reason": "The first finish attempt recorded a blocked governance projection before the required high-risk scenario and intent-alignment summaries were supplied. Preserve that stopped Outcome and rerun fresh verification after the explicit controls projection.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the explicit controls projection, then retry finish.",
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "workItemId": "WI-491-release-v0-2-58"
+}

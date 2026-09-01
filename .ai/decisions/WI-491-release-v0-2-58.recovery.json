@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized recovery after finalize-plan invalidated the provisional verification",
+  "decidedAt": "2026-09-02T00:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-491-release-v0-2-58.verification.json",
+    ".ai/work-items/active/WI-491-release-v0-2-58.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:c1195533e73bd49e90926c9613c2d87dedb524d35900179dae639479a166bd23",
+  "predecessorSummaryDigest": "sha256:bcffbb15008df5195b2b300a75d5c5086bd3b1c0ba496eea5a7dfad3c4d2a05b",
+  "predecessorWorkItemId": "WI-491-release-v0-2-58",
+  "reason": "Finalize-plan bound the reviewed PR context after the provisional verification; preserve the predecessor evidence and rerun fresh preflight and verification against the finalized Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized resource context, then retry finish.",
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "workItemId": "WI-491-release-v0-2-58"
+}

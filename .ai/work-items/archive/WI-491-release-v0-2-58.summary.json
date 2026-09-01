@@ -1,0 +1,77 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-491-release-v0-2-58.contract.json",
+    ".ai/work-items/archive/WI-491-release-v0-2-58.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T22:52:30Z",
+  "checkpointContractDigest": "sha256:c1195533e73bd49e90926c9613c2d87dedb524d35900179dae639479a166bd23",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8d35352ad27144a33c93e9e675432f5f25b7b4f54a919b6b462eeb99c5b64b0c",
+  "createdAt": "2026-09-01T22:41:02Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release Work Item binds reviewed source, an immutable public artifact, isolated adopter acceptance, and installation without expanding into the next reference-source parity batch.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-01T23:19:15Z",
+  "preflightContractDigest": "sha256:c1195533e73bd49e90926c9613c2d87dedb524d35900179dae639479a166bd23",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8d35352ad27144a33c93e9e675432f5f25b7b4f54a919b6b462eeb99c5b64b0c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/release/action_runtime_policy.sh",
+        "tests/release/workflow_policy.sh",
+        "tests/release/source_archive_policy_test.sh",
+        "tests/release/annotated_tag_identity.sh"
+      ],
+      "expected": "The reviewed source commit, annotated tag, archives, checksums, SBOM, provenance, and release manifest are identity-bound.",
+      "required": true,
+      "scenario": "reviewed source commit produces the v0.2.58 public release",
+      "status": "verified",
+      "verificationPlan": "Run strict release policy and version consistency checks, merge the reviewed PR, push the annotated tag only after close, and inspect the public Release assets."
+    },
+    {
+      "evidence": [],
+      "reason": "The public v0.2.58 Release does not exist until the reviewed source is merged and tagged.",
+      "required": true,
+      "scenario": "public v0.2.58 binary governs a fresh isolated adopter",
+      "status": "not_applicable",
+      "verificationPlan": "Run adopter acceptance against the immutable v0.2.58 Release without a source or workspace binary fallback."
+    },
+    {
+      "evidence": [],
+      "reason": "N-1 acceptance is a post-release boundary and cannot run before publication.",
+      "required": true,
+      "scenario": "v0.2.58 upgrades an existing repository without cross-repository state",
+      "status": "not_applicable",
+      "verificationPlan": "Run N-1 acceptance with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME using the v0.2.57 and v0.2.58 public artifacts."
+    },
+    {
+      "evidence": [],
+      "reason": "Installation acceptance requires the public v0.2.58 artifact.",
+      "required": true,
+      "scenario": "installing the published binary on the Runtime repository remains healthy",
+      "status": "not_applicable",
+      "verificationPlan": "Install the public artifact, then run inspect, status, doctor, Agent doctor, and documentation promotion checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T23:19:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-491-release-v0-2-58"
+}
