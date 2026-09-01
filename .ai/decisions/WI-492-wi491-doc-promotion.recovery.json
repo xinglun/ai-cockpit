@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized documentation gate recovery",
+  "decidedAt": "2026-09-01T23:45:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-492-wi491-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-492-wi491-doc-promotion.summary.json",
+    ".ai/work-items/active/WI-492-wi491-doc-promotion.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:b8566448d620dacda0ef027f07b305e7ae3118dbf56c80b2686792c44cbd7f82",
+  "predecessorEventsDigest": "sha256:95eed0587e1cf7aabe2c677e11dadb06fea809873c03d1cad7ce9ce66bf81de7",
+  "predecessorOutcomeDigest": "sha256:2943725f08cd20b91e60cba9c1d9f2ee12dda6dad2a8146abf70d157217d5f62",
+  "predecessorSummaryDigest": "sha256:834f136064eec75af2db31938abbacf13a18f7be448965a20f71997fc9eb43ef",
+  "predecessorWorkItemId": "WI-492-wi491-doc-promotion",
+  "reason": "The first finish attempt correctly stopped after the Runtime detected a scope/evidence ordering mismatch; the Contract was restored with its explicit documentation scope, so revalidate the same bounded projection without rewriting the stopped evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the restored Contract scope, then finish, archive, and deliver the documentation projection through the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "workItemId": "WI-492-wi491-doc-promotion"
+}

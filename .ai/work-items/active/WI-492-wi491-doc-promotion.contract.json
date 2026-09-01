@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "Promote the closed WI-491 terminal evidence into all three reader-facing Work Item pages and all three reference-parity ledger pages.",
+    "Each promoted page binds the exact WI-491 archive, verification, finalization, and close receipts without rewriting immutable evidence.",
+    "The documentation promotion check passes with --check-all and the repository remains clean after the reviewed PR is merged and this Work Item is closed.",
+    "No source-code, Runtime behavior, reference inventory classification, or historical evidence bytes are changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "671eaf26f5f31af345501c4f5201c6ebab12780b",
+  "createdAt": "2026-09-01T23:42:08Z",
+  "goal": "Promote the closed WI-491 release evidence into the reader-facing documentation so v0.2.58 can be published with a complete terminal audit trail.",
+  "intent": "Complete the required post-close documentation projection for WI-491-release-v0-2-58 before publishing v0.2.58.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source or test behavior changes",
+    "Reference-source semantic comparison or inventory reclassification",
+    "Rewriting archived Contract, Summary, Outcome, verification, finalization, or close receipts",
+    "Publishing or installing v0.2.58"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:37bcfc42be31be83f75eb9f3ecb8394d7003118e7c1cdb7e20857925dccfcb99",
+  "requiredEvidenceClasses": ["documentation", "verification", "lifecycle"],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-492-wi491-doc-promotion",
+    "provider": "github",
+    "pullRequest": "pending:reviewed-doc-promotion",
+    "worktree": "/private/tmp/ai-cockpit-wi492-wi491-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-491-release-v0-2-58.md",
+    "docs/work-items/WI-491-release-v0-2-58.zh-CN.md",
+    "docs/work-items/WI-491-release-v0-2-58.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-491-release-v0-2-58.archive.json",
+    ".ai/evidence/WI-491-release-v0-2-58.verification.json",
+    ".ai/decisions/WI-491-release-v0-2-58.finalize.json",
+    ".ai/decisions/WI-491-release-v0-2-58.close.json",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-491-release-v0-2-58 --check",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "git diff --check"
+  ],
+  "workItemId": "WI-492-wi491-doc-promotion"
+}
