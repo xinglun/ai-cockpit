@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-473-wi472-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-473-wi472-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T08:53:25Z",
+  "checkpointContractDigest": "sha256:c0f3fe47acf4255bee7706eff06492dfd858389f2838ed40a2a3b2cf2fa60ddf",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:f7f8adf7d87ca43c8eb2be4d470ce18ed186af513a2c837f8dbdfed0f509cc8e",
+      "recorded": true,
+      "recordedAt": "2026-09-01T08:53:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3245c1a2a9c1ee6768e0e2a20778bc8ac99ca9bcb49cc2e25b601dd31c03f93c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-473-wi472-doc-promotion"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c0f3fe47acf4255bee7706eff06492dfd858389f2838ed40a2a3b2cf2fa60ddf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f7f8adf7d87ca43c8eb2be4d470ce18ed186af513a2c837f8dbdfed0f509cc8e",
+      "previousContractHash": "sha256:f7f8adf7d87ca43c8eb2be4d470ce18ed186af513a2c837f8dbdfed0f509cc8e",
+      "reason": "Expand the documentation projection boundary to register WI-471 recovery and WI-473 self-documentation required by the governance integrity gate; no Runtime or immutable evidence bytes change.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T09:09:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0a9f82e7ac065b5f1ca46f4b23fe3e94a4c8fd4e0a269774fea25422e1ecd42d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-473-wi472-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0a9f82e7ac065b5f1ca46f4b23fe3e94a4c8fd4e0a269774fea25422e1ecd42d",
+  "createdAt": "2026-09-01T08:51:59Z",
+  "failedGate": "finish.verification",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T09:15:47Z",
+  "preflightContractDigest": "sha256:c0f3fe47acf4255bee7706eff06492dfd858389f2838ed40a2a3b2cf2fa60ddf",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0a9f82e7ac065b5f1ca46f4b23fe3e94a4c8fd4e0a269774fea25422e1ecd42d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T09:15:55Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-473-wi472-doc-promotion"
+}

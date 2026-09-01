@@ -7,9 +7,13 @@ audience:
   - reviewer
   - adopter
 workItemId: WI-472-finalization-context-compatibility
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-472-finalization-context-compatibility
+terminalArchive: .ai/work-items/archive/WI-472-finalization-context-compatibility.contract.json
+terminalVerification: .ai/evidence/WI-472-finalization-context-compatibility.verification.json
+terminalFinalization: .ai/decisions/WI-472-finalization-context-compatibility.finalize.json
+terminalDecision: .ai/decisions/WI-472-finalization-context-compatibility.close.json
 ---
 
 # WI-472——收尾上下文兼容性

@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-472 Work Item documents have terminal status metadata bound to the archived Contract, verification evidence, finalization receipt, and close decision.",
+    "The reference-parity rows for WI-471 and WI-472 are present in all three languages; the recovered WI-471 row binds the authoritative hashed recovery receipt without rewriting its immutable bytes.",
+    "All three reference-parity rows for WI-472 are promoted to the language-appropriate implemented status and retain the complete terminal evidence links.",
+    "The three WI-473 Work Item documents and its pre-archive parity registration are present so the governance integrity gate can validate this documentation Work Item before terminal promotion.",
+    "promote_closed_work_item.py --repo <repo> --work-item WI-473-wi472-doc-promotion --check and --check-all pass after the promotion.",
+    "documentation acceptance and reference inventory documentation tests pass.",
+    "No immutable .ai governance bytes are rewritten and no object repository is changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1720a12577d80b33301bed3cd6235a6d7d3aa305",
+  "createdAt": "2026-09-01T08:51:59Z",
+  "goal": "Make the reader-facing WI-472 and reference-parity documentation match the verified archive, evidence, finalization, and close receipts.",
+  "intent": "Promote the closed WI-472 terminal evidence into the tri-language Work Item documentation and parity projections without rewriting immutable governance bytes.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source",
+    " tests",
+    " CI",
+    " release artifacts",
+    " object repositories",
+    " and immutable .ai evidence/archive/decision bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c7871ed76280bec164fd6f89b39871f6089ed3dde4e1d01ad45983fcd217ed0c",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-473-wi472-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/443",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-473-wi472-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-472-finalization-context-compatibility.md",
+    "docs/work-items/WI-472-finalization-context-compatibility.zh-CN.md",
+    "docs/work-items/WI-472-finalization-context-compatibility.ja.md",
+    "docs/work-items/WI-473-wi472-doc-promotion.md",
+    "docs/work-items/WI-473-wi472-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-473-wi472-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-473-wi472-doc-promotion"
+}

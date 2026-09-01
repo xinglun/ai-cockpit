@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T09:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-473-wi472-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-473-wi472-doc-promotion.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:f7f8adf7d87ca43c8eb2be4d470ce18ed186af513a2c837f8dbdfed0f509cc8e",
+  "predecessorEventsDigest": "sha256:d7f3e4a98694a929f4de43d201845d1383fec0c70f8b1ed8d1c8cef65558ddd4",
+  "predecessorOutcomeDigest": "sha256:0c906e1a8fe92d09fffc96c9fb77f3db5106393f8297811ebb2f5437e3038129",
+  "predecessorSummaryDigest": "sha256:e9a6ef67f95f9de588f51d7f0ad0b7f617fae372d4c2f35e331b4c82f29301da",
+  "predecessorWorkItemId": "WI-473-wi472-doc-promotion",
+  "reason": "Retry the finish attempt after finalize-plan changed the Contract binding; the prior verification is preserved as immutable failed-attempt evidence and must be regenerated for the current context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification against the current Contract/finalization context, then retry finish only with matching evidence.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "workItemId": "WI-473-wi472-doc-promotion"
+}
