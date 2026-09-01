@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-retry-after-finalize-plan-rebind",
+  "decidedAt": "2026-09-01T05:57:12Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-469-reference-ledger-parity-order-recovery.outcome.json",
+    ".ai/work-items/active/WI-469-reference-ledger-parity-order-recovery.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:2cd637765a96a279f222a4e1112dd36601cfda8177e0284b6bc1af3bc162a9f7",
+  "predecessorEventsDigest": "sha256:7fbd43bb526de2fd8b349ff4868fc982d2b087ce6ac95909031e0102c6f86191",
+  "predecessorOutcomeDigest": "sha256:d291524e7e2cf83e43380e3d559611c31408395b7a77dcaec56bccbfbb20af5c",
+  "predecessorSummaryDigest": "sha256:200c26ff40539b7d4cd9d7a86d40f28c231cbe4281dab66ee2ec14db89bd1111",
+  "predecessorWorkItemId": "WI-469-reference-ledger-parity-order-recovery",
+  "reason": "Retry the same Work Item after finalize-plan correctly rebound the resource context and invalidated the earlier verification receipt. The failed finish outcome is preserved; fresh preflight and verification must run after the finalization plan.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification after finalize-plan, then finish/archive/finalize-verify/close through the reviewed PR.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "workItemId": "WI-469-reference-ledger-parity-order-recovery"
+}

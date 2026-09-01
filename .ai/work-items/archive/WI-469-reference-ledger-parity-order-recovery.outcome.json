@@ -1,0 +1,255 @@
+{
+  "acceptanceResults": [
+    "The recovered predecessor projection is status=recovered in all three language documents.",
+    "The WI-469 parity row is registered before verification evidence appears in repository history.",
+    "The manifest-derived snapshot remains identical across the three comparison pages and the docs regression gate rejects drift.",
+    "No predecessor archive, evidence, or recovery bytes are rewritten."
+  ],
+  "createdAt": "2026-09-01T05:59:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:18a47d4af126397d7b6e11ed65f666fe0cf7ba9ce119fcaed277ca2f79a34eb3",
+  "evidenceRefs": [
+    ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2a6241aa85c4f691b0e804fe9f2bb52ee00875117aae0e5fec978628de52c784",
+      "workItemId": "WI-469-reference-ledger-parity-order-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-467-reference-ledger-projection.recovery.41ffa26ef4eac021436f87757c00ad0ee97ecbde9dc43d54699d70f412a66675.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-467-reference-ledger-projection.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-468-reference-ledger-parity-promotion.recovery.2ba7c3cba4d8f32b33aa34b0475b16197cae9be752ad355ac1236744bf5b605a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-468-reference-ledger-parity-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-467-reference-ledger-projection.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-467-reference-ledger-projection.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-468-reference-ledger-parity-promotion.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-468-reference-ledger-parity-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-468-reference-ledger-parity-promotion.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-468-reference-ledger-parity-promotion.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-468-reference-ledger-parity-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove tri-language reference comparison projections remain deterministic and satisfy the fail-closed parity and status-consistency gates before release."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-469-reference-ledger-parity-order-recovery"
+  },
+  "taskReportDigest": "sha256:47a48063a3644ef31107a4c5c877ffc2707af5108a76baa3af3047483d9d5323",
+  "taskReportMarkdownDigest": "sha256:89b6bc8b99a8bac456cf83235a1633fc4ba196191ebe91445149dc3dd171d1f7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-469-reference-ledger-parity-order-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-469-reference-ledger-parity-order-recovery"
+}
