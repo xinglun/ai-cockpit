@@ -1,0 +1,28 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-01T00:49:47Z",
+  "checkpointContractDigest": "sha256:05558dbc7b137da19c0b09fbb3f6da7551f1573b7c26c72a1b9c849af7c0dda3",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9d605ba63f229c0b35fb586cbe972b262b4310dcd37743fc9e3e0a6695d8ccc0",
+  "createdAt": "2026-09-01T00:47:02Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T00:57:26Z",
+  "preflightContractDigest": "sha256:05558dbc7b137da19c0b09fbb3f6da7551f1573b7c26c72a1b9c849af7c0dda3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9d605ba63f229c0b35fb586cbe972b262b4310dcd37743fc9e3e0a6695d8ccc0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T00:57:33Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-463-reference-parity-promotion-retry"
+}

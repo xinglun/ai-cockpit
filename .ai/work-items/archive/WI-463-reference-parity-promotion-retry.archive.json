@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T00:59:14Z",
+  "files": {
+    "contractDigest": "sha256:24c42eea40785c64277043ea0bddba1208baacbf4cb7cef01ef2788c9986a07f",
+    "contractPath": ".ai/work-items/archive/WI-463-reference-parity-promotion-retry.contract.json",
+    "eventsDigest": "sha256:f75c1e68a48abdfaa05c323498a8a3099576caee59d705244008548c0ec75fec",
+    "eventsPath": ".ai/work-items/archive/WI-463-reference-parity-promotion-retry.events.jsonl",
+    "outcomeDigest": "sha256:d76007bfd06e857b26a1c8f946fd2312978800dda362797d688dd70252588ca2",
+    "outcomePath": ".ai/work-items/archive/WI-463-reference-parity-promotion-retry.outcome.json",
+    "summaryDigest": "sha256:edba336bdd0f4426a843c0f8b7247b2984a146e7d35f60e4f3f20a4ca8f167de",
+    "summaryPath": ".ai/work-items/archive/WI-463-reference-parity-promotion-retry.summary.json",
+    "taskReportDigest": "sha256:5782c4266d6e6c525820d4c2d68563eaa2a253d0b5cb42871471919f1fc496a6",
+    "taskReportMarkdownDigest": "sha256:8e0ebf5020d905c3e7cc73e907c10f283946d01280fe802c01a4232a6c1fc763",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-463-reference-parity-promotion-retry.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-463-reference-parity-promotion-retry.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-463-reference-parity-promotion-retry"
+}
