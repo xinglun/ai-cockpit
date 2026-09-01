@@ -5,7 +5,7 @@
     ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
   ],
   "checkpointAt": "2026-09-01T07:38:25Z",
-  "checkpointContractDigest": "sha256:eb291dd7220fa3e9fafe5ca6c2bc52089af7f824a329be7d0df2c2a44d0b8e09",
+  "checkpointContractDigest": "sha256:b585020cca4ea0290b59114bc9a55cd0c62bef45a7883346f692e60dafa50819",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -41,11 +41,30 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-472-finalization-context-compatibility"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:b585020cca4ea0290b59114bc9a55cd0c62bef45a7883346f692e60dafa50819",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ee9da1a1f0d8b6dee60159f703145957b40ef038fa25fbca86b82dc4b088ac3b",
+      "previousContractHash": "sha256:8a9e19e70611696a79dd0fd11e3a678da23b520d4945ac1e1db611db3b8379e1",
+      "reason": "Root-cause the CI stale lifecycle marker by clearing transient failed finish projection after a fresh successful retry.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T08:00:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:92cde1cc19f9ba58a610a06c859d0d177bb35cbd0dc06ada269646bbe2ff1880",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-472-finalization-context-compatibility"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:dc88fbd7bcdb18be4e6cd5a7b376b53cb1e9e9d142ad3f108c8ec6adf6938f73",
+  "checkpointRepositorySnapshotDigest": "sha256:72420acda454f7c21e81c486b0aaf73e4c93f11b5ee06ed4e2aebd726883a009",
   "createdAt": "2026-09-01T07:34:01Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-472-finalization-context-compatibility.md"
@@ -53,16 +72,14 @@
     "state": "resolved"
   },
   "mode": "docs",
-  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
   "predecessorWorkItemId": "WI-471-parity-recovery-binding",
-  "preflightAt": "2026-09-01T07:58:45Z",
-  "preflightContractDigest": "sha256:eb291dd7220fa3e9fafe5ca6c2bc52089af7f824a329be7d0df2c2a44d0b8e09",
+  "preflightAt": "2026-09-01T08:12:59Z",
+  "preflightContractDigest": "sha256:b585020cca4ea0290b59114bc9a55cd0c62bef45a7883346f692e60dafa50819",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:dc88fbd7bcdb18be4e6cd5a7b376b53cb1e9e9d142ad3f108c8ec6adf6938f73",
+  "preflightRepositorySnapshotDigest": "sha256:72420acda454f7c21e81c486b0aaf73e4c93f11b5ee06ed4e2aebd726883a009",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -89,10 +106,18 @@
       "required": true,
       "scenario": "historical recovery preserves immutable predecessor",
       "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
+      ],
+      "required": true,
+      "scenario": "successful retry clears stale failure projection",
+      "status": "verified"
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-01T07:58:50Z",
+  "updatedAt": "2026-09-01T08:12:59Z",
   "verification": [
     {
       "check": "project-command-0",

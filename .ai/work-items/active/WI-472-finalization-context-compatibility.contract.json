@@ -4,7 +4,8 @@
     "a real non-provisional finalize-plan remains the only path to provider-bound archive",
     "WI-471 immutable bytes remain unchanged and are recoverable through the explicit successor chain",
     "tri-language docs and tests state the ordering and recovery boundary",
-    "no fabricated PR, runtime identity, or cleanup receipt is accepted"
+    "no fabricated PR, runtime identity, or cleanup receipt is accepted",
+    "a successful retry clears only stale generated failure projection fields so CI cannot reject a repaired lifecycle"
   ],
   "authority": "authorized",
   "baseRevision": "198f0c9534dbcc81e9ac286c4992d5916e82cb4e",
@@ -62,6 +63,14 @@
       "scenario": "historical recovery preserves immutable predecessor",
       "status": "unverified",
       "verificationPlan": "run recovery binding and archive immutability regressions"
+    },
+    {
+      "evidence": [],
+      "expected": "a fresh successful finish removes stale failedGate/recoveryCondition/outcomeState projection without deleting append-only failure events",
+      "required": true,
+      "scenario": "successful retry clears stale failure projection",
+      "status": "unverified",
+      "verificationPlan": "run the repository regression that seeds a failed finish projection and retries finish after valid evidence"
     }
   ],
   "scope": [

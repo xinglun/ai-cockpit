@@ -5437,6 +5437,17 @@ fn finish_work_item_internal(
         require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
     }
     let timestamp = now();
+    // A prior failed `finish` persists a blocked projection so recovery is
+    // visible.  Once a fresh verification and governance pass succeeds, that
+    // transient failure metadata is no longer current; keeping it would make
+    // CI treat the repaired Work Item as stale and reject the branch.  Remove
+    // only these generated projection fields before writing the new terminal
+    // candidate; append-only failure events remain intact.
+    if let Some(object) = summary.as_object_mut() {
+        object.remove("failedGate");
+        object.remove("recoveryCondition");
+        object.remove("outcomeState");
+    }
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
     atomic_json(&summary_path, &summary)?;

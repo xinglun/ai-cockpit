@@ -297,6 +297,53 @@ fn finish_rejects_pending_provider_context_without_moving_active_bytes() {
 }
 
 #[test]
+fn successful_finish_clears_stale_failed_projection_after_recovery() {
+    let path = repository();
+    let work_item_id = "WI-FINISH-CLEARS-STALE-FAILURE";
+    start_work_item(
+        &path,
+        work_item_id,
+        "clear stale finish projection",
+        "allow repaired Work Items to pass the CI lifecycle gate",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+
+    let summary_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
+    summary["failedGate"] = serde_json::json!("finish.governance");
+    summary["recoveryCondition"] = serde_json::json!("retry after repairing the lifecycle gate");
+    summary["outcomeState"] = serde_json::json!("blocked");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("summary bytes"),
+    )
+    .expect("seed stale failure projection");
+
+    finish_work_item(&path, work_item_id).expect("fresh successful finish");
+    let repaired: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("repaired summary"))
+            .expect("repaired summary JSON");
+    assert_eq!(repaired["state"], "finish_ready");
+    assert!(repaired.get("failedGate").is_none());
+    assert!(repaired.get("recoveryCondition").is_none());
+    assert!(repaired.get("outcomeState").is_none());
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn archive_accepts_explicit_non_provisional_resource_finalization_plan() {
     let path = repository();
     let work_item_id = "WI-ARCHIVE-WITH-PLAN";

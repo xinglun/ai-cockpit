@@ -4,11 +4,12 @@
     "a real non-provisional finalize-plan remains the only path to provider-bound archive",
     "WI-471 immutable bytes remain unchanged and are recoverable through the explicit successor chain",
     "tri-language docs and tests state the ordering and recovery boundary",
-    "no fabricated PR, runtime identity, or cleanup receipt is accepted"
+    "no fabricated PR, runtime identity, or cleanup receipt is accepted",
+    "a successful retry clears only stale generated failure projection fields so CI cannot reject a repaired lifecycle"
   ],
-  "createdAt": "2026-09-01T07:58:50Z",
+  "createdAt": "2026-09-01T08:12:59Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:375a00a03ccfb62fb1479f433b943dbf9ad81c153d45eb0b24866effe84e5e97",
+  "evidenceDigest": "sha256:047cae4876ab4dfe89820482ac544335cce612ca9d67dc8892e63a8b0e584424",
   "evidenceRefs": [
     ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
   ],
@@ -34,7 +35,7 @@
         ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:dc88fbd7bcdb18be4e6cd5a7b376b53cb1e9e9d142ad3f108c8ec6adf6938f73",
+      "repositorySnapshotDigest": "sha256:72420acda454f7c21e81c486b0aaf73e4c93f11b5ee06ed4e2aebd726883a009",
       "workItemId": "WI-472-finalization-context-compatibility"
     },
     "format": "ai-cockpit.task-outcome",
@@ -137,7 +138,7 @@
     "status": "verified",
     "workItemId": "WI-472-finalization-context-compatibility"
   },
-  "taskReportDigest": "sha256:7b6f4694386bb309a7bd0372cc0da7b816747fcbfaee1e17c49ff29b26ec6983",
+  "taskReportDigest": "sha256:f549cea5fb7aaff95867e1715152fe0b05ba6b1e970b2d11f72238e2ef819120",
   "taskReportMarkdownDigest": "sha256:a5d9f174b1bf8e872244c0f344eb196680a406539972f8085025cff0c9e0f81c",
   "unknowns": [
     "user_visible_benefit_not_declared"
