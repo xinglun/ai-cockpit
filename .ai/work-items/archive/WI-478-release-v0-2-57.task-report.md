@@ -15,8 +15,8 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/WI-477-release-v0-2-56.recovery.eeb777d2322be8152808dce12241e4ca6d1901846d38ade6cfcdb50a1ad2f025.json
-- Changed path: .ai/work-items/active/WI-478-release-v0-2-57.contract.json
-- Changed path: .ai/work-items/active/WI-478-release-v0-2-57.summary.json
+- Changed path: .ai/work-items/archive/WI-478-release-v0-2-57.contract.json
+- Changed path: .ai/work-items/archive/WI-478-release-v0-2-57.summary.json
 
 ## Findings
 

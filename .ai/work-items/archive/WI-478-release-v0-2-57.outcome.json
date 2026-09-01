@@ -8,9 +8,9 @@
     "WI-478 completes the Runtime lifecycle with current Contract, verification, visible human Outcome, archive, finalization, close receipts, promoted documentation, clean synchronized main, and no leftover exact branch or worktree.",
     "Retry recovery clears stale failed-finish markers from a checkpointed Summary and a regression test proves the hosted route can proceed after an explicit recovery receipt."
   ],
-  "createdAt": "2026-09-01T15:01:45Z",
+  "createdAt": "2026-09-01T15:33:24Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:5beb06ef9d5eda03550791384d2d0a917d4e11f0cd8495edfa40c88f2e55017f",
+  "evidenceDigest": "sha256:a7ed55de3cffb956280c3a79333f78e9399d30183177926b4d8f300b6f31d22e",
   "evidenceRefs": [
     ".ai/evidence/WI-478-release-v0-2-57.verification.json"
   ],
@@ -47,24 +47,24 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+            ".ai/work-items/archive/WI-478-release-v0-2-57.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-477-release-v0-2-56.recovery.eeb777d2322be8152808dce12241e4ca6d1901846d38ade6cfcdb50a1ad2f025.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+            ".ai/work-items/archive/WI-478-release-v0-2-57.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-478-release-v0-2-57.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+            ".ai/work-items/archive/WI-478-release-v0-2-57.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-478-release-v0-2-57.summary.json"
         }
       ],
       "evidence": [
@@ -120,7 +120,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+            ".ai/work-items/archive/WI-478-release-v0-2-57.contract.json"
           ],
           "inference": false,
           "text": "Release v0.2.57 from the reviewed mainline, validate the public binary with isolated adopter acceptance, install it on this repository, and return to the next reference-source comparison batch."
@@ -129,7 +129,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+            ".ai/work-items/archive/WI-478-release-v0-2-57.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -139,8 +139,8 @@
     "status": "verified",
     "workItemId": "WI-478-release-v0-2-57"
   },
-  "taskReportDigest": "sha256:756ba34a23dd409b33c61fcfe265b2d9fd013991d3669c3c6e478b2315ee13ea",
-  "taskReportMarkdownDigest": "sha256:31c113960b8736d2acd035eef7830790ab8161f93a3999c8d1a3014e3d1c0d08",
+  "taskReportDigest": "sha256:067af35f167a8400174b28ed136ff1a2e0fe80e2a2ec45b054bbfad4c2e64799",
+  "taskReportMarkdownDigest": "sha256:5cfa06263cea15c14ef88b12884556c1580031695334be4a615bbea2de1b9d77",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

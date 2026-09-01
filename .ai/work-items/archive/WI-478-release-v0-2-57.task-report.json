@@ -15,24 +15,24 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+          ".ai/work-items/archive/WI-478-release-v0-2-57.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-477-release-v0-2-56.recovery.eeb777d2322be8152808dce12241e4ca6d1901846d38ade6cfcdb50a1ad2f025.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+          ".ai/work-items/archive/WI-478-release-v0-2-57.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-478-release-v0-2-57.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+          ".ai/work-items/archive/WI-478-release-v0-2-57.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-478-release-v0-2-57.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-478-release-v0-2-57.summary.json"
       }
     ],
     "evidence": [
@@ -88,7 +88,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+          ".ai/work-items/archive/WI-478-release-v0-2-57.contract.json"
         ],
         "inference": false,
         "text": "Release v0.2.57 from the reviewed mainline, validate the public binary with isolated adopter acceptance, install it on this repository, and return to the next reference-source comparison batch."
@@ -97,7 +97,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-478-release-v0-2-57.contract.json"
+          ".ai/work-items/archive/WI-478-release-v0-2-57.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
