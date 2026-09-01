@@ -43,17 +43,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-481-wi480-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-481-wi480-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-481-wi480-doc-promotion.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-481-wi480-doc-promotion.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-481-wi480-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-481-wi480-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-481-wi480-doc-promotion.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-481-wi480-doc-promotion.summary.json"
         }
       ],
       "evidence": [
@@ -109,7 +109,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-481-wi480-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-481-wi480-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Make closed Work Item documentation projections current and prove the repository has no stale terminal documentation projections."
@@ -118,7 +118,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-481-wi480-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-481-wi480-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -128,8 +128,8 @@
     "status": "verified",
     "workItemId": "WI-481-wi480-doc-promotion"
   },
-  "taskReportDigest": "sha256:9d8e05f70022f24074c01f836566f8a2f3eda26bb23fb3d6519a4709d940730d",
-  "taskReportMarkdownDigest": "sha256:43e7b2d7877d3ff9664bbb842a6a5eb63de67578ef9cc625613e32b7ec2b1537",
+  "taskReportDigest": "sha256:fc2677ed3b772fe8547d58ba31a3c1e34e370b67b83b2c31e82559d8821ff7c4",
+  "taskReportMarkdownDigest": "sha256:b167bea9eb9ce40703c787fda8aa2d5a846dde60b8271a1fc82579166b974029",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
