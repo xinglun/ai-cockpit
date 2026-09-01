@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:83cc14e0f5c770285a306a79be3d5036effadec4de135b8c54fee137f3ea2df6",
+      "workItemId": "WI-475-reference-file-comparison-batch-25"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json",
+            ".ai/decisions/WI-475-reference-file-comparison-batch-25.finalize.91ec7b22ee68d4dd900265630e69d719a72fc1b973d54e18d16d8651d8358b70.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via github-pr-445-reviewed-merge at 2026-09-01T12:30:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-475-reference-file-comparison-batch-25.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-475-reference-file-comparison-batch-25.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete a bounded semantic rebaseline for human-benefit reporting, Task Outcome event maintenance, and quality-gate operations against the local pinned reference while preserving Rust-native architecture and adopter inheritance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-475-reference-file-comparison-batch-25.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-475-reference-file-comparison-batch-25"
+  },
+  "finalReportDigest": "sha256:d4af9ffbeacc33ff9714deae8486ff7648172d90af63c18b271e97b6853b55a3",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:37f3734c65fdf57a913383c9867f0b87535da3fc6a387fa0a8e1185a05aa7519",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-475-reference-file-comparison-batch-25.finalize.91ec7b22ee68d4dd900265630e69d719a72fc1b973d54e18d16d8651d8358b70.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "github-pr-445-reviewed-merge",
+    "decidedAt": "2026-09-01T12:30:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json",
+      ".ai/decisions/WI-475-reference-file-comparison-batch-25.finalize.91ec7b22ee68d4dd900265630e69d719a72fc1b973d54e18d16d8651d8358b70.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:reviewed-pr-and-cleanup"
+    ],
+    "reason": "PR #445 merged with all hosted checks green; finalization sequence 2 verified exact branch and worktree cleanup.",
+    "resumeCondition": "None."
+  },
+  "timestamp": "2026-09-01T11:55:22Z",
+  "workItemId": "WI-475-reference-file-comparison-batch-25"
+}
