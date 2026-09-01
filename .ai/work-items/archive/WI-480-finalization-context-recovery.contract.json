@@ -32,44 +32,50 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
-  "scenarioCoverage": [
-    {
-      "scenario": "normal explicit reviewed context",
-      "required": true,
-      "status": "verified",
-      "evidence": ["docs/reference/repository-workflow.md"]
-    },
-    {
-      "scenario": "edge bare pending sentinel",
-      "required": true,
-      "status": "verified",
-      "evidence": [
-        "crates/cockpit-protocol/tests/resource_finalization.rs",
-        "crates/cockpit-repository/tests/archive_integrity.rs"
-      ]
-    },
-    {
-      "scenario": "failure finish rejection",
-      "required": true,
-      "status": "verified",
-      "evidence": ["crates/cockpit-repository/tests/archive_integrity.rs"]
-    },
-    {
-      "scenario": "recovery without predecessor rewrite",
-      "required": true,
-      "status": "verified",
-      "evidence": [".ai/decisions/WI-479-wi478-doc-promotion.recovery.json"]
-    }
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-480-finalization-context-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/452",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-480-finalization-context-recovery"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/reference/repository-workflow.md"
+      ],
+      "required": true,
+      "scenario": "normal explicit reviewed context",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "required": true,
+      "scenario": "edge bare pending sentinel",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "required": true,
+      "scenario": "failure finish rejection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-479-wi478-doc-promotion.recovery.json"
+      ],
+      "required": true,
+      "scenario": "recovery without predecessor rewrite",
+      "status": "verified"
+    }
+  ],
   "scope": [
     "crates/cockpit-protocol/src/lib.rs",
     "crates/cockpit-protocol/tests/resource_finalization.rs",

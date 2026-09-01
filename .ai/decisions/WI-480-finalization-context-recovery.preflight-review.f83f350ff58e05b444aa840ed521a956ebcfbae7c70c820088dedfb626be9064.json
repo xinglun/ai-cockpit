@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b4f696f61b46670ab14dd8ded625f546fb2f7cba797200f1690c04fe2179c905",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Human confirms the current PR-bound Contract; verification evidence is present and will be re-evaluated at finish.",
+  "recordedAt": "2026-09-02T00:38:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ab713f0f59a703261b5e16730fdfc7533b185f93b615d8c5ebe8dd96dab1720e",
+  "schemaVersion": 1,
+  "workItemId": "WI-480-finalization-context-recovery"
+}
