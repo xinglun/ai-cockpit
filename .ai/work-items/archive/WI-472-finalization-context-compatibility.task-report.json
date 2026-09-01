@@ -15,24 +15,24 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
+          ".ai/work-items/archive/WI-472-finalization-context-compatibility.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-471-parity-recovery-binding.recovery.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
+          ".ai/work-items/archive/WI-472-finalization-context-compatibility.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-472-finalization-context-compatibility.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-472-finalization-context-compatibility.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
+          ".ai/work-items/archive/WI-472-finalization-context-compatibility.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-472-finalization-context-compatibility.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-472-finalization-context-compatibility.summary.json"
       }
     ],
     "evidence": [
@@ -88,7 +88,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-472-finalization-context-compatibility.contract.json"
+          ".ai/work-items/archive/WI-472-finalization-context-compatibility.contract.json"
         ],
         "inference": false,
         "text": "让 pending provider context 在 finish/archive 前 fail closed，同时保留 WI-471 原始字节并完成可审计的 Runtime 兼容恢复。"
@@ -97,7 +97,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-472-finalization-context-compatibility.contract.json"
+          ".ai/work-items/archive/WI-472-finalization-context-compatibility.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

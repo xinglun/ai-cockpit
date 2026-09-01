@@ -15,8 +15,8 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/WI-471-parity-recovery-binding.recovery.json
-- Changed path: .ai/work-items/active/WI-472-finalization-context-compatibility.contract.json
-- Changed path: .ai/work-items/active/WI-472-finalization-context-compatibility.summary.json
+- Changed path: .ai/work-items/archive/WI-472-finalization-context-compatibility.contract.json
+- Changed path: .ai/work-items/archive/WI-472-finalization-context-compatibility.summary.json
 
 ## Findings
 
