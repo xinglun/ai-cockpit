@@ -173,6 +173,96 @@ PY
 
 cp -R "$fixture" "$tmp/unpromoted"
 
+# A documentation-promotion Work Item registers its own tri-language pages and
+# parity ledgers before close.  Its conditional self projection is a bounded
+# terminal state: check-all must validate the immutable evidence without
+# demanding an endless successor.
+cp -R "$tmp/unpromoted" "$tmp/self-terminal"
+python3 - "$tmp/self-terminal" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["scope"] = [
+    f"docs/work-items/{work_item}.md",
+    f"docs/work-items/{work_item}.zh-CN.md",
+    f"docs/work-items/{work_item}.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = "sha256:" + hashlib.sha256(contract_path.read_bytes()).hexdigest()
+archive_path.write_text(json.dumps(archive, indent=2) + "\n", encoding="utf-8")
+contract_digest = archive["files"]["contractDigest"]
+decision_dir = root / ".ai/decisions"
+root_path = decision_dir / f"{work_item}.finalize.json"
+root_receipt = json.loads(root_path.read_text(encoding="utf-8"))
+root_receipt["contractDigest"] = contract_digest
+root_path.write_text(json.dumps(root_receipt, indent=2) + "\n", encoding="utf-8")
+
+def canonical(value: object) -> str:
+    return "sha256:" + hashlib.sha256(
+        json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    ).hexdigest()
+
+transition_paths = sorted(decision_dir.glob(f"{work_item}.finalize.*.json"))
+transitions = []
+for path in transition_paths:
+    envelope = json.loads(path.read_text(encoding="utf-8"))
+    envelope["receipt"]["contractDigest"] = contract_digest
+    transitions.append((envelope.get("sequence"), path, envelope))
+previous_digest = canonical(root_receipt)
+renamed = []
+for sequence, path, envelope in sorted(transitions):
+    envelope["predecessorReceiptDigest"] = previous_digest
+    new_name = f"{work_item}.finalize.{canonical(envelope).removeprefix('sha256:')}.json"
+    new_path = path.with_name(new_name)
+    path.unlink()
+    new_path.write_text(json.dumps(envelope, indent=2) + "\n", encoding="utf-8")
+    renamed.append((sequence, new_path, envelope))
+    previous_digest = canonical(envelope["receipt"])
+close_path = decision_dir / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+head_sequence, head_path, head_envelope = renamed[-1]
+close["resourceFinalizationHeadPath"] = f".ai/decisions/{head_path.name}"
+close["resourceFinalizationHeadDigest"] = canonical(head_envelope["receipt"])
+close_path.write_text(json.dumps(close, indent=2) + "\n", encoding="utf-8")
+evidence = f".ai/evidence/{work_item}.verification.json"
+finalize = f".ai/decisions/{work_item}.finalize.json"
+close = f".ai/decisions/{work_item}.close.json"
+for suffix, status in (
+    ("", "In progress → Implemented after verified close"),
+    (".zh-CN", "进行中 → 验证关闭后已实现"),
+    (".ja", "In progress → verified close 後 Implemented"),
+):
+    parity = root / "docs/reference" / f"reference-parity{suffix}.md"
+    row = (
+        f"| WI-999 — fixture | {status} | "
+        f"[Work Item](../work-items/{work_item}{suffix}.md); "
+        f"archive `.ai/work-items/archive/{work_item}.contract.json`; "
+        f"verification `{evidence}`; finalization `{finalize}`; close `{close}`. |\n"
+    )
+    parity.write_text(row, encoding="utf-8")
+PY
+python3 "$helper" --repo "$tmp/self-terminal" --check-all
+python3 "$helper" --repo "$tmp/self-terminal" --work-item WI-999-closed-docs-fixture --check
+perl -0pi -e 's/status: in_progress/status: implemented/' \
+  "$tmp/self-terminal/docs/work-items/WI-999-closed-docs-fixture.md"
+if python3 "$helper" --repo "$tmp/self-terminal" --check-all \
+  >"$tmp/self-terminal-drift.out" 2>"$tmp/self-terminal-drift.err"; then
+  echo 'self-terminal exception accepted invalid terminal metadata' >&2
+  exit 1
+fi
+grep -Fq 'promotion required' "$tmp/self-terminal-drift.err"
+
 if python3 "$helper" --repo "$fixture" --work-item WI-999-closed-docs-fixture --check \
   >"$tmp/precheck.out" 2>"$tmp/precheck.err"; then
   echo 'promotion check accepted stale pre-close documentation' >&2

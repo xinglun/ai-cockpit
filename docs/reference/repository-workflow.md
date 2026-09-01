@@ -82,6 +82,14 @@ promotion Work Item, run the helper, and rerun the check before claiming
 `ready_on_base`. The helper updates reader-facing status/parity only; it does
 not rewrite Contract, evidence, archive, or decision history.
 
+A documentation-promotion Work Item that declares an exact docs-only scope,
+including its own three language pages and the three parity ledgers, is a
+bounded self-projection boundary. After that Work Item is closed, `--check-all`
+still validates its immutable terminal evidence but accepts its own
+pre-archive `In progress → Implemented after verified close` projection; it
+must not create another successor just to rewrite itself. Mixed, wildcard, or
+malformed scopes do not receive this exception and remain fail-closed.
+
 ## Recovery and adoption
 
 Recovery is append-only and identity-bound. A changed snapshot, stale receipt,

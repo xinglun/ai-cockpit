@@ -239,6 +239,8 @@ reference-parity 文档中的准确 Work Item 行；不会改写正文或任何 
 输入无效时会在写入前 fail closed，stale projection 无法通过 quality gate。这是显式
 repository workflow helper，不是 Runtime Core 自动修改 Markdown。
 
+这里有一个有界的终态例外：如果文档晋级 Work Item 的 archived Contract 使用精确的 docs-only scope，且包含它自己的三语页面和三份 parity ledger，它本身就是投影边界。关闭后，它的预归档条件行仍然是有意保留的；`--check-all` 会验证终态证据，但不会为了重写同一个 Work Item 而递归创建 successor。混合、通配符或格式错误的 scope 仍按正常规则 fail closed。
+
 ## Release tag 的 transition 顺序
 
 只有 PR 已合并且有效的 pre-merge finalization receipt 已提交后，才能创建 Release tag。

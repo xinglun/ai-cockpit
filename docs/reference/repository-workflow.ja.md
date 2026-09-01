@@ -67,6 +67,8 @@ python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all
 
 check が stale を示した場合は、狭い範囲の documentation-promotion Work Item を作成して helper を実行し、`ready_on_base` を主張する前に再確認します。helper は reader-facing status/parity だけを更新し、Contract、evidence、archive、decision の履歴を書き換えません。
 
+documentation-promotion Work Item が自分の三言語ページと三つの parity ledger を含む正確な docs-only scope を宣言する場合、それは有界な self-projection の終端境界です。その Work Item を close した後も `--check-all` は不変の terminal evidence を検証しますが、自身の pre-archive `In progress → verified close 後 Implemented` projection を受理し、これを書き換えるだけの successor は作成しません。混在、wildcard、または不正な scope にはこの例外を適用せず、fail closed のままです。
+
 ## Recovery と adoption
 
 Recovery は append-only で identity-bound です。snapshot の変更、stale receipt、provider conflict は retry、successor、supersede decision として記録します。後続を green にするために古い evidence を編集しません。Install、upgrade、adapter setup、歴史 finalization recovery は独立した repository operation であり、必要に応じて immutable public Release を使います。`work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` は immutable な旧 finalization の唯一の互換 path です。predecessor digest、repository/Work Item/Contract base、current Runtime、actor、authority、reason、timestamp を bind しますが predecessor は編集しません。process-wide な current project を選ぶ command や、provider-global Agent/MCP 設定を変更する command はありません。
