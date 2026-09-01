@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-465-closed-work-item-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-465-closed-work-item-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-465-closed-work-item-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-465-closed-work-item-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-01T02:32:09Z",
   "checkpointContractDigest": "sha256:e6289d8b9f2437b641dbe09b405105a71bfc3fb9e3b32f31de8c4c376a2c939a",
@@ -132,8 +132,8 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-01T02:32:09Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T03:17:17Z",
   "verification": [
     {
       "check": "project-command-0",
