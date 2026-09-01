@@ -1,0 +1,69 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions and release documentation advance exactly to v0.2.54 without rewriting reserved release history.",
+    "The reviewed release workflow binds annotated tag, source commit, manifests, SHA256SUMS, SBOM, provenance, and public artifact identities.",
+    "Local strict, version, workflow, documentation, and workspace tests pass; no source fallback is used.",
+    "After merge, the published v0.2.54 binary is downloaded and checksum-verified by the post-release adopter acceptance harness, with runtime identity and cleanup receipts.",
+    "The Runtime repository remains healthy and ready_on_base after release Work Item closure."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e4fef83c36b7bc6c325bae2ce642287acfc1daa5",
+  "createdAt": "2026-09-01T03:26:33Z",
+  "goal": "准备、发布并用公开 v0.2.54 二进制验收 AI Cockpit Runtime，然后恢复参考源逐文件主线。",
+  "intent": "发布包含 WI-465 文档治理与闭环修复的下一个公开 Rust Runtime patch，并确保发布资产、安装验证和 adopter acceptance 可追溯。",
+  "mode": "release",
+  "outOfScope": [
+    "WI-445-owned inventory/parity ledgers",
+    "reference source checkout",
+    "object repositories",
+    "global Agent/MCP configuration",
+    "source fallback",
+    "Homebrew tap mutation",
+    "Runtime architecture redesign",
+    "unrelated feature changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:016f441689713980f8eb70d3ad07a7cd1c131aaaf6b4fff54e74f7becb3adbdc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-466-release-v0-2-54",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-466-release-v0-2-54"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/*/Cargo.toml",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-466-release-v0-2-54.md",
+    "docs/work-items/WI-466-release-v0-2-54.zh-CN.md",
+    "docs/work-items/WI-466-release-v0-2-54.ja.md",
+    ".github/workflows/release.yml",
+    "tests/release"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-466-release-v0-2-54"
+}

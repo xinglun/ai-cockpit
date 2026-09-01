@@ -1,0 +1,63 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-466-release-v0-2-54.contract.json",
+    ".ai/work-items/active/WI-466-release-v0-2-54.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T03:27:32Z",
+  "checkpointContractDigest": "sha256:6ea81ec625e62e8bf7e6fbf548df4e026ada945e1d14ba3d7056acab96c53e72",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6ea81ec625e62e8bf7e6fbf548df4e026ada945e1d14ba3d7056acab96c53e72",
+      "recorded": true,
+      "recordedAt": "2026-09-01T03:27:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:016f441689713980f8eb70d3ad07a7cd1c131aaaf6b4fff54e74f7becb3adbdc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-466-release-v0-2-54"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3242f85fa078d3a8f83bb98226da3c4786bfa8c1777921dd407b0fb2fbc5eb42",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6ea81ec625e62e8bf7e6fbf548df4e026ada945e1d14ba3d7056acab96c53e72",
+      "previousContractHash": "sha256:6ea81ec625e62e8bf7e6fbf548df4e026ada945e1d14ba3d7056acab96c53e72",
+      "reason": "Amend Contract with release scope, tri-language parity registration, and verification-only Runtime evidence; public release and adopter acceptance remain post-release acceptance artifacts rather than unsupported required evidence classes.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T03:41:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:69af8ba1108de09a2b23eafaacd64961673d74395036d8a4e2a427d75bfb3d8e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-466-release-v0-2-54"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:016f441689713980f8eb70d3ad07a7cd1c131aaaf6b4fff54e74f7becb3adbdc",
+  "createdAt": "2026-09-01T03:26:33Z",
+  "mode": "release",
+  "preflightAt": "2026-09-01T03:42:14Z",
+  "preflightContractDigest": "sha256:3242f85fa078d3a8f83bb98226da3c4786bfa8c1777921dd407b0fb2fbc5eb42",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:69af8ba1108de09a2b23eafaacd64961673d74395036d8a4e2a427d75bfb3d8e",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T03:27:32Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:3242f85fa078d3a8f83bb98226da3c4786bfa8c1777921dd407b0fb2fbc5eb42",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-01T03:41:59Z"
+  },
+  "workItemId": "WI-466-release-v0-2-54"
+}
