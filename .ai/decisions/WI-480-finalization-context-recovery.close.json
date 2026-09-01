@@ -1,0 +1,146 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ab713f0f59a703261b5e16730fdfc7533b185f93b615d8c5ebe8dd96dab1720e",
+      "workItemId": "WI-480-finalization-context-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-479-wi478-doc-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-480-finalization-context-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-480-finalization-context-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json",
+            ".ai/decisions/WI-480-finalization-context-recovery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via authorized user instruction to merge and clean the reviewed PR at 2026-09-02T01:06:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Classify the exact pending sentinel as provisional, reject it at finish/archive, and document the explicit finalize-plan boundary without rewriting immutable predecessor evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-480-finalization-context-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-480-finalization-context-recovery"
+  },
+  "finalReportDigest": "sha256:e56110b29daf5d079df19fff10ffa3c593bd900416271562e5d2b37198d1bc6f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:ba71664da3a1c2b69ad1bec613479b7a2ef8ec6b1eb22e2f63e86f608c38487c",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-480-finalization-context-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "authorized user instruction to merge and clean the reviewed PR",
+    "decidedAt": "2026-09-02T01:06:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-480-finalization-context-recovery.verification.json",
+      ".ai/decisions/WI-480-finalization-context-recovery.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md#canonical-delivery-order",
+      "docs/reference/repository-workflow.md#merge-close-and-cleanup"
+    ],
+    "reason": "Reviewed PR #452 passed all hosted checks, the finalization receipt was verified as deleted, and the exact branch and worktree were removed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-01T17:03:03Z",
+  "workItemId": "WI-480-finalization-context-recovery"
+}
