@@ -6,9 +6,13 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: implementation_active
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-478-release-v0-2-57
+terminalArchive: .ai/work-items/archive/WI-478-release-v0-2-57.contract.json
+terminalVerification: .ai/evidence/WI-478-release-v0-2-57.verification.json
+terminalFinalization: .ai/decisions/WI-478-release-v0-2-57.finalize.json
+terminalDecision: .ai/decisions/WI-478-release-v0-2-57.close.json
 workItemId: WI-478-release-v0-2-57
 ---
 

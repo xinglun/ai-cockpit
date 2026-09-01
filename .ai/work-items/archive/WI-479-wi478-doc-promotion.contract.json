@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "Promote the six stale WI-478 documentation projections from immutable archive and close evidence: the three language Work Item documents and the three language reference-parity documents.",
+    "The promotion changes only terminal lifecycle metadata derived by tests/docs/promote_closed_work_item.py; it does not rewrite archived Contract, Summary, Outcome, Evidence, Finalization, Close, or Recovery bytes.",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --work-item WI-478-release-v0-2-57 passes after promotion and --check-all reports no stale projections.",
+    "The Work Item uses the latest remote main base, is reviewed through one hosted PR with required checks passing, and is closed only after exact branch/worktree cleanup and synchronized main are verified."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "fe5f154e6bc4bf936ee3012d77e14e8cd30dd67a",
+  "createdAt": "2026-09-01T15:36:30Z",
+  "goal": "Promote the WI-478 terminal documentation projections so release readiness can be proved without mutating immutable governance evidence.",
+  "intent": "The closed WI-478 release left six documentation projections stale. Repair this in a narrow documentation-only Work Item so the post-close promotion gate is green before publishing and returning to reference comparison.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source, protocol, CLI, CI, release packaging, or installer changes",
+    "Reference-source comparison implementation",
+    "Any modification to /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator or other adopter repositories",
+    "Changes to archived Work Item, evidence, finalization, close, or recovery bytes",
+    "Global Agent, MCP, shell, Homebrew, or user configuration changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5538767746e1e1af4264e4c9464ee8f8d15e3c2411203b0b44bbbd7018f838de",
+  "requiredEvidenceClasses": ["verification"],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-479-wi478-doc-promotion",
+    "provider": "github",
+    "pullRequest": "pending",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-479-wi478-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-478-release-v0-2-57.md",
+    "docs/work-items/WI-478-release-v0-2-57.zh-CN.md",
+    "docs/work-items/WI-478-release-v0-2-57.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "sources": [
+    "tests/docs/promote_closed_work_item.py",
+    ".ai/work-items/archive/WI-478-release-v0-2-57.archive.json",
+    ".ai/decisions/WI-478-release-v0-2-57.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --work-item WI-478-release-v0-2-57",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all",
+    "git diff --check"
+  ],
+  "workItemId": "WI-479-wi478-doc-promotion"
+}
