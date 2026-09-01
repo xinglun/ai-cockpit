@@ -1,0 +1,19 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized",
+  "decidedAt": "2026-09-01T00:30:16Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:378e62c8ab277f31cf0e3d105480bd14ff611ecef4f954720755200c7e6ad5dd",
+  "predecessorSummaryDigest": "sha256:bb216d47bc99ca071aef4faa01bd806f87627fa7ed2137ecb6102db8a8facef8",
+  "predecessorWorkItemId": "WI-462-reference-parity-promotion",
+  "reason": "Retry verification after the finalization plan bound the reviewed PR resource context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh verification and preflight evidence bound to the finalization-plan Contract and current repository snapshot.",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "workItemId": "WI-462-reference-parity-promotion"
+}
