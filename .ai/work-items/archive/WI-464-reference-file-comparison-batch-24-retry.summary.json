@@ -3,8 +3,8 @@
     ".ai/decisions/WI-464-reference-file-comparison-batch-24.recovery.bdf111e39b5c8cabc29c155240f48c5bdd67d1b6628eb3a0aa6d37b31095b102.json",
     ".ai/decisions/WI-464-reference-file-comparison-batch-24.recovery.json",
     ".ai/evidence/WI-464-reference-file-comparison-batch-24.verification.json",
-    ".ai/work-items/active/WI-464-reference-file-comparison-batch-24-retry.contract.json",
-    ".ai/work-items/active/WI-464-reference-file-comparison-batch-24-retry.summary.json",
+    ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.contract.json",
+    ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24-retry.summary.json",
     ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24.archive.json",
     ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24.contract.json",
     ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24.events.jsonl",
@@ -13,16 +13,29 @@
     ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24.task-report.json",
     ".ai/work-items/archive/WI-464-reference-file-comparison-batch-24.task-report.md"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-01T01:47:05Z",
+  "checkpointContractDigest": "sha256:6a28e6fe205e6b202e6c4a051cd2cd5d885d178a9ef8ad3577ff98cbc5145086",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:f414891a3795e261869d2b242a2110eb0135719ce5856d3717a6602986e442f3",
   "createdAt": "2026-09-01T01:41:49Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:c433f8b4e6652d1975ea54800d2b71f83047b9e87ec3c9c1d287015bdcdda6a7",
   "predecessorWorkItemId": "WI-464-reference-file-comparison-batch-24",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-01T01:47:16Z",
+  "preflightContractDigest": "sha256:6a28e6fe205e6b202e6c4a051cd2cd5d885d178a9ef8ad3577ff98cbc5145086",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:f414891a3795e261869d2b242a2110eb0135719ce5856d3717a6602986e442f3",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-464-reference-file-comparison-batch-24.recovery.bdf111e39b5c8cabc29c155240f48c5bdd67d1b6628eb3a0aa6d37b31095b102.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-09-01T01:44:34Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T01:47:33Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-464-reference-file-comparison-batch-24-retry"
 }
