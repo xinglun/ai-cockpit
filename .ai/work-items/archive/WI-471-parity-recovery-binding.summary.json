@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-471-parity-recovery-binding.contract.json",
+    ".ai/work-items/archive/WI-471-parity-recovery-binding.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T07:09:45Z",
+  "checkpointContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:708c7299161a4d336f91e4397484623176a8bfa6b77f90453a9902e4dbebbf9f",
+      "recorded": true,
+      "recordedAt": "2026-09-01T07:09:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7303937640c8cab594af9232778376071557571bb987ae40d4fe8bb2d3496783",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-471-parity-recovery-binding"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9bc93b662ddc626347f4b1078d69771b70c7ac6d91eea3670f87fd5d3dbed849",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:708c7299161a4d336f91e4397484623176a8bfa6b77f90453a9902e4dbebbf9f",
+      "previousContractHash": "sha256:708c7299161a4d336f91e4397484623176a8bfa6b77f90453a9902e4dbebbf9f",
+      "reason": "Use the Runtime-supported verification evidence class instead of undeclared custom classes; custom labels made preflight permanently yellow even after a valid verification receipt.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T07:16:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7303937640c8cab594af9232778376071557571bb987ae40d4fe8bb2d3496783",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-471-parity-recovery-binding"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7303937640c8cab594af9232778376071557571bb987ae40d4fe8bb2d3496783",
+  "createdAt": "2026-09-01T07:09:13Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T07:18:09Z",
+  "preflightContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7303937640c8cab594af9232778376071557571bb987ae40d4fe8bb2d3496783",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T07:18:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-471-parity-recovery-binding"
+}

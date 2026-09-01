@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "All three parity rows for WI-469 include the validated recovery decision path and still include terminal archive/evidence/finalization/close references.",
+    "governance_integrity_gate.py passes with zero findings after the repair.",
+    "No predecessor archive, evidence, recovery, close, or historical source bytes are rewritten.",
+    "The three Work Item documents state the recovery projection boundary and remain status-consistent."
+  ],
+  "authority": "authorized",
+  "baseRevision": "6a7161ea7bedb341230fc4f6b801295fb62e6f2a",
+  "createdAt": "2026-09-01T07:09:13Z",
+  "goal": "Make the three reference-parity ledgers explicitly reference the validated WI-469 recovery receipt, preserve immutable predecessor and terminal bytes, and leave the release preflight governance gate green.",
+  "intent": "Post-close governance-integrity verification exposed that the WI-469 tri-language parity rows bind only the close receipt while the Runtime treats its validated recovery receipt as the authoritative terminal projection. Repair that documentation binding before the next release so recovery history remains auditable and the gate cannot fail on this known path.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime implementation",
+    " historical evidence bytes",
+    " object repositories",
+    " release version bump",
+    " global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c0bfd848b5b6818613591546c810d519fddda6232ccdc9c46102107cd1563077",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-471-parity-recovery",
+    "provider": "github",
+    "pullRequest": "pending:WI-471-parity-recovery-binding",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-471-parity-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-471-parity-recovery-binding.md",
+    "docs/work-items/WI-471-parity-recovery-binding.zh-CN.md",
+    "docs/work-items/WI-471-parity-recovery-binding.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-471-parity-recovery-binding"
+}
