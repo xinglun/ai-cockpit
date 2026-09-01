@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-483 Work Item documents contain terminal archive, verification, finalization, and decision references generated from immutable evidence.",
+    "All three reference-parity rows identify WI-483 as implemented and link the same terminal evidence without altering source semantics.",
+    "promote_closed_work_item.py --check-all passes and no unrelated files change.",
+    "This Work Item has its own tri-language documentation and pre-archive parity registration before archive."
+  ],
+  "authority": "authorized",
+  "baseRevision": "64022e2123b8190dd6f99e95e1a2b770e30763b1",
+  "createdAt": "2026-09-01T19:41:41Z",
+  "goal": "Make the three WI-483 Work Item documents satisfy the post-close promotion check without changing governance facts or source implementation.",
+  "intent": "Promote the closed WI-483 documentation projections to terminal evidence-backed metadata.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime/Core behavior",
+    "reference source implementation",
+    "new reference comparison paths",
+    "release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ea9ea3cd6681ffdffad99815e542b4b435fe6d2c717f0209e805da274add9db6",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-484-wi483-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/457",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-484-wi483-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-483-wi482-doc-promotion.md",
+    "docs/work-items/WI-483-wi482-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-483-wi482-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-484-wi483-doc-promotion.md",
+    "docs/work-items/WI-484-wi483-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-484-wi483-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-484-wi483-doc-promotion"
+}

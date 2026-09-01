@@ -4,9 +4,13 @@ title: "WI-483 — WI-482 終端ドキュメント昇格"
 description: "不変の証拠を書き換えず、WI-482 の終端ドキュメント投影を昇格する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-483-wi482-doc-promotion
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-483-wi482-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-483-wi482-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-483-wi482-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-483-wi482-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-483-wi482-doc-promotion.close.json
 ---
 
 # WI-483 — WI-482 終端ドキュメント昇格
