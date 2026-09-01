@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-486 Work Item pages declare implemented status and exact terminal evidence paths.",
+    "All three reference-parity ledgers mark WI-486 Implemented with exact terminal evidence paths.",
+    "All three reference-parity ledgers retain WI-485 as a recovered predecessor and bind its superseding recovery and close evidence.",
+    "WI-487 is registered in all three reference-parity ledgers before new verification evidence is generated.",
+    "The closed Work Item promotion checker passes with --check-all.",
+    "No immutable governance records or unrelated documentation are changed."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "68a31cd9cbeeee13330e4fb69db9455d88104ec5",
+  "createdAt": "2026-09-01T21:04:05Z",
+  "goal": "Synchronize the tri-language WI-486 projections and complete the recovered WI-485 parity ledger binding with immutable archive, verification, recovery, finalization, and close evidence.",
+  "intent": "Promote the closed WI-486 documentation projections and repair the recovered WI-485 parity rows so the terminal evidence remains discoverable and the governance integrity gate is green.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    "reference inventory semantics",
+    "release artifacts",
+    "object repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b186c497ba925a9745b1984ecd5b9dc1cfaee7f25dfc5238ff43d32ac87acc06",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-487-wi486-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-487-wi486-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-486-wi485-parity-registration.md",
+    "docs/work-items/WI-486-wi485-parity-registration.zh-CN.md",
+    "docs/work-items/WI-486-wi485-parity-registration.ja.md",
+    "docs/work-items/WI-487-wi486-doc-promotion.md",
+    "docs/work-items/WI-487-wi486-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-487-wi486-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-487-wi486-doc-promotion"
+}
