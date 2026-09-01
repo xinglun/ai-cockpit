@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=259 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=443 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -231,11 +231,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 252 |
+| `implemented-different-by-design` | 259 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 62 |
-| `deferred-next-batch` | 450 |
+| `deferred-next-batch` | 443 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1398,3 +1398,38 @@ acceptance. The ledger after WI-421 contains 4,262 `generated-history`, 324
 `implemented-different-by-design`, one `implemented-equivalent`, four
 `not-applicable`, 65 `reference-only`, and 463 `deferred-next-batch` records;
 `migrate-gap` remains zero.
+
+## WI-475 — Outcome, event, and quality-gate reference comparison
+
+WI-475 re-reads seven paths changed in the maintained local reference at
+`fde3380f81fea5fd2e288f7a8849f737dc074060`. The comparison is section by
+section and records a bounded semantic decision; source Python/Make/provider
+bytes are not copied into the Rust repository.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/features/human-benefit-report.md` | implemented-different-by-design | Rust `OutcomeV2`/`humanHandoff`, Task Outcome references, and CLI/MCP tests preserve deterministic human projection, evidence-count semantics, archive ownership, and explicit non-claims. Source `ai-finish`/`check-ai-pr` report files remain source/provider surfaces. |
+| `docs/features/human-benefit-report.zh-CN.md` | implemented-different-by-design | The Chinese reader route preserves the same projection, count, archive, and non-claim semantics through localized Rust references; source report commands and bytes are not copied. |
+| `docs/features/human-benefit-report.ja.md` | implemented-different-by-design | The Japanese reader route preserves the same deterministic projection and evidence boundary through localized Rust references; source report commands and bytes remain outside the target contract. |
+| `docs/maintainers/task-outcome-events.md` | implemented-different-by-design | Tri-language Rust event references, the strict event model, and regressions cover append-only history, correction/supersession, fingerprints, relationships, privacy, and provider-evidence boundaries. Source Python generator/validator/renderer files are semantic material only. |
+| `docs/operations/quality-gates.md` | implemented-different-by-design | Rust Contract-aware CI gates, governance-integrity checks, the reviewed gate manifest, CI/release surfaces, and runner tests preserve dynamic profiles, shadow comparison, evidence ownership, timeout, performance-sample, and traceability responsibilities. Source `make quality`, `Makefile.ai.stack`, and Python runner bytes remain adopter/provider boundaries. |
+| `docs/operations/quality-gates.zh-CN.md` | implemented-different-by-design | The Chinese CI references and gate manifest preserve the source quality hierarchy, dynamic route, shard/evidence, timeout, performance, and traceability semantics with explicit `--repo`; source Make/Python configuration is not installed into adopters. |
+| `docs/operations/quality-gates.ja.md` | implemented-different-by-design | The Japanese CI references and gate manifest preserve the source quality hierarchy, dynamic route, shard/evidence, timeout, performance, and traceability semantics with explicit repository context; source Make/Python configuration is not copied. |
+
+No implementation omission was found. The target intentionally places these
+responsibilities under `docs/features`/`docs/reference` and typed Runtime/gate
+surfaces rather than creating source-only `docs/maintainers` or
+`docs/operations` files. Missing same-path files are therefore an explicit
+layout boundary, not an unreviewed omission. Contract intent and acceptance
+criteria stay in their authored language; localization changes presentation
+only and never governance facts.
+
+The shared Runtime is installed once outside each adopter. Every attached
+object/adopter repository inherits its own `.ai/`, Contract, evidence,
+knowledge, and adapter context through explicit `--repo`; source Python
+modules, Make targets, report files, and quality configuration are not copied.
+The WI-475 ledger records all seven changed paths with prior-classification and
+source-change provenance and removes their deferred status. It now contains
+4,262 `generated-history`, 303 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 66 `reference-only`, and 483
+`deferred-next-batch` records; `migrate-gap` remains zero.

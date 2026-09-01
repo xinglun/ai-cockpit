@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-01T10:56:11Z",
+  "checkpointContractDigest": "sha256:1e7e774b1c78206561347e0cffbc89a49d61a70276da524f1999e0f954b291b2",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b84d8028b01f05fc49d62e065cad490d56a4514045d2648a2d6ef8692f1eeefa",
+      "recorded": true,
+      "recordedAt": "2026-09-01T10:56:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1066c115092441b9f5dd8a8550a263d4633bfd11520a7d53d2b060b32abd1cdb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-475-reference-file-comparison-batch-25"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:1e7e774b1c78206561347e0cffbc89a49d61a70276da524f1999e0f954b291b2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b84d8028b01f05fc49d62e065cad490d56a4514045d2648a2d6ef8692f1eeefa",
+      "previousContractHash": "sha256:b84d8028b01f05fc49d62e065cad490d56a4514045d2648a2d6ef8692f1eeefa",
+      "reason": "Documentation acceptance exposed that the tri-language reference-parity current-baseline projection must be updated with this bounded comparison; add the three parity pages to the existing documentation scope without changing governance authority.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T11:07:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb2fd9c7ecd7390cb1adad580273fe7650a18821db96822ea1c21745de97d239",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-475-reference-file-comparison-batch-25"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9cbf9e96b974af9d21ea48f580ac8d552ed155eca252e2d26ba98009ce702085",
+  "createdAt": "2026-09-01T10:55:24Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T11:15:27Z",
+  "preflightContractDigest": "sha256:1e7e774b1c78206561347e0cffbc89a49d61a70276da524f1999e0f954b291b2",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:9cbf9e96b974af9d21ea48f580ac8d552ed155eca252e2d26ba98009ce702085",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T11:16:18Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-475-reference-file-comparison-batch-25"
+}

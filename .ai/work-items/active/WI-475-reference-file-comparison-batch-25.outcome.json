@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "Each of the seven pinned source files is compared section by section at reference commit fde3380f81fea5fd2e288f7a8849f737dc074060 and receives an explicit semantic classification.",
+    "Rust-native counterparts preserve applicable governance intent while source Python Make installer and provider bytes remain explicitly bounded and are not copied.",
+    "Every discovered in-scope omission is repaired in this Work Item or recorded as a precise non-applicable boundary with evidence; no omission is silently treated as equivalent.",
+    "The tri-language comparison ledger and Work Item documentation bind exact verification evidence and pass documentation and parity gates.",
+    "The machine inventory records all seven paths under WI-475 with non-deferred classifications and preserves source-change provenance."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9cbf9e96b974af9d21ea48f580ac8d552ed155eca252e2d26ba98009ce702085",
+      "workItemId": "WI-475-reference-file-comparison-batch-25"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-475-reference-file-comparison-batch-25.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-475-reference-file-comparison-batch-25.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete a bounded semantic rebaseline for human-benefit reporting, Task Outcome event maintenance, and quality-gate operations against the local pinned reference while preserving Rust-native architecture and adopter inheritance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-475-reference-file-comparison-batch-25.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-475-reference-file-comparison-batch-25"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-475-reference-file-comparison-batch-25.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-475-reference-file-comparison-batch-25"
+}

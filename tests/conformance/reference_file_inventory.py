@@ -63,6 +63,7 @@ WI437_BATCH = "WI-437-reference-rebaseline-governance"
 WI441_BATCH = "WI-441-reference-entrypoint-parity"
 WI461_BATCH = GETTING_STARTED_BATCH
 WI464_BATCH = "WI-464-reference-file-comparison-batch-24"
+WI475_BATCH = "WI-475-reference-file-comparison-batch-25"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -354,6 +355,99 @@ WI464_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "Cargo.toml",
         ],
         "The current source removes Python/Make shard, knowledge, and REPORT_LANGUAGE helpers. The Rust target intentionally has no Makefile; Cargo, the Rust CLI, the canonical gate manifest, and explicit repository-bound commands provide the maintained interface, while source Python orchestration and generated knowledge helpers remain source-only.",
+    ),
+}
+
+# WI-475 re-reads the maintained reference's human-facing Outcome, append-only
+# event, and quality-gate operations pages.  The Rust target intentionally
+# places these responsibilities under its canonical reference/features pages
+# and typed Runtime/gate surfaces; source Python/Make/provider files are not
+# copied or treated as wire compatibility requirements.
+WI475_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/features/human-benefit-report.md": (
+        "implemented-different-by-design",
+        [
+            "docs/features/human-benefit-report.md",
+            "docs/features/task-outcome-report.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/task-outcome-events.md",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+        ],
+        "The source report's deterministic human projection, evidence-count semantics, archive ownership, and explicit non-claims are represented by Rust OutcomeV2/humanHandoff, task-outcome references, and CLI/MCP regressions. Source ai-finish/check-ai-pr reports and Python/Make paths remain source/provider surfaces rather than copied target files.",
+    ),
+    "docs/features/human-benefit-report.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/features/human-benefit-report.zh-CN.md",
+            "docs/features/task-outcome-report.zh-CN.md",
+            "docs/reference/outcome-report.zh-CN.md",
+            "docs/reference/task-outcome-events.zh-CN.md",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+        ],
+        "中文页面保留 source 的确定性人类投影、evidence 计数语义、归档归属和非声明边界；Rust 通过 OutcomeV2/humanHandoff、Task Outcome 参考和 CLI/MCP 回归承载。源 ai-finish/check-ai-pr 报告及 Python/Make 路径是 source/provider 边界，不复制为目标文件。",
+    ),
+    "docs/features/human-benefit-report.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/features/human-benefit-report.ja.md",
+            "docs/features/task-outcome-report.ja.md",
+            "docs/reference/outcome-report.ja.md",
+            "docs/reference/task-outcome-events.ja.md",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+        ],
+        "source の deterministic な human projection、evidence count、archive ownership、non-claim 境界を Rust の OutcomeV2/humanHandoff、Task Outcome reference、CLI/MCP regression で表します。source の ai-finish/check-ai-pr report と Python/Make path は source/provider boundary であり、target file として copy しません。",
+    ),
+    "docs/maintainers/task-outcome-events.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/task-outcome-events.md",
+            "docs/reference/task-outcome-events.zh-CN.md",
+            "docs/reference/task-outcome-events.ja.md",
+            "docs/features/task-outcome-report.md",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/task_outcome_events.rs",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+        ],
+        "The source append-only event, correction, fingerprint, relationship, privacy, and provider-evidence responsibilities are implemented by the strict Rust event stream and tri-language references. Source generator/validator/renderer scripts remain semantic material; no Python schema or Make target is copied.",
+    ),
+    "docs/operations/quality-gates.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-quality-gates.md",
+            "docs/reference/governance-integrity-gate.md",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/run_repository_gates.py",
+            ".github/workflows/ci.yml",
+            "docs/release/distribution.md",
+        ],
+        "The source quality hierarchy, dynamic routing, shadow comparison, shard ownership, timing/JUnit/coverage evidence, timeout, performance-sample, and traceability responsibilities are represented by Rust Contract gates plus the reviewed gate manifest and CI/release surfaces. Source make quality, Makefile.ai.stack, and Python runner bytes remain adopter/provider boundaries and are not copied.",
+    ),
+    "docs/operations/quality-gates.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-quality-gates.zh-CN.md",
+            "docs/reference/governance-integrity-gate.zh-CN.md",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/run_repository_gates.py",
+            ".github/workflows/ci.yml",
+            "docs/release/distribution.zh-CN.md",
+        ],
+        "中文责任由 Rust Contract gate、审核过的 gate manifest、CI/release 页面承载：保留 source 的质量层级、动态路由、shadow 对照、分片责任、计时/JUnit/coverage、超时、性能样本和可追溯性。源 make quality、Makefile.ai.stack 和 Python runner bytes 属于 adopter/provider 边界，不复制。",
+    ),
+    "docs/operations/quality-gates.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/ci-quality-gates.ja.md",
+            "docs/reference/governance-integrity-gate.ja.md",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/run_repository_gates.py",
+            ".github/workflows/ci.yml",
+            "docs/release/distribution.ja.md",
+        ],
+        "source の quality hierarchy、dynamic route、shadow 比較、shard ownership、timing/JUnit/coverage evidence、timeout、performance sample、traceability を Rust Contract gate、reviewed gate manifest、CI/release reference で表します。source の make quality、Makefile.ai.stack、Python runner bytes は adopter/provider boundary として copy しません。",
     ),
 }
 
@@ -3208,6 +3302,29 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{record.get('referencePath')}: WI-464 must be implemented-different-by-design")
             if not record.get("rustCounterparts") or not record.get("reason"):
                 errors.append(f"{record.get('referencePath')}: WI-464 result needs counterparts and reason")
+        wi475_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI475_BATCH
+            and record.get("referencePath") in WI475_REFERENCE_FILES
+        ]
+        expected_wi475_paths = set(WI475_REFERENCE_FILES) & current_reference_paths
+        actual_wi475_paths = {record.get("referencePath") for record in wi475_records}
+        if actual_wi475_paths != expected_wi475_paths:
+            errors.append(
+                "WI-475 Outcome/events/quality records do not match the seven scoped paths: "
+                f"expected {sorted(expected_wi475_paths)!r}, got {sorted(actual_wi475_paths)!r}"
+            )
+        if len(wi475_records) != len(expected_wi475_paths):
+            errors.append(
+                f"WI-475 batch must contain {len(expected_wi475_paths)} records, found {len(wi475_records)}"
+            )
+        for record in wi475_records:
+            if record.get("classification") != "implemented-different-by-design":
+                errors.append(f"{record.get('referencePath')}: WI-475 must be implemented-different-by-design")
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(f"{record.get('referencePath')}: WI-475 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -3234,7 +3351,11 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI325_BATCH
         ]
-        expected_wi325_paths = set(WI325_REFERENCE_FILES) & current_reference_paths
+        # A later bounded batch may supersede a source path's latest decision.
+        # Keep the older batch checks valid for the paths it still owns while
+        # validating the newer batch separately below.
+        superseded_by_wi475 = set(WI475_REFERENCE_FILES) if expected_source == EXPECTED_REFERENCE_COMMIT else set()
+        expected_wi325_paths = (set(WI325_REFERENCE_FILES) - superseded_by_wi475) & current_reference_paths
         actual_wi325_paths = {
             record.get("referencePath")
             for record in wi325_records
@@ -3272,7 +3393,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI326_BATCH
         ]
-        expected_wi326_paths = set(WI326_REFERENCE_FILES) & current_reference_paths
+        expected_wi326_paths = (set(WI326_REFERENCE_FILES) - superseded_by_wi475) & current_reference_paths
         actual_wi326_paths = {
             record.get("referencePath")
             for record in wi326_records
@@ -4022,6 +4143,33 @@ def apply_wi464_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi475_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI475_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI475_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI475_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI475_REFERENCE_FILES)} WI-475 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -4040,6 +4188,7 @@ def main() -> int:
     parser.add_argument("--apply-wi441-batch", action="store_true")
     parser.add_argument("--apply-wi461-batch", action="store_true")
     parser.add_argument("--apply-wi464-batch", action="store_true")
+    parser.add_argument("--apply-wi475-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -4084,6 +4233,13 @@ def main() -> int:
     if args.apply_wi464_batch:
         try:
             apply_wi464_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi475_batch:
+        try:
+            apply_wi475_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

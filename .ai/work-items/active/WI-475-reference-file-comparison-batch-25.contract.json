@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "Each of the seven pinned source files is compared section by section at reference commit fde3380f81fea5fd2e288f7a8849f737dc074060 and receives an explicit semantic classification.",
+    "Rust-native counterparts preserve applicable governance intent while source Python Make installer and provider bytes remain explicitly bounded and are not copied.",
+    "Every discovered in-scope omission is repaired in this Work Item or recorded as a precise non-applicable boundary with evidence; no omission is silently treated as equivalent.",
+    "The tri-language comparison ledger and Work Item documentation bind exact verification evidence and pass documentation and parity gates.",
+    "The machine inventory records all seven paths under WI-475 with non-deferred classifications and preserves source-change provenance."
+  ],
+  "authority": "human:owner",
+  "baseRevision": "c5bf73df8653c9fa79505677543fa265d587cb61",
+  "createdAt": "2026-09-01T10:55:24Z",
+  "goal": "Complete a bounded semantic rebaseline for human-benefit reporting, Task Outcome event maintenance, and quality-gate operations against the local pinned reference while preserving Rust-native architecture and adopter inheritance.",
+  "intent": "Compare the next pinned reference-source documentation slice file by file and close any evidence-backed semantic omission without copying source implementation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template",
+    "crates",
+    "object repositories",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1066c115092441b9f5dd8a8550a263d4633bfd11520a7d53d2b060b32abd1cdb",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-475-reference-file-comparison-batch-25",
+    "provider": "github",
+    "pullRequest": "pending:review",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-475-reference-file-comparison-batch-25"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/features/human-benefit-report.ja.md",
+    "docs/features/human-benefit-report.md",
+    "docs/features/human-benefit-report.zh-CN.md",
+    "docs/maintainers/task-outcome-events.md",
+    "docs/operations/quality-gates.ja.md",
+    "docs/operations/quality-gates.md",
+    "docs/operations/quality-gates.zh-CN.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-475-reference-file-comparison-batch-25.md",
+    "docs/work-items/WI-475-reference-file-comparison-batch-25.zh-CN.md",
+    "docs/work-items/WI-475-reference-file-comparison-batch-25.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-475-reference-file-comparison-batch-25"
+}
