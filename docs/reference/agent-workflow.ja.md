@@ -248,6 +248,7 @@ receipt を受理した後にだけ close できます。`Retained` は中間の
 だけは上記の限定的な deleted reconciliation を append できます。Archived verification
 evidence は不変の historical truth として保持され、Runtime upgrade 後に current result として
 再検証されません。新しい finalization receipt は close を実行する Runtime に必ず bind されます。
+`pending:<stable-reference>` provider sentinel も `unknown` と同じ provisional であり、`finish` や `archive` を通過できません。verification と terminal lifecycle evidence を記録する前に、正確な reviewed resource context に置き換えてください。
 
 structured close の後には、controlled documentation projection と default-branch
 terminal check が必要です。

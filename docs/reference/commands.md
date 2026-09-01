@@ -325,7 +325,8 @@ The Runtime rejects `finalize-plan` once the Work Item has reached
 `finish_ready`; bind the resource context before verification so a late plan
 cannot invalidate an already recorded verification cycle. A checkpointed item
 may still bind a provisional context before verification, as an explicit
-recovery/setup step.
+recovery/setup step. The sentinel form `pending:<stable-reference>` is provisional just like
+`unknown`; it is not a provider-bound resource and must be replaced before `finish` or `archive`.
 
 The acceptance receipt also records typed before/after manifests for every
 isolated root. `HOME` and `XDG_CONFIG_HOME` have empty `allowedPrefixes` and

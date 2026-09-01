@@ -323,6 +323,23 @@ fn provisional_context_is_distinguished_from_explicit_plan_context() {
 }
 
 #[test]
+fn pending_provider_context_is_provisional_until_reviewed_resource_is_bound() {
+    let mut pending = ResourceFinalizationContext {
+        branch: "codex/wi-472".into(),
+        worktree: "/private/tmp/wi-472".into(),
+        base_branch: "main".into(),
+        base_remote: "origin".into(),
+        provider: "github".into(),
+        pull_request: "pending:WI-472-finalization-context-compatibility".into(),
+    };
+    assert!(pending.is_provisional());
+
+    pending.pull_request = "https://github.example/acme/project/pull/472".into();
+    assert!(!pending.is_provisional());
+    validate_resource_finalization_context(&pending).unwrap();
+}
+
+#[test]
 fn unknown_top_level_and_nested_fields_fail_closed() {
     let mut value = serde_json::to_value(receipt()).unwrap();
     value["unexpected"] = serde_json::json!(true);

@@ -1023,6 +1023,9 @@ impl ResourceFinalizationContext {
     /// `start` records local branch/worktree facts before a provider-side
     /// finalization plan exists.  The remaining identity fields are explicit
     /// sentinels until `finalize-plan` binds them to the reviewed resource.
+    /// Providers may use a `pending:<stable-reference>` value while a reviewed
+    /// PR is being created; that value is still provisional and must never
+    /// allow `finish`/`archive` to strand an unfinalizable Work Item.
     pub fn is_provisional(&self) -> bool {
         [
             self.base_branch.as_str(),
@@ -1030,7 +1033,8 @@ impl ResourceFinalizationContext {
             self.provider.as_str(),
             self.pull_request.as_str(),
         ]
-        .contains(&"unknown")
+        .iter()
+        .any(|value| *value == "unknown" || value.starts_with("pending:"))
     }
 }
 

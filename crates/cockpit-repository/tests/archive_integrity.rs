@@ -244,6 +244,59 @@ fn archive_rejects_provisional_resource_context_without_moving_active_bytes() {
 }
 
 #[test]
+fn finish_rejects_pending_provider_context_without_moving_active_bytes() {
+    let path = repository();
+    let work_item_id = "WI-FINISH-REJECTS-PENDING";
+    start_work_item(
+        &path,
+        work_item_id,
+        "reject pending provider context",
+        "keep unfinished Work Items recoverable",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract["resourceContext"]["pullRequest"] =
+        serde_json::json!("pending:WI-FINISH-REJECTS-PENDING");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("contract bytes"),
+    )
+    .expect("tamper contract to pending context");
+
+    let error = finish_work_item(&path, work_item_id)
+        .expect_err("pending provider context must block finish");
+    assert!(error.to_string().contains("non-provisional"));
+    assert!(
+        path.join(".ai/work-items/active")
+            .join(format!("{work_item_id}.summary.json"))
+            .exists()
+    );
+    assert!(
+        !path
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.archive.json"))
+            .exists()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn archive_accepts_explicit_non_provisional_resource_finalization_plan() {
     let path = repository();
     let work_item_id = "WI-ARCHIVE-WITH-PLAN";

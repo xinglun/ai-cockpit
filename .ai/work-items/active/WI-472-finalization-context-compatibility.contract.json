@@ -1,0 +1,92 @@
+{
+  "acceptanceCriteria": [
+    "pending:* provider context is classified as provisional and cannot pass finish/archive",
+    "a real non-provisional finalize-plan remains the only path to provider-bound archive",
+    "WI-471 immutable bytes remain unchanged and are recoverable through the explicit successor chain",
+    "tri-language docs and tests state the ordering and recovery boundary",
+    "no fabricated PR, runtime identity, or cleanup receipt is accepted"
+  ],
+  "authority": "authorized",
+  "baseRevision": "198f0c9534dbcc81e9ac286c4992d5916e82cb4e",
+  "createdAt": "2026-09-01T07:34:01Z",
+  "goal": "让 pending provider context 在 finish/archive 前 fail closed，同时保留 WI-471 原始字节并完成可审计的 Runtime 兼容恢复。",
+  "intent": "修复归档前 provider finalization context 的 pending 哨兵误判，避免未来 Work Item 在真实 PR 绑定前被归档，并为历史恢复保留不可变边界。",
+  "mode": "docs",
+  "outOfScope": [
+    "对象工程 /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "WI-471 与其他历史 archive/evidence/decision bytes",
+    "发布版本号、GitHub Release、Homebrew 与 adopter acceptance",
+    "主线下一批参考源逐文件语义比对",
+    "用户全局 Agent/MCP 配置"
+  ],
+  "predecessorContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
+  "predecessorWorkItemId": "WI-471-parity-recovery-binding",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2cd255b5c14959711b816395162f2eb3a18d64942f723c1ed3e24f235bc5a5fe",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "pending provider context is rejected before archive",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "finish and archive reject a pending provider context before writing terminal archive bytes",
+      "verificationPlan": "run the protocol and repository lifecycle regressions for pending context"
+    },
+    {
+      "scenario": "real provider context remains archiveable",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "a complete identity-bound finalize-plan remains accepted by finish and archive",
+      "verificationPlan": "run the existing resource finalization transition, archive integrity, and lifecycle-order regressions"
+    },
+    {
+      "scenario": "historical recovery preserves immutable predecessor",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "the WI-471 predecessor bytes remain unchanged while an explicit successor recovery is recorded",
+      "verificationPlan": "run recovery binding and archive immutability regressions"
+    }
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-472-finalization-context-compatibility",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-472-finalization-context-compatibility"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-472-finalization-context-compatibility.md",
+    "docs/work-items/WI-472-finalization-context-compatibility.zh-CN.md",
+    "docs/work-items/WI-472-finalization-context-compatibility.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-472-finalization-context-compatibility"
+}

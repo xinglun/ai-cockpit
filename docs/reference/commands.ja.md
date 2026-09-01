@@ -225,7 +225,7 @@ acceptance receipt には各 isolated root の typed before/after manifest も�
 cleanup failure は acceptance を失敗させますが、公開済み Release truth を unpublish または書き換えません。
 
 Runtime は Work Item が `finish_ready` に到達した後の `finalize-plan` を拒否します。
-verification 前に resource context を bind し、記録済みの verification cycle の無効化を防ぎます。checkpointed の Work Item は、明示的な recovery/setup として verification 前に provisional context を bind できます。
+verification 前に resource context を bind し、記録済みの verification cycle の無効化を防ぎます。checkpointed の Work Item は、明示的な recovery/setup として verification 前に provisional context を bind できます。`pending:<stable-reference>` sentinel は `unknown` と同じく provisional です。provider に束縛された resource ではないため、`finish` または `archive` の前に実際の context へ置き換えてください。
 
 `tests/conformance/final_replacement_acceptance.sh` は source repository の最終置換 boundary です。installed Runtime identity、固定した
 reference oracle、conformance/adversarial/performance gate、コピーなし検査を記録し、`acceptance.json` と `SHA256SUMS` を生成します。

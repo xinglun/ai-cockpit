@@ -208,7 +208,8 @@ shared-worktree 或 direct-merge receipt 在 Git 事实验证后可以使用文�
 
 Runtime 在 Work Item 进入 `finish_ready` 后会拒绝 `finalize-plan`；应在
 verification 之前绑定 resource context，避免晚绑定使已记录的验证周期失效。处于 checkpointed 的 Work Item
-仍可在 verification 前绑定 provisional context，作为显式恢复/准备步骤。
+仍可在 verification 前绑定 provisional context，作为显式恢复/准备步骤。`pending:<stable-reference>` 哨兵值与
+`unknown` 一样属于 provisional；它不是已绑定的 provider 资源，必须在 `finish` 或 `archive` 前替换为真实资源上下文。
 
 `tests/conformance/final_replacement_acceptance.sh` 是源码仓库的最终替代边界，记录安装的 Runtime identity、锁定的
 reference oracle、conformance/adversarial/performance gate 和无复制检查，并生成 `acceptance.json` 与 `SHA256SUMS`。
