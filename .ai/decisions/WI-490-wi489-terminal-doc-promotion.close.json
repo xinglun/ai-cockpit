@@ -1,0 +1,139 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:13b32ed189edd0d4a7138d8135191d6f335d3befa5af67a45d63467e24a266b3",
+      "workItemId": "WI-490-wi489-terminal-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-490-wi489-terminal-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-490-wi489-terminal-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-490-wi489-terminal-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-490-wi489-terminal-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json",
+            ".ai/decisions/WI-490-wi489-terminal-doc-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via authorized user instruction to merge and clean the reviewed PR at 2026-09-01T22:37:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-490-wi489-terminal-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Promote WI-489's tri-language pages and parity registration as one bounded terminal documentation projection."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-490-wi489-terminal-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-490-wi489-terminal-doc-promotion"
+  },
+  "finalReportDigest": "sha256:17abd0d219f1a0169154402198a06d243069b69ede792681ac33fc5831b436b6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:a0e096b0373c2c28e2387653c9350877439d2d29dd11529ed96e03942436a5af",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-490-wi489-terminal-doc-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "authorized user instruction to merge and clean the reviewed PR",
+    "decidedAt": "2026-09-01T22:37:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-490-wi489-terminal-doc-promotion.verification.json",
+      ".ai/decisions/WI-490-wi489-terminal-doc-promotion.finalize.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md",
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "WI-490 documentation projection was verified, archived, merged through PR #463, and its exact branch/worktree were finalized and removed.",
+    "resumeCondition": "Post-close documentation projection checks must remain current before the next release or reference-comparison batch."
+  },
+  "timestamp": "2026-09-01T22:37:18Z",
+  "workItemId": "WI-490-wi489-terminal-doc-promotion"
+}
