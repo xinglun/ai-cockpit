@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b186c497ba925a9745b1984ecd5b9dc1cfaee7f25dfc5238ff43d32ac87acc06",
+      "workItemId": "WI-486-wi485-parity-registration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json",
+            ".ai/decisions/WI-486-wi485-parity-registration.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via authorized user instruction to merge, clean, and close the reviewed recovery at 2026-09-01T20:59:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-486-wi485-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-486-wi485-parity-registration.contract.json"
+          ],
+          "inference": false,
+          "text": "Restore the missing tri-language parity registration discovered by hosted quality for WI-485 while preserving immutable recovery history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-486-wi485-parity-registration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-486-wi485-parity-registration"
+  },
+  "finalReportDigest": "sha256:f641121b7f6909b9509ccb1b179354097ca76a73893203da1f2f53f932423835",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1c0c28393a4bab7d5060cf1f95d2022d553919a80de185d0c508e750451b8381",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-486-wi485-parity-registration.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "authorized user instruction to merge, clean, and close the reviewed recovery",
+    "decidedAt": "2026-09-01T20:59:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-486-wi485-parity-registration.verification.json",
+      ".ai/decisions/WI-486-wi485-parity-registration.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "tests/ci/governance_integrity_gate.py"
+    ],
+    "reason": "PR #459 passed all hosted checks, merged as 0d76cefd09d53303c2b684346364a363c13e49a4, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "None; closed after reviewed merge and exact cleanup."
+  },
+  "timestamp": "2026-09-01T20:58:13Z",
+  "workItemId": "WI-486-wi485-parity-registration"
+}
