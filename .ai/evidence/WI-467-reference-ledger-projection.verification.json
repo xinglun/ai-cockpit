@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:0a055133668ec96f81e695c6d2733061346f8bd665bb01714563fe3542e4bf3b",
-  "createdAt": "2026-09-01T05:06:53Z",
+  "contractDigest": "sha256:def680e7e64711fa7e442d21ff1cd138c601bc45e876f5c88f15c9544bb71b55",
+  "createdAt": "2026-09-01T05:20:03Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 6452,
-      "executionElapsedMs": 6275,
+      "elapsedMs": 5459,
+      "executionElapsedMs": 5291,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 6452,
-    "executionElapsedMs": 6275,
-    "filesHashed": 19,
-    "filesRead": 19,
+    "elapsedMs": 5459,
+    "executionElapsedMs": 5291,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,15 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-file-comparison.ja.md",
-        "docs/reference/reference-file-comparison.md",
-        "docs/reference/reference-file-comparison.zh-CN.md",
-        "docs/work-items/WI-467-reference-ledger-projection.ja.md",
-        "docs/work-items/WI-467-reference-ledger-projection.md",
-        "docs/work-items/WI-467-reference-ledger-projection.zh-CN.md",
-        "tests/conformance/reference_inventory_docs_test.py"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "1a66457a79a5f67ce95a41798fe915e9a76061a9",
       "dependencyConfidence": "unknown",
@@ -52,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 6275,
+      "executionElapsedMs": 5291,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b365eb698a5a7d3d53002cb534b7ff18ea9ea6d2f74aca5c16fd88bd2e3acef4",
+      "repositorySnapshotDigest": "sha256:fc2c53722529ed68b5bc007d557f7981022b88b716c1a804f0324bd6cc410636",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -84,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:09b940f4ea1f7c32fc809bb566ddaf738468f40972e43a614606b81bfdbd1103",
+        "outputDigest": "sha256:bf54a73a3278a1e18d05a18e991192246b8037b08c072a6c98fcfcc5758f20e0",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -100,9 +92,9 @@
     "runtimeVersion": "0.2.54",
     "workItemId": "WI-467-reference-ledger-projection"
   },
-  "receiptDigest": "sha256:b21c3d825d4f92d2b8c18584c9a850fd6dc2525d9138cfdd6a0786212a2db784",
+  "receiptDigest": "sha256:07307cec6832e4feb37be8234a2447dd3752b27603a0ad7069138338d2ad1312",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:b365eb698a5a7d3d53002cb534b7ff18ea9ea6d2f74aca5c16fd88bd2e3acef4",
+  "repositorySnapshotDigest": "sha256:fc2c53722529ed68b5bc007d557f7981022b88b716c1a804f0324bd6cc410636",
   "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
   "runtimeVersion": "0.2.54",
   "workItemId": "WI-467-reference-ledger-projection"
