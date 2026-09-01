@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized user instruction to continue the bounded WI-485 documentation promotion",
+  "decidedAt": "2026-09-01T20:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-485-wi484-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-485-wi484-doc-promotion.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:670eceb4405c90a313938f7799e54ba551d9e1e7df8ca24e943ff939e78c675f",
+  "predecessorSummaryDigest": "sha256:834cd75598f510076fa34a2efff8cf103cf2152e7f9e1282af8b3822afe3792d",
+  "predecessorWorkItemId": "WI-485-wi484-doc-promotion",
+  "reason": "Retry after finalize-plan changed the Contract binding and invalidated the previous verification; preserve the prior evidence and run fresh preflight and verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized Contract, then retry finish.",
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "workItemId": "WI-485-wi484-doc-promotion"
+}
