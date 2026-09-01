@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-462-reference-parity-promotion.contract.json",
+    ".ai/work-items/active/WI-462-reference-parity-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T00:19:15Z",
+  "checkpointContractDigest": "sha256:2fb05fc3f79b05d85c95742de059ea25ca7f1ceb10308baf462343465b90f519",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:4d407ee952750a7a9cfacf770b6558f6a6c93af2c2622b3fadf4a6bfbd55aea0",
+      "recorded": true,
+      "recordedAt": "2026-09-01T00:19:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95cead93ad35630b84478b2c3676bb9842eda5cb9e03420003c54e125d0f9709",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-462-reference-parity-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:2fb05fc3f79b05d85c95742de059ea25ca7f1ceb10308baf462343465b90f519",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4d407ee952750a7a9cfacf770b6558f6a6c93af2c2622b3fadf4a6bfbd55aea0",
+      "previousContractHash": "sha256:4d407ee952750a7a9cfacf770b6558f6a6c93af2c2622b3fadf4a6bfbd55aea0",
+      "reason": "Add the Work Item tri-language pages required by the post-close documentation promotion gate; keep the scope limited to six documentation files.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T00:24:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:084dc289acb944b424c5921a2010aac08a4b8c6cb44891619988f6217caa79ce",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-462-reference-parity-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:084dc289acb944b424c5921a2010aac08a4b8c6cb44891619988f6217caa79ce",
+  "createdAt": "2026-09-01T00:18:26Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-01T00:27:53Z",
+  "preflightContractDigest": "sha256:2fb05fc3f79b05d85c95742de059ea25ca7f1ceb10308baf462343465b90f519",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:084dc289acb944b424c5921a2010aac08a4b8c6cb44891619988f6217caa79ce",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryDecisionDigest": "sha256:cd24f3d7e05c25bb4bcc0d009f47d6476305b18e16f20b78cacfc65fed4ab053",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-462-reference-parity-promotion.recovery.json",
+  "recoveryRetryPending": true,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T00:19:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-462-reference-parity-promotion"
+}

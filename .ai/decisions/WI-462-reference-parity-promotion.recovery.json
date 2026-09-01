@@ -1,0 +1,19 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized",
+  "decidedAt": "2026-09-01T00:25:26Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:2fb05fc3f79b05d85c95742de059ea25ca7f1ceb10308baf462343465b90f519",
+  "predecessorSummaryDigest": "sha256:e538d770925e53fa83950c92f97010475543d41ce2838f6f59dc2abe0465bb43",
+  "predecessorWorkItemId": "WI-462-reference-parity-promotion",
+  "reason": "Retry verification after adding the required tri-language documentation pages and correcting the post-close projection scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh verification and preflight evidence bound to the amended Contract and current repository snapshot.",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "workItemId": "WI-462-reference-parity-promotion"
+}
