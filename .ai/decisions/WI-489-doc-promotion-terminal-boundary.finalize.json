@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "authorized user instruction to merge and clean the reviewed PR",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e5080d600a3a878a1ef4b5c4b366c7133fc6af1a",
+    "name": "codex/wi-489-doc-promotion-terminal-boundary",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4cc002939258d35f40f9969e70b815ecceeca266549b46e5ec5b58667dbb60f8",
+  "operationId": "WI-489-doc-promotion-terminal-boundary-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bdf5a0bacac98eeb71a91f985430187bb0024181",
+    "headRevision": "e5080d600a3a878a1ef4b5c4b366c7133fc6af1a",
+    "mergeCommit": "3cd46ca39222558e8b6e53327013e515790652b0",
+    "number": 462,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/462"
+  },
+  "reason": "PR #462 passed all hosted checks, was merged as 3cd46ca39222558e8b6e53327013e515790652b0, and the exact feature branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "ai-cockpit-WI-489-doc-promotion-terminal-boundary-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-489-doc-promotion-terminal-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/462",
+    "worktree": "/private/tmp/ai-cockpit-wi489-doc-promotion-terminal-boundary"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T22:20:00Z",
+  "workItemId": "WI-489-doc-promotion-terminal-boundary",
+  "worktree": {
+    "branch": "codex/wi-489-doc-promotion-terminal-boundary",
+    "headRevision": "e5080d600a3a878a1ef4b5c4b366c7133fc6af1a",
+    "path": "/private/tmp/ai-cockpit-wi489-doc-promotion-terminal-boundary",
+    "worktreeId": "WI-489-doc-promotion-terminal-boundary"
+  }
+}
