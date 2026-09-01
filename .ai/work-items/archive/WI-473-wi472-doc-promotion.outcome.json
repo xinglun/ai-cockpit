@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "All three WI-472 Work Item documents have terminal status metadata bound to the archived Contract, verification evidence, finalization receipt, and close decision.",
+    "The reference-parity rows for WI-471 and WI-472 are present in all three languages; the recovered WI-471 row binds the authoritative hashed recovery receipt without rewriting its immutable bytes.",
+    "All three reference-parity rows for WI-472 are promoted to the language-appropriate implemented status and retain the complete terminal evidence links.",
+    "The three WI-473 Work Item documents and its pre-archive parity registration are present so the governance integrity gate can validate this documentation Work Item before terminal promotion.",
+    "promote_closed_work_item.py --repo <repo> --work-item WI-473-wi472-doc-promotion --check and --check-all pass after the promotion.",
+    "documentation acceptance and reference inventory documentation tests pass.",
+    "No immutable .ai governance bytes are rewritten and no object repository is changed."
+  ],
+  "createdAt": "2026-09-01T09:15:55Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0dcb701756003d8819f255f6afb64551f462fbf59e6557cb301bc2032dc77f49",
+  "evidenceRefs": [
+    ".ai/evidence/WI-473-wi472-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-473-wi472-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-473-wi472-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0a9f82e7ac065b5f1ca46f4b23fe3e94a4c8fd4e0a269774fea25422e1ecd42d",
+      "workItemId": "WI-473-wi472-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-473-wi472-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-473-wi472-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-473-wi472-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-473-wi472-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-473-wi472-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-473-wi472-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-473-wi472-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-473-wi472-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-473-wi472-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-473-wi472-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the reader-facing WI-472 and reference-parity documentation match the verified archive, evidence, finalization, and close receipts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-473-wi472-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-473-wi472-doc-promotion"
+  },
+  "taskReportDigest": "sha256:635afaefd275a25de7c47d5d664ad795f217c53660e9f351c7f27a6a8f6341e4",
+  "taskReportMarkdownDigest": "sha256:cd273a47ccf56833a3a5dddfd349b6cb4724094e84a9e362e065f4880ef85c59",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-473-wi472-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-473-wi472-doc-promotion"
+}

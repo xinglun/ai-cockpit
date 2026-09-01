@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T09:12:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-473-wi472-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-473-wi472-doc-promotion.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    "docs/reference/agent-workflow.md:recovery",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "predecessorContractDigest": "sha256:c0f3fe47acf4255bee7706eff06492dfd858389f2838ed40a2a3b2cf2fa60ddf",
+  "predecessorEventsDigest": "sha256:d7f3e4a98694a929f4de43d201845d1383fec0c70f8b1ed8d1c8cef65558ddd4",
+  "predecessorOutcomeDigest": "sha256:0c906e1a8fe92d09fffc96c9fb77f3db5106393f8297811ebb2f5437e3038129",
+  "predecessorSummaryDigest": "sha256:08a04da2bee7ded498accbf0652f1c7d56c3ba972cee97048a709a798156fbb9",
+  "predecessorWorkItemId": "WI-473-wi472-doc-promotion",
+  "reason": "Retry after the documentation scope amendment required by the governance-integrity gate; preserve the prior failed attempt and regenerate current preflight and verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification against the amended Contract, then retry finish only with current matching evidence.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "workItemId": "WI-473-wi472-doc-promotion"
+}
