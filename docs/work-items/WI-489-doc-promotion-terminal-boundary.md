@@ -4,9 +4,13 @@ title: "WI-489 — bounded terminal documentation promotion"
 description: "Prevent closed documentation-promotion Work Items from creating an unbounded successor chain."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-489-doc-promotion-terminal-boundary
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-489-doc-promotion-terminal-boundary
+terminalArchive: .ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.contract.json
+terminalVerification: .ai/evidence/WI-489-doc-promotion-terminal-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-489-doc-promotion-terminal-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-489-doc-promotion-terminal-boundary.close.json
 ---
 
 # WI-489 — bounded terminal documentation promotion

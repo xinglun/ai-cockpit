@@ -4,9 +4,13 @@ title: "WI-489 — 有界终态文档晋级"
 description: "防止已关闭的文档晋级 Work Item 为自身页面创建无界 successor 链。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-489-doc-promotion-terminal-boundary
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-489-doc-promotion-terminal-boundary
+terminalArchive: .ai/work-items/archive/WI-489-doc-promotion-terminal-boundary.contract.json
+terminalVerification: .ai/evidence/WI-489-doc-promotion-terminal-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-489-doc-promotion-terminal-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-489-doc-promotion-terminal-boundary.close.json
 ---
 
 # WI-489 — 有界终态文档晋级
