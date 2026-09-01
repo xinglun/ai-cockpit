@@ -1,0 +1,153 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c42e62399edb7688b8eca0b7a173b53f7750d9733cc5402049fc34a2e972eec7",
+      "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-468-reference-ledger-parity-promotion.recovery.fd46942a5d7272a513f04705d2aa0198d394a441f6a1d9ccb72130d9d9a39179.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-469-reference-ledger-parity-order-recovery.recovery.53d8d1028ea06a759c858975490dd6de67e59d9c39625cd46df65b7cff3fe122.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json",
+            ".ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorized-cleanup at 2026-09-01T07:03:34Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove post-close documentation checks and archive manifest integrity pass without rewriting immutable predecessor bytes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+  },
+  "finalReportDigest": "sha256:31ea0e052495319920f68111dc8095b01f357d3938cd5e9eaa407f8a3ae174f1",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:94c8b64cf2f1e036b27c2a4775eb48016a0b9d7c3655cfc9aed6a90287596bae",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "decidedAt": "2026-09-01T07:03:34Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json",
+      ".ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "The recovered historical artifacts and tri-language projections were reviewed; PR #440 passed hosted checks, was merged, and exact resources were finalized and deleted.",
+    "resumeCondition": "Continue the next reference-comparison batch only from the synchronized main branch after release gates pass."
+  },
+  "timestamp": "2026-09-01T07:04:19Z",
+  "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+}

@@ -4,9 +4,13 @@ title: "WI-470 — terminal documentation promotion and historical artifact reco
 description: "Restore archive-manifest-referenced historical artifacts and promote the closed WI-469 projections without rewriting predecessor truth."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-470-terminal-doc-promotion-and-artifact-recovery
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-470-terminal-doc-promotion-and-artifact-recovery
+terminalArchive: .ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json
+terminalVerification: .ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.close.json
 ---
 
 # WI-470 — terminal documentation promotion and historical artifact recovery

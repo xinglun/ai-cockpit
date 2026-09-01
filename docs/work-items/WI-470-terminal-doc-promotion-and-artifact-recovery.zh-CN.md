@@ -4,9 +4,13 @@ title: "WI-470——终态文档提升与历史产物恢复"
 description: "恢复 archive manifest 引用的历史产物，并在不改写 predecessor truth 的前提下提升已关闭 WI-469 投影。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-470-terminal-doc-promotion-and-artifact-recovery
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-470-terminal-doc-promotion-and-artifact-recovery
+terminalArchive: .ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json
+terminalVerification: .ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.close.json
 ---
 
 # WI-470——终态文档提升与历史产物恢复

@@ -4,9 +4,13 @@ title: "WI-470 — terminal documentation promotion and historical artifact reco
 description: "不変の archive manifest が参照する履歴成果物を復元し、predecessor の事実を書き換えずに WI-469 の終端投影を昇格する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-470-terminal-doc-promotion-and-artifact-recovery
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-470-terminal-doc-promotion-and-artifact-recovery
+terminalArchive: .ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json
+terminalVerification: .ai/evidence/WI-470-terminal-doc-promotion-and-artifact-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-470-terminal-doc-promotion-and-artifact-recovery.close.json
 ---
 
 # WI-470 — terminal documentation promotion and historical artifact recovery
