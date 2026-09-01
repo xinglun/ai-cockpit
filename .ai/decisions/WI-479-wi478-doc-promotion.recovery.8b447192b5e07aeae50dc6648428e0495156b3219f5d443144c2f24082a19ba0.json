@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized user instruction to root-cause release blockers",
+  "decidedAt": "2026-09-02T01:12:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-479-wi478-doc-promotion.recovery.json",
+    ".ai/work-items/archive/WI-480-finalization-context-recovery.close.json",
+    ".ai/evidence/WI-480-finalization-context-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order",
+    "docs/reference/repository-workflow.md#recovery-and-adoption"
+  ],
+  "predecessorContractDigest": "sha256:a9ab6f618d24543024125a7500e0bac197794f03f0674d2f048e6f257b770758",
+  "predecessorEventsDigest": "sha256:e9b83b3a43c9a59e4b3667f2cc4231b43c347d0f678b8882e3fb336b598d4b59",
+  "predecessorOutcomeDigest": "sha256:8ada56f60e3cb0f08a3f15d57bda7966cd9e0ec05e4aef956d359f3eb16a7d9f",
+  "predecessorSummaryDigest": "sha256:92ecaf2d3645dad877eeae6bce091edae374749047fc2e04acc7d0edd8fe052a",
+  "predecessorWorkItemId": "WI-479-wi478-doc-promotion",
+  "reason": "WI-480 completed the bounded recovery guard and closed after reviewed merge and exact cleanup; supersede the immutable WI-479 predecessor without rewriting its historical bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further resume is permitted for WI-479; use a new human-authorized Work Item for any different scope.",
+  "runtimeDigest": "sha256:6f3b64ef42e39d5b9a866fbe1c4ff87e8d413c7c70f4320227005ad179472d71",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-480-finalization-context-recovery",
+  "workItemId": "WI-479-wi478-doc-promotion"
+}
