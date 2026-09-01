@@ -6,9 +6,13 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-482-reference-file-comparison-batch-26
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-482-reference-file-comparison-batch-26
+terminalArchive: .ai/work-items/archive/WI-482-reference-file-comparison-batch-26.contract.json
+terminalVerification: .ai/evidence/WI-482-reference-file-comparison-batch-26.verification.json
+terminalFinalization: .ai/decisions/WI-482-reference-file-comparison-batch-26.finalize.json
+terminalDecision: .ai/decisions/WI-482-reference-file-comparison-batch-26.close.json
 ---
 
 # WI-482 — lifecycle, parallel, and trust-layer reference comparison
