@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "All three parity rows for WI-469 include the validated recovery decision path and still include terminal archive/evidence/finalization/close references.",
+    "governance_integrity_gate.py passes with zero findings after the repair.",
+    "No predecessor archive, evidence, recovery, close, or historical source bytes are rewritten.",
+    "The three Work Item documents state the recovery projection boundary and remain status-consistent."
+  ],
+  "createdAt": "2026-09-01T07:18:13Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dfcf8756dc2441f8240190ac1723b6a3d9a8fd44ca574da97e58aba1c42e6b65",
+  "evidenceRefs": [
+    ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7303937640c8cab594af9232778376071557571bb987ae40d4fe8bb2d3496783",
+      "workItemId": "WI-471-parity-recovery-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-471-parity-recovery-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-471-parity-recovery-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-471-parity-recovery-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-471-parity-recovery-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-471-parity-recovery-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the three reference-parity ledgers explicitly reference the validated WI-469 recovery receipt, preserve immutable predecessor and terminal bytes, and leave the release preflight governance gate green."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-471-parity-recovery-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-471-parity-recovery-binding"
+  },
+  "taskReportDigest": "sha256:a94147acfd044a47d0ff994fd5e0a1ccf4647adb5e831ce11b79649bd6d6734a",
+  "taskReportMarkdownDigest": "sha256:3d5707ff0e39ee2a795eb99633d2a7399939e746c3b713da5d96830c2c8a27fe",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-471-parity-recovery-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-471-parity-recovery-binding"
+}
