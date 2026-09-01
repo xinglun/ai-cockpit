@@ -181,12 +181,23 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 <!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=252 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=450 migrate-gap=0 -->
 
-在当前本地参考源比较基线上，台账包含 4,450 条当前 tracked path：3,681 条
-`generated-history`、230 条 `implemented-different-by-design`、1 条
-`implemented-equivalent`、4 条 `not-applicable`、62 条 `reference-only` 和 479 条
-`deferred-next-batch`。deferred 记录仍是待比较工作，不是 parity 声明。本次重绑定还记录了
-160 条当前源内容发生变化的路径（其中 143 条非历史决定等待重新语义比较），以及上一台账中
-已移除的 669 条路径。capability/profile slice 已没有 `migrate-gap`：
+下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
+当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
+中已移除的 669 条路径。deferred 记录仍是待比较工作，不是 parity 声明。本次重绑定还记录了
+160 条当前源内容发生变化的路径，capability/profile slice 已没有 `migrate-gap`：
+
+| 指标 | 数量 |
+| --- | ---: |
+| `current-tracked-paths` | 4,450 |
+| `generated-history` | 3,681 |
+| `implemented-different-by-design` | 252 |
+| `implemented-equivalent` | 1 |
+| `not-applicable` | 4 |
+| `reference-only` | 62 |
+| `deferred-next-batch` | 450 |
+| `migrate-gap` | 0 |
+| `retired-reference-paths` | 669 |
+| `append-only-ledger-records` | 5,119 |
 
 1. `.ai/project/adopter-capability-manifest.json` 已从当前本地 checkout 移除；其旧决定保留在
    `retiredReferencePaths` 中，仍是 installer-surface 外部边界，而不是当前记录。
