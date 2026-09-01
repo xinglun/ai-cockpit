@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-482-reference-file-comparison-batch-26.contract.json",
+    ".ai/work-items/active/WI-482-reference-file-comparison-batch-26.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T18:39:50Z",
+  "checkpointContractDigest": "sha256:99132eeb9fc4c861d71dc6276d8c395fe307e89db8386da8de80003ce0d59c3a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:50a713b128173f63104e6b3972891454588d1bf540c9bc5bab98d64332b06899",
+      "recorded": true,
+      "recordedAt": "2026-09-01T18:39:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:39b129338f8cb90f0170d3654c5a8c66aa56453f3b68957254171a221e0f9331",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-482-reference-file-comparison-batch-26"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:09bc8247e8cd3e2b70be16a042937e0405bc010ec06cd7944362c530be375d12",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:50a713b128173f63104e6b3972891454588d1bf540c9bc5bab98d64332b06899",
+      "previousContractHash": "sha256:50a713b128173f63104e6b3972891454588d1bf540c9bc5bab98d64332b06899",
+      "reason": "Bind the deterministic reference inventory, documentation, and workspace verification commands declared by this docs Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T18:48:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:372882b8d801115eef99ce66f198e423cafe5f9a73b3941d106f1e1bad856e02",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-482-reference-file-comparison-batch-26"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:99132eeb9fc4c861d71dc6276d8c395fe307e89db8386da8de80003ce0d59c3a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:50a713b128173f63104e6b3972891454588d1bf540c9bc5bab98d64332b06899",
+      "previousContractHash": "sha256:09bc8247e8cd3e2b70be16a042937e0405bc010ec06cd7944362c530be375d12",
+      "reason": "Use the Runtime-supported verification evidence class while retaining all conformance and documentation checks in the Contract verification list.",
+      "recorded": true,
+      "recordedAt": "2026-09-01T18:57:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d813f498dd9c2db6b7c701f513e84796f06ca5fba1526feada444b162750cf9d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-482-reference-file-comparison-batch-26"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d813f498dd9c2db6b7c701f513e84796f06ca5fba1526feada444b162750cf9d",
+  "createdAt": "2026-09-01T18:32:44Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T19:03:16Z",
+  "preflightContractDigest": "sha256:99132eeb9fc4c861d71dc6276d8c395fe307e89db8386da8de80003ce0d59c3a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d813f498dd9c2db6b7c701f513e84796f06ca5fba1526feada444b162750cf9d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T18:58:23Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-482-reference-file-comparison-batch-26"
+}

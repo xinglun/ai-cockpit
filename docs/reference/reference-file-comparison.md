@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd`.
-- Runtime used for the comparison work: `ai-cockpit 0.2.47`, binary SHA256 `6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.57` binary, SHA256 `f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=259 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=443 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=435 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -231,11 +231,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 259 |
+| `implemented-different-by-design` | 267 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 62 |
-| `deferred-next-batch` | 443 |
+| `deferred-next-batch` | 435 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1433,3 +1433,36 @@ source-change provenance and removes their deferred status. It now contains
 4,262 `generated-history`, 303 `implemented-different-by-design`, one
 `implemented-equivalent`, four `not-applicable`, 66 `reference-only`, and 483
 `deferred-next-batch` records; `migrate-gap` remains zero.
+
+## WI-482 — lifecycle, parallel, and trust-layer reference comparison
+
+WI-482 re-reads the eight paths changed between the previous comparison and
+the maintained local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060`. The current Rust baseline is
+`origin/main` `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`; comparison checks use
+the published `ai-cockpit 0.2.57` binary
+(`f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`).
+The source changes narrow a short lifecycle route, move parallel/handoff detail
+to its dedicated reference, remove a template-only quality-shard section, and
+remove an obsolete `REPORT_LANGUAGE` example argument. No source Python,
+Makefile, provider configuration, or same-path documentation is copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/operations/work-item-lifecycle.md` | implemented-different-by-design | `docs/reference/agent-workflow.md`, `docs/reference/outcome-report.md`, and this comparison route carry the Rust-native lifecycle, human pause, exact cleanup, and current-Work-Item boundary. |
+| `docs/operations/work-item-lifecycle.zh-CN.md` | implemented-different-by-design | The Chinese agent workflow and Outcome routes preserve the same lifecycle and stop rules with explicit `--repo`; source wording and Make commands are not installed. |
+| `docs/operations/work-item-lifecycle.ja.md` | implemented-different-by-design | The Japanese agent workflow and Outcome routes preserve the same lifecycle and stop rules with explicit repository context; source wording and Make commands are not copied. |
+| `docs/reference/agent-parallel-work-items.md` | implemented-different-by-design | `docs/reference/cross-work-item-dedup.md`, `docs/reference/affected-verification.md`, `docs/reference/agent-workflow.md`, `AGENTS.md`, and `.ai/README.md` keep dedicated-worktree, scope, evidence, serialization, and visible-handoff boundaries. Agent conversation delivery remains an adapter responsibility. |
+| `docs/reference/ai-cockpit-work-item-lifecycle.md` | implemented-different-by-design | Rust lifecycle and pre-finish boundaries are documented in `docs/reference/agent-workflow.md`, `docs/reference/outcome-report.md`, `docs/reference/ci-quality-gates.md`, and the Runtime. Template-only pytest shards and `REPORT_LANGUAGE` are not target requirements. |
+| `docs/trust-layer.md` | implemented-different-by-design | `docs/philosophy.md`, `docs/security/enterprise-governance.md`, `docs/architecture.md`, and `docs/capabilities.md` preserve trust-chain, delegated-evidence, human-decision, and limitation semantics with Rust-native boundaries. |
+| `docs/trust-layer.zh-CN.md` | implemented-different-by-design | The Chinese philosophy, enterprise-governance, architecture, and capabilities routes preserve the same trust semantics and explicit external-provider boundary. |
+| `docs/trust-layer.ja.md` | implemented-different-by-design | The Japanese philosophy, enterprise-governance, architecture, and capabilities routes preserve the same trust semantics and explicit external-provider boundary. |
+
+No implementation omission was found in these changed paths. The target
+intentionally has no same-path `docs/operations/*`, `docs/trust-layer.*`, or
+agent-handoff appendix: accepted responsibilities are split across
+Rust-native reader routes and the explicit Agent adapter boundary. Contract
+intent and acceptance criteria remain in their authored language; localization
+changes presentation only. The ledger records all eight paths as
+`implemented-different-by-design`, preserves source-change history, and reduces
+the deferred set to 475 records.

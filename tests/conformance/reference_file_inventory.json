@@ -31715,13 +31715,14 @@
     },
     {
       "referencePath": "docs/operations/work-item-lifecycle.ja.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-482-reference-file-comparison-batch-26",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/agent-workflow.ja.md",
-        "docs/reference/outcome-report.ja.md"
+        "docs/reference/outcome-report.ja.md",
+        "docs/reference/reference-file-comparison.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "現行 source の operations page は標準の serial lifecycle に絞り、parallel の説明を別 route に移しました。Rust の reader route は Runtime-native な文書で同じ lifecycle、human pause、正確な cleanup、独立した parallel 境界を保持し、source bytes と Make command はコピーしません。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -31729,13 +31730,14 @@
     },
     {
       "referencePath": "docs/operations/work-item-lifecycle.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-482-reference-file-comparison-batch-26",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/agent-workflow.md",
-        "docs/reference/outcome-report.md"
+        "docs/reference/outcome-report.md",
+        "docs/reference/reference-file-comparison.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The maintained source shortens this operations page to the canonical serial lifecycle and moves parallel guidance elsewhere. The Rust reader route keeps the same lifecycle, human pause, exact cleanup, and separate parallel/reference boundaries in its Runtime-native documentation; source page bytes and make commands are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -31743,13 +31745,14 @@
     },
     {
       "referencePath": "docs/operations/work-item-lifecycle.zh-CN.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-482-reference-file-comparison-batch-26",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/agent-workflow.zh-CN.md",
-        "docs/reference/outcome-report.zh-CN.md"
+        "docs/reference/outcome-report.zh-CN.md",
+        "docs/reference/reference-file-comparison.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "源中文 operations 页面收敛为标准串行生命周期，并把并行说明移到其他路线。Rust 中文读者路线在 Runtime 原生文档中保留相同生命周期、人工暂停、精确清理和独立并行边界；不复制源文件字节或 Make 命令。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -31884,13 +31887,16 @@
     },
     {
       "referencePath": "docs/reference/agent-parallel-work-items.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-482-reference-file-comparison-batch-26",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/cross-work-item-dedup.md",
-        "docs/reference/affected-verification.md"
+        "docs/reference/affected-verification.md",
+        "docs/reference/agent-workflow.md",
+        "AGENTS.md",
+        ".ai/README.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source removes its conversation-handoff appendix because that boundary is owned by the Agent/host route. Rust keeps bounded parallel planning, serialized projections, one-Work-Item identity, and the mandatory visible Outcome handoff in repository rules and dedicated references; the source document is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -31898,13 +31904,15 @@
     },
     {
       "referencePath": "docs/reference/ai-cockpit-work-item-lifecycle.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-482-reference-file-comparison-batch-26",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/agent-workflow.md",
-        "docs/reference/outcome-report.md"
+        "docs/reference/outcome-report.md",
+        "docs/reference/ci-quality-gates.md",
+        "crates/cockpit-repository/src/lib.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source no longer includes its template-internal quality-shard worktree section or duplicate retry-repair section, and drops REPORT_LANGUAGE from the finish example. Rust retains the applicable lifecycle, quality routing, retry boundary, and localized presentation through its installed Runtime and typed references; template Make/Python helper behavior is explicitly not an adopter requirement.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -34642,13 +34650,15 @@
     },
     {
       "referencePath": "docs/trust-layer.ja.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-482-reference-file-comparison-batch-26",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/philosophy.ja.md",
-        "docs/security/enterprise-governance.ja.md"
+        "docs/security/enterprise-governance.ja.md",
+        "docs/architecture.ja.md",
+        "docs/capabilities.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "source の Trust Layer は Python/Make の説明を一つの page に集約します。Rust は設計上、design philosophy、architecture、capability truth、enterprise governance に Why/What/How、evidence、human decision、non-claim を分けて投影し、同じ path の page や source Make command は要求しません。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -34656,13 +34666,15 @@
     },
     {
       "referencePath": "docs/trust-layer.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-482-reference-file-comparison-batch-26",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/philosophy.md",
-        "docs/security/enterprise-governance.md"
+        "docs/security/enterprise-governance.md",
+        "docs/architecture.md",
+        "docs/capabilities.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source Trust Layer page is a consolidated Python/Make-oriented explanation. Rust deliberately projects its Why/What/How, evidence, human decision, enterprise boundary, and non-claims across philosophy, architecture, capability, and enterprise-governance pages; no same-path Trust Layer or source Make command is required.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -34670,13 +34682,15 @@
     },
     {
       "referencePath": "docs/trust-layer.zh-CN.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-482-reference-file-comparison-batch-26",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/philosophy.zh-CN.md",
-        "docs/security/enterprise-governance.zh-CN.md"
+        "docs/security/enterprise-governance.zh-CN.md",
+        "docs/architecture.zh-CN.md",
+        "docs/capabilities.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "源中文 Trust Layer 将 Python/Make 说明集中在单页；Rust 中文文档按设计拆分到设计思想、架构、能力真值和企业治理边界，保留 Why/What/How、证据、人类决定和非声明语义，不要求同路径页面或源 Make 命令。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",

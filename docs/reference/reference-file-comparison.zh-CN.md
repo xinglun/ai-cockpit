@@ -20,8 +20,8 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd`。
-- 比较时使用的 Runtime：`ai-cockpit 0.2.47`，binary SHA256 为 `sha256:6b3bd6617c6372a17b1edf6f9dc9dbc016779146f67262265fd12d2a488bbc53`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.57`，binary SHA256 为 `sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=259 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=443 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=435 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -190,11 +190,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 259 |
+| `implemented-different-by-design` | 267 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 62 |
-| `deferred-next-batch` | 443 |
+| `deferred-next-batch` | 435 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1133,3 +1133,28 @@ typed Runtime/gate 表面，而不是新增源专属的 `docs/maintainers` 或 `
 `sourceChangedSincePrevious` 与此前分类，并移除其 deferred 状态。当前为 4,262 条
 `generated-history`、303 条 `implemented-different-by-design`、1 条 `implemented-equivalent`、
 4 条 `not-applicable`、66 条 `reference-only`、483 条 `deferred-next-batch`；`migrate-gap` 仍为 0。
+
+## WI-482：生命周期、并行与信任层参考源比对
+
+WI-482 重新阅读了上一轮比较之后、在维护中的本地参考源提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060` 发生变化的 8 个路径。本轮 Rust
+基线是 `origin/main` 的 `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`，比较检查使用已发布的
+`ai-cockpit 0.2.57` binary（`f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`）。
+源端变化收敛了短生命周期路线，将并行/对话 handoff 细节移到专门参考，删除模板专属的质量分片
+段落，并删除过时的 `REPORT_LANGUAGE` 示例参数。不复制源 Python、Makefile、provider 配置或同路径文档。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/operations/work-item-lifecycle.md` | implemented-different-by-design | `docs/reference/agent-workflow.md`、`docs/reference/outcome-report.md` 与本比较路线承载 Rust 原生生命周期、人工暂停、精确清理和当前 Work Item 边界。 |
+| `docs/operations/work-item-lifecycle.zh-CN.md` | implemented-different-by-design | 中文 Agent workflow 与 Outcome 路线以显式 `--repo` 保留相同生命周期和停止规则；不安装源文案或 Make 命令。 |
+| `docs/operations/work-item-lifecycle.ja.md` | implemented-different-by-design | 日文 Agent workflow 与 Outcome 路线以显式 repository context 保留相同生命周期和停止规则；不复制源文案或 Make 命令。 |
+| `docs/reference/agent-parallel-work-items.md` | implemented-different-by-design | `docs/reference/cross-work-item-dedup.md`、`docs/reference/affected-verification.md`、`docs/reference/agent-workflow.md`、`AGENTS.md` 与 `.ai/README.md` 保留专用 worktree、范围、证据、串行化和可见 handoff 边界；对话交付仍由 adapter 负责。 |
+| `docs/reference/ai-cockpit-work-item-lifecycle.md` | implemented-different-by-design | Rust lifecycle、pre-finish 边界由 `docs/reference/agent-workflow.md`、`docs/reference/outcome-report.md`、`docs/reference/ci-quality-gates.md` 和 Runtime 承载。模板专属 pytest 分片及 `REPORT_LANGUAGE` 不是目标要求。 |
+| `docs/trust-layer.md` | implemented-different-by-design | `docs/philosophy.md`、`docs/security/enterprise-governance.md`、`docs/architecture.md` 与 `docs/capabilities.md` 以 Rust 原生边界保留信任链、委托证据、人类决定和限制语义。 |
+| `docs/trust-layer.zh-CN.md` | implemented-different-by-design | 中文 philosophy、enterprise-governance、architecture 与 capabilities 路线保留相同信任语义和显式外部 provider 边界。 |
+| `docs/trust-layer.ja.md` | implemented-different-by-design | 日文 philosophy、enterprise-governance、architecture 与 capabilities 路线保留相同信任语义和显式外部 provider 边界。 |
+
+本轮没有发现实现遗漏。目标有意没有同路径的 `docs/operations/*`、`docs/trust-layer.*` 或
+agent-handoff 附录；这些责任已拆分到 Rust 原生读者路线与显式 Agent adapter 边界。Contract
+intent 与 acceptance criteria 保持 authored language，本地化只改变展示。台账将 8 个路径全部记录为
+`implemented-different-by-design`，保留 `sourceChangedSincePrevious` 和此前分类，deferred 数量降为 475。

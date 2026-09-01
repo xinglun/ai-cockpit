@@ -64,6 +64,7 @@ WI441_BATCH = "WI-441-reference-entrypoint-parity"
 WI461_BATCH = GETTING_STARTED_BATCH
 WI464_BATCH = "WI-464-reference-file-comparison-batch-24"
 WI475_BATCH = "WI-475-reference-file-comparison-batch-25"
+WI482_BATCH = "WI-482-reference-file-comparison-batch-26"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -448,6 +449,95 @@ WI475_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/release/distribution.ja.md",
         ],
         "source の quality hierarchy、dynamic route、shadow 比較、shard ownership、timing/JUnit/coverage evidence、timeout、performance sample、traceability を Rust Contract gate、reviewed gate manifest、CI/release reference で表します。source の make quality、Makefile.ai.stack、Python runner bytes は adopter/provider boundary として copy しません。",
+    ),
+}
+
+# WI-482 re-reads the eight maintained-reference documentation paths whose
+# source bytes changed after the previous parity decision.  The reference
+# narrowed its operations page, moved parallel/handoff detail out of the
+# short lifecycle route, removed a template-only quality-shard section, and
+# removed the obsolete REPORT_LANGUAGE argument.  The Rust target keeps the
+# corresponding semantics in its own reader route, Runtime lifecycle,
+# parallelism references, and trust/enterprise pages; it does not copy the
+# source files or Make workflow.
+WI482_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/operations/work-item-lifecycle.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/agent-workflow.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "The maintained source shortens this operations page to the canonical serial lifecycle and moves parallel guidance elsewhere. The Rust reader route keeps the same lifecycle, human pause, exact cleanup, and separate parallel/reference boundaries in its Runtime-native documentation; source page bytes and make commands are not copied.",
+    ),
+    "docs/operations/work-item-lifecycle.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/outcome-report.zh-CN.md",
+            "docs/reference/reference-file-comparison.zh-CN.md",
+        ],
+        "源中文 operations 页面收敛为标准串行生命周期，并把并行说明移到其他路线。Rust 中文读者路线在 Runtime 原生文档中保留相同生命周期、人工暂停、精确清理和独立并行边界；不复制源文件字节或 Make 命令。",
+    ),
+    "docs/operations/work-item-lifecycle.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/agent-workflow.ja.md",
+            "docs/reference/outcome-report.ja.md",
+            "docs/reference/reference-file-comparison.ja.md",
+        ],
+        "現行 source の operations page は標準の serial lifecycle に絞り、parallel の説明を別 route に移しました。Rust の reader route は Runtime-native な文書で同じ lifecycle、human pause、正確な cleanup、独立した parallel 境界を保持し、source bytes と Make command はコピーしません。",
+    ),
+    "docs/reference/agent-parallel-work-items.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/cross-work-item-dedup.md",
+            "docs/reference/affected-verification.md",
+            "docs/reference/agent-workflow.md",
+            "AGENTS.md",
+            ".ai/README.md",
+        ],
+        "The source removes its conversation-handoff appendix because that boundary is owned by the Agent/host route. Rust keeps bounded parallel planning, serialized projections, one-Work-Item identity, and the mandatory visible Outcome handoff in repository rules and dedicated references; the source document is not copied.",
+    ),
+    "docs/reference/ai-cockpit-work-item-lifecycle.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/agent-workflow.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/ci-quality-gates.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source no longer includes its template-internal quality-shard worktree section or duplicate retry-repair section, and drops REPORT_LANGUAGE from the finish example. Rust retains the applicable lifecycle, quality routing, retry boundary, and localized presentation through its installed Runtime and typed references; template Make/Python helper behavior is explicitly not an adopter requirement.",
+    ),
+    "docs/trust-layer.md": (
+        "implemented-different-by-design",
+        [
+            "docs/philosophy.md",
+            "docs/security/enterprise-governance.md",
+            "docs/architecture.md",
+            "docs/capabilities.md",
+        ],
+        "The source Trust Layer page is a consolidated Python/Make-oriented explanation. Rust deliberately projects its Why/What/How, evidence, human decision, enterprise boundary, and non-claims across philosophy, architecture, capability, and enterprise-governance pages; no same-path Trust Layer or source Make command is required.",
+    ),
+    "docs/trust-layer.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/philosophy.zh-CN.md",
+            "docs/security/enterprise-governance.zh-CN.md",
+            "docs/architecture.zh-CN.md",
+            "docs/capabilities.zh-CN.md",
+        ],
+        "源中文 Trust Layer 将 Python/Make 说明集中在单页；Rust 中文文档按设计拆分到设计思想、架构、能力真值和企业治理边界，保留 Why/What/How、证据、人类决定和非声明语义，不要求同路径页面或源 Make 命令。",
+    ),
+    "docs/trust-layer.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/philosophy.ja.md",
+            "docs/security/enterprise-governance.ja.md",
+            "docs/architecture.ja.md",
+            "docs/capabilities.ja.md",
+        ],
+        "source の Trust Layer は Python/Make の説明を一つの page に集約します。Rust は設計上、design philosophy、architecture、capability truth、enterprise governance に Why/What/How、evidence、human decision、non-claim を分けて投影し、同じ path の page や source Make command は要求しません。",
     ),
 }
 
@@ -3325,6 +3415,29 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{record.get('referencePath')}: WI-475 must be implemented-different-by-design")
             if not record.get("rustCounterparts") or not record.get("reason"):
                 errors.append(f"{record.get('referencePath')}: WI-475 result needs counterparts and reason")
+        wi482_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI482_BATCH
+            and record.get("referencePath") in WI482_REFERENCE_FILES
+        ]
+        expected_wi482_paths = set(WI482_REFERENCE_FILES) & current_reference_paths
+        actual_wi482_paths = {record.get("referencePath") for record in wi482_records}
+        if actual_wi482_paths != expected_wi482_paths:
+            errors.append(
+                "WI-482 lifecycle/trust records do not match the eight scoped paths: "
+                f"expected {sorted(expected_wi482_paths)!r}, got {sorted(actual_wi482_paths)!r}"
+            )
+        if len(wi482_records) != len(expected_wi482_paths):
+            errors.append(
+                f"WI-482 batch must contain {len(expected_wi482_paths)} records, found {len(wi482_records)}"
+            )
+        for record in wi482_records:
+            if record.get("classification") != "implemented-different-by-design":
+                errors.append(f"{record.get('referencePath')}: WI-482 must be implemented-different-by-design")
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(f"{record.get('referencePath')}: WI-482 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -4170,6 +4283,33 @@ def apply_wi475_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi482_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI482_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI482_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI482_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI482_REFERENCE_FILES)} WI-482 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -4189,6 +4329,7 @@ def main() -> int:
     parser.add_argument("--apply-wi461-batch", action="store_true")
     parser.add_argument("--apply-wi464-batch", action="store_true")
     parser.add_argument("--apply-wi475-batch", action="store_true")
+    parser.add_argument("--apply-wi482-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -4240,6 +4381,13 @@ def main() -> int:
     if args.apply_wi475_batch:
         try:
             apply_wi475_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi482_batch:
+        try:
+            apply_wi482_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1
