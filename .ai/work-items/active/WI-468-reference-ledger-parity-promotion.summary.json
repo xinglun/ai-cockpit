@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-467-reference-ledger-projection.recovery.41ffa26ef4eac021436f87757c00ad0ee97ecbde9dc43d54699d70f412a66675.json",
+    ".ai/work-items/active/WI-468-reference-ledger-parity-promotion.contract.json",
+    ".ai/work-items/active/WI-468-reference-ledger-parity-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T05:30:39Z",
+  "checkpointContractDigest": "sha256:ce55b7b433c4efd522905e1b5bdf01f7b7498f994497991acd9054d2e488e841",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:06c8fc7bbc297e7d12082827c3ca7bd5424483b9a2e2fa4e60512cac35e97339",
+  "createdAt": "2026-09-01T05:26:44Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:def680e7e64711fa7e442d21ff1cd138c601bc45e876f5c88f15c9544bb71b55",
+  "predecessorWorkItemId": "WI-467-reference-ledger-projection",
+  "preflightAt": "2026-09-01T05:30:53Z",
+  "preflightContractDigest": "sha256:ce55b7b433c4efd522905e1b5bdf01f7b7498f994497991acd9054d2e488e841",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:06c8fc7bbc297e7d12082827c3ca7bd5424483b9a2e2fa4e60512cac35e97339",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-467-reference-ledger-projection.recovery.41ffa26ef4eac021436f87757c00ad0ee97ecbde9dc43d54699d70f412a66675.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T05:30:39Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-468-reference-ledger-parity-promotion"
+}
