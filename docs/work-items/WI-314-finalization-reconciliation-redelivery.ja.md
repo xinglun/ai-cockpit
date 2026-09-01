@@ -6,7 +6,7 @@ description: "immutable な hosted quality failure 後に cleanup-before-close �
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-314-finalization-reconciliation-redelivery
 ---

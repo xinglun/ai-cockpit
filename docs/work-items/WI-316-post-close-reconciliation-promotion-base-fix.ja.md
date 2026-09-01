@@ -6,7 +6,7 @@ description: "W315 の履歴を書き換えず、recovered promotion correction 
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-316-post-close-reconciliation-promotion-base-fix
 ---

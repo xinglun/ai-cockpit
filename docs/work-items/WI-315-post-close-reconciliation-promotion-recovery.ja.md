@@ -6,7 +6,7 @@ description: "immutable な W314 履歴を書き換えず、recovered predecesso
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: canonical
 lastVerifiedBy: WI-315-post-close-reconciliation-promotion-recovery
 ---

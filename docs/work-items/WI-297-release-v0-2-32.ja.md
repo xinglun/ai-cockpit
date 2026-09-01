@@ -6,7 +6,7 @@ description: "公開前に Runtime パッケージ、リリース文書、リリ
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 lastVerifiedBy: WI-297-release-v0-2-32
 authority: canonical
 ---

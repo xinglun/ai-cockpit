@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -68,6 +69,22 @@ def parity_statuses(repository: Path) -> tuple[dict[str, list[str]], list[str]]:
             if len(cells) < 2:
                 continue
             status = vocabulary.get(cells[1])
+            if status is None:
+                # A recovery retry may share the predecessor's numeric parity
+                # row.  Keep one human-readable row while retaining both
+                # terminal projections in its status cell.
+                has_implemented = any(
+                    token in cells[1]
+                    for token in vocabulary
+                    if vocabulary[token] == "implemented"
+                )
+                has_recovered = any(
+                    token in cells[1]
+                    for token in vocabulary
+                    if vocabulary[token] == "recovered"
+                )
+                if has_implemented and has_recovered:
+                    status = "mixed"
             if status is None and "→" in cells[1] and any(
                 marker in cells[1].lower()
                 for marker in ("close", "关闭", "verified close 後")
@@ -117,6 +134,34 @@ def valid_recovery(path: Path, work_item_id: str, repository_id: str) -> bool:
         and isinstance(value.get("successorWorkItemId"), str)
         and value["successorWorkItemId"].strip()
     )
+
+
+def recovery_candidates(repository: Path, work_item_id: str) -> list[Path]:
+    """Return the base and digest-suffixed recovery records in stable order."""
+    decision_dir = repository / ".ai/decisions"
+    return [decision_dir / f"{work_item_id}.recovery.json"] + sorted(
+        decision_dir.glob(f"{work_item_id}.recovery.*.json")
+    )
+
+
+def has_valid_recovery(repository: Path, work_item_id: str, repository_id: str) -> bool:
+    """Accept only a valid base record or a content-bound digest-suffixed record."""
+    for path in recovery_candidates(repository, work_item_id):
+        if not valid_recovery(path, work_item_id, repository_id):
+            continue
+        if path.name != f"{work_item_id}.recovery.json":
+            value = load_regular_json(path)
+            if value is None:
+                continue
+            digest = hashlib.sha256(
+                json.dumps(
+                    value, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+                ).encode("utf-8")
+            ).hexdigest()
+            if path.name != f"{work_item_id}.recovery.{digest}.json":
+                continue
+        return True
+    return False
 
 
 def verifier_is_authoritative(
@@ -194,9 +239,8 @@ def check(repository: Path) -> list[str]:
         if not valid_contract(archive_contract, work_item_id, repository_id):
             continue
         close = repository / ".ai/decisions" / f"{work_item_id}.close.json"
-        recovery = repository / ".ai/decisions" / f"{work_item_id}.recovery.json"
         has_close = valid_close(close, work_item_id, repository_id)
-        has_recovery = valid_recovery(recovery, work_item_id, repository_id)
+        has_recovery = has_valid_recovery(repository, work_item_id, repository_id)
         if not (has_close or has_recovery):
             continue
 
@@ -210,7 +254,11 @@ def check(repository: Path) -> list[str]:
             continue
 
         expected = parity[0]
-        allowed = {"historical", "recovered"} if expected == "recovered" else {"implemented"}
+        allowed = (
+            {"historical", "recovered", "implemented"}
+            if expected == "mixed"
+            else ({"historical", "recovered"} if expected == "recovered" else {"implemented"})
+        )
         english_text = english.read_text(encoding="utf-8")
         if (
             expected == "implemented"

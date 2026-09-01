@@ -169,6 +169,37 @@ for case in \
   perl -0pi -e 's/\n[^\n]*\n\z/\n/' "$document"
 done
 
+# Recovery records emitted after a supersession/retry are content-bound and
+# may use a digest-suffixed filename. The checker must discover that form
+# instead of requiring the legacy unsuffixed path.
+digest_recovery="$tmp/digest-recovery"
+cp -R "$fixture" "$digest_recovery"
+rm "$digest_recovery/.ai/decisions/$work_item.close.json"
+python3 - "$digest_recovery" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-status-drift-fixture"
+source = root / ".ai/decisions" / f"{work_item}.recovery.json"
+value = json.loads(source.read_text(encoding="utf-8"))
+digest = hashlib.sha256(
+    json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+).hexdigest()
+source.rename(source.with_name(f"{work_item}.recovery.{digest}.json"))
+for suffix, status in (("", "recovered"), (".zh-CN", "recovered"), (".ja", "recovered")):
+    document = root / "docs/work-items" / f"{work_item}{suffix}.md"
+    text = document.read_text(encoding="utf-8").replace("status: implemented", f"status: {status}")
+    document.write_text(text, encoding="utf-8")
+for suffix, status in (("", "Recovered"), (".zh-CN", "已恢复"), (".ja", "Recovered")):
+    parity = root / "docs/reference" / f"reference-parity{suffix}.md"
+    text = parity.read_text(encoding="utf-8").replace("fixture | Implemented", f"fixture | {status}")
+    parity.write_text(text, encoding="utf-8")
+PY
+python3 "$checker" --repo "$digest_recovery"
+
 python3 "$checker" --repo "$root"
 
 echo 'work item status consistency regression passed'
