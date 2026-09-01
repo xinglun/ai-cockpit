@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "authorized user instruction to merge and clean the reviewed PR",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e88169da607378c6f56fb111a201a5868684c0f5",
+    "name": "codex/wi-486-wi485-parity-redelivery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:df980d5af5f96873013467289000fdd350f305421f1660c59142305e903eb8c2",
+  "operationId": "WI-486-wi485-parity-registration-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7734058bd622a902166a7edc877e23970d0ab87e",
+    "headRevision": "e88169da607378c6f56fb111a201a5868684c0f5",
+    "mergeCommit": "0d76cefd09d53303c2b684346364a363c13e49a4",
+    "number": 459,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/459"
+  },
+  "reason": "Reviewed PR #459 passed all hosted checks and was merged; the exact local and remote branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "WI-486-wi485-parity-registration-merged-cleanup",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-486-wi485-parity-redelivery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/459",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-486-wi485-parity-redelivery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T20:56:00Z",
+  "workItemId": "WI-486-wi485-parity-registration",
+  "worktree": {
+    "branch": "codex/wi-486-wi485-parity-redelivery",
+    "headRevision": "e88169da607378c6f56fb111a201a5868684c0f5",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-486-wi485-parity-redelivery",
+    "worktreeId": "WI-486-wi485-parity-registration"
+  }
+}
