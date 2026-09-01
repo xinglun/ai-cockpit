@@ -21,13 +21,17 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:37bcfc42be31be83f75eb9f3ecb8394d7003118e7c1cdb7e20857925dccfcb99",
-  "requiredEvidenceClasses": ["documentation", "verification", "lifecycle"],
+  "requiredEvidenceClasses": [
+    "documentation",
+    "verification",
+    "lifecycle"
+  ],
   "resourceContext": {
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-492-wi491-doc-promotion",
     "provider": "github",
-    "pullRequest": "pending:reviewed-doc-promotion",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/465",
     "worktree": "/private/tmp/ai-cockpit-wi492-wi491-doc-promotion"
   },
   "risk": "low",
