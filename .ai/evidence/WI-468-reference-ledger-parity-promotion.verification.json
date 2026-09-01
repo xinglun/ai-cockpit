@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:ce55b7b433c4efd522905e1b5bdf01f7b7498f994497991acd9054d2e488e841",
-  "createdAt": "2026-09-01T05:30:53Z",
+  "contractDigest": "sha256:773490ba50c4ebc2b43d6899eea637125cc1501595bae4c12a8ae32032b16e1f",
+  "createdAt": "2026-09-01T05:33:35Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 5687,
-      "executionElapsedMs": 5515,
+      "elapsedMs": 157694,
+      "executionElapsedMs": 157424,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 5687,
-    "executionElapsedMs": 5515,
-    "filesHashed": 17,
-    "filesRead": 17,
+    "elapsedMs": 157694,
+    "executionElapsedMs": 157424,
+    "filesHashed": 11,
+    "filesRead": 11,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -51,13 +51,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 5515,
+      "executionElapsedMs": 157424,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:06c8fc7bbc297e7d12082827c3ca7bd5424483b9a2e2fa4e60512cac35e97339",
+      "repositorySnapshotDigest": "sha256:fc39c4ed123d8c697aa709ebc3e0231e6e9c53e28a599154c6d657eea44a9c7d",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -83,7 +83,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:a4878073209984affb12ca0ce43f6bf39496a7a601371880a3ceaf5abef9d410",
+        "outputDigest": "sha256:557f92ad179561e4c530cce3a99af853c6dc4435143fc47cf64fd964e055699b",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -99,9 +99,9 @@
     "runtimeVersion": "0.2.54",
     "workItemId": "WI-468-reference-ledger-parity-promotion"
   },
-  "receiptDigest": "sha256:51d39467eb24b6e6505e992bd1b9ad6c4af29af2e2aac63f03a3b510becefb62",
+  "receiptDigest": "sha256:1ad581382e0b71e9803241ee3f147d63c8d71d7679bbd117f8daffdff2842093",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:06c8fc7bbc297e7d12082827c3ca7bd5424483b9a2e2fa4e60512cac35e97339",
+  "repositorySnapshotDigest": "sha256:fc39c4ed123d8c697aa709ebc3e0231e6e9c53e28a599154c6d657eea44a9c7d",
   "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
   "runtimeVersion": "0.2.54",
   "workItemId": "WI-468-reference-ledger-parity-promotion"

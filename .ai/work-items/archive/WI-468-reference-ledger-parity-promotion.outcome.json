@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "All three reference-parity ledgers register WI-468 with identical status and record links.",
+    "The three comparison pages expose the manifest-derived current snapshot without rewriting historical sections.",
+    "The documentation regression gate rejects stale or divergent current counts and passes for the corrected pages.",
+    "No generated archive, evidence, or predecessor bytes are rewritten."
+  ],
+  "createdAt": "2026-09-01T05:34:33Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2c3eee78a929eacefa48d6a1b1593fe4fd76587ef78c541014c557be98f9b59c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fc39c4ed123d8c697aa709ebc3e0231e6e9c53e28a599154c6d657eea44a9c7d",
+      "workItemId": "WI-468-reference-ledger-parity-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-467-reference-ledger-projection.recovery.41ffa26ef4eac021436f87757c00ad0ee97ecbde9dc43d54699d70f412a66675.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-468-reference-ledger-parity-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-468-reference-ledger-parity-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make current inventory counts and their parity status deterministic, readable, and fail-closed in CI."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-468-reference-ledger-parity-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-468-reference-ledger-parity-promotion"
+  },
+  "taskReportDigest": "sha256:97a212e6258f0ec7fea67c555432495e560521bea16d753bce6446f9c9ae08d1",
+  "taskReportMarkdownDigest": "sha256:888d641d62049d1608d2967332fd988077fc2893ba6e4d2c04c6aac7f2db74f4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-468-reference-ledger-parity-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-468-reference-ledger-parity-promotion"
+}
