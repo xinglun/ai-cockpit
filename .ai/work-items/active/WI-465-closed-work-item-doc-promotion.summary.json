@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-465-closed-work-item-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-01T02:32:09Z",
-  "checkpointContractDigest": "sha256:20c0bea3779974db0d7e4f107a52adc4e8d79d8ef5068b09b95212fb0f60a227",
+  "checkpointContractDigest": "sha256:a46ee7719649429849a64351de89ed53463014992954a06e2cf8078bcb41832c",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -102,22 +102,23 @@
       "workItemId": "WI-465-closed-work-item-doc-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:bbab820c13f425b47a3d8cd638f7d8778215175cff3741c1d78c15065c9c355e",
+  "checkpointRepositorySnapshotDigest": "sha256:6282cae977bf8636156c6fef12946cd1607256d411b2cbb3294871495dc3ae95",
   "createdAt": "2026-09-01T02:32:06Z",
   "mode": "documentation",
-  "preflightAt": "2026-09-01T02:49:30Z",
+  "preflightAt": "2026-09-01T03:01:47Z",
   "preflightContractDigest": "sha256:a46ee7719649429849a64351de89ed53463014992954a06e2cf8078bcb41832c",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:f2717dd0511ca523eee40747f5e5fafdfac05999ca487ecb9edc3d9842a3369a",
+  "preflightRepositorySnapshotDigest": "sha256:6282cae977bf8636156c6fef12946cd1607256d411b2cbb3294871495dc3ae95",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-01T02:32:09Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:a46ee7719649429849a64351de89ed53463014992954a06e2cf8078bcb41832c",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-01T02:49:26Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-465-closed-work-item-doc-promotion"
 }
