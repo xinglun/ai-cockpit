@@ -4,9 +4,13 @@ title: "WI-484——WI-483 终态文档晋级"
 description: "在不重写不可变证据的前提下晋级 WI-483 的终态文档投影。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-484-wi483-doc-promotion
-status: current
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-484-wi483-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-484-wi483-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-484-wi483-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-484-wi483-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-484-wi483-doc-promotion.close.json
 ---
 
 # WI-484——WI-483 终态文档晋级

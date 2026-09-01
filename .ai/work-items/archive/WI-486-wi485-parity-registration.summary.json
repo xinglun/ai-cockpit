@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-01T20:43:19Z",
+  "checkpointContractDigest": "sha256:dfc3740bab8f89c3608edb2151fb596c7ce34843e469c24d6a20b4ef4b5bac19",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:b186c497ba925a9745b1984ecd5b9dc1cfaee7f25dfc5238ff43d32ac87acc06",
+  "createdAt": "2026-09-01T20:38:17Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-01T20:47:59Z",
+  "preflightContractDigest": "sha256:dfc3740bab8f89c3608edb2151fb596c7ce34843e469c24d6a20b4ef4b5bac19",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:b186c497ba925a9745b1984ecd5b9dc1cfaee7f25dfc5238ff43d32ac87acc06",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T20:48:04Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-486-wi485-parity-registration"
+}

@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized user instruction to resolve the hosted governance finding without rewriting WI-485 archive bytes",
+  "decidedAt": "2026-09-01T20:31:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-485-wi484-doc-promotion.archive.json",
+    ".ai/evidence/WI-485-wi484-doc-promotion.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:one-work-item-one-scope",
+    "tests/ci/repository_gate_manifest.json:docs_governance_integrity"
+  ],
+  "predecessorContractDigest": "sha256:670eceb4405c90a313938f7799e54ba551d9e1e7df8ca24e943ff939e78c675f",
+  "predecessorEventsDigest": "sha256:1d0c7bce6bdaf997bd9fe54dc3e450ee5fcc7a46521e28569e238f40b070f751",
+  "predecessorOutcomeDigest": "sha256:eb93369484f5d0c16ede806732fb2caaabda1d1943d541c03120ca3893150cfd",
+  "predecessorSummaryDigest": "sha256:129ccb36a758bb2f8884bcedb2a12a535c3bc2a69b76ef86e87254eeb8667bab",
+  "predecessorWorkItemId": "WI-485-wi484-doc-promotion",
+  "reason": "Hosted quality identified that WI-485 omitted its required tri-language reference-parity registration before archive. The original archive is immutable; a narrowly bounded successor owns only the missing parity registration.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the successor's explicit tri-language parity registration, run fresh verification, and close both the successor and predecessor recovery boundary with immutable evidence.",
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-486-wi485-parity-registration",
+  "workItemId": "WI-485-wi484-doc-promotion"
+}

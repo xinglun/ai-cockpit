@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-484 Work Item documents contain terminal archive, verification, finalization, and decision references generated from immutable evidence.",
+    "The post-close promotion checker passes with --check-all and reports no stale projections.",
+    "No Runtime/Core behavior, reference comparison, release artifact, or unrelated documentation is changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7734058bd622a902166a7edc877e23970d0ab87e",
+  "createdAt": "2026-09-01T20:15:42Z",
+  "goal": "Promote the closed WI-484 documentation projections to terminal evidence-backed metadata without changing governance facts.",
+  "intent": "Update only the three WI-484 Work Item documents so the post-close promotion checker recognizes the closed Work Item.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime/Core behavior",
+    "reference source implementation or comparison inventory",
+    "release publication or adopter acceptance",
+    "any file outside the three WI-484 Work Item documents"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:de6e6e6333324c975fb6d258fdb0c79aa3d007703b6271512f060d01d9523564",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-485-wi484-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/458",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-485-wi484-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-484-wi483-doc-promotion.md",
+    "docs/work-items/WI-484-wi483-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-484-wi483-doc-promotion.ja.md"
+  ],
+  "sources": [
+    "tests/docs/promote_closed_work_item.py",
+    ".ai/work-items/archive/WI-484-wi483-doc-promotion.archive.json",
+    ".ai/decisions/WI-484-wi483-doc-promotion.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-485-wi484-doc-promotion"
+}

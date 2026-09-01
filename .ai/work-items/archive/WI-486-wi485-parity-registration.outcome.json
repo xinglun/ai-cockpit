@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "Register WI-485 as an immutable recovered predecessor in all three reference-parity ledgers, linking its archive, verification, and recovery receipts without rewriting any predecessor bytes.",
+    "Register WI-486 in all three reference-parity ledgers before new verification evidence is generated, with the exact future archive, verification, finalization, and close paths and the required in-progress status.",
+    "The governance integrity gate, documentation acceptance, reference inventory checks, and parity status checks pass for the recovered predecessor and the active successor.",
+    "The successor uses the existing recovery chain and one reviewed PR; no Runtime code, reference inventory semantics, release artifacts, or unrelated documentation are changed."
+  ],
+  "createdAt": "2026-09-01T20:48:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1278902f83d496630f35a721137f1dce88f877443f612d3ba27b775ada9f8363",
+  "evidenceRefs": [
+    ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b186c497ba925a9745b1984ecd5b9dc1cfaee7f25dfc5238ff43d32ac87acc06",
+      "workItemId": "WI-486-wi485-parity-registration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-486-wi485-parity-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-486-wi485-parity-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-486-wi485-parity-registration.contract.json"
+          ],
+          "inference": false,
+          "text": "Restore the missing tri-language parity registration discovered by hosted quality for WI-485 while preserving immutable recovery history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-486-wi485-parity-registration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-486-wi485-parity-registration"
+  },
+  "taskReportDigest": "sha256:16941cc8f20ed61b61c6e9e3861d1908271dde161d631cd8ace7a8bf781da00c",
+  "taskReportMarkdownDigest": "sha256:834478d300d88dbd8655d3f7f86c9787f0dfb6f8c3efdedff17438d9cf49b322",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-486-wi485-parity-registration.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-486-wi485-parity-registration"
+}

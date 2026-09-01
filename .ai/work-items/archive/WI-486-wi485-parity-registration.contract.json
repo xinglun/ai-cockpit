@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Register WI-485 as an immutable recovered predecessor in all three reference-parity ledgers, linking its archive, verification, and recovery receipts without rewriting any predecessor bytes.",
+    "Register WI-486 in all three reference-parity ledgers before new verification evidence is generated, with the exact future archive, verification, finalization, and close paths and the required in-progress status.",
+    "The governance integrity gate, documentation acceptance, reference inventory checks, and parity status checks pass for the recovered predecessor and the active successor.",
+    "The successor uses the existing recovery chain and one reviewed PR; no Runtime code, reference inventory semantics, release artifacts, or unrelated documentation are changed."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "7734058bd622a902166a7edc877e23970d0ab87e",
+  "createdAt": "2026-09-01T20:38:17Z",
+  "goal": "Restore the missing tri-language parity registration discovered by hosted quality for WI-485 while preserving immutable recovery history.",
+  "intent": "Record WI-485 recovery and prearchive WI-486 parity rows so the hosted governance gate can audit both the predecessor and its bounded successor.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Any rewrite of WI-485 archive, Contract, Summary, Outcome, verification, recovery, event, or generated receipt bytes.",
+    "Runtime/core behavior, reference inventory classification, release/adopter acceptance, and unrelated documentation or parity rows."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:de6e6e6333324c975fb6d258fdb0c79aa3d007703b6271512f060d01d9523564",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-486-wi485-parity-redelivery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/459",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-486-wi485-parity-redelivery"
+  },
+  "risk": "medium",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-484-wi483-doc-promotion.md",
+    "docs/work-items/WI-484-wi483-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-484-wi483-doc-promotion.ja.md",
+    "docs/work-items/WI-485-wi484-doc-promotion.md",
+    "docs/work-items/WI-485-wi484-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-485-wi484-doc-promotion.ja.md",
+    "docs/work-items/WI-486-wi485-parity-registration.md",
+    "docs/work-items/WI-486-wi485-parity-registration.zh-CN.md",
+    "docs/work-items/WI-486-wi485-parity-registration.ja.md",
+    ".ai/decisions/WI-485-wi484-doc-promotion.recovery.json",
+    ".ai/decisions/WI-485-wi484-doc-promotion.recovery.6293cf57eecae5875d399fbe802c470829ada178ecf44fdd39510772d1202295.json",
+    ".ai/evidence/WI-485-wi484-doc-promotion.verification.json",
+    ".ai/work-items/archive/WI-485-wi484-doc-promotion.archive.json",
+    ".ai/work-items/archive/WI-485-wi484-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-485-wi484-doc-promotion.events.jsonl",
+    ".ai/work-items/archive/WI-485-wi484-doc-promotion.outcome.json",
+    ".ai/work-items/archive/WI-485-wi484-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-485-wi484-doc-promotion.task-report.json",
+    ".ai/work-items/archive/WI-485-wi484-doc-promotion.task-report.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-486-wi485-parity-registration"
+}
