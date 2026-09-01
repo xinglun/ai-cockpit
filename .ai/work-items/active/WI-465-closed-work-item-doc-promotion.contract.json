@@ -25,11 +25,7 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:bbab820c13f425b47a3d8cd638f7d8778215175cff3741c1d78c15065c9c355e",
   "requiredEvidenceClasses": [
-    "docs_closed_work_item_promotion",
-    "docs_closed_work_item_promotion_regression",
-    "docs_acceptance",
-    "reference_inventory_docs",
-    "governance_integrity"
+    "verification"
   ],
   "resourceContext": {
     "baseBranch": "main",
