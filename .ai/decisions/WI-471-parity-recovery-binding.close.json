@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7303937640c8cab594af9232778376071557571bb987ae40d4fe8bb2d3496783",
+      "workItemId": "WI-471-parity-recovery-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-471-parity-recovery-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-471-parity-recovery-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-471-parity-recovery-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-471-parity-recovery-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
+            ".ai/decisions/WI-472-finalization-context-compatibility.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via explicit-user-authorization at 2026-09-01T09:06:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-471-parity-recovery-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-471-parity-recovery-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the three reference-parity ledgers explicitly reference the validated WI-469 recovery receipt, preserve immutable predecessor and terminal bytes, and leave the release preflight governance gate green."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-471-parity-recovery-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-471-parity-recovery-binding"
+  },
+  "finalReportDigest": "sha256:77455a2a962e2ff0af0b2267fca31e0a5c599aa82c4388555dafc3c2c31141d1",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-01T09:06:00Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
+      ".ai/decisions/WI-472-finalization-context-compatibility.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:recovery",
+      "docs/reference/agent-workflow.md:recovery"
+    ],
+    "reason": "Immutable WI-471 is superseded by the reviewed and closed WI-472 successor; preserve historical bytes without fabricated finalization evidence.",
+    "resumeCondition": "No further action on WI-471; continue only from the closed WI-472 successor."
+  },
+  "timestamp": "2026-09-01T08:50:41Z",
+  "workItemId": "WI-471-parity-recovery-binding"
+}
