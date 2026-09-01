@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "80094f7c69e525d5202824983377edd725980fdf",
+  "createdAt": "2026-09-01T13:33:16Z",
+  "goal": "",
+  "intent": "",
+  "mode": "release",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:dfb7427940460fa86adefde266d1193a6eeed4c9c1d63405134dcf9493b33b67",
+  "predecessorWorkItemId": "WI-477-release-v0-2-56",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-477-release-v0-2-56.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:188dd4ce870243f4b69946b40601dfbc7e0c124ae88ba09c338b8c813a03e52e",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "main",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-478-release-v0-2-57"
+}
