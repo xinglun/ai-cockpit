@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-474-release-v0-2-55.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:40594616ee64f3815e8caa515ab5eb71527c70ef3258277641052b7a03c78858",
+      "workItemId": "WI-474-release-v0-2-55"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-474-release-v0-2-55.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-474-release-v0-2-55.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-474-release-v0-2-55.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-474-release-v0-2-55.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-474-release-v0-2-55.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-474-release-v0-2-55.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-474-release-v0-2-55.verification.json",
+            ".ai/decisions/WI-474-release-v0-2-55.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via github:repository-maintainer at 2026-09-01T10:10:42Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-474-release-v0-2-55.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-474-release-v0-2-55.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-474-release-v0-2-55.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-474-release-v0-2-55.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.55 from the reviewed mainline, validate the public binary with isolated adopter and N-1 acceptance, install it on this repository, and return to the next reference-source comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-474-release-v0-2-55.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-474-release-v0-2-55"
+  },
+  "finalReportDigest": "sha256:6d3330001b334b9ff0abd18b3b8ef0ce82d25969bba8a3fa1e70a4cd3b4764bd",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:3e9fdedd391aec8ce3aab2d3bade6bc7906209bb6bb1c284c81871445e14a03d",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-474-release-v0-2-55.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "github:repository-maintainer",
+    "decidedAt": "2026-09-01T10:10:42Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-474-release-v0-2-55.verification.json",
+      ".ai/decisions/WI-474-release-v0-2-55.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "Reviewed PR #444, verified the release finalization receipt, and confirmed the exact branch/worktree cleanup.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-01T10:11:46Z",
+  "workItemId": "WI-474-release-v0-2-55"
+}
