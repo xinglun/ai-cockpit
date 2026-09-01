@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-485-wi484-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-485-wi484-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T20:16:41Z",
+  "checkpointContractDigest": "sha256:39cc17aea52448165a31c01e33c6bd36dd009eba7abefa1833ab7f1912036cff",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7cd4ce20ebb0c3c0b726ac328c0632a0b2ffbc37b65cb0c467aa633a9cebbed6",
+  "createdAt": "2026-09-01T20:15:42Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-01T20:17:19Z",
+  "preflightContractDigest": "sha256:39cc17aea52448165a31c01e33c6bd36dd009eba7abefa1833ab7f1912036cff",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7cd4ce20ebb0c3c0b726ac328c0632a0b2ffbc37b65cb0c467aa633a9cebbed6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-01T20:16:41Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-485-wi484-doc-promotion"
+}
