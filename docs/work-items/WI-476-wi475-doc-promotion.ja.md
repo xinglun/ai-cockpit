@@ -7,9 +7,13 @@ audience:
   - reviewer
   - adopter
 workItemId: WI-476-wi475-doc-promotion
-status: active
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-476-wi475-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-476-wi475-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-476-wi475-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-476-wi475-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-476-wi475-doc-promotion.close.json
 ---
 
 # WI-476 — WI-475 terminal documentation promotion
