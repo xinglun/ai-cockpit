@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "All three parity projections identify WI-461 as implemented after its verified close and link the immutable evidence.",
+    "The promotion changes only the three in-scope parity documents and preserves tri-language links and formatting.",
+    "Documentation acceptance, parity status checks, and current Runtime verification pass."
+  ],
+  "createdAt": "2026-09-01T00:33:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c7da8c240f90d05f80d73912288c07c9057707cad1870f3d06a9f0d5c8c1488a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-462-reference-parity-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-462-reference-parity-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-462-reference-parity-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:834edc9458f5e842b1dca75a7a931884b2c90b63012f2f2d0b7f117233170520",
+      "workItemId": "WI-462-reference-parity-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-462-reference-parity-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-462-reference-parity-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-462-reference-parity-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-462-reference-parity-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-462-reference-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-462-reference-parity-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-462-reference-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-462-reference-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-462-reference-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-462-reference-parity-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep tri-language parity documentation consistent with the closed WI-461 evidence without changing runtime behavior or historical records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-462-reference-parity-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-462-reference-parity-promotion"
+  },
+  "taskReportDigest": "sha256:07ef53b0b802880152c05fa10655d723e5a02a927d57b9a017be3d72a1a0f8ec",
+  "taskReportMarkdownDigest": "sha256:69cbdcbc248b8ef29a4b543c3d056825f85ab92264f63240745c7c071c050c85",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-462-reference-parity-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-462-reference-parity-promotion"
+}

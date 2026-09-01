@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-462-reference-parity-promotion.contract.json",
-    ".ai/work-items/active/WI-462-reference-parity-promotion.summary.json"
+    ".ai/work-items/archive/WI-462-reference-parity-promotion.contract.json",
+    ".ai/work-items/archive/WI-462-reference-parity-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-01T00:19:15Z",
-  "checkpointContractDigest": "sha256:2fb05fc3f79b05d85c95742de059ea25ca7f1ceb10308baf462343465b90f519",
+  "checkpointContractDigest": "sha256:378e62c8ab277f31cf0e3d105480bd14ff611ecef4f954720755200c7e6ad5dd",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,21 +42,18 @@
       "workItemId": "WI-462-reference-parity-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:084dc289acb944b424c5921a2010aac08a4b8c6cb44891619988f6217caa79ce",
+  "checkpointRepositorySnapshotDigest": "sha256:834edc9458f5e842b1dca75a7a931884b2c90b63012f2f2d0b7f117233170520",
   "createdAt": "2026-09-01T00:18:26Z",
   "mode": "docs",
-  "preflightAt": "2026-09-01T00:27:53Z",
-  "preflightContractDigest": "sha256:2fb05fc3f79b05d85c95742de059ea25ca7f1ceb10308baf462343465b90f519",
+  "preflightAt": "2026-09-01T00:33:22Z",
+  "preflightContractDigest": "sha256:378e62c8ab277f31cf0e3d105480bd14ff611ecef4f954720755200c7e6ad5dd",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:084dc289acb944b424c5921a2010aac08a4b8c6cb44891619988f6217caa79ce",
+  "preflightRepositorySnapshotDigest": "sha256:834edc9458f5e842b1dca75a7a931884b2c90b63012f2f2d0b7f117233170520",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryRetryDecisionDigest": "sha256:cd24f3d7e05c25bb4bcc0d009f47d6476305b18e16f20b78cacfc65fed4ab053",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-462-reference-parity-promotion.recovery.json",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-01T00:19:15Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T00:33:30Z",
   "verification": [
     {
       "check": "project-command-0",
