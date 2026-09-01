@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "decidedAt": "2026-09-01T06:16:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-469-reference-ledger-parity-order-recovery.archive.json",
+    ".ai/decisions/WI-469-reference-ledger-parity-order-recovery.close.json",
+    "tests/docs/promote_closed_work_item.py",
+    "acbc6d3a"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:2cd637765a96a279f222a4e1112dd36601cfda8177e0284b6bc1af3bc162a9f7",
+  "predecessorEventsDigest": "sha256:9712ee6810c783bac041042d40521e1827edf9544d0d9c1b99cf7a1ce7541a04",
+  "predecessorOutcomeDigest": "sha256:65a8047ab40a5f65984c0e1e8dd6fad552785c268ebe9c37addf61f877231761",
+  "predecessorSummaryDigest": "sha256:91723ea277b58c1fb3c981c7ee240dd8275c42b779e0aedb021c1c24719a0f58",
+  "predecessorWorkItemId": "WI-469-reference-ledger-parity-order-recovery",
+  "reason": "The post-close documentation gate identified stale WI-469 projections and a missing historical task-report pair referenced by the immutable WI-468 archive manifest. Restore only the exact historical bytes and promote terminal documentation without rewriting predecessor archive truth.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Restore the manifest-referenced historical report bytes, promote all three language projections, then run the normal reviewed lifecycle and check-all gate.",
+  "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
+  "runtimeVersion": "0.2.54",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery",
+  "workItemId": "WI-469-reference-ledger-parity-order-recovery"
+}
