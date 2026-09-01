@@ -9,7 +9,7 @@
   ],
   "createdAt": "2026-09-01T08:12:59Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:047cae4876ab4dfe89820482ac544335cce612ca9d67dc8892e63a8b0e584424",
+  "evidenceDigest": "sha256:4aa22159fd5c33120d29e68bde0ba75ce0770f0fd7754d89e5f74d98ff9fbe9c",
   "evidenceRefs": [
     ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
   ],
@@ -35,7 +35,7 @@
         ".ai/evidence/WI-472-finalization-context-compatibility.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:72420acda454f7c21e81c486b0aaf73e4c93f11b5ee06ed4e2aebd726883a009",
+      "repositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
       "workItemId": "WI-472-finalization-context-compatibility"
     },
     "format": "ai-cockpit.task-outcome",
@@ -138,7 +138,7 @@
     "status": "verified",
     "workItemId": "WI-472-finalization-context-compatibility"
   },
-  "taskReportDigest": "sha256:f549cea5fb7aaff95867e1715152fe0b05ba6b1e970b2d11f72238e2ef819120",
+  "taskReportDigest": "sha256:4f43cc5778c14be0cd5ba7f8b986279dea42c433cef9a997eb8e11bc6ee9c24d",
   "taskReportMarkdownDigest": "sha256:a5d9f174b1bf8e872244c0f344eb196680a406539972f8085025cff0c9e0f81c",
   "unknowns": [
     "user_visible_benefit_not_declared"

@@ -63,7 +63,7 @@
       "workItemId": "WI-472-finalization-context-compatibility"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:72420acda454f7c21e81c486b0aaf73e4c93f11b5ee06ed4e2aebd726883a009",
+  "checkpointRepositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
   "createdAt": "2026-09-01T07:34:01Z",
   "intentAlignment": {
     "evidence": [
@@ -74,10 +74,10 @@
   "mode": "docs",
   "predecessorContractDigest": "sha256:ff44c79e36d6673f917e13c7dfe38f1a5c505c976d4df702637f32ab7b86fed3",
   "predecessorWorkItemId": "WI-471-parity-recovery-binding",
-  "preflightAt": "2026-09-01T08:12:59Z",
+  "preflightAt": "2026-09-01T08:20:20Z",
   "preflightContractDigest": "sha256:b585020cca4ea0290b59114bc9a55cd0c62bef45a7883346f692e60dafa50819",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:72420acda454f7c21e81c486b0aaf73e4c93f11b5ee06ed4e2aebd726883a009",
+  "preflightRepositorySnapshotDigest": "sha256:faa594b2171ea24887a28a5673254883bb3b1b845f425e83de1a46d441a2dd04",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-471-parity-recovery-binding.recovery.json",
