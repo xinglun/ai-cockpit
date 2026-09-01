@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:294038d4dde068ca9f33719ccea4f9a4ef95cffd18ff2628d41ac581a0467c8d",
-  "createdAt": "2026-09-01T06:37:34Z",
+  "contractDigest": "sha256:6085d96cb89e8e65d42b59c46fe4d34a6d73945f77672aac99838fac18c6410d",
+  "createdAt": "2026-09-01T06:43:19Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 78730,
-      "executionElapsedMs": 78475,
+      "elapsedMs": 73873,
+      "executionElapsedMs": 73667,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 78730,
-    "executionElapsedMs": 78475,
-    "filesHashed": 23,
-    "filesRead": 23,
+    "elapsedMs": 73873,
+    "executionElapsedMs": 73667,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,17 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-469-reference-ledger-parity-order-recovery.ja.md",
-        "docs/work-items/WI-469-reference-ledger-parity-order-recovery.md",
-        "docs/work-items/WI-469-reference-ledger-parity-order-recovery.zh-CN.md",
-        "docs/work-items/WI-470-terminal-doc-promotion-and-artifact-recovery.ja.md",
-        "docs/work-items/WI-470-terminal-doc-promotion-and-artifact-recovery.md",
-        "docs/work-items/WI-470-terminal-doc-promotion-and-artifact-recovery.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "d2e7bd1c6487c95ced82f0f0570101c8702ada07",
       "dependencyConfidence": "unknown",
@@ -54,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 78475,
+      "executionElapsedMs": 73667,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:f88699d11a6b551bffc362814a252323c6cfa7f3aa76989f596b74ccfde9da6e",
+      "repositorySnapshotDigest": "sha256:c42e62399edb7688b8eca0b7a173b53f7750d9733cc5402049fc34a2e972eec7",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -86,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:3d81e0d3480482ed1a3773ac7aa93567e70ebb5d4e60960c00fe920d18ac932a",
+        "outputDigest": "sha256:7a323257a887658506a4dc0b483bcf4c5d31da08a956f194061b744613919837",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -102,9 +92,9 @@
     "runtimeVersion": "0.2.54",
     "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
   },
-  "receiptDigest": "sha256:0f42972f0bd370c0b769352fe3846377e9efb674b33fd6ba96dd364d1939748d",
+  "receiptDigest": "sha256:717c95f2ae1e7adb962179878a753982c8b9379a5f8c00e6d2f7093410da6fd9",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:f88699d11a6b551bffc362814a252323c6cfa7f3aa76989f596b74ccfde9da6e",
+  "repositorySnapshotDigest": "sha256:c42e62399edb7688b8eca0b7a173b53f7750d9733cc5402049fc34a2e972eec7",
   "runtimeDigest": "sha256:2bc1165631d219f991a861ab00f13891c9f4bae6da2bc541fd864becbec4d933",
   "runtimeVersion": "0.2.54",
   "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"

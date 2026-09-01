@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T06:44:22Z",
+  "files": {
+    "contractDigest": "sha256:8e95b64368f24df8ffb48427cd1b272504147c67382e15c8cc7f3d094a789dd3",
+    "contractPath": ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.contract.json",
+    "eventsDigest": "sha256:aed86cb7e19045f36f854c12026abc7d75c7022edfc15b41b700c9efa3b205ba",
+    "eventsPath": ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.events.jsonl",
+    "outcomeDigest": "sha256:a7c7a5961c22ffb76a6597289075fccd00643003fb63fff8505aff8a2bdf27b6",
+    "outcomePath": ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.outcome.json",
+    "summaryDigest": "sha256:2216900eccd6c7fb4e55c89fd723ec632056e134f02bba296f0095361a8fc28f",
+    "summaryPath": ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.summary.json",
+    "taskReportDigest": "sha256:6bd4ed60cfc04bca1adb6df65fb2d9a145d5831b2e536c084a2b5f4dea024c79",
+    "taskReportMarkdownDigest": "sha256:ea7a1d737598683341c8301accb83b6d64f9345affa0e22143defa7fee718981",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-470-terminal-doc-promotion-and-artifact-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+}
