@@ -29,14 +29,56 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-506-release-v0-2-60",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/479",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-506-release-v0-2-60"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "workspace release contract",
+      "required": true,
+      "status": "unverified",
+      "expected": "workspace package versions, lockfile, and current release documentation identify v0.2.60 while historical release facts remain unchanged",
+      "verificationPlan": "run version consistency, metadata, documentation, and diff checks before publication",
+      "evidence": []
+    },
+    {
+      "scenario": "reviewed hosted release gate",
+      "required": true,
+      "status": "unverified",
+      "expected": "the reviewed PR passes all required hosted checks before the annotated release tag is created",
+      "verificationPlan": "inspect the actual PR check conclusions and merge only after every required check passes",
+      "evidence": []
+    },
+    {
+      "scenario": "public artifact integrity",
+      "required": true,
+      "status": "unverified",
+      "expected": "the public v0.2.60 release exposes archives, SHA256 checksums, SBOM, provenance, and a manifest bound to the release tag",
+      "verificationPlan": "download only public release assets, verify checksum and manifest bindings, and retain the release receipt",
+      "evidence": []
+    },
+    {
+      "scenario": "isolated public adopter acceptance",
+      "required": true,
+      "status": "unverified",
+      "expected": "a fresh adopter and N-1 upgrade pass from immutable downloaded artifacts with isolation, cleanup, and first-adopter-smoke not_ready proofs",
+      "verificationPlan": "run the release adopter acceptance harnesses with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME and retain their receipts",
+      "evidence": []
+    },
+    {
+      "scenario": "installed runtime baseline",
+      "required": true,
+      "status": "unverified",
+      "expected": "the verified public v0.2.60 binary installed on this repository keeps inspect, status, doctor, Agent doctor, and documentation checks healthy",
+      "verificationPlan": "install the checksum-verified public binary and run the repository-bound health and post-close checks",
+      "evidence": []
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",
