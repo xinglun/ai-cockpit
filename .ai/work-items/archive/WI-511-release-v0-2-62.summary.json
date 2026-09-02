@@ -1,0 +1,80 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-511-release-v0-2-62.contract.json",
+    ".ai/work-items/archive/WI-511-release-v0-2-62.summary.json"
+  ],
+  "checkpointAt": "2026-09-02T14:44:11Z",
+  "checkpointContractDigest": "sha256:c4f225c8392be7356365ccc73c58870de8705b22c162a49fc33f00704fc1a206",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:cbeb03237f457aa345fe891618cfdb816aca3aa583eaca299f06d25f3ca6cb88",
+  "createdAt": "2026-09-02T14:41:04Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release preparation implements the reviewed version and publication boundary; post-release artifact and adopter evidence remain explicitly deferred to the immutable Release acceptance step.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-02T15:22:52Z",
+  "preflightContractDigest": "sha256:c4f225c8392be7356365ccc73c58870de8705b22c162a49fc33f00704fc1a206",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:cbeb03237f457aa345fe891618cfdb816aca3aa583eaca299f06d25f3ca6cb88",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "reason": "The workspace versions, lockfile, current tri-language release guidance, and governance integrity checks pass for the v0.2.62 release preparation.",
+      "required": true,
+      "scenario": "workspace release contract",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "GitHub PR #484 hosted check run 33644725531: route, windows-runtime, v1-behavioral-oracle, and quality all passed after the final branch head is verified"
+      ],
+      "reason": "The reviewed PR gate is recorded from the provider check run before tag creation.",
+      "required": true,
+      "scenario": "reviewed hosted release gate",
+      "status": "verified"
+    },
+    {
+      "evidence": [],
+      "reason": "Public artifact evidence is collected only after this reviewed source is merged and the immutable v0.2.62 tag is published.",
+      "required": true,
+      "scenario": "public artifact integrity",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [],
+      "reason": "Adopter and N-1 evidence is post-release and must come from downloaded immutable artifacts.",
+      "required": true,
+      "scenario": "isolated public adopter acceptance",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [],
+      "reason": "Installed public-binary evidence is collected after the v0.2.62 Release exists; the current baseline is v0.2.61.",
+      "required": true,
+      "scenario": "installed runtime baseline",
+      "status": "not_applicable"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T15:22:57Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-511-release-v0-2-62"
+}

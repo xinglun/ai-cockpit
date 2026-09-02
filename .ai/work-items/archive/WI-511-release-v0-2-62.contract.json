@@ -1,0 +1,105 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package and lockfile versions identify v0.2.62, while historical release facts remain unchanged.",
+    "The reviewed PR passes all hosted checks before an annotated v0.2.62 tag is created from synchronized main.",
+    "The public Release exposes identity-bound archives, SHA256SUMS, SBOM, provenance, and release manifest that agree byte-for-byte.",
+    "Public adopter and N-1 acceptance use only downloaded immutable artifacts, prove isolation and temporary-root cleanup, and preserve first-adopter-smoke=not_ready.",
+    "The published v0.2.62 binary is installed on this repository and inspect, status, doctor, Agent doctor, and post-close documentation checks remain healthy.",
+    "This Work Item has visible human Outcome, archive, finalization, close, and exact branch/worktree cleanup before publication."
+  ],
+  "authority": "authorized",
+  "baseRevision": "51486c1e2350a5ac82f3362c776f4f8c4d238c33",
+  "createdAt": "2026-09-02T14:41:04Z",
+  "goal": "Produce a reviewed, identity-bound v0.2.62 Release and prove the downloaded artifact governs this repository without mutating object repositories or global Agent/MCP configuration.",
+  "intent": "Publish v0.2.62 from reviewed main, validate immutable release artifacts with public adopter acceptance, install the published binary on this repository, and preserve the next reference-parity iteration boundary.",
+  "mode": "implementation",
+  "outOfScope": [
+    "local reference source /Users/sei-rinn/dev/workspace_python/ai-cockpit-template",
+    "object or adopter repositories, including /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "global Agent, MCP, Homebrew, or user configuration",
+    "source checkout, workspace binary, or cargo build as release acceptance substitute",
+    "unrelated Runtime behavior or reference-parity implementation",
+    "hand-editing generated Contract, Summary, evidence, archive, finalization, or close records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4bca47434fbd2b88d685c4e885379ad5492f497107e322ba7bd49e66e1c3c9b3",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-511-release-v0-2-62",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/484",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-511-release-v0-2-62"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "workspace package versions, lockfile, and current release documentation identify v0.2.62 while historical release facts remain unchanged",
+      "required": true,
+      "scenario": "workspace release contract",
+      "status": "unverified",
+      "verificationPlan": "run version consistency, metadata, documentation, and diff checks before publication"
+    },
+    {
+      "evidence": [],
+      "expected": "the reviewed PR passes all required hosted checks before the annotated release tag is created",
+      "required": true,
+      "scenario": "reviewed hosted release gate",
+      "status": "unverified",
+      "verificationPlan": "inspect the actual PR check conclusions and merge only after every required check passes"
+    },
+    {
+      "evidence": [],
+      "expected": "the public v0.2.62 release exposes archives, SHA256 checksums, SBOM, provenance, and a manifest bound to the release tag",
+      "required": true,
+      "scenario": "public artifact integrity",
+      "status": "unverified",
+      "verificationPlan": "download only public release assets, verify checksum and manifest bindings, and retain the release receipt"
+    },
+    {
+      "evidence": [],
+      "expected": "a fresh adopter and N-1 upgrade pass from immutable downloaded artifacts with isolation, cleanup, and first-adopter-smoke not_ready proofs",
+      "required": true,
+      "scenario": "isolated public adopter acceptance",
+      "status": "unverified",
+      "verificationPlan": "run the release adopter acceptance harnesses with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME and retain their receipts"
+    },
+    {
+      "evidence": [],
+      "expected": "the verified public v0.2.62 binary installed on this repository keeps inspect, status, doctor, Agent doctor, and documentation checks healthy",
+      "required": true,
+      "scenario": "installed runtime baseline",
+      "status": "unverified",
+      "verificationPlan": "install the public artifact and run repository-bound health and post-close checks"
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-511-release-v0-2-62.md",
+    "docs/work-items/WI-511-release-v0-2-62.zh-CN.md",
+    "docs/work-items/WI-511-release-v0-2-62.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-511-release-v0-2-62"
+}
