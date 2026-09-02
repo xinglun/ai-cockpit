@@ -3876,12 +3876,12 @@ fn historical_finalization_inventory(
             &repository_id,
         );
         let inferred_kind = kind.or_else(|| {
-            (matches!(
-                head.result.disposition,
-                ResourceFinalizationDisposition::Retained
-            ) && head.before.branch == head.after.branch
-                && head.before.worktree == head.after.worktree)
-                .then_some("shared_worktree_retained")
+            archived_contract_digest(root, work_item_id)
+                .ok()
+                .and_then(|(contract, _)| {
+                    infer_legacy_shared_worktree_retained(root, &head, &contract)
+                        .then_some("shared_worktree_retained")
+                })
         });
         let state = if kind.is_some() {
             "historical_verified"
@@ -11277,6 +11277,69 @@ fn validate_historical_finalization(
     Ok(())
 }
 
+/// Infer the narrow compatibility classification for a legacy receipt that
+/// predates the explicit `historical` field.  This is deliberately stricter
+/// than merely seeing `disposition=retained`: the receipt must prove that the
+/// provider was the repository-local/shared mode, both the Contract and the
+/// receipt point at the canonical primary checkout, and the branch/worktree
+/// remained present and unchanged.  A linked worktree or an external provider
+/// is never accepted by this projection.
+fn infer_legacy_shared_worktree_retained(
+    root: &Path,
+    receipt: &ResourceFinalizationReceipt,
+    contract: &Contract,
+) -> bool {
+    if receipt.historical.is_some()
+        || !matches!(
+            receipt.result.disposition,
+            ResourceFinalizationDisposition::Retained
+        )
+        || receipt.provider != "local"
+        || !matches!(
+            receipt.before.pull_request,
+            cockpit_protocol::ResourceFinalizationPullRequestState::Merged
+        )
+        || !matches!(
+            receipt.after.pull_request,
+            cockpit_protocol::ResourceFinalizationPullRequestState::Merged
+        )
+        || receipt.before.branch != receipt.after.branch
+        || receipt.before.worktree != receipt.after.worktree
+        || !matches!(
+            receipt.after.branch,
+            cockpit_protocol::ResourceFinalizationBranchState::Present
+        )
+        || !matches!(
+            receipt.after.worktree,
+            cockpit_protocol::ResourceFinalizationWorktreeState::Clean
+        )
+        || receipt.branch.name != receipt.worktree.branch
+    {
+        return false;
+    }
+    let Some(context) = receipt.resource_context.as_ref() else {
+        return false;
+    };
+    if context.provider != "local"
+        || contract.resource_context.as_ref() != Some(context)
+        || context.branch != receipt.branch.name
+        || context.worktree != receipt.worktree.path
+    {
+        return false;
+    }
+    let Ok(root) = fs::canonicalize(root) else {
+        return false;
+    };
+    let Ok(layout) = discover_worktree_layout(&root) else {
+        return false;
+    };
+    if layout.primary != root {
+        return false;
+    }
+    fs::canonicalize(&context.worktree).ok().as_ref() == Some(&root)
+        && fs::canonicalize(&receipt.worktree.path).ok().as_ref() == Some(&root)
+}
+
 fn historical_finalization_recovery_path(root: &Path, work_item_id: &str) -> PathBuf {
     root.join(".ai/decisions")
         .join(format!("{work_item_id}.finalize-recovery.json"))
@@ -11572,12 +11635,10 @@ pub fn historical_finalization_recovery_plan(
                 HistoricalFinalizationKind::DirectMergeNoPr => "direct_merge_no_pr",
             })
             .or_else(|| {
-                (matches!(
-                    receipt.result.disposition,
-                    ResourceFinalizationDisposition::Retained
-                ) && receipt.before.branch == receipt.after.branch
-                    && receipt.before.worktree == receipt.after.worktree)
-                    .then_some("shared_worktree_retained")
+                contract.as_ref().and_then(|(contract, _)| {
+                    infer_legacy_shared_worktree_retained(&root, &receipt, contract)
+                        .then_some("shared_worktree_retained")
+                })
             });
         let stale = receipt.runtime_version != runtime.runtime_version
             || receipt.runtime_digest != runtime.runtime_digest;
@@ -12029,6 +12090,8 @@ fn verify_resource_finalization_internal(
     })?;
     validate_historical_finalization(&root, &receipt, &path)?;
     ensure_resource_finalization_base_binding(&receipt, &contract, &path)?;
+    let inferred_legacy_shared_worktree =
+        infer_legacy_shared_worktree_retained(&root, &receipt, &contract);
     let historical_recovery = if let Some(runtime) = runtime {
         load_historical_finalization_recovery(&root, work_item_id, &receipt, &contract, runtime)?
     } else {
@@ -12047,7 +12110,8 @@ fn verify_resource_finalization_internal(
                 &receipt_digest,
                 sequence,
                 &contract.repository_id,
-            );
+            )
+            .or_else(|| inferred_legacy_shared_worktree.then_some("shared_worktree_retained"));
             if kind.is_none()
                 && let Err(error) = ensure_resource_runtime_identity(&receipt, runtime, &path)
             {
@@ -12110,6 +12174,12 @@ fn verify_resource_finalization_internal(
         result["assurance"] = "historical_low".into();
         result["historicalReason"] =
             "closed predecessor receipt was verified under an older Runtime".into();
+    } else if inferred_legacy_shared_worktree {
+        result["historical"] = serde_json::json!(true);
+        result["historicalKind"] = "shared_worktree_retained".into();
+        result["assurance"] = "historical_low".into();
+        result["historicalReason"] =
+            "legacy local shared-worktree receipt was verified from repository-bound facts".into();
     } else if let Some(historical) = receipt.historical.as_ref() {
         result["historical"] = serde_json::json!(true);
         result["historicalKind"] =

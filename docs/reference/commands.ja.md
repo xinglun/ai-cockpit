@@ -24,6 +24,14 @@ parent、base revision、repository identity、authority を束縛する必要�
 Git と照合し、PR を捏造しません。Readiness は `historicalDebt` と recovery action を示し、
 pending-close は引き続き fail-closed です。
 
+`historical` field がない legacy receipt でも、`provider=local`、Contract と receipt の
+identity が一致し、両方の worktree path が Git の primary checkout に canonicalize され、
+branch と clean worktree が retained のままの場合に限り、receipt を書き換えず
+`shared_worktree_retained` projection を導出できます。結果は `historical_low` として
+表示されます。external provider、linked worktree、context 欠落、または曖昧な topology は
+引き続き fail-closed です。事実を導出できない場合は `finalize-recovery-plan` と明示的な
+recovery receipt を使ってください。
+
 新しい Work Item では current finalization head の disposition が `deleted` でなければ
 なりません。`retained`、`blocked`、`unknown` の head は close decision を書く前に停止
 します。唯一の狭い互換例外は、検証済みの歴史 `shared_worktree_retained` または

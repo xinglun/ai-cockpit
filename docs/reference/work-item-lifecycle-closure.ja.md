@@ -64,6 +64,12 @@ revision、repository identity を記録し、historical/low-assurance と明示
 PR 番号を補ったり、過去の receipt を書き換えたりしません。共有主 worktree の
 `retained` disposition も実際の resource 状態として保持します。
 
+旧版の shared-primary receipt に `historical` field がない場合でも、`finalize-verify` は
+`provider=local`、Contract/receipt identity、primary checkout の topology、retained された
+clean resource を確認した後だけ、狭い read-only projection を行います。その
+`historical_low` 結果は `close` で利用できます。事実が欠落または矛盾する場合は明示的な
+recovery plan/receipt が必要で、archive や predecessor bytes の copy/書き換えは行いません。
+
 stacked PR や post-archive の provider anomaly は通常の close の近道ではありません。
 別の human-authorized append-only evidence が必要であり、open または検証不能な PR を
 merged と扱いません。reference source の Make/Python recovery command は Rust Runtime
