@@ -41,15 +41,21 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:21ab455b601f5ecdffdc799b8f8ed421839c07d22a3d9142a162add0891edbee",
   "predecessorWorkItemId": "WI-498-reference-file-comparison-batch-28-doc-recovery",
-  "preflightAt": "2026-09-02T04:13:34Z",
+  "preflightAt": "2026-09-02T04:17:37Z",
   "preflightContractDigest": "sha256:2a5cbf1273478e06eb5430c2c3303f8748016fbda212eef6167c0b1ca25cbfdf",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:80af4ad822e27e1d986bc91c3c69c75448634cdf262802d983f167a9e6145898",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-498-reference-file-comparison-batch-28-doc-recovery.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-02T04:13:41Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery"
 }
