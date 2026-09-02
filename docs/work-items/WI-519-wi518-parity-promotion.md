@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-519 — WI-518 parity promotion"
 description: "Promote the merged WI-518 tri-language parity projection and remove its temporary pending registry without rewriting immutable evidence."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-519-wi518-parity-promotion
 lastVerifiedBy: WI-519-wi518-parity-promotion
+terminalArchive: .ai/work-items/archive/WI-519-wi518-parity-promotion.contract.json
+terminalVerification: .ai/evidence/WI-519-wi518-parity-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-519-wi518-parity-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-519-wi518-parity-promotion.close.json
 ---
 
 [简体中文](WI-519-wi518-parity-promotion.zh-CN.md) · [日本語](WI-519-wi518-parity-promotion.ja.md)

@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-519 — WI-518 parity promotion"
 description: "merge 済み WI-518 の三言語 parity projection を昇格し、不変 evidence を書き換えず temporary registry を削除します。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-519-wi518-parity-promotion
 lastVerifiedBy: WI-519-wi518-parity-promotion
+terminalArchive: .ai/work-items/archive/WI-519-wi518-parity-promotion.contract.json
+terminalVerification: .ai/evidence/WI-519-wi518-parity-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-519-wi518-parity-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-519-wi518-parity-promotion.close.json
 ---
 
 [English](WI-519-wi518-parity-promotion.md) · [简体中文](WI-519-wi518-parity-promotion.zh-CN.md)

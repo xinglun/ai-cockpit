@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2d95f3e3cb467ea26cc30aeee8566b216045baf8",
+    "name": "codex/wi-519-wi518-parity-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3baab3cce05e906feadb5d960264fbf86a931f83d59887a16652c6195d61b605",
+  "operationId": "github-pr-494-merge-cleanup-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "64c62ec2dec756bdc92d6cbf7568ff72960e5cad",
+    "headRevision": "2d95f3e3cb467ea26cc30aeee8566b216045baf8",
+    "mergeCommit": "7aef3fc8e20340ee46ec68563f1e064f8b54c737",
+    "number": 494,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/494"
+  },
+  "reason": "Reviewed PR #494 passed all hosted checks and was merged; the exact feature branch and dedicated worktree were explicitly removed after synchronizing main.",
+  "receiptId": "WI-519-wi518-parity-promotion-cleanup",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-519-wi518-parity-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/494",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-519-wi518-parity-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:838a4d26f4528019fdcb8fe11d409199a70cc29ae092a892a66a2dd94e020a08",
+  "runtimeVersion": "0.2.63",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T08:00:00Z",
+  "workItemId": "WI-519-wi518-parity-promotion",
+  "worktree": {
+    "branch": "codex/wi-519-wi518-parity-promotion",
+    "headRevision": "2d95f3e3cb467ea26cc30aeee8566b216045baf8",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-519-wi518-parity-promotion",
+    "worktreeId": "WI-519-wi518-parity-promotion"
+  }
+}

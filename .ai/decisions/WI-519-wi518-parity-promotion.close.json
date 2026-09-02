@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-519-wi518-parity-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:15e8f6594e73de47faa35af968c3a3bffe2695606174a924cd95d388d7ab0f94",
+      "workItemId": "WI-519-wi518-parity-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-519-wi518-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-519-wi518-parity-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-519-wi518-parity-promotion.verification.json",
+            ".ai/decisions/WI-519-wi518-parity-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-09-03T08:05:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-519-wi518-parity-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-519-wi518-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-519-wi518-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-519-wi518-parity-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-519-wi518-parity-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Restore complete tri-language parity truth on the default branch without rewriting immutable Work Item evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-519-wi518-parity-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-519-wi518-parity-promotion"
+  },
+  "finalReportDigest": "sha256:05b194c73c6c34ebf2801b1009d8cf1fc678501a3d867ad9013da1caa2d81b7d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:9b2274fea68fcf75a5c91bed9291f52d8de28bb30ab3362c26fed627238e8329",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-519-wi518-parity-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-09-03T08:05:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-519-wi518-parity-promotion.verification.json",
+      ".ai/decisions/WI-519-wi518-parity-promotion.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "WI-519 parity promotion is verified, PR #494 passed all hosted checks, main is synchronized, and the exact feature branch and worktree were removed.",
+    "resumeCondition": "If parity or lifecycle evidence changes, open a new scoped Work Item from the latest main."
+  },
+  "timestamp": "2026-09-02T23:01:06Z",
+  "workItemId": "WI-519-wi518-parity-promotion"
+}

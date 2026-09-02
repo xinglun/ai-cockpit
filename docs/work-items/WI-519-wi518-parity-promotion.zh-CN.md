@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-519——WI-518 parity 晋级"
 description: "晋级已合并 WI-518 的三语 parity 投影，并在不改写不可变 evidence 的前提下移除临时 registry。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-519-wi518-parity-promotion
 lastVerifiedBy: WI-519-wi518-parity-promotion
+terminalArchive: .ai/work-items/archive/WI-519-wi518-parity-promotion.contract.json
+terminalVerification: .ai/evidence/WI-519-wi518-parity-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-519-wi518-parity-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-519-wi518-parity-promotion.close.json
 ---
 
 [English](WI-519-wi518-parity-promotion.md) · [日本語](WI-519-wi518-parity-promotion.ja.md)
