@@ -21,11 +21,11 @@
   "repositorySnapshotDigest": "sha256:55f20c0266a60cfdfd5e203b86d47005b1ebb6addd74dc8e5cf200a18ed89626",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-495-wi494-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/468",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-495-wi494-doc-promotion"
   },
   "risk": "normal",
