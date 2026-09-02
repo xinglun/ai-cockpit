@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Cargo.toml and Cargo.lock identify v0.2.63 while historical release facts remain unchanged.",
+    "Reviewed PR passes hosted checks before annotated v0.2.63 tag is created from synchronized main.",
+    "Public Release exposes identity-bound archives, SHA256SUMS, SBOM, provenance, and release manifest with matching digests.",
+    "Public adopter and N-1 acceptance use only downloaded immutable artifacts, prove isolation and temporary-root cleanup, and preserve first-adopter-smoke=not_ready.",
+    "Published v0.2.63 binary is installed on this repository and inspect, status, doctor, Agent doctor, and post-close docs checks remain healthy.",
+    "This Work Item has visible human Outcome, archive, finalization, close, and exact branch/worktree cleanup before publication."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c9e460043f4f95a6c6a5bdf01576c4259ac94612",
+  "createdAt": "2026-09-02T19:08:14Z",
+  "goal": "从已审阅并合并的 main 生成身份绑定的 v0.2.63 Release，仅在 Runtime 侧修复范围内发布；不修改对象工程或全局 Agent/MCP 配置。",
+  "intent": "发布 v0.2.63 修复版，验证历史兼容收尾能力，并确保对象工程可用公开不可变制品重新验收。",
+  "mode": "implementation",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "global Agent/MCP/Homebrew/user configuration",
+    "source checkout/workspace binary release acceptance",
+    "unrelated Runtime behavior",
+    "hand-editing generated governance records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a6b66059cb44abecee6472ec6075365f7f79cf9ea2bc62d8aea70dd33863b4ab",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-515-release-v0-2-63",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-515-release-v0-2-63"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-515-release-v0-2-63.md",
+    "docs/work-items/WI-515-release-v0-2-63.zh-CN.md",
+    "docs/work-items/WI-515-release-v0-2-63.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-515-release-v0-2-63"
+}
