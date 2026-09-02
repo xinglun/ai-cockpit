@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized continuation to repair stale verification after binding reviewed PR #477",
+  "decidedAt": "2026-09-02T09:07:19Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-504-reference-file-comparison-batch-29.verification.json",
+    ".ai/work-items/active/WI-504-reference-file-comparison-batch-29.outcome.json",
+    ".ai/work-items/active/WI-504-reference-file-comparison-batch-29.events.jsonl"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:ab56d85083d47b5ac72652dfca176fd4655b9ac82a9ba736c4ba6dcc4386ce25",
+  "predecessorEventsDigest": "sha256:920a8c3add524903098d0d02cf6880ee85093fe070c62d2cd290e3b891885499",
+  "predecessorOutcomeDigest": "sha256:b0661389abee042ec0ebc0c68b730f1af13d1e5d80641c120954c4d205e29a40",
+  "predecessorSummaryDigest": "sha256:0b63d2e24c29ad3c603b702286e81224488a3afb464dd8d93a4c5a94b02e1217",
+  "predecessorWorkItemId": "WI-504-reference-file-comparison-batch-29",
+  "reason": "The first verification became stale after finalize-plan bound the real reviewed PR; preserve the blocked projection and rerun fresh preflight and verification against the finalized Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification, then finish and archive.",
+  "runtimeDigest": "sha256:3b7fff5e4fcbb1ae735e81c2b3c1cea23fcba37391aa0cbd7990dfd45c3d38c5",
+  "runtimeVersion": "0.2.59",
+  "schemaVersion": 1,
+  "workItemId": "WI-504-reference-file-comparison-batch-29"
+}

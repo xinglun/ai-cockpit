@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:83eb86e41e0ccdb5bccae55631379edc59c25125435f6fb0d2954d7fadab80fd",
-  "createdAt": "2026-09-02T08:55:17Z",
+  "contractDigest": "sha256:ab56d85083d47b5ac72652dfca176fd4655b9ac82a9ba736c4ba6dcc4386ce25",
+  "createdAt": "2026-09-02T09:10:28Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 142205,
-      "executionElapsedMs": 141849,
+      "elapsedMs": 146851,
+      "executionElapsedMs": 146599,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 142205,
-    "executionElapsedMs": 141849,
-    "filesHashed": 31,
-    "filesRead": 31,
+    "elapsedMs": 146851,
+    "executionElapsedMs": 146599,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,21 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-file-comparison.ja.md",
-        "docs/reference/reference-file-comparison.md",
-        "docs/reference/reference-file-comparison.zh-CN.md",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/upgrade.md",
-        "docs/work-items/WI-504-reference-file-comparison-batch-29.ja.md",
-        "docs/work-items/WI-504-reference-file-comparison-batch-29.md",
-        "docs/work-items/WI-504-reference-file-comparison-batch-29.zh-CN.md",
-        "tests/conformance/reference_file_inventory.json",
-        "tests/conformance/reference_file_inventory.py",
-        "tests/conformance/reference_file_inventory_test.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "7199ad1ab72e3ec00568605f1306d69d202e3660",
       "dependencyConfidence": "unknown",
@@ -58,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 141849,
+      "executionElapsedMs": 146599,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -90,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:8ee2efeef29e58b83d1aed6634bb1e2ea57ff6328f83be170aad6690d7d5fdbc",
+        "outputDigest": "sha256:6f8cde98bf234995b2a31b8e69de836b93c981fc240328cba7d5e3e9002dd09f",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -106,7 +92,7 @@
     "runtimeVersion": "0.2.59",
     "workItemId": "WI-504-reference-file-comparison-batch-29"
   },
-  "receiptDigest": "sha256:6ef8079008f7d2167dc52d3403d8cfd679af9c7ef975628656d7514f2ffd2406",
+  "receiptDigest": "sha256:858f372f590a1cd0a908b600b6d895ed8e0edd1d97a48c17a52fd4cc8cf13291",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:4d097c183f23507e5bb9d84d9dd6c43733deef68d04217b3d7efb26f60d17212",
   "runtimeDigest": "sha256:3b7fff5e4fcbb1ae735e81c2b3c1cea23fcba37391aa0cbd7990dfd45c3d38c5",
