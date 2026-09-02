@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-02T02:27:30Z",
-  "checkpointContractDigest": "sha256:5af5d75e5491fbb974302e8b16c8bde004a29a43b687baea253e3a3c4b7f769b",
+  "checkpointContractDigest": "sha256:0884b0314c035539963ae8ac6659363bf2cceb994bbb298e3ba2684f321a5b7d",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -79,28 +79,23 @@
       "workItemId": "WI-496-reference-file-comparison-batch-28"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:56feafdf2459f8a9a2637464b412a70654d0168778588eb3c802e5ca3ec2988c",
+  "checkpointRepositorySnapshotDigest": "sha256:6057160715fb6806de581534e11f49cc91f1faa59b57e6bd944f7120532177f3",
   "createdAt": "2026-09-02T02:27:04Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-02T02:41:32Z",
-  "preflightContractDigest": "sha256:469c5d1de51178e6d9cd3415398200097fe880c4ac4e7716fdb0027e8ade7f06",
-  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "preflightAt": "2026-09-02T02:43:07Z",
+  "preflightContractDigest": "sha256:0884b0314c035539963ae8ac6659363bf2cceb994bbb298e3ba2684f321a5b7d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:6057160715fb6806de581534e11f49cc91f1faa59b57e6bd944f7120532177f3",
-  "preflightState": "not_run",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-02T02:27:30Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T02:43:13Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:0884b0314c035539963ae8ac6659363bf2cceb994bbb298e3ba2684f321a5b7d",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-02T02:42:38Z"
-  },
   "workItemId": "WI-496-reference-file-comparison-batch-28"
 }
