@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:bdb06665addb5182c2d94ad7010da6b9e05adff676c217350316738f76ee4e99",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "确认当前 Contract 范围、历史共享 worktree 兼容性、事实绑定和低 assurance 边界",
+  "recordedAt": "2026-09-03T00:30:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f39e60d6dd38a4981b277c7ce2a0ae14b6f2fbe98ab7638f62a6525d55b572ca",
+  "schemaVersion": 1,
+  "workItemId": "WI-514-historical-close-compatibility"
+}

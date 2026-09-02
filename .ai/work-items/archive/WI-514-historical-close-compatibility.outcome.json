@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "旧 Runtime 生成且无 historical 字段但事实明确为主仓库共享 worktree 且 retained 的收据可以通过明确的低 assurance historical recovery projection 或等价官方路径收尾；普通 retained 独立 worktree 未清理或事实不明时仍 fail closed",
+    "历史 direct-merge 无 PR 路径继续绑定真实 merge commit parents baseRevision repository identity 不伪造 PR；旧 schema 输入有清晰诊断和 recovery plan",
+    "归档后的历史 Work Item 有可发现可重复不可手改 active/archive 的 revalidation/recovery 流程；失败时输出明确下一步和保留历史原因",
+    "原始历史 receipt archive manifest evidence bytes 不被重写；recovery 记录 append-only 绑定 predecessor digest runtime repository work item",
+    "新增回归测试覆盖 legacy shared retained ordinary retained rejection direct merge no PR foreign/malformed/stale/symlink 证据和 CLI/docs discoverability",
+    "三语文档同步说明 shared retained direct merge historical evidence 与当前 assurance 的边界；不把历史低 assurance 宣称为当前绿色验证"
+  ],
+  "createdAt": "2026-09-02T18:25:22Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:445e6b2735c51f7947774331ec605231a0ef6e15acf28b020e15abf642123939",
+  "evidenceRefs": [
+    ".ai/evidence/WI-514-historical-close-compatibility.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-514-historical-close-compatibility.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-514-historical-close-compatibility.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f39e60d6dd38a4981b277c7ce2a0ae14b6f2fbe98ab7638f62a6525d55b572ca",
+      "workItemId": "WI-514-historical-close-compatibility"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-514-historical-close-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-514-historical-close-compatibility.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-514-historical-close-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-514-historical-close-compatibility.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-514-historical-close-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-514-historical-close-compatibility.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-514-historical-close-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-514-historical-close-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-514-historical-close-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-514-historical-close-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "让旧版 retained/direct-merge 历史记录在事实可验证、低 assurance、不可改写原始证据的前提下可通过官方 recovery/revalidation 路径收尾，并提供清晰诊断与回归测试"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-514-historical-close-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-514-historical-close-compatibility"
+  },
+  "taskReportDigest": "sha256:7f476469e9ecc24c20aa1eff8abde58203e1e5b49df55b8a811dd91d19ee0166",
+  "taskReportMarkdownDigest": "sha256:510cc35c970a38bc90f5aaead4856b7a3f5554987ff09dd5ca4cfc1355534ee4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-514-historical-close-compatibility.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-514-historical-close-compatibility"
+}

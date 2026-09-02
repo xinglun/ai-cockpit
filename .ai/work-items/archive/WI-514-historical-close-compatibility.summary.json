@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-514-historical-close-compatibility.contract.json",
-    ".ai/work-items/active/WI-514-historical-close-compatibility.summary.json"
+    ".ai/work-items/archive/WI-514-historical-close-compatibility.contract.json",
+    ".ai/work-items/archive/WI-514-historical-close-compatibility.summary.json"
   ],
   "checkpointAt": "2026-09-02T17:46:10Z",
-  "checkpointContractDigest": "sha256:01373e8d33352fad81ed91ff171370115f4c0c9e3cacf7144a12d4b501d80375",
+  "checkpointContractDigest": "sha256:bdb06665addb5182c2d94ad7010da6b9e05adff676c217350316738f76ee4e99",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -125,38 +125,68 @@
   "checkpointRepositorySnapshotDigest": "sha256:f39e60d6dd38a4981b277c7ce2a0ae14b6f2fbe98ab7638f62a6525d55b572ca",
   "createdAt": "2026-09-02T17:43:25Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:01373e8d33352fad81ed91ff171370115f4c0c9e3cacf7144a12d4b501d80375",
+    "contractDigest": "sha256:bdb06665addb5182c2d94ad7010da6b9e05adff676c217350316738f76ee4e99",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "确认在当前 Work Item 范围内修复对象工程报告的历史收尾兼容性并保持事实绑定和低 assurance",
-    "recordedAt": "2026-09-03T00:00:00+09:00",
+    "reason": "确认当前 Contract 范围、历史共享 worktree 兼容性、事实绑定和低 assurance 边界",
+    "recordedAt": "2026-09-03T00:36:00+09:00",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:f39e60d6dd38a4981b277c7ce2a0ae14b6f2fbe98ab7638f62a6525d55b572ca",
     "schemaVersion": 1,
     "workItemId": "WI-514-historical-close-compatibility"
   },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+      "docs/reference/work-item-lifecycle-closure.md"
+    ],
+    "state": "resolved"
+  },
   "mode": "code",
-  "preflightAt": "2026-09-02T18:15:44Z",
-  "preflightContractDigest": "sha256:01373e8d33352fad81ed91ff171370115f4c0c9e3cacf7144a12d4b501d80375",
+  "preflightAt": "2026-09-02T18:24:06Z",
+  "preflightContractDigest": "sha256:bdb06665addb5182c2d94ad7010da6b9e05adff676c217350316738f76ee4e99",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:f39e60d6dd38a4981b277c7ce2a0ae14b6f2fbe98ab7638f62a6525d55b572ca",
-  "preflightState": "not_run",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-02T18:15:37.024826+00:00",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
+      "scenario": "legacy_shared_retained",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
+      "scenario": "ordinary_retained_rejection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "required": true,
+      "scenario": "historical_direct_merge_recovery",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T18:25:22Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:bdb06665addb5182c2d94ad7010da6b9e05adff676c217350316738f76ee4e99",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-02T18:19:47Z"
-  },
   "workItemId": "WI-514-historical-close-compatibility"
 }
