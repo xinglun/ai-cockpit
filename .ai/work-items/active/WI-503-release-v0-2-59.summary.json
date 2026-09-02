@@ -8,7 +8,6 @@
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:63a739cebd7f4646c8a25963170f3a2b2026f721bdb79bd98d067fb0acb98bcc",
   "createdAt": "2026-09-02T07:06:30Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "Cargo.toml",
@@ -19,17 +18,12 @@
     "state": "resolved"
   },
   "mode": "release",
-  "outcomeState": "blocked",
   "preflightAt": "2026-09-02T07:35:17Z",
   "preflightContractDigest": "sha256:1344defeb2cda394ad31d88f736248f2d29e024c38e05a9dbd2f17e889215e47",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:63a739cebd7f4646c8a25963170f3a2b2026f721bdb79bd98d067fb0acb98bcc",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
-  "recoveryRetryDecisionDigest": "sha256:ca6dbe8eb0b9cd2a3766d80e7b0def33d633382548b478360b8eab7bee659b5d",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-503-release-v0-2-59.recovery.json",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -74,8 +68,8 @@
       "verificationPlan": "Install the public artifact, then run inspect, status, doctor, Agent doctor, and documentation promotion checks."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-02T07:33:31.132451+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T07:35:25Z",
   "verification": [
     {
       "check": "project-command-0",
