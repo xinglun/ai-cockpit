@@ -1,0 +1,73 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-02T18:45:48Z",
+  "checkpointContractDigest": "sha256:044429e78474f090465758a14bc58e94491db639efddffa295f495b0055d3955",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:057e8bd2e4ccb2322d9b478a08e6c892f37b19220e07671fb56089b80e816db0",
+  "createdAt": "2026-09-02T18:41:33Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:044429e78474f090465758a14bc58e94491db639efddffa295f495b0055d3955",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "确认最终验证后仍适用当前 Contract、PR 绑定、事实证据与低 assurance 边界",
+    "recordedAt": "2026-09-03T01:30:00+09:00",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:057e8bd2e4ccb2322d9b478a08e6c892f37b19220e07671fb56089b80e816db0",
+    "schemaVersion": 1,
+    "workItemId": "WI-514-historical-close-compatibility"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+      "docs/reference/work-item-lifecycle-closure.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-02T18:51:17Z",
+  "preflightContractDigest": "sha256:044429e78474f090465758a14bc58e94491db639efddffa295f495b0055d3955",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:057e8bd2e4ccb2322d9b478a08e6c892f37b19220e07671fb56089b80e816db0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
+      "scenario": "legacy_shared_retained",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
+      "scenario": "ordinary_retained_rejection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "required": true,
+      "scenario": "historical_direct_merge_recovery",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T18:51:32Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-514-historical-close-compatibility"
+}

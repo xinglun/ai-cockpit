@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-02T18:51:37Z",
+  "files": {
+    "contractDigest": "sha256:12ab729bc014e8c53cf30a6caff867c281dddfcdefbafd93e5b954ef50eacfee",
+    "contractPath": ".ai/work-items/archive/WI-514-historical-close-compatibility.contract.json",
+    "eventsDigest": "sha256:f742ba8f9cac3a1a13eb46ef157a07e836f25a45a7d4ff7d7642d82bc773b7a7",
+    "eventsPath": ".ai/work-items/archive/WI-514-historical-close-compatibility.events.jsonl",
+    "outcomeDigest": "sha256:5c90ccbf4a5769198c78baae5df9c3c8672d1efadbc45e260190c97f4f2936fd",
+    "outcomePath": ".ai/work-items/archive/WI-514-historical-close-compatibility.outcome.json",
+    "summaryDigest": "sha256:eaba228a5489c22d172bc49d75ac04610b03f651f41da4c61986a5e0b74e346d",
+    "summaryPath": ".ai/work-items/archive/WI-514-historical-close-compatibility.summary.json",
+    "taskReportDigest": "sha256:e8c0949f023e7fdc77900b4a92e0eb8f11305389a460d1c8179bdd7155db6f83",
+    "taskReportMarkdownDigest": "sha256:1c53fdeb66a51054812357f1be04ad52ea52610a3e0aa464687d9c6e4bb9903b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-514-historical-close-compatibility.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-514-historical-close-compatibility.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-514-historical-close-compatibility"
+}
