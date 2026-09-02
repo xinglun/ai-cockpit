@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:71d439337059d44d5272d9886c7ce67ef47b6aa08f9c180733afc6b4f007c29d",
+      "workItemId": "WI-508-reference-file-comparison-batch-31"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-508-reference-file-comparison-batch-31.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-508-reference-file-comparison-batch-31.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-508-reference-file-comparison-batch-31.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-508-reference-file-comparison-batch-31.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json",
+            ".ai/decisions/WI-508-reference-file-comparison-batch-31.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-09-02T12:26:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-508-reference-file-comparison-batch-31.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete a bounded five-file reference comparison batch with evidence-backed classifications, synchronized tri-language parity documentation, and no source or object-repository changes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-508-reference-file-comparison-batch-31.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-508-reference-file-comparison-batch-31"
+  },
+  "finalReportDigest": "sha256:f68a23cc95af92d60339e1d7966109fa6741164756e7188e2f1903c2fa13e8ef",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:78f31f5dfcc2b1ac3e42cfd22e29f03c55c772aabfb23979b263c41cb34822d4",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-508-reference-file-comparison-batch-31.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-09-02T12:26:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json",
+      ".ai/decisions/WI-508-reference-file-comparison-batch-31.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "Reviewed PR #481 passed all hosted checks; the five pinned reference paths are explicitly classified with Rust-native boundaries and no source or object repository changes.",
+    "resumeCondition": "If any binding, inventory count, or reference source changes, open a new bounded comparison Work Item from the latest main."
+  },
+  "timestamp": "2026-09-02T12:25:45Z",
+  "workItemId": "WI-508-reference-file-comparison-batch-31"
+}
