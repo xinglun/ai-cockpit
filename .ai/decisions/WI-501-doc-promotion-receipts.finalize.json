@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner authorization for WI-501 reviewed PR closure",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "83d16f19688f546f563df326d8e6441843062cc8",
+    "name": "codex/wi-501-doc-promotion-receipts",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:067b241abecac72b8ea5d301059c9c05a744353f488bcc26f15e847c4889ffd6",
+  "operationId": "WI-501-doc-promotion-receipts-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bf4fab95d497d3722499555f391d7eedb68527cd",
+    "headRevision": "83d16f19688f546f563df326d8e6441843062cc8",
+    "mergeCommit": "2ebae17ab943cefaf01d974ae8ee788886654563",
+    "number": 474,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/474"
+  },
+  "reason": "PR #474 passed all hosted checks, merged as 2ebae17ab943cefaf01d974ae8ee788886654563, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-501-doc-promotion-receipts-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-501-doc-promotion-receipts",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/474",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-501-doc-promotion-receipts"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T06:37:49Z",
+  "workItemId": "WI-501-doc-promotion-receipts",
+  "worktree": {
+    "branch": "codex/wi-501-doc-promotion-receipts",
+    "headRevision": "83d16f19688f546f563df326d8e6441843062cc8",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-501-doc-promotion-receipts",
+    "worktreeId": "WI-501-doc-promotion-receipts"
+  }
+}
