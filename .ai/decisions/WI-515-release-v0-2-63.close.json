@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-515-release-v0-2-63.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2c2b6da00b7cd4c465a12321e3ebbd2fb0e8d7fd3c4da7b54c8c457d89b14ce5",
+      "workItemId": "WI-515-release-v0-2-63"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-515-release-v0-2-63.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-515-release-v0-2-63.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-515-release-v0-2-63.verification.json",
+            ".ai/decisions/WI-515-release-v0-2-63.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-09-02T19:40:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-515-release-v0-2-63.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-515-release-v0-2-63.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-515-release-v0-2-63.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-515-release-v0-2-63.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-515-release-v0-2-63.contract.json"
+          ],
+          "inference": false,
+          "text": "从已审阅并合并的 main 生成身份绑定的 v0.2.63 Release，仅在 Runtime 侧修复范围内发布；不修改对象工程或全局 Agent/MCP 配置。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-515-release-v0-2-63.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-515-release-v0-2-63"
+  },
+  "finalReportDigest": "sha256:071544362b7acc5149c5f7325395f86a09840fadbc589a98bd21329c95f2694e",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5f57f428599a2cc87c58d8ebde27e1ed9c5c07acf7a6e64ee3ac428a5564301a",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-515-release-v0-2-63.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-09-02T19:40:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-515-release-v0-2-63.verification.json",
+      ".ai/decisions/WI-515-release-v0-2-63.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "PR #490 passed all hosted checks, was merged, and exact feature branch/worktree cleanup was verified by finalize-verify.",
+    "resumeCondition": "If post-release artifact acceptance fails, record a new Work Item with fresh evidence; do not rewrite this closed history."
+  },
+  "timestamp": "2026-09-02T19:38:27Z",
+  "workItemId": "WI-515-release-v0-2-63"
+}

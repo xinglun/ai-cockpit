@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-515 — v0.2.63 リリースと historical adopter recovery acceptance"
 description: "legacy shared-worktree と direct-merge recovery の修正を公開し、不変の adopter evidence を提供する。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-515-release-v0-2-63
 lastVerifiedBy: WI-515-release-v0-2-63
+terminalArchive: .ai/work-items/archive/WI-515-release-v0-2-63.contract.json
+terminalVerification: .ai/evidence/WI-515-release-v0-2-63.verification.json
+terminalFinalization: .ai/decisions/WI-515-release-v0-2-63.finalize.json
+terminalDecision: .ai/decisions/WI-515-release-v0-2-63.close.json
 ---
 
 [English](WI-515-release-v0-2-63.md) · [简体中文](WI-515-release-v0-2-63.zh-CN.md)
