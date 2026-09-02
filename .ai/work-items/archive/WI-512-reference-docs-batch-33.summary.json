@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-02T16:47:08Z",
+  "checkpointContractDigest": "sha256:59207d5bbdfa34adeb1c52fe892532d24456071ce02c4bf21e32555bd88d1ab8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8c7f0f9d714ce21b2e418c1e2e490ac0d9f9f07c43c1a12b94c24f84fee51c2d",
+      "recorded": true,
+      "recordedAt": "2026-09-02T16:47:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:127b6b2aae6fa050880d091f371aa65c634abf7e9e31b25531b79d60d15c8ea4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-512-reference-docs-batch-33"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:7a436e46711ec7b7c7e4e6100ef63f8a468fd6494efd034b405e9ea1f59eafd0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8c7f0f9d714ce21b2e418c1e2e490ac0d9f9f07c43c1a12b94c24f84fee51c2d",
+      "previousContractHash": "sha256:8c7f0f9d714ce21b2e418c1e2e490ac0d9f9f07c43c1a12b94c24f84fee51c2d",
+      "reason": "Align requiredEvidenceClasses with the Runtime-supported evidence vocabulary; comparison, conformance, and documentation remain explicit acceptance criteria and verification commands, not unsupported class names.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T16:56:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:127b6b2aae6fa050880d091f371aa65c634abf7e9e31b25531b79d60d15c8ea4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-512-reference-docs-batch-33"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:127b6b2aae6fa050880d091f371aa65c634abf7e9e31b25531b79d60d15c8ea4",
+  "createdAt": "2026-09-02T16:23:21Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-02T17:05:25Z",
+  "preflightContractDigest": "sha256:59207d5bbdfa34adeb1c52fe892532d24456071ce02c4bf21e32555bd88d1ab8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:127b6b2aae6fa050880d091f371aa65c634abf7e9e31b25531b79d60d15c8ea4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T17:05:30Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-512-reference-docs-batch-33"
+}
