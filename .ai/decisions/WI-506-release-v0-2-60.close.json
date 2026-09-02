@@ -1,0 +1,139 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa376ff7e53b86310ad1e44386e24c9198ed5c0bf282ec844dc6ecf72e4ac6aa",
+      "workItemId": "WI-506-release-v0-2-60"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-506-release-v0-2-60.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-506-release-v0-2-60.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-506-release-v0-2-60.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-506-release-v0-2-60.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json",
+            ".ai/decisions/WI-506-release-v0-2-60.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-02T19:31:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-506-release-v0-2-60.contract.json"
+          ],
+          "inference": false,
+          "text": "Release the next Runtime version with identity-bound public artifacts, reproducible adopter/N-1 acceptance, and a clean installed baseline for the next comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-506-release-v0-2-60.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-506-release-v0-2-60"
+  },
+  "finalReportDigest": "sha256:d57a4d9388e3985ac78898a02ecf4279bc2463bf33f8631ad4558be56160b5b1",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:a274e89cd482dbea681ea286f90848cbf1fad7e6b6572520c2ea2cccec79a170",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-506-release-v0-2-60.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-02T19:31:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-506-release-v0-2-60.verification.json",
+      ".ai/decisions/WI-506-release-v0-2-60.finalize.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md",
+      "AGENTS.md"
+    ],
+    "reason": "用户授权发布 v0.2.60，并在审查合并和证据验证后返回参考源逐文件比对主线。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-02T10:29:55Z",
+  "workItemId": "WI-506-release-v0-2-60"
+}
