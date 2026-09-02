@@ -1,0 +1,137 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6057160715fb6806de581534e11f49cc91f1faa59b57e6bd944f7120532177f3",
+      "workItemId": "WI-496-reference-file-comparison-batch-28"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.archive.json",
+            ".ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.d487f319e9e823d797a93946fdd76c05407bff2a22c12fb8d7c063a7097da2d9.json",
+            ".ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.0d82eb7196baa659bcd5be7d6e23511f4e06cc79dec50f6d85d97700019837d3.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-02T06:35:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.contract.json"
+          ],
+          "inference": false,
+          "text": "Resolve the next deferred reference-file comparison slice without copying source implementation, source evidence, or source-specific governance decisions."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-496-reference-file-comparison-batch-28"
+  },
+  "finalReportDigest": "sha256:f085f97905f600f142e558003064a8f2715538a741f51e55326d7e9a68f15592",
+  "historicalArchiveIntegrity": {
+    "artifact": "taskReportMarkdown",
+    "assurance": "historical_low",
+    "manifestDigest": "sha256:76735d405322d5eff99e0a1ae7eed0ed99c80d36ec5a08dd039a91b7c283527f",
+    "reason": "optional archived Task Outcome Markdown bytes differ from the immutable manifest digest; bytes were preserved",
+    "state": "quarantined"
+  },
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-02T06:35:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.archive.json",
+      ".ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.d487f319e9e823d797a93946fdd76c05407bff2a22c12fb8d7c063a7097da2d9.json",
+      ".ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.0d82eb7196baa659bcd5be7d6e23511f4e06cc79dec50f6d85d97700019837d3.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:immutable-history-and-successor-recovery"
+    ],
+    "reason": "Close immutable historical predecessor after its comparison was superseded by the reviewed WI-497/WI-498/WI-499 lineage; preserve all predecessor bytes.",
+    "resumeCondition": "Continue on the closed successor lineage; do not rewrite WI-496 historical bytes."
+  },
+  "timestamp": "2026-09-02T06:02:32Z",
+  "workItemId": "WI-496-reference-file-comparison-batch-28"
+}

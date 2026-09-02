@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized continuation to repair the failed lifecycle gate",
+  "decidedAt": "2026-09-02T06:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-501-doc-promotion-receipts.verification.json",
+    ".ai/work-items/active/WI-501-doc-promotion-receipts.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:cb30261762bea20dedfdb7b9b782950bba55d1bcb3584bf9a16a5348f96ae41f",
+  "predecessorEventsDigest": "sha256:1daf518f69536841ce430b73c8f255f34bc43d07c8593932733046af461d3c20",
+  "predecessorOutcomeDigest": "sha256:7754015f342f6cb681724d1fdf67b4d4076067efa53765547e1df9aa01e65d24",
+  "predecessorSummaryDigest": "sha256:65fe4fe979c5f7ce5f596d5103730002531d0ca9860a10acae467fe38c3f02ea",
+  "predecessorWorkItemId": "WI-501-doc-promotion-receipts",
+  "reason": "The first verification receipt became stale after binding the real reviewed PR context. Preserve that failed projection and re-run the governed verification against the current Contract and repository snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Re-run preflight, checkpoint if required, verify the current snapshot, then retry finish.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "workItemId": "WI-501-doc-promotion-receipts"
+}

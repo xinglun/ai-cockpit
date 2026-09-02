@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T06:30:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.archive.json",
+    ".ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json",
+    ".ai/decisions/WI-497-reference-file-comparison-batch-28-retry.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "docs/reference/repository-workflow.zh-CN.md:recovery-and-adoption"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:76735d405322d5eff99e0a1ae7eed0ed99c80d36ec5a08dd039a91b7c283527f",
+  "predecessorContractDigest": "sha256:0884b0314c035539963ae8ac6659363bf2cceb994bbb298e3ba2684f321a5b7d",
+  "predecessorEventsDigest": "sha256:1ca91e66655380a6a81f5b98d083c3fc2fe3ed098b7c387735b54218f8733469",
+  "predecessorOutcomeDigest": "sha256:4f4a73bf12b156a37ff6af7ee62b6817d26b704a36370bc83901ec8f6e60b1a2",
+  "predecessorSummaryDigest": "sha256:ed3a5e6bdf7859bc2b47653375f781211d1ccc14dfe2b58ce184968ba06d7cf1",
+  "predecessorWorkItemId": "WI-496-reference-file-comparison-batch-28",
+  "reason": "WI-496 is an immutable historical predecessor whose comparison was redelivered through the closed WI-497/WI-498/WI-499 successor lineage. Bind the exact predecessor archive manifest and mark the predecessor superseded without rewriting historical bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue only on the closed successor lineage through WI-497, WI-498, and WI-499; do not reopen or rewrite WI-496 historical bytes.",
+  "runtimeDigest": "sha256:0d82eb7196baa659bcd5be7d6e23511f4e06cc79dec50f6d85d97700019837d3",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-497-reference-file-comparison-batch-28-retry",
+  "workItemId": "WI-496-reference-file-comparison-batch-28"
+}

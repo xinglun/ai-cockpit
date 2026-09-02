@@ -1,0 +1,137 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-501-doc-promotion-receipts.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:29904a9f31a481717bdcba7851976cf4e3adbc2f2a90aca9cab6f565ac65dfc8",
+    "workItemId": "WI-501-doc-promotion-receipts"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-496-reference-file-comparison-batch-28.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.5fe836fa041e4c5c7f44049be35531f18e2848271e8299febe0992c41084e033.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.d487f319e9e823d797a93946fdd76c05407bff2a22c12fb8d7c063a7097da2d9.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-500-historical-archive-recovery-integrity.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-500-historical-archive-recovery-integrity.finalize.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-501-doc-promotion-receipts.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-501-doc-promotion-receipts.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-501-doc-promotion-receipts.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-501-doc-promotion-receipts.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-501-doc-promotion-receipts.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-501-doc-promotion-receipts.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-501-doc-promotion-receipts.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.contract.json"
+        ],
+        "inference": false,
+        "text": "Make closed Work Item documentation, parity projections, and generated recovery/close receipts auditable and current before the next Runtime release."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-501-doc-promotion-receipts.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-501-doc-promotion-receipts"
+}
