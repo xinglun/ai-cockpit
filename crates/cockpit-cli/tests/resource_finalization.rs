@@ -48,6 +48,19 @@ fn assert_success(output: &std::process::Output, operation: &str) {
 }
 
 #[test]
+fn historical_recovery_commands_are_discoverable_in_work_item_help() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let output = Command::new(binary)
+        .args(["work-item", "--help"])
+        .output()
+        .expect("run work-item help");
+    assert_success(&output, "work-item help");
+    let help = String::from_utf8_lossy(&output.stdout);
+    assert!(help.contains("finalize-recovery"), "help: {help}");
+    assert!(help.contains("finalize-recovery-plan"), "help: {help}");
+}
+
+#[test]
 fn runtime_close_requires_explicit_resource_finalization_receipt() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let repo = repository();

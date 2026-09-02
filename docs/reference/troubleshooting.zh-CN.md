@@ -24,6 +24,7 @@ capabilityClaims:
 | `finish_ready` Work Item 在 archive 前变成 stale | verification 绑定的 snapshot 之后 repository 发生了变化。 | 不要编辑 summary 或 receipt。保留历史 bytes，基于当前 snapshot 创建新的授权 Work Item。 |
 | stale predecessor 不应再重试 | 其 evidence 已是历史记录，且已有绑定 successor 接管工作。 | 记录绑定 identity 的 `supersede` recovery decision，再把 predecessor 作为历史项 archive/close；不要重写或重新验证旧 evidence。 |
 | `archive`/`close` 失败 | governance 非 green 或 archive identity 非法。 | 保留 active 记录，修复 evidence 后重试失败步骤。 |
+| `close` 提示 retained resources require cleanup | receipt 可能是旧版共享主 checkout 记录，也可能是普通 retained linked resource。 | 确认 `provider=local` 及主 checkout 事实；无法确定时运行 `work-item finalize-recovery-plan` 并记录显式 historical recovery receipt。不要手动把 `retained` 改为 `deleted`。 |
 | Verification 重新执行而非 reuse | identity binding 变化或 reuse 未授权。 | 把 rerun 当作安全行为，检查 receipt reason。 |
 | MCP 要求 repository binding | server 未用 repository-bound adapter 启动。 | 配置 `mcp --repo <path>` 并保持路径显式。 |
 | Release asset/tag 不存在 | 公开分发证据尚未就绪。 | 停止安装，等待不可变 Release 和匹配制品。 |

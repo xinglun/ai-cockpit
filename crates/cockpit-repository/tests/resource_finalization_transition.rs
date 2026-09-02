@@ -69,7 +69,7 @@ fn repository_with_worktree(
         worktree: worktree_path,
         base_branch: "main".into(),
         base_remote: "origin".into(),
-        provider: "github".into(),
+        provider: if primary { "local" } else { "github" }.into(),
         pull_request: "https://github.com/example/project/pull/191".into(),
     };
     plan_resource_finalization(directory.path(), ID, &context).unwrap();
@@ -120,7 +120,7 @@ fn blocked(repository_id: &str, context: &ResourceFinalizationContext, contract:
         "schemaVersion":1,"receiptId":"blocked-1","operationId":"operation-1",
         "repositoryId":repository_id,
         "workItemId":ID,"runtimeVersion":"test-runtime","runtimeDigest":runtime().runtime_digest,
-        "provider":"github","pullRequest":{"number":191,"url":context.pull_request,"headRevision":"head-191","baseBranch":"main","baseRemote":"origin","baseRevision":"unborn"},
+        "provider":context.provider,"pullRequest":{"number":191,"url":context.pull_request,"headRevision":"head-191","baseBranch":"main","baseRemote":"origin","baseRevision":"unborn"},
         "branch":{"name":context.branch,"remote":"origin","headRevision":"head-191"},
         "worktree":{"worktreeId":"worktree-191","path":context.worktree,"branch":context.branch,"headRevision":"head-191"},
         "before":{"pullRequest":"unmerged","branch":"present","worktree":"clean"},
@@ -710,14 +710,10 @@ fn historical_runtime_recovery_allows_shared_retained_close_without_rewriting_pr
     let predecessor_digest = cockpit_protocol::digest_json(&retained).unwrap();
     let before = predecessor.clone();
 
-    let error = verify_resource_finalization(directory.path(), ID, &runtime())
-        .expect_err("an old Runtime receipt must stay blocked before explicit recovery");
-    assert!(
-        error
-            .to_string()
-            .contains("work-item finalize-recovery-plan"),
-        "stale finalization should provide an actionable recovery plan: {error}"
-    );
+    let projected = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("fact-bound legacy shared receipt should be projected");
+    assert_eq!(projected["historicalKind"], "shared_worktree_retained");
+    assert_eq!(projected["assurance"], "historical_low");
     let recovery = historical_recovery(
         &repository_id,
         &predecessor_digest,
@@ -759,6 +755,73 @@ fn historical_runtime_recovery_allows_shared_retained_close_without_rewriting_pr
         &runtime(),
     )
     .expect("classified historical retained receipt should close");
+}
+
+#[test]
+fn legacy_local_shared_retained_is_projected_without_manual_recovery_marker() {
+    let (directory, context, contract) = primary_repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let retained = retained_root(&blocked(&repository_id, &context, &contract));
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    let input = write_input(&directory, "legacy-shared-retained.json", &retained);
+    record_resource_finalization(directory.path(), ID, &input, &runtime())
+        .expect("legacy local shared receipt should be recordable");
+    let predecessor = fs::read(&canonical).expect("predecessor bytes");
+
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("legacy local shared receipt should verify");
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["historical"], true);
+    assert_eq!(verified["historicalKind"], "shared_worktree_retained");
+    assert_eq!(verified["assurance"], "historical_low");
+
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:test".into(),
+            authority_source: "legacy-shared-test".into(),
+            reason: "close an explicitly local shared-worktree history".into(),
+            evidence_refs: vec![format!(".ai/decisions/{ID}.finalize.json")],
+            policy_refs: vec![],
+            decided_at: "2026-08-23T00:22:00Z".into(),
+            resume_condition: None,
+        },
+        &runtime(),
+    )
+    .expect("local shared retained history should close without a marker");
+    assert_eq!(
+        fs::read(&canonical).expect("predecessor bytes"),
+        predecessor
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.finalize-recovery.json"))
+            .exists()
+    );
+}
+
+#[test]
+fn legacy_local_shared_retained_from_older_runtime_is_still_low_assurance() {
+    let (directory, context, contract) = primary_repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let mut retained = retained_root(&blocked(&repository_id, &context, &contract));
+    retained["runtimeVersion"] = "0.2.33".into();
+    retained["runtimeDigest"] = Digest::sha256_bytes(b"runtime-0.2.33").to_string().into();
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    fs::write(&canonical, serde_json::to_vec_pretty(&retained).unwrap()).unwrap();
+
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("fact-bound legacy shared receipt should survive a Runtime upgrade");
+    assert_eq!(verified["historical"], true);
+    assert_eq!(verified["historicalKind"], "shared_worktree_retained");
+    assert_eq!(verified["assurance"], "historical_low");
 }
 
 #[test]

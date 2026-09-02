@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:01373e8d33352fad81ed91ff171370115f4c0c9e3cacf7144a12d4b501d80375",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "确认在当前 Work Item 范围内修复对象工程报告的历史收尾兼容性并保持事实绑定和低 assurance",
+  "recordedAt": "2026-09-03T00:00:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f39e60d6dd38a4981b277c7ce2a0ae14b6f2fbe98ab7638f62a6525d55b572ca",
+  "schemaVersion": 1,
+  "workItemId": "WI-514-historical-close-compatibility"
+}
