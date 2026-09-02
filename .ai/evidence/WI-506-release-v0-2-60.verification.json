@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:3d5bf2ba4e318dd64345fc2802ec5796d88f9a63c4dc408e641c256495d23485",
-  "createdAt": "2026-09-02T10:09:17Z",
+  "createdAt": "2026-09-02T10:17:44Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 90707,
-      "executionElapsedMs": 90456,
+      "elapsedMs": 96920,
+      "executionElapsedMs": 96733,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,11 +25,11 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 90707,
-    "executionElapsedMs": 90456,
+    "elapsedMs": 96920,
+    "executionElapsedMs": 96733,
     "filesHashed": 5,
     "filesRead": 5,
-    "gitCalls": 8,
+    "gitCalls": 6,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
     "nodesPlanned": 1,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 90456,
+      "executionElapsedMs": 96733,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:29776a25db2512fb3d78107393388051709209947d9666f6f23d4c0d88dfeb0f",
+      "repositorySnapshotDigest": "sha256:aa376ff7e53b86310ad1e44386e24c9198ed5c0bf282ec844dc6ecf72e4ac6aa",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:15149bf5666d0323b5f78d803a267095b3953c587bff9dbce0c0be8c7fe5b00e",
+        "outputDigest": "sha256:84b6576095306bd2bb7b694aabf0821766b039e904b9f4498a69ec461ff6b572",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.59",
     "workItemId": "WI-506-release-v0-2-60"
   },
-  "receiptDigest": "sha256:e6cd62c0e8e9ebc6103b0a115e5d1eb57c07b5cf37750ffea757c2a3628edc61",
+  "receiptDigest": "sha256:288b4b680f4997bad9127187bd410a3aa9201421ed081956e3cd708c0f4eeed3",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:29776a25db2512fb3d78107393388051709209947d9666f6f23d4c0d88dfeb0f",
+  "repositorySnapshotDigest": "sha256:aa376ff7e53b86310ad1e44386e24c9198ed5c0bf282ec844dc6ecf72e4ac6aa",
   "runtimeDigest": "sha256:3b7fff5e4fcbb1ae735e81c2b3c1cea23fcba37391aa0cbd7990dfd45c3d38c5",
   "runtimeVersion": "0.2.59",
   "workItemId": "WI-506-release-v0-2-60"
