@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-514——历史收尾兼容"
 description: "为旧版共享 worktree 与 direct-merge 提供窄范围、证据绑定的恢复投影，不改写历史。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-514-historical-close-compatibility
 lastVerifiedBy: WI-514-historical-close-compatibility
+terminalArchive: .ai/work-items/archive/WI-514-historical-close-compatibility.contract.json
+terminalVerification: .ai/evidence/WI-514-historical-close-compatibility.verification.json
+terminalFinalization: .ai/decisions/WI-514-historical-close-compatibility.finalize.json
+terminalDecision: .ai/decisions/WI-514-historical-close-compatibility.close.json
 ---
 
 [English](WI-514-historical-close-compatibility.md) · [日本語](WI-514-historical-close-compatibility.ja.md)

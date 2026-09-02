@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-514 — historical finalization 互換"
 description: "legacy shared worktree と direct-merge を、履歴を書き換えず evidence-bound に recovery projection する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-514-historical-close-compatibility
 lastVerifiedBy: WI-514-historical-close-compatibility
+terminalArchive: .ai/work-items/archive/WI-514-historical-close-compatibility.contract.json
+terminalVerification: .ai/evidence/WI-514-historical-close-compatibility.verification.json
+terminalFinalization: .ai/decisions/WI-514-historical-close-compatibility.finalize.json
+terminalDecision: .ai/decisions/WI-514-historical-close-compatibility.close.json
 ---
 
 [English](WI-514-historical-close-compatibility.md) · [简体中文](WI-514-historical-close-compatibility.zh-CN.md)

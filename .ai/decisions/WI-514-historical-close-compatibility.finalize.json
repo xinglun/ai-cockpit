@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "995ae6e20933cd41f320eb4d548c3004399a45f6",
+    "name": "codex/wi-514-historical-close-compatibility-redelivery2",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:12ab729bc014e8c53cf30a6caff867c281dddfcdefbafd93e5b954ef50eacfee",
+  "operationId": "github-pr-489-merge-cleanup-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d6f77c383d6f63725659d8b4543e02a192821c23",
+    "headRevision": "995ae6e20933cd41f320eb4d548c3004399a45f6",
+    "mergeCommit": "d140df9aff1d9d15befa035b1bfc7c3a7a25781f",
+    "number": 489,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/489"
+  },
+  "reason": "Reviewed PR #489 passed all hosted checks and was merged; the exact feature branch and dedicated worktree were removed only after synchronizing main.",
+  "receiptId": "github-pr-489-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-514-historical-close-compatibility-redelivery2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/489",
+    "worktree": "/private/tmp/ai-cockpit-wi514-redelivery2"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12",
+  "runtimeVersion": "0.2.62",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T01:58:00+09:00",
+  "workItemId": "WI-514-historical-close-compatibility",
+  "worktree": {
+    "branch": "codex/wi-514-historical-close-compatibility-redelivery2",
+    "headRevision": "995ae6e20933cd41f320eb4d548c3004399a45f6",
+    "path": "/private/tmp/ai-cockpit-wi514-redelivery2",
+    "worktreeId": "WI-514-historical-close-compatibility"
+  }
+}
