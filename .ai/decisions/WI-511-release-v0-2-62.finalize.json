@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "163fee6a860d065191f7dbed2b3b84cb2b486f43",
+    "name": "codex/wi-511-release-v0-2-62",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3f5a127e76d44da10bdd2cdba310fd11fe4c6e30d41b1dc971c7f9434fb9ea78",
+  "operationId": "github-pr-484-merge-cleanup-20260902",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "51486c1e2350a5ac82f3362c776f4f8c4d238c33",
+    "headRevision": "163fee6a860d065191f7dbed2b3b84cb2b486f43",
+    "mergeCommit": "ddce6a552bc021dd1551ea8fc794a82b40174736",
+    "number": 484,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/484"
+  },
+  "reason": "Reviewed PR #484 passed all hosted checks and was merged; the exact feature branch and dedicated worktree were removed only after synchronizing main.",
+  "receiptId": "github-pr-484-finalization-20260902",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-511-release-v0-2-62",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/484",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-511-release-v0-2-62"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:a8ef374c2f54bd63c1b9edf6c6629b6e13347786bcf50d868854b28cd2cf4c01",
+  "runtimeVersion": "0.2.61",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T15:35:20Z",
+  "workItemId": "WI-511-release-v0-2-62",
+  "worktree": {
+    "branch": "codex/wi-511-release-v0-2-62",
+    "headRevision": "163fee6a860d065191f7dbed2b3b84cb2b486f43",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-511-release-v0-2-62",
+    "worktreeId": "WI-511-release-v0-2-62"
+  }
+}
