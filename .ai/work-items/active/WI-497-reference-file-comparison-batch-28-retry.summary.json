@@ -13,16 +13,32 @@
     ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.task-report.json",
     ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.task-report.md"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-02T03:11:58Z",
+  "checkpointContractDigest": "sha256:d788b402ad74f56b128873c218758546475ad65a39e56cd0a7dbfd28705fbf44",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:229ea377abc74fe155c42d66c63bc8305c83f0cb041ddfa413c776eaba7d0dad",
   "createdAt": "2026-09-02T03:07:00Z",
+  "failedGate": "finish.governance",
   "mode": "implementation",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:0884b0314c035539963ae8ac6659363bf2cceb994bbb298e3ba2684f321a5b7d",
   "predecessorWorkItemId": "WI-496-reference-file-comparison-batch-28",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-02T03:12:16Z",
+  "preflightContractDigest": "sha256:d788b402ad74f56b128873c218758546475ad65a39e56cd0a7dbfd28705fbf44",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:229ea377abc74fe155c42d66c63bc8305c83f0cb041ddfa413c776eaba7d0dad",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-09-02T03:07:24Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-02T03:12:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-497-reference-file-comparison-batch-28-retry"
 }
