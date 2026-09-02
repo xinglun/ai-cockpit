@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "authorized user instruction to merge and clean the reviewed PR",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fddc71116ac02aa8eace34a988e98a8285c74ced",
+    "name": "codex/wi-500-historical-archive-recovery-integrity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3a7e58c410e9b611fd9640b71a0f697432d3bc96d32234abde8ed7e8c8eeeb60",
+  "operationId": "WI-500-historical-archive-recovery-integrity-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "85e2c0faa9e646f04f1433f8caf5204ad29c8501",
+    "headRevision": "fddc71116ac02aa8eace34a988e98a8285c74ced",
+    "mergeCommit": "bf4fab95d497d3722499555f391d7eedb68527cd",
+    "number": 473,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/473"
+  },
+  "reason": "PR #473 passed all hosted checks, was merged as bf4fab95, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-500-historical-archive-recovery-integrity-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-500-historical-archive-recovery-integrity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/473",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-500-historical-archive-recovery-integrity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T05:43:51Z",
+  "workItemId": "WI-500-historical-archive-recovery-integrity",
+  "worktree": {
+    "branch": "codex/wi-500-historical-archive-recovery-integrity",
+    "headRevision": "fddc71116ac02aa8eace34a988e98a8285c74ced",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-500-historical-archive-recovery-integrity",
+    "worktreeId": "WI-500-historical-archive-recovery-integrity"
+  }
+}

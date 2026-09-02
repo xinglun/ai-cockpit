@@ -4,9 +4,13 @@ title: "WI-500——历史归档完整性恢复"
 description: "为可选报告字节与清单不一致的不可变历史归档提供有界、可审计的恢复路径。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-500-historical-archive-recovery-integrity
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-500-historical-archive-recovery-integrity
+terminalArchive: .ai/work-items/archive/WI-500-historical-archive-recovery-integrity.contract.json
+terminalVerification: .ai/evidence/WI-500-historical-archive-recovery-integrity.verification.json
+terminalFinalization: .ai/decisions/WI-500-historical-archive-recovery-integrity.finalize.json
+terminalDecision: .ai/decisions/WI-500-historical-archive-recovery-integrity.close.json
 canonical: docs/work-items/WI-500-historical-archive-recovery-integrity.zh-CN.md
 ---
 
@@ -23,5 +27,6 @@ Contract、Summary、Outcome 及其他 artifact 绑定仍保持严格校验，�
 
 ## 交付状态
 
-实现已在专用分支归档并完成验证。评审 PR 合并并记录精确资源清理前，provider
-finalization 与 close 仍待完成。
+实现已归档并完成验证。评审 PR 已合并，finalization 收据已记录，已确认的
+close 收据绑定到精确的资源 finalization head。前置项历史字节保持不可变；恢复
+与 close 收据作为独立审计记录保留。
