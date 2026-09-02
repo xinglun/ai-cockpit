@@ -70,6 +70,7 @@ WI496_BATCH = "WI-496-reference-file-comparison-batch-28"
 WI504_BATCH = "WI-504-reference-file-comparison-batch-29"
 WI507_BATCH = "WI-507-reference-file-comparison-batch-30"
 WI508_BATCH = "WI-508-reference-file-comparison-batch-31"
+WI512_BATCH = "WI-512-reference-docs-batch-33"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -911,6 +912,129 @@ WI508_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/verification-route.md",
         ],
         "This TypeScript adaptation example is source/provider onboarding material. npm scripts, Node dependencies, coverage patterns, lifecycle fixture behavior, and sample Contract/Summary decisions remain adopter/provider responsibilities; Rust preserves explicit commands, evidence binding, shared Runtime isolation, and human review without copying source wire or toolchain files.",
+    ),
+}
+
+# WI-512 compares the maintained governance/reference pages one by one.  The
+# source checkout contains English and Japanese pages for some topics and a
+# three-language weakening-guard set; the Rust target deliberately records
+# every tri-language counterpart while keeping source-only commands and wire
+# formats out of the Runtime contract.
+WI512_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/schemas.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/schemas.md",
+            "docs/reference/schemas.zh-CN.md",
+            "docs/reference/schemas.ja.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/tests/contract_schema.rs",
+        ],
+        "The source schema map is represented by Rust typed records and repository validators with explicit identity, legacy, and non-wire boundaries; source YAML registries and Python validators are comparison material, not copied Runtime requirements.",
+    ),
+    "docs/reference/test-architecture.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/test-architecture.md",
+            "docs/reference/test-architecture.zh-CN.md",
+            "docs/reference/test-architecture.ja.md",
+            "docs/reference/ci-quality-gates.md",
+            "tests/ci/quality_route.py",
+            "tests/ci/governance_integrity_gate.py",
+        ],
+        "The source layered quality responsibilities are preserved by Rust workspace, repository, adversarial, release, and documentation gates plus the dynamic quality route. Verification tier is not Evidence Assurance, and source Make/Python commands are not copied.",
+    ),
+    "docs/reference/test-weakening-guard.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/test-weakening-guard.md",
+            "docs/reference/test-weakening-guard.zh-CN.md",
+            "docs/reference/test-weakening-guard.ja.md",
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+        ],
+        "The source weakening decisions and recovery boundary are expressed through Rust-native governance signals and tests. Static text signals remain bounded evidence; no source Python/Make implementation or provider policy is copied.",
+    ),
+    "docs/reference/test-weakening-guard.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/test-weakening-guard.md",
+            "docs/reference/test-weakening-guard.zh-CN.md",
+            "docs/reference/test-weakening-guard.ja.md",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+        ],
+        "This source translation carries the same weakening-guard semantics as the canonical page; Rust tri-language documentation and governance regressions preserve that meaning without treating locale bytes as policy or wire compatibility.",
+    ),
+    "docs/reference/test-weakening-guard.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/test-weakening-guard.md",
+            "docs/reference/test-weakening-guard.zh-CN.md",
+            "docs/reference/test-weakening-guard.ja.md",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+        ],
+        "This source translation carries the same weakening-guard semantics as the canonical page; Rust tri-language documentation and governance regressions preserve that meaning without treating locale bytes as policy or wire compatibility.",
+    ),
+    "docs/reference/verification-fixture-boundary.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/verification-fixture-boundary.md",
+            "docs/reference/verification-fixture-boundary.zh-CN.md",
+            "docs/reference/verification-fixture-boundary.ja.md",
+            "tests/fixtures/README.md",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/isolation_manifest.sh",
+        ],
+        "The source fixture boundary is retained as a Rust-native repository/Release isolation rule: source inputs are separated from runtime state, caches, worktrees, and forbidden global roots. Fixture and adopter manifests provide evidence; the source helper implementation is not copied.",
+    ),
+    "docs/reference/troubleshooting.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/troubleshooting.md",
+            "docs/reference/troubleshooting.zh-CN.md",
+            "docs/reference/troubleshooting.ja.md",
+            "docs/reference/agent-workflow.ja.md",
+            "docs/reference/outcome-report.ja.md",
+            "docs/reference/upgrade.ja.md",
+        ],
+        "This source translation is represented by the Rust tri-language recovery pages and explicit repository lifecycle. Japanese wizard/session controls and external toolchains remain outside Core and are not copied.",
+    ),
+    "docs/reference/upgrade.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/upgrade.md",
+            "docs/reference/upgrade.zh-CN.md",
+            "docs/reference/upgrade.ja.md",
+            "docs/architecture/versioning.md",
+            "docs/release/distribution.md",
+            "tests/release/version_consistency.sh",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source upgrade distinction is preserved as shared Runtime upgrade versus explicit repository migration, with immutable Release identity, rollback, and historical evidence boundaries. Source installer and Make/Python bytes are not copied.",
+    ),
+    "docs/reference/upgrade.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/upgrade.md",
+            "docs/reference/upgrade.zh-CN.md",
+            "docs/reference/upgrade.ja.md",
+            "docs/architecture/versioning.ja.md",
+            "docs/release/distribution.ja.md",
+            "tests/release/version_consistency.sh",
+        ],
+        "This source translation is represented by the Rust tri-language upgrade and distribution boundary. Runtime and repository migration remain separate; source installer, provider markers, and locale JSON are not copied.",
+    ),
+    "docs/reference/work-item-lifecycle-closure.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/work-item-lifecycle-closure.md",
+            "docs/reference/work-item-lifecycle-closure.zh-CN.md",
+            "docs/reference/work-item-lifecycle-closure.ja.md",
+            "docs/reference/agent-workflow.ja.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "This source translation is represented by the Rust tri-language closure and recovery boundary, including immutable historical evidence and explicit cleanup. Provider-specific Make/Python routes are not copied or claimed as wire compatibility.",
     ),
 }
 
@@ -5013,6 +5137,33 @@ def apply_wi508_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi512_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI512_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI512_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI512_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI512_REFERENCE_FILES)} WI-512 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -5038,6 +5189,7 @@ def main() -> int:
     parser.add_argument("--apply-wi504-batch", action="store_true")
     parser.add_argument("--apply-wi507-batch", action="store_true")
     parser.add_argument("--apply-wi508-batch", action="store_true")
+    parser.add_argument("--apply-wi512-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -5131,6 +5283,13 @@ def main() -> int:
     if args.apply_wi508_batch:
         try:
             apply_wi508_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi512_batch:
+        try:
+            apply_wi512_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

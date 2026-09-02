@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - reference_parity
 ---
@@ -455,6 +455,13 @@ verification record です。
 | WI-509 — v0.2.61 release と public adopter acceptance | Implemented | [Work Item](../work-items/WI-509-release-v0-2-61.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-509-release-v0-2-61.contract.json`; verification `.ai/evidence/WI-509-release-v0-2-61.verification.json`; finalization `.ai/decisions/WI-509-release-v0-2-61.finalize.json`; close `.ai/decisions/WI-509-release-v0-2-61.close.json`. |
 | WI-510 — installer entrypoint と wizard locale の境界 | Implemented | [Work Item](../work-items/WI-510-reference-file-comparison-batch-32.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-510-reference-file-comparison-batch-32.contract.json`; verification `.ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json`; finalization `.ai/decisions/WI-510-reference-file-comparison-batch-32.finalize.json`; close `.ai/decisions/WI-510-reference-file-comparison-batch-32.close.json`. |
 | WI-511 — v0.2.62 release と public adopter acceptance | Implemented | [Work Item](../work-items/WI-511-release-v0-2-62.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-511-release-v0-2-62.contract.json`; verification `.ai/evidence/WI-511-release-v0-2-62.verification.json`; finalization `.ai/decisions/WI-511-release-v0-2-62.finalize.json`; close `.ai/decisions/WI-511-release-v0-2-62.close.json`. |
+| WI-512 — governance reference documentation batch 33 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-512-reference-docs-batch-33.ja.md); archive `.ai/work-items/archive/WI-512-reference-docs-batch-33.contract.json`; verification `.ai/evidence/WI-512-reference-docs-batch-33.verification.json`; finalization `.ai/decisions/WI-512-reference-docs-batch-33.finalize.json`; close `.ai/decisions/WI-512-reference-docs-batch-33.close.json`. |
+
+## WI-512: governance reference page と verification boundary
+
+Status は implemented-different-by-design です。WI-512 は pinned source page 12 件を一つずつ再読し、Rust-native semantic counterpart を確認しました。source の責務は typed Protocol/repository validator、dynamic quality route、fixture/isolation manifest、明示的な Runtime upgrade/migration、finalize/close recovery で表現します。source 固有の Make/Python/provider command と JSON wire shape は Runtime boundary の外です。file 単位の ledger は [reference-file-comparison](reference-file-comparison.ja.md) にあり、tri-language target page は adopter が継承する reader documentation です。
+
+WI-504 で既に登録した 2 path（`troubleshooting.md` と `work-item-lifecycle-closure.md`）は重複登録せず再確認しました。残り 10 source path には WI-512 record があり、`deferred-next-batch` と `migrate-gap` はありません。すべての adopter は shared external Runtime と isolated repository の Contract、evidence、knowledge、Agent adapter、human Outcome boundary を継承しますが、source installer、Make target、provider decision、generated history は継承しません。
 
 ## 現在の境界
 

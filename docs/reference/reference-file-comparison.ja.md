@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `b827d87eaa7c8257d569a9d840c8d782bb7b7328`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.58`、binary SHA256 `sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `326ba4d47f44bd2bbf5a07b9f466683245c87b7f`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.62`、binary SHA256 `sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -41,6 +41,7 @@ Machine-readable ledger は
 Regression check は tracked reference path のすべてに一つだけ classification があることを確認し、
 first batch の未分類 file を拒否します。Target checkout metadata は dirty/untracked な
 working-tree file ではなく pinned commit から導出します。
+ledger の `targetCommit` は historical rebaseline anchor であり、上記の current Runtime baseline は今回使用する reviewed `origin/main` tip です。
 
 ## Classification
 
@@ -52,6 +53,31 @@ working-tree file ではなく pinned commit から導出します。
 - **reference-only** — 説明または conformance material としてのみ保持する。
 - **generated-history** — immutable history または generated projection。コピーも静かな書き換えもしない。
 - **deferred-next-batch** — 登録済みだが semantic comparison は後続 batch。parity や omission を意味しない。
+
+## WI-512: governance reference page と verification boundary
+
+WI-512 は、固定した local reference commit の次の 12 source path を一つずつ再読しました。
+2 path は WI-504 の分類を歴史として保持し、残り 10 path をこの batch に登録しています。
+source checkout に翻訳がない場合も、target の tri-language page を counterpart として明記します。
+各行は semantic parity を示すだけで、source command、Python module、JSON-wire compatibility を
+意味しません。
+
+| Pinned reference path | Classification | Rust counterpart / non-claim |
+| --- | --- | --- |
+| `docs/reference/schemas.md` | implemented-different-by-design | `docs/reference/schemas.*`、typed Protocol、schema test。source YAML registry と Python validator は copy しません。 |
+| `docs/reference/test-architecture.md` | implemented-different-by-design | `docs/reference/test-architecture.*`、CI quality route、governance gate。VerificationTier と EvidenceAssurance は直交します。 |
+| `docs/reference/test-weakening-guard.md` | implemented-different-by-design | tri-language weakening page、Rust governance signal と regression。source Make/Python implementation は Runtime dependency ではありません。 |
+| `docs/reference/test-weakening-guard.zh-CN.md` | implemented-different-by-design | Chinese presentation counterpart と同じ typed Rust guard boundary。locale bytes は policy authority を与えません。 |
+| `docs/reference/test-weakening-guard.ja.md` | implemented-different-by-design | Japanese presentation counterpart と同じ typed Rust guard boundary。locale bytes は policy authority を与えません。 |
+| `docs/reference/verification-fixture-boundary.md` | implemented-different-by-design | tri-language fixture boundary と adopter/isolation manifest。source fixture helper bytes は copy しません。 |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design (WI-504, revalidated) | explicit `--repo` Runtime recovery と tri-language troubleshooting。provider wizard/toolchain は外部責任です。 |
+| `docs/reference/troubleshooting.ja.md` | implemented-different-by-design | Japanese recovery route と adapter boundary。source wizard/session implementation は copy しません。 |
+| `docs/reference/upgrade.md` | implemented-different-by-design | tri-language upgrade、distribution、migration docs。shared Runtime upgrade は repository evidence を書き換えません。 |
+| `docs/reference/upgrade.ja.md` | implemented-different-by-design | Japanese Runtime/migration boundary。source installer、provider marker、locale JSON は copy しません。 |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design (WI-504, revalidated) | tri-language closure、finalize/recovery、ready-on-base check。source Make/Python recovery orchestration は Rust command ではありません。 |
+| `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | Japanese closure と historical recovery boundary。provider-specific route は外部責任です。 |
+
+Target と各 adopter は shared external Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承します。source-specific installer、Make target、provider decision、generated history は継承しません。現在の ledger は 4,262 `generated-history`、323 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、90 `reference-only`、439 `deferred-next-batch` で、`migrate-gap` は zero です。
 
 ## First batch: governance entrypoints
 

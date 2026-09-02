@@ -5,7 +5,7 @@ description: Safely close a reviewed Work Item after archive, merge, and exact c
 audience: [adopter, maintainer, reviewer]
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-379-reference-documentation-batch-18
+lastVerifiedBy: WI-512-reference-docs-batch-33
 ---
 
 # Work Item lifecycle closure
@@ -56,3 +56,39 @@ historical item as yellow, not as a current green verification. Required
 Contract/Summary/Outcome bytes, identity, events, and all other artifact
 integrity checks remain fail-closed. A missing, foreign, malformed, symlinked,
 or differently digested manifest cannot use this quarantine path.
+
+## Successor and historical recovery
+
+A blocked predecessor does not become successful because a corrective successor
+exists. Its failed evidence remains immutable and is projected as historical.
+`work-item recover` accepts only an identity-bound retry, successor, or
+supersede receipt that names the predecessor, successor (when applicable),
+repository, archived Contract/Summary/Outcome digests, authority, and reason.
+Missing, stale, foreign, or unrelated receipts remain fail-closed; they cannot
+mask an unrelated Contract or Summary error.
+
+Legacy resource-finalization records have a separate read-only path:
+
+```sh
+ai-cockpit work-item finalize-recovery-plan --repo <path> --id <id>
+ai-cockpit work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>
+```
+
+For a historical direct merge with no provider PR, the plan may include the
+real merge commit and parents. The resulting recovery is explicitly
+historical/low-assurance and never invents a PR number or rewrites the old
+receipt. The same rule covers shared-worktree `retained` history: the actual
+resource disposition is recorded, not changed merely to satisfy a newer
+Runtime.
+
+Provider-only post-archive or stacked-PR anomalies are not ordinary closure
+shortcuts. They require a separate, human-authorized, append-only evidence
+boundary supplied by the provider; the Runtime still requires exact Work Item,
+repository, branch/head, archive, and clean-base bindings. An open or
+unverifiable PR is never treated as merged, and a provider-specific Make/Python
+recovery command from the reference project is not a Rust command.
+
+The final state is therefore both a lifecycle fact and a handoff: `ready_on_base`
+means the invoking checkout is clean on the synchronized default branch;
+`closed_but_current_worktree_detached` means closure succeeded elsewhere and
+the printed base worktree must be used for the next Work Item.

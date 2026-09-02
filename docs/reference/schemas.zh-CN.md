@@ -10,7 +10,7 @@ audience:
 status: current
 authority: translation
 canonical: docs/reference/schemas.md
-lastVerifiedBy: WI-378-reference-documentation-batch-17
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - typed_record_schemas
 ---
@@ -31,6 +31,18 @@ capabilityClaims:
 | Checkpoint Evidence | Summary 中 typed `checkpointEvidence` | stage、顺序、hash、计数、amendment 和 resume freshness fail closed。 |
 | Delegated Evidence | `evidence import` metadata 与原始字节 digest | Provider/enterprise assurance 仍由外部负责；导入字节会被展示和绑定，不会被伪造。 |
 | Archive 与 decision | archive manifest、finalization receipt、close decision | 这是不可变历史和人工决定边界，不是可编辑的状态缓存。 |
+
+参考源 schema map 通过以下责任级 projection 覆盖。源记录名称不要求重新创建同名文件或 wire format：
+
+| 源责任 | Rust-native projection |
+| --- | --- |
+| Project Profile | `.ai/project.json` 与 profile policy/validation |
+| Cockpit checks | Contract 声明的 verification、动态 quality route 和 gate manifest |
+| Capability status | `docs/reference/` 下 capability/status projection 与 request-scoped `status` |
+| Documentation context | `.ai/README.md`、`.ai/glossary.md` 与 documentation-integrity checks |
+| Archive discovery | archive index/manifest 与不可变 digest 校验 |
+| Work Item Intelligence Snapshot | typed intelligence records 以及 `status`/`diagnose` projection |
+| External handoff | human Outcome renderer 与 repository-bound MCP/Agent adapter projection |
 | Outcome 与 status | Runtime 投影（`work-item outcome`、`status`） | 派生视图不能授权 merge、release 或 approval。 |
 | Audit export | `audit export` event bundle | 长期不可变保存由外部 SIEM/WORM/retention 系统负责。 |
 

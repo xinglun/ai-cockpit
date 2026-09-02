@@ -9,7 +9,7 @@ audience:
   - auditor
 status: current
 authority: canonical
-lastVerifiedBy: WI-378-reference-documentation-batch-17
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - typed_record_schemas
 ---
@@ -33,6 +33,20 @@ the relevant Work Item or snapshot binding where applicable.
 | Checkpoint Evidence | typed `checkpointEvidence` in the Summary | Stage, order, hashes, counts, amendment, and resume freshness are fail-closed. |
 | Delegated Evidence | `evidence import` metadata plus exact raw-byte digest | Provider/enterprise assurance remains external; imported bytes are displayed and bound, not invented. |
 | Archive and decision | archive manifest, finalization receipt, close decision | These are immutable history and human-decision boundaries, not editable status caches. |
+
+The source schema map is covered by the following responsibility-level
+projections. A source record name is not a requirement to recreate its file or
+wire format:
+
+| Source responsibility | Rust-native projection |
+| --- | --- |
+| Project Profile | `.ai/project.json` and profile policy/validation |
+| Cockpit checks | Contract-declared verification plus the dynamic quality route and gate manifest |
+| Capability status | capability and status projections under `docs/reference/` and request-scoped `status` |
+| Documentation context | `.ai/README.md`, `.ai/glossary.md`, and documentation-integrity checks |
+| Archive discovery | archive index/manifests and immutable digest validation |
+| Work Item Intelligence Snapshot | typed intelligence records and `status`/`diagnose` projections |
+| External handoff | human Outcome renderer and repository-bound MCP/Agent adapter projection |
 | Outcome and status | Runtime projections (`work-item outcome`, `status`) | Derived views cannot authorize merge, release, or approval. |
 | Audit export | `audit export` event bundle | External SIEM/WORM/retention systems own long-term immutability. |
 

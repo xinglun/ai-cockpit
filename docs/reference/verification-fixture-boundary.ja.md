@@ -6,7 +6,7 @@ audience: [contributor, maintainer, reviewer]
 status: implemented
 authority: translation
 canonical: docs/reference/verification-fixture-boundary.md
-lastVerifiedBy: WI-379-reference-documentation-batch-18
+lastVerifiedBy: WI-512-reference-docs-batch-33
 ---
 
 # Verification fixture の境界

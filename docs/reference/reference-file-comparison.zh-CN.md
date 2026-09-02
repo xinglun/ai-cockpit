@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `b827d87eaa7c8257d569a9d840c8d782bb7b7328`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.58`，binary SHA256 为 `sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `326ba4d47f44bd2bbf5a07b9f466683245c87b7f`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.62`，binary SHA256 为 `sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -39,6 +39,7 @@ inventory 台账现在已显式重新绑定到本地 checkout。此前的
 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json)。
 回归检查要求每个参考源 tracked path 都有且只有一个分类，并拒绝首批未分类文件。
 目标 checkout metadata 从固定 commit 派生，不受 dirty 或 untracked 工作树文件影响。
+台账中的 `targetCommit` 是历史 rebaseline 锚点；上方当前 Runtime 基线是本批使用的、经过评审的 `origin/main` tip。
 
 ## 分类规则
 
@@ -50,6 +51,27 @@ inventory 台账现在已显式重新绑定到本地 checkout。此前的
 - **reference-only**——只保留为解释或 conformance 资料，不是当前 Runtime 行为。
 - **generated-history**——不可变参考历史或生成投影，绝不复制或静默改写。
 - **deferred-next-batch**——已登记但语义比较安排在后续批次，不表示已经对齐或遗漏。
+
+## WI-512：治理参考页与验证边界
+
+WI-512 在固定的本地参考提交上逐个重读以下 12 个源路径。其中两个路径已由 WI-504 分类并保留其历史关联；其余 10 个路径登记为本批分类。即使参考 checkout 没有对应译文，目标的三语页面也作为 counterpart 列出。所有行表示语义对齐，不表示复制源命令、Python 模块或 JSON wire。
+
+| 固定参考路径 | 分类 | Rust counterpart 与非声明 |
+| --- | --- | --- |
+| `docs/reference/schemas.md` | implemented-different-by-design | `docs/reference/schemas.*`、typed Protocol 与 schema tests；不复制源 YAML registry 或 Python validator。 |
+| `docs/reference/test-architecture.md` | implemented-different-by-design | `docs/reference/test-architecture.*`、CI quality route 与 governance gates；VerificationTier 与 EvidenceAssurance 保持正交。 |
+| `docs/reference/test-weakening-guard.md` | implemented-different-by-design | 三语 weakening 页面、Rust governance signals 与回归测试；源 Make/Python 实现不是 Runtime 依赖。 |
+| `docs/reference/test-weakening-guard.zh-CN.md` | implemented-different-by-design | 中文 presentation counterpart 与同一 typed Rust guard 边界；locale bytes 不授予 policy 权限。 |
+| `docs/reference/test-weakening-guard.ja.md` | implemented-different-by-design | 日文 presentation counterpart 与同一 typed Rust guard 边界；locale bytes 不授予 policy 权限。 |
+| `docs/reference/verification-fixture-boundary.md` | implemented-different-by-design | 三语 fixture 边界与 adopter/isolation manifest；不复制源 fixture helper bytes。 |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design（WI-504，重新核对） | 显式 `--repo` Runtime recovery 与三语 troubleshooting；provider wizard/toolchain 命令仍由外部负责。 |
+| `docs/reference/troubleshooting.ja.md` | implemented-different-by-design | 日文 recovery 路线与 adapter 边界；不复制源 wizard/session 实现。 |
+| `docs/reference/upgrade.md` | implemented-different-by-design | 三语 upgrade、distribution 与 migration 文档；shared Runtime 升级不会重写 repository evidence。 |
+| `docs/reference/upgrade.ja.md` | implemented-different-by-design | 日文 Runtime/migration 边界；不复制源 installer、provider marker 或 locale JSON。 |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design（WI-504，重新核对） | 三语 closure、finalize/recovery 与 ready-on-base 检查；源 Make/Python recovery orchestration 不是 Rust 命令。 |
+| `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | 日文 closure 与历史 recovery 边界；provider 专用路线仍是外部责任。 |
+
+目标工程及每个对象工程继承 shared external Runtime、隔离的 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源专用 installer、Make target、provider 决定或 generated history。当前台账为 4,262 个 `generated-history`、323 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、90 个 `reference-only`、439 个 `deferred-next-batch`；`migrate-gap` 仍为 0。
 
 ## 首批：治理入口
 

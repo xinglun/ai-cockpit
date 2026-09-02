@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - reference_parity
 ---
@@ -459,6 +459,26 @@ record for each boundary.
 | WI-509 — v0.2.61 release and public adopter acceptance | Implemented | [Work Item](../work-items/WI-509-release-v0-2-61.md); terminal lifecycle: archive `.ai/work-items/archive/WI-509-release-v0-2-61.contract.json`; verification `.ai/evidence/WI-509-release-v0-2-61.verification.json`; finalization `.ai/decisions/WI-509-release-v0-2-61.finalize.json`; close `.ai/decisions/WI-509-release-v0-2-61.close.json`. |
 | WI-510 — installer entrypoint and wizard locale boundary | Implemented | [Work Item](../work-items/WI-510-reference-file-comparison-batch-32.md); terminal lifecycle: archive `.ai/work-items/archive/WI-510-reference-file-comparison-batch-32.contract.json`; verification `.ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json`; finalization `.ai/decisions/WI-510-reference-file-comparison-batch-32.finalize.json`; close `.ai/decisions/WI-510-reference-file-comparison-batch-32.close.json`. |
 | WI-511 — v0.2.62 release and public adopter acceptance | Implemented | [Work Item](../work-items/WI-511-release-v0-2-62.md); terminal lifecycle: archive `.ai/work-items/archive/WI-511-release-v0-2-62.contract.json`; verification `.ai/evidence/WI-511-release-v0-2-62.verification.json`; finalization `.ai/decisions/WI-511-release-v0-2-62.finalize.json`; close `.ai/decisions/WI-511-release-v0-2-62.close.json`. |
+| WI-512 — governance reference documentation batch 33 | In progress → Implemented after verified close | [Work Item](../work-items/WI-512-reference-docs-batch-33.md); archive `.ai/work-items/archive/WI-512-reference-docs-batch-33.contract.json`; verification `.ai/evidence/WI-512-reference-docs-batch-33.verification.json`; finalization `.ai/decisions/WI-512-reference-docs-batch-33.finalize.json`; close `.ai/decisions/WI-512-reference-docs-batch-33.close.json`. |
+
+## WI-512 — governance reference pages and verification boundaries
+
+Implemented-different-by-design. WI-512 re-read twelve pinned source pages and
+verified their Rust-native semantic counterparts. The source responsibilities
+are preserved through typed Protocol/repository validators, dynamic quality
+routes, fixture/isolation manifests, explicit Runtime upgrade/migration, and
+finalize/close recovery. Source-specific Make/Python/provider commands and
+JSON wire shapes remain outside the Runtime boundary. The detailed per-file
+ledger is in [reference-file-comparison](reference-file-comparison.md), and
+the tri-language target pages are the inherited adopter documentation.
+
+The two paths already registered by WI-504 (`troubleshooting.md` and
+`work-item-lifecycle-closure.md`) are explicitly revalidated rather than
+duplicated in the inventory. The other ten source paths have current
+WI-512 records with no `deferred-next-batch` or `migrate-gap`. All adopters
+inherit the shared external Runtime and isolated repository Contract, evidence,
+knowledge, Agent adapter, and human Outcome boundaries; they do not inherit
+source installers, Make targets, provider decisions, or generated history.
 
 ## Current boundary
 

@@ -10,7 +10,7 @@ audience:
 status: current
 authority: translation
 canonical: docs/reference/schemas.md
-lastVerifiedBy: WI-378-reference-documentation-batch-17
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - typed_record_schemas
 ---
@@ -31,6 +31,18 @@ Record の有効性は executable Rust Protocol と repository validator が決�
 | Checkpoint Evidence | Summary の typed `checkpointEvidence` | stage、順序、hash、count、amendment、resume freshness は fail closed です。 |
 | Delegated Evidence | `evidence import` metadata と raw-byte digest | Provider/enterprise assurance は外部の責任です。import した bytes を bind/display しますが、発明しません。 |
 | Archive / decision | archive manifest、finalization receipt、close decision | immutable history と human-decision boundary であり、編集可能な status cache ではありません。 |
+
+Reference schema map は次の responsibility-level projection で対応します。source record 名を同じ file や wire format として再作成する要求ではありません。
+
+| Source responsibility | Rust-native projection |
+| --- | --- |
+| Project Profile | `.ai/project.json` と profile policy/validation |
+| Cockpit checks | Contract が宣言する verification、dynamic quality route、gate manifest |
+| Capability status | `docs/reference/` の capability/status projection と request-scoped `status` |
+| Documentation context | `.ai/README.md`、`.ai/glossary.md`、documentation-integrity check |
+| Archive discovery | archive index/manifest と immutable digest validation |
+| Work Item Intelligence Snapshot | typed intelligence record と `status`/`diagnose` projection |
+| External handoff | human Outcome renderer と repository-bound MCP/Agent adapter projection |
 | Outcome / status | Runtime projection（`work-item outcome`、`status`） | 派生 view は merge、release、approval を認可しません。 |
 | Audit export | `audit export` event bundle | 長期の immutable retention は外部 SIEM/WORM/retention system が担当します。 |
 

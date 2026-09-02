@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-02T17:05:43Z",
+  "files": {
+    "contractDigest": "sha256:fa3eadecbc7951f488634c1aeea643875fafcc08eea34a40aa63913817483ff3",
+    "contractPath": ".ai/work-items/archive/WI-512-reference-docs-batch-33.contract.json",
+    "eventsDigest": "sha256:e5b58dc4af81077e14bc706b0e226d2318acc743a6c94453a2a5a739729c1a36",
+    "eventsPath": ".ai/work-items/archive/WI-512-reference-docs-batch-33.events.jsonl",
+    "outcomeDigest": "sha256:6e247e23358c00679f72a3c3f7c22f950ebec5492ed5b03a9b18cb3a17392f38",
+    "outcomePath": ".ai/work-items/archive/WI-512-reference-docs-batch-33.outcome.json",
+    "summaryDigest": "sha256:769967421c2deba53f20182421d8f56a9f127322416bf22e79023957fee2042d",
+    "summaryPath": ".ai/work-items/archive/WI-512-reference-docs-batch-33.summary.json",
+    "taskReportDigest": "sha256:f59384d69e37617d722dbcd5fa4c8ebd8eec431f59c7cfddfafdfbc7ceac9f2e",
+    "taskReportMarkdownDigest": "sha256:a99cf6ecceae3c61b881ae08b9df78ffb16100dd25f256a7c4d8277f2cc6d392",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-512-reference-docs-batch-33.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-512-reference-docs-batch-33.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-512-reference-docs-batch-33"
+}
