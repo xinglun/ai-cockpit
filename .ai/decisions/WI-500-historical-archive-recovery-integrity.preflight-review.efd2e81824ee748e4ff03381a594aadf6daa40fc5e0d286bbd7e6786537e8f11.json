@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5b2afb89a12332b6718d6d87ca13cba06f5c83430aa9d853aa0a29e2398a866a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Confirm the finalized resource-bound Contract and verified scenarios for the bounded Runtime recovery implementation.",
+  "recordedAt": "2026-09-02T05:25:30Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+  "schemaVersion": 1,
+  "workItemId": "WI-500-historical-archive-recovery-integrity"
+}

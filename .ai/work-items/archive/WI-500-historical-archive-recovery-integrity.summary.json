@@ -1,0 +1,135 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-499-reference-file-comparison-batch-28-parity-order-recovery.recovery.json",
+    ".ai/work-items/archive/WI-500-historical-archive-recovery-integrity.contract.json",
+    ".ai/work-items/archive/WI-500-historical-archive-recovery-integrity.summary.json"
+  ],
+  "checkpointAt": "2026-09-02T04:55:29Z",
+  "checkpointContractDigest": "sha256:5b2afb89a12332b6718d6d87ca13cba06f5c83430aa9d853aa0a29e2398a866a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:1edbf631b40ad8c9777cc2582032a0edeab1b997fc0fbb24e613e3fd0632f5c8",
+      "recorded": true,
+      "recordedAt": "2026-09-02T04:55:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-500-historical-archive-recovery-integrity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:78fd80722caa36e45140c835affcb2785366fbe310a746c977b54388ee1bdec4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1edbf631b40ad8c9777cc2582032a0edeab1b997fc0fbb24e613e3fd0632f5c8",
+      "previousContractHash": "sha256:1edbf631b40ad8c9777cc2582032a0edeab1b997fc0fbb24e613e3fd0632f5c8",
+      "reason": "Bind the additive protocol receipt regression test to the already authorized historical archive recovery scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T05:09:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-500-historical-archive-recovery-integrity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:90c1909142ae7517d852fba6c97e83ff79c8d35a1e9843075ece95f61be2e823",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1edbf631b40ad8c9777cc2582032a0edeab1b997fc0fbb24e613e3fd0632f5c8",
+      "previousContractHash": "sha256:78fd80722caa36e45140c835affcb2785366fbe310a746c977b54388ee1bdec4",
+      "reason": "Declare deterministic expected results for the four high-risk scenarios so preflight can authorize implementation while execution evidence remains unverified until tests run.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T05:12:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-500-historical-archive-recovery-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+  "createdAt": "2026-09-02T04:51:08Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:5b2afb89a12332b6718d6d87ca13cba06f5c83430aa9d853aa0a29e2398a866a",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm the current retry-bound, resource-planned Contract and completed scenario evidence before the final finish attempt.",
+    "recordedAt": "2026-09-02T05:45:30Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+    "schemaVersion": 1,
+    "workItemId": "WI-500-historical-archive-recovery-integrity"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:82c8c4583dc8bcc3b57d1962ed1aaa5a946d3e0cfc958e4bc7e15ffc4306ed6e",
+  "predecessorWorkItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery",
+  "preflightAt": "2026-09-02T05:23:36Z",
+  "preflightContractDigest": "sha256:5b2afb89a12332b6718d6d87ca13cba06f5c83430aa9d853aa0a29e2398a866a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-499-reference-file-comparison-batch-28-parity-order-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs#supersede_quarantines_a_bound_optional_archive_report_mismatch"
+      ],
+      "required": true,
+      "scenario": "valid_supersede_with_optional_report_digest_mismatch",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs#close_rejects_tampered_archived_artifacts"
+      ],
+      "required": true,
+      "scenario": "required_archive_artifact_tampering",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs#archive_rejects_malformed_duplicate_and_oversized_current_candidates"
+      ],
+      "required": true,
+      "scenario": "foreign_malformed_or_symlink_recovery_input",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs#close_persists_a_structured_human_decision_and_recovery_condition"
+      ],
+      "required": true,
+      "scenario": "normal_valid_close",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T05:23:43Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-500-historical-archive-recovery-integrity"
+}

@@ -1489,6 +1489,18 @@ fn archived_pending_finalization_requires_explicit_supersede_recovery_before_clo
         archived_recovery_receipt(&directory, "successor", Some("WI-ARCHIVED-NEXT"), &runtime);
     record_recovery_decision(directory.path(), id, &successor, &runtime)
         .expect("successor recovery decision");
+    let mut wrong_binding =
+        archived_recovery_receipt(&directory, "supersede", Some("WI-ARCHIVED-NEXT"), &runtime);
+    wrong_binding["decidedAt"] = json!("2026-08-28T00:00:30Z");
+    wrong_binding["predecessorArchiveManifestDigest"] =
+        json!(Digest::sha256_bytes(b"wrong-manifest").to_string());
+    let error = record_recovery_decision(directory.path(), id, &wrong_binding, &runtime)
+        .expect_err("foreign manifest binding must fail closed");
+    assert!(
+        error
+            .to_string()
+            .contains("archive_manifest_digest_mismatch")
+    );
     let mut supersede =
         archived_recovery_receipt(&directory, "supersede", Some("WI-ARCHIVED-NEXT"), &runtime);
     supersede["decidedAt"] = json!("2026-08-28T00:01:00Z");
@@ -1524,6 +1536,81 @@ fn archived_pending_finalization_requires_explicit_supersede_recovery_before_clo
         predecessor_contract,
         "recovery must not rewrite predecessor archive bytes"
     );
+}
+
+#[test]
+fn supersede_quarantines_a_bound_optional_archive_report_mismatch() {
+    let directory = ready_archived_repository();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let archive = directory.path().join(".ai/work-items/archive");
+    let manifest_path = archive.join(format!("{id}.archive.json"));
+    let manifest_digest = Digest::sha256_bytes(&fs::read(&manifest_path).unwrap());
+    let markdown_path = archive.join(format!("{id}.task-report.md"));
+    let mut markdown = fs::read(&markdown_path).expect("archived Task Outcome Markdown");
+    markdown.extend_from_slice(b"\nHistorical recovery note.");
+    fs::write(&markdown_path, markdown).expect("tamper only optional report bytes");
+
+    let successor =
+        archived_recovery_receipt(&directory, "successor", Some("WI-ARCHIVED-NEXT"), &runtime);
+    record_recovery_decision(directory.path(), id, &successor, &runtime)
+        .expect("successor recovery decision");
+    let mut supersede =
+        archived_recovery_receipt(&directory, "supersede", Some("WI-ARCHIVED-NEXT"), &runtime);
+    supersede["decidedAt"] = json!("2026-08-28T00:01:00Z");
+    supersede["predecessorArchiveManifestDigest"] = json!(manifest_digest.to_string());
+    record_recovery_decision(directory.path(), id, &supersede, &runtime)
+        .expect("manifest-bound supersede recovery decision");
+
+    let close = close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        id,
+        &HumanDecision {
+            decision: "superseded".into(),
+            actor: "human:owner".into(),
+            authority_source: "repository-owner".into(),
+            reason: "quarantine an immutable historical report mismatch without rewriting it"
+                .into(),
+            evidence_refs: vec![format!(".ai/decisions/{id}.recovery.json")],
+            policy_refs: vec!["docs/reference/agent-workflow.md".into()],
+            decided_at: "2026-08-28T00:01:00Z".into(),
+            resume_condition: Some("continue on WI-ARCHIVED-NEXT".into()),
+        },
+        &runtime,
+    )
+    .expect("bound optional mismatch may be quarantined");
+    assert_eq!(close.state, "closed");
+
+    let decision: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/decisions/{id}.close.json")),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        decision["historicalArchiveIntegrity"]["state"],
+        json!("quarantined")
+    );
+    assert_eq!(
+        decision["historicalArchiveIntegrity"]["artifact"],
+        json!("taskReportMarkdown")
+    );
+
+    let outcome = outcome_v2_with_runtime(directory.path(), id, &runtime).expect("outcome");
+    assert_eq!(outcome.historical_status.as_deref(), Some("superseded"));
+    assert_eq!(
+        outcome.decision_state,
+        Some(cockpit_core::DecisionState::Yellow)
+    );
+    assert!(render_human_outcome(directory.path(), &outcome, "en").starts_with("Outcome: 🟡"));
+    assert!(!outcome.unknowns.contains(&"outcome_report_invalid".into()));
 }
 
 #[test]

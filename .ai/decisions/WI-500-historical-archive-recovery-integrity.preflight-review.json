@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1edbf631b40ad8c9777cc2582032a0edeab1b997fc0fbb24e613e3fd0632f5c8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:57bae9ed655a8ea4975fc743f2d22ac0a9a7f25422e4bf53900ab2abc4a96f5b",
+  "reason": "Explicitly authorize this bounded Runtime recovery fix after reviewing the declared scope, high-risk scenarios, strict fail-closed requirements, and immutable-history boundary. This confirms implementation may proceed; it does not assert that any scenario or evidence has passed.",
+  "recordedAt": "2026-09-02T04:53:30Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:80af4ad822e27e1d986bc91c3c69c75448634cdf262802d983f167a9e6145898",
+  "schemaVersion": 1,
+  "workItemId": "WI-500-historical-archive-recovery-integrity"
+}

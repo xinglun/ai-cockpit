@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T04:47:40Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-499-reference-file-comparison-batch-28-parity-order-recovery.archive.json",
+    ".ai/decisions/WI-499-reference-file-comparison-batch-28-parity-order-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery"
+  ],
+  "predecessorContractDigest": "sha256:82c8c4583dc8bcc3b57d1962ed1aaa5a946d3e0cfc958e4bc7e15ffc4306ed6e",
+  "predecessorEventsDigest": "sha256:c562e424b8d752fccce489f7490e76f991a968bb4b1a044e5a783cc8dbbfd153",
+  "predecessorOutcomeDigest": "sha256:b9dc3ccf8feed18d7d0308a430f8e90c623a0a66772f8d7e68ee5785961623a3",
+  "predecessorSummaryDigest": "sha256:d5f423c31303f3503f73550a42dde43511bfcff58e24237a1716d943b923b424",
+  "predecessorWorkItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery",
+  "reason": "Fix the Runtime recovery-close path exposed by the WI-499 close attempt: an immutable historical archive may contain an explicitly recorded optional-report digest mismatch, and supersede must quarantine that predecessor without rewriting its bytes or blocking repository recovery. Preserve strict validation for required identity artifacts and record the historical integrity limitation visibly.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "complete the Runtime fix and its regression tests, then use the published Runtime to supersede and close WI-496 without rewriting historical archive bytes",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-500-historical-archive-recovery-integrity",
+  "workItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery"
+}

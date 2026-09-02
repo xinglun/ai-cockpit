@@ -1,0 +1,94 @@
+{
+  "acceptanceCriteria": [
+    "Explicit supersede recovery can close a historical archive with a recorded optional-artifact digest mismatch without rewriting predecessor bytes.",
+    "Required contract, summary, outcome, repository identity, and recovery receipt bindings remain strict; malformed, foreign, symlink, and unbound recovery records fail closed.",
+    "Recovery receipt binds the exact archive manifest identity/digest and the close decision records any quarantined integrity limitation as historical low assurance.",
+    "Regression tests cover valid quarantine, missing/foreign manifest binding, required-artifact tampering, malformed/symlink inputs, and normal valid close.",
+    "Tri-language lifecycle documentation describes the historical quarantine boundary and never claims the archive was current green evidence.",
+    "All declared Rust checks, repository governance checks, reviewed PR, merge, and exact cleanup pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "85e2c0faa9e646f04f1433f8caf5204ad29c8501",
+  "createdAt": "2026-09-02T04:51:08Z",
+  "goal": "Add a fail-closed, auditable historical archive integrity recovery path, regression tests, and tri-language documentation; then use the published Runtime to close the blocked predecessor before release.",
+  "intent": "Fix the Runtime recovery-close path so an explicit, identity-bound supersede can quarantine a historically inconsistent archive without rewriting immutable evidence, while retaining strict checks for required artifacts and untrusted records.",
+  "mode": "implementation",
+  "outOfScope": [
+    "修改任何历史 .ai/work-items/archive 文件、对象工程、发布验收脚本、参考源比较台账和无关架构拆分"
+  ],
+  "predecessorContractDigest": "sha256:82c8c4583dc8bcc3b57d1962ed1aaa5a946d3e0cfc958e4bc7e15ffc4306ed6e",
+  "predecessorWorkItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-499-reference-file-comparison-batch-28-parity-order-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:80af4ad822e27e1d986bc91c3c69c75448634cdf262802d983f167a9e6145898",
+  "requiredEvidenceClasses": [
+    "verification",
+    "task_outcome",
+    "archive",
+    "human_decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-500-historical-archive-recovery-integrity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/473",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-500-historical-archive-recovery-integrity"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A manifest-bound supersede can quarantine only the legacy optional report mismatch and close as historical low assurance.",
+      "required": true,
+      "scenario": "valid_supersede_with_optional_report_digest_mismatch",
+      "status": "unverified",
+      "verificationPlan": "repository test: explicit recovery binds archive manifest and closes only as historical superseded"
+    },
+    {
+      "evidence": [],
+      "expected": "Required archive identity and artifact tampering is rejected without rewriting predecessor bytes.",
+      "required": true,
+      "scenario": "required_archive_artifact_tampering",
+      "status": "unverified",
+      "verificationPlan": "repository test: contract, summary, outcome, or manifest identity mismatch remains fail-closed"
+    },
+    {
+      "evidence": [],
+      "expected": "Foreign, malformed, and symlink recovery or manifest inputs are rejected fail-closed.",
+      "required": true,
+      "scenario": "foreign_malformed_or_symlink_recovery_input",
+      "status": "unverified",
+      "verificationPlan": "repository test: foreign, malformed, and symlink recovery/manifest files are rejected"
+    },
+    {
+      "evidence": [],
+      "expected": "An intact archive still closes through the normal strict path.",
+      "required": true,
+      "scenario": "normal_valid_close",
+      "status": "unverified",
+      "verificationPlan": "repository test: an intact archive still closes through the normal strict path"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/recovery_receipt.rs",
+    "docs/reference/work-item-lifecycle-closure.md",
+    "docs/reference/work-item-lifecycle-closure.zh-CN.md",
+    "docs/reference/work-item-lifecycle-closure.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs:close_work_item_with_structured_decision_internal",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/work-item-lifecycle-closure.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-500-historical-archive-recovery-integrity"
+}

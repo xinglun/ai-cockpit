@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:90c1909142ae7517d852fba6c97e83ff79c8d35a1e9843075ece95f61be2e823",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Confirm the amended bounded Runtime recovery scope and deterministic scenario expectations; this authorizes implementation and verification but does not assert that any scenario has passed.",
+  "recordedAt": "2026-09-02T05:13:30Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+  "schemaVersion": 1,
+  "workItemId": "WI-500-historical-archive-recovery-integrity"
+}
