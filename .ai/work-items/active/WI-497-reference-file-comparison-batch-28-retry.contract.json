@@ -35,11 +35,11 @@
   "repositorySnapshotDigest": "sha256:dce144a0b69df4b8c58dad4c7358f62cc1412eb400e51ba4196ae14d498e7fb2",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-497-reference-file-comparison-batch-28-final",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/470",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-497-reference-file-comparison-batch-28-final"
   },
   "risk": "normal",
