@@ -5,7 +5,7 @@ description: "parity registration を evidence より先に commit する順序�
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-499-reference-file-comparison-batch-28-parity-order-recovery
 predecessorWorkItemId: WI-498-reference-file-comparison-batch-28-doc-recovery
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-499-reference-file-comparison-batch-28-parity-order-recovery
 canonical: docs/work-items/WI-499-reference-file-comparison-batch-28-parity-order-recovery.md

@@ -5,7 +5,7 @@ description: "以可证明的 parity 先于 evidence 提交顺序重新交付批
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-499-reference-file-comparison-batch-28-parity-order-recovery
 predecessorWorkItemId: WI-498-reference-file-comparison-batch-28-doc-recovery
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-499-reference-file-comparison-batch-28-parity-order-recovery
 canonical: docs/work-items/WI-499-reference-file-comparison-batch-28-parity-order-recovery.zh-CN.md
