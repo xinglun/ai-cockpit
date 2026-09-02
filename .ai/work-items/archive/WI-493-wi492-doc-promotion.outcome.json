@@ -5,14 +5,17 @@
     "Each promoted projection binds exact archive, verification, finalization, and close receipts without rewriting immutable evidence.",
     "The documentation promotion, governance integrity, and status-consistency checks pass; no Runtime behavior or reference classification changes."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-02T00:21:31Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b33a4b420da05a313052082b4ad17ff6c974bba59fc8e5a7beee01a4009cf0b4",
   "evidenceRefs": [
     ".ai/evidence/WI-493-wi492-doc-promotion.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-493-wi492-doc-promotion.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,11 +23,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -34,27 +36,25 @@
       "repositorySnapshotDigest": "sha256:1222dac7775f9b97617eb10ad1485b8f7d82046926f102ad01da8ab33366d332",
       "workItemId": "WI-493-wi492-doc-promotion"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-493-wi492-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-493-wi492-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-493-wi492-doc-promotion.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-493-wi492-doc-promotion.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-493-wi492-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-493-wi492-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-493-wi492-doc-promotion.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-493-wi492-doc-promotion.summary.json"
         }
       ],
       "evidence": [
@@ -73,15 +73,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-493-wi492-doc-promotion.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -92,7 +84,7 @@
             ".ai/evidence/WI-493-wi492-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -102,15 +94,23 @@
             ".ai/evidence/WI-493-wi492-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-493-wi492-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-493-wi492-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-493-wi492-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Close the documentation truth loop for WI-492 and publish v0.2.58 only after all tri-language terminal projections are evidence-backed."
@@ -119,23 +119,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-493-wi492-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-493-wi492-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-493-wi492-doc-promotion"
   },
+  "taskReportDigest": "sha256:88ac9822da25858d05e57a73dd0ad9210d79ba9004ef289fae7613bea6d01478",
+  "taskReportMarkdownDigest": "sha256:1dc75fa9bf9a64dbedaccb907a733069fbab6aaead5747c1853fe7d4976ff1c5",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-493-wi492-doc-promotion.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-493-wi492-doc-promotion"
 }
