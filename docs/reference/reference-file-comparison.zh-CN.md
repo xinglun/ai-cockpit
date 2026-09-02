@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=273 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=418 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=413 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -190,11 +190,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 273 |
+| `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 73 |
-| `deferred-next-batch` | 418 |
+| `deferred-next-batch` | 413 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1174,6 +1174,20 @@ WI-494 逐个重读了此前判定为 `reference-only`、但源内容发生变�
 | `docs/reference/deprecated-assets-registry.json` | reference-only | Rust 以不可变 Work Item 历史、显式资源收尾和经审查的清理 receipt 表达边界；源扫描器/注册表不是删除授权，也不复制。 |
 
 本批未发现实现遗漏。上述变化刷新的是源工程自有记录，并没有增加可移植的 Runtime 合同，因此 7 个路径全部保持 `reference-only`，同时在追加式台账中保留此前决定和 source-change provenance。当前台账为 4,262 个 `generated-history`、311 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、73 个 `reference-only`、468 个 `deferred-next-batch`，`migrate-gap` 仍为 0。日文和英文路线记录相同边界。
+
+## WI-504：参考文档第 29 批
+
+WI-504 在固定本地提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读 5 个发生变化的参考路径。前 4 项收窄了源工程/provider 专属文档；`docs/upgrade.md` 变化是读者入口兼容指针。Rust 通过自身 Runtime 与三语读者路线保留可移植治理语义，不复制源 Python、Make、provider 命令或源 evidence。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/reference/repository-workflow.ja.md` | implemented-different-by-design | Rust 日文 workflow 本来就不需要被移除的 `REPORT_LANGUAGE` 参数，并记录显式 repository-scoped 生命周期、证据、评审与清理。 |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design | Rust 三语 troubleshooting 路线保留通用停止/恢复与证据保留合同；provider 专属 handoff 记录仍是外部边界。 |
+| `docs/reference/verification-evidence-reuse.md` | implemented-different-by-design | 源端 no-change 决定只针对其 Python/Make 提案；Rust 独立授权的 reuse 仍受 identity、snapshot、policy 与 fail-closed 校验约束。 |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design | Rust 原生 closure、精确清理与 recovery 路线保留可移植边界；源 hosted-governance/Make recovery 细节不是 Runtime 命令。 |
+| `docs/upgrade.md` | implemented-different-by-design | 新增最小根级兼容入口，指向规范 Rust 三语 upgrade reference，保留读者路线而不重复实现细节。 |
+
+本批没有发现 `migrate-gap`。源/provider 专属内容的删除不会削弱目标工程的生命周期、reuse 或 upgrade 边界；新增根级入口修复了本批发现的唯一读者导航遗漏。当前快照为 3,681 个 `generated-history`、278 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、73 个 `reference-only`、413 个 `deferred-next-batch`。
 
 ## WI-496：分发、profile、多语言评估与发布前审计
 

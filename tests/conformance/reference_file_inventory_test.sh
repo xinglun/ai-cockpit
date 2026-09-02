@@ -43,7 +43,7 @@ for current_capability_path in \
 done
 # Bounded rebaseline batches resolve changed source records; keep this
 # regression count tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 89
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 84
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -175,6 +175,21 @@ test "$(jq '[.records[] | select(.batch == "WI-496-reference-file-comparison-bat
 grep -q "WI-496" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-496" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-496" "$root/docs/reference/reference-file-comparison.ja.md"
+wi504_paths=(
+  docs/reference/repository-workflow.ja.md
+  docs/reference/troubleshooting.md
+  docs/reference/verification-evidence-reuse.md
+  docs/reference/work-item-lifecycle-closure.md
+  docs/upgrade.md
+)
+for wi504_path in "${wi504_paths[@]}"; do
+  test "$(jq --arg path "$wi504_path" '[.records[] | select(.referencePath == $path and .batch == "WI-504-reference-file-comparison-batch-29" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-504-reference-file-comparison-batch-29")] | length' "$current_manifest")" -eq 5
+test "$(jq '[.records[] | select(.batch == "WI-504-reference-file-comparison-batch-29" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+grep -q "WI-504" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-504" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-504" "$root/docs/reference/reference-file-comparison.ja.md"
 test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
