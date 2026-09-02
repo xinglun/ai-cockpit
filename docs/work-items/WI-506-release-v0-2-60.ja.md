@@ -56,6 +56,11 @@ source/workspace binary fallback、無関係な Runtime redesign、生成 govern
 cargo test --locked --workspace
 ```
 
+Pull Request quality gate は read-only の実行前 gate です。この release Contract では、completion
+receipt がまだ存在しない段階でも gate を実行できるよう、意図的に
+`requiredEvidenceClasses` を空にしています。明示的な `verify` が completion evidence を記録し、後続の
+lifecycle gate がそれを検証します。
+
 Release publication と public acceptance は post-release evidence です。失敗した publication は immutable な履歴として保持し、成功扱いに再標識または再利用しません。
 
 ## Boundary

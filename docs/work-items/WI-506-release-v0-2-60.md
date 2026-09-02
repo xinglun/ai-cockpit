@@ -62,6 +62,11 @@ redesign, and hand-editing generated governance records.
 cargo test --locked --workspace
 ```
 
+The pull-request quality gate is a read-only pre-execution gate. This release
+Contract intentionally leaves `requiredEvidenceClasses` empty so the gate can
+run before a completion receipt exists; the explicit `verify` step records the
+completion evidence and later lifecycle gates validate it.
+
 Release publication and public acceptance are post-release evidence. A failed
 publication remains immutable failed history and is never relabeled or reused.
 

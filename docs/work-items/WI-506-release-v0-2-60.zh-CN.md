@@ -53,6 +53,10 @@ fallback、无关 Runtime 重构，以及手工编辑生成治理记录。
 cargo test --locked --workspace
 ```
 
+Pull Request quality gate 是只读的执行前门禁。本发布 Contract 有意保持
+`requiredEvidenceClasses` 为空，使门禁可以在完成 receipt 尚不存在时运行；显式
+`verify` 步骤负责记录完成证据，后续生命周期门禁再对其校验。
+
 发布与公开验收属于发布后证据。失败发布保持不可变失败历史，不重新标记或复用。
 
 ## 边界
