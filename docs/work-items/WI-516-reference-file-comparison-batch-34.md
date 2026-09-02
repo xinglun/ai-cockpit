@@ -3,11 +3,15 @@ author: AI Cockpit maintainers
 title: "WI-516 — release, adoption, calibration, and evidence comparison batch 34"
 description: "A bounded one-by-one comparison of the next maintained reference-source surfaces without copying Python, packaging, or provider bytes."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-516-reference-file-comparison-batch-34
 sourceCommit: fde3380f81fea5fd2e288f7a8849f737dc074060
 lastVerifiedBy: WI-516-reference-file-comparison-batch-34
+terminalArchive: .ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json
+terminalVerification: .ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json
+terminalFinalization: .ai/decisions/WI-516-reference-file-comparison-batch-34.finalize.json
+terminalDecision: .ai/decisions/WI-516-reference-file-comparison-batch-34.close.json
 ---
 
 [简体中文](WI-516-reference-file-comparison-batch-34.zh-CN.md) · [日本語](WI-516-reference-file-comparison-batch-34.ja.md)

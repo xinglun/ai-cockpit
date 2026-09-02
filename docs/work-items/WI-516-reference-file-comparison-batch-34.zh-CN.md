@@ -3,11 +3,15 @@ author: AI Cockpit maintainers
 title: "WI-516——发布、采用、校准与证据比对批次 34"
 description: "逐个比较下一批参考源表面，不复制 Python、打包或 provider 字节。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-516-reference-file-comparison-batch-34
 sourceCommit: fde3380f81fea5fd2e288f7a8849f737dc074060
 lastVerifiedBy: WI-516-reference-file-comparison-batch-34
+terminalArchive: .ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json
+terminalVerification: .ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json
+terminalFinalization: .ai/decisions/WI-516-reference-file-comparison-batch-34.finalize.json
+terminalDecision: .ai/decisions/WI-516-reference-file-comparison-batch-34.close.json
 ---
 
 [English](WI-516-reference-file-comparison-batch-34.md) · [日本語](WI-516-reference-file-comparison-batch-34.ja.md)
