@@ -16,9 +16,9 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # Release Distribution Architecture
 
-公開後の immutable release baseline は `v0.2.63` です。provider Release が存在する前は、直前の公開 `v0.2.61` が installable baseline です。予約済みの `v0.2.51` tag は workflow run `33417057474` の immutable な公開失敗試行で、provider Release のない lightweight tag なので再利用しません。失敗した `v0.2.56` tag も source-quality が provider Release 作成前に失敗した immutable な公開失敗履歴であり、再利用も installation baseline 化もしません。失敗した `v0.2.49` tag は workflow run `33379366308` による公開前の失敗履歴として保持し、公開 Release はありません。installation baseline にはしません。失敗した `v0.2.35` tag は workflow run `33162800569` による公開失敗履歴として保持し、公開 Release はありません。先行する失敗 `v0.2.34` tag（workflow run `33155382717`）も保持します。失敗した staged `v0.2.32` tag は WI-299 の finalize binding defect による公開失敗履歴として保持し、installation baseline にはしません。immutable な `v0.2.30` tag も clean-batch の route defect による公開失敗履歴として保持します。
+公開後の immutable release baseline は `v0.2.64` です。provider Release が存在する前は、直前の公開 `v0.2.63` が installable baseline です。予約済みの `v0.2.51` tag は workflow run `33417057474` の immutable な公開失敗試行で、provider Release のない lightweight tag なので再利用しません。失敗した `v0.2.56` tag も source-quality が provider Release 作成前に失敗した immutable な公開失敗履歴であり、再利用も installation baseline 化もしません。失敗した `v0.2.49` tag は workflow run `33379366308` による公開前の失敗履歴として保持し、公開 Release はありません。installation baseline にはしません。失敗した `v0.2.35` tag は workflow run `33162800569` による公開失敗履歴として保持し、公開 Release はありません。先行する失敗 `v0.2.34` tag（workflow run `33155382717`）も保持します。失敗した staged `v0.2.32` tag は WI-299 の finalize binding defect による公開失敗履歴として保持し、installation baseline にはしません。immutable な `v0.2.30` tag も clean-batch の route defect による公開失敗履歴として保持します。
 未公開の `v0.2.36` tag も staged acceptance failure の immutable な履歴として保持し、installation baseline にはしません。
-以前の公開 `v0.2.61` Release は historical evidence として保持し、現在の baseline に置き換えます。`v0.2.55`、`v0.2.53`、`v0.2.52` もさらに前の historical evidence として保持します。
+以前の公開 `v0.2.63` Release は historical evidence として保持し、現在の baseline に置き換えます。`v0.2.61`、`v0.2.55`、`v0.2.53`、`v0.2.52` もさらに前の historical evidence として保持します。
 失敗した `v0.2.49` tag は immutable な公開前履歴として保持し、公開 Release はありません。
 失敗した `v0.2.46` tag（`33330269507`）は不変の公開履歴として保持します。closed Work Item の
 ドキュメント promotion が tag 前に不足していたため公開 Release はなく、installation baseline ではありません。
@@ -112,7 +112,7 @@ schema が変わる pair だけが approval-gated migration branch に進みま�
 
 - `cockpit-release` と release workflow は local release contract、deterministic manifest、Formula projection、
   hosted check、published Release identity を扱います。
-- 現在の immutable public baseline は `v0.2.63` で、public adopter acceptance と N-1 upgrade 受入れは post-release evidence です。
+- 現在の immutable public baseline は `v0.2.64` で、public adopter acceptance と N-1 upgrade 受入れは post-release evidence です。
   external Homebrew tap は別の provider surface であり、この repository が自動的に保証するものではありません。
 - 予約済みの `v0.2.24` tag と immutable な `v0.2.25` tag は公開前 failure history として保持し、公開 Release として扱わず、再利用しません。
 - Tap は review 済み Formula projection を受け取り、binary を rebuild しません。
