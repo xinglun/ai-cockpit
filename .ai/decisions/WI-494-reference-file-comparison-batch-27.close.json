@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:55f20c0266a60cfdfd5e203b86d47005b1ebb6addd74dc8e5cf200a18ed89626",
+      "workItemId": "WI-494-reference-file-comparison-batch-27"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json",
+            ".ai/decisions/WI-494-reference-file-comparison-batch-27.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via github-reviewed-pr-and-explicit-cleanup at 2026-09-02T02:04:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-494-reference-file-comparison-batch-27.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-494-reference-file-comparison-batch-27.contract.json"
+          ],
+          "inference": false,
+          "text": "Close a seven-file reference rebaseline delta for capability truth, comprehension-validation records, and deprecated-assets registry before proceeding to the next comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-494-reference-file-comparison-batch-27.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-494-reference-file-comparison-batch-27"
+  },
+  "finalReportDigest": "sha256:821ab0bfb8d03792108f5aaaf9f6d8a031814e5f684b66bc0a7a0bb78949c5f2",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:7e1f5d5cb6d4c1436a1c424689e94000d3d56063918bfc96446a75a1e3018e24",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-494-reference-file-comparison-batch-27.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "github-reviewed-pr-and-explicit-cleanup",
+    "decidedAt": "2026-09-02T02:04:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json",
+      ".ai/decisions/WI-494-reference-file-comparison-batch-27.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md#canonical-delivery-order",
+      "docs/reference/repository-workflow.md#merge-close-and-cleanup"
+    ],
+    "reason": "The seven-file reference comparison batch passed local and hosted verification, merged PR #467, and exact resource cleanup.",
+    "resumeCondition": "No resume condition; any further comparison starts as a new Work Item from synchronized main.,"
+  },
+  "timestamp": "2026-09-02T02:02:13Z",
+  "workItemId": "WI-494-reference-file-comparison-batch-27"
+}
