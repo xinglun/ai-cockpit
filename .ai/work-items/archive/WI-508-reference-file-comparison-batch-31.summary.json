@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-508-reference-file-comparison-batch-31.contract.json",
+    ".ai/work-items/archive/WI-508-reference-file-comparison-batch-31.summary.json"
+  ],
+  "checkpointAt": "2026-09-02T11:59:48Z",
+  "checkpointContractDigest": "sha256:c2252d48cd95558fb763d90ffa2e8f3963c9c99e8774ead140d4d6a62c39ed9f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:87a2dde2be8167b154ee03bc1d48539c9fc6b20fae16b4b0735a28d789b2fa2b",
+      "recorded": true,
+      "recordedAt": "2026-09-02T11:59:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:71d439337059d44d5272d9886c7ce67ef47b6aa08f9c180733afc6b4f007c29d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-508-reference-file-comparison-batch-31"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c2252d48cd95558fb763d90ffa2e8f3963c9c99e8774ead140d4d6a62c39ed9f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:87a2dde2be8167b154ee03bc1d48539c9fc6b20fae16b4b0735a28d789b2fa2b",
+      "previousContractHash": "sha256:87a2dde2be8167b154ee03bc1d48539c9fc6b20fae16b4b0735a28d789b2fa2b",
+      "reason": "Bind the reviewed GitHub pull request and dedicated worktree finalization context before archive; no governance scope or source facts changed.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T12:15:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:71d439337059d44d5272d9886c7ce67ef47b6aa08f9c180733afc6b4f007c29d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-508-reference-file-comparison-batch-31"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:71d439337059d44d5272d9886c7ce67ef47b6aa08f9c180733afc6b4f007c29d",
+  "createdAt": "2026-09-02T11:58:02Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-02T12:18:36Z",
+  "preflightContractDigest": "sha256:c2252d48cd95558fb763d90ffa2e8f3963c9c99e8774ead140d4d6a62c39ed9f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:71d439337059d44d5272d9886c7ce67ef47b6aa08f9c180733afc6b4f007c29d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T12:18:40Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-508-reference-file-comparison-batch-31"
+}
