@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=413 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=78 deferred-next-batch=408 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -234,8 +234,8 @@ changed current paths, and the capability/profile slice has no remaining
 | `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 73 |
-| `deferred-next-batch` | 413 |
+| `reference-only` | 78 |
+| `deferred-next-batch` | 408 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1544,3 +1544,30 @@ entry closes the only reader-navigation omission found in this slice. The
 current snapshot is 3,681 `generated-history`, 278
 `implemented-different-by-design`, 1 `implemented-equivalent`, 4
 `not-applicable`, 73 `reference-only`, and 413 `deferred-next-batch` records.
+
+## WI-507 — language-adaptation example reader boundary
+
+WI-507 re-reads five maintained reference example README files one by one at
+the pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. These are
+source/provider onboarding examples: they prescribe stack-specific installers,
+Make presets, coverage patterns, and sample Contracts for application teams.
+They are not Runtime code, provider evidence, or a portable JSON wire contract.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `examples/flutter/README.md` | reference-only | `docs/reference/flutter-fixture-adaptation.*`, `docs/reference/contract-fields.md`, and `docs/reference/verification-route.md` preserve explicit scope, owner-approved commands, evidence binding, and shared Runtime/adopter isolation. Flutter/Dart installation, Make presets, coverage YAML, application code, and source JSON are not copied. |
+| `examples/go/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`, `docs/reference/contract-fields.md`, and `docs/reference/verification-route.md` preserve generic Contract/verification/evidence boundaries. Go toolchain commands, Make presets, coverage patterns, and application examples remain adopter-owned. |
+| `examples/java/README.md` | reference-only | `docs/getting-started/examples/java.md`, `docs/reference/contract-fields.md`, and `docs/reference/verification-route.md` preserve owner-declared scope, verification, evidence, and repository isolation. Gradle/Spring/Android commands, coverage presets, and sample code are not Runtime requirements. |
+| `examples/kotlin/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`, `docs/reference/contract-fields.md`, and `docs/reference/verification-route.md` preserve the generic governance boundary. Kotlin/Gradle commands and coverage patterns remain adopter/provider responsibilities. |
+| `examples/php/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`, `docs/reference/contract-fields.md`, and `docs/reference/verification-route.md` preserve explicit Contract scope, verification, evidence, and shared-Runtime isolation. Composer/PHPUnit/PHPStan commands and application paths are not copied. |
+
+No implementation omission was found in this slice: the source files are
+reference-only application onboarding material, and the portable meaning is
+already expressed by existing Rust-native Contract, verification, evidence,
+and adopter-boundary routes. No source stack, installer, Make command, or
+sample Contract decision is inherited by this repository or its adopters.
+The current 4,450-path reference set now contains 3,681 `generated-history`,
+278 `implemented-different-by-design`, 1 `implemented-equivalent`, 4
+`not-applicable`, 78 `reference-only`, and 408 `deferred-next-batch` records;
+the append-only ledger retains 669 retired records and `migrate-gap` remains
+zero.

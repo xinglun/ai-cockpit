@@ -35200,38 +35200,60 @@
     },
     {
       "referencePath": "examples/flutter/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-507-reference-file-comparison-batch-30",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/flutter-fixture-adaptation.md",
+        "docs/reference/flutter-fixture-adaptation.zh-CN.md",
+        "docs/reference/flutter-fixture-adaptation.ja.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This Flutter adaptation example is source/provider onboarding material. The target preserves explicit scope, owner-approved commands, evidence binding, and shared Runtime/adopter isolation through Rust-native routes, but does not copy Flutter/Dart installation, Make presets, coverage YAML, application code, or source JSON wire shape."
     },
     {
       "referencePath": "examples/go/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-507-reference-file-comparison-batch-30",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This Go adaptation example is source/provider onboarding material. Go toolchain commands, Make presets, coverage patterns, and application examples remain adopter-owned; the target keeps only the general Contract, verification, evidence, and explicit repository-context boundaries."
     },
     {
       "referencePath": "examples/java/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-507-reference-file-comparison-batch-30",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/examples/java.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This Java adaptation example is source/provider onboarding material. Gradle/Spring/Android commands, coverage presets, and example application code are not Runtime requirements; the target preserves owner-declared scope, verification, evidence, and repository isolation through its Rust-native routes."
     },
     {
       "referencePath": "examples/kotlin/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-507-reference-file-comparison-batch-30",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This Kotlin adaptation example is source/provider onboarding material. Kotlin/Gradle commands and coverage patterns remain adopter/provider responsibilities; the target does not copy the source installer, Make bridge, SDK assumptions, or JSON contract example and retains only the generic governance boundary."
     },
     {
       "referencePath": "examples/php/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-507-reference-file-comparison-batch-30",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This PHP adaptation example is source/provider onboarding material. Composer, PHPUnit, PHPStan, Make presets, and application paths remain adopter/provider responsibilities; the target preserves explicit Contract scope, verification, evidence, and shared-Runtime isolation without copying source implementation or wire shape."
     },
     {
       "referencePath": "examples/python/README.md",
