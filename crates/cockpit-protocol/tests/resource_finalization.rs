@@ -431,6 +431,91 @@ fn foreign_repository_and_work_item_are_rejected() {
 }
 
 #[test]
+fn historical_direct_merge_can_rebind_legacy_local_context_narrowly() {
+    let mut historical = receipt();
+    historical.pull_request.number = 0;
+    historical.pull_request.url = "historical://direct-merge/merge-158".into();
+    historical.provider = "historical".into();
+    historical.resource_context = Some(ResourceFinalizationContext {
+        branch: historical.branch.name.clone(),
+        worktree: historical.worktree.path.clone(),
+        base_branch: historical.pull_request.base_branch.clone(),
+        base_remote: historical.pull_request.base_remote.clone(),
+        provider: "historical".into(),
+        pull_request: historical.pull_request.url.clone(),
+    });
+    historical.historical = Some(HistoricalFinalization {
+        kind: HistoricalFinalizationKind::DirectMergeNoPr,
+        assurance: "historical_low".into(),
+        merge_commit: Some("merge-158".into()),
+        merge_parents: vec!["parent-a".into(), "parent-b".into()],
+        base_revision: historical.pull_request.base_revision.clone(),
+    });
+    let mut legacy_context = historical.resource_context.clone().unwrap();
+    legacy_context.provider = "local".into();
+    legacy_context.pull_request = "https://github.example/acme/project/pull/158".into();
+    validate_resource_finalization_receipt_for(
+        &historical,
+        REPOSITORY_ID,
+        WORK_ITEM_ID,
+        Some(&Digest::sha256_bytes(b"contract")),
+        Some(&legacy_context),
+    )
+    .expect("explicit historical direct-merge compatibility should be accepted");
+
+    let mut foreign = legacy_context.clone();
+    foreign.worktree = "/private/tmp/foreign-worktree".into();
+    assert_eq!(
+        validate_resource_finalization_receipt_for(
+            &historical,
+            REPOSITORY_ID,
+            WORK_ITEM_ID,
+            Some(&Digest::sha256_bytes(b"contract")),
+            Some(&foreign),
+        ),
+        Err(ResourceFinalizationError::IdentityMismatch(
+            "resourceContext.worktree",
+        ))
+    );
+}
+
+#[test]
+fn historical_direct_merge_can_bind_provisional_legacy_context() {
+    let mut historical = receipt();
+    historical.pull_request.number = 0;
+    historical.pull_request.url = "historical://direct-merge/merge-158".into();
+    historical.provider = "historical".into();
+    historical.resource_context = Some(ResourceFinalizationContext {
+        branch: historical.branch.name.clone(),
+        worktree: historical.worktree.path.clone(),
+        base_branch: "main".into(),
+        base_remote: "origin".into(),
+        provider: "historical".into(),
+        pull_request: historical.pull_request.url.clone(),
+    });
+    historical.historical = Some(HistoricalFinalization {
+        kind: HistoricalFinalizationKind::DirectMergeNoPr,
+        assurance: "historical_low".into(),
+        merge_commit: Some("merge-158".into()),
+        merge_parents: vec!["parent-a".into(), "parent-b".into()],
+        base_revision: historical.pull_request.base_revision.clone(),
+    });
+    let mut provisional = historical.resource_context.clone().unwrap();
+    provisional.base_branch = "unknown".into();
+    provisional.base_remote = "pending:remote".into();
+    provisional.provider = "unknown".into();
+    provisional.pull_request = "unknown".into();
+    validate_resource_finalization_receipt_for(
+        &historical,
+        REPOSITORY_ID,
+        WORK_ITEM_ID,
+        Some(&Digest::sha256_bytes(b"contract")),
+        Some(&provisional),
+    )
+    .expect("historical direct merge may resolve provisional legacy identity");
+}
+
+#[test]
 fn dirty_unmerged_protected_and_ambiguous_states_cannot_be_deleted() {
     let mut dirty = receipt();
     dirty.before.worktree = ResourceFinalizationWorktreeState::Dirty;

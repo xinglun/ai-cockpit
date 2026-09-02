@@ -939,8 +939,10 @@ fn historical_direct_merge_without_pr_is_verifiable_and_closeable() {
         }
     });
     let input = write_input(&directory, "direct-merge.json", &receipt);
-    let recorded = record_resource_finalization(directory.path(), ID, &input, &runtime())
-        .expect("complete direct merge receipt should be accepted");
+    let recorded =
+        record_historical_finalization_recovery(directory.path(), ID, &input, &runtime()).expect(
+            "complete direct merge receipt should be accepted as the first recovery record",
+        );
     assert_eq!(recorded["state"], "recorded");
     let verified = verify_resource_finalization(directory.path(), ID, &runtime())
         .expect("direct merge receipt should verify against Git");
@@ -973,7 +975,7 @@ fn historical_direct_merge_without_pr_is_verifiable_and_closeable() {
 
 #[test]
 fn historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing() {
-    let (directory, _context, _contract, base_revision, _feature_head, merge_commit) =
+    let (directory, _context, contract, base_revision, feature_head, merge_commit) =
         direct_merge_repository();
     let before = fs::read_dir(directory.path().join(".ai/decisions"))
         .unwrap()
@@ -992,11 +994,59 @@ fn historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing()
     assert_eq!(plan["suggestedReceipt"]["pullRequest"]["number"], 0);
     assert_eq!(plan["suggestedReceipt"]["provider"], "historical");
     assert_eq!(
+        plan["suggestedReceipt"]["pullRequest"]["headRevision"],
+        feature_head
+    );
+    assert_eq!(
+        plan["suggestedReceipt"]["contractDigest"],
+        contract.to_string()
+    );
+    assert_eq!(plan["contractDigest"], contract.to_string());
+    assert_eq!(plan["contractBaseRevision"], base_revision);
+    assert_eq!(
+        plan["knownFacts"]["historical"]["mergeCommit"],
+        merge_commit
+    );
+    assert!(
+        plan["humanInputRequired"]
+            .as_array()
+            .expect("human input list")
+            .iter()
+            .any(|field| field == "resourceContext")
+    );
+    assert_eq!(
         fs::read_dir(directory.path().join(".ai/decisions"))
             .unwrap()
             .count(),
         before,
         "recovery plan is read-only"
+    );
+}
+
+#[test]
+fn first_record_recovery_rejects_non_direct_input_when_predecessor_is_absent() {
+    let (directory, _context, contract) = primary_repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let recovery = historical_recovery(
+        &repository_id,
+        &contract,
+        "shared_worktree_retained",
+        "unborn",
+    );
+    let input = write_input(&directory, "missing-predecessor-recovery.json", &recovery);
+    let error = record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+        .expect_err("a recovery classification cannot create a first canonical record");
+    assert!(
+        error
+            .to_string()
+            .contains("requires an existing predecessor"),
+        "unexpected error: {error}"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.finalize.json"))
+            .exists()
     );
 }
 

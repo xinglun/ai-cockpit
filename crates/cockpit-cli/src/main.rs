@@ -408,13 +408,14 @@ enum WorkItemCommand {
         #[arg(long)]
         id: String,
     },
-    /// Classify an immutable legacy finalization receipt without rewriting it.
+    /// Classify an immutable legacy receipt, or record a first direct-merge
+    /// finalization when no predecessor exists, without rewriting history.
     FinalizeRecovery {
         #[arg(long)]
         repo: PathBuf,
         #[arg(long)]
         id: String,
-        /// JSON HistoricalFinalizationRecoveryReceipt file.
+        /// JSON historical recovery receipt or complete direct-merge receipt.
         #[arg(long)]
         input: PathBuf,
     },

@@ -11538,6 +11538,25 @@ pub fn record_historical_finalization_recovery(
     })?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
     let predecessor_path = resource_finalization_decision_path(&root, work_item_id);
+    if fs::symlink_metadata(&predecessor_path).is_err() {
+        // A direct merge without a PR can be the first finalization record:
+        // there is no immutable predecessor to classify.  Accept only a
+        // complete, explicitly historical direct-merge receipt and route it
+        // through the same strict archive/Contract/Git/runtime validation as
+        // `finalize`; all other recovery inputs remain fail-closed.
+        if let Ok(candidate) = read_resource_finalization_receipt(input_path)
+            && matches!(
+                candidate.historical.as_ref().map(|value| &value.kind),
+                Some(HistoricalFinalizationKind::DirectMergeNoPr)
+            )
+        {
+            return record_resource_finalization(&root, work_item_id, input_path, runtime);
+        }
+        return Err(ObserverError::State {
+            path: predecessor_path,
+            message: "historical finalization recovery requires an existing predecessor; for a first-record direct merge use a complete direct_merge_no_pr receipt".into(),
+        });
+    }
     let receipt = read_resource_finalization_receipt(&predecessor_path)?;
     validate_resource_finalization_receipt_for(
         &receipt,
@@ -11622,6 +11641,24 @@ pub fn historical_finalization_recovery_plan(
         "writesRepositoryState": false,
         "humanInputRequired": ["authoritySource", "reason", "decidedAt"],
     });
+
+    // An archived Contract is read-only input to the plan.  Expose its digest
+    // and immutable base so a human can bind the eventual receipt without
+    // guessing which historical snapshot the Work Item used.  Provisional
+    // resource-context values are reported as facts, never promoted to
+    // concrete provider identity.
+    let archived_contract = archived_contract_digest(&root, work_item_id).ok();
+    if let Some((contract, digest)) = archived_contract.as_ref() {
+        result["contractDigest"] = digest.to_string().into();
+        result["contractBaseRevision"] = contract.base_revision.clone().into();
+        if let Some(context) = contract.resource_context.as_ref() {
+            result["contractResourceContext"] =
+                serde_json::to_value(context).map_err(|error| ObserverError::State {
+                    path: root.clone(),
+                    message: error.to_string(),
+                })?;
+        }
+    }
 
     if let Ok((receipt, path, digest, sequence)) =
         resolve_resource_finalization_head(&root, work_item_id)
@@ -11718,10 +11755,65 @@ pub fn historical_finalization_recovery_plan(
             message: error.to_string(),
         })?;
     result["baseRevision"] = parents[1].clone().into();
-    result["suggestedReceipt"] = serde_json::json!({
+    let head_revision = parents[2].clone();
+    result["knownFacts"] = serde_json::json!({
+        "schemaVersion": 1,
+        "workItemId": work_item_id,
+        "repositoryId": repository_id,
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
         "pullRequest": {
             "number": 0,
             "url": format!("historical://direct-merge/{merge_commit}"),
+            "headRevision": head_revision,
+            "baseRevision": parents[1],
+            "mergeCommit": merge_commit
+        },
+        "historical": {
+            "kind": "direct_merge_no_pr",
+            "assurance": "historical_low",
+            "baseRevision": parents[1],
+            "mergeCommit": merge_commit,
+            "mergeParents": &parents[1..]
+        }
+    });
+    if let Some((_, digest)) = archived_contract.as_ref() {
+        result["knownFacts"]["contractDigest"] = digest.to_string().into();
+    }
+    if let Some((contract, _)) = archived_contract.as_ref()
+        && let Some(context) = contract.resource_context.as_ref()
+        && !context.is_provisional()
+    {
+        result["knownFacts"]["pullRequest"]["baseBranch"] = context.base_branch.clone().into();
+        result["knownFacts"]["pullRequest"]["baseRemote"] = context.base_remote.clone().into();
+    }
+    result["humanInputRequired"] = serde_json::json!([
+        "receiptId",
+        "operationId",
+        "pullRequest.baseBranch",
+        "pullRequest.baseRemote",
+        "resourceContext",
+        "branch.name",
+        "branch.remote",
+        "worktree.worktreeId",
+        "worktree.path",
+        "worktree.branch",
+        "before",
+        "after",
+        "result.disposition",
+        "actor",
+        "authoritySource",
+        "reason",
+        "timestamp"
+    ]);
+    result["suggestedReceipt"] = serde_json::json!({
+        "schemaVersion": 1,
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "pullRequest": {
+            "number": 0,
+            "url": format!("historical://direct-merge/{merge_commit}"),
+            "headRevision": parents[2],
             "baseRevision": parents[1],
             "mergeCommit": merge_commit
         },
@@ -11736,6 +11828,9 @@ pub fn historical_finalization_recovery_plan(
         "workItemId": work_item_id,
         "repositoryId": repository_id
     });
+    if let Some((_, digest)) = archived_contract.as_ref() {
+        result["suggestedReceipt"]["contractDigest"] = digest.to_string().into();
+    }
     Ok(result)
 }
 

@@ -100,14 +100,23 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   finalization receipt に対する append-only の Runtime-bound 歴史分類を記録します。入力には正確な
   predecessor digest、repository/Work Item/Contract base、current Runtime、actor、authority、reason、
   timestamp の binding が必要です。旧 primary worktree は `historicalKind=shared_worktree_retained`、
-  PR のない merge は完全な `historicalKind=direct_merge_no_pr` finalization receipt を使います。
-  predecessor は書き換えられず、recovery record だけで Work Item が green になることもありません。
+  PR のない歴史的 merge は完全な `historicalKind=direct_merge_no_pr` finalization receipt を使います。
+  canonical predecessor が存在しない場合、このコマンドは direct-merge receipt を最初の canonical
+  record として受け付け、`finalize` と同じ archive、Contract、Git parents、repository、current Runtime
+  検証を適用します。recovery 分類を作成せず、歴史 bytes も書き換えません。同じ primary worktree と
+  repository/base facts に束縛された場合だけ provisional legacy Contract context を解決できます。
+  その他の mismatch は fail-closed となり、`resourceContext.worktree` や
+  `resourceContext.baseRevision` など binding category を示します。predecessor は書き換えられず、
+  recovery record だけで Work Item が green になることもありません。
 - `work-item finalize-recovery-plan --repo <path> --id <id>` は read-only の歴史 recovery discovery
   boundary です。immutable predecessor の path/digest、producer Runtime identity、shared-primary
-  の disposition、未入力の human fields を返します。歴史 direct merge では実際の
-  `--merge-commit <sha>` を渡すと parents を検証し、`pullRequest.number=0` と
-  `historical://direct-merge/<sha>` を含む receipt skeleton を出力します。`.ai/decisions` は変更せず、
-  PR number・authority・human decision を捏造しません。
+  の disposition、未入力の human fields を返します。canonical predecessor がない場合は実際の
+  `--merge-commit <sha>` を渡すと parents を検証し、repositoryId、current Runtime、merge commit、
+  parents、base revision、zero-PR URL など決定的な identity facts と、`pullRequest.number=0`、
+  `historical://direct-merge/<sha>` を含む部分 receipt skeleton を出力します。archived Contract の
+  digest/base と provisional context も示します。receipt ID、branch/worktree facts、disposition、
+  authority、reason、timestamp は人間が入力します。`.ai/decisions` は変更せず、PR number・authority・
+  human decision を捏造しません。
 - `migrate plan --repo <path>` は schema が compatible でも `historicalFinalization` を追加で
   報告します。有効な close binding を持つ旧 receipt は `historical_verified`/
   `historical_low`、pending または読めない receipt は `recovery_required`/`invalid` と safe
