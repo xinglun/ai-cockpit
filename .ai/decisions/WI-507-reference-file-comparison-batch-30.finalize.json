@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "26f8d3a8308b1a9dac44ca1fc03d62585b0dbac4",
+    "name": "codex/wi-507-reference-file-comparison-batch-30",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:33389b8b39274b8abc17ba6baef6faaa38756ee473c0b35c39ebd6f8ff037ac6",
+  "operationId": "github-pr-480-merge-cleanup-20260902",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c155eb587f760af7ace0192186b0d4a0c0a8dd21",
+    "headRevision": "26f8d3a8308b1a9dac44ca1fc03d62585b0dbac4",
+    "mergeCommit": "77c8c9ab954a4ab67fee378c55672f08c5690fb0",
+    "number": 480,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/480"
+  },
+  "reason": "PR #480 passed all hosted checks and was merged; the exact feature branch and worktree were removed after verification.",
+  "receiptId": "github-pr-480-finalization-20260902",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-507-reference-file-comparison-batch-30",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/480",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-507-reference-file-comparison-batch-30"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f04aa15868a6e3a590b109a7649c37d765cd2bb935213b9cd898f3ddec6b336d",
+  "runtimeVersion": "0.2.60",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T11:50:00Z",
+  "workItemId": "WI-507-reference-file-comparison-batch-30",
+  "worktree": {
+    "branch": "codex/wi-507-reference-file-comparison-batch-30",
+    "headRevision": "26f8d3a8308b1a9dac44ca1fc03d62585b0dbac4",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-507-reference-file-comparison-batch-30",
+    "worktreeId": "WI-507-reference-file-comparison-batch-30"
+  }
+}
