@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "Workspace packages and lockfile identify v0.2.60; current tri-language release guidance is updated without rewriting prior release history.",
+    "Hosted checks pass on the reviewed PR before the annotated v0.2.60 tag is created from synchronized main.",
+    "The public Release exposes identity-bound archives, SHA256 checksums, SBOM, provenance, and release manifest.",
+    "Public adopter and N-1 acceptance use only downloaded immutable artifacts, prove isolation and temporary-root cleanup, and preserve first-adopter-smoke=not_ready.",
+    "The published binary is installed on this repository; inspect, status, doctor, Agent doctor, and post-close documentation checks remain healthy.",
+    "This Work Item has a visible human Outcome, archive, finalization, close, and exact branch/worktree cleanup before publication."
+  ],
+  "createdAt": "2026-09-02T10:10:14Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dc0fd9364032705e2647db55e167c6dadbeae399861c79d7962986eb12290ffe",
+  "evidenceRefs": [
+    ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:29776a25db2512fb3d78107393388051709209947d9666f6f23d4c0d88dfeb0f",
+      "workItemId": "WI-506-release-v0-2-60"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-506-release-v0-2-60.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-506-release-v0-2-60.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-506-release-v0-2-60.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-506-release-v0-2-60.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-506-release-v0-2-60.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-506-release-v0-2-60.contract.json"
+          ],
+          "inference": false,
+          "text": "Release the next Runtime version with identity-bound public artifacts, reproducible adopter/N-1 acceptance, and a clean installed baseline for the next comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-506-release-v0-2-60.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-506-release-v0-2-60"
+  },
+  "taskReportDigest": "sha256:a95a5a3b15438c649c42c4e246f223203f586e19c0eb6563e425d8a905535fcc",
+  "taskReportMarkdownDigest": "sha256:faf55429f8b7f09ef1d0501c78426e7c3814a363317e32cbed0c5f7d584d3010",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-506-release-v0-2-60.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-506-release-v0-2-60"
+}
