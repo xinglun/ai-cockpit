@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-495-wi494-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:91abab935ad4fe756999273ff8c53781df3050603da34b53fde8238d58c2730e",
+      "workItemId": "WI-495-wi494-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-495-wi494-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-495-wi494-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-495-wi494-doc-promotion.verification.json",
+            ".ai/decisions/WI-495-wi494-doc-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via github-reviewed-pr-and-explicit-cleanup at 2026-09-02T02:22:37Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-495-wi494-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-495-wi494-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-495-wi494-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-495-wi494-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-495-wi494-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the mainline comparison record terminal and pass the post-close documentation gate."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-495-wi494-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-495-wi494-doc-promotion"
+  },
+  "finalReportDigest": "sha256:20b5d16e395cf39aa75880afa5dc1224b92434424e5f8d66b0739fbd2e9e783d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:a624a41f7e7e7d787dff5436b85ff7e3b50dab83b0ca07c52273bea0d88ee26c",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-495-wi494-doc-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "github-reviewed-pr-and-explicit-cleanup",
+    "decidedAt": "2026-09-02T02:22:37Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-495-wi494-doc-promotion.verification.json",
+      ".ai/decisions/WI-495-wi494-doc-promotion.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md#canonical-delivery-order",
+      "tests/docs/promote_closed_work_item.py"
+    ],
+    "reason": "PR #468 passed all required hosted checks, was merged, exact branch and worktree were removed, and documentation gates passed.",
+    "resumeCondition": "No further action; reopen only through a new human-authorized Work Item if the reference comparison changes."
+  },
+  "timestamp": "2026-09-02T02:23:13Z",
+  "workItemId": "WI-495-wi494-doc-promotion"
+}

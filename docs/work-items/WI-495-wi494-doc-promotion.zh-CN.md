@@ -4,9 +4,13 @@ title: "WI-495——WI-494 终态文档晋级"
 description: "晋级已关闭 WI-494 的比对证据并终止文档门禁循环。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-495-wi494-doc-promotion
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-495-wi494-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-495-wi494-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-495-wi494-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-495-wi494-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-495-wi494-doc-promotion.close.json
 ---
 
 # WI-495——WI-494 终态文档晋级
