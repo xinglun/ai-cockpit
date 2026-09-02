@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "authorized user instruction to publish v0.2.58 after reviewed documentation promotion",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f935a1aa4bf19e9335092970d4cd7c62c8f06b9c",
+    "name": "codex/wi-492-wi491-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:69e26ff932406f0aaa446d8bcdb87551b16da132be190db17544641f77ba7352",
+  "operationId": "WI-492-wi491-doc-promotion-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "671eaf26f5f31af345501c4f5201c6ebab12780b",
+    "headRevision": "f935a1aa4bf19e9335092970d4cd7c62c8f06b9c",
+    "mergeCommit": "a9b5571959295134ef4e310b5ee104fb7e2e2a8d",
+    "number": 465,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/465"
+  },
+  "reason": "PR #465 passed all hosted checks, was merged as a9b5571959295134ef4e310b5ee104fb7e2e2a8d, and the exact documentation-promotion branch and worktree were removed after cleanup verification.",
+  "receiptId": "ai-cockpit-WI-492-wi491-doc-promotion-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-492-wi491-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/465",
+    "worktree": "/private/tmp/ai-cockpit-wi492-wi491-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T00:00:43Z",
+  "workItemId": "WI-492-wi491-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-492-wi491-doc-promotion",
+    "headRevision": "f935a1aa4bf19e9335092970d4cd7c62c8f06b9c",
+    "path": "/private/tmp/ai-cockpit-wi492-wi491-doc-promotion",
+    "worktreeId": "WI-492-wi491-doc-promotion"
+  }
+}
