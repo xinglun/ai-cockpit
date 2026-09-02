@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-520 — v0.2.64 release and object-adopter compatibility acceptance"
 description: "Publish the merged historical-finalization compatibility fix and verify the public artifact without modifying object repositories."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-520-release-v0-2-64
 lastVerifiedBy: WI-520-release-v0-2-64
+terminalArchive: .ai/work-items/archive/WI-520-release-v0-2-64.contract.json
+terminalVerification: .ai/evidence/WI-520-release-v0-2-64.verification.json
+terminalFinalization: .ai/decisions/WI-520-release-v0-2-64.finalize.json
+terminalDecision: .ai/decisions/WI-520-release-v0-2-64.close.json
 ---
 
 [简体中文](WI-520-release-v0-2-64.zh-CN.md) · [日本語](WI-520-release-v0-2-64.ja.md)
