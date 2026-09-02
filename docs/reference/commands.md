@@ -25,6 +25,15 @@ Runtime verifies those facts against Git and never invents a PR. Readiness
 reports `historicalDebt` and recovery actions while keeping pending-close
 fail-closed.
 
+For a legacy receipt that predates the `historical` field, the Runtime may
+derive the same `shared_worktree_retained` projection without rewriting the
+receipt, but only when `provider=local`, the Contract and receipt agree, and
+both worktree paths canonicalize to the Git primary checkout with the branch
+and clean worktree still retained. This is reported as
+`historical_low`; an external provider, linked worktree, missing context, or
+ambiguous topology remains fail-closed. Use `finalize-recovery-plan` and the
+explicit recovery receipt when those facts cannot be derived.
+
 New Work Items still require the current finalization head to have disposition
 `deleted`; a retained, blocked, or unknown head stops the operation before a
 close decision is written. A verified historical `shared_worktree_retained` or

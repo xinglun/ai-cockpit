@@ -23,6 +23,13 @@ parents、base revision、repository identity 与 authority。Runtime 会对照 
 绝不会编造 PR。Readiness 会报告 `historicalDebt` 与 recovery action，同时保持 pending-close
 fail-closed。
 
+对于缺少 `historical` 字段的旧 receipt，Runtime 只有在
+`provider=local`、Contract 与 receipt 完全一致、且两者 worktree 路径都解析到 Git 主
+checkout，同时分支与干净 worktree 仍被保留时，才会只读推导
+`shared_worktree_retained` 投影而不改写 receipt。结果会标记为
+`historical_low`；外部 provider、linked worktree、缺少 context 或拓扑不明确时仍然
+fail-closed。无法确定时请使用 `finalize-recovery-plan` 和显式 recovery receipt。
+
 新的 Work Item 仍要求当前 finalization head 的 disposition 必须是 `deleted`；
 `retained`、`blocked` 或 `unknown` 的 head 会在写入 close decision 前停止。唯一的窄兼容
 例外是已经验证的历史 `shared_worktree_retained` 或 `direct_merge_no_pr` receipt：它可以
