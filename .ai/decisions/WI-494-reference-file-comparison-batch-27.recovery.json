@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-mainline-batch-recovery",
+  "decidedAt": "2026-09-02T02:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/467",
+    ".ai/work-items/active/WI-494-reference-file-comparison-batch-27.outcome.json",
+    ".ai/work-items/active/WI-494-reference-file-comparison-batch-27.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order",
+    "docs/reference/repository-workflow.md#finalization-context-is-explicit"
+  ],
+  "predecessorContractDigest": "sha256:d7401491bddec3def7aca93c430def1b3c5e9365e530583c5d309ef1f65a50eb",
+  "predecessorEventsDigest": "sha256:c948d2f389e74fb6e5fd636b7a2f4cff8d438a30b6e7674af2efe1d0e0c3637e",
+  "predecessorOutcomeDigest": "sha256:3ab212d409420fe06a5b6292daafd3bde1f58e7bd766358d084c5a3267f5dc3b",
+  "predecessorSummaryDigest": "sha256:8217f3caa6e7eb6af7e15ef9bff3c97f5d9a67589d444b7fe2db11628435e2b2",
+  "predecessorWorkItemId": "WI-494-reference-file-comparison-batch-27",
+  "reason": "The real PR was bound after the initial verification cycle, so the Runtime invalidated the old snapshot. Preserve that failed attempt and retry from the same bounded Contract with the reviewed PR context bound before fresh evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, record fresh verification with the bound PR context, finish, archive, finalize, verify, close, and clean the exact merged branch/worktree.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "workItemId": "WI-494-reference-file-comparison-batch-27"
+}

@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Exactly seven changed reference paths are re-read one by one and receive evidence-backed non-deferred classifications.",
+    "The target preserves a clear non-portable boundary for source capability matrix, participant responses/results, and deprecated-assets registry without copying those files.",
+    "The inventory generator/application and regression test bind all seven paths to this batch and reject deferred or migrate-gap classifications.",
+    "English, Simplified Chinese, and Japanese comparison/parity/Work Item pages state the same source-boundary and no-copy decision.",
+    "Documentation, inventory, Runtime verification, reviewed PR, merge, close, and exact cleanup all pass."
+  ],
+  "createdAt": "2026-09-02T01:55:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:140e6b2169e69abe6aa8f5b417f152f54e39324f12f8c70cca613aaca647aeef",
+  "evidenceRefs": [
+    ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:55f20c0266a60cfdfd5e203b86d47005b1ebb6addd74dc8e5cf200a18ed89626",
+      "workItemId": "WI-494-reference-file-comparison-batch-27"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-494-reference-file-comparison-batch-27.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-494-reference-file-comparison-batch-27.contract.json"
+          ],
+          "inference": false,
+          "text": "Close a seven-file reference rebaseline delta for capability truth, comprehension-validation records, and deprecated-assets registry before proceeding to the next comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-494-reference-file-comparison-batch-27.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-494-reference-file-comparison-batch-27"
+  },
+  "taskReportDigest": "sha256:9c6e06f673270283bfebce6fcf1efabaf9b5d34d513ee0989d137a4b12855cf0",
+  "taskReportMarkdownDigest": "sha256:297122635dea69eb65f2fb1f394a48226348d4f390136b431ea2a92c890a8c89",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-494-reference-file-comparison-batch-27"
+}

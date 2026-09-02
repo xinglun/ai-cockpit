@@ -20,8 +20,8 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.57`，binary SHA256 为 `sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `b827d87eaa7c8257d569a9d840c8d782bb7b7328`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.58`，binary SHA256 为 `sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=435 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=69 deferred-next-batch=428 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -193,8 +193,8 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | `implemented-different-by-design` | 267 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 62 |
-| `deferred-next-batch` | 435 |
+| `reference-only` | 69 |
+| `deferred-next-batch` | 428 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1158,3 +1158,19 @@ WI-482 重新阅读了上一轮比较之后、在维护中的本地参考源提�
 agent-handoff 附录；这些责任已拆分到 Rust 原生读者路线与显式 Agent adapter 边界。Contract
 intent 与 acceptance criteria 保持 authored language，本地化只改变展示。台账将 8 个路径全部记录为
 `implemented-different-by-design`，保留 `sourceChangedSincePrevious` 和此前分类，deferred 数量降为 475。
+
+## WI-494：能力、理解度与 deprecated-assets 重新比对
+
+WI-494 逐个重读了此前判定为 `reference-only`、但源内容发生变化的 7 个路径：能力声明矩阵、3 份匿名参与者回答、绑定修订版的理解度结果（JSON 与报告），以及源工程专用的废弃资产注册表。
+
+| 参考源路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/reference/capability-truth-matrix.json` | reference-only | typed、request-scoped 的能力/状态投影与本比对台账承载相应边界；源端 freshness、template 状态和 adopter/provider 声明不进入 Runtime 协议。 |
+| `docs/reference/comprehension-validation-responses/peter_01.en.json` | reference-only | 英文读者路线与 human-benefit/Outcome 文档说明边界；匿名参与者字节仅属于源研究证据。 |
+| `docs/reference/comprehension-validation-responses/tanaka_01.ja.json` | reference-only | 日文读者路线保留文档边界；参与者回答不成为目标工程证据。 |
+| `docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json` | reference-only | 简体中文读者路线保留文档边界；参与者回答不成为目标工程证据。 |
+| `docs/reference/comprehension-validation-results.json` | reference-only | human-benefit 与 comprehension 指南保留修订版绑定和窄声明；源 receipt 不构成 Rust 的产品、发布、安全或企业声明。 |
+| `docs/reference/comprehension-validation-results.md` | reference-only | Rust Outcome 与读者文档描述面向人的证据边界，不复制源研究报告或继承其声明。 |
+| `docs/reference/deprecated-assets-registry.json` | reference-only | Rust 以不可变 Work Item 历史、显式资源收尾和经审查的清理 receipt 表达边界；源扫描器/注册表不是删除授权，也不复制。 |
+
+本批未发现实现遗漏。上述变化刷新的是源工程自有记录，并没有增加可移植的 Runtime 合同，因此 7 个路径全部保持 `reference-only`，同时在追加式台账中保留此前决定和 source-change provenance。当前台账为 4,262 个 `generated-history`、311 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、73 个 `reference-only`、468 个 `deferred-next-batch`，`migrate-gap` 仍为 0。日文和英文路线记录相同边界。

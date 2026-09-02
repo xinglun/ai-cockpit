@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Exactly seven changed reference paths are re-read one by one and receive evidence-backed non-deferred classifications.",
+    "The target preserves a clear non-portable boundary for source capability matrix, participant responses/results, and deprecated-assets registry without copying those files.",
+    "The inventory generator/application and regression test bind all seven paths to this batch and reject deferred or migrate-gap classifications.",
+    "English, Simplified Chinese, and Japanese comparison/parity/Work Item pages state the same source-boundary and no-copy decision.",
+    "Documentation, inventory, Runtime verification, reviewed PR, merge, close, and exact cleanup all pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b827d87eaa7c8257d569a9d840c8d782bb7b7328",
+  "createdAt": "2026-09-02T01:29:08Z",
+  "goal": "Close a seven-file reference rebaseline delta for capability truth, comprehension-validation records, and deprecated-assets registry before proceeding to the next comparison batch.",
+  "intent": "Re-read the next bounded set of changed local reference files one by one, preserve applicable semantics through Rust-native documentation and the machine ledger, and avoid copying source study records, Python implementation, Make workflows, or V1 artifacts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Reference source working tree modifications",
+    "Object/adopter repositories",
+    "Runtime behavior changes and new CLI commands",
+    "Copying Python",
+    " Make",
+    " V1",
+    " participant",
+    " or provider-global artifacts",
+    "Global Agent/MCP/Homebrew configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1222dac7775f9b97617eb10ad1485b8f7d82046926f102ad01da8ab33366d332",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-494-reference-file-comparison-batch-27",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/467",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-494-reference-file-comparison-batch-27"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-494-reference-file-comparison-batch-27.md",
+    "docs/work-items/WI-494-reference-file-comparison-batch-27.zh-CN.md",
+    "docs/work-items/WI-494-reference-file-comparison-batch-27.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-494-reference-file-comparison-batch-27"
+}
