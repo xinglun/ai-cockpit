@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T11:40:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-507-reference-file-comparison-batch-30.verification.json",
+    ".ai/work-items/active/WI-507-reference-file-comparison-batch-30.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-boundary",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:19262a292f48e4e4d833caceb1c2df638f262876c83b7f39e0349b0f87d3cec3",
+  "predecessorEventsDigest": "sha256:b496c749216d572c6c9d3e2637c0707926cfc639e14d31e0fbac85a4faf8b932",
+  "predecessorOutcomeDigest": "sha256:4b712e3f48fa94985845437b0a6b961ef365a6552a63cdd7ed997cd0053c61c7",
+  "predecessorSummaryDigest": "sha256:15d1b82a3492212a0eab63d6e4e7a48fdb1933915a14b40a396555ca4078cbb6",
+  "predecessorWorkItemId": "WI-507-reference-file-comparison-batch-30",
+  "reason": "The initial finish attempt correctly stopped because v0.2.60 requires a non-provisional finalize-plan; retry after binding the reviewed PR context and preserve the blocked attempt immutably.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification with the bound finalize-plan, then complete finish and the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:f04aa15868a6e3a590b109a7649c37d765cd2bb935213b9cd898f3ddec6b336d",
+  "runtimeVersion": "0.2.60",
+  "schemaVersion": 1,
+  "workItemId": "WI-507-reference-file-comparison-batch-30"
+}

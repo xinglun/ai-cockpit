@@ -1,0 +1,69 @@
+{
+  "acceptanceCriteria": [
+    "Each of the five pinned README paths is read at the maintained local reference commit and receives an explicit non-deferred classification with a non-empty Rust boundary and reason.",
+    "Portable governance meaning is preserved through existing Rust-native documentation, Runtime, or explicit reference-only boundaries without copying application examples, language toolchains, or source wire formats.",
+    "Inventory, tri-language comparison/parity pages, and this Work Item record contain the same five decisions and current counts with no migrate-gap.",
+    "No source checkout, object/adopter repository, global Agent/MCP configuration, or unrelated Runtime behavior is changed.",
+    "Documentation, conformance, Runtime verification, reviewed PR, merge, close, and exact cleanup checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c155eb587f760af7ace0192186b0d4a0c0a8dd21",
+  "createdAt": "2026-09-02T11:06:41Z",
+  "goal": "Complete a bounded five-file reference comparison batch with evidence-backed classifications, synchronized tri-language parity documentation, and no source or object-repository changes.",
+  "intent": "Compare the next five pinned reference example README files one by one, preserve any portable governance meaning through Rust-native reader and adopter boundaries, and do not copy source application examples or toolchains.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Reference checkout changes",
+    "Object or adopter repositories",
+    "Rust Runtime behavior or new CLI commands",
+    "Copying source Python",
+    " Make",
+    " provider configuration",
+    " application examples",
+    " or source wire formats",
+    "Unrelated reference batches and global Agent",
+    " MCP",
+    " Homebrew",
+    " or release configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f146cd3cff5a43423541eebe03873d315fa7f40fe42593cdf25d361702a06406",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-507-reference-file-comparison-batch-30",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/480",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-507-reference-file-comparison-batch-30"
+  },
+  "risk": "normal",
+  "scope": [
+    "examples/flutter/README.md",
+    "examples/go/README.md",
+    "examples/java/README.md",
+    "examples/kotlin/README.md",
+    "examples/php/README.md",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-507-reference-file-comparison-batch-30.md",
+    "docs/work-items/WI-507-reference-file-comparison-batch-30.zh-CN.md",
+    "docs/work-items/WI-507-reference-file-comparison-batch-30.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-507-reference-file-comparison-batch-30"
+}
