@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "authorized user instruction to merge and clean the reviewed PR",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "32779510aa99b1c34f2a6f641c6a50f436ecf874",
+    "name": "codex/wi-499-reference-file-comparison-batch-28-parity-order-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:7a1e1a7c89454a7163a533e745b138ca57483ce99618997f2180ddf84a655201",
+  "operationId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "212731efaf8a325e361c37d5bcef30afb9199de2",
+    "headRevision": "32779510aa99b1c34f2a6f641c6a50f436ecf874",
+    "mergeCommit": "018eccc31ce7dba81746b4d2fa92aa657d92e2f1",
+    "number": 472,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/472"
+  },
+  "reason": "PR #472 passed all hosted checks, was merged as 018eccc3, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-499-reference-file-comparison-batch-28-parity-order-recovery-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-499-reference-file-comparison-batch-28-parity-order-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/472",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-499-reference-file-comparison-batch-28-parity-order-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T04:32:30Z",
+  "workItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery",
+  "worktree": {
+    "branch": "codex/wi-499-reference-file-comparison-batch-28-parity-order-recovery",
+    "headRevision": "32779510aa99b1c34f2a6f641c6a50f436ecf874",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-499-reference-file-comparison-batch-28-parity-order-recovery",
+    "worktreeId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery"
+  }
+}
