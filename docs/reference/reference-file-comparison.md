@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=78 deferred-next-batch=408 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=83 deferred-next-batch=403 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -234,8 +234,8 @@ changed current paths, and the capability/profile slice has no remaining
 | `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 78 |
-| `deferred-next-batch` | 408 |
+| `reference-only` | 83 |
+| `deferred-next-batch` | 403 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1571,3 +1571,36 @@ The current 4,450-path reference set now contains 3,681 `generated-history`,
 `not-applicable`, 78 `reference-only`, and 408 `deferred-next-batch` records;
 the append-only ledger retains 669 retired records and `migrate-gap` remains
 zero.
+
+## WI-508 — stack-adaptation example reader boundary
+
+WI-508 re-reads five maintained reference example README files one by one at
+the pinned local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060`. These are source/provider
+onboarding examples for Python, Ruby, Rust, Swift, and TypeScript. They show
+stack-specific installers, quality commands, coverage patterns, and sample
+Contracts; they are not Runtime code, provider evidence, or a portable JSON
+wire contract.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `examples/python/README.md` | reference-only | Existing Python fixture-adaptation, Contract-field, and verification-route docs preserve owner-declared scope, commands, evidence, and repository isolation. Python installer, Make, coverage, and sample Contract/Summary decisions remain adopter-owned. |
+| `examples/ruby/README.md` | reference-only | The adopter-configuration, Contract-field, and verification-route docs preserve the generic governance boundary. Bundler/RuboCop/RSpec or Rake commands, coverage, and application examples remain adopter/provider responsibilities. |
+| `examples/rust/README.md` | reference-only | Adopter configuration, Contract fields, verification route, and CI-quality-gate docs preserve the project-owned Cargo and evidence boundary. The source inline-test caveat, Make preset, and sample decisions are not Runtime requirements. |
+| `examples/swift/README.md` | reference-only | Existing iOS Swift fixture-adaptation, Contract-field, and verification-route docs preserve explicit calibration, evidence, and repository isolation. SwiftPM/Xcode commands, coverage, platform/signing assumptions, and sample decisions remain adopter/provider responsibilities. |
+| `examples/typescript/README.md` | reference-only | Existing TypeScript fixture-adaptation, Contract-field, and verification-route docs preserve explicit commands, evidence binding, shared Runtime isolation, and human review. npm/Node scripts, dependencies, fixture lifecycle, coverage, and sample decisions remain adopter/provider responsibilities. |
+
+No implementation omission was found in this slice. The portable meaning is
+already represented by Rust-native Contract, verification, evidence, CI, and
+adopter-boundary routes. The target and attached object repositories do not
+inherit source stack installers, Make presets, application examples, or sample
+Contract decisions. The current tracked set contains 3,681
+`generated-history`, 278 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 83 `reference-only`, and 403
+`deferred-next-batch` records; `migrate-gap` remains zero. The append-only
+ledger continues to retain 669 retired reference paths.
+
+This is semantic/documentation parity, not Python/Ruby/Rust/Swift/TypeScript
+toolchain support, source-command compatibility, or JSON-wire compatibility.
+Each adopter installs one shared Runtime externally and binds its own facts,
+Contract, evidence, knowledge, and Agent adapter with explicit `--repo`.

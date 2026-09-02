@@ -190,6 +190,21 @@ test "$(jq '[.records[] | select(.batch == "WI-504-reference-file-comparison-bat
 grep -q "WI-504" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-504" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-504" "$root/docs/reference/reference-file-comparison.ja.md"
+wi508_paths=(
+  examples/python/README.md
+  examples/ruby/README.md
+  examples/rust/README.md
+  examples/swift/README.md
+  examples/typescript/README.md
+)
+for wi508_path in "${wi508_paths[@]}"; do
+  test "$(jq --arg path "$wi508_path" '[.records[] | select(.referencePath == $path and .batch == "WI-508-reference-file-comparison-batch-31" and .classification == "reference-only" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-508-reference-file-comparison-batch-31")] | length' "$current_manifest")" -eq 5
+test "$(jq '[.records[] | select(.batch == "WI-508-reference-file-comparison-batch-31" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+grep -q "WI-508" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-508" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-508" "$root/docs/reference/reference-file-comparison.ja.md"
 test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0

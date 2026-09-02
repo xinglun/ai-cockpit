@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=78 deferred-next-batch=408 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=83 deferred-next-batch=403 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -193,8 +193,8 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 78 |
-| `deferred-next-batch` | 408 |
+| `reference-only` | 83 |
+| `deferred-next-batch` | 403 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1226,3 +1226,20 @@ WI-507 在固定本地提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐�
 本仓库及其对象工程不会继承源技术栈、安装器、Make 命令或示例 Contract 决定。当前 4,450 路径的参考集合为 3,681 个
 `generated-history`、278 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、78 个
 `reference-only`、408 个 `deferred-next-batch`；追加式台账保留 669 个 retired 记录，`migrate-gap` 仍为 0。
+
+## WI-508：技术栈适配示例的读者边界
+
+WI-508 在固定本地参考提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读 5 个维护中的技术栈适配 README：Python、Ruby、Rust、Swift 和 TypeScript。它们展示技术栈专属安装器、质量命令、coverage 模式与示例 Contract，是 source/provider onboarding 材料，不是 Runtime 代码、provider evidence 或可移植 JSON wire contract。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `examples/python/README.md` | reference-only | 现有 Python fixture-adaptation、Contract 字段和 verification-route 文档保留 owner 声明的 scope、命令、evidence 与 repository 隔离。Python 安装器、Make、coverage 和示例 Contract/Summary 决定仍由对象工程负责。 |
+| `examples/ruby/README.md` | reference-only | adopter-configuration、Contract 字段和 verification-route 文档保留通用治理边界。Bundler/RuboCop/RSpec 或 Rake 命令、coverage 和应用示例仍是对象工程/provider 责任。 |
+| `examples/rust/README.md` | reference-only | adopter configuration、Contract fields、verification route 与 CI quality-gate 文档保留项目自有 Cargo 和 evidence 边界。源内联测试 caveat、Make 预设和示例决定不是 Runtime 要求。 |
+| `examples/swift/README.md` | reference-only | 现有 iOS Swift fixture-adaptation、Contract 字段和 verification-route 文档保留显式校准、evidence 与 repository 隔离。SwiftPM/Xcode 命令、coverage、平台/签名假设和示例决定仍由对象工程/provider 负责。 |
+| `examples/typescript/README.md` | reference-only | 现有 TypeScript fixture-adaptation、Contract 字段和 verification-route 文档保留显式命令、evidence 绑定、shared Runtime 隔离与人工复核。npm/Node 脚本、依赖、fixture lifecycle、coverage 和示例决定仍由对象工程/provider 负责。 |
+
+本批未发现实现遗漏。可移植意义已经由 Rust 原生 Contract、verification、evidence、CI 和 adopter 边界路线表达。本仓库及已 attach 的对象工程不会继承源技术栈安装器、Make 预设、应用示例或示例 Contract 决定。当前现行集合为 3,681 个 `generated-history`、278 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、83 个 `reference-only` 和 403 个 `deferred-next-batch`；`migrate-gap` 仍为 0，追加式台账继续保留 669 个 retired 路径。
+
+这是语义/文档对齐，不是 Python、Ruby、Rust、Swift 或 TypeScript 工具链支持、源命令兼容或 JSON wire 兼容。每个对象工程在外部安装一份共享 Runtime，并通过显式 `--repo` 绑定自己的事实、Contract、evidence、knowledge 和 Agent adapter。

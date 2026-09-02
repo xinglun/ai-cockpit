@@ -69,6 +69,7 @@ WI494_BATCH = "WI-494-reference-file-comparison-batch-27"
 WI496_BATCH = "WI-496-reference-file-comparison-batch-28"
 WI504_BATCH = "WI-504-reference-file-comparison-batch-29"
 WI507_BATCH = "WI-507-reference-file-comparison-batch-30"
+WI508_BATCH = "WI-508-reference-file-comparison-batch-31"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -850,6 +851,66 @@ WI507_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/verification-route.md",
         ],
         "This PHP adaptation example is source/provider onboarding material. Composer, PHPUnit, PHPStan, Make presets, and application paths remain adopter/provider responsibilities; the target preserves explicit Contract scope, verification, evidence, and shared-Runtime isolation without copying source implementation or wire shape.",
+    ),
+}
+
+# WI-508 compares the next five maintained stack-adaptation example readers.
+# They remain source/provider onboarding material rather than Runtime code or
+# a portable wire contract.  Keep each decision explicit so a future adopter
+# cannot accidentally inherit a source installer, Make preset, toolchain, or
+# sample Contract decision.
+WI508_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "examples/python/README.md": (
+        "reference-only",
+        [
+            "docs/reference/python-fixture-adaptation.md",
+            "docs/reference/python-fixture-adaptation.zh-CN.md",
+            "docs/reference/python-fixture-adaptation.ja.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This Python adaptation example is source/provider onboarding material. Python installer commands, Make presets, coverage YAML, and sample Contract/Summary decisions remain adopter-owned; Rust preserves only the generic Contract, verification, evidence, and shared-Runtime isolation boundary.",
+    ),
+    "examples/ruby/README.md": (
+        "reference-only",
+        [
+            "docs/getting-started/adopter-configuration.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This Ruby adaptation example is source/provider onboarding material. Bundler/RuboCop/RSpec or Rake commands, coverage patterns, and application examples remain adopter/provider responsibilities; no source installer, Make preset, or sample Contract wire shape is copied.",
+    ),
+    "examples/rust/README.md": (
+        "reference-only",
+        [
+            "docs/getting-started/adopter-configuration.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+            "docs/reference/ci-quality-gates.md",
+        ],
+        "This Rust adaptation example is source/provider onboarding material. Cargo commands, inline-test coverage caveats, Make presets, and sample Contract/Summary decisions are project-owned configuration; the target's own Rust Runtime and generic verification routes provide the portable governance boundary without copying the source example.",
+    ),
+    "examples/swift/README.md": (
+        "reference-only",
+        [
+            "docs/reference/ios-swift-fixture-adaptation.md",
+            "docs/reference/ios-swift-fixture-adaptation.zh-CN.md",
+            "docs/reference/ios-swift-fixture-adaptation.ja.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This Swift adaptation example is source/provider onboarding material. SwiftPM/Xcode commands, Coverage Guard patterns, signing/platform assumptions, and sample Contract/Summary decisions remain adopter/provider responsibilities; the target preserves explicit calibration, evidence, and repository isolation without copying the source installer or application example.",
+    ),
+    "examples/typescript/README.md": (
+        "reference-only",
+        [
+            "docs/reference/typescript-fixture-adaptation.md",
+            "docs/reference/typescript-fixture-adaptation.zh-CN.md",
+            "docs/reference/typescript-fixture-adaptation.ja.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This TypeScript adaptation example is source/provider onboarding material. npm scripts, Node dependencies, coverage patterns, lifecycle fixture behavior, and sample Contract/Summary decisions remain adopter/provider responsibilities; Rust preserves explicit commands, evidence binding, shared Runtime isolation, and human review without copying source wire or toolchain files.",
     ),
 }
 
@@ -3310,6 +3371,32 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi507 = WI507_REFERENCE_FILES.get(path)
+        if wi507 is not None:
+            classification, counterparts, reason = wi507
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI507_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
+        wi508 = WI508_REFERENCE_FILES.get(path)
+        if wi508 is not None:
+            classification, counterparts, reason = wi508
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI508_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         if is_generated_history(path):
             records.append(
                 {
@@ -3889,6 +3976,36 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                     )
                 if not record.get("rustCounterparts") or not record.get("reason"):
                     errors.append(f"{record.get('referencePath')}: WI-507 result needs counterparts and reason")
+        if any(
+            isinstance(record, dict) and record.get("batch") == WI508_BATCH
+            for record in records
+        ):
+            wi508_records = [
+                record
+                for record in records
+                if isinstance(record, dict)
+                and record.get("batch") == WI508_BATCH
+                and record.get("referencePath") in WI508_REFERENCE_FILES
+            ]
+            expected_wi508_paths = set(WI508_REFERENCE_FILES) & current_reference_paths
+            actual_wi508_paths = {record.get("referencePath") for record in wi508_records}
+            if actual_wi508_paths != expected_wi508_paths:
+                errors.append(
+                    "WI-508 reference example records do not match the five scoped paths: "
+                    f"expected {sorted(expected_wi508_paths)!r}, got {sorted(actual_wi508_paths)!r}"
+                )
+            if len(wi508_records) != len(expected_wi508_paths):
+                errors.append(
+                    f"WI-508 batch must contain {len(expected_wi508_paths)} records, found {len(wi508_records)}"
+                )
+            for record in wi508_records:
+                expected_classification = WI508_REFERENCE_FILES[record["referencePath"]][0]
+                if record.get("classification") != expected_classification:
+                    errors.append(
+                        f"{record.get('referencePath')}: WI-508 classification must be {expected_classification}"
+                    )
+                if not record.get("rustCounterparts") or not record.get("reason"):
+                    errors.append(f"{record.get('referencePath')}: WI-508 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -4869,6 +4986,33 @@ def apply_wi507_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi508_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI508_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI508_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI508_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI508_REFERENCE_FILES)} WI-508 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -4893,6 +5037,7 @@ def main() -> int:
     parser.add_argument("--apply-wi496-batch", action="store_true")
     parser.add_argument("--apply-wi504-batch", action="store_true")
     parser.add_argument("--apply-wi507-batch", action="store_true")
+    parser.add_argument("--apply-wi508-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -4979,6 +5124,13 @@ def main() -> int:
     if args.apply_wi507_batch:
         try:
             apply_wi507_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi508_batch:
+        try:
+            apply_wi508_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

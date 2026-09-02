@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=78 deferred-next-batch=408 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=83 deferred-next-batch=403 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -204,8 +204,8 @@ slice に `migrate-gap` は残っていません。
 | `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 78 |
-| `deferred-next-batch` | 408 |
+| `reference-only` | 83 |
+| `deferred-next-batch` | 403 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1267,3 +1267,20 @@ Runtime code、provider evidence、portable な JSON wire contract ではあり�
 
 この slice に implementation omission はありません。source path は reference-only の application onboarding material であり、portable な意味は既存の Rust-native Contract、verification、evidence、adopter-boundary route で表現されています。
 source stack、installer、Make command、sample Contract decision は target repository や adopter に継承しません。現在の 4,450 reference path set は 3,681 `generated-history`、278 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、78 `reference-only`、408 `deferred-next-batch` で、append-only ledger は 669 retired record を保持し、`migrate-gap` は 0 のままです。
+
+## WI-508 — stack adaptation example reader boundary
+
+WI-508 は pinned local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` の Python、Ruby、Rust、Swift、TypeScript 用 stack-adaptation README 5 path を一つずつ再読しました。これらは stack-specific installer、quality command、coverage pattern、sample Contract を示す source/provider onboarding material であり、Runtime code、provider evidence、portable な JSON wire contract ではありません。
+
+| Pinned reference path | Classification | Rust counterpart と bounded decision |
+| --- | --- | --- |
+| `examples/python/README.md` | reference-only | 既存の Python fixture-adaptation、Contract field、verification route が owner-declared scope、command、evidence、repository isolation を保持します。Python installer、Make、coverage、sample Contract/Summary decision は adopter 責任です。 |
+| `examples/ruby/README.md` | reference-only | adopter-configuration、Contract field、verification route が generic governance boundary を保持します。Bundler/RuboCop/RSpec または Rake command、coverage、application example は adopter/provider responsibility です。 |
+| `examples/rust/README.md` | reference-only | adopter configuration、Contract fields、verification route、CI quality-gate docs が project-owned Cargo/evidence boundary を保持します。source inline-test caveat、Make preset、sample decision は Runtime requirement ではありません。 |
+| `examples/swift/README.md` | reference-only | 既存の iOS Swift fixture-adaptation、Contract field、verification route が明示的 calibration、evidence、repository isolation を保持します。SwiftPM/Xcode command、coverage、platform/signing assumption、sample decision は adopter/provider responsibility です。 |
+| `examples/typescript/README.md` | reference-only | 既存の TypeScript fixture-adaptation、Contract field、verification route が explicit command、evidence binding、shared Runtime isolation、human review を保持します。npm/Node script、dependency、fixture lifecycle、coverage、sample decision は adopter/provider responsibility です。 |
+
+この slice に implementation omission はありません。portable な意味は既存の Rust-native Contract、verification、evidence、CI、adopter-boundary route で表現されています。target repository と attached object repository は source stack installer、Make preset、application example、sample Contract decision を継承しません。現在は 3,681 `generated-history`、278 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、83 `reference-only`、403 `deferred-next-batch` で、`migrate-gap` は 0、append-only ledger は 669 retired path を保持します。
+
+これは semantic/documentation parity であり、Python/Ruby/Rust/Swift/TypeScript toolchain support、source command compatibility、JSON-wire compatibility ではありません。各 adopter は shared Runtime を外部に一度だけ install し、明示的な `--repo` で自分の fact、Contract、evidence、knowledge、Agent adapter を bind します。
