@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-02T17:16:12Z",
+  "checkpointContractDigest": "sha256:53568f33303c136df5817835400fde23ea1aa96e88a380ebfb5bb56bfd9e7dda",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3f2d13c6c9329f1238020a2f81ad0b1df5868a0e28c0aafc9b39fc6b75d8250e",
+      "recorded": true,
+      "recordedAt": "2026-09-02T17:16:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:127b6b2aae6fa050880d091f371aa65c634abf7e9e31b25531b79d60d15c8ea4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-513-wi512-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:997f41866554842c9be3f4a29d2315b1403169de9e42bc48bb8782e22488b009",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3f2d13c6c9329f1238020a2f81ad0b1df5868a0e28c0aafc9b39fc6b75d8250e",
+      "previousContractHash": "sha256:3f2d13c6c9329f1238020a2f81ad0b1df5868a0e28c0aafc9b39fc6b75d8250e",
+      "reason": "Add the Work Item's required tri-language documentation and parity registration so repository governance integrity can recognize this active promotion task; no Runtime or object-repository scope is changed.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T17:17:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:39ebb9a00219cbe64b972d8a1e5f689fece9ea680aba82ef2dd83718eb339916",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-513-wi512-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3600cb435801fed325ad5a61d30de36292aeda9e374e53bcaa95e9d360be307d",
+  "createdAt": "2026-09-02T17:15:59Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-02T17:27:43Z",
+  "preflightContractDigest": "sha256:53568f33303c136df5817835400fde23ea1aa96e88a380ebfb5bb56bfd9e7dda",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3600cb435801fed325ad5a61d30de36292aeda9e374e53bcaa95e9d360be307d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T17:28:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-513-wi512-doc-promotion"
+}
