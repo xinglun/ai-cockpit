@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.57` binary, SHA256 `f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `b827d87eaa7c8257d569a9d840c8d782bb7b7328`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.58` binary, SHA256 `5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=435 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=69 deferred-next-batch=428 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -234,8 +234,8 @@ changed current paths, and the capability/profile slice has no remaining
 | `implemented-different-by-design` | 267 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 62 |
-| `deferred-next-batch` | 435 |
+| `reference-only` | 69 |
+| `deferred-next-batch` | 428 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1466,3 +1466,30 @@ intent and acceptance criteria remain in their authored language; localization
 changes presentation only. The ledger records all eight paths as
 `implemented-different-by-design`, preserves source-change history, and reduces
 the deferred set to 475 records.
+
+## WI-494 — capability, comprehension, and deprecated-assets rebaseline
+
+WI-494 re-reads the seven source paths whose bytes changed after their earlier
+reference-only decisions. The current source records remain bounded to the
+reference template: a capability claim matrix, three anonymized participant
+responses, a revision-bound comprehension result (JSON and report), and a
+source-specific deprecated-assets registry.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/capability-truth-matrix.json` | reference-only | Typed request-scoped capability/status projections and this parity ledger; source freshness, template status, and adopter/provider claims are not imported into the Runtime protocol. |
+| `docs/reference/comprehension-validation-responses/peter_01.en.json` | reference-only | English reader and human-benefit/Outcome routes explain the boundary; anonymized participant bytes remain source-study evidence only. |
+| `docs/reference/comprehension-validation-responses/tanaka_01.ja.json` | reference-only | Japanese reader route preserves the documentation boundary; participant response data is not target evidence. |
+| `docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json` | reference-only | Simplified Chinese reader route preserves the documentation boundary; participant response data is not target evidence. |
+| `docs/reference/comprehension-validation-results.json` | reference-only | Human-benefit and comprehension guidance preserves revision binding and narrow claims; the source receipt is not a Rust product/release/safety/enterprise claim. |
+| `docs/reference/comprehension-validation-results.md` | reference-only | Rust Outcome and reader references describe human-facing evidence without copying the source study report or inheriting its claim. |
+| `docs/reference/deprecated-assets-registry.json` | reference-only | Immutable Work Item history, explicit resource finalization, and reviewed cleanup receipts provide the Rust boundary; the source scanner/registry is not deletion authority. |
+
+No implementation omission was found. These source changes refresh
+source-owned records and do not add a portable Runtime contract. The target
+therefore records all seven as `reference-only`, preserving prior decisions
+and source-change provenance in the append-only ledger. The ledger now contains
+4,262 `generated-history`, 311 `implemented-different-by-design`, one
+`implemented-equivalent`, four `not-applicable`, 73 `reference-only`, and 468
+`deferred-next-batch` records; `migrate-gap` remains zero. The same boundary is
+recorded in the Chinese and Japanese routes.

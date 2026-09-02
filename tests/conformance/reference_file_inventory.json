@@ -32081,15 +32081,15 @@
     },
     {
       "referencePath": "docs/reference/capability-truth-matrix.json",
-      "batch": "WI-328-reference-file-comparison-batch-08",
-      "classification": "deferred-next-batch",
+      "batch": "WI-494-reference-file-comparison-batch-27",
+      "classification": "reference-only",
       "rustCounterparts": [
-        "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
         "docs/capabilities.md",
         "docs/reference/reference-parity.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "This source-owned capability claim matrix records the template's implementation status, freshness, and evidence claims. Rust exposes request-scoped, repository-bound capability truth through typed Runtime projections; source capability claims and adopter/provider status are not copied into the target ledger or protocol.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-328-reference-file-comparison-batch-08",
       "previousClassification": "reference-only",
@@ -32234,14 +32234,14 @@
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/peter_01.en.json",
-      "batch": "WI-333-reference-file-comparison-batch-11",
-      "classification": "deferred-next-batch",
+      "batch": "WI-494-reference-file-comparison-batch-27",
+      "classification": "reference-only",
       "rustCounterparts": [
         "docs/README.md",
         "docs/features/human-benefit-report.md",
         "docs/reference/reference-file-comparison.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "This is an anonymized, source-bound English participant response for a comprehension study at one document revision. It is preserved as reference evidence only; Rust does not import participant responses or claim that this study proves adopter, release, safety, or enterprise readiness.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
@@ -32260,14 +32260,14 @@
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/tanaka_01.ja.json",
-      "batch": "WI-333-reference-file-comparison-batch-11",
-      "classification": "deferred-next-batch",
+      "batch": "WI-494-reference-file-comparison-batch-27",
+      "classification": "reference-only",
       "rustCounterparts": [
         "docs/README.ja.md",
         "docs/features/human-benefit-report.ja.md",
         "docs/reference/reference-file-comparison.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "これは特定の document revision に対する source-bound な日本語 participant response です。Rust は participant data や comprehension claim を取り込まず、reader-facing documentation と Outcome の境界だけを Rust-native に保持します。adopter、release、safety、enterprise readiness の証明ではありません。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
@@ -32286,14 +32286,14 @@
     },
     {
       "referencePath": "docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json",
-      "batch": "WI-333-reference-file-comparison-batch-11",
-      "classification": "deferred-next-batch",
+      "batch": "WI-494-reference-file-comparison-batch-27",
+      "classification": "reference-only",
       "rustCounterparts": [
         "docs/README.zh-CN.md",
         "docs/features/human-benefit-report.zh-CN.md",
         "docs/reference/reference-file-comparison.zh-CN.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "这是绑定到特定文档修订版的中文匿名参与者研究记录。Rust 不导入参与者数据或理解度声明，只在自己的读者文档与 Outcome 路线上保留相应边界；它不证明 adopter、发布、安全或企业准备度。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
@@ -32312,15 +32312,15 @@
     },
     {
       "referencePath": "docs/reference/comprehension-validation-results.json",
-      "batch": "WI-333-reference-file-comparison-batch-11",
-      "classification": "deferred-next-batch",
+      "batch": "WI-494-reference-file-comparison-batch-27",
+      "classification": "reference-only",
       "rustCounterparts": [
         "docs/features/human-benefit-report.md",
         "docs/features/human-benefit-report.zh-CN.md",
         "docs/features/human-benefit-report.ja.md",
         "docs/reference/reference-file-comparison.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "This source result is a narrow, revision-bound comprehension receipt with one reader per required locale. It is reference-study evidence only and cannot be transferred to the Rust Runtime as a product, release, safety, security, or enterprise claim.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
@@ -32328,14 +32328,14 @@
     },
     {
       "referencePath": "docs/reference/comprehension-validation-results.md",
-      "batch": "WI-333-reference-file-comparison-batch-11",
-      "classification": "deferred-next-batch",
+      "batch": "WI-494-reference-file-comparison-batch-27",
+      "classification": "reference-only",
       "rustCounterparts": [
         "docs/features/human-benefit-report.md",
         "docs/reference/outcome-report.md",
         "docs/reference/reference-file-comparison.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The maintained source report explains a revision-bound comprehension result and its limitations. Rust keeps the reader-facing Outcome and human-benefit boundaries in its own documentation; it does not copy the source study report or inherit its claim.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
@@ -32377,14 +32377,14 @@
     },
     {
       "referencePath": "docs/reference/deprecated-assets-registry.json",
-      "batch": "WI-343-reference-inventory-foundation-reconciliation",
-      "classification": "deferred-next-batch",
+      "batch": "WI-494-reference-file-comparison-batch-27",
+      "classification": "reference-only",
       "rustCounterparts": [
         ".ai/README.md",
         "docs/reference/agent-workflow.md",
         "crates/cockpit-repository/src/lib.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "This source cleanup registry identifies source-specific deprecated assets and prohibited command chains. Rust uses immutable Work Item history, explicit resource finalization, and reviewed cleanup receipts; the source scanner/registry is not a Runtime deletion authority and is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-343-reference-inventory-foundation-reconciliation",
       "previousClassification": "reference-only",

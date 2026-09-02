@@ -65,6 +65,7 @@ WI461_BATCH = GETTING_STARTED_BATCH
 WI464_BATCH = "WI-464-reference-file-comparison-batch-24"
 WI475_BATCH = "WI-475-reference-file-comparison-batch-25"
 WI482_BATCH = "WI-482-reference-file-comparison-batch-26"
+WI494_BATCH = "WI-494-reference-file-comparison-batch-27"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -538,6 +539,80 @@ WI482_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/capabilities.ja.md",
         ],
         "source の Trust Layer は Python/Make の説明を一つの page に集約します。Rust は設計上、design philosophy、architecture、capability truth、enterprise governance に Why/What/How、evidence、human decision、non-claim を分けて投影し、同じ path の page や source Make command は要求しません。",
+    ),
+}
+
+# WI-494 re-reads the seven maintained reference records whose source bytes
+# changed after their earlier reference-only decisions.  These are
+# source-bound capability, comprehension-study, and cleanup-registry records;
+# none is a Rust Runtime wire contract or an adopter artifact.  The target
+# keeps the applicable boundaries in its own typed capability, documentation,
+# and lifecycle surfaces without copying participant data or source tooling.
+WI494_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/capability-truth-matrix.json": (
+        "reference-only",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "docs/capabilities.md",
+            "docs/reference/reference-parity.md",
+        ],
+        "This source-owned capability claim matrix records the template's implementation status, freshness, and evidence claims. Rust exposes request-scoped, repository-bound capability truth through typed Runtime projections; source capability claims and adopter/provider status are not copied into the target ledger or protocol.",
+    ),
+    "docs/reference/comprehension-validation-responses/peter_01.en.json": (
+        "reference-only",
+        [
+            "docs/README.md",
+            "docs/features/human-benefit-report.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "This is an anonymized, source-bound English participant response for a comprehension study at one document revision. It is preserved as reference evidence only; Rust does not import participant responses or claim that this study proves adopter, release, safety, or enterprise readiness.",
+    ),
+    "docs/reference/comprehension-validation-responses/tanaka_01.ja.json": (
+        "reference-only",
+        [
+            "docs/README.ja.md",
+            "docs/features/human-benefit-report.ja.md",
+            "docs/reference/reference-file-comparison.ja.md",
+        ],
+        "これは特定の document revision に対する source-bound な日本語 participant response です。Rust は participant data や comprehension claim を取り込まず、reader-facing documentation と Outcome の境界だけを Rust-native に保持します。adopter、release、safety、enterprise readiness の証明ではありません。",
+    ),
+    "docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json": (
+        "reference-only",
+        [
+            "docs/README.zh-CN.md",
+            "docs/features/human-benefit-report.zh-CN.md",
+            "docs/reference/reference-file-comparison.zh-CN.md",
+        ],
+        "这是绑定到特定文档修订版的中文匿名参与者研究记录。Rust 不导入参与者数据或理解度声明，只在自己的读者文档与 Outcome 路线上保留相应边界；它不证明 adopter、发布、安全或企业准备度。",
+    ),
+    "docs/reference/comprehension-validation-results.json": (
+        "reference-only",
+        [
+            "docs/features/human-benefit-report.md",
+            "docs/features/human-benefit-report.zh-CN.md",
+            "docs/features/human-benefit-report.ja.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "This source result is a narrow, revision-bound comprehension receipt with one reader per required locale. It is reference-study evidence only and cannot be transferred to the Rust Runtime as a product, release, safety, security, or enterprise claim.",
+    ),
+    "docs/reference/comprehension-validation-results.md": (
+        "reference-only",
+        [
+            "docs/features/human-benefit-report.md",
+            "docs/reference/outcome-report.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "The maintained source report explains a revision-bound comprehension result and its limitations. Rust keeps the reader-facing Outcome and human-benefit boundaries in its own documentation; it does not copy the source study report or inherit its claim.",
+    ),
+    "docs/reference/deprecated-assets-registry.json": (
+        "reference-only",
+        [
+            ".ai/README.md",
+            "docs/reference/agent-workflow.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "This source cleanup registry identifies source-specific deprecated assets and prohibited command chains. Rust uses immutable Work Item history, explicit resource finalization, and reviewed cleanup receipts; the source scanner/registry is not a Runtime deletion authority and is not copied.",
     ),
 }
 
@@ -3203,6 +3278,9 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
     records = manifest.get("records")
     if not isinstance(records, list) or not records:
         return errors + ["records must be a non-empty list"]
+    # Later bounded rebaseline batches own the current decision for their
+    # paths while preserving earlier batch records as immutable history.
+    superseded_by_wi494 = set(WI494_REFERENCE_FILES) if expected_source == EXPECTED_REFERENCE_COMMIT else set()
     tracked_paths = manifest.get("referenceTrackedPaths")
     if tracked_paths is not None:
         if not isinstance(tracked_paths, list) or any(not isinstance(path, str) for path in tracked_paths):
@@ -3438,6 +3516,29 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{record.get('referencePath')}: WI-482 must be implemented-different-by-design")
             if not record.get("rustCounterparts") or not record.get("reason"):
                 errors.append(f"{record.get('referencePath')}: WI-482 result needs counterparts and reason")
+        wi494_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI494_BATCH
+            and record.get("referencePath") in WI494_REFERENCE_FILES
+        ]
+        expected_wi494_paths = set(WI494_REFERENCE_FILES) & current_reference_paths
+        actual_wi494_paths = {record.get("referencePath") for record in wi494_records}
+        if actual_wi494_paths != expected_wi494_paths:
+            errors.append(
+                "WI-494 capability/comprehension/deprecation records do not match the seven scoped paths: "
+                f"expected {sorted(expected_wi494_paths)!r}, got {sorted(actual_wi494_paths)!r}"
+            )
+        if len(wi494_records) != len(expected_wi494_paths):
+            errors.append(
+                f"WI-494 batch must contain {len(expected_wi494_paths)} records, found {len(wi494_records)}"
+            )
+        for record in wi494_records:
+            if record.get("classification") != "reference-only":
+                errors.append(f"{record.get('referencePath')}: WI-494 must be reference-only")
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(f"{record.get('referencePath')}: WI-494 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -3582,7 +3683,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI328_BATCH
         ]
-        expected_wi328_paths = set(WI328_REFERENCE_FILES) & current_reference_paths
+        expected_wi328_paths = (set(WI328_REFERENCE_FILES) - superseded_by_wi494) & current_reference_paths
         actual_wi328_paths = {
             record.get("referencePath")
             for record in wi328_records
@@ -3772,7 +3873,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI343_BATCH
         ]
-        expected_wi343_paths = set(WI343_REFERENCE_FILES) & current_reference_paths
+        expected_wi343_paths = (set(WI343_REFERENCE_FILES) - superseded_by_wi494) & current_reference_paths
         actual_wi343_paths = {
             record.get("referencePath")
             for record in wi343_records
@@ -4310,6 +4411,33 @@ def apply_wi482_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi494_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI494_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI494_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI494_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI494_REFERENCE_FILES)} WI-494 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -4330,6 +4458,7 @@ def main() -> int:
     parser.add_argument("--apply-wi464-batch", action="store_true")
     parser.add_argument("--apply-wi475-batch", action="store_true")
     parser.add_argument("--apply-wi482-batch", action="store_true")
+    parser.add_argument("--apply-wi494-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -4388,6 +4517,13 @@ def main() -> int:
     if args.apply_wi482_batch:
         try:
             apply_wi482_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi494_batch:
+        try:
+            apply_wi494_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

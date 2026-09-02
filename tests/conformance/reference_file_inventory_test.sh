@@ -41,9 +41,9 @@ for current_capability_path in \
   .ai/project_profile.yaml; do
   test "$(jq --arg path "$current_capability_path" '[.records[] | select(.referencePath == $path and .batch == "capability-status-projection" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 1
 done
-# WI-441 and WI-461 resolve changed source records in bounded batches; keep
-# this regression count tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 106
+# Bounded rebaseline batches resolve changed source records; keep this
+# regression count tied to the current pinned source ledger.
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 99
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -138,6 +138,23 @@ test "$(jq '[.records[] | select(.batch == "WI-482-reference-file-comparison-bat
 grep -q "WI-482" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-482" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-482" "$root/docs/reference/reference-file-comparison.ja.md"
+wi494_paths=(
+  docs/reference/capability-truth-matrix.json
+  docs/reference/comprehension-validation-responses/peter_01.en.json
+  docs/reference/comprehension-validation-responses/tanaka_01.ja.json
+  docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json
+  docs/reference/comprehension-validation-results.json
+  docs/reference/comprehension-validation-results.md
+  docs/reference/deprecated-assets-registry.json
+)
+for wi494_path in "${wi494_paths[@]}"; do
+  test "$(jq --arg path "$wi494_path" '[.records[] | select(.referencePath == $path and .batch == "WI-494-reference-file-comparison-batch-27" and .classification == "reference-only" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification == "reference-only")] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-494-reference-file-comparison-batch-27")] | length' "$current_manifest")" -eq 7
+test "$(jq '[.records[] | select(.batch == "WI-494-reference-file-comparison-batch-27" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+grep -q "WI-494" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-494" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-494" "$root/docs/reference/reference-file-comparison.ja.md"
 test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0

@@ -20,8 +20,8 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `1f65a3b8bf09e54d4f9600fc5d64d8bbcb3ed62f`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.57`、binary SHA256 `sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `b827d87eaa7c8257d569a9d840c8d782bb7b7328`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.58`、binary SHA256 `sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=62 deferred-next-batch=435 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=69 deferred-next-batch=428 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -204,8 +204,8 @@ slice に `migrate-gap` は残っていません。
 | `implemented-different-by-design` | 267 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 62 |
-| `deferred-next-batch` | 435 |
+| `reference-only` | 69 |
+| `deferred-next-batch` | 428 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1201,3 +1201,19 @@ quality-shard section と obsolete な `REPORT_LANGUAGE` 引数を削除しま�
 責任は Rust-native reader route と明示的な Agent adapter に分割されています。Contract の intent と acceptance criteria は
 authored language を保ち、localization は presentation だけを変更します。ledger は 8 path をすべて
 `implemented-different-by-design` とし、`sourceChangedSincePrevious` と prior classification を保持し、deferred は 475 件になります。
+
+## WI-494 — capability、comprehension、deprecated-assets の rebaseline
+
+WI-494 は以前 `reference-only` と判断した後に source bytes が変更された 7 path を一つずつ再読しました。対象は capability claim matrix、匿名 participant response 3 件、revision-bound comprehension result（JSON と report）、source-specific deprecated-assets registry です。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/capability-truth-matrix.json` | reference-only | typed な request-scoped capability/status projection と本 ledger が境界を担います。source の freshness、template status、adopter/provider claim は Runtime protocol に取り込みません。 |
+| `docs/reference/comprehension-validation-responses/peter_01.en.json` | reference-only | English reader と human-benefit/Outcome route が境界を説明します。匿名 participant bytes は source-study evidence のみです。 |
+| `docs/reference/comprehension-validation-responses/tanaka_01.ja.json` | reference-only | Japanese reader route は documentation boundary を保持し、participant response は target evidence になりません。 |
+| `docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json` | reference-only | Simplified Chinese reader route は documentation boundary を保持し、participant response は target evidence になりません。 |
+| `docs/reference/comprehension-validation-results.json` | reference-only | human-benefit/comprehension guidance は revision binding と narrow claim を保持しますが、source receipt は Rust の product/release/safety/enterprise claim ではありません。 |
+| `docs/reference/comprehension-validation-results.md` | reference-only | Rust Outcome と reader references は human-facing evidence boundary を説明し、source study report を copy/継承しません。 |
+| `docs/reference/deprecated-assets-registry.json` | reference-only | immutable Work Item history、explicit resource finalization、reviewed cleanup receipt が Rust boundary です。source scanner/registry は deletion authority ではなく copy しません。 |
+
+implementation omission は見つかりませんでした。変更は source-owned record の refresh であり portable Runtime contract の追加ではありません。したがって 7 path はすべて `reference-only` のまま、prior decision と source-change provenance を append-only ledger に保持します。ledger は 4,262 `generated-history`、311 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、73 `reference-only`、468 `deferred-next-batch` で、`migrate-gap` は 0 です。Chinese と English route にも同じ boundary を記録します。
