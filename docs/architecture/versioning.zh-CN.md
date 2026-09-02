@@ -26,7 +26,7 @@ Runtime version、Repository Protocol version 和 repository schema version 是�
 
 ```text
 ai-cockpit --version
-0.2.62
+0.2.63
 
 repository:
 protocol_version = 1
@@ -35,7 +35,7 @@ repository_schema_version = 2
 
 前一个公开 patch release `v0.2.61` 继续作为历史 evidence 保留；`v0.2.55`、`v0.2.53` 与 `v0.2.52` 作为更早历史保留。预留的 `v0.2.51` tag
 是不可变的 lightweight-tag 发布失败（workflow run `33417057474`），没有 provider Release，永远不会复用。
-失败的 `v0.2.49` 标签单独保留且不复用，`v0.2.62` 是当前 package identity。
+失败的 `v0.2.49` 标签单独保留且不复用，`v0.2.63` 是当前 package identity。
 失败的 `v0.2.56` tag 是 source-quality 失败形成的不可变未公开历史，永远不会复用为安装 identity。
 
 CLI version 标识 executable package；protocol version 标识 repository storage contract。Runtime

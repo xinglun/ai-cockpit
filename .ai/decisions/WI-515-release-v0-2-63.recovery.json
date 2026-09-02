@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human-authorized-release",
+  "decidedAt": "2026-09-03T04:20:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-515-release-v0-2-63.verification.json",
+    ".ai/decisions/WI-515-release-v0-2-63.preflight-review.json"
+  ],
+  "policyRefs": [
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:6b34db383677db184d3a80a8065d101bbd74f5f666974194740c6fc031fa96b7",
+  "predecessorEventsDigest": "sha256:52e7d93b131cae306b14ee40b0b3352bee195ec39be966e1908b8bc669ba0788",
+  "predecessorOutcomeDigest": "sha256:b0e153c25d4413c59c8eac4961ab31abd407883191c5289b77d7fba9d91f7702",
+  "predecessorSummaryDigest": "sha256:f24c789f106e9d6a54dc633788b4de22701931006e9724df3d6e960c246a8bd6",
+  "predecessorWorkItemId": "WI-515-release-v0-2-63",
+  "reason": "The first finish attempt was correctly stopped because finalize-plan had not yet bound the reviewed pull request; retry after the explicit plan binding preserves the failed Outcome and refreshes evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and verify after the bound finalize-plan, then finish only with current evidence; do not edit predecessor records.",
+  "runtimeDigest": "sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12",
+  "runtimeVersion": "0.2.62",
+  "schemaVersion": 1,
+  "workItemId": "WI-515-release-v0-2-63"
+}
