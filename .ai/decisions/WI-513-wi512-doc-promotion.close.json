@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-513-wi512-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3600cb435801fed325ad5a61d30de36292aeda9e374e53bcaa95e9d360be307d",
+      "workItemId": "WI-513-wi512-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-513-wi512-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-513-wi512-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-513-wi512-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-09-02T17:36:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-513-wi512-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-513-wi512-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-513-wi512-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-513-wi512-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-513-wi512-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep the reference parity ledger and Work Item documentation truthful after WI-512 close, with terminal evidence links and no stale in-progress projection."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-513-wi512-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-513-wi512-doc-promotion"
+  },
+  "finalReportDigest": "sha256:5ac07761918e570ca668d61120a5ca25a22316c33e17f4e8b04c39aea59a7705",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d3648654e35ac20c325accdde49546ead44f4185b0af08572c1d21964437d789",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-513-wi512-doc-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-09-02T17:36:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-513-wi512-doc-promotion.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:post-close-documentation-promotion"
+    ],
+    "reason": "确认 WI-513 的文档晋级、完整验证、PR #486 合并、分支与工作树清理证据；同意关闭该 Work Item。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-02T17:36:22Z",
+  "workItemId": "WI-513-wi512-doc-promotion"
+}
