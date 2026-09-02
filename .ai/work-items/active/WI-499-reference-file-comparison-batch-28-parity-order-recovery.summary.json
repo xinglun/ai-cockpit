@@ -34,7 +34,7 @@
     ".ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.task-report.md"
   ],
   "checkpointAt": "2026-09-02T04:13:41Z",
-  "checkpointContractDigest": "sha256:2a5cbf1273478e06eb5430c2c3303f8748016fbda212eef6167c0b1ca25cbfdf",
+  "checkpointContractDigest": "sha256:82c8c4583dc8bcc3b57d1962ed1aaa5a946d3e0cfc958e4bc7e15ffc4306ed6e",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -79,11 +79,11 @@
   "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:21ab455b601f5ecdffdc799b8f8ed421839c07d22a3d9142a162add0891edbee",
   "predecessorWorkItemId": "WI-498-reference-file-comparison-batch-28-doc-recovery",
-  "preflightAt": "2026-09-02T04:18:01Z",
-  "preflightContractDigest": "sha256:2a5cbf1273478e06eb5430c2c3303f8748016fbda212eef6167c0b1ca25cbfdf",
+  "preflightAt": "2026-09-02T04:21:32Z",
+  "preflightContractDigest": "sha256:82c8c4583dc8bcc3b57d1962ed1aaa5a946d3e0cfc958e4bc7e15ffc4306ed6e",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:80af4ad822e27e1d986bc91c3c69c75448634cdf262802d983f167a9e6145898",
-  "preflightState": "not_run",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-498-reference-file-comparison-batch-28-doc-recovery.recovery.json",
@@ -96,10 +96,5 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:82c8c4583dc8bcc3b57d1962ed1aaa5a946d3e0cfc958e4bc7e15ffc4306ed6e",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-02T04:18:58Z"
-  },
   "workItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery"
 }
