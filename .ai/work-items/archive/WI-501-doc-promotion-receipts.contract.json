@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "All five Runtime-generated WI-496/WI-500 receipt files are copied byte-for-byte and tracked without manual edits.",
+    "WI-500 tri-language Work Item documentation and tri-language parity rows reflect its closed status and exact evidence paths.",
+    "WI-501 tri-language documentation is readable and records the promotion boundary and receipt provenance.",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all passes after closure.",
+    "Documentation acceptance, parity status, Work Item status consistency, and git diff checks pass.",
+    "Reviewed PR, merge, finalize, close, and exact branch/worktree cleanup are complete."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bf4fab95d497d3722499555f391d7eedb68527cd",
+  "createdAt": "2026-09-02T06:06:53Z",
+  "goal": "Make closed Work Item documentation, parity projections, and generated recovery/close receipts auditable and current before the next Runtime release.",
+  "intent": "Promote the closed WI-500 and WI-496 recovery/close evidence into the reviewed mainline documentation and tracked governance record without rewriting historical bytes.",
+  "mode": "documentation",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    "object/adopter repositories",
+    "reference-source implementation",
+    "global Agent/MCP configuration",
+    "release publication",
+    "source fallback binaries",
+    "history rewrite"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f7b2bcf6092cd301d5e13fa3a4f6a6068a6a612ec59823aacdd68dfb37f58955",
+  "requiredEvidenceClasses": [
+    "verification",
+    "task_outcome",
+    "archive",
+    "human_decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-501-doc-promotion-receipts",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/474",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-501-doc-promotion-receipts"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-496-reference-file-comparison-batch-28.close.json",
+    ".ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.5fe836fa041e4c5c7f44049be35531f18e2848271e8299febe0992c41084e033.json",
+    ".ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.d487f319e9e823d797a93946fdd76c05407bff2a22c12fb8d7c063a7097da2d9.json",
+    ".ai/decisions/WI-500-historical-archive-recovery-integrity.close.json",
+    ".ai/decisions/WI-500-historical-archive-recovery-integrity.finalize.json",
+    "docs/work-items/WI-500-historical-archive-recovery-integrity.md",
+    "docs/work-items/WI-500-historical-archive-recovery-integrity.zh-CN.md",
+    "docs/work-items/WI-500-historical-archive-recovery-integrity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-501-doc-promotion-receipts.md",
+    "docs/work-items/WI-501-doc-promotion-receipts.zh-CN.md",
+    "docs/work-items/WI-501-doc-promotion-receipts.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-501-doc-promotion-receipts"
+}
