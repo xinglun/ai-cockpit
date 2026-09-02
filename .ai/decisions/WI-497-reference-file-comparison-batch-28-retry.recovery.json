@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T03:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.outcome.json",
+    ".ai/evidence/WI-497-reference-file-comparison-batch-28-retry.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/470",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33586714820"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "docs/reference/agent-workflow.md:pending-parity-registration"
+  ],
+  "predecessorContractDigest": "sha256:04da778c976f741b22f330416e35e86dcd1b31547df9281cdf0584c8e9cf169c",
+  "predecessorEventsDigest": "sha256:2e36427172e43891ad687e4234d92e8a93ebde89251894aa8cb7b7a5b5e680cb",
+  "predecessorOutcomeDigest": "sha256:6752746393b2139a7738bee546a8fae3ea5f782554c297bac77628a01f62f1b5",
+  "predecessorSummaryDigest": "sha256:a4214d56d6fdc872d008abb4b4cfb082e03a3010c8bb5587b70bb976739ced1c",
+  "predecessorWorkItemId": "WI-497-reference-file-comparison-batch-28-retry",
+  "reason": "Hosted quality rejected WI-497 because predecessor WI-496 documentation projections remained in_progress after the recovery parity row was recorded as Recovered. Preserve WI-497 bytes and redeliver the same bounded comparison with the required tri-language predecessor status correction.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-498 must start from the latest origin/main, preserve WI-497 immutable history, correct the tri-language recovered predecessor projection, complete fresh verification and hosted CI, merge, finalize, close, and clean exact resources.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-498-reference-file-comparison-batch-28-doc-recovery",
+  "workItemId": "WI-497-reference-file-comparison-batch-28-retry"
+}

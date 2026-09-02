@@ -32428,16 +32428,16 @@
     },
     {
       "referencePath": "docs/reference/distribution.ja.md",
-      "batch": "WI-342-reference-documentation-batch-13",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/release/distribution.ja.md",
-        "docs/release/distribution.zh-CN.md",
-        "docs/release/distribution.md",
+        "docs/architecture/release-distribution.ja.md",
+        "docs/getting-started/installation.ja.md",
         "tests/release/adopter_acceptance.sh",
         "tests/release/adopter_upgrade_acceptance.sh"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Source distribution guidance is projected into the Rust release, installation, checksum/SBOM/provenance, and adopter-acceptance surfaces with explicit repository/runtime boundaries. Source Make/Python runner bytes, source venv provisioning, and provider release state are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-342-reference-documentation-batch-13",
       "previousClassification": "implemented-different-by-design",
@@ -32445,16 +32445,16 @@
     },
     {
       "referencePath": "docs/reference/distribution.md",
-      "batch": "WI-342-reference-documentation-batch-13",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/release/distribution.md",
-        "docs/release/distribution.zh-CN.md",
-        "docs/release/distribution.ja.md",
+        "docs/architecture/release-distribution.md",
+        "docs/getting-started/installation.md",
         "tests/release/adopter_acceptance.sh",
         "tests/release/adopter_upgrade_acceptance.sh"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source distribution contract is preserved through the Rust-native immutable release/archive, checksum, SBOM, provenance, installer, and adopter-acceptance routes. Source Make/Python orchestration, worktree-local venvs, and provider-owned release decisions are deliberately not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-342-reference-documentation-batch-13",
       "previousClassification": "implemented-different-by-design",
@@ -32517,16 +32517,17 @@
     },
     {
       "referencePath": "docs/reference/documentation-context-registry.json",
-      "batch": "WI-342-reference-documentation-batch-13",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "reference-only",
       "rustCounterparts": [
-        "docs/current/README.md",
-        "docs/reference/README.md",
         ".ai/README.md",
         ".ai/glossary.md",
-        "docs/reference/reference-file-comparison.md"
+        "AGENTS.md",
+        "docs/reference/README.md",
+        "docs/reference/instruction-traceability.md",
+        "tests/docs/documentation_acceptance.sh"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "This registry is source-maintenance context metadata for plan/report paths, mutability, and historical instructions; it is not a portable Runtime or adopter protocol. Rust keeps explicit current-instruction, historical-reference, and documentation-authority boundaries without copying source planning records.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-342-reference-documentation-batch-13",
       "previousClassification": "reference-only",
@@ -32712,16 +32713,16 @@
     },
     {
       "referencePath": "docs/reference/governance-profiles.ja.md",
-      "batch": "WI-346-reference-governance-profiles-status",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/governance-profiles.ja.md",
-        "docs/reference/governance-profile-cost-separation.ja.md",
         "docs/reference/ci-quality-gates.ja.md",
-        "docs/reference/verification-route.ja.md",
-        "tests/docs/documentation_acceptance.sh"
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "crates/cockpit-repository/src/governance_controls.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Source profile guidance is implemented through the Rust typed dynamic quality route and repository-bound gate manifest. Verification tier and evidence assurance remain orthogonal, and source YAML/Make profile bytes are not copied into adopters.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-346-reference-governance-profiles-status",
       "previousClassification": "implemented-different-by-design",
@@ -32729,16 +32730,16 @@
     },
     {
       "referencePath": "docs/reference/governance-profiles.md",
-      "batch": "WI-346-reference-governance-profiles-status",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/governance-profiles.md",
-        "docs/reference/governance-profile-cost-separation.md",
         "docs/reference/ci-quality-gates.md",
-        "docs/reference/verification-route.md",
-        "tests/docs/documentation_acceptance.sh"
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "crates/cockpit-repository/src/governance_controls.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source light/standard/strict profile semantics are projected into the Rust dynamic route, reviewed gate manifest, and typed governance controls. VerificationTier and EvidenceAssurance are separate dimensions; source YAML/Make configuration and provider execution remain outside the target protocol.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-346-reference-governance-profiles-status",
       "previousClassification": "implemented-different-by-design",
@@ -32746,16 +32747,16 @@
     },
     {
       "referencePath": "docs/reference/governance-profiles.zh-CN.md",
-      "batch": "WI-346-reference-governance-profiles-status",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/governance-profiles.zh-CN.md",
-        "docs/reference/governance-profile-cost-separation.zh-CN.md",
         "docs/reference/ci-quality-gates.zh-CN.md",
-        "docs/reference/verification-route.zh-CN.md",
-        "tests/docs/documentation_acceptance.sh"
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "crates/cockpit-repository/src/governance_controls.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "源端 light/standard/strict profile 语义由 Rust 动态路由、审核过的 gate manifest 和类型化治理控制承载。VerificationTier 与 EvidenceAssurance 保持正交；源 YAML/Make 配置及 provider 执行责任不复制到目标协议。",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-346-reference-governance-profiles-status",
       "previousClassification": "implemented-different-by-design",
@@ -32900,16 +32901,16 @@
     },
     {
       "referencePath": "docs/reference/japanese-capability-assessment.json",
-      "batch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "reference-only",
       "rustCounterparts": [
         "docs/reference/japanese-capability-assessment.md",
         "docs/reference/japanese-capability-assessment.zh-CN.md",
         "docs/reference/japanese-capability-assessment.ja.md",
         "tests/docs/documentation_acceptance.sh",
-        "tests/cli/intelligence.rs"
+        "crates/cockpit-cli/tests/intelligence.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source JSON is a revision-bound 58-file Japanese assessment and receipt for the reference repository. Its participant/source digests and release result cannot become Rust or adopter proof; the target maintains its own bounded multilingual documentation and executable evidence instead.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
       "previousClassification": "implemented-different-by-design",
@@ -32917,16 +32918,16 @@
     },
     {
       "referencePath": "docs/reference/japanese-capability-assessment.md",
-      "batch": "WI-348-reference-verification-operation-policy",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/japanese-capability-assessment.md",
         "docs/reference/japanese-capability-assessment.zh-CN.md",
         "docs/reference/japanese-capability-assessment.ja.md",
-        "tests/cli/intelligence.rs",
+        "docs/reference/outcome-report.md",
         "tests/docs/documentation_acceptance.sh"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source assessment explanation is retained as an evidence-bound multilingual boundary in the Rust tri-language reader route. The target does not inherit the source corpus/assessment digest or claim general fluency, provider behavior, or translated Contract facts.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-348-reference-verification-operation-policy",
       "previousClassification": "implemented-different-by-design",
@@ -33035,14 +33036,16 @@
     },
     {
       "referencePath": "docs/reference/pre-release-documentation-alignment.json",
-      "batch": "WI-348-reference-verification-operation-policy",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "reference-only",
       "rustCounterparts": [
-        "docs/reference/provider-reconciliation-boundary.md",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh",
+        "tests/ci/governance_integrity_gate.py",
         "docs/reference/reference-file-comparison.md",
-        "tests/docs/documentation_acceptance.sh"
+        "docs/reference/japanese-capability-assessment.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "This source JSON is a revision/work-item-bound pre-release audit receipt for the template's documentation surfaces. Rust performs its own fresh documentation, governance, parity, and multilingual checks; the source receipt and its status are not portable evidence.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-348-reference-verification-operation-policy",
       "previousClassification": "reference-only",
@@ -33050,13 +33053,16 @@
     },
     {
       "referencePath": "docs/reference/pre-release-documentation-alignment.md",
-      "batch": "WI-368-reference-file-comparison-batch-16",
-      "classification": "deferred-next-batch",
+      "batch": "WI-496-reference-file-comparison-batch-28",
+      "classification": "reference-only",
       "rustCounterparts": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh",
+        "tests/ci/governance_integrity_gate.py",
         "docs/reference/reference-file-comparison.md",
-        "tests/docs/documentation_acceptance.sh"
+        "docs/reference/ci-quality-gates.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source report summarizes a revision-bound pre-release alignment audit. Target documentation and gates provide analogous responsibilities with new Runtime evidence; the source report, source Work Item, and source release claim are not copied or inherited.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-368-reference-file-comparison-batch-16",
       "previousClassification": "reference-only",
