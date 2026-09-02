@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7d2916f232ac56ef4dda697d0b864d56b01fc873bd97f1216834ca5ce2760fa6",
+      "workItemId": "WI-516-reference-file-comparison-batch-34"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via reviewed-pr-hosted-checks at 2026-09-02T21:08:38Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-516-reference-file-comparison-batch-34.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete an auditable file-by-file parity batch for adoption, calibration, baseline, capability, and canonical-evidence boundaries without copying source Python, Shell, Make, provider policy, installer behavior, or source wire formats."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-516-reference-file-comparison-batch-34"
+  },
+  "finalReportDigest": "sha256:6c9abde072c601ba55f097047cb4cfd72f70edea4904c2fcdc0c3887b3e3ba4b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:76db705bf2b7255293a020efaef64390480064cc53c6d87485cb69e81ffcd89c",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-516-reference-file-comparison-batch-34.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "reviewed-pr-hosted-checks",
+    "decidedAt": "2026-09-02T21:08:38Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+    ],
+    "policyRefs": [
+      "repository-workflow:reviewed-pr-hosted-checks"
+    ],
+    "reason": "I approve closure after the reviewed PR passed all hosted checks, the release-parity evidence is valid, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-02T21:08:38Z",
+  "workItemId": "WI-516-reference-file-comparison-batch-34"
+}
