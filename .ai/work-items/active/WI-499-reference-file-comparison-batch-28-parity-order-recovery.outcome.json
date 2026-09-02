@@ -1,0 +1,352 @@
+{
+  "acceptanceResults": [
+    "Predecessor WI-496, WI-497, and WI-498 bytes remain immutable and are truthfully marked recovered.",
+    "All three parity rows for WI-499 are present before verification evidence is added, and the gate proves strict commit ordering.",
+    "Agent workflow docs in English, Chinese, and Japanese state the two-commit parity-before-evidence sequence and recovery boundary.",
+    "Local documentation, status-consistency, parity, governance-integrity, and full workspace tests pass.",
+    "The Work Item completes the reviewed PR lifecycle with no manual governance-record edits and no new active residue."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-499-reference-file-comparison-batch-28-parity-order-recovery.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-499-reference-file-comparison-batch-28-parity-order-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:80af4ad822e27e1d986bc91c3c69c75448634cdf262802d983f167a9e6145898",
+      "workItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-496-reference-file-comparison-batch-28.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-497-reference-file-comparison-batch-28-retry.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-498-reference-file-comparison-batch-28-doc-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-497-reference-file-comparison-batch-28-retry.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-498-reference-file-comparison-batch-28-doc-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-496-reference-file-comparison-batch-28.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-496-reference-file-comparison-batch-28.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-496-reference-file-comparison-batch-28.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-496-reference-file-comparison-batch-28.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-496-reference-file-comparison-batch-28.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-496-reference-file-comparison-batch-28.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-496-reference-file-comparison-batch-28.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-496-reference-file-comparison-batch-28.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-499-reference-file-comparison-batch-28-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-499-reference-file-comparison-batch-28-parity-order-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-499-reference-file-comparison-batch-28-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-499-reference-file-comparison-batch-28-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-499-reference-file-comparison-batch-28-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Deliver a clean successor whose tri-language parity registration is committed before verification evidence, whose recovery projection is truthful, and whose agent workflow explicitly enforces the ordering."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-499-reference-file-comparison-batch-28-parity-order-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-499-reference-file-comparison-batch-28-parity-order-recovery.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery"
+}
