@@ -1,0 +1,81 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-02T02:27:30Z",
+  "checkpointContractDigest": "sha256:5af5d75e5491fbb974302e8b16c8bde004a29a43b687baea253e3a3c4b7f769b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:97056837eaadafcab49f64f5f3272248ec379503d0de678e4987bccf059bdaab",
+      "recorded": true,
+      "recordedAt": "2026-09-02T02:27:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dce144a0b69df4b8c58dad4c7358f62cc1412eb400e51ba4196ae14d498e7fb2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-496-reference-file-comparison-batch-28"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4f3118f41f19878da9818068e5bd50910df3607380a690568828ee431395d44f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:97056837eaadafcab49f64f5f3272248ec379503d0de678e4987bccf059bdaab",
+      "previousContractHash": "sha256:97056837eaadafcab49f64f5f3272248ec379503d0de678e4987bccf059bdaab",
+      "reason": "Extend the current bounded comparison scope to include the required tri-language WI-496 documentation and parity registration; no Runtime behavior or source artifact copying is introduced.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T02:36:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c4e014d5557c79870449e76ef6f10f171fc36d0fbf757f77cd8e7e94713fcbbc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-496-reference-file-comparison-batch-28"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:5af5d75e5491fbb974302e8b16c8bde004a29a43b687baea253e3a3c4b7f769b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:97056837eaadafcab49f64f5f3272248ec379503d0de678e4987bccf059bdaab",
+      "previousContractHash": "sha256:4f3118f41f19878da9818068e5bd50910df3607380a690568828ee431395d44f",
+      "reason": "Include the inventory implementation and regression script required to make the ten-file ledger comparison deterministic and self-checking, plus the tri-language parity and Work Item documentation already added.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T02:38:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:56feafdf2459f8a9a2637464b412a70654d0168778588eb3c802e5ca3ec2988c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-496-reference-file-comparison-batch-28"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:56feafdf2459f8a9a2637464b412a70654d0168778588eb3c802e5ca3ec2988c",
+  "createdAt": "2026-09-02T02:27:04Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-02T02:38:53Z",
+  "preflightContractDigest": "sha256:5af5d75e5491fbb974302e8b16c8bde004a29a43b687baea253e3a3c4b7f769b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:56feafdf2459f8a9a2637464b412a70654d0168778588eb3c802e5ca3ec2988c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-02T02:27:30Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-496-reference-file-comparison-batch-28"
+}
