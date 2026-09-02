@@ -4,9 +4,13 @@ title: "WI-492——WI-491 终态文档晋级"
 description: "在发布 v0.2.58 前，将已关闭 WI-491 的 release 证据晋级到面向读者的文档。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-492-wi491-doc-promotion
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-492-wi491-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-492-wi491-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-492-wi491-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-492-wi491-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-492-wi491-doc-promotion.close.json
 ---
 
 # WI-492——WI-491 终态文档晋级

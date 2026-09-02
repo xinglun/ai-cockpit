@@ -4,9 +4,13 @@ title: "WI-492 — WI-491 terminal documentation promotion"
 description: "v0.2.58 公開前に、close 済み WI-491 の release evidence を reader-facing documentation へ昇格します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-492-wi491-doc-promotion
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-492-wi491-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-492-wi491-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-492-wi491-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-492-wi491-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-492-wi491-doc-promotion.close.json
 ---
 
 # WI-492 — WI-491 terminal documentation promotion

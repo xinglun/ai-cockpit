@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "Promote the closed WI-492 terminal evidence into all three reader-facing Work Item pages and all three reference-parity ledger pages.",
+    "Include WI-493's own three-language pages and parity row in this bounded scope so the post-close documentation check reaches a self-terminal state.",
+    "Each promoted projection binds exact archive, verification, finalization, and close receipts without rewriting immutable evidence.",
+    "The documentation promotion, governance integrity, and status-consistency checks pass; no Runtime behavior or reference classification changes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9d9df000a965c2b658015e8c715f88b9561a434c",
+  "createdAt": "2026-09-02T00:02:18Z",
+  "goal": "Close the documentation truth loop for WI-492 and publish v0.2.58 only after all tri-language terminal projections are evidence-backed.",
+  "intent": "Complete the terminal documentation projection required by the closed WI-492 release gate, including this Work Item's own self-terminal pages.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source or test behavior changes",
+    "Reference-source semantic comparison or inventory reclassification",
+    "Rewriting archived governance records",
+    "Publishing or installing v0.2.58"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b5a820442796bca16d50227d45c49bb8e986693e8de47592597d0c63625d8f01",
+  "requiredEvidenceClasses": ["documentation", "verification", "lifecycle"],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-493-wi492-doc-promotion",
+    "provider": "github",
+    "pullRequest": "pending:reviewed-doc-promotion",
+    "worktree": "/private/tmp/ai-cockpit-wi493-wi492-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-492-wi491-doc-promotion.md",
+    "docs/work-items/WI-492-wi491-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-492-wi491-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-493-wi492-doc-promotion.md",
+    "docs/work-items/WI-493-wi492-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-493-wi492-doc-promotion.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-492-wi491-doc-promotion.archive.json",
+    ".ai/evidence/WI-492-wi491-doc-promotion.verification.json",
+    ".ai/decisions/WI-492-wi491-doc-promotion.finalize.json",
+    ".ai/decisions/WI-492-wi491-doc-promotion.close.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-492-wi491-doc-promotion --check",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "bash tests/docs/parity_status_check.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-493-wi492-doc-promotion"
+}
