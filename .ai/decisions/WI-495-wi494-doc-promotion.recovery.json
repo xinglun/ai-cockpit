@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "post-close-documentation-gate-recovery",
+  "decidedAt": "2026-09-02T02:06:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/468",
+    ".ai/work-items/active/WI-495-wi494-doc-promotion.outcome.json",
+    ".ai/work-items/active/WI-495-wi494-doc-promotion.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "predecessorContractDigest": "sha256:20ab3691c2e86c0fea8f4951c18082ac63b247380abf577aaee0681b8a043733",
+  "predecessorEventsDigest": "sha256:74554930fd98864c0f81dcc0ee6144d8f7325a02d2a9c0d96e98f1b06a3c6da8",
+  "predecessorOutcomeDigest": "sha256:f93ce34335751bc434257a38cd9f0cc8d2e420355621501c0193ff5bc6e13edf",
+  "predecessorSummaryDigest": "sha256:75c1bae99621b41c70891e351813237fe65fea9662b8198121e28a079b0ad47a",
+  "predecessorWorkItemId": "WI-495-wi494-doc-promotion",
+  "reason": "The documentation promotion Work Item reached the checkpointed state with a provisional resource context; preserve the blocked attempt and retry after binding its real PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh documentation verification, finish, archive, finalize, verify, close, then clean the exact merged branch/worktree.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "workItemId": "WI-495-wi494-doc-promotion"
+}
