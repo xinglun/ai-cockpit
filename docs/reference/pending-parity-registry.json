@@ -16,7 +16,7 @@
         },
         {
           "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-518——历史 direct-merge 收据应用与诊断 | 进行中 | [Work Item](../work-items/WI-518-historical-finalization-apply.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-518-historical-finalization-apply.contract.json`; verification `.ai/evidence/WI-518-historical-finalization-apply.verification.json`; finalization `.ai/decisions/WI-518-historical-finalization-apply.finalize.json`; close `.ai/decisions/WI-518-historical-finalization-apply.close.json`. |"
+          "row": "| WI-518 ——历史 direct-merge 收据应用与诊断 | 进行中 | [Work Item](../work-items/WI-518-historical-finalization-apply.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-518-historical-finalization-apply.contract.json`; verification `.ai/evidence/WI-518-historical-finalization-apply.verification.json`; finalization `.ai/decisions/WI-518-historical-finalization-apply.finalize.json`; close `.ai/decisions/WI-518-historical-finalization-apply.close.json`. |"
         },
         {
           "path": "docs/reference/reference-parity.ja.md",
