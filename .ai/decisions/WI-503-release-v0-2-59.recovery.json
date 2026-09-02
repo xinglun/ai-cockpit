@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized continuation to repair stale verification after binding reviewed PR #476",
+  "decidedAt": "2026-09-02T07:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-503-release-v0-2-59.verification.json",
+    ".ai/work-items/active/WI-503-release-v0-2-59.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:1344defeb2cda394ad31d88f736248f2d29e024c38e05a9dbd2f17e889215e47",
+  "predecessorEventsDigest": "sha256:d74faa26c4896625ac32db6ffaa823abdd4f6f383e968341dc19f573524e9adb",
+  "predecessorOutcomeDigest": "sha256:ead0156f48f34eb68d675a0869809c3849e2e8b98ce5c05cf3929709060429aa",
+  "predecessorSummaryDigest": "sha256:fe292e3c96d5ea91bc7d93585a7130ddb24b36e591328e1ec4cd09e25d474166",
+  "predecessorWorkItemId": "WI-503-release-v0-2-59",
+  "reason": "The verified evidence became stale when the finalization plan bound PR #476; preserve the blocked predecessor evidence and rerun against the current Contract and repository snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification, then finish and archive.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "workItemId": "WI-503-release-v0-2-59"
+}

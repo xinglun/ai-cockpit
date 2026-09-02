@@ -29,7 +29,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-503-release-v0-2-59",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/476",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-503-release-v0-2-59"
   },
   "risk": "high",
