@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner authorization for WI-503 reviewed PR closure",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "514d43a7e4c36431998f9628d0ae4bb9505c7fea",
+    "name": "codex/wi-503-release-v0-2-59",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:cb5f227c73484dd2bc5733156b479368a9d5f61d7bebb8658279de5501391eb1",
+  "operationId": "WI-503-release-v0-2-59-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1143bf6981a6f0b177a47947cfa92ae6fa1e104e",
+    "headRevision": "514d43a7e4c36431998f9628d0ae4bb9505c7fea",
+    "mergeCommit": "2cf1954c7e521cc75f9b01ec9ea1024ff224bf70",
+    "number": 476,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/476"
+  },
+  "reason": "PR #476 passed all hosted checks, merged as 2cf1954c7e521cc75f9b01ec9ea1024ff224bf70, and the exact feature branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-503-release-v0-2-59-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-503-release-v0-2-59",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/476",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-503-release-v0-2-59"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T07:48:43Z",
+  "workItemId": "WI-503-release-v0-2-59",
+  "worktree": {
+    "branch": "codex/wi-503-release-v0-2-59",
+    "headRevision": "514d43a7e4c36431998f9628d0ae4bb9505c7fea",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-503-release-v0-2-59",
+    "worktreeId": "WI-503-release-v0-2-59"
+  }
+}
