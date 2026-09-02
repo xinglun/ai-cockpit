@@ -63,6 +63,12 @@
   ],
   "sources": [],
   "state": "implementation_active",
-  "verification": [],
+  "verification": [
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "git diff --check"
+  ],
   "workItemId": "WI-496-reference-file-comparison-batch-28"
 }

@@ -57,16 +57,36 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-496-reference-file-comparison-batch-28"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:0884b0314c035539963ae8ac6659363bf2cceb994bbb298e3ba2684f321a5b7d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:97056837eaadafcab49f64f5f3272248ec379503d0de678e4987bccf059bdaab",
+      "previousContractHash": "sha256:5af5d75e5491fbb974302e8b16c8bde004a29a43b687baea253e3a3c4b7f769b",
+      "reason": "Declare the exact inventory, documentation, parity, status, and diff checks used by this bounded comparison so the Contract records its reproducible verification surface.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T02:42:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6057160715fb6806de581534e11f49cc91f1faa59b57e6bd944f7120532177f3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-496-reference-file-comparison-batch-28"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:56feafdf2459f8a9a2637464b412a70654d0168778588eb3c802e5ca3ec2988c",
   "createdAt": "2026-09-02T02:27:04Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-02T02:41:08Z",
+  "preflightAt": "2026-09-02T02:41:32Z",
   "preflightContractDigest": "sha256:469c5d1de51178e6d9cd3415398200097fe880c4ac4e7716fdb0027e8ade7f06",
   "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
   "preflightRepositorySnapshotDigest": "sha256:6057160715fb6806de581534e11f49cc91f1faa59b57e6bd944f7120532177f3",
-  "preflightState": "red",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
@@ -77,5 +97,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:0884b0314c035539963ae8ac6659363bf2cceb994bbb298e3ba2684f321a5b7d",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-02T02:42:38Z"
+  },
   "workItemId": "WI-496-reference-file-comparison-batch-28"
 }
