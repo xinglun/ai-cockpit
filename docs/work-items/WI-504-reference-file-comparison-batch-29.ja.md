@@ -6,9 +6,13 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-504-reference-file-comparison-batch-29
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-504-reference-file-comparison-batch-29
+terminalArchive: .ai/work-items/archive/WI-504-reference-file-comparison-batch-29.contract.json
+terminalVerification: .ai/evidence/WI-504-reference-file-comparison-batch-29.verification.json
+terminalFinalization: .ai/decisions/WI-504-reference-file-comparison-batch-29.finalize.json
+terminalDecision: .ai/decisions/WI-504-reference-file-comparison-batch-29.close.json
 ---
 
 # WI-504 — reference documentation batch 29
