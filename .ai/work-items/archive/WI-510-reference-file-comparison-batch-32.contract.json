@@ -25,20 +25,12 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
-  "verification": [
-    "python3 tests/conformance/reference_file_inventory.py --check",
-    "bash tests/conformance/reference_file_inventory_test.sh",
-    "python3 tests/conformance/reference_inventory_docs_test.py",
-    "bash tests/docs/documentation_acceptance.sh",
-    "bash tests/docs/parity_status_check.sh",
-    "cargo test --locked --workspace"
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-510-reference-file-comparison-batch-32",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/483",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-510-reference-file-comparison-batch-32"
   },
   "risk": "low",
@@ -60,5 +52,13 @@
   ],
   "sources": [],
   "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --check",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "cargo test --locked --workspace"
+  ],
   "workItemId": "WI-510-reference-file-comparison-batch-32"
 }

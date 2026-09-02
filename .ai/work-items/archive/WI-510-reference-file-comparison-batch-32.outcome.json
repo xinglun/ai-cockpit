@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Each pinned reference path is read at commit fde3380f81fea5fd2e288f7a8849f737dc074060 and classified with an evidence-backed reason and Rust counterpart list.",
+    "install.sh installation, source selection, TTY boundary, cleanup, and rollback semantics are represented by current Rust Release/distribution and adopter installation documentation without source code copying.",
+    "The three wizard locale files are classified according to the target no-interactive-installer boundary, while supported multilingual Runtime presentation and adapter responsibility remain explicit.",
+    "Reference inventory, comparison pages, parity pages, and this Work Item documentation remain synchronized in English, Chinese, and Japanese with no migrate-gap.",
+    "Conformance and documentation checks pass, and no source checkout, object repository, global Agent/MCP configuration, or unrelated Runtime behavior changes."
+  ],
+  "createdAt": "2026-09-02T14:20:46Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:06c5e53e3d3a991f834f8172b9af14a796bedaf06f56e6b7ac599f0e545d6b10",
+  "evidenceRefs": [
+    ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:25353e5540b796e828c287ec1166c38b71bc722ee7febc7b61f6d6b579526651",
+      "workItemId": "WI-510-reference-file-comparison-batch-32"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.contract.json"
+          ],
+          "inference": false,
+          "text": "Close one bounded installation/localization comparison batch with evidence-backed counterpart documentation, inventory parity, and explicit non-claims for object repositories."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-510-reference-file-comparison-batch-32"
+  },
+  "taskReportDigest": "sha256:62ad3552f7dd4b612b85386f433ec1df37ef9b2443a114f4a86a37199af68595",
+  "taskReportMarkdownDigest": "sha256:7ec0c5b580945acd1ef4f97daf50afa7471b540111e32490b23242b2d97a9b7d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-510-reference-file-comparison-batch-32"
+}

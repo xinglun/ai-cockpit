@@ -1,0 +1,24 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T14:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-510-reference-file-comparison-batch-32.outcome.json",
+    ".ai/work-items/active/WI-510-reference-file-comparison-batch-32.events.jsonl"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:09229353ef2a21f5eb96503a21070ee86176fa7873b52109b65a9a31d53a3f1e",
+  "predecessorEventsDigest": "sha256:450cf82f51bed08e61d32bc80b8b9474ce5e5fb8b6b0575f6e6a6724cec3aedb",
+  "predecessorOutcomeDigest": "sha256:b720b7b4152990a9cef5b7fea76eaf994a707df6e1beaa1587729401d6f11886",
+  "predecessorSummaryDigest": "sha256:15808932f1cd5fcced140649c8ee2f12eb9e9c158c4dfee26575c1760a3a943e",
+  "predecessorWorkItemId": "WI-510-reference-file-comparison-batch-32",
+  "reason": "Retry WI-510 after the Runtime correctly stopped the first finish attempt for a missing finalization plan; preserve the blocked Outcome/event history and rerun fresh verification before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh current verification, preflight, finish, archive, and reviewed PR closure; do not rewrite predecessor bytes.",
+  "runtimeDigest": "sha256:a8ef374c2f54bd63c1b9edf6c6629b6e13347786bcf50d868854b28cd2cf4c01",
+  "runtimeVersion": "0.2.61",
+  "schemaVersion": 1,
+  "workItemId": "WI-510-reference-file-comparison-batch-32"
+}
