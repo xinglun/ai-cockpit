@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-518 — 歴史 finalization の適用"
 description: "canonical predecessor がない場合に、PR のない歴史的 direct merge を公開 Runtime が正直に記録できるようにし、fail-closed の identity 診断を明確にする。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-518-historical-finalization-apply
 lastVerifiedBy: WI-518-historical-finalization-apply
+terminalArchive: .ai/work-items/archive/WI-518-historical-finalization-apply.contract.json
+terminalVerification: .ai/evidence/WI-518-historical-finalization-apply.verification.json
+terminalFinalization: .ai/decisions/WI-518-historical-finalization-apply.finalize.7db915ed608082f3481130460a291a4f3845908d9bd1a8e52684846f9cc9ffec.json
+terminalDecision: .ai/decisions/WI-518-historical-finalization-apply.close.json
 ---
 
 [English](WI-518-historical-finalization-apply.md) · [简体中文](WI-518-historical-finalization-apply.zh-CN.md)
