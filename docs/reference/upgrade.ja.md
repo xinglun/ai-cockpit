@@ -8,7 +8,7 @@ audience:
 status: current
 authority: translation
 canonical: docs/reference/upgrade.md
-lastVerifiedBy: WI-379-reference-documentation-batch-18
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - runtime_upgrade
 ---

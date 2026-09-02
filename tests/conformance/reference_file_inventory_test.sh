@@ -205,6 +205,28 @@ test "$(jq '[.records[] | select(.batch == "WI-508-reference-file-comparison-bat
 grep -q "WI-508" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-508" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-508" "$root/docs/reference/reference-file-comparison.ja.md"
+wi512_paths=(
+  docs/reference/schemas.md
+  docs/reference/test-architecture.md
+  docs/reference/test-weakening-guard.md
+  docs/reference/test-weakening-guard.zh-CN.md
+  docs/reference/test-weakening-guard.ja.md
+  docs/reference/verification-fixture-boundary.md
+  docs/reference/troubleshooting.md
+  docs/reference/troubleshooting.ja.md
+  docs/reference/upgrade.md
+  docs/reference/upgrade.ja.md
+  docs/reference/work-item-lifecycle-closure.md
+  docs/reference/work-item-lifecycle-closure.ja.md
+)
+for wi512_path in "${wi512_paths[@]}"; do
+  test "$(jq --arg path "$wi512_path" '[.records[] | select(.referencePath == $path and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-512-reference-docs-batch-33")] | length' "$current_manifest")" -eq 10
+test "$(jq '[.records[] | select(.batch == "WI-512-reference-docs-batch-33" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+grep -q "WI-512" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-512" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-512" "$root/docs/reference/reference-file-comparison.ja.md"
 test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
 test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0

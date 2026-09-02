@@ -33234,78 +33234,82 @@
     },
     {
       "referencePath": "docs/reference/schemas.md",
-      "batch": "WI-378-reference-documentation-batch-17",
+      "batch": "WI-512-reference-docs-batch-33",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/schemas.md",
         "docs/reference/schemas.zh-CN.md",
         "docs/reference/schemas.ja.md",
         "crates/cockpit-protocol/src/lib.rs",
-        "crates/cockpit-repository/src/lib.rs"
+        "crates/cockpit-repository/tests/contract_schema.rs"
       ],
-      "reason": "The target maps the reference record families to strict Rust Protocol, repository, evidence, archive, decision, and audit boundaries. It intentionally does not copy the source YAML/JSON wire shapes or generated status authority."
+      "reason": "The source schema map is represented by Rust typed records and repository validators with explicit identity, legacy, and non-wire boundaries; source YAML registries and Python validators are comparison material, not copied Runtime requirements."
     },
     {
       "referencePath": "docs/reference/test-architecture.md",
-      "batch": "WI-378-reference-documentation-batch-17",
+      "batch": "WI-512-reference-docs-batch-33",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/test-architecture.md",
         "docs/reference/test-architecture.zh-CN.md",
         "docs/reference/test-architecture.ja.md",
-        ".github/workflows/ci.yml",
+        "docs/reference/ci-quality-gates.md",
         "tests/ci/quality_route.py",
-        "tests/conformance/manifest.json"
+        "tests/ci/governance_integrity_gate.py"
       ],
-      "reason": "The target documents layered negative-first Protocol, lifecycle, executor, adversarial, hosted, release, and documentation checks with dynamic light/standard/strict routing. Provider and universal-coverage claims remain external or unknown; the source checker and Make target are not copied."
+      "reason": "The source layered quality responsibilities are preserved by Rust workspace, repository, adversarial, release, and documentation gates plus the dynamic quality route. Verification tier is not Evidence Assurance, and source Make/Python commands are not copied."
     },
     {
       "referencePath": "docs/reference/test-weakening-guard.ja.md",
-      "batch": "WI-378-reference-documentation-batch-17",
-      "classification": "implemented-different-by-design",
-      "rustCounterparts": [
-        "docs/reference/test-weakening-guard.ja.md",
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-core/src/lib.rs",
-        "crates/cockpit-repository/tests/governance_signals.rs"
-      ],
-      "reason": "The Japanese route documents the Rust snapshot-derived weakening signals, blocking versus review boundaries, dynamic route, and explicit limitations. Rust preserves the semantic guard without shipping the reference Python module, Make target, or source wire format."
-    },
-    {
-      "referencePath": "docs/reference/test-weakening-guard.md",
-      "batch": "WI-378-reference-documentation-batch-17",
+      "batch": "WI-512-reference-docs-batch-33",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/test-weakening-guard.md",
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-core/src/lib.rs",
+        "docs/reference/test-weakening-guard.zh-CN.md",
+        "docs/reference/test-weakening-guard.ja.md",
         "crates/cockpit-repository/tests/governance_signals.rs"
       ],
-      "reason": "The English route maps the reference Test Weakening Guard responsibility to Rust preflight and Contract gates, including conservative path handling, stable recovery conditions, and proportional analysis. Source Python/Make implementation and JSON wire compatibility are not claimed."
+      "reason": "This source translation carries the same weakening-guard semantics as the canonical page; Rust tri-language documentation and governance regressions preserve that meaning without treating locale bytes as policy or wire compatibility."
+    },
+    {
+      "referencePath": "docs/reference/test-weakening-guard.md",
+      "batch": "WI-512-reference-docs-batch-33",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/test-weakening-guard.md",
+        "docs/reference/test-weakening-guard.zh-CN.md",
+        "docs/reference/test-weakening-guard.ja.md",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs"
+      ],
+      "reason": "The source weakening decisions and recovery boundary are expressed through Rust-native governance signals and tests. Static text signals remain bounded evidence; no source Python/Make implementation or provider policy is copied."
     },
     {
       "referencePath": "docs/reference/test-weakening-guard.zh-CN.md",
-      "batch": "WI-378-reference-documentation-batch-17",
+      "batch": "WI-512-reference-docs-batch-33",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
+        "docs/reference/test-weakening-guard.md",
         "docs/reference/test-weakening-guard.zh-CN.md",
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-core/src/lib.rs",
+        "docs/reference/test-weakening-guard.ja.md",
         "crates/cockpit-repository/tests/governance_signals.rs"
       ],
-      "reason": "The Chinese route documents the same Rust-native weakening signals, fail-closed unknowns, recovery boundary, and proportional quality routing; source Python/Make and wire bytes remain reference-only."
+      "reason": "This source translation carries the same weakening-guard semantics as the canonical page; Rust tri-language documentation and governance regressions preserve that meaning without treating locale bytes as policy or wire compatibility."
     },
     {
       "referencePath": "docs/reference/troubleshooting.ja.md",
-      "batch": "WI-378-reference-documentation-batch-17",
+      "batch": "WI-512-reference-docs-batch-33",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
+        "docs/reference/troubleshooting.md",
+        "docs/reference/troubleshooting.zh-CN.md",
         "docs/reference/troubleshooting.ja.md",
-        "docs/reference/commands.ja.md",
-        "docs/reference/installed-lifecycle.ja.md",
-        "tests/docs/documentation_acceptance.sh"
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/outcome-report.ja.md",
+        "docs/reference/upgrade.ja.md"
       ],
-      "reason": "The Japanese troubleshooting responsibility is represented by the Rust CLI stop-state table, explicit repository recovery, installation/toolchain boundary, and documentation checks. Source wizard/Make/Python details are not Runtime commands."
+      "reason": "This source translation is represented by the Rust tri-language recovery pages and explicit repository lifecycle. Japanese wizard/session controls and external toolchains remain outside Core and are not copied."
     },
     {
       "referencePath": "docs/reference/troubleshooting.md",
@@ -33325,26 +33329,32 @@
     },
     {
       "referencePath": "docs/reference/upgrade.ja.md",
-      "batch": "WI-378-reference-documentation-batch-17",
-      "classification": "implemented-different-by-design",
-      "rustCounterparts": [
-        "docs/reference/upgrade.ja.md",
-        "docs/reference/installed-lifecycle.ja.md",
-        "docs/reference/commands.ja.md"
-      ],
-      "reason": "The Japanese upgrade responsibility is represented by a Rust-native distinction between shared Runtime upgrade and explicit repository migration, immutable Release identity, rollback/history preservation, and repository-bound diagnostics. Source installer scripts and Make/Python surfaces are not copied."
-    },
-    {
-      "referencePath": "docs/reference/upgrade.md",
-      "batch": "WI-379-reference-documentation-batch-18",
+      "batch": "WI-512-reference-docs-batch-33",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/upgrade.md",
         "docs/reference/upgrade.zh-CN.md",
         "docs/reference/upgrade.ja.md",
-        "docs/reference/installed-lifecycle.md"
+        "docs/architecture/versioning.ja.md",
+        "docs/release/distribution.ja.md",
+        "tests/release/version_consistency.sh"
       ],
-      "reason": "The shared Runtime and repository-migration responsibilities are documented in a Rust-native tri-language route with immutable Release, backup/conflict, rollback, and explicit adapter boundaries; source installer/Make commands are explanatory reference only."
+      "reason": "This source translation is represented by the Rust tri-language upgrade and distribution boundary. Runtime and repository migration remain separate; source installer, provider markers, and locale JSON are not copied."
+    },
+    {
+      "referencePath": "docs/reference/upgrade.md",
+      "batch": "WI-512-reference-docs-batch-33",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/upgrade.md",
+        "docs/reference/upgrade.zh-CN.md",
+        "docs/reference/upgrade.ja.md",
+        "docs/architecture/versioning.md",
+        "docs/release/distribution.md",
+        "tests/release/version_consistency.sh",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source upgrade distinction is preserved as shared Runtime upgrade versus explicit repository migration, with immutable Release identity, rollback, and historical evidence boundaries. Source installer and Make/Python bytes are not copied."
     },
     {
       "referencePath": "docs/reference/verification-evidence-reuse-runtime.md",
@@ -33378,15 +33388,17 @@
     },
     {
       "referencePath": "docs/reference/verification-fixture-boundary.md",
-      "batch": "WI-379-reference-documentation-batch-18",
+      "batch": "WI-512-reference-docs-batch-33",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/verification-fixture-boundary.md",
         "docs/reference/verification-fixture-boundary.zh-CN.md",
         "docs/reference/verification-fixture-boundary.ja.md",
-        "docs/reference/test-architecture.md"
+        "tests/fixtures/README.md",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/isolation_manifest.sh"
       ],
-      "reason": "Rust-native repository fixtures isolate source and Protocol inputs from Runtime/cache state; local fixture results are explicitly not provider, hosted-CI, adopter, production, or enterprise evidence."
+      "reason": "The source fixture boundary is retained as a Rust-native repository/Release isolation rule: source inputs are separated from runtime state, caches, worktrees, and forbidden global roots. Fixture and adopter manifests provide evidence; the source helper implementation is not copied."
     },
     {
       "referencePath": "docs/reference/wi01-wi20-bidirectional-traceability-audit.json",
@@ -33453,16 +33465,16 @@
     },
     {
       "referencePath": "docs/reference/work-item-lifecycle-closure.ja.md",
-      "batch": "WI-379-reference-documentation-batch-18",
+      "batch": "WI-512-reference-docs-batch-33",
       "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/reference/work-item-lifecycle-closure.ja.md",
         "docs/reference/work-item-lifecycle-closure.md",
         "docs/reference/work-item-lifecycle-closure.zh-CN.md",
-        "docs/reference/repository-workflow.ja.md",
-        "docs/reference/installed-lifecycle.ja.md"
+        "docs/reference/work-item-lifecycle-closure.ja.md",
+        "docs/reference/agent-workflow.ja.md",
+        "crates/cockpit-repository/src/lib.rs"
       ],
-      "reason": "The Rust-native Japanese closure route preserves reviewed PR, archive, exact cleanup, ready_on_base, and recovery boundaries through finalize/close receipts; source make/Python commands are not Runtime requirements."
+      "reason": "This source translation is represented by the Rust tri-language closure and recovery boundary, including immutable historical evidence and explicit cleanup. Provider-specific Make/Python routes are not copied or claimed as wire compatibility."
     },
     {
       "referencePath": "docs/reference/work-item-lifecycle-closure.md",

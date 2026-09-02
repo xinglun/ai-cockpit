@@ -9,7 +9,7 @@ audience:
 status: current
 authority: translation
 canonical: docs/reference/test-architecture.md
-lastVerifiedBy: WI-378-reference-documentation-batch-17
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - layered_verification
 ---

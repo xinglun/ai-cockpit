@@ -8,7 +8,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-378-reference-documentation-batch-17
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - layered_verification
 ---

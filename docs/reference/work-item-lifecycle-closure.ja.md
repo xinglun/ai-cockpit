@@ -6,7 +6,7 @@ audience: [adopter, maintainer, reviewer]
 status: implemented
 authority: translation
 canonical: docs/reference/work-item-lifecycle-closure.md
-lastVerifiedBy: WI-379-reference-documentation-batch-18
+lastVerifiedBy: WI-512-reference-docs-batch-33
 ---
 
 # Work Item ライフサイクルのクローズ
@@ -51,3 +51,20 @@ manifest を書き換えず、close receipt に `historical_low` の
 yellow として投影します。必須の Contract/Summary/Outcome bytes、identity、events、その他の
 artifact integrity は引き続き fail closed です。manifest の欠落、foreign、malformed、symlink、
 または異なる digest ではこの quarantine path を使用できません。
+
+## successor と historical recovery
+
+blocked な predecessor の Contract、Summary、Outcome、evidence は immutable な
+historical record として保持します。作業を引き継ぐ場合は、`work-item recover` の
+identity-bound retry/successor receipt を使い、元の決定や証拠を上書きしません。
+legacy finalization は read-only の recovery plan/receipt で扱います。
+
+Provider PR が存在しない過去の direct merge では、実在する merge commit、parents、base
+revision、repository identity を記録し、historical/low-assurance と明示できます。架空の
+PR 番号を補ったり、過去の receipt を書き換えたりしません。共有主 worktree の
+`retained` disposition も実際の resource 状態として保持します。
+
+stacked PR や post-archive の provider anomaly は通常の close の近道ではありません。
+別の human-authorized append-only evidence が必要であり、open または検証不能な PR を
+merged と扱いません。reference source の Make/Python recovery command は Rust Runtime
+command ではありません。

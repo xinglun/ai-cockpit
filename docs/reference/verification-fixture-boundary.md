@@ -5,7 +5,7 @@ description: What an isolated repository fixture contains and what its evidence 
 audience: [contributor, maintainer, reviewer]
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-379-reference-documentation-batch-18
+lastVerifiedBy: WI-512-reference-docs-batch-33
 ---
 
 # Verification fixture boundary

@@ -7,7 +7,7 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - recovery
 ---

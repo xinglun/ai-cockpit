@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - reference_parity
 ---
@@ -450,6 +450,13 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-509——发布 v0.2.61 与公开 adopter 验收 | 已实现 | [Work Item](../work-items/WI-509-release-v0-2-61.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-509-release-v0-2-61.contract.json`; verification `.ai/evidence/WI-509-release-v0-2-61.verification.json`; finalization `.ai/decisions/WI-509-release-v0-2-61.finalize.json`; close `.ai/decisions/WI-509-release-v0-2-61.close.json`. |
 | WI-510——安装入口与向导 locale 边界 | 已实现 | [Work Item](../work-items/WI-510-reference-file-comparison-batch-32.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-510-reference-file-comparison-batch-32.contract.json`; verification `.ai/evidence/WI-510-reference-file-comparison-batch-32.verification.json`; finalization `.ai/decisions/WI-510-reference-file-comparison-batch-32.finalize.json`; close `.ai/decisions/WI-510-reference-file-comparison-batch-32.close.json`. |
 | WI-511——发布 v0.2.62 与公开 adopter 验收 | 已实现 | [Work Item](../work-items/WI-511-release-v0-2-62.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-511-release-v0-2-62.contract.json`; verification `.ai/evidence/WI-511-release-v0-2-62.verification.json`; finalization `.ai/decisions/WI-511-release-v0-2-62.finalize.json`; close `.ai/decisions/WI-511-release-v0-2-62.close.json`. |
+| WI-512——治理参考文档批次 33 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-512-reference-docs-batch-33.zh-CN.md); archive `.ai/work-items/archive/WI-512-reference-docs-batch-33.contract.json`; verification `.ai/evidence/WI-512-reference-docs-batch-33.verification.json`; finalization `.ai/decisions/WI-512-reference-docs-batch-33.finalize.json`; close `.ai/decisions/WI-512-reference-docs-batch-33.close.json`. |
+
+## WI-512：治理参考页与验证边界
+
+状态为 implemented-different-by-design。WI-512 逐个重读 12 个固定源页面，并核对 Rust-native 语义 counterpart。源责任由 typed Protocol/repository validators、动态 quality route、fixture/isolation manifest、显式 Runtime upgrade/migration 以及 finalize/close recovery 承载。源专用 Make/Python/provider 命令和 JSON wire shape 保持在 Runtime 边界之外。逐文件台账见 [reference-file-comparison](reference-file-comparison.zh-CN.md)，三语目标页构成对象工程继承的读者文档。
+
+WI-504 已登记的两个路径（`troubleshooting.md` 与 `work-item-lifecycle-closure.md`）在本批重新核对但不重复登记；其余 10 个源路径具有当前 WI-512 记录，且没有 `deferred-next-batch` 或 `migrate-gap`。所有对象工程继承 shared external Runtime 以及隔离的 repository Contract、evidence、knowledge、Agent adapter 和 human Outcome 边界；不会继承源 installer、Make target、provider 决定或 generated history。
 
 ## 当前边界
 

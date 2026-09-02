@@ -8,7 +8,7 @@ audience:
   - maintainer
 status: current
 authority: canonical
-lastVerifiedBy: WI-378-reference-documentation-batch-17
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - test_weakening_detection
 ---
@@ -42,6 +42,35 @@ change evidence, then rerun against the same base. No environment variable,
 local receipt, or human prose can bypass a critical signal. Provider-side
 required checks and dynamic/generated test semantics remain external or
 explicit limitations.
+
+## Decision and compatibility boundary
+
+The Runtime preserves the reference guard's decision meaning without copying
+its Python module or Make surface:
+
+- `continue` means that no configured static signal was observed; it is not a
+  claim of sufficient tests.
+- `warning` records a reviewer-visible, non-blocking signal such as a safe
+  rename or small snapshot change.
+- `review` requires an explanation and independently reviewable requirement
+  evidence for material assertion, coverage, command-scope, negative-test, or
+  required-check reductions.
+- `block` stops explicit test/security/regression deletion, success bypasses,
+  non-blocking required checks, or a deliberate coverage reduction.
+
+An intentional retirement may be represented by a repository-local,
+identity-bound review evidence record. Its base, paths, allowed signals,
+human authorization, and digest must match the live finding. It can downgrade
+only a review finding to a visible warning; it cannot clear a critical signal.
+Legacy reports are read as historical input and require renewed analysis.
+Unknown future versions, malformed policy, stale identity, or missing Git
+evidence remain fail-closed. This is semantic compatibility, not JSON-wire or
+Python API compatibility.
+
+The detector is deliberately conservative but not omniscient: it can miss
+helper-level or generated/data-driven semantic changes and provider-side
+required-check changes. A fixture or local report therefore cannot establish
+provider, adopter, production, legal, or enterprise assurance.
 
 This is a Rust-native semantic counterpart to the reference Test Weakening
 Guard. It does not ship the source Python module, Make target, or source JSON

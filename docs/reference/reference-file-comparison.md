@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-512-reference-docs-batch-33
 capabilityClaims:
   - reference_parity
 ---
@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `b827d87eaa7c8257d569a9d840c8d782bb7b7328`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.58` binary, SHA256 `5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `326ba4d47f44bd2bbf5a07b9f466683245c87b7f`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.62` binary, SHA256 `c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -49,6 +49,8 @@ The machine-readable ledger is
 Its regression check requires one classification for every tracked reference
 path and rejects an unclassified first-batch path. Target checkout metadata is
 derived from the pinned commit, not from dirty or untracked working-tree files.
+The ledger's `targetCommit` is its historical rebaseline anchor; the current
+Runtime baseline above is the reviewed `origin/main` tip used for this batch.
 
 ## Classification rules
 
@@ -68,6 +70,38 @@ derived from the pinned commit, not from dirty or untracked working-tree files.
 - **deferred-next-batch** — the path is recorded but its semantic comparison is
   intentionally scheduled for a later batch. This is not a claim of parity or
   omission.
+
+## WI-512 — governance reference pages and verification boundaries
+
+WI-512 re-read the following twelve source paths one by one at the pinned local
+reference commit. Two paths were already classified by WI-504 and remain
+historically linked; the other ten receive the current batch classification.
+The target's translated pages are listed as counterparts even when the source
+checkout has no translation file. Every row is semantic parity, not source
+command, Python-module, or JSON-wire compatibility.
+
+| Pinned reference path | Classification | Rust counterpart and non-claim |
+| --- | --- | --- |
+| `docs/reference/schemas.md` | implemented-different-by-design | `docs/reference/schemas.*`, typed Protocol and schema tests; source YAML registries and Python validators are not copied. |
+| `docs/reference/test-architecture.md` | implemented-different-by-design | `docs/reference/test-architecture.*`, CI quality route and governance gates; VerificationTier remains separate from EvidenceAssurance. |
+| `docs/reference/test-weakening-guard.md` | implemented-different-by-design | tri-language weakening pages, Rust governance signals and regressions; source Make/Python implementation is not a Runtime dependency. |
+| `docs/reference/test-weakening-guard.zh-CN.md` | implemented-different-by-design | Chinese presentation counterpart and the same typed Rust guard boundary; locale bytes do not grant policy authority. |
+| `docs/reference/test-weakening-guard.ja.md` | implemented-different-by-design | Japanese presentation counterpart and the same typed Rust guard boundary; locale bytes do not grant policy authority. |
+| `docs/reference/verification-fixture-boundary.md` | implemented-different-by-design | tri-language fixture boundary plus adopter/isolation manifests; source fixture helper bytes are not copied. |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design (WI-504, revalidated) | explicit `--repo` Runtime recovery and tri-language troubleshooting; provider wizard/toolchain commands remain external. |
+| `docs/reference/troubleshooting.ja.md` | implemented-different-by-design | Japanese recovery route and adapter boundary; source wizard/session implementation is not copied. |
+| `docs/reference/upgrade.md` | implemented-different-by-design | tri-language upgrade, distribution and migration docs; shared Runtime upgrade does not rewrite repository evidence. |
+| `docs/reference/upgrade.ja.md` | implemented-different-by-design | Japanese Runtime/migration boundary; source installer, provider markers and locale JSON are not copied. |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design (WI-504, revalidated) | tri-language closure, finalize/recovery and ready-on-base checks; source Make/Python recovery orchestration is not a Rust command. |
+| `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | Japanese closure and historical recovery boundary; provider-specific routes remain external. |
+
+The target and every adopter inherit the shared external Runtime, isolated
+repository context, Contract/evidence/knowledge records, and human Outcome
+boundary. They do not inherit source-specific installers, Make targets,
+provider decisions, or generated history. The current ledger contains 4,262
+`generated-history`, 323 `implemented-different-by-design`, 1
+`implemented-equivalent`, 4 `not-applicable`, 90 `reference-only`, and 439
+`deferred-next-batch` records; `migrate-gap` remains zero.
 
 ## First batch: governance entrypoints
 
