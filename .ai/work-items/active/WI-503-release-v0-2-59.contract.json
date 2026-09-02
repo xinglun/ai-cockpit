@@ -1,0 +1,114 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package versions, Cargo.lock entries, and current tri-language release/versioning guidance identify v0.2.59 without rewriting historical release facts.",
+    "The reviewed PR passes hosted checks before an annotated v0.2.59 tag is created from the synchronized default branch.",
+    "The public v0.2.59 Release exposes identity-bound archives, SHA256 checksums, SBOM, provenance, and release manifest.",
+    "Public adopter and N-1 acceptance use only downloaded immutable artifacts, prove isolation and cleanup, and preserve first-adopter not_ready semantics.",
+    "The published binary is installed on this repository and inspect, status, doctor, Agent doctor, and post-close documentation checks remain healthy.",
+    "This Work Item completes visible Outcome, archive, finalization, close, and exact branch/worktree cleanup before publication."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1143bf6981a6f0b177a47947cfa92ae6fa1e104e",
+  "createdAt": "2026-09-02T07:06:30Z",
+  "goal": "Release v0.2.59 from the reviewed mainline and prove the public binary can govern a fresh adopter before resuming the next reference-source comparison batch.",
+  "intent": "Publish an immutable v0.2.59 Runtime release after the WI-502 terminal documentation gate fix, validate the downloaded public artifact in isolated adopter and N-1 flows, install it on this repository, and then return to reference comparison.",
+  "mode": "release",
+  "outOfScope": [
+    "Reference source or object/adopter repository changes",
+    "Global Agent, MCP, Homebrew, or user configuration",
+    "Source checkout or workspace binary fallback",
+    "Unrelated Runtime redesign and hand-editing generated governance records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8d18060ad12eed39cb0cdc054b60f2eb376a77a0c352d1cf217164c76190d3ec",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-503-release-v0-2-59",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-503-release-v0-2-59"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "The reviewed source commit, annotated tag, archives, checksums, SBOM, provenance, and release manifest are identity-bound.",
+      "required": true,
+      "scenario": "reviewed source commit produces the v0.2.59 public release",
+      "status": "unverified",
+      "verificationPlan": "Run strict release policy and version consistency checks, merge the reviewed PR, push the annotated tag only after close, and inspect the public Release assets."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_acceptance_test.sh"
+      ],
+      "expected": "The downloaded public binary creates an isolated Repository Protocol, preserves first-adopter not_ready semantics, reuses valid evidence, and cleans its temporary run root.",
+      "required": true,
+      "scenario": "public v0.2.59 binary governs a fresh isolated adopter",
+      "status": "unverified",
+      "verificationPlan": "Run adopter acceptance against the immutable v0.2.59 Release without a source or workspace binary fallback."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "The N-1 public binary upgrade preserves repository identity and protocol compatibility while proving forbidden-root isolation and cleanup.",
+      "required": true,
+      "scenario": "v0.2.59 upgrades an existing repository without cross-repository state",
+      "status": "unverified",
+      "verificationPlan": "Run N-1 acceptance with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME using the v0.2.58 and v0.2.59 public artifacts."
+    },
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "The installed immutable artifact reports the expected Runtime identity and leaves this repository attached, clean, and ready_on_base.",
+      "required": true,
+      "scenario": "installing the published binary on the Runtime repository remains healthy",
+      "status": "unverified",
+      "verificationPlan": "Install the public artifact, then run inspect, status, doctor, Agent doctor, and documentation promotion checks."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-503-release-v0-2-59.md",
+    "docs/work-items/WI-503-release-v0-2-59.zh-CN.md",
+    "docs/work-items/WI-503-release-v0-2-59.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/versioning.md",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    ".github/workflows/release.yml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-503-release-v0-2-59"
+}
