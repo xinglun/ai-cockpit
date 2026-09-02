@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "Each pinned reference path is read at commit fde3380f81fea5fd2e288f7a8849f737dc074060 and classified with an evidence-backed reason and Rust counterpart list.",
+    "install.sh installation, source selection, TTY boundary, cleanup, and rollback semantics are represented by current Rust Release/distribution and adopter installation documentation without source code copying.",
+    "The three wizard locale files are classified according to the target no-interactive-installer boundary, while supported multilingual Runtime presentation and adapter responsibility remain explicit.",
+    "Reference inventory, comparison pages, parity pages, and this Work Item documentation remain synchronized in English, Chinese, and Japanese with no migrate-gap.",
+    "Conformance and documentation checks pass, and no source checkout, object repository, global Agent/MCP configuration, or unrelated Runtime behavior changes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d983c1f3449c043a8f2cda1c1db2b0b2b5899dab",
+  "createdAt": "2026-09-02T13:41:26Z",
+  "goal": "Close one bounded installation/localization comparison batch with evidence-backed counterpart documentation, inventory parity, and explicit non-claims for object repositories.",
+  "intent": "Compare the reference installer entrypoint and three wizard locale files one by one, then record Rust-native semantic boundaries without copying source installer or wizard implementation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Copying reference Python or Shell installer code or wizard implementation",
+    "Copying source locale files or release metadata",
+    "Changing object repositories or global Agent/MCP configuration",
+    "Changing unrelated Runtime behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3bac12d79f79f384ae2d55efcc9ac8242314df1ecd6fcf9c9964670cc0b8e5fe",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-510-reference-file-comparison-batch-32",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/483",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-510-reference-file-comparison-batch-32"
+  },
+  "risk": "low",
+  "scope": [
+    "install.sh",
+    "locales/wizard/en.json",
+    "locales/wizard/ja.json",
+    "locales/wizard/zh-CN.json",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-510-reference-file-comparison-batch-32.md",
+    "docs/work-items/WI-510-reference-file-comparison-batch-32.zh-CN.md",
+    "docs/work-items/WI-510-reference-file-comparison-batch-32.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --check",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-510-reference-file-comparison-batch-32"
+}

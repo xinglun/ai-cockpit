@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=83 deferred-next-batch=403 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=279 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=399 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -190,11 +190,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 278 |
+| `implemented-different-by-design` | 279 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 83 |
-| `deferred-next-batch` | 403 |
+| `reference-only` | 86 |
+| `deferred-next-batch` | 399 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1243,3 +1243,25 @@ WI-508 在固定本地参考提交
 本批未发现实现遗漏。可移植意义已经由 Rust 原生 Contract、verification、evidence、CI 和 adopter 边界路线表达。本仓库及已 attach 的对象工程不会继承源技术栈安装器、Make 预设、应用示例或示例 Contract 决定。当前现行集合为 3,681 个 `generated-history`、278 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、83 个 `reference-only` 和 403 个 `deferred-next-batch`；`migrate-gap` 仍为 0，追加式台账继续保留 669 个 retired 路径。
 
 这是语义/文档对齐，不是 Python、Ruby、Rust、Swift 或 TypeScript 工具链支持、源命令兼容或 JSON wire 兼容。每个对象工程在外部安装一份共享 Runtime，并通过显式 `--repo` 绑定自己的事实、Contract、evidence、knowledge 和 Agent adapter。
+
+## WI-510：安装入口与向导 locale 边界
+
+WI-510 在固定的本地参考提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个阅读 4 个维护中的参考源文件。源安装器和向导 locale
+与 Rust Runtime 的不可变 Release、repository-bound onboarding 路线保持有意分离。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `install.sh`（`14f157f828e3ba8d1dd0886708b7eae223fe6d08`） | 有意采用不同实现 | `docs/getting-started/installation.*`、`docs/getting-started/installation-security.*`、`docs/release/distribution.*` 以及不可变的 `tests/release/adopter_acceptance.sh` / `adopter_upgrade_acceptance.sh` 路线保留 tag 选择、digest 校验、清理、回滚和隔离边界。Rust 安装一份共享 binary Release，再显式执行 `inspect`/`attach`/Agent；不复制源 Shell/Python 安装器，也不隐式写入目标工程。 |
+| `locales/wizard/en.json`（`1b9bfc3535e507c8478b071b641d974cb031e59e`） | 仅参考 | `docs/getting-started/installation.md`、`docs/reference/commands.md` 和 `docs/reference/outcome-report.md` 说明 Rust presentation 边界。Rust 支持英文 Runtime 标签和面向人的 Outcome；源交互向导的 prompt/session 控件由宿主或 adapter 负责。 |
+| `locales/wizard/ja.json`（`8fab9ba89bd2bac5ccd51e8cb70dfea719435f5c`） | 仅参考 | `docs/getting-started/installation.ja.md`、`docs/reference/commands.ja.md` 和 `docs/reference/outcome-report.ja.md` 说明日文 Runtime 展示。Rust 不提供第二套交互安装器，也不从 provider 对话控件推导批准。 |
+| `locales/wizard/zh-CN.json`（`591e11709864edf2846bfe63aab246b1dafd6473`） | 仅参考 | `docs/getting-started/installation.zh-CN.md`、`docs/reference/commands.zh-CN.md` 和 `docs/reference/outcome-report.zh-CN.md` 说明中文 Runtime 展示。不会复制源向导 locale，也不能据此授权 repository 修改。 |
+
+本批未发现实现遗漏。源 `install.sh` 的语义由 Rust 公开 Release、checksum/SBOM/provenance、显式 repository attach
+和隔离 adopter 验收边界承载。3 个 locale 是源展示资产，不是可移植治理 policy；Runtime 自有标签会本地化，Contract
+事实保持作者语言，宿主/Agent 对话 UX 仍属外部责任。当前 4,450 个路径包含 3,681 个 `generated-history`、279 个
+`implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、86 个 `reference-only`
+和 399 个 `deferred-next-batch`；append-only 台账保留 669 个 retired 路径，`migrate-gap` 仍为零。
+
+这是语义/文档对齐，不是源安装器、Python 依赖、交互向导或 JSON wire 兼容。每个对象/采用方工程仍在外部安装共享
+Runtime，并只继承显式 repository-bound 的 attach、Agent、Contract、evidence、knowledge 和 Outcome 边界。

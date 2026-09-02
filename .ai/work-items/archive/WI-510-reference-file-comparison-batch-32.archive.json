@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-02T14:21:01Z",
+  "files": {
+    "contractDigest": "sha256:ae4c963434ad925d1a60e0d42d48cc094c3ec5b8caed6a442e6d2135ba96b8f6",
+    "contractPath": ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.contract.json",
+    "eventsDigest": "sha256:b992df851a48258fa081da9becd49866290c7154c1abc7aabac045e647c3036e",
+    "eventsPath": ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.events.jsonl",
+    "outcomeDigest": "sha256:889a7d74e36d9d1f2b6b20e9855baa4f96e5fdc970b494b688a2412d55b9a14e",
+    "outcomePath": ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.outcome.json",
+    "summaryDigest": "sha256:0a5315d622ea92c1cce1efde53ee7774122245c628c23cc6c532c074d3def36e",
+    "summaryPath": ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.summary.json",
+    "taskReportDigest": "sha256:62ad3552f7dd4b612b85386f433ec1df37ef9b2443a114f4a86a37199af68595",
+    "taskReportMarkdownDigest": "sha256:7ec0c5b580945acd1ef4f97daf50afa7471b540111e32490b23242b2d97a9b7d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-510-reference-file-comparison-batch-32.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-510-reference-file-comparison-batch-32"
+}

@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=83 deferred-next-batch=403 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=279 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=399 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -201,11 +201,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 278 |
+| `implemented-different-by-design` | 279 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 83 |
-| `deferred-next-batch` | 403 |
+| `reference-only` | 86 |
+| `deferred-next-batch` | 399 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1284,3 +1284,27 @@ WI-508 は pinned local reference commit
 この slice に implementation omission はありません。portable な意味は既存の Rust-native Contract、verification、evidence、CI、adopter-boundary route で表現されています。target repository と attached object repository は source stack installer、Make preset、application example、sample Contract decision を継承しません。現在は 3,681 `generated-history`、278 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、83 `reference-only`、403 `deferred-next-batch` で、`migrate-gap` は 0、append-only ledger は 669 retired path を保持します。
 
 これは semantic/documentation parity であり、Python/Ruby/Rust/Swift/TypeScript toolchain support、source command compatibility、JSON-wire compatibility ではありません。各 adopter は shared Runtime を外部に一度だけ install し、明示的な `--repo` で自分の fact、Contract、evidence、knowledge、Agent adapter を bind します。
+
+## WI-510 — installer entrypoint と wizard locale の境界
+
+WI-510 は pinned local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対象 4 file を一つずつ読みました。source installer と wizard locale は、
+Rust Runtime の immutable Release と repository-bound onboarding route から意図的に分離しています。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `install.sh`（`14f157f828e3ba8d1dd0886708b7eae223fe6d08`） | implemented-different-by-design | `docs/getting-started/installation.*`、`docs/getting-started/installation-security.*`、`docs/release/distribution.*`、immutable な `tests/release/adopter_acceptance.sh` / `adopter_upgrade_acceptance.sh` が tag 選択、digest 検証、cleanup、rollback、isolation を保持します。Rust は shared binary Release を install し、`inspect`/`attach`/Agent operation を明示的に行います。source Shell/Python installer bytes や暗黙の target write は copy しません。 |
+| `locales/wizard/en.json`（`1b9bfc3535e507c8478b071b641d974cb031e59e`） | reference-only | `docs/getting-started/installation.md`、`docs/reference/commands.md`、`docs/reference/outcome-report.md` が Rust presentation boundary を示します。English Runtime label と human Outcome は対応しますが、source interactive wizard の prompt/session control は host または adapter が担当します。 |
+| `locales/wizard/ja.json`（`8fab9ba89bd2bac5ccd51e8cb70dfea719435f5c`） | reference-only | `docs/getting-started/installation.ja.md`、`docs/reference/commands.ja.md`、`docs/reference/outcome-report.ja.md` が Japanese Runtime presentation を示します。Rust は第二の interactive installer を提供せず、provider conversation control から approval を推論しません。 |
+| `locales/wizard/zh-CN.json`（`591e11709864edf2846bfe63aab246b1dafd6473`） | reference-only | `docs/getting-started/installation.zh-CN.md`、`docs/reference/commands.zh-CN.md`、`docs/reference/outcome-report.zh-CN.md` が Chinese Runtime presentation を示します。source wizard locale は copy せず、repository change の authority にもしません。 |
+
+この slice に implementation omission はありません。source `install.sh` の意味は Rust public Release、checksum/SBOM/provenance、
+explicit repository attachment、isolated adopter acceptance の境界で表現されます。3 locale file は source presentation asset であり
+portable governance policy ではありません。Runtime-owned label は localize しますが、Contract fact は authoring language に残し、
+host/Agent conversation UX は external responsibility です。現在の 4,450-path set は 3,681 `generated-history`、279
+`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、86 `reference-only`、399
+`deferred-next-batch` で、append-only ledger は 669 retired path を保持し、`migrate-gap` は zero です。
+
+これは semantic/documentation parity であり、source installer、Python dependency、interactive wizard、JSON-wire compatibility では
+ありません。各 object/adopter repository は shared Runtime を外部に install し、明示的な repository-bound attach、Agent、Contract、
+evidence、knowledge、Outcome の境界だけを継承します。
