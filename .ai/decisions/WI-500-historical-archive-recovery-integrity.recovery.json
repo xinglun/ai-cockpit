@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T05:35:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-500-historical-archive-recovery-integrity.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:5b2afb89a12332b6718d6d87ca13cba06f5c83430aa9d853aa0a29e2398a866a",
+  "predecessorEventsDigest": "sha256:319536fced39f8f5e84c7e4d91e7de7cf609da977a6c6ead56bdc67dd1abdd0b",
+  "predecessorOutcomeDigest": "sha256:de7dda160e6e05a122caaf342e59d3b2c9c838d5ebeded9d3dc9f7b0c1c8da55",
+  "predecessorSummaryDigest": "sha256:53db64dbf54c62ac5af55327efb8284b80a08de1b1548b00cfb77ae0335585d8",
+  "predecessorWorkItemId": "WI-500-historical-archive-recovery-integrity",
+  "reason": "Retry after recording the required non-provisional resource finalization plan; preserve the failed finish evidence and re-run verification before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification with the finalized resource context, then finish and archive.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "workItemId": "WI-500-historical-archive-recovery-integrity"
+}

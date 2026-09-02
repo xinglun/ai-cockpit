@@ -38,3 +38,13 @@ provider 自动删除分支以绕过证明。
 PR 恢复使用独立显式 receipt，不改写不可变 archive，也不把 open PR 变成 merged。参考源的
 `make` 命令和 Python 编排不是 Rust Runtime 命令；Rust 通过显式 `--repo` 和 repository-
 local evidence 保留同一审查、归档、精确清理意图。
+
+### 历史归档隔离
+
+经过明确授权的 `supersede` 恢复可以关闭不可变的历史归档 predecessor，前提是旧版
+Task Outcome Markdown 等可选产物与归档 manifest 摘要不一致。恢复 receipt 必须通过
+`predecessorArchiveManifestDigest` 绑定归档 manifest 的精确字节。Runtime 不会改写产物或
+manifest；close receipt 会记录 `historical_low` 的 `historicalArchiveIntegrity`，并将该
+历史 Work Item 投影为黄色，而不是当前绿色验证。Contract/Summary/Outcome 必需字节、身份、
+events 以及其他所有产物完整性检查仍然 fail closed。manifest 缺失、外部、格式错误、符号
+链接或摘要不一致时，不能使用此隔离路径。

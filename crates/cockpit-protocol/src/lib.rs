@@ -3194,6 +3194,12 @@ pub struct RecoveryDecisionReceipt {
     pub predecessor_outcome_digest: Option<Digest>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub predecessor_events_digest: Option<Digest>,
+    /// Exact SHA-256 bytes of an already archived predecessor manifest.  A
+    /// supersede decision may use this binding for the narrow historical
+    /// quarantine path; it never authorizes rewriting the manifest or its
+    /// artifacts.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_archive_manifest_digest: Option<Digest>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub successor_work_item_id: Option<String>,
     /// Runtime-generated marker for the narrowly scoped legacy successor

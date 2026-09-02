@@ -39,3 +39,15 @@ provider の auto-delete でこの証明を迂回してはいけません。
 merged に変えません。reference source の `make` と Python orchestration は Rust Runtime command
 ではありません。Rust は明示的な `--repo` と repository-local evidence で同じ review、archive、
 正確な cleanup の意図を保ちます。
+
+### 歴史 archive の quarantine
+
+明示的に承認された `supersede` recovery では、旧版の Task Outcome Markdown など任意の
+artifact が archive manifest の digest と一致しなくなった場合でも、immutable な archived
+predecessor を close できます。Recovery receipt は `predecessorArchiveManifestDigest` で
+archive manifest の正確な bytes を bind しなければなりません。Runtime は artifact や
+manifest を書き換えず、close receipt に `historical_low` の
+`historicalArchiveIntegrity` を記録し、歴史 Work Item を current green verification ではなく
+yellow として投影します。必須の Contract/Summary/Outcome bytes、identity、events、その他の
+artifact integrity は引き続き fail closed です。manifest の欠落、foreign、malformed、symlink、
+または異なる digest ではこの quarantine path を使用できません。

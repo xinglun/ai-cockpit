@@ -5635,6 +5635,9 @@ fn validate_recovery_predecessor_bindings(
             "repository, Work Item, decision, or authority identity is invalid",
         ));
     }
+    if receipt.predecessor_archive_manifest_digest.is_some() {
+        validate_recovery_archive_manifest_binding(root, work_item_id, receipt)?;
+    }
     match receipt.decision.as_str() {
         "retry" if receipt.successor_work_item_id.is_some() => {
             return Err(recovery_decision_error(
@@ -12238,14 +12241,43 @@ fn close_work_item_with_structured_decision_internal(
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
     let manifest = read_json(&archive)?;
-    verify_archive_manifest(&root, work_item_id, &manifest)?;
     // An archived predecessor may have a valid, append-only supersede
     // recovery decision recorded after the original archive.  The recovery
     // decision is the explicit authority for this transition; the immutable
     // archive manifest remains `archived` and is never rewritten merely to
     // make close succeed.
-    let manifest_superseded = manifest["state"] == serde_json::json!("superseded");
     let recovery_decision = load_recovery_decision(&root, work_item_id, current_runtime)?;
+    let mut historical_archive_integrity = None;
+    if let Err(manifest_error) = verify_archive_manifest(&root, work_item_id, &manifest) {
+        let can_quarantine = recovery_decision
+            .as_ref()
+            .is_some_and(|decision| decision.decision == "supersede");
+        if can_quarantine {
+            if recovery_decision
+                .as_ref()
+                .and_then(|decision| decision.predecessor_archive_manifest_digest.as_ref())
+                .is_some()
+            {
+                match verify_historical_supersede_manifest(
+                    &root,
+                    work_item_id,
+                    &manifest,
+                    recovery_decision
+                        .as_ref()
+                        .expect("supersede decision exists"),
+                ) {
+                    Ok(Some(artifact)) => historical_archive_integrity = Some(artifact),
+                    Ok(None) => return Err(manifest_error),
+                    Err(error) => return Err(error),
+                }
+            } else {
+                return Err(manifest_error);
+            }
+        } else {
+            return Err(manifest_error);
+        }
+    }
+    let manifest_superseded = manifest["state"] == serde_json::json!("superseded");
     let superseded = manifest_superseded
         || recovery_decision
             .as_ref()
@@ -12384,6 +12416,18 @@ fn close_work_item_with_structured_decision_internal(
     }
     decision["humanDecision"] = serde_json::Value::String(human_decision.decision.trim().into());
     decision["decisionState"] = serde_json::Value::String("confirmed".into());
+    if let Some(artifact) = historical_archive_integrity {
+        decision["historicalArchiveIntegrity"] = serde_json::json!({
+            "state": "quarantined",
+            "artifact": artifact,
+            "manifestDigest": recovery_decision
+                .as_ref()
+                .and_then(|value| value.predecessor_archive_manifest_digest.as_ref())
+                .map(ToString::to_string),
+            "assurance": "historical_low",
+            "reason": "optional archived Task Outcome Markdown bytes differ from the immutable manifest digest; bytes were preserved"
+        });
+    }
     if let Some(final_report) = outcome_value.get("taskOutcomeReport") {
         let mut final_report: TaskOutcomeReport = serde_json::from_value(final_report.clone())
             .map_err(|error| ObserverError::State {
@@ -12501,6 +12545,21 @@ fn verify_archive_manifest(
     work_item_id: &str,
     manifest: &serde_json::Value,
 ) -> Result<(), ObserverError> {
+    verify_archive_manifest_with_options(root, work_item_id, manifest, false).map(|_| ())
+}
+
+/// Verify an archive manifest while optionally quarantining one narrowly
+/// classified historical mismatch. Required contract/summary/outcome bytes,
+/// identity, historical artifacts, events, JSON reports, and all other
+/// optional artifacts remain strict. The only permitted exception is a
+/// `taskReportMarkdown` byte digest mismatch bound by an explicit supersede
+/// recovery receipt.
+fn verify_archive_manifest_with_options(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    allow_task_report_markdown_digest_mismatch: bool,
+) -> Result<Option<String>, ObserverError> {
     if manifest["workItemId"] != serde_json::Value::String(work_item_id.into())
         || !matches!(manifest["state"].as_str(), Some("archived" | "superseded"))
     {
@@ -12577,6 +12636,9 @@ fn verify_archive_manifest(
                 message: format!("archive manifest has an invalid {name} digest"),
             })?;
         if Digest::sha256_bytes(&bytes).to_string() != expected {
+            if allow_task_report_markdown_digest_mismatch && name == "taskReportMarkdown" {
+                continue;
+            }
             return Err(ObserverError::State {
                 path: path.clone(),
                 message: format!("archived {name} digest does not match manifest"),
@@ -12683,7 +12745,88 @@ fn verify_archive_manifest(
             }
         }
     }
+    let mismatched_report = if allow_task_report_markdown_digest_mismatch {
+        let expected = manifest["files"]["taskReportMarkdownDigest"].as_str();
+        let path = archive.join(format!("{work_item_id}.task-report.md"));
+        expected.and_then(|expected| {
+            fs::read(&path).ok().and_then(|bytes| {
+                (Digest::sha256_bytes(&bytes).to_string() != expected)
+                    .then(|| "taskReportMarkdown".to_owned())
+            })
+        })
+    } else {
+        None
+    };
+    Ok(mismatched_report)
+}
+
+/// Bind a recovery receipt to the exact bytes of an archived manifest and
+/// verify only its identity/state envelope. Full artifact verification is
+/// deliberately separate so a supersede receipt can quarantine one bounded
+/// historical optional-report mismatch without rewriting immutable bytes.
+fn validate_recovery_archive_manifest_binding(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &RecoveryDecisionReceipt,
+) -> Result<(), ObserverError> {
+    if receipt.decision != "supersede" {
+        return Err(recovery_decision_error(
+            root.join(".ai/decisions"),
+            "archive_manifest_binding_invalid",
+            "predecessorArchiveManifestDigest is only valid for supersede decisions",
+        ));
+    }
+    let Some(expected) = receipt.predecessor_archive_manifest_digest.as_ref() else {
+        return Ok(());
+    };
+    let path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    if !is_regular_non_symlink(&path)? {
+        return Err(recovery_decision_error(
+            path,
+            "archive_manifest_binding_invalid",
+            "predecessor archive manifest must be a regular non-symlink file",
+        ));
+    }
+    let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
+    if Digest::sha256_bytes(&bytes) != *expected {
+        return Err(recovery_decision_error(
+            path,
+            "archive_manifest_digest_mismatch",
+            "predecessor archive manifest bytes do not match the recovery binding",
+        ));
+    }
+    let manifest: serde_json::Value = serde_json::from_slice(&bytes).map_err(|error| {
+        recovery_decision_error(
+            path.clone(),
+            "archive_manifest_binding_invalid",
+            format!("predecessor archive manifest is not valid JSON: {error}"),
+        )
+    })?;
+    if manifest["workItemId"] != serde_json::Value::String(work_item_id.into())
+        || !matches!(manifest["state"].as_str(), Some("archived" | "superseded"))
+    {
+        return Err(recovery_decision_error(
+            path,
+            "archive_manifest_binding_invalid",
+            "predecessor archive manifest identity or state is invalid",
+        ));
+    }
     Ok(())
+}
+
+fn verify_historical_supersede_manifest(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    receipt: &RecoveryDecisionReceipt,
+) -> Result<Option<String>, ObserverError> {
+    validate_recovery_archive_manifest_binding(root, work_item_id, receipt)?;
+    verify_archive_manifest_with_options(root, work_item_id, manifest, true)
 }
 
 pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeIndex, ObserverError> {
@@ -14656,6 +14799,11 @@ fn outcome_v2_internal_with_snapshot(
             ),
         }
     };
+    let (recovery_decision, recovery_decision_invalid) =
+        match load_recovery_decision(&root, work_item_id, current_runtime) {
+            Ok(decision) => (decision, false),
+            Err(_) => (None, true),
+        };
     if archived {
         let archive_manifest = root
             .join(".ai/work-items/archive")
@@ -14676,6 +14824,17 @@ fn outcome_v2_internal_with_snapshot(
             let manifest = read_json(&archive_manifest).ok();
             let report_valid = manifest.as_ref().is_some_and(|manifest| {
                 verify_archive_manifest(&root, work_item_id, manifest).is_ok()
+                    || recovery_decision.as_ref().is_some_and(|decision| {
+                        decision.decision == "supersede"
+                            && decision.predecessor_archive_manifest_digest.is_some()
+                            && verify_historical_supersede_manifest(
+                                &root,
+                                work_item_id,
+                                manifest,
+                                decision,
+                            )
+                            .is_ok()
+                    })
             });
             let events_valid = !events_required
                 || validate_task_outcome_events(
@@ -14767,11 +14926,6 @@ fn outcome_v2_internal_with_snapshot(
         summary = "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.";
         evidence_unknown = Some("lifecycle_gate_failed");
     }
-    let (recovery_decision, recovery_decision_invalid) =
-        match load_recovery_decision(&root, work_item_id, current_runtime) {
-            Ok(decision) => (decision, false),
-            Err(_) => (None, true),
-        };
     if recovery_decision_invalid {
         state = OutcomeState::Unknown;
         decision_state = DecisionState::Red;

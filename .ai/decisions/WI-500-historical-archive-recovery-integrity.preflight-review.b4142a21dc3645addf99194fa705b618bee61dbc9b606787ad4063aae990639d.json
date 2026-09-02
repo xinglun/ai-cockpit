@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:78fd80722caa36e45140c835affcb2785366fbe310a746c977b54388ee1bdec4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e0f2fd8619c8107929c45a0414833e0082edd30b6047d7fa0f0f8af1ba878f74",
+  "reason": "Confirm the amended bounded Runtime recovery scope, including its additive protocol regression test, strict quarantine scenarios, and immutable-history boundary; this authorizes implementation but does not assert that scenarios have passed.",
+  "recordedAt": "2026-09-02T05:10:30Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:86113e2f5084c626dfa3bdf03043ba11940b4f744630eaa42804da2c16841912",
+  "schemaVersion": 1,
+  "workItemId": "WI-500-historical-archive-recovery-integrity"
+}

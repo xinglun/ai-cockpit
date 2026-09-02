@@ -43,3 +43,16 @@ explicit receipt; it never rewrites an immutable archive or turns an open PR
 into a merged one. Historical source `make` commands and Python orchestration
 are not Runtime commands. The Rust route preserves the same intent—review,
 archive, exact cleanup—with explicit `--repo` and repository-local evidence.
+
+### Historical archive quarantine
+
+An explicitly authorized `supersede` recovery may close an immutable archived
+predecessor when a legacy optional Task Outcome Markdown artifact no longer
+matches its archived manifest digest. The recovery receipt must bind the exact
+archive-manifest bytes with `predecessorArchiveManifestDigest`. The Runtime
+never rewrites the artifact or manifest; it records a `historical_low`
+`historicalArchiveIntegrity` marker in the close receipt and projects the
+historical item as yellow, not as a current green verification. Required
+Contract/Summary/Outcome bytes, identity, events, and all other artifact
+integrity checks remain fail-closed. A missing, foreign, malformed, symlinked,
+or differently digested manifest cannot use this quarantine path.
