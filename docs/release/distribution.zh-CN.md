@@ -15,8 +15,8 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-发布完成后，当前安装基线是公开且绑定身份的 `v0.2.60` Release；在 provider Release
-存在之前，应使用上一个公开的 `v0.2.59` archive。预留的 `v0.2.51` tag 是不可变的发布失败尝试
+发布完成后，当前安装基线是公开且绑定身份的 `v0.2.61` Release；在 provider Release
+存在之前，应使用上一个公开的 `v0.2.60` archive。预留的 `v0.2.51` tag 是不可变的发布失败尝试
 （workflow run `33417057474`）：它是 lightweight tag，没有 provider Release，永远不能复用或作为安装基线。
 `v0.2.56` tag 也只是不可变的发布失败历史：source-quality workflow 在创建 provider Release
 之前失败，因此永远不会复用或作为公开安装基线。
@@ -24,7 +24,7 @@ Homebrew 和手动安装都使用公开 archive
 与 manifest；仓库配置仍使用 `cockpit.toml`，安装 runtime 不会在目标仓库创建 `.ai`。
 同一套验收 harness 既有发布前 staged-candidate 模式，也有发布后 public-Release 模式；
 两者都不会从源码 workspace 获取 Runtime。
-此前公开的 `v0.2.59` 基线继续作为历史 evidence 保留，不会复用为当前安装 identity；`v0.2.55`、`v0.2.53` 与 `v0.2.52` 也继续作为更早的历史基线保留。未公开的 `v0.2.49` 标签（workflow run `33379366308`）作为发布前失败的不可变历史保留，不是安装基线。
+此前公开的 `v0.2.60` 基线继续作为历史 evidence 保留，不会复用为当前安装 identity；`v0.2.55`、`v0.2.53` 与 `v0.2.52` 也继续作为更早的历史基线保留。未公开的 `v0.2.49` 标签（workflow run `33379366308`）作为发布前失败的不可变历史保留，不是安装基线。
 
 `v0.2.46` 标签保留为不可变的发布失败历史（`33330269507`）；它从未创建公开
 Release，也不是安装基线。失败根因是打 tag 时尚未执行已关闭 Work Item 的强制文档 promotion。
@@ -58,8 +58,8 @@ release source quality 始终请求 `strict`。manifest 管理的 Cargo gates �
 archive 排除 `.ai` 与生成目录，同时保留 Cargo 源码和 lockfile。
 
 历史 Runtime shadow 基线是固定的公开 `v0.2.28`；当前 release route 还会验证
-`v0.2.60`。`tests/ci/runtime_verify_shadow.sh` receipt 是 standard/strict route 的 **execution
-smoke**。它验证公开且绑定身份的 `v0.2.60`，并使用仓库规范 profile。它不宣称 Runtime
+`v0.2.61`。`tests/ci/runtime_verify_shadow.sh` receipt 是 standard/strict route 的 **execution
+smoke**。它验证公开且绑定身份的 `v0.2.61`，并使用仓库规范 profile。它不宣称 Runtime
 全局 T0–T3 route、affected graph 完整性、跨 Work Item 物理执行或每个 Work Item 的
 evidence coverage。参考 Makefile orchestration 在本 Rust 仓库中属于
 different-by-design，不会复制。Runtime 全局路由与通用 CLI `verify --command` 语义超出
@@ -72,10 +72,10 @@ WI-224 的非 `crates/**` scope，明确 deferred。
 
 ```bash
 git fetch origin main --tags
-git tag -a v0.2.60 -m 'ai-cockpit v0.2.60'
-test "$(git cat-file -t v0.2.60)" = tag
-test "$(git rev-parse v0.2.60^{})" = "$(git rev-parse HEAD)"
-git push origin v0.2.60
+git tag -a v0.2.61 -m 'ai-cockpit v0.2.61'
+test "$(git cat-file -t v0.2.61)" = tag
+test "$(git rev-parse v0.2.61^{})" = "$(git rev-parse HEAD)"
+git push origin v0.2.61
 ```
 
 workflow 会拒绝 lightweight tag、已存在的 provider Release，或 peeled commit 不是已审查 source commit 的 tag。
@@ -111,10 +111,10 @@ brew untap xinglun/tap                 # 可选
 ## 验证 Release 制品
 
 从同一个已发布 GitHub Release 下载 archive、`release-manifest.json` 和 `SHA256SUMS`。
-v0.2.60 的校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
+v0.2.61 的校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
 
 ```bash
-archive="ai-cockpit-v0.2.60-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.61-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -124,8 +124,8 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 如果 Release 已存在，也可以使用 GitHub CLI 下载准确的三个文件：
 
 ```bash
-archive="ai-cockpit-v0.2.60-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.60 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.61-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.61 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -138,7 +138,7 @@ CLI 和 MCP 的 `verify` JSON 会输出 `runtimeVersion` 与 `runtimeDigest` 这
 ### 后续 candidate 的制品绑定 SBOM 策略
 
 失败的 staged v0.2.32 没有可供 adopter 使用的公开资产，其失败记录保持不可变，不会被改写为成功
-Release。v0.2.60 发布后，公开 bytes 才成为不可变事实；其 `SHA256SUMS` 覆盖五个 archive 与五个
+Release。v0.2.61 发布后，公开 bytes 才成为不可变事实；其 `SHA256SUMS` 覆盖五个 archive 与五个
 按 target 命名的 SBOM，且每个 target SBOM 都绑定对应的 archive 与 executable。
 
 使用 WI-241 边界构建的 release candidate 遵循更严格的契约。每个按 target 命名的 SPDX 2.3
@@ -180,7 +180,7 @@ GitHub Actions run `32696048024` 仍单独作为 `x86_64-unknown-linux-gnu` 的 
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.60 \
+  --tag v0.2.61 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -219,15 +219,15 @@ ref 或缺少必需 action 时 fail closed。今后更新 action runtime 时，�
 
 ### 历史 N-1 schema 迁移验收
 
-发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.60 是保持同一
+发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.61 是保持同一
 schema 的 patch Release；其 N-1 run 仍使用同一个 harness，在确认 compatibility 后记录
 `migrationState: not_required`。当前 N-1 run 使用紧邻的上一个公开 Release 与当前 Runtime，例如：
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.59 \
-  --to-tag v0.2.60 \
+  --from-tag v0.2.60 \
+  --to-tag v0.2.61 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -255,7 +255,7 @@ macOS/Linux 用户下载对应的 `.tar.gz` 和 `SHA256SUMS`，选择准确的 R
 
 ```bash
 target="aarch64-apple-darwin" # 选择与机器匹配的 target
-archive="ai-cockpit-v0.2.60-${target}.tar.gz"
+archive="ai-cockpit-v0.2.61-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -272,7 +272,7 @@ esac
 Windows 用户下载 `.zip` 和 `SHA256SUMS`，比较准确 checksum，解压到用户 bin 目录，并将该目录加入用户 `PATH`：
 
 ```powershell
-$archive = "ai-cockpit-v0.2.60-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.61-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -292,11 +292,11 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust 开发者 fallback
 
-该 fallback 适用于当前已发布且绑定身份的 `v0.2.60` tag。
+该 fallback 适用于当前已发布且绑定身份的 `v0.2.61` tag。
 发布完成后，workspace 含多个 package，必须显式选择 `cockpit-cli`：
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.60 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.61 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```
