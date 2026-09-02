@@ -91,14 +91,22 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
   finalization receipt 记录一条 append-only、绑定当前 Runtime 的历史分类。输入必须绑定准确的
   predecessor digest、repository/Work Item/Contract base、当前 Runtime、actor、authority、reason
   和 timestamp。旧主 worktree receipt 使用 `historicalKind=shared_worktree_retained`；无 PR 的
-  合并必须使用完整的 `historicalKind=direct_merge_no_pr` finalization receipt。predecessor 永不
-  改写，recovery 记录本身也不能让 Work Item 变绿。
+  历史合并必须使用完整的 `historicalKind=direct_merge_no_pr` finalization receipt。如果没有
+  canonical predecessor，该命令允许把 direct-merge receipt 作为第一条 canonical record，并执行
+  与 `finalize` 相同的 archive、Contract、Git parents、repository 和当前 Runtime 校验；不会创建
+  recovery 分类，也不会改写历史 bytes。只有在 receipt 仍绑定同一主 worktree 及 repository/base
+  事实时，才允许解析 provisional legacy Contract context。其他 mismatch 会 fail-closed，并指出
+  binding 类别（例如 `resourceContext.worktree` 或 `resourceContext.baseRevision`）。predecessor
+  永不改写，recovery 记录本身也不能让 Work Item 变绿。
 - `work-item finalize-recovery-plan --repo <path> --id <id>` 是只读的历史恢复发现入口。
   它输出不可变 predecessor 的路径/摘要、生成它的 Runtime identity、推导出的共享主 worktree
-  disposition，以及仍需人工提供的字段。历史 direct merge 可追加真实的
-  `--merge-commit <sha>`；Runtime 会校验真实 parents，并生成带
-  `pullRequest.number=0` 与 `historical://direct-merge/<sha>` 的 receipt 骨架。该命令不写入
-  `.ai/decisions`，不会虚构 PR 号、authority 或 human decision。
+  disposition，以及仍需人工提供的字段。没有 canonical predecessor 时追加真实的
+  `--merge-commit <sha>`；Runtime 会校验真实 parents，并输出确定性的 identity facts（repositoryId、
+  当前 Runtime、merge commit、parents、base revision 和 zero-PR URL），以及包含
+  `pullRequest.number=0` 与 `historical://direct-merge/<sha>` 的部分 receipt 骨架。同时输出 archived
+  Contract digest/base 和 provisional context。receipt ID、branch/worktree 事实、disposition、
+  authority、reason 和 timestamp 仍由人提供。该命令不写入 `.ai/decisions`，不会虚构 PR 号、authority
+  或 human decision。
 - `migrate plan --repo <path>` 在 schema 已兼容时仍保持兼容，但会额外输出
   `historicalFinalization`。已有有效 close 绑定的旧 receipt 标记为
   `historical_verified`/`historical_low`；待恢复或不可读的记录标记为 `recovery_required` 或

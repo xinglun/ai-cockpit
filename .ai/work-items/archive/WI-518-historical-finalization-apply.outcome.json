@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "finalize-recovery accepts a complete direct_merge_no_pr receipt when the canonical predecessor is absent and records it through the same strict repository/Git validation as finalize",
+    "Historical direct-merge compatibility may use an explicitly historical resource context only under repository, Contract base, real merge commit, parent, and primary-worktree bindings; arbitrary context mismatches remain rejected",
+    "finalize-recovery-plan emits all deterministically known receipt identity fields and enumerates human-owned fields without inventing PR, branch, authority, or decision facts",
+    "resource identity mismatch diagnostics identify the mismatching binding category and preserve fail-closed behavior",
+    "Regression tests cover missing predecessor, valid direct merge apply, foreign repository/work item/Contract context, forged parents, malformed input, symlink, and immutable predecessor bytes",
+    "Current-runtime receipts and shared-worktree recovery semantics remain unchanged and existing focused tests pass",
+    "English, Simplified Chinese, and Japanese command documentation describe the apply boundary and historical_low assurance without claiming provider assurance",
+    "No object repository or global configuration files are modified"
+  ],
+  "createdAt": "2026-09-02T21:58:55Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dbe01f037811e3b981f7da03bff8f76ddd24eab4d29f826bb9266a010a0397ad",
+  "evidenceRefs": [
+    ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1790d932d4cf77802dfcf495edc1fe3076ec410ec101bae822e51f5d0518c21a",
+      "workItemId": "WI-518-historical-finalization-apply"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-518-historical-finalization-apply.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-518-historical-finalization-apply.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-518-historical-finalization-apply.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-518-historical-finalization-apply.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-518-historical-finalization-apply.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide an auditable, repository-bound apply path for a historical direct merge when no canonical finalization receipt exists, with precise identity diagnostics and regression coverage."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-518-historical-finalization-apply.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-518-historical-finalization-apply"
+  },
+  "taskReportDigest": "sha256:3caaba920ba7efce33e36234d8e5e001e2f220ebcb5c3ec77f034684d1b476c7",
+  "taskReportMarkdownDigest": "sha256:b252949a11655a9e35df941ddbce5fc82e2b8323fae9ea30eaa8119e95b02db7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-518-historical-finalization-apply.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-518-historical-finalization-apply"
+}

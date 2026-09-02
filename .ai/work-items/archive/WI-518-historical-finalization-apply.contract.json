@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "finalize-recovery accepts a complete direct_merge_no_pr receipt when the canonical predecessor is absent and records it through the same strict repository/Git validation as finalize",
+    "Historical direct-merge compatibility may use an explicitly historical resource context only under repository, Contract base, real merge commit, parent, and primary-worktree bindings; arbitrary context mismatches remain rejected",
+    "finalize-recovery-plan emits all deterministically known receipt identity fields and enumerates human-owned fields without inventing PR, branch, authority, or decision facts",
+    "resource identity mismatch diagnostics identify the mismatching binding category and preserve fail-closed behavior",
+    "Regression tests cover missing predecessor, valid direct merge apply, foreign repository/work item/Contract context, forged parents, malformed input, symlink, and immutable predecessor bytes",
+    "Current-runtime receipts and shared-worktree recovery semantics remain unchanged and existing focused tests pass",
+    "English, Simplified Chinese, and Japanese command documentation describe the apply boundary and historical_low assurance without claiming provider assurance",
+    "No object repository or global configuration files are modified"
+  ],
+  "authority": "authorized",
+  "baseRevision": "5d672c1178065f9425ebc8149b8e82b6b7a60f84",
+  "createdAt": "2026-09-02T21:27:42Z",
+  "goal": "Provide an auditable, repository-bound apply path for a historical direct merge when no canonical finalization receipt exists, with precise identity diagnostics and regression coverage.",
+  "intent": "Make historical finalize recovery directly usable for a real legacy direct merge without a pull request, and make resource identity mismatches diagnosable, while preserving immutable predecessor records and current-runtime fail-closed checks.",
+  "mode": "code",
+  "outOfScope": [
+    "object/adopter repositories",
+    "source Python/Shell/Make implementation and V1 wire compatibility",
+    "rewriting immutable historical receipts",
+    " archives",
+    " evidence",
+    " or close decisions",
+    "weakening current Runtime identity checks for active Work Items",
+    "global Agent or MCP configuration",
+    "release publication and unrelated architecture/performance changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2e233094d45a48c5ef4a85b18663acc8f7c9ff8ce745a00a569ace572f19aa93",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-518-historical-finalization-apply",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/493",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-518-historical-finalization-apply"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/resource_finalization.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/work-items/WI-518-historical-finalization-apply.md",
+    "docs/work-items/WI-518-historical-finalization-apply.zh-CN.md",
+    "docs/work-items/WI-518-historical-finalization-apply.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-518-historical-finalization-apply"
+}

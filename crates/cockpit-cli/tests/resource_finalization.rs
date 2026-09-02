@@ -61,6 +61,22 @@ fn historical_recovery_commands_are_discoverable_in_work_item_help() {
 }
 
 #[test]
+fn finalize_recovery_help_describes_first_direct_merge_apply() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let output = Command::new(binary)
+        .args(["work-item", "finalize-recovery", "--help"])
+        .output()
+        .expect("run finalize-recovery help");
+    assert_success(&output, "finalize-recovery help");
+    let help = String::from_utf8_lossy(&output.stdout);
+    assert!(help.contains("first direct-merge"), "help: {help}");
+    assert!(
+        help.contains("complete direct-merge receipt"),
+        "help: {help}"
+    );
+}
+
+#[test]
 fn runtime_close_requires_explicit_resource_finalization_receipt() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let repo = repository();

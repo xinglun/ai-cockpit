@@ -1596,11 +1596,76 @@ pub fn validate_resource_finalization_receipt_for(
     if let Some(expected_context) = resource_context
         && receipt.resource_context.as_ref() != Some(expected_context)
     {
-        return Err(ResourceFinalizationError::IdentityMismatch(
-            "resourceContext",
-        ));
+        // A legacy direct merge may have been recorded with a historical
+        // provider after the original Contract bound the local provider and
+        // pull-request URL.  Keep this exception narrow: the receipt must
+        // explicitly identify a no-PR historical merge, retain the primary
+        // worktree, and preserve the Contract's repository/base/worktree
+        // identity.  Repository-bound Git validation is performed by the
+        // repository crate before the receipt is accepted.
+        let historical_direct_merge = matches!(
+            receipt.historical.as_ref().map(|value| &value.kind),
+            Some(HistoricalFinalizationKind::DirectMergeNoPr)
+        ) && receipt.provider == "historical"
+            && (expected_context.provider == "local"
+                || is_provisional_resource_context_value(&expected_context.provider))
+            && receipt.resource_context.as_ref().is_some_and(|actual| {
+                actual.provider == "historical"
+                    && (is_provisional_resource_context_value(&expected_context.base_branch)
+                        || actual.base_branch == expected_context.base_branch)
+                    && (is_provisional_resource_context_value(&expected_context.base_remote)
+                        || actual.base_remote == expected_context.base_remote)
+                    && actual.worktree == expected_context.worktree
+            });
+        if !historical_direct_merge {
+            return Err(ResourceFinalizationError::IdentityMismatch(
+                resource_context_mismatch_field(
+                    receipt.resource_context.as_ref(),
+                    expected_context,
+                ),
+            ));
+        }
     }
     Ok(())
+}
+
+fn is_provisional_resource_context_value(value: &str) -> bool {
+    value == "unknown" || value == "pending" || value.starts_with("pending:")
+}
+
+fn resource_context_mismatch_field(
+    actual: Option<&ResourceFinalizationContext>,
+    expected: &ResourceFinalizationContext,
+) -> &'static str {
+    let Some(actual) = actual else {
+        return "resourceContext";
+    };
+    [
+        (actual.branch != expected.branch, "resourceContext.branch"),
+        (
+            actual.worktree != expected.worktree,
+            "resourceContext.worktree",
+        ),
+        (
+            actual.base_branch != expected.base_branch,
+            "resourceContext.baseBranch",
+        ),
+        (
+            actual.base_remote != expected.base_remote,
+            "resourceContext.baseRemote",
+        ),
+        (
+            actual.provider != expected.provider,
+            "resourceContext.provider",
+        ),
+        (
+            actual.pull_request != expected.pull_request,
+            "resourceContext.pullRequest",
+        ),
+    ]
+    .into_iter()
+    .find_map(|(mismatch, field)| mismatch.then_some(field))
+    .unwrap_or("resourceContext")
 }
 
 /// A retry may safely replay an already completed finalization only when the

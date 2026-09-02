@@ -129,18 +129,30 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   legacy finalization receipt. The input must bind the exact predecessor
   digest, repository/Work Item/Contract base, current Runtime, actor,
   authority, reason, and timestamp. Use `historicalKind=shared_worktree_retained`
-  for an older primary-worktree receipt; use a complete
-  `historicalKind=direct_merge_no_pr` finalization receipt for a no-PR merge.
+  for an older primary-worktree receipt. For a legacy direct merge with no PR,
+  use a complete `historicalKind=direct_merge_no_pr` finalization receipt. If
+  no canonical predecessor exists, this command accepts that direct-merge
+  receipt as the first canonical record and applies the same archive, Contract,
+  Git-parent, repository, and current-Runtime checks as `finalize`; it does not
+  create a recovery classification or rewrite any historical bytes. A
+  provisional legacy Contract context may be resolved only when the receipt
+  remains bound to the same primary worktree and repository/base facts. Any
+  other mismatch fails closed and identifies the binding category (for
+  example `resourceContext.worktree` or `resourceContext.baseRevision`).
   The predecessor is never rewritten, and the recovery record cannot by itself
   make a Work Item green.
 - `work-item finalize-recovery-plan --repo <path> --id <id>` is the read-only
   discovery boundary for that recovery. It reports the immutable predecessor
   path/digest, producer Runtime identity, inferred shared-primary disposition,
-  and the exact human fields still required. For a historical direct merge,
-  pass the real `--merge-commit <sha>`; the plan verifies its parents and emits
-  a `pullRequest.number=0`/`historical://direct-merge/<sha>` receipt skeleton.
-  It never writes `.ai/decisions` and never invents a PR number, authority, or
-  human decision.
+  and the exact human fields still required. When a Work Item has no canonical
+  predecessor, pass the real `--merge-commit <sha>`; the plan verifies its
+  parents and emits the deterministic identity facts (`repositoryId`, current
+  Runtime, merge commit, parents, base revision, and the zero-PR URL) plus a
+  partial `pullRequest.number=0`/`historical://direct-merge/<sha>` receipt
+  skeleton. It also reports the archived Contract digest/base and any
+  provisional context; receipt IDs, branch/worktree facts, disposition,
+  authority, reason, and timestamp remain human-owned. It never writes
+  `.ai/decisions` and never invents a PR number, authority, or human decision.
 - `migrate plan --repo <path>` remains schema-compatible when the repository is
   current, but now also reports `historicalFinalization`. A stale receipt with
   a valid bound close is `historical_verified`/`historical_low`; a pending or
