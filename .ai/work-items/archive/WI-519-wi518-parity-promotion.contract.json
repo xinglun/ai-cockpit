@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "All three parity documents contain exactly one WI-518 terminal row with the archived Contract, verification, finalize, and close evidence paths.",
+    "The pending parity registry no longer contains WI-518 and no other registry entries are changed.",
+    "Governance integrity, docs acceptance, and status consistency gates pass on the resulting default branch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "64c62ec2dec756bdc92d6cbf7568ff72960e5cad",
+  "createdAt": "2026-09-02T22:36:23Z",
+  "goal": "Restore complete tri-language parity truth on the default branch without rewriting immutable Work Item evidence.",
+  "intent": "Promote the merged WI-518 documentation projection and remove its temporary pending parity bridge.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime code",
+    " object repositories",
+    " historical evidence bytes",
+    " release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0b2d24f2ed33e0fac211d655aa23ceee6c077d368e67bc1d582e767f7d62a26d",
+  "requiredEvidenceClasses": [
+    "documentation",
+    "governance",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-519-wi518-parity-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/494",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-519-wi518-parity-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/pending-parity-registry.json",
+    "docs/work-items/WI-518-historical-finalization-apply.md",
+    "docs/work-items/WI-518-historical-finalization-apply.zh-CN.md",
+    "docs/work-items/WI-518-historical-finalization-apply.ja.md",
+    "docs/work-items/WI-519-wi518-parity-promotion.md",
+    "docs/work-items/WI-519-wi518-parity-promotion.zh-CN.md",
+    "docs/work-items/WI-519-wi518-parity-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-519-wi518-parity-promotion"
+}
