@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-02T03:47:25Z",
+  "files": {
+    "approachDigest": "sha256:77c105a13075062a2c7a3ef5abdd52bea7f0d26166dae2e3f01edba9b9547a02",
+    "approachPath": ".ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.approach.json",
+    "contractDigest": "sha256:9f08290151033fbb44fb9cc087399b3868688f592eb21d77f1d6815de38a22c0",
+    "contractPath": ".ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.contract.json",
+    "eventsDigest": "sha256:6c4d9d4c3074d1aad190db881cb0281ea32c03866032a801009a1f8dc908cac4",
+    "eventsPath": ".ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.events.jsonl",
+    "outcomeDigest": "sha256:9e3aece87f1f21272f05ccdaadcde56095a6d066067057b7a200366a7a68c6c2",
+    "outcomePath": ".ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.outcome.json",
+    "summaryDigest": "sha256:d5b6d1bb07ee38f9dc597e67bb49d64b1cb8c6e1b98268117457f59d4f4ef442",
+    "summaryPath": ".ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.summary.json",
+    "taskReportDigest": "sha256:f599fc57fd992d9ffecbfd68c2efab930e47c3514a9a5529198af01f95d01d33",
+    "taskReportMarkdownDigest": "sha256:b879d4e5e7477fb9f2522d52f0104ef99933e8687d12bec96a6dfafa90bcf221",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-498-reference-file-comparison-batch-28-doc-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-498-reference-file-comparison-batch-28-doc-recovery"
+}

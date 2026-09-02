@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=69 deferred-next-batch=428 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=273 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=418 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -190,11 +190,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 267 |
+| `implemented-different-by-design` | 273 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 69 |
-| `deferred-next-batch` | 428 |
+| `reference-only` | 73 |
+| `deferred-next-batch` | 418 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1174,3 +1174,22 @@ WI-494 逐个重读了此前判定为 `reference-only`、但源内容发生变�
 | `docs/reference/deprecated-assets-registry.json` | reference-only | Rust 以不可变 Work Item 历史、显式资源收尾和经审查的清理 receipt 表达边界；源扫描器/注册表不是删除授权，也不复制。 |
 
 本批未发现实现遗漏。上述变化刷新的是源工程自有记录，并没有增加可移植的 Runtime 合同，因此 7 个路径全部保持 `reference-only`，同时在追加式台账中保留此前决定和 source-change provenance。当前台账为 4,262 个 `generated-history`、311 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、73 个 `reference-only`、468 个 `deferred-next-batch`，`migrate-gap` 仍为 0。日文和英文路线记录相同边界。
+
+## WI-496：分发、profile、多语言评估与发布前审计
+
+WI-496 在固定的本地参考提交上逐个重读 10 个路径。每项都是文件级语义决定；不把源 Python/Make 实现、源规划元数据、修订版绑定的评估 receipt 或 provider 发布声明复制进 Rust authority 或对象工程状态。
+
+| 参考源路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `docs/reference/distribution.md` | implemented-different-by-design | Rust release/distribution、安装、checksum、SBOM/provenance 与公开/N-1 adopter 验收路线。 |
+| `docs/reference/distribution.ja.md` | implemented-different-by-design | 日文 release/安装路线及相同不可变 artifact 和 adopter 边界。 |
+| `docs/reference/documentation-context-registry.json` | reference-only | `.ai/README.md`、`.ai/glossary.md`、`AGENTS.md` 与文档 gate 提供当前指令/历史边界；源计划元数据不是可移植协议。 |
+| `docs/reference/governance-profiles.md` | implemented-different-by-design | Rust 动态 quality route、gate manifest 与类型化治理控制；VerificationTier 与 EvidenceAssurance 保持正交。 |
+| `docs/reference/governance-profiles.zh-CN.md` | implemented-different-by-design | 中文 Rust quality-route 与治理控制文档，显式绑定 repository context。 |
+| `docs/reference/governance-profiles.ja.md` | implemented-different-by-design | 日文 Rust quality-route 与治理控制文档，显式绑定 repository context。 |
+| `docs/reference/japanese-capability-assessment.json` | reference-only | 源端 58 文件、修订版绑定的评估 receipt 不可转移；目标维护自己的有界多语言证据。 |
+| `docs/reference/japanese-capability-assessment.md` | implemented-different-by-design | 三语日语能力边界、本地化 Outcome 测试和明确的非流畅度声明。 |
+| `docs/reference/pre-release-documentation-alignment.json` | reference-only | 源端修订版/Work Item 审计 receipt 不是可移植证据；目标执行自己的文档、parity 与治理 gate。 |
+| `docs/reference/pre-release-documentation-alignment.md` | reference-only | 源发布前报告保持历史/reference-bound；目标发布证据独立生成。 |
+
+没有发现实现遗漏。6 个可移植责任已由 Rust 原生 release、治理与多语言读者路线承载；4 个源自有报告/注册表保持 `reference-only`，没有新增 `migrate-gap`。当前计数为 3,681 `generated-history`、273 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、73 `reference-only`、418 `deferred-next-batch`。

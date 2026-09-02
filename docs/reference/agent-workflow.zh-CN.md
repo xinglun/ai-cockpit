@@ -173,6 +173,11 @@ commit 严格早于 verification evidence 的加入。缺失、partial、错误�
 archive 后加入的行全部 fail closed。同一行无需改写 archived evidence，即可在 active、等待
 merge/close 与 closed 状态保持真实。该路径不放宽 pending registry 的 default-branch stale 规则。
 
+实际操作至少使用两个 commit：第一个 commit 先写入三语条件 parity 行及其文档登记；只有该
+commit 已在 feature branch 可见后，才能执行 verification 并加入 Runtime evidence。不得将登记
+与 verification evidence 合并到同一 commit。若顺序错误，应保留不可变交付并创建明确的 recovery
+successor，不得改写历史。
+
 Pull-request merge ref 是 default branch 与 feature snapshot 的组合树，不是对 feature
 snapshot 的简单重放。如果 default branch 带入较新的权威 lifecycle decision，每条 parity
 行都必须在保留合并前 receipt 的同时登记该 decision。即使 push head 已绿色，缺少较新的
