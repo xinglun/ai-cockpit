@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Exactly five deferred reference paths are re-read one by one at the pinned local reference commit and receive evidence-backed non-deferred classifications.",
+    "Portable governance meaning is preserved through existing Rust-native reader, Runtime, or explicit reference-only boundaries; source implementation and wire formats are not copied.",
+    "The root docs/upgrade.md compatibility route is either restored with a bounded Rust-native pointer or the omission is explicitly evidenced as not applicable; no broken reader route remains.",
+    "Inventory, tri-language comparison/parity pages, and this Work Item record the same five decisions and current counts with no migrate-gap.",
+    "Documentation, conformance, Runtime verification, reviewed PR, merge, close, and exact cleanup pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7199ad1ab72e3ec00568605f1306d69d202e3660",
+  "createdAt": "2026-09-02T08:36:38Z",
+  "goal": "Complete the next five-file reference comparison batch with an explicit tri-language parity record and a clean published-runtime delivery path.",
+  "intent": "Compare the next bounded reference files one by one, preserve their portable governance semantics in Rust-native reader routes, and fix any verified navigation omission without copying source implementation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Reference source working tree changes",
+    "Object/adopter repositories",
+    "Runtime behavior changes and new CLI commands",
+    "Copying source Python",
+    " Make",
+    " provider configuration",
+    " or V1 wire artifacts",
+    "Unrelated reference batches and global Agent/MCP/Homebrew configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:434f517185ca31dba4d2d7798ca792c8ebf3db86e125b6e6b217dfaeb235165a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-504-reference-file-comparison-batch-29",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-504-reference-file-comparison-batch-29"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/upgrade.md",
+    "docs/work-items/WI-504-reference-file-comparison-batch-29.md",
+    "docs/work-items/WI-504-reference-file-comparison-batch-29.zh-CN.md",
+    "docs/work-items/WI-504-reference-file-comparison-batch-29.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-504-reference-file-comparison-batch-29"
+}

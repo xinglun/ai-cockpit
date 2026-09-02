@@ -67,6 +67,7 @@ WI475_BATCH = "WI-475-reference-file-comparison-batch-25"
 WI482_BATCH = "WI-482-reference-file-comparison-batch-26"
 WI494_BATCH = "WI-494-reference-file-comparison-batch-27"
 WI496_BATCH = "WI-496-reference-file-comparison-batch-28"
+WI504_BATCH = "WI-504-reference-file-comparison-batch-29"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -733,6 +734,65 @@ WI496_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/ci-quality-gates.md",
         ],
         "The source report summarizes a revision-bound pre-release alignment audit. Target documentation and gates provide analogous responsibilities with new Runtime evidence; the source report, source Work Item, and source release claim are not copied or inherited.",
+    ),
+}
+
+# WI-504 re-reads five source documentation changes at the pinned local
+# reference commit.  The first four are provider/source-maintenance guidance
+# whose portable semantics already live in the Rust-native reader routes.  The
+# root upgrade entry is restored as a bounded compatibility pointer so the
+# source reader path does not become a dead link in the target.
+WI504_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/repository-workflow.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/repository-workflow.ja.md",
+            "docs/reference/repository-workflow.md",
+            "docs/reference/repository-workflow.zh-CN.md",
+            ".ai/README.md",
+        ],
+        "The source change removes a provider-specific REPORT_LANGUAGE argument. The Rust Japanese workflow already uses localized Runtime presentation without that argument and keeps explicit repository-scoped lifecycle, evidence, review, and cleanup boundaries; source Make commands are not copied.",
+    ),
+    "docs/reference/troubleshooting.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/troubleshooting.md",
+            "docs/reference/troubleshooting.zh-CN.md",
+            "docs/reference/troubleshooting.ja.md",
+            "docs/reference/commands.md",
+        ],
+        "The source removes a provider-specific external-handoff troubleshooting note. Rust keeps the general stop/recovery contract, explicit --repo binding, and evidence-preservation rules in its tri-language route; provider handoff records remain external and are not copied.",
+    ),
+    "docs/reference/verification-evidence-reuse.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/verification-evidence-reuse.md",
+            "docs/reference/verification-evidence-reuse.zh-CN.md",
+            "docs/reference/verification-evidence-reuse.ja.md",
+            "docs/reference/verification-route.md",
+            "crates/cockpit-verification/src/lib.rs",
+        ],
+        "The source makes a no-change decision for its Python/Make reuse proposal. Rust independently provides bounded, identity-bound, fail-closed reuse under a separate authorized Runtime boundary; this is not source wire or implementation parity and source receipts are not imported.",
+    ),
+    "docs/reference/work-item-lifecycle-closure.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/work-item-lifecycle-closure.md",
+            "docs/reference/repository-workflow.md",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/governance-integrity-gate.md",
+        ],
+        "The source removes a provider-specific hosted-governance recovery section and a REPORT_LANGUAGE argument. Rust retains the portable closure, exact cleanup, recovery, and evidence rules across linked Rust-native routes; source Make/Python/provider recovery commands are not Runtime requirements.",
+    ),
+    "docs/upgrade.md": (
+        "implemented-different-by-design",
+        [
+            "docs/upgrade.md",
+            "docs/reference/upgrade.md",
+            "docs/reference/upgrade.zh-CN.md",
+            "docs/reference/upgrade.ja.md",
+        ],
+        "The source file is a compatibility reader entry. Rust restores the same navigation role with a minimal root pointer to the canonical tri-language reference upgrade route, while keeping shared Runtime installation, repository migration, and provider configuration as separate boundaries.",
     ),
 }
 
@@ -3180,6 +3240,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi504 = WI504_REFERENCE_FILES.get(path)
+        if wi504 is not None:
+            classification, counterparts, reason = wi504
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI504_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         if is_generated_history(path):
             records.append(
                 {
@@ -3699,6 +3772,36 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 )
             if not record.get("rustCounterparts") or not record.get("reason"):
                 errors.append(f"{record.get('referencePath')}: WI-496 result needs counterparts and reason")
+        if any(
+            isinstance(record, dict) and record.get("batch") == WI504_BATCH
+            for record in records
+        ):
+            wi504_records = [
+                record
+                for record in records
+                if isinstance(record, dict)
+                and record.get("batch") == WI504_BATCH
+                and record.get("referencePath") in WI504_REFERENCE_FILES
+            ]
+            expected_wi504_paths = set(WI504_REFERENCE_FILES) & current_reference_paths
+            actual_wi504_paths = {record.get("referencePath") for record in wi504_records}
+            if actual_wi504_paths != expected_wi504_paths:
+                errors.append(
+                    "WI-504 reference documentation records do not match the five scoped paths: "
+                    f"expected {sorted(expected_wi504_paths)!r}, got {sorted(actual_wi504_paths)!r}"
+                )
+            if len(wi504_records) != len(expected_wi504_paths):
+                errors.append(
+                    f"WI-504 batch must contain {len(expected_wi504_paths)} records, found {len(wi504_records)}"
+                )
+            for record in wi504_records:
+                expected_classification = WI504_REFERENCE_FILES[record["referencePath"]][0]
+                if record.get("classification") != expected_classification:
+                    errors.append(
+                        f"{record.get('referencePath')}: WI-504 classification must be {expected_classification}"
+                    )
+                if not record.get("rustCounterparts") or not record.get("reason"):
+                    errors.append(f"{record.get('referencePath')}: WI-504 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -4625,6 +4728,33 @@ def apply_wi496_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi504_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI504_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI504_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI504_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI504_REFERENCE_FILES)} WI-504 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -4647,6 +4777,7 @@ def main() -> int:
     parser.add_argument("--apply-wi482-batch", action="store_true")
     parser.add_argument("--apply-wi494-batch", action="store_true")
     parser.add_argument("--apply-wi496-batch", action="store_true")
+    parser.add_argument("--apply-wi504-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -4719,6 +4850,13 @@ def main() -> int:
     if args.apply_wi496_batch:
         try:
             apply_wi496_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi504_batch:
+        try:
+            apply_wi504_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

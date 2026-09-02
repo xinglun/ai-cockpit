@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=273 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=418 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=413 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -201,11 +201,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 273 |
+| `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 73 |
-| `deferred-next-batch` | 418 |
+| `deferred-next-batch` | 413 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1236,3 +1236,17 @@ WI-496 は固定した local reference commit の 10 path を一つずつ再読�
 | `docs/reference/pre-release-documentation-alignment.md` | reference-only | source pre-release report は historical/reference-bound のまま、target release evidence は独立に生成します。 |
 
 implementation omission は見つかりませんでした。6 件の portable responsibility は Rust-native release、governance、multilingual reader route に実装済みで、4 件の source-owned report/registry は `reference-only` です。`migrate-gap` は増えていません。現在は 3,681 `generated-history`、273 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、73 `reference-only`、418 `deferred-next-batch` です。
+
+## WI-504 — reference documentation batch 29
+
+WI-504 は pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060` で変更された 5 path を一つずつ再読しました。最初の 4 path は source/provider 固有の documentation を絞り込み、`docs/upgrade.md` は reader-entry の compatibility pointer に整理されています。Rust は native Runtime と三言語の reader route で portable な governance semantic を保持し、source Python、Make、provider command、source evidence は copy しません。
+
+| Pinned reference path | Classification | Rust counterpart と bounded decision |
+| --- | --- | --- |
+| `docs/reference/repository-workflow.ja.md` | implemented-different-by-design | Rust の Japanese workflow は削除された `REPORT_LANGUAGE` 引数をもともと使用せず、明示的な repository-scoped lifecycle、evidence、review、cleanup を記録します。 |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design | Rust の tri-language troubleshooting route は一般的な stop/recovery と evidence preservation を保持し、provider 固有 handoff record は external boundary のままです。 |
+| `docs/reference/verification-evidence-reuse.md` | implemented-different-by-design | source の no-change decision は Python/Make proposal に固有です。Rust の別途承認済み reuse は identity、snapshot、policy、fail-closed validation で bounded されています。 |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design | Rust-native closure、exact cleanup、recovery route が portable boundary を保持します。source hosted-governance/Make recovery detail は Runtime command ではありません。 |
+| `docs/upgrade.md` | implemented-different-by-design | 最小の root compatibility entry を canonical な Rust tri-language upgrade reference に向け、implementation detail を重複させず reader route を保持します。 |
+
+`migrate-gap` は見つかりませんでした。source/provider 固有の削除は target の lifecycle、reuse、upgrade boundary を弱めず、新しい root entry はこの slice で見つかった唯一の reader-navigation omission を閉じます。current snapshot は 3,681 `generated-history`、278 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、73 `reference-only`、413 `deferred-next-batch` です。

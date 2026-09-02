@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=273 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=418 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=413 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -231,11 +231,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 273 |
+| `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 73 |
-| `deferred-next-batch` | 418 |
+| `deferred-next-batch` | 413 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1520,3 +1520,27 @@ surfaces; four source-owned reports/registries remain reference-only. No
 `migrate-gap` is introduced. Current counts are 3,681 `generated-history`,
 273 `implemented-different-by-design`, 1 `implemented-equivalent`, 4
 `not-applicable`, 73 `reference-only`, and 418 `deferred-next-batch`.
+
+## WI-504 — reference documentation batch 29
+
+WI-504 re-reads five changed reference paths at the pinned local commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060`. Four changes narrow
+source/provider-specific documentation; the root `docs/upgrade.md` change is a
+reader-entry compatibility pointer. Rust preserves the portable governance
+meaning through its native Runtime and tri-language routes without copying
+source Python, Make, provider commands, or source evidence.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/repository-workflow.ja.md` | implemented-different-by-design | The Rust Japanese workflow already omits the removed `REPORT_LANGUAGE` argument and documents explicit repository-scoped lifecycle, evidence, review, and cleanup. |
+| `docs/reference/troubleshooting.md` | implemented-different-by-design | The Rust tri-language troubleshooting route keeps the general stop/recovery and evidence-preservation contract; provider-specific handoff records remain external. |
+| `docs/reference/verification-evidence-reuse.md` | implemented-different-by-design | The source no-change decision is specific to its Python/Make proposal; Rust's separately authorized reuse remains bounded by identity, snapshot, policy, and fail-closed validation. |
+| `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design | Rust-native closure, exact cleanup, and recovery routes retain the portable boundary; source hosted-governance/Make recovery details are not Runtime commands. |
+| `docs/upgrade.md` | implemented-different-by-design | A minimal root compatibility entry points to the canonical Rust tri-language upgrade reference, preserving the reader route without duplicating implementation details. |
+
+No `migrate-gap` was found. The source/provider-specific removals do not weaken
+the target's governed lifecycle, reuse, or upgrade boundaries, and the new root
+entry closes the only reader-navigation omission found in this slice. The
+current snapshot is 3,681 `generated-history`, 278
+`implemented-different-by-design`, 1 `implemented-equivalent`, 4
+`not-applicable`, 73 `reference-only`, and 413 `deferred-next-batch` records.

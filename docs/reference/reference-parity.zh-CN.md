@@ -442,6 +442,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-501——WI-500 终态文档与收据晋升 | 已实现 | [Work Item](../work-items/WI-501-doc-promotion-receipts.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-501-doc-promotion-receipts.contract.json`; verification `.ai/evidence/WI-501-doc-promotion-receipts.verification.json`; finalization `.ai/decisions/WI-501-doc-promotion-receipts.finalize.json`; close `.ai/decisions/WI-501-doc-promotion-receipts.close.json`. |
 | WI-502——WI-501 终态文档投影 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-502-doc-promotion-terminal.zh-CN.md)；archive `.ai/work-items/archive/WI-502-doc-promotion-terminal.contract.json`；verification `.ai/evidence/WI-502-doc-promotion-terminal.verification.json`；finalization `.ai/decisions/WI-502-doc-promotion-terminal.finalize.json`；close `.ai/decisions/WI-502-doc-promotion-terminal.close.json`；本限定投影消费 close 后强制文档门禁，不重写历史证据。 |
 | WI-503——发布 v0.2.59 与公开 adopter 验收 | 已实现 | [Work Item](../work-items/WI-503-release-v0-2-59.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-503-release-v0-2-59.contract.json`; verification `.ai/evidence/WI-503-release-v0-2-59.verification.json`; finalization `.ai/decisions/WI-503-release-v0-2-59.finalize.json`; close `.ai/decisions/WI-503-release-v0-2-59.close.json`. |
+| WI-504——参考文档第 29 批 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-504-reference-file-comparison-batch-29.zh-CN.md)；5 个变化的参考路径已记录在文件级台账中，并补齐根级 `docs/upgrade.md` 兼容入口。 |
 
 ## 当前边界
 

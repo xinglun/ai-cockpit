@@ -33198,15 +33198,15 @@
     },
     {
       "referencePath": "docs/reference/repository-workflow.ja.md",
-      "batch": "WI-378-reference-documentation-batch-17",
-      "classification": "deferred-next-batch",
+      "batch": "WI-504-reference-file-comparison-batch-29",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/repository-workflow.ja.md",
         "docs/reference/repository-workflow.md",
-        ".ai/README.md",
-        "AGENTS.md"
+        "docs/reference/repository-workflow.zh-CN.md",
+        ".ai/README.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source change removes a provider-specific REPORT_LANGUAGE argument. The Rust Japanese workflow already uses localized Runtime presentation without that argument and keeps explicit repository-scoped lifecycle, evidence, review, and cleanup boundaries; source Make commands are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-378-reference-documentation-batch-17",
       "previousClassification": "implemented-different-by-design",
@@ -33309,15 +33309,15 @@
     },
     {
       "referencePath": "docs/reference/troubleshooting.md",
-      "batch": "WI-378-reference-documentation-batch-17",
-      "classification": "deferred-next-batch",
+      "batch": "WI-504-reference-file-comparison-batch-29",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/troubleshooting.md",
-        "docs/reference/commands.md",
-        "docs/reference/installed-lifecycle.md",
-        "tests/docs/documentation_acceptance.sh"
+        "docs/reference/troubleshooting.zh-CN.md",
+        "docs/reference/troubleshooting.ja.md",
+        "docs/reference/commands.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source removes a provider-specific external-handoff troubleshooting note. Rust keeps the general stop/recovery contract, explicit --repo binding, and evidence-preservation rules in its tri-language route; provider handoff records remain external and are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-378-reference-documentation-batch-17",
       "previousClassification": "implemented-different-by-design",
@@ -33361,16 +33361,16 @@
     },
     {
       "referencePath": "docs/reference/verification-evidence-reuse.md",
-      "batch": "WI-379-reference-documentation-batch-18",
-      "classification": "deferred-next-batch",
+      "batch": "WI-504-reference-file-comparison-batch-29",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/verification-evidence-reuse.md",
         "docs/reference/verification-evidence-reuse.zh-CN.md",
         "docs/reference/verification-evidence-reuse.ja.md",
-        "docs/reference/verification-cost.md",
-        "docs/reference/verification-planner.md"
+        "docs/reference/verification-route.md",
+        "crates/cockpit-verification/src/lib.rs"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source makes a no-change decision for its Python/Make reuse proposal. Rust independently provides bounded, identity-bound, fail-closed reuse under a separate authorized Runtime boundary; this is not source wire or implementation parity and source receipts are not imported.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-379-reference-documentation-batch-18",
       "previousClassification": "implemented-different-by-design",
@@ -33466,16 +33466,15 @@
     },
     {
       "referencePath": "docs/reference/work-item-lifecycle-closure.md",
-      "batch": "WI-379-reference-documentation-batch-18",
-      "classification": "deferred-next-batch",
+      "batch": "WI-504-reference-file-comparison-batch-29",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/work-item-lifecycle-closure.md",
-        "docs/reference/work-item-lifecycle-closure.zh-CN.md",
-        "docs/reference/work-item-lifecycle-closure.ja.md",
         "docs/reference/repository-workflow.md",
-        "docs/reference/installed-lifecycle.md"
+        "docs/reference/agent-workflow.md",
+        "docs/reference/governance-integrity-gate.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source removes a provider-specific hosted-governance recovery section and a REPORT_LANGUAGE argument. Rust retains the portable closure, exact cleanup, recovery, and evidence rules across linked Rust-native routes; source Make/Python/provider recovery commands are not Runtime requirements.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-379-reference-documentation-batch-18",
       "previousClassification": "implemented-different-by-design",
@@ -34713,12 +34712,15 @@
     },
     {
       "referencePath": "docs/upgrade.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-504-reference-file-comparison-batch-29",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "docs/reference/upgrade.md"
+        "docs/upgrade.md",
+        "docs/reference/upgrade.md",
+        "docs/reference/upgrade.zh-CN.md",
+        "docs/reference/upgrade.ja.md"
       ],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source file is a compatibility reader entry. Rust restores the same navigation role with a minimal root pointer to the canonical tri-language reference upgrade route, while keeping shared Runtime installation, repository migration, and provider configuration as separate boundaries.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
