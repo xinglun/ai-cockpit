@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized documentation gate recovery",
+  "decidedAt": "2026-09-01T23:48:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-492-wi491-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-492-wi491-doc-promotion.summary.json",
+    ".ai/work-items/active/WI-492-wi491-doc-promotion.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:786430beb330e4dbe6a7d4afc79e9df5e823e42613b2f8b315c7d4118036761a",
+  "predecessorEventsDigest": "sha256:1edcce9d10ed9d2b0ead53a3df32ced2bb942f51333f050ad388902ba5c0129a",
+  "predecessorOutcomeDigest": "sha256:7e356a3274d2352ee1ba98f37d489e6bfe3c682b0340f072a71ac22f25bf550e",
+  "predecessorSummaryDigest": "sha256:ae5c448a0b589914c1280ac046731defa7b26d7b5a75621d6ed83c045e67e317",
+  "predecessorWorkItemId": "WI-492-wi491-doc-promotion",
+  "reason": "Finalize-plan deliberately updated the Contract with the reviewed PR identity; preserve the earlier retry and rerun fresh verification against this final plan without rewriting stopped evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification and preflight against the final reviewed PR context, then finish, archive, finalize, and close through PR #465.",
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "workItemId": "WI-492-wi491-doc-promotion"
+}
