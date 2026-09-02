@@ -1,0 +1,81 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-02T06:41:25Z",
+  "checkpointContractDigest": "sha256:f4b4e699fdff2ab4036d8c1f98fef457802e27b233683814f7bf329ae8494150",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6cf34538f061b776e445680a31ab4ee91b6c8db0f7a70fcb39e73f35ee73c4fa",
+      "recorded": true,
+      "recordedAt": "2026-09-02T06:41:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:29904a9f31a481717bdcba7851976cf4e3adbc2f2a90aca9cab6f565ac65dfc8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-502-doc-promotion-terminal"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3d09781134437d4e35e33036d12be85101a4874d5f86db10446ba345fa19aa03",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6cf34538f061b776e445680a31ab4ee91b6c8db0f7a70fcb39e73f35ee73c4fa",
+      "previousContractHash": "sha256:6cf34538f061b776e445680a31ab4ee91b6c8db0f7a70fcb39e73f35ee73c4fa",
+      "reason": "Correct the Contract scope representation to enumerate the six intended documentation files; the initial semicolon string was rejected as scope_exceeded.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T06:43:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:383060e237da50a59c0b47f7130a64e3fd5c55e51cf5b644cb24644f9f580c28",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-502-doc-promotion-terminal"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:8d9c98adc9ce6f7e9f0b1be90ad4c0f206b7aa4bb060f879be3c2daea76d4abe",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6cf34538f061b776e445680a31ab4ee91b6c8db0f7a70fcb39e73f35ee73c4fa",
+      "previousContractHash": "sha256:3d09781134437d4e35e33036d12be85101a4874d5f86db10446ba345fa19aa03",
+      "reason": "Include the three WI-502 language pages and three parity rows required by the repository status-consistency gate; they are part of this same terminal projection.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T06:46:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fcb1b491a77add2f867f243aa70daeb8dc8cb47c9706b96ec4083fd26c9df40f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-502-doc-promotion-terminal"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8d18060ad12eed39cb0cdc054b60f2eb376a77a0c352d1cf217164c76190d3ec",
+  "createdAt": "2026-09-02T06:41:13Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-02T06:55:45Z",
+  "preflightContractDigest": "sha256:f4b4e699fdff2ab4036d8c1f98fef457802e27b233683814f7bf329ae8494150",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8d18060ad12eed39cb0cdc054b60f2eb376a77a0c352d1cf217164c76190d3ec",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T06:55:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-502-doc-promotion-terminal"
+}

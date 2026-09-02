@@ -1,0 +1,24 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized continuation to repair the stale verification after binding the reviewed PR",
+  "decidedAt": "2026-09-02T06:56:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-502-doc-promotion-terminal.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:f4b4e699fdff2ab4036d8c1f98fef457802e27b233683814f7bf329ae8494150",
+  "predecessorSummaryDigest": "sha256:717fba36dfc38fa2d942a99b784554a03f1cd6b8c6e435d15116c7f89a4d746d",
+  "predecessorWorkItemId": "WI-502-doc-promotion-terminal",
+  "reason": "The verified evidence became stale when the finalization plan bound PR #475; preserve the predecessor verification and rerun against the current Contract and repository snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification, then finish and archive.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "workItemId": "WI-502-doc-promotion-terminal"
+}
