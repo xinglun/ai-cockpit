@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "23187050410942dac53aec9c4d327e352235fb92",
+    "name": "codex/wi-510-reference-file-comparison-batch-32",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ae4c963434ad925d1a60e0d42d48cc094c3ec5b8caed6a442e6d2135ba96b8f6",
+  "operationId": "github-pr-483-merge-cleanup-20260902",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d983c1f3449c043a8f2cda1c1db2b0b2b5899dab",
+    "headRevision": "23187050410942dac53aec9c4d327e352235fb92",
+    "mergeCommit": "38bcad7bd0be81bed17e60048583c7ae74e86405",
+    "number": 483,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/483"
+  },
+  "reason": "Reviewed PR #483 passed all hosted checks and was merged; the exact feature branch and dedicated worktree were removed only after synchronizing main.",
+  "receiptId": "github-pr-483-finalization-20260902",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-510-reference-file-comparison-batch-32",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/483",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-510-reference-file-comparison-batch-32"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:a8ef374c2f54bd63c1b9edf6c6629b6e13347786bcf50d868854b28cd2cf4c01",
+  "runtimeVersion": "0.2.61",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T14:38:00Z",
+  "workItemId": "WI-510-reference-file-comparison-batch-32",
+  "worktree": {
+    "branch": "codex/wi-510-reference-file-comparison-batch-32",
+    "headRevision": "23187050410942dac53aec9c4d327e352235fb92",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-510-reference-file-comparison-batch-32",
+    "worktreeId": "WI-510-reference-file-comparison-batch-32"
+  }
+}
