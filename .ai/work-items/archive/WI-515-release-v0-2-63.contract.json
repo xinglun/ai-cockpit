@@ -27,11 +27,11 @@
   "repositorySnapshotDigest": "sha256:a6b66059cb44abecee6472ec6075365f7f79cf9ea2bc62d8aea70dd33863b4ab",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-515-release-v0-2-63",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/490",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-515-release-v0-2-63"
   },
   "risk": "normal",
