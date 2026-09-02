@@ -35257,38 +35257,65 @@
     },
     {
       "referencePath": "examples/python/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-508-reference-file-comparison-batch-31",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/python-fixture-adaptation.md",
+        "docs/reference/python-fixture-adaptation.zh-CN.md",
+        "docs/reference/python-fixture-adaptation.ja.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This Python adaptation example is source/provider onboarding material. Python installer commands, Make presets, coverage YAML, and sample Contract/Summary decisions remain adopter-owned; Rust preserves only the generic Contract, verification, evidence, and shared-Runtime isolation boundary."
     },
     {
       "referencePath": "examples/ruby/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-508-reference-file-comparison-batch-31",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This Ruby adaptation example is source/provider onboarding material. Bundler/RuboCop/RSpec or Rake commands, coverage patterns, and application examples remain adopter/provider responsibilities; no source installer, Make preset, or sample Contract wire shape is copied."
     },
     {
       "referencePath": "examples/rust/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-508-reference-file-comparison-batch-31",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "This Rust adaptation example is source/provider onboarding material. Cargo commands, inline-test coverage caveats, Make presets, and sample Contract/Summary decisions are project-owned configuration; the target's own Rust Runtime and generic verification routes provide the portable governance boundary without copying the source example."
     },
     {
       "referencePath": "examples/swift/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-508-reference-file-comparison-batch-31",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/ios-swift-fixture-adaptation.md",
+        "docs/reference/ios-swift-fixture-adaptation.zh-CN.md",
+        "docs/reference/ios-swift-fixture-adaptation.ja.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This Swift adaptation example is source/provider onboarding material. SwiftPM/Xcode commands, Coverage Guard patterns, signing/platform assumptions, and sample Contract/Summary decisions remain adopter/provider responsibilities; the target preserves explicit calibration, evidence, and repository isolation without copying the source installer or application example."
     },
     {
       "referencePath": "examples/typescript/README.md",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-508-reference-file-comparison-batch-31",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/typescript-fixture-adaptation.md",
+        "docs/reference/typescript-fixture-adaptation.zh-CN.md",
+        "docs/reference/typescript-fixture-adaptation.ja.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/verification-route.md"
+      ],
+      "reason": "This TypeScript adaptation example is source/provider onboarding material. npm scripts, Node dependencies, coverage patterns, lifecycle fixture behavior, and sample Contract/Summary decisions remain adopter/provider responsibilities; Rust preserves explicit commands, evidence binding, shared Runtime isolation, and human review without copying source wire or toolchain files."
     },
     {
       "referencePath": "install.sh",
