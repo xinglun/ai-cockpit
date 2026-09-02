@@ -1,38 +1,4 @@
 {
-  "entries": [
-    {
-      "baseRevision": "5d672c1178065f9425ebc8149b8e82b6b7a60f84",
-      "createdAt": "2026-09-03T07:00:00Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-518-historical-finalization-apply.contract.json",
-        "finalize": ".ai/decisions/WI-518-historical-finalization-apply.finalize.json",
-        "verification": ".ai/evidence/WI-518-historical-finalization-apply.verification.json"
-      },
-      "headRevision": "8a43c3a08a18fe9e44c318643a08e8216d9927c1",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-518 — historical direct-merge finalization apply and diagnostics | In progress | [Work Item](../work-items/WI-518-historical-finalization-apply.md); terminal lifecycle: archive `.ai/work-items/archive/WI-518-historical-finalization-apply.contract.json`; verification `.ai/evidence/WI-518-historical-finalization-apply.verification.json`; finalization `.ai/decisions/WI-518-historical-finalization-apply.finalize.json`; close `.ai/decisions/WI-518-historical-finalization-apply.close.json`. |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-518 ——历史 direct-merge 收据应用与诊断 | 进行中 | [Work Item](../work-items/WI-518-historical-finalization-apply.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-518-historical-finalization-apply.contract.json`; verification `.ai/evidence/WI-518-historical-finalization-apply.verification.json`; finalization `.ai/decisions/WI-518-historical-finalization-apply.finalize.json`; close `.ai/decisions/WI-518-historical-finalization-apply.close.json`. |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-518 — historical direct-merge finalization apply と診断 | In progress | [Work Item](../work-items/WI-518-historical-finalization-apply.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-518-historical-finalization-apply.contract.json`; verification `.ai/evidence/WI-518-historical-finalization-apply.verification.json`; finalization `.ai/decisions/WI-518-historical-finalization-apply.finalize.json`; close `.ai/decisions/WI-518-historical-finalization-apply.close.json`. |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 493,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/493"
-      },
-      "registryBaseRevision": "e48401b4217022ee6273b44d31bc8bb0fbe5f0a8",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-518-historical-finalization-apply"
-    }
-  ],
+  "entries": [],
   "schemaVersion": 1
 }
