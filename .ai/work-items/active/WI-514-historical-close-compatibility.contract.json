@@ -28,39 +28,39 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-514-historical-close-compatibility",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/487",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-514-historical-close-compatibility"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
       "scenario": "legacy_shared_retained",
-      "required": true,
-      "status": "verified",
-      "evidence": [
-        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
-      ]
+      "status": "verified"
     },
     {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
       "scenario": "ordinary_retained_rejection",
-      "required": true,
-      "status": "verified",
-      "evidence": [
-        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
-      ]
+      "status": "verified"
     },
     {
-      "scenario": "historical_direct_merge_recovery",
-      "required": true,
-      "status": "verified",
       "evidence": [
         "crates/cockpit-repository/tests/resource_finalization_transition.rs",
         "docs/reference/work-item-lifecycle-closure.md"
-      ]
+      ],
+      "required": true,
+      "scenario": "historical_direct_merge_recovery",
+      "status": "verified"
     }
   ],
   "scope": [
