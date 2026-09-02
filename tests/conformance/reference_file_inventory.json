@@ -35387,61 +35387,90 @@
     },
     {
       "referencePath": "next-release.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        ".github/workflows/release.yml",
+        "docs/release/distribution.md",
+        "tests/release/version_consistency.sh"
+      ],
+      "reason": "The source candidate projection records a provider-owned release state and supply-chain claims. Rust binds candidate/public release truth to immutable release manifests, checksums, SBOM/provenance, and published-artifact acceptance; source JSON bytes are not a Runtime protocol.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "pyproject.toml",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "Cargo.toml",
+        "Cargo.lock",
+        ".github/workflows/ci.yml",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "The source file configures Python lint, typing, coverage, and pytest tooling. Rust uses Cargo-native metadata and the reviewed dynamic gate manifest; Python tool configuration is not an adopter or Runtime requirement.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "release-state.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        ".github/workflows/release.yml",
+        "tests/release/version_consistency.sh",
+        "docs/release/distribution.md"
+      ],
+      "reason": "The source canonical/projection state machine is provider release bookkeeping. Rust keeps immutable tag, archive, digest, SBOM/provenance, and post-release acceptance bindings in its own release manifest and evidence chain; no source state file is copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "release.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        "tests/release/version_consistency.sh",
+        "docs/release/distribution.md"
+      ],
+      "reason": "The source published-release projection is authoritative only for that Python template's assets. Rust release manifests and downloaded artifact receipts carry equivalent identity and digest checks for this repository; source URLs, schema, and claims are not portable.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "requirements-dev.in",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "Cargo.toml",
+        "Cargo.lock",
+        ".github/workflows/ci.yml"
+      ],
+      "reason": "The source development dependency declarations are Python-tooling inputs. Rust pins its own build/test dependency graph in Cargo manifests and lockfile; adopters supply their language toolchains explicitly.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "requirements-dev.lock",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "Cargo.lock",
+        "tests/release/source_archive_policy_test.sh",
+        "docs/security/enterprise-deployment-boundary.md"
+      ],
+      "reason": "The source hash-pinned Python lock is not a Rust dependency or evidence format. Cargo.lock and the Rust supply-chain/archive gates provide the target-specific reproducibility boundary without importing Python packages or hashes.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_acceptance_policy.py",
@@ -35455,10 +35484,16 @@
     },
     {
       "referencePath": "scripts/ai_adoption_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        "tests/release/adopter_acceptance.sh",
+        "docs/getting-started/standard-adoption-guide.md",
+        "docs/getting-started/adopter-configuration.md"
+      ],
+      "reason": "The source builder validates a template-specific adopter verification record. Rust provides immutable public-release adopter acceptance, repository identity/isolation manifests, and the reader-first adoption guide; source Work Item ids and JSON wire shape are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_adoption_reality_report.py",
@@ -35469,77 +35504,135 @@
     },
     {
       "referencePath": "scripts/ai_archive_work_item.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "reason": "The source Python archive transaction and projection leases map to Rust-native archive, manifest, evidence binding, recovery, and close services. Provider-specific helpers and path-rewrite implementation are not duplicated; immutable history and fail-closed cleanup are preserved.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_baseline_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/performance/baseline.md",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "The source baseline captures Python repository counts, coverage, and scenarios. Rust records identity-bound performance samples, budgets, snapshot evidence, and verification cost observations; source coverage fields remain project/provider facts.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_calibrate.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/getting-started/calibration.md",
+        "docs/getting-started/first-calibration.md"
+      ],
+      "reason": "The source ten-stage calibration session is a Python presentation/state implementation. Rust keeps repository-owned profile proposal/confirmation, explicit human review, snapshot binding, and unknown preservation through typed project governance and CLI commands; no source session bytes are imported.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_calibration_corrective.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "docs/getting-started/calibration.md"
+      ],
+      "reason": "The source corrective declaration validator protects a live Python calibration session. Rust validates profile amendments and repository-bound governance decisions through typed Runtime services; source session paths and Python-only corrective schema are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_calibration_inventory.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "docs/reference/capabilities.md"
+      ],
+      "reason": "The source inventory aggregates profile, guard, quality, coverage, CI, and external evidence statuses. Rust exposes request-scoped capability truth, profile facts, evidence assurance, and explicit external exclusions; source inventory keys are not a universal wire contract.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_calibration_profiles.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/project_governance.rs",
+        "docs/reference/governance-profiles.md",
+        "docs/getting-started/calibration.md"
+      ],
+      "reason": "The source lite/standard/strict profile selector is Python policy data. Rust retains proportional repository policies and explicit profile confirmation in typed ProjectProfile/Policy surfaces; source YAML and profile-selection bytes are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_calibration_wizard.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/src/main.rs",
+        "docs/getting-started/first-calibration.md",
+        "docs/getting-started/standard-adoption-guide.md"
+      ],
+      "reason": "The source interactive wizard is a provider-facing presentation adapter. Rust deliberately keeps authority in the CLI/Runtime and documents a reviewable propose/confirm flow; it does not ship a second interactive wizard or infer repository decisions.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_canonical_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "docs/reference/schemas.md"
+      ],
+      "reason": "The source canonical evidence document and markdown renderer are replaced by typed Rust evidence, audit-event/export, digest, receipt, and archive schemas. The target preserves deterministic identity and status semantics without claiming source JSON wire compatibility.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_capability_freshness.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "docs/reference/capabilities.md",
+        "docs/reference/how-to-read-cockpit-status.md"
+      ],
+      "reason": "The source helper timestamps a local Python environment and marks records fresh/stale. Rust binds capability projections to the current repository snapshot and Runtime identity and leaves toolchain/provider freshness to explicit repository evidence; no source environment record is copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_capability_truth.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-516-reference-file-comparison-batch-34",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/tests/intelligence.rs",
+        "docs/reference/capability-truth-matrix.md"
+      ],
+      "reason": "The source capability matrix combines implementation status, evidence freshness, and absurd-case checks. Rust exposes typed repository-bound CapabilityTruth/AdopterCapabilityTruth with confidence, evidence refs, unknowns, and exclusions; source matrix rows and Python validation are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_check_adoption_ready.py",

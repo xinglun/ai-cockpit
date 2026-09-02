@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-512-reference-docs-batch-33
+lastVerifiedBy: WI-516-reference-file-comparison-batch-34
 capabilityClaims:
   - reference_parity
 ---
@@ -77,7 +77,7 @@ source checkout に翻訳がない場合も、target の tri-language page を c
 | `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design (WI-504, revalidated) | tri-language closure、finalize/recovery、ready-on-base check。source Make/Python recovery orchestration は Rust command ではありません。 |
 | `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | Japanese closure と historical recovery boundary。provider-specific route は外部責任です。 |
 
-Target と各 adopter は shared external Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承します。source-specific installer、Make target、provider decision、generated history は継承しません。現在の ledger は 4,262 `generated-history`、323 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、90 `reference-only`、439 `deferred-next-batch` で、`migrate-gap` は zero です。
+Target と各 adopter は shared external Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承します。source-specific installer、Make target、provider decision、generated history は継承しません。現在の ledger は 4,262 `generated-history`、340 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、90 `reference-only`、439 `deferred-next-batch` で、`migrate-gap` は zero です。
 
 ## First batch: governance entrypoints
 
@@ -213,9 +213,13 @@ Intelligence interface は意図的に bounded です。request-scoped status �
 Outcome は実装済みですが、reference の広い aggregate/cost/wait dimension は後続 batch であり、
 complete parity とは扱いません。
 
+## WI-516: release・adoption・calibration・evidence batch
+
+WI-516 は pinned source commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の 17 current path を一つずつ再読し、release projection、Python development metadata、adopter evidence、archive、baseline/cost observation、calibration、capability truth、canonical evidence を比較しました。inventory の 17 件は `implemented-different-by-design` として Rust counterpart または明示的 non-claim を記録しています。`scripts/ai_adoption_reality_report.py` は pinned checkout から retired され、retired ledger の historical/non-current path としてだけ扱います。これは adopter boundary の semantic parity であり、source Python、package、provider state、interactive wizard、JSON wire はコピーしません。
+
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=279 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=399 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=296 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=382 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -227,11 +231,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 279 |
+| `implemented-different-by-design` | 296 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 86 |
-| `deferred-next-batch` | 399 |
+| `deferred-next-batch` | 382 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1327,8 +1331,8 @@ Rust Runtime の immutable Release と repository-bound onboarding route から�
 この slice に implementation omission はありません。source `install.sh` の意味は Rust public Release、checksum/SBOM/provenance、
 explicit repository attachment、isolated adopter acceptance の境界で表現されます。3 locale file は source presentation asset であり
 portable governance policy ではありません。Runtime-owned label は localize しますが、Contract fact は authoring language に残し、
-host/Agent conversation UX は external responsibility です。現在の 4,450-path set は 3,681 `generated-history`、279
-`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、86 `reference-only`、399
+host/Agent conversation UX は external responsibility です。現在の 4,450-path set は 3,681 `generated-history`、296
+`implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、86 `reference-only`、382
 `deferred-next-batch` で、append-only ledger は 669 retired path を保持し、`migrate-gap` は zero です。
 
 これは semantic/documentation parity であり、source installer、Python dependency、interactive wizard、JSON-wire compatibility では

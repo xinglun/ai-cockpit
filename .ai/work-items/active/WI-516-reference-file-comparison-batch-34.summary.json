@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-02T20:20:24Z",
+  "checkpointContractDigest": "sha256:0238f94b486ff0856085d38a37f1f90cd29396a1f19eb138b87befe186fc386a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f563197f63ba2bce4d34562d704e6710d65ec11e2c1554285ae6b8324ec47d66",
+      "recorded": true,
+      "recordedAt": "2026-09-02T20:20:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cbd4d9a7df06726e13d53759d9b23ad46d14af185ba92388ac4c761f64c8c7cc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-516-reference-file-comparison-batch-34"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:0238f94b486ff0856085d38a37f1f90cd29396a1f19eb138b87befe186fc386a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f563197f63ba2bce4d34562d704e6710d65ec11e2c1554285ae6b8324ec47d66",
+      "previousContractHash": "sha256:f563197f63ba2bce4d34562d704e6710d65ec11e2c1554285ae6b8324ec47d66",
+      "reason": "Bind the target ledger and tri-language parity/work-item pages changed by this comparison batch; preserve the retired source path as historical only.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T20:38:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:78d621b4d98316388a665047c84c86b00279ed5b8e08aae29c330c73efe57a39",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-516-reference-file-comparison-batch-34"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:78d621b4d98316388a665047c84c86b00279ed5b8e08aae29c330c73efe57a39",
+  "createdAt": "2026-09-02T20:19:11Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-02T20:42:23Z",
+  "preflightContractDigest": "sha256:0238f94b486ff0856085d38a37f1f90cd29396a1f19eb138b87befe186fc386a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:78d621b4d98316388a665047c84c86b00279ed5b8e08aae29c330c73efe57a39",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-02T20:45:02Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-516-reference-file-comparison-batch-34"
+}

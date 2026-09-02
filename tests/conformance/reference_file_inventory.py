@@ -71,6 +71,7 @@ WI504_BATCH = "WI-504-reference-file-comparison-batch-29"
 WI507_BATCH = "WI-507-reference-file-comparison-batch-30"
 WI508_BATCH = "WI-508-reference-file-comparison-batch-31"
 WI512_BATCH = "WI-512-reference-docs-batch-33"
+WI516_BATCH = "WI-516-reference-file-comparison-batch-34"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1035,6 +1036,100 @@ WI512_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "crates/cockpit-repository/src/lib.rs",
         ],
         "This source translation is represented by the Rust tri-language closure and recovery boundary, including immutable historical evidence and explicit cleanup. Provider-specific Make/Python routes are not copied or claimed as wire compatibility.",
+    ),
+}
+
+# WI-516 re-reads the next maintained release, adoption, calibration,
+# baseline, capability, and canonical-evidence surfaces.  These files are
+# Python/packaging/provider projections in the reference repository; the Rust
+# target preserves their governance responsibilities through typed Runtime
+# services and repository-bound release/adopter evidence, not by copying the
+# source files or their wire formats.
+WI516_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "next-release.json": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/lib.rs", ".github/workflows/release.yml", "docs/release/distribution.md", "tests/release/version_consistency.sh"],
+        "The source candidate projection records a provider-owned release state and supply-chain claims. Rust binds candidate/public release truth to immutable release manifests, checksums, SBOM/provenance, and published-artifact acceptance; source JSON bytes are not a Runtime protocol.",
+    ),
+    "pyproject.toml": (
+        "implemented-different-by-design",
+        ["Cargo.toml", "Cargo.lock", ".github/workflows/ci.yml", "docs/reference/ci-quality-gates.md"],
+        "The source file configures Python lint, typing, coverage, and pytest tooling. Rust uses Cargo-native metadata and the reviewed dynamic gate manifest; Python tool configuration is not an adopter or Runtime requirement.",
+    ),
+    "release-state.json": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/lib.rs", ".github/workflows/release.yml", "tests/release/version_consistency.sh", "docs/release/distribution.md"],
+        "The source canonical/projection state machine is provider release bookkeeping. Rust keeps immutable tag, archive, digest, SBOM/provenance, and post-release acceptance bindings in its own release manifest and evidence chain; no source state file is copied.",
+    ),
+    "release.json": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/lib.rs", "tests/release/version_consistency.sh", "docs/release/distribution.md"],
+        "The source published-release projection is authoritative only for that Python template's assets. Rust release manifests and downloaded artifact receipts carry equivalent identity and digest checks for this repository; source URLs, schema, and claims are not portable.",
+    ),
+    "requirements-dev.in": (
+        "implemented-different-by-design",
+        ["Cargo.toml", "Cargo.lock", ".github/workflows/ci.yml"],
+        "The source development dependency declarations are Python-tooling inputs. Rust pins its own build/test dependency graph in Cargo manifests and lockfile; adopters supply their language toolchains explicitly.",
+    ),
+    "requirements-dev.lock": (
+        "implemented-different-by-design",
+        ["Cargo.lock", "tests/release/source_archive_policy_test.sh", "docs/security/enterprise-deployment-boundary.md"],
+        "The source hash-pinned Python lock is not a Rust dependency or evidence format. Cargo.lock and the Rust supply-chain/archive gates provide the target-specific reproducibility boundary without importing Python packages or hashes.",
+    ),
+    "scripts/ai_adoption_evidence.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/lib.rs", "tests/release/adopter_acceptance.sh", "docs/getting-started/standard-adoption-guide.md", "docs/getting-started/adopter-configuration.md"],
+        "The source builder validates a template-specific adopter verification record. Rust provides immutable public-release adopter acceptance, repository identity/isolation manifests, and the reader-first adoption guide; source Work Item ids and JSON wire shape are not copied.",
+    ),
+    "scripts/ai_archive_work_item.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/tests/archive_integrity.rs", "docs/reference/work-item-lifecycle-closure.md"],
+        "The source Python archive transaction and projection leases map to Rust-native archive, manifest, evidence binding, recovery, and close services. Provider-specific helpers and path-rewrite implementation are not duplicated; immutable history and fail-closed cleanup are preserved.",
+    ),
+    "scripts/ai_baseline_evidence.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-verification/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/performance/baseline.md", "docs/reference/verification-cost.md"],
+        "The source baseline captures Python repository counts, coverage, and scenarios. Rust records identity-bound performance samples, budgets, snapshot evidence, and verification cost observations; source coverage fields remain project/provider facts.",
+    ),
+    "scripts/ai_calibrate.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/project_governance.rs", "crates/cockpit-cli/src/main.rs", "docs/getting-started/calibration.md", "docs/getting-started/first-calibration.md"],
+        "The source ten-stage calibration session is a Python presentation/state implementation. Rust keeps repository-owned profile proposal/confirmation, explicit human review, snapshot binding, and unknown preservation through typed project governance and CLI commands; no source session bytes are imported.",
+    ),
+    "scripts/ai_calibration_corrective.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/project_governance.rs", "crates/cockpit-repository/tests/project_governance.rs", "docs/getting-started/calibration.md"],
+        "The source corrective declaration validator protects a live Python calibration session. Rust validates profile amendments and repository-bound governance decisions through typed Runtime services; source session paths and Python-only corrective schema are not copied.",
+    ),
+    "scripts/ai_calibration_inventory.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/project_governance.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "docs/reference/capabilities.md"],
+        "The source inventory aggregates profile, guard, quality, coverage, CI, and external evidence statuses. Rust exposes request-scoped capability truth, profile facts, evidence assurance, and explicit external exclusions; source inventory keys are not a universal wire contract.",
+    ),
+    "scripts/ai_calibration_profiles.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/project_governance.rs", "docs/reference/governance-profiles.md", "docs/getting-started/calibration.md"],
+        "The source lite/standard/strict profile selector is Python policy data. Rust retains proportional repository policies and explicit profile confirmation in typed ProjectProfile/Policy surfaces; source YAML and profile-selection bytes are not copied.",
+    ),
+    "scripts/ai_calibration_wizard.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/src/main.rs", "docs/getting-started/first-calibration.md", "docs/getting-started/standard-adoption-guide.md"],
+        "The source interactive wizard is a provider-facing presentation adapter. Rust deliberately keeps authority in the CLI/Runtime and documents a reviewable propose/confirm flow; it does not ship a second interactive wizard or infer repository decisions.",
+    ),
+    "scripts/ai_canonical_evidence.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/archive_integrity.rs", "docs/reference/schemas.md"],
+        "The source canonical evidence document and markdown renderer are replaced by typed Rust evidence, audit-event/export, digest, receipt, and archive schemas. The target preserves deterministic identity and status semantics without claiming source JSON wire compatibility.",
+    ),
+    "scripts/ai_capability_freshness.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "docs/reference/capabilities.md", "docs/reference/how-to-read-cockpit-status.md"],
+        "The source helper timestamps a local Python environment and marks records fresh/stale. Rust binds capability projections to the current repository snapshot and Runtime identity and leaves toolchain/provider freshness to explicit repository evidence; no source environment record is copied.",
+    ),
+    "scripts/ai_capability_truth.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "crates/cockpit-repository/tests/intelligence.rs", "docs/reference/capability-truth-matrix.md"],
+        "The source capability matrix combines implementation status, evidence freshness, and absurd-case checks. Rust exposes typed repository-bound CapabilityTruth/AdopterCapabilityTruth with confidence, evidence refs, unknowns, and exclusions; source matrix rows and Python validation are not copied.",
     ),
 }
 
@@ -4836,6 +4931,44 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi345_classifications
         ):
             errors.append("WI-345 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI516_BATCH
+        for record in records
+    ):
+        wi516_records = [
+            record
+            for record in records
+            if isinstance(record, dict) and record.get("batch") == WI516_BATCH
+        ]
+        expected_wi516_paths = set(WI516_REFERENCE_FILES) & current_reference_paths
+        actual_wi516_paths = {
+            record.get("referencePath")
+            for record in wi516_records
+            if isinstance(record.get("referencePath"), str)
+        }
+        if actual_wi516_paths != expected_wi516_paths:
+            errors.append(
+                "WI-516 batch paths do not match the pinned current-file set: "
+                f"expected {sorted(expected_wi516_paths)!r}, got {sorted(actual_wi516_paths)!r}"
+            )
+        if len(wi516_records) != len(expected_wi516_paths):
+            errors.append(
+                f"WI-516 batch must contain {len(expected_wi516_paths)} records, found {len(wi516_records)}"
+            )
+        wi516_classifications = [historical_classification(record) for record in wi516_records]
+        expected_wi516_classifications = Counter(
+            WI516_REFERENCE_FILES[path][0] for path in expected_wi516_paths
+        )
+        if any(
+            wi516_classifications.count(classification) != count
+            for classification, count in expected_wi516_classifications.items()
+        ):
+            errors.append("WI-516 batch classifications do not match current reference paths")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi516_classifications
+        ):
+            errors.append("WI-516 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -5164,6 +5297,37 @@ def apply_wi512_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi516_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI516_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI516_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                # A rebaseline batch now owns the current decision. Keep the
+                # source-change marker for delta accounting, but do not let
+                # the old deferred classification shadow this decision.
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI516_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI516_REFERENCE_FILES)} WI-516 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -5190,6 +5354,7 @@ def main() -> int:
     parser.add_argument("--apply-wi507-batch", action="store_true")
     parser.add_argument("--apply-wi508-batch", action="store_true")
     parser.add_argument("--apply-wi512-batch", action="store_true")
+    parser.add_argument("--apply-wi516-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -5290,6 +5455,13 @@ def main() -> int:
     if args.apply_wi512_batch:
         try:
             apply_wi512_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi516_batch:
+        try:
+            apply_wi516_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1
