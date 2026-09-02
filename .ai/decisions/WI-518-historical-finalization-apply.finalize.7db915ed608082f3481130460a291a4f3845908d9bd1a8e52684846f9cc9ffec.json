@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:42a36cfe14182685d420701b4dfd3e5d21e03f7ec6c39c6c3f92532a84b0623b",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "github-pr-review",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "c6703369d457f7019a709509d11fb1004c489c20",
+      "name": "codex/wi-518-historical-finalization-apply",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:b5f753954c188faf59ef07511e163f8c20bc852d81740f9fd70c7426a3832372",
+    "operationId": "WI-518-historical-finalization-apply-cleanup-20260903",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "5d672c1178065f9425ebc8149b8e82b6b7a60f84",
+      "headRevision": "c6703369d457f7019a709509d11fb1004c489c20",
+      "mergeCommit": "a0bf3d06b246268712b2fe6cd3cea740d7b96bf9",
+      "number": 493,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/493"
+    },
+    "reason": "Exact remote branch and local worktree cleanup verified after merge",
+    "receiptId": "WI-518-historical-finalization-apply-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-518-historical-finalization-apply",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/493",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-518-historical-finalization-apply"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:838a4d26f4528019fdcb8fe11d409199a70cc29ae092a892a66a2dd94e020a08",
+    "runtimeVersion": "0.2.63",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-03T07:30:00Z",
+    "workItemId": "WI-518-historical-finalization-apply",
+    "worktree": {
+      "branch": "codex/wi-518-historical-finalization-apply",
+      "headRevision": "c6703369d457f7019a709509d11fb1004c489c20",
+      "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-518-historical-finalization-apply",
+      "worktreeId": "WI-518-historical-finalization-apply"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-518-historical-finalization-apply-cleanup"
+}
