@@ -6,9 +6,13 @@ audience:
   - adopter
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-506-release-v0-2-60
+terminalArchive: .ai/work-items/archive/WI-506-release-v0-2-60.contract.json
+terminalVerification: .ai/evidence/WI-506-release-v0-2-60.verification.json
+terminalFinalization: .ai/decisions/WI-506-release-v0-2-60.finalize.json
+terminalDecision: .ai/decisions/WI-506-release-v0-2-60.close.json
 workItemId: WI-506-release-v0-2-60
 ---
 
