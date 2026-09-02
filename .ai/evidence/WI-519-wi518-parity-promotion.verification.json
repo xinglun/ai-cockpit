@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:7d36675b12e3a755f13f05c5c6b6d0549f99e8374d44a8c9d41a72b420023ef5",
-  "createdAt": "2026-09-02T22:45:19Z",
+  "contractDigest": "sha256:cbaedce44234d53b003f00bebe89fa6d0957eefe90d788594a9c2768c3793499",
+  "createdAt": "2026-09-02T22:48:05Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 5998,
-      "executionElapsedMs": 5802,
+      "elapsedMs": 5329,
+      "executionElapsedMs": 5135,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 5998,
-    "executionElapsedMs": 5802,
-    "filesHashed": 25,
-    "filesRead": 25,
+    "elapsedMs": 5329,
+    "executionElapsedMs": 5135,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,18 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/pending-parity-registry.json",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-518-historical-finalization-apply.ja.md",
-        "docs/work-items/WI-518-historical-finalization-apply.md",
-        "docs/work-items/WI-518-historical-finalization-apply.zh-CN.md",
-        "docs/work-items/WI-519-wi518-parity-promotion.ja.md",
-        "docs/work-items/WI-519-wi518-parity-promotion.md",
-        "docs/work-items/WI-519-wi518-parity-promotion.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "64c62ec2dec756bdc92d6cbf7568ff72960e5cad",
       "dependencyConfidence": "unknown",
@@ -55,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 5802,
+      "executionElapsedMs": 5135,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -103,7 +92,7 @@
     "runtimeVersion": "0.2.63",
     "workItemId": "WI-519-wi518-parity-promotion"
   },
-  "receiptDigest": "sha256:c2f6cd1e8b8139d37c5ec0936ddd823166a7a1ddf3b953e3a80f7c0530a15e6d",
+  "receiptDigest": "sha256:eca18684c2c22e99917b2d6fa81a573ba18123bd1410c2212e8bb7625ca70b36",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:15e8f6594e73de47faa35af968c3a3bffe2695606174a924cd95d388d7ab0f94",
   "runtimeDigest": "sha256:838a4d26f4528019fdcb8fe11d409199a70cc29ae092a892a66a2dd94e020a08",
