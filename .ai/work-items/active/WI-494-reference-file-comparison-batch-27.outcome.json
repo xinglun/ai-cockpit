@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "Exactly seven changed reference paths are re-read one by one and receive evidence-backed non-deferred classifications.",
+    "The target preserves a clear non-portable boundary for source capability matrix, participant responses/results, and deprecated-assets registry without copying those files.",
+    "The inventory generator/application and regression test bind all seven paths to this batch and reject deferred or migrate-gap classifications.",
+    "English, Simplified Chinese, and Japanese comparison/parity/Work Item pages state the same source-boundary and no-copy decision.",
+    "Documentation, inventory, Runtime verification, reviewed PR, merge, close, and exact cleanup all pass."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:55f20c0266a60cfdfd5e203b86d47005b1ebb6addd74dc8e5cf200a18ed89626",
+      "workItemId": "WI-494-reference-file-comparison-batch-27"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-494-reference-file-comparison-batch-27.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-494-reference-file-comparison-batch-27.contract.json"
+          ],
+          "inference": false,
+          "text": "Close a seven-file reference rebaseline delta for capability truth, comprehension-validation records, and deprecated-assets registry before proceeding to the next comparison batch."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-494-reference-file-comparison-batch-27.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-494-reference-file-comparison-batch-27"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-494-reference-file-comparison-batch-27"
+}
