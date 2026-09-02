@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "57ae346f127878ecc75e03a6b13b2e32d8ae1983",
+    "name": "codex/wi-512-reference-docs-batch-33",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:fa3eadecbc7951f488634c1aeea643875fafcc08eea34a40aa63913817483ff3",
+  "operationId": "github-pr-485-merge-cleanup-20260902",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "326ba4d47f44bd2bbf5a07b9f466683245c87b7f",
+    "headRevision": "57ae346f127878ecc75e03a6b13b2e32d8ae1983",
+    "mergeCommit": "4992e8a6f508028799f464e3172e522e5d25ead8",
+    "number": 485,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/485"
+  },
+  "reason": "Reviewed PR #485 passed all hosted checks and was merged; the exact feature branch and dedicated worktree were removed only after synchronizing main.",
+  "receiptId": "github-pr-485-finalization-20260902",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-512-reference-docs-batch-33",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/485",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-512-reference-docs-batch-33"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12",
+  "runtimeVersion": "0.2.62",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T17:13:02Z",
+  "workItemId": "WI-512-reference-docs-batch-33",
+  "worktree": {
+    "branch": "codex/wi-512-reference-docs-batch-33",
+    "headRevision": "57ae346f127878ecc75e03a6b13b2e32d8ae1983",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-512-reference-docs-batch-33",
+    "worktreeId": "WI-512-reference-docs-batch-33"
+  }
+}
