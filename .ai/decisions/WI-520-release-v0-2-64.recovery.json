@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-03T09:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-520-release-v0-2-64.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/release/distribution.md"
+  ],
+  "predecessorContractDigest": "sha256:29861a57fe9f272ec08606c84934a08e9e7e66093a24f2f425cf8e0961c5de38",
+  "predecessorEventsDigest": "sha256:67df1d850acd116fc8337f0385fc6440ae45a5fe12a1576e25a468026c164782",
+  "predecessorOutcomeDigest": "sha256:c1441b1b10ea7d272eb047a13e18727cf18af0c9fc8855335b379165ee08d0ed",
+  "predecessorSummaryDigest": "sha256:1fd053c24c2c6a0c66142f517b167a34af9babb6b8e79f9d1a54c07b4c0d9adc",
+  "predecessorWorkItemId": "WI-520-release-v0-2-64",
+  "reason": "Retry the same release Work Item after the initial finish attempt correctly stopped on a missing finalization plan; no scope, authority, or repository context changes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use the bound PR #495 context, rerun fresh verification and preflight, then finish/archive/finalize/close without changing the Contract scope.",
+  "runtimeDigest": "sha256:838a4d26f4528019fdcb8fe11d409199a70cc29ae092a892a66a2dd94e020a08",
+  "runtimeVersion": "0.2.63",
+  "schemaVersion": 1,
+  "workItemId": "WI-520-release-v0-2-64"
+}
