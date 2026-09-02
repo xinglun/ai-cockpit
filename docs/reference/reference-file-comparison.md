@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=83 deferred-next-batch=403 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=279 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=399 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -231,11 +231,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 278 |
+| `implemented-different-by-design` | 279 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 83 |
-| `deferred-next-batch` | 403 |
+| `reference-only` | 86 |
+| `deferred-next-batch` | 399 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1604,3 +1604,35 @@ This is semantic/documentation parity, not Python/Ruby/Rust/Swift/TypeScript
 toolchain support, source-command compatibility, or JSON-wire compatibility.
 Each adopter installs one shared Runtime externally and binds its own facts,
 Contract, evidence, knowledge, and Agent adapter with explicit `--repo`.
+
+## WI-510 — installer entrypoint and wizard locale boundary
+
+WI-510 reads four maintained reference files one by one at the pinned local
+reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. The source
+installer and wizard locales are intentionally separated from the Rust
+Runtime's immutable Release and repository-bound onboarding route.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `install.sh` (`14f157f828e3ba8d1dd0886708b7eae223fe6d08`) | implemented-different-by-design | `docs/getting-started/installation.*`, `docs/getting-started/installation-security.*`, `docs/release/distribution.*`, and immutable `tests/release/adopter_acceptance.sh` / `adopter_upgrade_acceptance.sh` preserve tagged-source selection, digest verification, cleanup, rollback, and isolation boundaries. Rust installs one shared binary Release and requires explicit `inspect`/`attach`/Agent actions; source Shell/Python installer bytes and implicit target writes are not copied. |
+| `locales/wizard/en.json` (`1b9bfc3535e507c8478b071b641d974cb031e59e`) | reference-only | `docs/getting-started/installation.md`, `docs/reference/commands.md`, and `docs/reference/outcome-report.md` document the Rust presentation boundary. English Runtime labels and human Outcome sections are supported; source interactive-wizard prompt/session controls remain host or adapter responsibility. |
+| `locales/wizard/ja.json` (`8fab9ba89bd2bac5ccd51e8cb70dfea719435f5c`) | reference-only | `docs/getting-started/installation.ja.md`, `docs/reference/commands.ja.md`, and `docs/reference/outcome-report.ja.md` document localized Japanese Runtime presentation. Rust does not ship a second interactive installer or infer approval from provider conversation controls. |
+| `locales/wizard/zh-CN.json` (`591e11709864edf2846bfe63aab246b1dafd6473`) | reference-only | `docs/getting-started/installation.zh-CN.md`, `docs/reference/commands.zh-CN.md`, and `docs/reference/outcome-report.zh-CN.md` document localized Chinese Runtime presentation. The source wizard locale is not copied and cannot authorize repository changes. |
+
+No implementation omission was found in this slice. The source `install.sh`
+semantics are represented by the Rust public Release, checksum/SBOM/provenance,
+explicit repository attachment, and isolated adopter acceptance boundaries.
+The three locale files are source presentation assets, not portable governance
+policy; Runtime-owned labels are localized while Contract facts remain in their
+authoring language and host/Agent conversation UX remains external. The
+current 4,450-path set contains 3,681 `generated-history`, 279
+`implemented-different-by-design`, one `implemented-equivalent`, four
+`not-applicable`, 86 `reference-only`, and 399 `deferred-next-batch` records;
+the append-only ledger retains 669 retired paths and `migrate-gap` remains
+zero.
+
+This is semantic/documentation parity, not source installer, Python dependency,
+interactive wizard, or JSON-wire compatibility. Each object/adopter repository
+still installs the shared Runtime externally and inherits only the explicit
+repository-bound attach, Agent, Contract, evidence, knowledge, and Outcome
+boundaries.

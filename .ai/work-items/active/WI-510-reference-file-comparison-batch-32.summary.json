@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-02T13:42:57Z",
+  "checkpointContractDigest": "sha256:66386b8682759af0ddbd36172156a6e9fc073bb579b9cfe75b71c0f5fb5c7a02",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ca4524de56187b1291e12b462c140b6e92f4938dd858b7c65f9b800af07a5f6f",
+      "recorded": true,
+      "recordedAt": "2026-09-02T13:42:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3bac12d79f79f384ae2d55efcc9ac8242314df1ecd6fcf9c9964670cc0b8e5fe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-510-reference-file-comparison-batch-32"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:66386b8682759af0ddbd36172156a6e9fc073bb579b9cfe75b71c0f5fb5c7a02",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ca4524de56187b1291e12b462c140b6e92f4938dd858b7c65f9b800af07a5f6f",
+      "previousContractHash": "sha256:ca4524de56187b1291e12b462c140b6e92f4938dd858b7c65f9b800af07a5f6f",
+      "reason": "Bind the target inventory, parity, comparison, and tri-language Work Item documentation paths that implement this reference-only semantic comparison; no authority or unrelated behavior changed.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T13:59:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:25353e5540b796e828c287ec1166c38b71bc722ee7febc7b61f6d6b579526651",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-510-reference-file-comparison-batch-32"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:25353e5540b796e828c287ec1166c38b71bc722ee7febc7b61f6d6b579526651",
+  "createdAt": "2026-09-02T13:41:26Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-02T14:05:30Z",
+  "preflightContractDigest": "sha256:66386b8682759af0ddbd36172156a6e9fc073bb579b9cfe75b71c0f5fb5c7a02",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:25353e5540b796e828c287ec1166c38b71bc722ee7febc7b61f6d6b579526651",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-02T14:05:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-510-reference-file-comparison-batch-32"
+}

@@ -448,6 +448,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-507——语言适配示例读者边界 | 已实现 | [Work Item](../work-items/WI-507-reference-file-comparison-batch-30.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-507-reference-file-comparison-batch-30.contract.json`; verification `.ai/evidence/WI-507-reference-file-comparison-batch-30.verification.json`; finalization `.ai/decisions/WI-507-reference-file-comparison-batch-30.finalize.json`; close `.ai/decisions/WI-507-reference-file-comparison-batch-30.close.json`. |
 | WI-508——技术栈适配示例读者边界 | 已实现 | [Work Item](../work-items/WI-508-reference-file-comparison-batch-31.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-508-reference-file-comparison-batch-31.contract.json`; verification `.ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json`; finalization `.ai/decisions/WI-508-reference-file-comparison-batch-31.finalize.json`; close `.ai/decisions/WI-508-reference-file-comparison-batch-31.close.json`. |
 | WI-509——发布 v0.2.61 与公开 adopter 验收 | 已实现 | [Work Item](../work-items/WI-509-release-v0-2-61.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-509-release-v0-2-61.contract.json`; verification `.ai/evidence/WI-509-release-v0-2-61.verification.json`; finalization `.ai/decisions/WI-509-release-v0-2-61.finalize.json`; close `.ai/decisions/WI-509-release-v0-2-61.close.json`. |
+| WI-510——安装入口与向导 locale 边界 | 已实现 | [Work Item](../work-items/WI-510-reference-file-comparison-batch-32.zh-CN.md)；逐个比较 4 个安装/本地化路径；源安装器对应 Rust 不可变 Release/adopter 边界，源向导 locale 仅保留为参考。 |
 
 ## 当前边界
 

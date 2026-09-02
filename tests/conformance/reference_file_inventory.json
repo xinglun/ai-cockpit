@@ -35319,10 +35319,22 @@
     },
     {
       "referencePath": "install.sh",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-510",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/getting-started/installation.zh-CN.md",
+        "docs/getting-started/installation.ja.md",
+        "docs/getting-started/installation-security.md",
+        "docs/getting-started/installation-security.zh-CN.md",
+        "docs/getting-started/installation-security.ja.md",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "reason": "The source install.sh is a Python-template installer entrypoint: it selects a tagged source, verifies release metadata, enforces a TTY boundary, delegates stack-specific writes, and cleans a disposable clone. Rust deliberately uses an immutable public binary Release plus SHA256/SBOM/provenance checks, then explicit repository-bound inspect/attach/agent actions and isolated adopter acceptance; source Shell/Python installer bytes and implicit target writes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -35330,24 +35342,36 @@
     },
     {
       "referencePath": "locales/wizard/en.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-510",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/reference/commands.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "The source English locale is presentation data for the reference interactive installer/calibration wizard, including prompts, pause/back/quit controls, and installation labels. Rust has no second interactive installer; supported English Runtime labels and human Outcome sections are localized through the CLI/MCP presentation boundary, while Agent/host conversation controls remain external."
     },
     {
       "referencePath": "locales/wizard/ja.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-510",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/installation.ja.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/outcome-report.ja.md"
+      ],
+      "reason": "The source Japanese locale is presentation data for the reference interactive installer/calibration wizard. Rust intentionally does not ship that wizard; Japanese Runtime labels and human Outcome presentation are localized, while host conversation input and provider-specific installation UX remain external and do not authorize repository changes."
     },
     {
       "referencePath": "locales/wizard/zh-CN.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-510",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/installation.zh-CN.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/outcome-report.zh-CN.md"
+      ],
+      "reason": "源中文 locale 是参考交互式安装/校准向导的展示数据。Rust 有意不提供第二套向导；中文 Runtime 标签和面向人的 Outcome 展示由 presentation boundary 负责，宿主对话输入与 provider 专属安装体验仍属外部责任，不能授权 repository 修改。"
     },
     {
       "referencePath": "next-release.json",
