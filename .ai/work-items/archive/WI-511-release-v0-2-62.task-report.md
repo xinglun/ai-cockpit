@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-511-release-v0-2-62.contract.json
-- Changed path: .ai/work-items/active/WI-511-release-v0-2-62.summary.json
+- Changed path: .ai/work-items/archive/WI-511-release-v0-2-62.contract.json
+- Changed path: .ai/work-items/archive/WI-511-release-v0-2-62.summary.json
 
 ## Findings
 

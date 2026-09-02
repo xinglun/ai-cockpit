@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-511-release-v0-2-62.summary.json"
+          ".ai/work-items/archive/WI-511-release-v0-2-62.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-511-release-v0-2-62.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-511-release-v0-2-62.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-511-release-v0-2-62.summary.json"
+          ".ai/work-items/archive/WI-511-release-v0-2-62.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-511-release-v0-2-62.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-511-release-v0-2-62.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-511-release-v0-2-62.contract.json"
+          ".ai/work-items/archive/WI-511-release-v0-2-62.contract.json"
         ],
         "inference": false,
         "text": "Produce a reviewed, identity-bound v0.2.62 Release and prove the downloaded artifact governs this repository without mutating object repositories or global Agent/MCP configuration."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-511-release-v0-2-62.contract.json"
+          ".ai/work-items/archive/WI-511-release-v0-2-62.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
