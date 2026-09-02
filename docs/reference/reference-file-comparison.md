@@ -217,7 +217,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=69 deferred-next-batch=428 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=273 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=418 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -231,11 +231,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 267 |
+| `implemented-different-by-design` | 273 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 69 |
-| `deferred-next-batch` | 428 |
+| `reference-only` | 73 |
+| `deferred-next-batch` | 418 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1493,3 +1493,30 @@ and source-change provenance in the append-only ledger. The ledger now contains
 `implemented-equivalent`, four `not-applicable`, 73 `reference-only`, and 468
 `deferred-next-batch` records; `migrate-gap` remains zero. The same boundary is
 recorded in the Chinese and Japanese routes.
+
+## WI-496 — distribution, profiles, multilingual assessment, and pre-release audit
+
+WI-496 re-reads ten paths at the pinned local reference commit. Each decision
+is semantic and file-specific; source Python/Make implementation, source
+planning metadata, revision-bound assessment receipts, and provider release
+claims are not copied into Rust authority or adopter state.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/distribution.md` | implemented-different-by-design | Rust release/distribution, installation, checksums, SBOM/provenance, and public/N-1 adopter acceptance routes. |
+| `docs/reference/distribution.ja.md` | implemented-different-by-design | Japanese release and installation routes plus the same immutable artifact and adopter boundaries. |
+| `docs/reference/documentation-context-registry.json` | reference-only | `.ai/README.md`, `.ai/glossary.md`, `AGENTS.md`, and documentation acceptance provide current-instruction/history boundaries; source plan metadata is not a portable protocol. |
+| `docs/reference/governance-profiles.md` | implemented-different-by-design | Rust dynamic quality route, gate manifest, and typed governance controls; VerificationTier and EvidenceAssurance remain orthogonal. |
+| `docs/reference/governance-profiles.zh-CN.md` | implemented-different-by-design | Chinese Rust quality-route and governance-control documentation with explicit repository context. |
+| `docs/reference/governance-profiles.ja.md` | implemented-different-by-design | Japanese Rust quality-route and governance-control documentation with explicit repository context. |
+| `docs/reference/japanese-capability-assessment.json` | reference-only | Source's 58-file, revision-bound assessment receipt is not transferable; target maintains its own bounded multilingual evidence. |
+| `docs/reference/japanese-capability-assessment.md` | implemented-different-by-design | Tri-language Japanese capability boundary, localized Outcome tests, and explicit non-fluency claims. |
+| `docs/reference/pre-release-documentation-alignment.json` | reference-only | Source revision/work-item audit receipt is not portable evidence; target runs fresh documentation, parity, and governance gates. |
+| `docs/reference/pre-release-documentation-alignment.md` | reference-only | Source pre-release report remains historical/reference-bound; target release evidence is generated independently. |
+
+No implementation omission was found. The six portable responsibilities are
+implemented through Rust-native release, governance, and multilingual reader
+surfaces; four source-owned reports/registries remain reference-only. No
+`migrate-gap` is introduced. Current counts are 3,681 `generated-history`,
+273 `implemented-different-by-design`, 1 `implemented-equivalent`, 4
+`not-applicable`, 73 `reference-only`, and 418 `deferred-next-batch`.

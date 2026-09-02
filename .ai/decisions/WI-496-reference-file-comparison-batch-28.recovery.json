@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T03:10:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-496-reference-file-comparison-batch-28.outcome.json",
+    ".ai/evidence/WI-496-reference-file-comparison-batch-28.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/469",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/33584536604"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "docs/reference/agent-workflow.md:pending-parity-registration"
+  ],
+  "predecessorContractDigest": "sha256:0884b0314c035539963ae8ac6659363bf2cceb994bbb298e3ba2684f321a5b7d",
+  "predecessorEventsDigest": "sha256:1ca91e66655380a6a81f5b98d083c3fc2fe3ed098b7c387735b54218f8733469",
+  "predecessorOutcomeDigest": "sha256:4f4a73bf12b156a37ff6af7ee62b6817d26b704a36370bc83901ec8f6e60b1a2",
+  "predecessorSummaryDigest": "sha256:ed3a5e6bdf7859bc2b47653375f781211d1ccc14dfe2b58ce184968ba06d7cf1",
+  "predecessorWorkItemId": "WI-496-reference-file-comparison-batch-28",
+  "reason": "WI-496 hosted quality correctly rejected parity registration first introduced in the same commit as verification evidence. Preserve all predecessor bytes and re-deliver the same ten-file comparison from the latest origin/main with a fresh pre-archive order proof.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-497 must start from the latest origin/main, register all three parity rows before fresh verification evidence, complete reviewed hosted CI, merge, finalize, close, and clean both successor resources exactly.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-497-reference-file-comparison-batch-28-retry",
+  "workItemId": "WI-496-reference-file-comparison-batch-28"
+}

@@ -193,6 +193,12 @@ status、foreign path、post-archive-only row は fail closed です。同じ ro
 awaiting merge/close、closed の state を表現でき、archived evidence を書き換えません。この
 route は pending registry の default-branch stale rule を緩和しません。
 
+実運用では最低 2 つの commit を使います。最初の commit で三言語の conditional parity row と
+documentation registration を先に記録し、その commit が feature branch から参照できることを
+確認してから verification を実行し Runtime evidence を追加します。row registration と
+verification evidence を同じ commit にまとめてはいけません。順序を誤った場合は immutable
+delivery を保持し、履歴を書き換えず明示的な recovery successor を作成します。
+
 Pull-request merge ref は default branch と feature snapshot を結合した tree であり、feature
 snapshot の replay ではありません。default branch が後続の authoritative lifecycle decision
 を追加する場合、各 parity row は pre-merge receipt を保持しながら、その decision も列挙する

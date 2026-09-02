@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=267 implemented-equivalent=1 not-applicable=4 reference-only=69 deferred-next-batch=428 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=273 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=418 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -201,11 +201,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 267 |
+| `implemented-different-by-design` | 273 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 69 |
-| `deferred-next-batch` | 428 |
+| `reference-only` | 73 |
+| `deferred-next-batch` | 418 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1217,3 +1217,22 @@ WI-494 は以前 `reference-only` と判断した後に source bytes が変更�
 | `docs/reference/deprecated-assets-registry.json` | reference-only | immutable Work Item history、explicit resource finalization、reviewed cleanup receipt が Rust boundary です。source scanner/registry は deletion authority ではなく copy しません。 |
 
 implementation omission は見つかりませんでした。変更は source-owned record の refresh であり portable Runtime contract の追加ではありません。したがって 7 path はすべて `reference-only` のまま、prior decision と source-change provenance を append-only ledger に保持します。ledger は 4,262 `generated-history`、311 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、73 `reference-only`、468 `deferred-next-batch` で、`migrate-gap` は 0 です。Chinese と English route にも同じ boundary を記録します。
+
+## WI-496 — distribution、profile、多言語 assessment、pre-release audit
+
+WI-496 は固定した local reference commit の 10 path を一つずつ再読しました。各決定は file-level の semantic decision です。source Python/Make implementation、source planning metadata、revision-bound assessment receipt、provider release claim は Rust authority や adopter state にコピーしません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `docs/reference/distribution.md` | implemented-different-by-design | Rust の release/distribution、installation、checksum、SBOM/provenance、public/N-1 adopter acceptance route。 |
+| `docs/reference/distribution.ja.md` | implemented-different-by-design | Japanese release/installation route と同じ immutable artifact/adopter boundary。 |
+| `docs/reference/documentation-context-registry.json` | reference-only | `.ai/README.md`、`.ai/glossary.md`、`AGENTS.md`、documentation gate が current-instruction/history boundary を提供し、source plan metadata は portable protocol ではありません。 |
+| `docs/reference/governance-profiles.md` | implemented-different-by-design | Rust dynamic quality route、gate manifest、typed governance controls。VerificationTier と EvidenceAssurance は orthogonal です。 |
+| `docs/reference/governance-profiles.zh-CN.md` | implemented-different-by-design | Chinese Rust quality-route/governance-control documentation と明示的 repository context。 |
+| `docs/reference/governance-profiles.ja.md` | implemented-different-by-design | Japanese Rust quality-route/governance-control documentation と明示的 repository context。 |
+| `docs/reference/japanese-capability-assessment.json` | reference-only | source の 58-file revision-bound assessment receipt は transferable ではなく、target は独自の bounded multilingual evidence を作成します。 |
+| `docs/reference/japanese-capability-assessment.md` | implemented-different-by-design | 三言語 Japanese capability boundary、localized Outcome test、general fluency を主張しない制約。 |
+| `docs/reference/pre-release-documentation-alignment.json` | reference-only | source の revision/work-item audit receipt は portable evidence ではなく、target は fresh documentation/parity/governance gate を実行します。 |
+| `docs/reference/pre-release-documentation-alignment.md` | reference-only | source pre-release report は historical/reference-bound のまま、target release evidence は独立に生成します。 |
+
+implementation omission は見つかりませんでした。6 件の portable responsibility は Rust-native release、governance、multilingual reader route に実装済みで、4 件の source-owned report/registry は `reference-only` です。`migrate-gap` は増えていません。現在は 3,681 `generated-history`、273 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、73 `reference-only`、418 `deferred-next-batch` です。

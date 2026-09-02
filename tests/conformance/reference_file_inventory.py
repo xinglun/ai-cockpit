@@ -66,6 +66,7 @@ WI464_BATCH = "WI-464-reference-file-comparison-batch-24"
 WI475_BATCH = "WI-475-reference-file-comparison-batch-25"
 WI482_BATCH = "WI-482-reference-file-comparison-batch-26"
 WI494_BATCH = "WI-494-reference-file-comparison-batch-27"
+WI496_BATCH = "WI-496-reference-file-comparison-batch-28"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -613,6 +614,125 @@ WI494_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "crates/cockpit-repository/src/lib.rs",
         ],
         "This source cleanup registry identifies source-specific deprecated assets and prohibited command chains. Rust uses immutable Work Item history, explicit resource finalization, and reviewed cleanup receipts; the source scanner/registry is not a Runtime deletion authority and is not copied.",
+    ),
+}
+
+# WI-496 re-reads the next ten maintained reference paths: release
+# distribution/profile explanations, a source-only context registry, and
+# revision-bound Japanese/pre-release assessment reports.  Runtime and
+# adopter responsibilities are mapped to Rust-native surfaces; source
+# Python/Make bytes and source-specific receipts remain non-portable.
+WI496_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "docs/reference/distribution.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/release/distribution.ja.md",
+            "docs/architecture/release-distribution.ja.md",
+            "docs/getting-started/installation.ja.md",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+        ],
+        "Source distribution guidance is projected into the Rust release, installation, checksum/SBOM/provenance, and adopter-acceptance surfaces with explicit repository/runtime boundaries. Source Make/Python runner bytes, source venv provisioning, and provider release state are not copied.",
+    ),
+    "docs/reference/distribution.md": (
+        "implemented-different-by-design",
+        [
+            "docs/release/distribution.md",
+            "docs/architecture/release-distribution.md",
+            "docs/getting-started/installation.md",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+        ],
+        "The source distribution contract is preserved through the Rust-native immutable release/archive, checksum, SBOM, provenance, installer, and adopter-acceptance routes. Source Make/Python orchestration, worktree-local venvs, and provider-owned release decisions are deliberately not copied.",
+    ),
+    "docs/reference/documentation-context-registry.json": (
+        "reference-only",
+        [
+            ".ai/README.md",
+            ".ai/glossary.md",
+            "AGENTS.md",
+            "docs/reference/README.md",
+            "docs/reference/instruction-traceability.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "This registry is source-maintenance context metadata for plan/report paths, mutability, and historical instructions; it is not a portable Runtime or adopter protocol. Rust keeps explicit current-instruction, historical-reference, and documentation-authority boundaries without copying source planning records.",
+    ),
+    "docs/reference/governance-profiles.ja.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/governance-profiles.ja.md",
+            "docs/reference/ci-quality-gates.ja.md",
+            "tests/ci/quality_route.py",
+            "tests/ci/run_repository_gates.py",
+            "crates/cockpit-repository/src/governance_controls.rs",
+        ],
+        "Source profile guidance is implemented through the Rust typed dynamic quality route and repository-bound gate manifest. Verification tier and evidence assurance remain orthogonal, and source YAML/Make profile bytes are not copied into adopters.",
+    ),
+    "docs/reference/governance-profiles.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/governance-profiles.md",
+            "docs/reference/ci-quality-gates.md",
+            "tests/ci/quality_route.py",
+            "tests/ci/run_repository_gates.py",
+            "crates/cockpit-repository/src/governance_controls.rs",
+        ],
+        "The source light/standard/strict profile semantics are projected into the Rust dynamic route, reviewed gate manifest, and typed governance controls. VerificationTier and EvidenceAssurance are separate dimensions; source YAML/Make configuration and provider execution remain outside the target protocol.",
+    ),
+    "docs/reference/governance-profiles.zh-CN.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/governance-profiles.zh-CN.md",
+            "docs/reference/ci-quality-gates.zh-CN.md",
+            "tests/ci/quality_route.py",
+            "tests/ci/run_repository_gates.py",
+            "crates/cockpit-repository/src/governance_controls.rs",
+        ],
+        "源端 light/standard/strict profile 语义由 Rust 动态路由、审核过的 gate manifest 和类型化治理控制承载。VerificationTier 与 EvidenceAssurance 保持正交；源 YAML/Make 配置及 provider 执行责任不复制到目标协议。",
+    ),
+    "docs/reference/japanese-capability-assessment.json": (
+        "reference-only",
+        [
+            "docs/reference/japanese-capability-assessment.md",
+            "docs/reference/japanese-capability-assessment.zh-CN.md",
+            "docs/reference/japanese-capability-assessment.ja.md",
+            "tests/docs/documentation_acceptance.sh",
+            "crates/cockpit-cli/tests/intelligence.rs",
+        ],
+        "The source JSON is a revision-bound 58-file Japanese assessment and receipt for the reference repository. Its participant/source digests and release result cannot become Rust or adopter proof; the target maintains its own bounded multilingual documentation and executable evidence instead.",
+    ),
+    "docs/reference/japanese-capability-assessment.md": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/japanese-capability-assessment.md",
+            "docs/reference/japanese-capability-assessment.zh-CN.md",
+            "docs/reference/japanese-capability-assessment.ja.md",
+            "docs/reference/outcome-report.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The source assessment explanation is retained as an evidence-bound multilingual boundary in the Rust tri-language reader route. The target does not inherit the source corpus/assessment digest or claim general fluency, provider behavior, or translated Contract facts.",
+    ),
+    "docs/reference/pre-release-documentation-alignment.json": (
+        "reference-only",
+        [
+            "tests/docs/documentation_acceptance.sh",
+            "tests/docs/parity_status_check.sh",
+            "tests/ci/governance_integrity_gate.py",
+            "docs/reference/reference-file-comparison.md",
+            "docs/reference/japanese-capability-assessment.md",
+        ],
+        "This source JSON is a revision/work-item-bound pre-release audit receipt for the template's documentation surfaces. Rust performs its own fresh documentation, governance, parity, and multilingual checks; the source receipt and its status are not portable evidence.",
+    ),
+    "docs/reference/pre-release-documentation-alignment.md": (
+        "reference-only",
+        [
+            "tests/docs/documentation_acceptance.sh",
+            "tests/docs/parity_status_check.sh",
+            "tests/ci/governance_integrity_gate.py",
+            "docs/reference/reference-file-comparison.md",
+            "docs/reference/ci-quality-gates.md",
+        ],
+        "The source report summarizes a revision-bound pre-release alignment audit. Target documentation and gates provide analogous responsibilities with new Runtime evidence; the source report, source Work Item, and source release claim are not copied or inherited.",
     ),
 }
 
@@ -3047,6 +3167,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi496 = WI496_REFERENCE_FILES.get(path)
+        if wi496 is not None:
+            classification, counterparts, reason = wi496
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI496_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         if is_generated_history(path):
             records.append(
                 {
@@ -3244,6 +3377,7 @@ def is_commit_digest(value: Any) -> bool:
 
 def validate(manifest: dict[str, Any], expected_source: str, expected_target: str) -> list[str]:
     errors: list[str] = []
+    superseding_wi496_paths = set(WI496_REFERENCE_FILES) if expected_source == EXPECTED_REFERENCE_COMMIT else set()
     if manifest.get("schemaVersion") != 1:
         errors.append("schemaVersion must be 1")
     if manifest.get("referenceRepository") != "local-git-checkout":
@@ -3539,6 +3673,32 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{record.get('referencePath')}: WI-494 must be reference-only")
             if not record.get("rustCounterparts") or not record.get("reason"):
                 errors.append(f"{record.get('referencePath')}: WI-494 result needs counterparts and reason")
+        wi496_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI496_BATCH
+            and record.get("referencePath") in WI496_REFERENCE_FILES
+        ]
+        expected_wi496_paths = set(WI496_REFERENCE_FILES) & current_reference_paths
+        actual_wi496_paths = {record.get("referencePath") for record in wi496_records}
+        if actual_wi496_paths != expected_wi496_paths:
+            errors.append(
+                "WI-496 distribution/profile/multilingual records do not match the ten scoped paths: "
+                f"expected {sorted(expected_wi496_paths)!r}, got {sorted(actual_wi496_paths)!r}"
+            )
+        if len(wi496_records) != len(expected_wi496_paths):
+            errors.append(
+                f"WI-496 batch must contain {len(expected_wi496_paths)} records, found {len(wi496_records)}"
+            )
+        for record in wi496_records:
+            expected_classification = WI496_REFERENCE_FILES[record["referencePath"]][0]
+            if record.get("classification") != expected_classification:
+                errors.append(
+                    f"{record.get('referencePath')}: WI-496 classification must be {expected_classification}"
+                )
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(f"{record.get('referencePath')}: WI-496 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -3835,7 +3995,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI342_BATCH
         ]
-        expected_wi342_paths = set(WI342_REFERENCE_FILES) & current_reference_paths
+        expected_wi342_paths = (set(WI342_REFERENCE_FILES) & current_reference_paths) - superseding_wi496_paths
         actual_wi342_paths = {
             record.get("referencePath")
             for record in wi342_records
@@ -3949,7 +4109,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI346_BATCH
         ]
-        expected_wi346_paths = set(WI346_REFERENCE_FILES) & current_reference_paths
+        expected_wi346_paths = (set(WI346_REFERENCE_FILES) & current_reference_paths) - superseding_wi496_paths
         actual_wi346_paths = {
             record.get("referencePath")
             for record in wi346_records
@@ -3987,7 +4147,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI347_BATCH
         ]
-        expected_wi347_paths = set(WI347_REFERENCE_FILES) & current_reference_paths
+        expected_wi347_paths = (set(WI347_REFERENCE_FILES) & current_reference_paths) - superseding_wi496_paths
         actual_wi347_paths = {
             record.get("referencePath")
             for record in wi347_records
@@ -4025,7 +4185,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI348_BATCH
         ]
-        expected_wi348_paths = set(WI348_REFERENCE_FILES) & current_reference_paths
+        expected_wi348_paths = (set(WI348_REFERENCE_FILES) & current_reference_paths) - superseding_wi496_paths
         actual_wi348_paths = {
             record.get("referencePath")
             for record in wi348_records
@@ -4177,7 +4337,7 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for record in records
             if isinstance(record, dict) and record.get("batch") == WI368_BATCH
         ]
-        expected_wi368_paths = set(WI368_REFERENCE_FILES) & current_reference_paths
+        expected_wi368_paths = (set(WI368_REFERENCE_FILES) & current_reference_paths) - superseding_wi496_paths
         actual_wi368_paths = {
             record.get("referencePath")
             for record in wi368_records
@@ -4438,6 +4598,33 @@ def apply_wi494_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi496_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI496_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI496_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI496_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI496_REFERENCE_FILES)} WI-496 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -4459,6 +4646,7 @@ def main() -> int:
     parser.add_argument("--apply-wi475-batch", action="store_true")
     parser.add_argument("--apply-wi482-batch", action="store_true")
     parser.add_argument("--apply-wi494-batch", action="store_true")
+    parser.add_argument("--apply-wi496-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -4524,6 +4712,13 @@ def main() -> int:
     if args.apply_wi494_batch:
         try:
             apply_wi494_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi496_batch:
+        try:
+            apply_wi496_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

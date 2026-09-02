@@ -235,6 +235,13 @@ while active, awaiting merge/close, and closed without rewriting archived
 evidence. This route does not relax the pending registry's default-branch stale
 rule.
 
+Operationally, a parity Work Item uses two commits at minimum: first commit the
+three conditional parity rows and their documentation registration; only after
+that commit is reachable on the feature branch should verification run and add
+the Runtime evidence. Never combine the row registration and verification
+evidence in one commit. If that order is missed, preserve the immutable
+delivery and use an explicit recovery successor rather than rewriting history.
+
 A pull-request merge ref is a combined tree, not a replay of the feature
 snapshot. If the default branch contributes a later authoritative lifecycle
 decision, every parity row must name that decision in addition to the retained
