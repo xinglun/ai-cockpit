@@ -6,9 +6,13 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-494-reference-file-comparison-batch-27
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-494-reference-file-comparison-batch-27
+terminalArchive: .ai/work-items/archive/WI-494-reference-file-comparison-batch-27.contract.json
+terminalVerification: .ai/evidence/WI-494-reference-file-comparison-batch-27.verification.json
+terminalFinalization: .ai/decisions/WI-494-reference-file-comparison-batch-27.finalize.json
+terminalDecision: .ai/decisions/WI-494-reference-file-comparison-batch-27.close.json
 ---
 
 # WI-494 — capability、comprehension、deprecated-assets の reference rebaseline

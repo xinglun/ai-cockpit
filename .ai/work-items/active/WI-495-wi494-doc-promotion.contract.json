@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-494 pages and parity rows link archive, verification, finalization, and close evidence.",
+    "Documentation promotion check-all and parity/status consistency pass.",
+    "No Runtime code, inventory, or global Agent/MCP configuration changes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "81c7929b119efeb6c62c0e6e800e3e861e5fb468",
+  "createdAt": "2026-09-02T02:03:07Z",
+  "goal": "Make the mainline comparison record terminal and pass the post-close documentation gate.",
+  "intent": "Promote the closed WI-494 reference comparison into the tri-language documentation and parity projections.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    "Reference inventory classification",
+    "Global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:55f20c0266a60cfdfd5e203b86d47005b1ebb6addd74dc8e5cf200a18ed89626",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-495-wi494-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-495-wi494-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-494-reference-file-comparison-batch-27.md",
+    "docs/work-items/WI-494-reference-file-comparison-batch-27.zh-CN.md",
+    "docs/work-items/WI-494-reference-file-comparison-batch-27.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-495-wi494-doc-promotion"
+}
