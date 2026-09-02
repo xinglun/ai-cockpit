@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "436c9b7eacfbff87001af2b01eed5f6d971c89f2",
+    "name": "codex/wi-513-wi512-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f3a6db17ee89fe6c96d25052babd38ff5adaf812337f2ded2800e0878a58924e",
+  "operationId": "github-pr-486-merge-cleanup-20260902",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b9a63f1a2e99b573c5a965eed5e21e0777707b57",
+    "headRevision": "436c9b7eacfbff87001af2b01eed5f6d971c89f2",
+    "mergeCommit": "225311bae2262d272af78cc342def1d39c763d4c",
+    "number": 486,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/486"
+  },
+  "reason": "Reviewed PR #486 passed all hosted checks and was merged; the exact feature branch and dedicated worktree were removed only after synchronizing main.",
+  "receiptId": "github-pr-486-finalization-20260902",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-513-wi512-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/486",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-513-wi512-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12",
+  "runtimeVersion": "0.2.62",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T17:35:03Z",
+  "workItemId": "WI-513-wi512-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-513-wi512-doc-promotion",
+    "headRevision": "436c9b7eacfbff87001af2b01eed5f6d971c89f2",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-513-wi512-doc-promotion",
+    "worktreeId": "WI-513-wi512-doc-promotion"
+  }
+}
