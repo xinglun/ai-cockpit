@@ -81,6 +81,14 @@ receipt. The same rule covers shared-worktree `retained` history: the actual
 resource disposition is recorded, not changed merely to satisfy a newer
 Runtime.
 
+When an older shared-primary receipt has no explicit `historical` field,
+`finalize-verify` performs the same narrow, read-only projection only after
+confirming `provider=local`, Contract/receipt identity, primary-checkout
+topology, and retained clean resources. `close` may then consume that
+`historical_low` result. Any missing or contradictory fact still requires the
+explicit recovery plan/receipt; no archive or predecessor bytes are copied or
+rewritten.
+
 Provider-only post-archive or stacked-PR anomalies are not ordinary closure
 shortcuts. They require a separate, human-authorized, append-only evidence
 boundary supplied by the provider; the Runtime still requires exact Work Item,

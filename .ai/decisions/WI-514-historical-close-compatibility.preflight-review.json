@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:044429e78474f090465758a14bc58e94491db639efddffa295f495b0055d3955",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "确认历史收尾兼容性修复的当前 Contract、PR 绑定、事实证据与低 assurance 边界",
+  "recordedAt": "2026-09-03T01:10:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:057e8bd2e4ccb2322d9b478a08e6c892f37b19220e07671fb56089b80e816db0",
+  "schemaVersion": 1,
+  "workItemId": "WI-514-historical-close-compatibility"
+}
