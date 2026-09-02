@@ -1,0 +1,125 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-506-release-v0-2-60.contract.json",
+    ".ai/work-items/archive/WI-506-release-v0-2-60.summary.json"
+  ],
+  "checkpointAt": "2026-09-02T10:02:58Z",
+  "checkpointContractDigest": "sha256:3d5bf2ba4e318dd64345fc2802ec5796d88f9a63c4dc408e641c256495d23485",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:1fbb73ba35fb4bd8565a5150e54e381a758448a46ccfdc4b2e1afdbe8ced9ab1",
+      "recorded": true,
+      "recordedAt": "2026-09-02T10:02:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:29776a25db2512fb3d78107393388051709209947d9666f6f23d4c0d88dfeb0f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-506-release-v0-2-60"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3d5bf2ba4e318dd64345fc2802ec5796d88f9a63c4dc408e641c256495d23485",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1fbb73ba35fb4bd8565a5150e54e381a758448a46ccfdc4b2e1afdbe8ced9ab1",
+      "previousContractHash": "sha256:1fbb73ba35fb4bd8565a5150e54e381a758448a46ccfdc4b2e1afdbe8ced9ab1",
+      "reason": "Align the pre-merge Contract gate with the staged release lifecycle: release verification evidence is collected by the explicit verify step, while the read-only hosted gate must not require a completion receipt before it executes.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T10:06:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:29776a25db2512fb3d78107393388051709209947d9666f6f23d4c0d88dfeb0f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-506-release-v0-2-60"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:aa376ff7e53b86310ad1e44386e24c9198ed5c0bf282ec844dc6ecf72e4ac6aa",
+  "createdAt": "2026-09-02T09:45:18Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release Work Item binds the reviewed source and staged release policy while preserving post-release adopter evidence as an explicit boundary.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-02T10:19:48Z",
+  "preflightContractDigest": "sha256:3d5bf2ba4e318dd64345fc2802ec5796d88f9a63c4dc408e641c256495d23485",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:aa376ff7e53b86310ad1e44386e24c9198ed5c0bf282ec844dc6ecf72e4ac6aa",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        "tests/release/version_consistency_test.sh",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "workspace package versions, lockfile, and current release documentation identify v0.2.60 while historical release facts remain unchanged",
+      "required": true,
+      "scenario": "workspace release contract",
+      "status": "verified",
+      "verificationPlan": "run version consistency, metadata, documentation, and diff checks before publication"
+    },
+    {
+      "evidence": [],
+      "expected": "the reviewed PR passes all required hosted checks before the annotated release tag is created",
+      "reason": "hosted provider checks are external evidence collected on the reviewed PR before merge and bound by the finalization receipt",
+      "required": true,
+      "scenario": "reviewed hosted release gate",
+      "status": "not_applicable",
+      "verificationPlan": "inspect the actual PR check conclusions and merge only after every required check passes"
+    },
+    {
+      "evidence": [],
+      "expected": "the public v0.2.60 release exposes archives, SHA256 checksums, SBOM, provenance, and a manifest bound to the release tag",
+      "reason": "public release assets are collected only after the reviewed source is merged and tagged",
+      "required": true,
+      "scenario": "public artifact integrity",
+      "status": "not_applicable",
+      "verificationPlan": "download only public release assets, verify checksum and manifest bindings, and retain the release receipt"
+    },
+    {
+      "evidence": [],
+      "expected": "a fresh adopter and N-1 upgrade pass from immutable downloaded artifacts with isolation, cleanup, and first-adopter-smoke not_ready proofs",
+      "reason": "public adopter evidence is collected only after the reviewed source is merged and tagged",
+      "required": true,
+      "scenario": "isolated public adopter acceptance",
+      "status": "not_applicable",
+      "verificationPlan": "run the release adopter acceptance harnesses with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME and retain their receipts"
+    },
+    {
+      "evidence": [],
+      "expected": "the verified public v0.2.60 binary installed on this repository keeps inspect, status, doctor, Agent doctor, and documentation checks healthy",
+      "reason": "the published binary is installed only after the reviewed source is merged and tagged",
+      "required": true,
+      "scenario": "installed runtime baseline",
+      "status": "not_applicable",
+      "verificationPlan": "install the checksum-verified public binary and run the repository-bound health and post-close checks"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T10:19:48Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-506-release-v0-2-60"
+}

@@ -1,0 +1,105 @@
+{
+  "acceptanceCriteria": [
+    "Workspace packages and lockfile identify v0.2.60; current tri-language release guidance is updated without rewriting prior release history.",
+    "Hosted checks pass on the reviewed PR before the annotated v0.2.60 tag is created from synchronized main.",
+    "The public Release exposes identity-bound archives, SHA256 checksums, SBOM, provenance, and release manifest.",
+    "Public adopter and N-1 acceptance use only downloaded immutable artifacts, prove isolation and temporary-root cleanup, and preserve first-adopter-smoke=not_ready.",
+    "The published binary is installed on this repository; inspect, status, doctor, Agent doctor, and post-close documentation checks remain healthy.",
+    "This Work Item has a visible human Outcome, archive, finalization, close, and exact branch/worktree cleanup before publication."
+  ],
+  "authority": "authorized",
+  "baseRevision": "73f6c052ed5a49646c5a34eb91f41bf4aff695f2",
+  "createdAt": "2026-09-02T09:45:18Z",
+  "goal": "Release the next Runtime version with identity-bound public artifacts, reproducible adopter/N-1 acceptance, and a clean installed baseline for the next comparison batch.",
+  "intent": "Publish v0.2.60 from reviewed main and prove the immutable release artifact with isolated adopter acceptance before resuming reference parity work.",
+  "mode": "release",
+  "outOfScope": [
+    "Reference source working tree",
+    "Object/adopter repositories",
+    "Global Agent/MCP or Homebrew configuration",
+    "Source/workspace binary fallback",
+    "Unrelated Runtime redesign",
+    "Hand-editing generated governance records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9306179210fb2ab52cb931d456211d892fb23c9896dba6d491ec44f5b1435997",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-506-release-v0-2-60",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/479",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-506-release-v0-2-60"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "workspace release contract",
+      "required": true,
+      "status": "unverified",
+      "expected": "workspace package versions, lockfile, and current release documentation identify v0.2.60 while historical release facts remain unchanged",
+      "verificationPlan": "run version consistency, metadata, documentation, and diff checks before publication",
+      "evidence": []
+    },
+    {
+      "scenario": "reviewed hosted release gate",
+      "required": true,
+      "status": "unverified",
+      "expected": "the reviewed PR passes all required hosted checks before the annotated release tag is created",
+      "verificationPlan": "inspect the actual PR check conclusions and merge only after every required check passes",
+      "evidence": []
+    },
+    {
+      "scenario": "public artifact integrity",
+      "required": true,
+      "status": "unverified",
+      "expected": "the public v0.2.60 release exposes archives, SHA256 checksums, SBOM, provenance, and a manifest bound to the release tag",
+      "verificationPlan": "download only public release assets, verify checksum and manifest bindings, and retain the release receipt",
+      "evidence": []
+    },
+    {
+      "scenario": "isolated public adopter acceptance",
+      "required": true,
+      "status": "unverified",
+      "expected": "a fresh adopter and N-1 upgrade pass from immutable downloaded artifacts with isolation, cleanup, and first-adopter-smoke not_ready proofs",
+      "verificationPlan": "run the release adopter acceptance harnesses with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME and retain their receipts",
+      "evidence": []
+    },
+    {
+      "scenario": "installed runtime baseline",
+      "required": true,
+      "status": "unverified",
+      "expected": "the verified public v0.2.60 binary installed on this repository keeps inspect, status, doctor, Agent doctor, and documentation checks healthy",
+      "verificationPlan": "install the checksum-verified public binary and run the repository-bound health and post-close checks",
+      "evidence": []
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-506-release-v0-2-60.md",
+    "docs/work-items/WI-506-release-v0-2-60.zh-CN.md",
+    "docs/work-items/WI-506-release-v0-2-60.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-506-release-v0-2-60"
+}

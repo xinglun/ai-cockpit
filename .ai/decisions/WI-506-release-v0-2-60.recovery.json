@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T10:21:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-506-release-v0-2-60.verification.json",
+    ".ai/work-items/active/WI-506-release-v0-2-60.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:3d5bf2ba4e318dd64345fc2802ec5796d88f9a63c4dc408e641c256495d23485",
+  "predecessorEventsDigest": "sha256:8d56d54f956885f3db9d808eb50da5809e5765671ccf79b4a8bb5e355c54b655",
+  "predecessorOutcomeDigest": "sha256:3cb5035df08356a9f9cc7396b40502aa9266785fde5f70bb51cfd1d087d50e87",
+  "predecessorSummaryDigest": "sha256:fb37b09ff419a3fefee244b971162bd0b0736342e099a7ca8a1e53c0893bdf3d",
+  "predecessorWorkItemId": "WI-506-release-v0-2-60",
+  "reason": "Retry the terminal finish projection after refreshing verification on the latest committed release source and preserving the failed lifecycle attempt as immutable history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "fresh verification and a successful finish projection on the current Contract and repository snapshot",
+  "runtimeDigest": "sha256:3b7fff5e4fcbb1ae735e81c2b3c1cea23fcba37391aa0cbd7990dfd45c3d38c5",
+  "runtimeVersion": "0.2.59",
+  "schemaVersion": 1,
+  "workItemId": "WI-506-release-v0-2-60"
+}

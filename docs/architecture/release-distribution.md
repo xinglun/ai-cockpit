@@ -16,8 +16,8 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # Release Distribution Architecture
 
-The current immutable release baseline is `v0.2.59` after publication; before
-its provider Release exists, `v0.2.58` remains the installable public baseline.
+The current immutable release baseline is `v0.2.60` after publication; before
+its provider Release exists, `v0.2.59` remains the installable public baseline.
 The reserved `v0.2.51` tag is an immutable failed publication attempt
 (workflow run `33417057474`), a lightweight tag with no provider Release; it is
 never reused. The failed `v0.2.49` tag
@@ -36,7 +36,7 @@ failed before a provider Release existed, so it is never reused or treated as
 an installation baseline.
 The unpublished `v0.2.36` tag remains immutable staged-acceptance failure
 history and is not an installation baseline.
-The prior public `v0.2.58` Release remains retained as historical evidence and
+The prior public `v0.2.59` Release remains retained as historical evidence and
 is superseded by this baseline; `v0.2.55`, `v0.2.53`, and `v0.2.52` remain earlier historical evidence.
 The failed `v0.2.49` tag remains immutable
 pre-publication history and has no public Release.
@@ -148,7 +148,7 @@ approval-gated migration branch.
 - `cockpit-release` and the release workflow own the local release contract,
   deterministic manifest, Formula projection, hosted checks, and published
   Release identity.
-- The current immutable public baseline is `v0.2.59`; the public adopter
+- The current immutable public baseline is `v0.2.60`; the public adopter
   acceptance and N-1 upgrade acceptance are post-release evidence. An external Homebrew tap is a separate provider surface
   and is not implied by this repository.
 - The reserved `v0.2.24` tag and immutable `v0.2.25` tag are retained as failed
