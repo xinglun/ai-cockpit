@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-02T17:16:12Z",
-  "checkpointContractDigest": "sha256:997f41866554842c9be3f4a29d2315b1403169de9e42bc48bb8782e22488b009",
+  "checkpointContractDigest": "sha256:53568f33303c136df5817835400fde23ea1aa96e88a380ebfb5bb56bfd9e7dda",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,15 +42,15 @@
   "checkpointRepositorySnapshotDigest": "sha256:3600cb435801fed325ad5a61d30de36292aeda9e374e53bcaa95e9d360be307d",
   "createdAt": "2026-09-02T17:15:59Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-02T17:23:33Z",
-  "preflightContractDigest": "sha256:997f41866554842c9be3f4a29d2315b1403169de9e42bc48bb8782e22488b009",
+  "preflightAt": "2026-09-02T17:27:43Z",
+  "preflightContractDigest": "sha256:53568f33303c136df5817835400fde23ea1aa96e88a380ebfb5bb56bfd9e7dda",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:3600cb435801fed325ad5a61d30de36292aeda9e374e53bcaa95e9d360be307d",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-02T17:16:12Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T17:28:22Z",
   "verification": [
     {
       "check": "project-command-0",
