@@ -6,17 +6,26 @@
   "checkpointAt": "2026-09-02T07:17:52Z",
   "checkpointContractDigest": "sha256:0edaabb5b5f0f09bdc759afc597dbd56ac25aee425fb32c48aba02baaebb0dc5",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:ca2e3851b38b4f2b2c9e1693ae1707eb0d858bd659a1faee3bb7b9fb866d0738",
+  "checkpointRepositorySnapshotDigest": "sha256:63a739cebd7f4646c8a25963170f3a2b2026f721bdb79bd98d067fb0acb98bcc",
   "createdAt": "2026-09-02T07:06:30Z",
+  "failedGate": "finish.governance",
   "mode": "release",
-  "preflightAt": "2026-09-02T07:13:24Z",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-02T07:21:07Z",
   "preflightContractDigest": "sha256:0edaabb5b5f0f09bdc759afc597dbd56ac25aee425fb32c48aba02baaebb0dc5",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:ca2e3851b38b4f2b2c9e1693ae1707eb0d858bd659a1faee3bb7b9fb866d0738",
+  "preflightRepositorySnapshotDigest": "sha256:63a739cebd7f4646c8a25963170f3a2b2026f721bdb79bd98d067fb0acb98bcc",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-02T07:17:52Z",
+  "updatedAt": "2026-09-02T07:21:26Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-503-release-v0-2-59"
 }
