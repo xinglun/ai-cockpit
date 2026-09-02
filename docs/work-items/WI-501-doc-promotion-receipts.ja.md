@@ -4,9 +4,13 @@ title: "WI-501 — WI-500 terminal documentation と receipt の昇格"
 description: "close 済み WI-500 の recovery evidence と生成 receipt を review 済み documentation baseline に昇格します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-501-doc-promotion-receipts
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-501-doc-promotion-receipts
+terminalArchive: .ai/work-items/archive/WI-501-doc-promotion-receipts.contract.json
+terminalVerification: .ai/evidence/WI-501-doc-promotion-receipts.verification.json
+terminalFinalization: .ai/decisions/WI-501-doc-promotion-receipts.finalize.json
+terminalDecision: .ai/decisions/WI-501-doc-promotion-receipts.close.json
 ---
 
 # WI-501 — WI-500 terminal documentation と receipt の昇格

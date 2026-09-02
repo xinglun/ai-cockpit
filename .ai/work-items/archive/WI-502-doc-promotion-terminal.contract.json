@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "The three WI-501 Work Item pages have terminal evidence-backed status.",
+    "The three reference parity pages no longer retain a conditional WI-501 projection.",
+    "promote_closed_work_item.py --repo . --check-all passes.",
+    "Documentation, parity, status consistency, and Rust quality checks pass.",
+    "No generated historical evidence is rewritten or deleted."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bcf7603ac5e5844a4e7335e334d0d8507bf0515d",
+  "createdAt": "2026-09-02T06:41:13Z",
+  "goal": "Make the post-close documentation gate pass before publishing the next Runtime release.",
+  "intent": "Promote closed WI-501 documentation and parity projections to their terminal verified state.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    "source comparison implementation",
+    "object/adopter repositories",
+    "release publication",
+    "global Agent/MCP configuration",
+    "history rewrite"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:29904a9f31a481717bdcba7851976cf4e3adbc2f2a90aca9cab6f565ac65dfc8",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-502-doc-promotion-terminal",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/475",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-502-doc-promotion-terminal"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-501-doc-promotion-receipts.md",
+    "docs/work-items/WI-501-doc-promotion-receipts.zh-CN.md",
+    "docs/work-items/WI-501-doc-promotion-receipts.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-502-doc-promotion-terminal.md",
+    "docs/work-items/WI-502-doc-promotion-terminal.zh-CN.md",
+    "docs/work-items/WI-502-doc-promotion-terminal.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-502-doc-promotion-terminal"
+}
