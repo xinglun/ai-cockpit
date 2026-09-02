@@ -1,0 +1,89 @@
+{
+  "acceptanceCriteria": [
+    "Every current listed source path is read at the pinned commit and receives a classification, Rust/adopter counterpart or explicit non-claim, and evidence reference; retired paths are checked against the retired ledger and explicitly recorded as historical/non-current.",
+    "Any required semantic repair is implemented only inside this Contract scope with focused regression tests and synchronized English, Chinese, and Japanese documentation.",
+    "Source implementation bytes, generated history, source installer behavior, and object repositories remain unchanged.",
+    "The resulting inventory/parity claims are deterministic, repository-bound, and contain no deferred or migrate-gap entry for this batch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a0881e5920d6ae8f60b2e5f829061c8ad1dd465c",
+  "createdAt": "2026-09-02T20:19:11Z",
+  "goal": "Complete an auditable file-by-file parity batch for adoption, calibration, baseline, capability, and canonical-evidence boundaries without copying source Python, Shell, Make, provider policy, installer behavior, or source wire formats.",
+  "intent": "Compare the next bounded set of local reference-source files one by one, preserve Rust-native architecture and adopter inheritance, and repair only evidence-backed semantic gaps found in this batch.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source-python-shell-make-implementation-copies",
+    "v1-wire-compatibility",
+    "provider-global-agent-mcp-configuration",
+    "object-adopter-repository-changes",
+    "unrelated-runtime-architecture-refactors"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cbd4d9a7df06726e13d53759d9b23ad46d14af185ba92388ac4c761f64c8c7cc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "reference-parity",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-516-reference-file-comparison-batch-34",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/491",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-516-reference-file-comparison-batch-34"
+  },
+  "risk": "normal",
+  "scope": [
+    "next-release.json",
+    "pyproject.toml",
+    "release-state.json",
+    "release.json",
+    "requirements-dev.in",
+    "requirements-dev.lock",
+    "scripts/ai_adoption_evidence.py",
+    "scripts/ai_adoption_reality_report.py",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_baseline_evidence.py",
+    "scripts/ai_calibrate.py",
+    "scripts/ai_calibration_corrective.py",
+    "scripts/ai_calibration_inventory.py",
+    "scripts/ai_calibration_profiles.py",
+    "scripts/ai_calibration_wizard.py",
+    "scripts/ai_canonical_evidence.py",
+    "scripts/ai_capability_freshness.py",
+    "scripts/ai_capability_truth.py",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-516-reference-file-comparison-batch-34.md",
+    "docs/work-items/WI-516-reference-file-comparison-batch-34.zh-CN.md",
+    "docs/work-items/WI-516-reference-file-comparison-batch-34.ja.md"
+  ],
+  "sources": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-512-reference-docs-batch-33.md",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh"
+  ],
+  "workItemId": "WI-516-reference-file-comparison-batch-34"
+}

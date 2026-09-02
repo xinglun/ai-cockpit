@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-512-reference-docs-batch-33
+lastVerifiedBy: WI-516-reference-file-comparison-batch-34
 capabilityClaims:
   - reference_parity
 ---
@@ -99,7 +99,7 @@ The target and every adopter inherit the shared external Runtime, isolated
 repository context, Contract/evidence/knowledge records, and human Outcome
 boundary. They do not inherit source-specific installers, Make targets,
 provider decisions, or generated history. The current ledger contains 4,262
-`generated-history`, 323 `implemented-different-by-design`, 1
+`generated-history`, 340 `implemented-different-by-design`, 1
 `implemented-equivalent`, 4 `not-applicable`, 90 `reference-only`, and 439
 `deferred-next-batch` records; `migrate-gap` remains zero.
 
@@ -251,7 +251,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=279 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=399 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=296 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=382 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -265,11 +265,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 279 |
+| `implemented-different-by-design` | 296 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 86 |
-| `deferred-next-batch` | 399 |
+| `deferred-next-batch` | 382 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1664,6 +1664,18 @@ current 4,450-path set contains 3,681 `generated-history`, 279
 `not-applicable`, 86 `reference-only`, and 399 `deferred-next-batch` records;
 the append-only ledger retains 669 retired paths and `migrate-gap` remains
 zero.
+
+## WI-516: release, adoption, calibration, and evidence batch
+
+WI-516 re-read 17 current paths at the pinned source commit. The paths cover
+release projections, Python development metadata, adopter evidence, archive,
+baseline/cost observation, calibration, capability truth, and canonical
+evidence. Each current path is classified `implemented-different-by-design`
+with an explicit Rust counterpart or non-claim in the inventory. The retired
+`scripts/ai_adoption_reality_report.py` path was checked against the retired
+ledger and remains historical/non-current; it is not claimed as a Runtime
+capability. This is semantic parity for the adopter boundary, not source
+Python, packaging, provider-state, interactive-wizard, or JSON-wire copying.
 
 This is semantic/documentation parity, not source installer, Python dependency,
 interactive wizard, or JSON-wire compatibility. Each object/adopter repository

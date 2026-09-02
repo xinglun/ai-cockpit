@@ -43,7 +43,7 @@ for current_capability_path in \
 done
 # Bounded rebaseline batches resolve changed source records; keep this
 # regression count tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 83
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 78
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md

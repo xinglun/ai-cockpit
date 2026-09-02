@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-512-reference-docs-batch-33
+lastVerifiedBy: WI-516-reference-file-comparison-batch-34
 capabilityClaims:
   - reference_parity
 ---
@@ -81,6 +81,10 @@ capabilityClaims:
 
 矩阵刻意区分已工作的核心和完整参考源表面 parity。某一行的 green 只证明该行边界，
 不授予外部 identity、provider authorization、branch protection、production readiness 或组织批准。
+
+## WI-516 当前文件批次
+
+WI-516 在参考源提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 逐项重新阅读了 17 个 current path：发布投影、Python 开发元数据、adopter evidence、归档、baseline/成本观测、校准、能力事实和 canonical evidence。inventory 中 17 项全部标为 `implemented-different-by-design`，并给出 Rust 对应或明确非声明。`scripts/ai_adoption_reality_report.py` 已不在 pinned checkout 中，只作为 retired historical path 记录，不能宣称是当前能力。这些决定保留 adopter 所需的语义边界，但不复制源 Python、打包、provider 状态、交互向导或 JSON wire 格式。
 
 ## 当前实现基线
 
@@ -454,6 +458,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-513——WI-512 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-513-wi512-doc-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-513-wi512-doc-promotion.contract.json`; verification `.ai/evidence/WI-513-wi512-doc-promotion.verification.json`; finalization `.ai/decisions/WI-513-wi512-doc-promotion.finalize.json`; close `.ai/decisions/WI-513-wi512-doc-promotion.close.json`. |
 | WI-514——历史共享 worktree 与 direct-merge 收尾兼容 | 已实现 | [Work Item](../work-items/WI-514-historical-close-compatibility.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-514-historical-close-compatibility.contract.json`; verification `.ai/evidence/WI-514-historical-close-compatibility.verification.json`; finalization `.ai/decisions/WI-514-historical-close-compatibility.finalize.json`; close `.ai/decisions/WI-514-historical-close-compatibility.close.json`. |
 | WI-515——v0.2.63 发布与历史 adopter recovery 验收 | 已实现 | [Work Item](../work-items/WI-515-release-v0-2-63.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-515-release-v0-2-63.contract.json`; verification `.ai/evidence/WI-515-release-v0-2-63.verification.json`; finalization `.ai/decisions/WI-515-release-v0-2-63.finalize.json`; close `.ai/decisions/WI-515-release-v0-2-63.close.json`. |
+| WI-516——发布、adopter、校准与证据对比批次 34 | 进行中 | [Work Item](../work-items/WI-516-reference-file-comparison-batch-34.zh-CN.md)；已归档 Contract `.ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json`；verification `.ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json`；finalization 与 close 按已审阅 PR lifecycle 继续。 |
 
 ## WI-512：治理参考页与验证边界
 

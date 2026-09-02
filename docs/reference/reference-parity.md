@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-512-reference-docs-batch-33
+lastVerifiedBy: WI-516-reference-file-comparison-batch-34
 capabilityClaims:
   - reference_parity
 ---
@@ -89,6 +89,19 @@ The matrix deliberately distinguishes a working core from complete reference
 surface parity. A green row proves only the named boundary; it does not grant
 external identity, provider authorization, branch protection, production
 readiness, or organizational approval.
+
+## WI-516 current file batch
+
+WI-516 re-read 17 current paths at source commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060`: release projections, Python
+development metadata, adopter evidence, archive, baseline/cost observation,
+calibration, capability truth, and canonical evidence. All 17 are classified
+`implemented-different-by-design` in the inventory and have explicit Rust
+counterparts or non-claims. `scripts/ai_adoption_reality_report.py` is absent
+from the pinned checkout and is recorded only as a retired historical path;
+it is not claimed as a current capability. These decisions preserve the
+semantic boundaries for adopters without copying source Python, packaging,
+provider state, interactive wizard, or JSON wire formats.
 
 ## Current implementation baseline
 
@@ -463,6 +476,7 @@ record for each boundary.
 | WI-513 — WI-512 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-513-wi512-doc-promotion.md); archive `.ai/work-items/archive/WI-513-wi512-doc-promotion.contract.json`; verification `.ai/evidence/WI-513-wi512-doc-promotion.verification.json`; finalization `.ai/decisions/WI-513-wi512-doc-promotion.finalize.json`; close `.ai/decisions/WI-513-wi512-doc-promotion.close.json`. |
 | WI-514 — historical shared-worktree and direct-merge finalization compatibility | Implemented | [Work Item](../work-items/WI-514-historical-close-compatibility.md); terminal lifecycle: archive `.ai/work-items/archive/WI-514-historical-close-compatibility.contract.json`; verification `.ai/evidence/WI-514-historical-close-compatibility.verification.json`; finalization `.ai/decisions/WI-514-historical-close-compatibility.finalize.json`; close `.ai/decisions/WI-514-historical-close-compatibility.close.json`. |
 | WI-515 — v0.2.63 release and historical-adopter recovery acceptance | Implemented | [Work Item](../work-items/WI-515-release-v0-2-63.md); terminal lifecycle: archive `.ai/work-items/archive/WI-515-release-v0-2-63.contract.json`; verification `.ai/evidence/WI-515-release-v0-2-63.verification.json`; finalization `.ai/decisions/WI-515-release-v0-2-63.finalize.json`; close `.ai/decisions/WI-515-release-v0-2-63.close.json`. |
+| WI-516 — release, adoption, calibration, and evidence comparison batch 34 | In progress | [Work Item](../work-items/WI-516-reference-file-comparison-batch-34.md); archived Contract `.ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json`; verification `.ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json`; finalization and close follow the reviewed PR lifecycle. |
 
 ## WI-512 — governance reference pages and verification boundaries
 

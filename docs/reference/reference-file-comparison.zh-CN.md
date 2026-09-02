@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-512-reference-docs-batch-33
+lastVerifiedBy: WI-516-reference-file-comparison-batch-34
 capabilityClaims:
   - reference_parity
 ---
@@ -71,7 +71,7 @@ WI-512 在固定的本地参考提交上逐个重读以下 12 个源路径。其
 | `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design（WI-504，重新核对） | 三语 closure、finalize/recovery 与 ready-on-base 检查；源 Make/Python recovery orchestration 不是 Rust 命令。 |
 | `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | 日文 closure 与历史 recovery 边界；provider 专用路线仍是外部责任。 |
 
-目标工程及每个对象工程继承 shared external Runtime、隔离的 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源专用 installer、Make target、provider 决定或 generated history。当前台账为 4,262 个 `generated-history`、323 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、90 个 `reference-only`、439 个 `deferred-next-batch`；`migrate-gap` 仍为 0。
+目标工程及每个对象工程继承 shared external Runtime、隔离的 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源专用 installer、Make target、provider 决定或 generated history。当前台账为 4,262 个 `generated-history`、340 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、90 个 `reference-only`、439 个 `deferred-next-batch`；`migrate-gap` 仍为 0。
 
 ## 首批：治理入口
 
@@ -199,9 +199,13 @@ WI-270 对下面 27 个参考源路径逐一检查。台账将它们标为
 request-scoped status 和 evidence-derived Outcome 已实现，参考源更广的聚合与 cost/wait
 维度仍排入后续批次，不能当作完整 parity。
 
+## WI-516：发布、采用、校准与证据批次
+
+WI-516 在 pinned source commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 逐个重读 17 个 current path，覆盖发布投影、Python 开发元数据、adopter evidence、归档、baseline/成本观测、校准、能力事实和 canonical evidence。inventory 将 17 项全部记录为 `implemented-different-by-design`，并给出 Rust 对应或明确非声明。`scripts/ai_adoption_reality_report.py` 已从 pinned checkout 退休，只按 retired ledger 记录为历史/非当前能力。该批次是 adopter 边界的语义对齐，不复制源 Python、打包、provider 状态、交互向导或 JSON wire。
+
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=279 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=399 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=296 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=382 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -212,11 +216,11 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 279 |
+| `implemented-different-by-design` | 296 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
 | `reference-only` | 86 |
-| `deferred-next-batch` | 399 |
+| `deferred-next-batch` | 382 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1281,9 +1285,9 @@ WI-510 在固定的本地参考提交
 
 本批未发现实现遗漏。源 `install.sh` 的语义由 Rust 公开 Release、checksum/SBOM/provenance、显式 repository attach
 和隔离 adopter 验收边界承载。3 个 locale 是源展示资产，不是可移植治理 policy；Runtime 自有标签会本地化，Contract
-事实保持作者语言，宿主/Agent 对话 UX 仍属外部责任。当前 4,450 个路径包含 3,681 个 `generated-history`、279 个
+事实保持作者语言，宿主/Agent 对话 UX 仍属外部责任。当前 4,450 个路径包含 3,681 个 `generated-history`、296 个
 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、86 个 `reference-only`
-和 399 个 `deferred-next-batch`；append-only 台账保留 669 个 retired 路径，`migrate-gap` 仍为零。
+和 382 个 `deferred-next-batch`；append-only 台账保留 669 个 retired 路径，`migrate-gap` 仍为零。
 
 这是语义/文档对齐，不是源安装器、Python 依赖、交互向导或 JSON wire 兼容。每个对象/采用方工程仍在外部安装共享
 Runtime，并只继承显式 repository-bound 的 attach、Agent、Contract、evidence、knowledge 和 Outcome 边界。

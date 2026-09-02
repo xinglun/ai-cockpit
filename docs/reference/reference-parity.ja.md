@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-512-reference-docs-batch-33
+lastVerifiedBy: WI-516-reference-file-comparison-batch-34
 capabilityClaims:
   - reference_parity
 ---
@@ -85,6 +85,10 @@ matrix は次の 4 state だけを使います。
 この matrix は working core と full reference surface parity を意図的に区別します。1 行の
 green はその boundary だけを証明し、external identity、provider authorization、branch protection、
 production readiness、organization approval を与えるものではありません。
+
+## WI-516 current file batch
+
+WI-516 は source commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の 17 current path を一つずつ再読しました。対象は release projection、Python development metadata、adopter evidence、archive、baseline/cost observation、calibration、capability truth、canonical evidence です。inventory の 17 件はすべて `implemented-different-by-design` とし、Rust counterpart または明示的 non-claim を持たせます。`scripts/ai_adoption_reality_report.py` は pinned checkout から retired されており、historical retired path としてだけ記録します。current capability とは主張しません。adopter の semantic boundary は保ちますが、source Python、package、provider state、interactive wizard、JSON wire format はコピーしません。
 
 ## 現在の実装 baseline
 
@@ -459,6 +463,7 @@ verification record です。
 | WI-513 — WI-512 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-513-wi512-doc-promotion.ja.md); archive `.ai/work-items/archive/WI-513-wi512-doc-promotion.contract.json`; verification `.ai/evidence/WI-513-wi512-doc-promotion.verification.json`; finalization `.ai/decisions/WI-513-wi512-doc-promotion.finalize.json`; close `.ai/decisions/WI-513-wi512-doc-promotion.close.json`. |
 | WI-514 — historical shared-worktree と direct-merge の finalization 互換 | Implemented | [Work Item](../work-items/WI-514-historical-close-compatibility.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-514-historical-close-compatibility.contract.json`; verification `.ai/evidence/WI-514-historical-close-compatibility.verification.json`; finalization `.ai/decisions/WI-514-historical-close-compatibility.finalize.json`; close `.ai/decisions/WI-514-historical-close-compatibility.close.json`. |
 | WI-515 — v0.2.63 release と historical-adopter recovery acceptance | Implemented | [Work Item](../work-items/WI-515-release-v0-2-63.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-515-release-v0-2-63.contract.json`; verification `.ai/evidence/WI-515-release-v0-2-63.verification.json`; finalization `.ai/decisions/WI-515-release-v0-2-63.finalize.json`; close `.ai/decisions/WI-515-release-v0-2-63.close.json`. |
+| WI-516 — release、adopter、calibration、evidence 比較バッチ 34 | In progress | [Work Item](../work-items/WI-516-reference-file-comparison-batch-34.ja.md); archived Contract `.ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json`; verification `.ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json`; finalization と close は reviewed PR lifecycle に従って継続。 |
 
 ## WI-512: governance reference page と verification boundary
 
