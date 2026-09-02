@@ -1,0 +1,125 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-509-release-v0-2-61.contract.json",
+    ".ai/work-items/archive/WI-509-release-v0-2-61.summary.json"
+  ],
+  "checkpointAt": "2026-09-02T12:31:07Z",
+  "checkpointContractDigest": "sha256:bf7c11fe5ae084171a5e21acfa0225ee3580eabcb996b1f2701ff73d8fef01c7",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:357baa2263c4ef9aef5b27c7976ca1f075e8e9f9ee7aa8521003c9db202c1d41",
+      "recorded": true,
+      "recordedAt": "2026-09-02T12:31:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0560d848ff5e6de57ac780fac80f20175de7d34356a96d2d5d25f653c58dbb95",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-509-release-v0-2-61"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:bf7c11fe5ae084171a5e21acfa0225ee3580eabcb996b1f2701ff73d8fef01c7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:357baa2263c4ef9aef5b27c7976ca1f075e8e9f9ee7aa8521003c9db202c1d41",
+      "previousContractHash": "sha256:357baa2263c4ef9aef5b27c7976ca1f075e8e9f9ee7aa8521003c9db202c1d41",
+      "reason": "Bind reviewed GitHub PR #482 and dedicated release worktree finalization context; scope and release facts remain unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T12:38:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0560d848ff5e6de57ac780fac80f20175de7d34356a96d2d5d25f653c58dbb95",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-509-release-v0-2-61"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0560d848ff5e6de57ac780fac80f20175de7d34356a96d2d5d25f653c58dbb95",
+  "createdAt": "2026-09-02T12:28:37Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release Work Item binds the reviewed source and staged release policy while preserving post-release adopter evidence as an explicit boundary.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-02T12:44:45Z",
+  "preflightContractDigest": "sha256:bf7c11fe5ae084171a5e21acfa0225ee3580eabcb996b1f2701ff73d8fef01c7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0560d848ff5e6de57ac780fac80f20175de7d34356a96d2d5d25f653c58dbb95",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        "tests/release/version_consistency_test.sh",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "workspace package versions, lockfile, and current release documentation identify v0.2.61 while historical release facts remain unchanged",
+      "required": true,
+      "scenario": "workspace release contract",
+      "status": "verified",
+      "verificationPlan": "run version consistency, metadata, documentation, and diff checks before publication"
+    },
+    {
+      "evidence": [],
+      "expected": "the reviewed PR passes all required hosted checks before the annotated release tag is created",
+      "reason": "hosted provider checks are external evidence collected on the reviewed PR before merge and bound by the finalization receipt",
+      "required": true,
+      "scenario": "reviewed hosted release gate",
+      "status": "not_applicable",
+      "verificationPlan": "inspect the actual PR check conclusions and merge only after every required check passes"
+    },
+    {
+      "evidence": [],
+      "expected": "the public v0.2.61 release exposes archives, SHA256 checksums, SBOM, provenance, and a manifest bound to the release tag",
+      "reason": "public release assets are collected only after the reviewed source is merged and tagged",
+      "required": true,
+      "scenario": "public artifact integrity",
+      "status": "not_applicable",
+      "verificationPlan": "download only public release assets, verify checksum and manifest bindings, and retain the release receipt"
+    },
+    {
+      "evidence": [],
+      "expected": "a fresh adopter and N-1 upgrade pass from immutable downloaded artifacts with isolation, cleanup, and first-adopter-smoke not_ready proofs",
+      "reason": "public adopter evidence is collected only after the reviewed source is merged and tagged",
+      "required": true,
+      "scenario": "isolated public adopter acceptance",
+      "status": "not_applicable",
+      "verificationPlan": "run the release adopter acceptance harnesses with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME and retain their receipts"
+    },
+    {
+      "evidence": [],
+      "expected": "the verified public v0.2.61 binary installed on this repository keeps inspect, status, doctor, Agent doctor, and documentation checks healthy",
+      "reason": "the published binary is installed only after the reviewed source is merged and tagged",
+      "required": true,
+      "scenario": "installed runtime baseline",
+      "status": "not_applicable",
+      "verificationPlan": "install the checksum-verified public artifact and run repository-bound health and post-close checks"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T12:44:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-509-release-v0-2-61"
+}
