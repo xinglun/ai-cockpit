@@ -189,7 +189,7 @@ complete parity とは扱いません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=413 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=78 deferred-next-batch=408 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -204,8 +204,8 @@ slice に `migrate-gap` は残っていません。
 | `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 73 |
-| `deferred-next-batch` | 413 |
+| `reference-only` | 78 |
+| `deferred-next-batch` | 408 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1250,3 +1250,20 @@ WI-504 は pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060` で変
 | `docs/upgrade.md` | implemented-different-by-design | 最小の root compatibility entry を canonical な Rust tri-language upgrade reference に向け、implementation detail を重複させず reader route を保持します。 |
 
 `migrate-gap` は見つかりませんでした。source/provider 固有の削除は target の lifecycle、reuse、upgrade boundary を弱めず、新しい root entry はこの slice で見つかった唯一の reader-navigation omission を閉じます。current snapshot は 3,681 `generated-history`、278 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、73 `reference-only`、413 `deferred-next-batch` です。
+
+## WI-507 — language-adaptation example reader boundary
+
+WI-507 は pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持された example README 5 path を一つずつ再読しました。
+これらは source/provider の onboarding example であり、stack 固有 installer、Make preset、coverage pattern、application Contract example を説明します。
+Runtime code、provider evidence、portable な JSON wire contract ではありません。
+
+| Pinned reference path | Classification | Rust counterpart と bounded decision |
+| --- | --- | --- |
+| `examples/flutter/README.md` | reference-only | `docs/reference/flutter-fixture-adaptation.*`、`docs/reference/contract-fields.md`、`docs/reference/verification-route.md` が explicit scope、owner-approved command、evidence binding、shared Runtime/adopter isolation を保持します。Flutter/Dart install、Make preset、coverage YAML、application code、source JSON は copy しません。 |
+| `examples/go/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`、`docs/reference/contract-fields.md`、`docs/reference/verification-route.md` が generic Contract/verification/evidence boundary を保持します。Go toolchain command、Make preset、coverage pattern、application example は adopter 責任です。 |
+| `examples/java/README.md` | reference-only | `docs/getting-started/examples/java.md`、`docs/reference/contract-fields.md`、`docs/reference/verification-route.md` が owner-declared scope、verification、evidence、repository isolation を保持します。Gradle/Spring/Android command、coverage preset、sample code は Runtime requirement ではありません。 |
+| `examples/kotlin/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`、`docs/reference/contract-fields.md`、`docs/reference/verification-route.md` が generic governance boundary を保持します。Kotlin/Gradle command と coverage pattern は adopter/provider responsibility です。 |
+| `examples/php/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`、`docs/reference/contract-fields.md`、`docs/reference/verification-route.md` が explicit Contract scope、verification、evidence、shared Runtime isolation を保持します。Composer/PHPUnit/PHPStan command と application path は copy しません。 |
+
+この slice に implementation omission はありません。source path は reference-only の application onboarding material であり、portable な意味は既存の Rust-native Contract、verification、evidence、adopter-boundary route で表現されています。
+source stack、installer、Make command、sample Contract decision は target repository や adopter に継承しません。現在の 4,450 reference path set は 3,681 `generated-history`、278 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、78 `reference-only`、408 `deferred-next-batch` で、append-only ledger は 669 retired record を保持し、`migrate-gap` は 0 のままです。

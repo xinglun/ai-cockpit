@@ -179,7 +179,7 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=73 deferred-next-batch=413 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=278 implemented-equivalent=1 not-applicable=4 reference-only=78 deferred-next-batch=408 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -193,8 +193,8 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 | `implemented-different-by-design` | 278 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 4 |
-| `reference-only` | 73 |
-| `deferred-next-batch` | 413 |
+| `reference-only` | 78 |
+| `deferred-next-batch` | 408 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1207,3 +1207,22 @@ WI-496 在固定的本地参考提交上逐个重读 10 个路径。每项都是
 | `docs/reference/pre-release-documentation-alignment.md` | reference-only | 源发布前报告保持历史/reference-bound；目标发布证据独立生成。 |
 
 没有发现实现遗漏。6 个可移植责任已由 Rust 原生 release、治理与多语言读者路线承载；4 个源自有报告/注册表保持 `reference-only`，没有新增 `migrate-gap`。当前计数为 3,681 `generated-history`、273 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、73 `reference-only`、418 `deferred-next-batch`。
+
+## WI-507：语言适配示例的读者边界
+
+WI-507 在固定本地提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读 5 个维护中的参考源示例 README。
+这些文件是源工程/provider 的 onboarding 示例，描述特定技术栈的安装器、Make 预设、coverage 模式和应用 Contract 示例；
+它们不是 Runtime 代码、provider evidence 或可移植的 JSON wire contract。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `examples/flutter/README.md` | reference-only | `docs/reference/flutter-fixture-adaptation.*`、`docs/reference/contract-fields.md` 和 `docs/reference/verification-route.md` 保留显式 scope、owner 批准的命令、evidence 绑定及 shared Runtime/adopter 隔离。不复制 Flutter/Dart 安装、Make 预设、coverage YAML、应用代码或源 JSON。 |
+| `examples/go/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`、`docs/reference/contract-fields.md` 和 `docs/reference/verification-route.md` 保留通用 Contract/verification/evidence 边界。Go 工具链命令、Make 预设、coverage 模式和应用示例仍由 adopter 负责。 |
+| `examples/java/README.md` | reference-only | `docs/getting-started/examples/java.md`、`docs/reference/contract-fields.md` 和 `docs/reference/verification-route.md` 保留 owner 声明的 scope、verification、evidence 与 repository 隔离。Gradle/Spring/Android 命令、coverage 预设和示例代码不是 Runtime 要求。 |
+| `examples/kotlin/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`、`docs/reference/contract-fields.md` 和 `docs/reference/verification-route.md` 保留通用治理边界。Kotlin/Gradle 命令和 coverage 模式仍是 adopter/provider 责任。 |
+| `examples/php/README.md` | reference-only | `docs/getting-started/adopter-configuration.md`、`docs/reference/contract-fields.md` 和 `docs/reference/verification-route.md` 保留显式 Contract scope、verification、evidence 与 shared Runtime 隔离。不复制 Composer/PHPUnit/PHPStan 命令或应用路径。 |
+
+本批未发现实现遗漏：这些源文件是仅供参考的应用 onboarding 材料，可移植语义已经由 Rust 原生 Contract、verification、evidence 和 adopter 边界路线表达。
+本仓库及其对象工程不会继承源技术栈、安装器、Make 命令或示例 Contract 决定。当前 4,450 路径的参考集合为 3,681 个
+`generated-history`、278 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、78 个
+`reference-only`、408 个 `deferred-next-batch`；追加式台账保留 669 个 retired 记录，`migrate-gap` 仍为 0。

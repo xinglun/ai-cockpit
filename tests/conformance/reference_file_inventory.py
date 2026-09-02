@@ -68,6 +68,7 @@ WI482_BATCH = "WI-482-reference-file-comparison-batch-26"
 WI494_BATCH = "WI-494-reference-file-comparison-batch-27"
 WI496_BATCH = "WI-496-reference-file-comparison-batch-28"
 WI504_BATCH = "WI-504-reference-file-comparison-batch-29"
+WI507_BATCH = "WI-507-reference-file-comparison-batch-30"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -793,6 +794,62 @@ WI504_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/upgrade.ja.md",
         ],
         "The source file is a compatibility reader entry. Rust restores the same navigation role with a minimal root pointer to the canonical tri-language reference upgrade route, while keeping shared Runtime installation, repository migration, and provider configuration as separate boundaries.",
+    ),
+}
+
+# WI-507 compares the first five maintained language-adaptation example
+# readers after the documentation batch. These are source/provider-specific
+# onboarding examples, not Runtime code or a portable wire contract. The
+# target records their governance boundary as reference-only and points to
+# existing Rust-native contract, verification, and adopter routes without
+# copying any SDK, Make, installer, or application example.
+WI507_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "examples/flutter/README.md": (
+        "reference-only",
+        [
+            "docs/reference/flutter-fixture-adaptation.md",
+            "docs/reference/flutter-fixture-adaptation.zh-CN.md",
+            "docs/reference/flutter-fixture-adaptation.ja.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This Flutter adaptation example is source/provider onboarding material. The target preserves explicit scope, owner-approved commands, evidence binding, and shared Runtime/adopter isolation through Rust-native routes, but does not copy Flutter/Dart installation, Make presets, coverage YAML, application code, or source JSON wire shape.",
+    ),
+    "examples/go/README.md": (
+        "reference-only",
+        [
+            "docs/getting-started/adopter-configuration.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This Go adaptation example is source/provider onboarding material. Go toolchain commands, Make presets, coverage patterns, and application examples remain adopter-owned; the target keeps only the general Contract, verification, evidence, and explicit repository-context boundaries.",
+    ),
+    "examples/java/README.md": (
+        "reference-only",
+        [
+            "docs/getting-started/examples/java.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This Java adaptation example is source/provider onboarding material. Gradle/Spring/Android commands, coverage presets, and example application code are not Runtime requirements; the target preserves owner-declared scope, verification, evidence, and repository isolation through its Rust-native routes.",
+    ),
+    "examples/kotlin/README.md": (
+        "reference-only",
+        [
+            "docs/getting-started/adopter-configuration.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This Kotlin adaptation example is source/provider onboarding material. Kotlin/Gradle commands and coverage patterns remain adopter/provider responsibilities; the target does not copy the source installer, Make bridge, SDK assumptions, or JSON contract example and retains only the generic governance boundary.",
+    ),
+    "examples/php/README.md": (
+        "reference-only",
+        [
+            "docs/getting-started/adopter-configuration.md",
+            "docs/reference/contract-fields.md",
+            "docs/reference/verification-route.md",
+        ],
+        "This PHP adaptation example is source/provider onboarding material. Composer, PHPUnit, PHPStan, Make presets, and application paths remain adopter/provider responsibilities; the target preserves explicit Contract scope, verification, evidence, and shared-Runtime isolation without copying source implementation or wire shape.",
     ),
 }
 
@@ -3802,6 +3859,36 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                     )
                 if not record.get("rustCounterparts") or not record.get("reason"):
                     errors.append(f"{record.get('referencePath')}: WI-504 result needs counterparts and reason")
+        if any(
+            isinstance(record, dict) and record.get("batch") == WI507_BATCH
+            for record in records
+        ):
+            wi507_records = [
+                record
+                for record in records
+                if isinstance(record, dict)
+                and record.get("batch") == WI507_BATCH
+                and record.get("referencePath") in WI507_REFERENCE_FILES
+            ]
+            expected_wi507_paths = set(WI507_REFERENCE_FILES) & current_reference_paths
+            actual_wi507_paths = {record.get("referencePath") for record in wi507_records}
+            if actual_wi507_paths != expected_wi507_paths:
+                errors.append(
+                    "WI-507 reference example records do not match the five scoped paths: "
+                    f"expected {sorted(expected_wi507_paths)!r}, got {sorted(actual_wi507_paths)!r}"
+                )
+            if len(wi507_records) != len(expected_wi507_paths):
+                errors.append(
+                    f"WI-507 batch must contain {len(expected_wi507_paths)} records, found {len(wi507_records)}"
+                )
+            for record in wi507_records:
+                expected_classification = WI507_REFERENCE_FILES[record["referencePath"]][0]
+                if record.get("classification") != expected_classification:
+                    errors.append(
+                        f"{record.get('referencePath')}: WI-507 classification must be {expected_classification}"
+                    )
+                if not record.get("rustCounterparts") or not record.get("reason"):
+                    errors.append(f"{record.get('referencePath')}: WI-507 result needs counterparts and reason")
     scoped = {
         record.get("referencePath"): record
         for record in records
@@ -4755,6 +4842,33 @@ def apply_wi504_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi507_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI507_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI507_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI507_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI507_REFERENCE_FILES)} WI-507 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -4778,6 +4892,7 @@ def main() -> int:
     parser.add_argument("--apply-wi494-batch", action="store_true")
     parser.add_argument("--apply-wi496-batch", action="store_true")
     parser.add_argument("--apply-wi504-batch", action="store_true")
+    parser.add_argument("--apply-wi507-batch", action="store_true")
     args = parser.parse_args()
 
     if args.rebaseline_from:
@@ -4857,6 +4972,13 @@ def main() -> int:
     if args.apply_wi504_batch:
         try:
             apply_wi504_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi507_batch:
+        try:
+            apply_wi507_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-507-reference-file-comparison-batch-30.contract.json",
+    ".ai/work-items/archive/WI-507-reference-file-comparison-batch-30.summary.json"
+  ],
+  "checkpointAt": "2026-09-02T11:07:32Z",
+  "checkpointContractDigest": "sha256:19262a292f48e4e4d833caceb1c2df638f262876c83b7f39e0349b0f87d3cec3",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:81971e2dd10d291059e5695ead012ef30365a557eeddfbb95f52e739ceb28b5f",
+      "recorded": true,
+      "recordedAt": "2026-09-02T11:07:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0a698f66df656ab7c2ee6b61e6ee22ea54e9821bd30a266656dcc80b9e9ef0c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-507-reference-file-comparison-batch-30"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:19262a292f48e4e4d833caceb1c2df638f262876c83b7f39e0349b0f87d3cec3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:81971e2dd10d291059e5695ead012ef30365a557eeddfbb95f52e739ceb28b5f",
+      "previousContractHash": "sha256:81971e2dd10d291059e5695ead012ef30365a557eeddfbb95f52e739ceb28b5f",
+      "reason": "Finalize-plan bound the reviewed PR context after the initial verification; revalidate the current Contract and repository snapshot before rerunning the declared verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T11:35:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0a698f66df656ab7c2ee6b61e6ee22ea54e9821bd30a266656dcc80b9e9ef0c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-507-reference-file-comparison-batch-30"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a0a698f66df656ab7c2ee6b61e6ee22ea54e9821bd30a266656dcc80b9e9ef0c",
+  "createdAt": "2026-09-02T11:06:41Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-02T11:42:42Z",
+  "preflightContractDigest": "sha256:19262a292f48e4e4d833caceb1c2df638f262876c83b7f39e0349b0f87d3cec3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a0a698f66df656ab7c2ee6b61e6ee22ea54e9821bd30a266656dcc80b9e9ef0c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T11:42:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-507-reference-file-comparison-batch-30"
+}
