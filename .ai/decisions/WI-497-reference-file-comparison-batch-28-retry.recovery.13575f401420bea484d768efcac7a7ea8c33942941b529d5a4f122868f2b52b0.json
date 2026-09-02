@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-02T04:44:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-497-reference-file-comparison-batch-28-retry.archive.json",
+    ".ai/evidence/WI-497-reference-file-comparison-batch-28-retry.verification.json",
+    ".ai/decisions/WI-497-reference-file-comparison-batch-28-retry.recovery.json",
+    ".ai/decisions/WI-498-reference-file-comparison-batch-28-doc-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "docs/reference/repository-workflow.zh-CN.md:recovery-and-adoption"
+  ],
+  "predecessorContractDigest": "sha256:04da778c976f741b22f330416e35e86dcd1b31547df9281cdf0584c8e9cf169c",
+  "predecessorEventsDigest": "sha256:2e36427172e43891ad687e4234d92e8a93ebde89251894aa8cb7b7a5b5e680cb",
+  "predecessorOutcomeDigest": "sha256:6752746393b2139a7738bee546a8fae3ea5f782554c297bac77628a01f62f1b5",
+  "predecessorSummaryDigest": "sha256:a4214d56d6fdc872d008abb4b4cfb082e03a3010c8bb5587b70bb976739ced1c",
+  "predecessorWorkItemId": "WI-497-reference-file-comparison-batch-28-retry",
+  "reason": "WI-497 is an immutable historical predecessor whose retry was redelivered and superseded through WI-498 and the closed WI-499 successor. Mark the predecessor superseded without rewriting any historical bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue on the closed successor lineage through WI-498 and WI-499; do not re-open or rewrite WI-497 historical bytes.",
+  "runtimeDigest": "sha256:5d1d4bd32fb32b8e8f2e46ab67797cda6d0ac706f0eb1c7f99a66d4e07109e33",
+  "runtimeVersion": "0.2.58",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-498-reference-file-comparison-batch-28-doc-recovery",
+  "workItemId": "WI-497-reference-file-comparison-batch-28-retry"
+}
