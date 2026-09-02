@@ -5,11 +5,15 @@ description: "維持された stack example 5 件を比較し、source installer
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-508-reference-file-comparison-batch-31
 sourceCommit: fde3380f81fea5fd2e288f7a8849f737dc074060
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-508-reference-file-comparison-batch-31
+terminalArchive: .ai/work-items/archive/WI-508-reference-file-comparison-batch-31.contract.json
+terminalVerification: .ai/evidence/WI-508-reference-file-comparison-batch-31.verification.json
+terminalFinalization: .ai/decisions/WI-508-reference-file-comparison-batch-31.finalize.json
+terminalDecision: .ai/decisions/WI-508-reference-file-comparison-batch-31.close.json
 ---
 
 # WI-508 — stack adaptation example reader boundary
