@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-512 parity rows are terminal Implemented rows with archive, verification, finalization, and close references that exist in this repository.",
+    "The existing tri-language WI-512 documentation has terminal frontmatter bound to the closed evidence.",
+    "promote_closed_work_item.py --check-all reports no stale projections and parity/status/governance integrity checks pass.",
+    "No immutable WI-512 generated record is rewritten and no source/provider/V1 implementation is copied.",
+    "The reviewed PR, merge, exact branch/worktree cleanup, and close receipts are recorded before release progression."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b9a63f1a2e99b573c5a965eed5e21e0777707b57",
+  "createdAt": "2026-09-02T17:15:59Z",
+  "goal": "Keep the reference parity ledger and Work Item documentation truthful after WI-512 close, with terminal evidence links and no stale in-progress projection.",
+  "intent": "Promote the closed WI-512 lifecycle projection in all supported documentation languages without rewriting immutable governance records.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior or CLI changes",
+    "Reference source and object/adopter repositories",
+    "Rewriting WI-512 immutable Contract",
+    " Summary",
+    " Outcome",
+    " Events",
+    " evidence",
+    " or decisions",
+    "Global Agent/MCP configuration and release changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:127b6b2aae6fa050880d091f371aa65c634abf7e9e31b25531b79d60d15c8ea4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-513-wi512-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-513-wi512-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-513-wi512-doc-promotion.md",
+    "docs/work-items/WI-513-wi512-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-513-wi512-doc-promotion.ja.md",
+    "docs/work-items/WI-512-reference-docs-batch-33.md",
+    "docs/work-items/WI-512-reference-docs-batch-33.zh-CN.md",
+    "docs/work-items/WI-512-reference-docs-batch-33.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-513-wi512-doc-promotion"
+}
