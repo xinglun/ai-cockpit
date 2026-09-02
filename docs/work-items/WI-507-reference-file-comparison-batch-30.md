@@ -5,11 +5,15 @@ description: "Compare five maintained reference example README files without cop
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-507-reference-file-comparison-batch-30
 sourceCommit: fde3380f81fea5fd2e288f7a8849f737dc074060
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-507-reference-file-comparison-batch-30
+terminalArchive: .ai/work-items/archive/WI-507-reference-file-comparison-batch-30.contract.json
+terminalVerification: .ai/evidence/WI-507-reference-file-comparison-batch-30.verification.json
+terminalFinalization: .ai/decisions/WI-507-reference-file-comparison-batch-30.finalize.json
+terminalDecision: .ai/decisions/WI-507-reference-file-comparison-batch-30.close.json
 ---
 
 # WI-507 — language-adaptation example reader boundary
