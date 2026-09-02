@@ -5,14 +5,17 @@
     "Source implementation bytes, generated history, source installer behavior, and object repositories remain unchanged.",
     "The resulting inventory/parity claims are deterministic, repository-bound, and contain no deferred or migrate-gap entry for this batch."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-02T20:53:13Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c68136245506fee8a6c88ebdc8fdd6485ad3c3a3b81ed6234d98a0e5d951f749",
   "evidenceRefs": [
     ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,11 +23,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -34,10 +36,8 @@
       "repositorySnapshotDigest": "sha256:7d2916f232ac56ef4dda697d0b864d56b01fc873bd97f1216834ca5ce2760fa6",
       "workItemId": "WI-516-reference-file-comparison-batch-34"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -58,22 +58,14 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-516-reference-file-comparison-batch-34.summary.json"
+            ".ai/work-items/archive/WI-516-reference-file-comparison-batch-34.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -85,7 +77,7 @@
             ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -95,15 +87,23 @@
             ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-516-reference-file-comparison-batch-34.contract.json"
+            ".ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json"
           ],
           "inference": false,
           "text": "Complete an auditable file-by-file parity batch for adoption, calibration, baseline, capability, and canonical-evidence boundaries without copying source Python, Shell, Make, provider policy, installer behavior, or source wire formats."
@@ -112,23 +112,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-516-reference-file-comparison-batch-34.contract.json"
+            ".ai/work-items/archive/WI-516-reference-file-comparison-batch-34.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-516-reference-file-comparison-batch-34"
   },
+  "taskReportDigest": "sha256:ee9a64c4092597f8200f008f88ea522b153ab08f8db72a144b99608cdd0cd3d6",
+  "taskReportMarkdownDigest": "sha256:e9f4e9942eb6d137e3b89d5e6cf691cae50d3542143fa9ed3b0ae76ea4706250",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-516-reference-file-comparison-batch-34.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-516-reference-file-comparison-batch-34"
 }

@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-02T20:20:24Z",
-  "checkpointContractDigest": "sha256:0238f94b486ff0856085d38a37f1f90cd29396a1f19eb138b87befe186fc386a",
+  "checkpointContractDigest": "sha256:c28500812db7f244c278d1cb4a514acc83fac7efaabc413d2bb270761228b4ae",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,23 +37,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-516-reference-file-comparison-batch-34"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:c28500812db7f244c278d1cb4a514acc83fac7efaabc413d2bb270761228b4ae",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f563197f63ba2bce4d34562d704e6710d65ec11e2c1554285ae6b8324ec47d66",
+      "previousContractHash": "sha256:0238f94b486ff0856085d38a37f1f90cd29396a1f19eb138b87befe186fc386a",
+      "reason": "Bind the reviewed draft PR #491 resource context and invalidate the earlier pre-plan verification cycle before fresh verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-02T20:50:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7d2916f232ac56ef4dda697d0b864d56b01fc873bd97f1216834ca5ce2760fa6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-516-reference-file-comparison-batch-34"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:78d621b4d98316388a665047c84c86b00279ed5b8e08aae29c330c73efe57a39",
+  "checkpointRepositorySnapshotDigest": "sha256:7d2916f232ac56ef4dda697d0b864d56b01fc873bd97f1216834ca5ce2760fa6",
   "createdAt": "2026-09-02T20:19:11Z",
-  "failedGate": "finish.governance",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-02T20:42:23Z",
-  "preflightContractDigest": "sha256:0238f94b486ff0856085d38a37f1f90cd29396a1f19eb138b87befe186fc386a",
+  "preflightAt": "2026-09-02T20:53:09Z",
+  "preflightContractDigest": "sha256:c28500812db7f244c278d1cb4a514acc83fac7efaabc413d2bb270761228b4ae",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:78d621b4d98316388a665047c84c86b00279ed5b8e08aae29c330c73efe57a39",
+  "preflightRepositorySnapshotDigest": "sha256:7d2916f232ac56ef4dda697d0b864d56b01fc873bd97f1216834ca5ce2760fa6",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-02T20:45:02Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T20:53:13Z",
   "verification": [
     {
       "check": "project-command-0",
