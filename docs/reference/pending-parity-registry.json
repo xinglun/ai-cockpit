@@ -28,7 +28,7 @@
         "number": 493,
         "url": "https://github.com/xinglun/ai-cockpit/pull/493"
       },
-      "registryBaseRevision": "c6703369d457f7019a709509d11fb1004c489c20",
+      "registryBaseRevision": "e48401b4217022ee6273b44d31bc8bb0fbe5f0a8",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-518-historical-finalization-apply"
