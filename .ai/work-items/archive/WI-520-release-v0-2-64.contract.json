@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "Workspace packages and lockfile identify v0.2.64 without rewriting historical release facts.",
+    "Reviewed PR hosted checks pass before an annotated v0.2.64 tag is created from synchronized main.",
+    "Public release archives, SHA256SUMS, SBOM, provenance, and manifest bind the same tag, bytes, and digests.",
+    "Post-release adopter and N-1 acceptance use only immutable downloaded artifacts, prove isolation and temporary-root cleanup, and preserve first-adopter-smoke=not_ready.",
+    "The published v0.2.64 binary is installed on this repository and inspect, status, doctor, Agent doctor, and documentation promotion checks pass.",
+    "Visible human Outcome, archive, finalization, close, and exact branch/worktree cleanup are recorded before publication is declared complete."
+  ],
+  "authority": "authorized",
+  "baseRevision": "32996ca2522f40531de05bb7722df54dfd3cb077",
+  "createdAt": "2026-09-02T23:03:18Z",
+  "goal": "Release v0.2.64 with immutable supply-chain evidence and a reproducible post-release adopter acceptance baseline.",
+  "intent": "Publish v0.2.64 containing the historical finalization compatibility fix and truthful parity documentation, then prove the public artifact can be installed and used without mutating object repositories.",
+  "mode": "implementation",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "global Agent/MCP configuration",
+    "source fallback",
+    "unrelated Runtime behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:368f9d05aef2c6f0d08367fe45daaad85394288eac9a4fd8a7a96ad872e0cb5f",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release",
+    "supply_chain",
+    "isolation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-520-release-v0-2-64",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/495",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-520-release-v0-2-64"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/operations/README.md",
+    "docs/operations/README.ja.md",
+    "docs/operations/README.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-520-release-v0-2-64.md",
+    "docs/work-items/WI-520-release-v0-2-64.zh-CN.md",
+    "docs/work-items/WI-520-release-v0-2-64.ja.md",
+    ".github/workflows/release.yml",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-520-release-v0-2-64"
+}
