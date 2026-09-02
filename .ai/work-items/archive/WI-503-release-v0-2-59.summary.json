@@ -1,0 +1,80 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-503-release-v0-2-59.contract.json",
+    ".ai/work-items/archive/WI-503-release-v0-2-59.summary.json"
+  ],
+  "checkpointAt": "2026-09-02T07:17:52Z",
+  "checkpointContractDigest": "sha256:1344defeb2cda394ad31d88f736248f2d29e024c38e05a9dbd2f17e889215e47",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:63a739cebd7f4646c8a25963170f3a2b2026f721bdb79bd98d067fb0acb98bcc",
+  "createdAt": "2026-09-02T07:06:30Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The release Work Item binds reviewed source and release policy while keeping post-release adopter evidence as an explicit boundary.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-02T07:35:17Z",
+  "preflightContractDigest": "sha256:1344defeb2cda394ad31d88f736248f2d29e024c38e05a9dbd2f17e889215e47",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:63a739cebd7f4646c8a25963170f3a2b2026f721bdb79bd98d067fb0acb98bcc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/release/action_runtime_policy.sh",
+        "tests/release/workflow_policy.sh",
+        "tests/release/source_archive_policy_test.sh",
+        "tests/release/annotated_tag_identity.sh"
+      ],
+      "expected": "The reviewed source commit, annotated tag, archives, checksums, SBOM, provenance, and release manifest are identity-bound.",
+      "required": true,
+      "scenario": "reviewed source commit produces the v0.2.59 public release",
+      "status": "verified",
+      "verificationPlan": "Run strict release policy and version consistency checks, merge the reviewed PR, push the annotated tag only after close, and inspect the public Release assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public binary creates an isolated Repository Protocol, preserves first-adopter not_ready semantics, reuses valid evidence, and cleans its temporary run root.",
+      "reason": "Post-release evidence is collected only after the reviewed v0.2.59 source is merged and tagged.",
+      "required": true,
+      "scenario": "public v0.2.59 binary governs a fresh isolated adopter",
+      "status": "not_applicable",
+      "verificationPlan": "Run adopter acceptance against the immutable v0.2.59 Release without a source or workspace binary fallback."
+    },
+    {
+      "evidence": [],
+      "expected": "The N-1 public binary upgrade preserves repository identity and protocol compatibility while proving forbidden-root isolation and cleanup.",
+      "reason": "Post-release evidence is collected only after the reviewed v0.2.59 source is merged and tagged.",
+      "required": true,
+      "scenario": "v0.2.59 upgrades an existing repository without cross-repository state",
+      "status": "not_applicable",
+      "verificationPlan": "Run N-1 acceptance with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME using the v0.2.58 and v0.2.59 public artifacts."
+    },
+    {
+      "evidence": [],
+      "expected": "The installed immutable artifact reports the expected Runtime identity and leaves this repository attached, clean, and ready_on_base.",
+      "reason": "Post-release evidence is collected only after the reviewed v0.2.59 source is merged and tagged.",
+      "required": true,
+      "scenario": "installing the published binary on the Runtime repository remains healthy",
+      "status": "not_applicable",
+      "verificationPlan": "Install the public artifact, then run inspect, status, doctor, Agent doctor, and documentation promotion checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T07:35:25Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-503-release-v0-2-59"
+}
