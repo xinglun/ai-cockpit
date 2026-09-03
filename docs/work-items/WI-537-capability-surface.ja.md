@@ -1,8 +1,14 @@
 ---
 title: "型付き MCP capability surface"
 workItemId: WI-537-capability-surface
-status: 進行中
-authority: Work Item Contract と archive 済み Runtime evidence
+author: AI Cockpit maintainers
+description: "型付きで fail-closed な MCP capability の discovery と利用方法。"
+audience:
+  - adopter
+  - maintainer
+status: in_progress
+authority: human-authorized
+lastVerifiedBy: WI-537-capability-surface
 ---
 
 # WI-537 — 型付き MCP capability surface

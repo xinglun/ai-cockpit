@@ -1,8 +1,14 @@
 ---
 title: "Typed MCP capability surface"
 workItemId: WI-537-capability-surface
-status: in-progress
-authority: Work Item contract and archived Runtime evidence
+author: AI Cockpit maintainers
+description: "Typed, fail-closed MCP capability discovery and usage guidance."
+audience:
+  - adopter
+  - maintainer
+status: in_progress
+authority: human-authorized
+lastVerifiedBy: WI-537-capability-surface
 ---
 
 # WI-537 — Typed MCP capability surface

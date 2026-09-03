@@ -1,8 +1,14 @@
 ---
 title: "类型化 MCP 能力面"
 workItemId: WI-537-capability-surface
-status: 进行中
-authority: Work Item Contract 与归档 Runtime evidence
+author: AI Cockpit maintainers
+description: "类型化、fail-closed 的 MCP 能力发现与使用说明。"
+audience:
+  - adopter
+  - maintainer
+status: in_progress
+authority: human-authorized
+lastVerifiedBy: WI-537-capability-surface
 ---
 
 # WI-537——类型化 MCP 能力面
