@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-541 — v0.2.67 release and public-artifact acceptance"
 description: "Publish the reviewed Runtime release and verify its downloaded public artifact boundary."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-541-release-v0-2-67
 lastVerifiedBy: WI-541-release-v0-2-67

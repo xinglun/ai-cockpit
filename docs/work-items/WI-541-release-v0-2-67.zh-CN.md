@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-541——v0.2.67 发布与公开产物验收"
 description: "发布已审查的 Runtime，并验证下载的公开产物边界。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-541-release-v0-2-67
 lastVerifiedBy: WI-541-release-v0-2-67
