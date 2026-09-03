@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3f104cca9c8c8ea5bafbf8e08f8c7e930a92815c",
+    "name": "codex/wi-543-reference-ledger-check-safety",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:2720e7cd5641fc8ea348df1a864bd20e88c6e0b6c594027aa13646d24befe1de",
+  "operationId": "github-pr-521-merge-cleanup-20260904",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7c12972ff424b321b6685e0458a999cbb712f8f6",
+    "headRevision": "3f104cca9c8c8ea5bafbf8e08f8c7e930a92815c",
+    "mergeCommit": "cc67bb0f088a3c95f8c0c1fd2f07ced7887ed849",
+    "number": 521,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/521"
+  },
+  "reason": "Reviewed PR #521 passed all hosted checks and was merged as cc67bb0f088a3c95f8c0c1fd2f07ced7887ed849; the exact WI-543 branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-521-finalization-20260904",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-543-reference-ledger-check-safety",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/521",
+    "worktree": "/private/tmp/ai-cockpit-wi543-ledger"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:0c491d1709fdaa98c66acfe92d89abb747d7e01e78def815ef6c57ee431b232f",
+  "runtimeVersion": "0.2.67",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T09:00:00Z",
+  "workItemId": "WI-543-reference-ledger-check-safety",
+  "worktree": {
+    "branch": "codex/wi-543-reference-ledger-check-safety",
+    "headRevision": "3f104cca9c8c8ea5bafbf8e08f8c7e930a92815c",
+    "path": "/private/tmp/ai-cockpit-wi543-ledger",
+    "worktreeId": "WI-543-reference-ledger-check-safety"
+  }
+}
