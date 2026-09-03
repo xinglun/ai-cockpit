@@ -41,9 +41,10 @@ for current_capability_path in \
   .ai/project_profile.yaml; do
   test "$(jq --arg path "$current_capability_path" '[.records[] | select(.referencePath == $path and .batch == "capability-status-projection" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 1
 done
-# Bounded rebaseline batches resolve changed source records; keep this
-# regression count tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 78
+# Bounded rebaseline batches resolve changed source records; WI-521 resolves
+# one of the previously changed deferred records. Keep this regression count
+# tied to the current pinned source ledger.
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 77
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -437,10 +438,10 @@ for wi521_path in \
   scripts/ai_check_guards.py \
   tests/test_ai_check_archive_recovery.py \
   tests/test_ai_check_budget_impact.py; do
-  test "$(jq --arg path "$wi521_path" '[.records[] | select(.referencePath == $path and .batch == "WI-521-reference-file-comparison-batch-35" and (.classification == "implemented-different-by-design" or .classification == "reference-only" or .classification == "not-applicable") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 1
+  test "$(jq --arg path "$wi521_path" '[.records[] | select(.referencePath == $path and .batch == "WI-521-reference-file-comparison-batch-35" and (.classification == "implemented-different-by-design" or .classification == "reference-only" or .classification == "not-applicable") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
 done
-test "$(jq '[.records[] | select(.batch == "WI-521-reference-file-comparison-batch-35")] | length' "$manifest")" -eq 12
-test "$(jq '[.records[] | select(.batch == "WI-521-reference-file-comparison-batch-35" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-521-reference-file-comparison-batch-35")] | length' "$current_manifest")" -eq 12
+test "$(jq '[.records[] | select(.batch == "WI-521-reference-file-comparison-batch-35" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
 grep -q "WI-521" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-521" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-521" "$root/docs/reference/reference-file-comparison.ja.md"
