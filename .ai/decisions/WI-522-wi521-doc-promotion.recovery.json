@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-03T01:45:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-522-wi521-doc-promotion.verification.json",
+    ".ai/decisions/WI-522-wi521-doc-promotion.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/getting-started/first-work-item.md"
+  ],
+  "predecessorContractDigest": "sha256:c7213700b4a8f52602ff1bc7ddc78d19da311d0423828c4589bd9a44cd533fa8",
+  "predecessorEventsDigest": "sha256:849f2ef436f19ead0dcfd7c80b452622b27cbb830c7c06e31b78fe325469fe92",
+  "predecessorOutcomeDigest": "sha256:2d32b9027e61e868fcf4dc54e8ceacd266d2fd531552088eec296fe786a54bf0",
+  "predecessorSummaryDigest": "sha256:2fbcd3edc1fac788b46bf2bde27cea4b95698618ce5b9f601559e993f3b212f0",
+  "predecessorWorkItemId": "WI-522-wi521-doc-promotion",
+  "reason": "The predecessor pre-merge finalization receipt was immutable but became stale when the archive bundle advanced the PR head; redeliver the same documentation scope from the latest main without rewriting predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create the linked successor from latest origin/main, bind its reviewed PR before verification, archive before the pre-merge finalization receipt, and rerun all documentation gates.",
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-523-wi521-doc-promotion-retry",
+  "workItemId": "WI-522-wi521-doc-promotion"
+}
