@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-533——v0.2.66 发布与 direct-merge 恢复验收"
 description: "发布包含 bundled historical direct-merge 兼容修复的 Runtime，并验证公开 artifact 边界。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-533-release-v0-2-66
 lastVerifiedBy: WI-533-release-v0-2-66
+terminalArchive: .ai/work-items/archive/WI-533-release-v0-2-66.contract.json
+terminalVerification: .ai/evidence/WI-533-release-v0-2-66.verification.json
+terminalFinalization: .ai/decisions/WI-533-release-v0-2-66.finalize.json
+terminalDecision: .ai/decisions/WI-533-release-v0-2-66.close.json
 ---
 
 [English](WI-533-release-v0-2-66.md) · [日本語](WI-533-release-v0-2-66.ja.md)

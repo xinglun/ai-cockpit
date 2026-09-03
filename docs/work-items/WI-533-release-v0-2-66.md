@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-533 — v0.2.66 release and direct-merge recovery acceptance"
 description: "Publish the Runtime containing the bundled historical direct-merge compatibility fix and verify the public artifact boundary."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-533-release-v0-2-66
 lastVerifiedBy: WI-533-release-v0-2-66
+terminalArchive: .ai/work-items/archive/WI-533-release-v0-2-66.contract.json
+terminalVerification: .ai/evidence/WI-533-release-v0-2-66.verification.json
+terminalFinalization: .ai/decisions/WI-533-release-v0-2-66.finalize.json
+terminalDecision: .ai/decisions/WI-533-release-v0-2-66.close.json
 ---
 
 [简体中文](WI-533-release-v0-2-66.zh-CN.md) · [日本語](WI-533-release-v0-2-66.ja.md)
