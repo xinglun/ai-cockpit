@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T03:00:18Z",
+  "checkpointContractDigest": "sha256:e0c9d8dead208407fe549b5f5ac8464e884b4f675f8b2979b090213ebfe2fb1b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:2954cd2abbcdbf9937bf8842505dde4683babaa727b934c79c5bfce15b3bef69",
+  "createdAt": "2026-09-03T02:56:20Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-03T03:01:01Z",
+  "preflightContractDigest": "sha256:e0c9d8dead208407fe549b5f5ac8464e884b4f675f8b2979b090213ebfe2fb1b",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:2954cd2abbcdbf9937bf8842505dde4683babaa727b934c79c5bfce15b3bef69",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T03:01:01Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-524-recovery-successor-readiness"
+}
