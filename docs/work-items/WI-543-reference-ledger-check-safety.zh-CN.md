@@ -8,6 +8,11 @@ audience:
 status: implemented
 authority: canonical
 workItemId: WI-543-reference-ledger-check-safety
+lastVerifiedBy: WI-543-reference-ledger-check-safety
+terminalArchive: .ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json
+terminalVerification: .ai/evidence/WI-543-reference-ledger-check-safety.verification.json
+terminalFinalization: .ai/decisions/WI-543-reference-ledger-check-safety.finalize.json
+terminalDecision: .ai/decisions/WI-543-reference-ledger-check-safety.close.json
 ---
 
 # WI-543 — 参考源逐文件比较批次 37

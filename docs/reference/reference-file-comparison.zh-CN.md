@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-543-reference-file-comparison-batch-37
+lastVerifiedBy: WI-543-reference-ledger-check-safety
 capabilityClaims:
   - reference_parity
 ---

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-543-reference-file-comparison-batch-37
+lastVerifiedBy: WI-543-reference-ledger-check-safety
 capabilityClaims:
   - reference_parity
 ---
@@ -490,7 +490,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-540——WI-539 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-540-wi539-doc-promotion.zh-CN.md)；计划终态 lifecycle：archive `.ai/work-items/archive/WI-540-wi539-doc-promotion.contract.json`；verification `.ai/evidence/WI-540-wi539-doc-promotion.verification.json`；finalization `.ai/decisions/WI-540-wi539-doc-promotion.finalize.json`；close `.ai/decisions/WI-540-wi539-doc-promotion.close.json`. |
 | WI-541——v0.2.67 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-541-release-v0-2-67.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-541-release-v0-2-67.contract.json`; verification `.ai/evidence/WI-541-release-v0-2-67.verification.json`; finalization `.ai/decisions/WI-541-release-v0-2-67.finalize.json`; close `.ai/decisions/WI-541-release-v0-2-67.close.json`. |
 | WI-542——WI-541 终态文档 promotion | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-542-doc-promotion.zh-CN.md)；计划终态 lifecycle：archive `.ai/work-items/archive/WI-542-doc-promotion.contract.json`；verification `.ai/evidence/WI-542-doc-promotion.verification.json`；finalization `.ai/decisions/WI-542-doc-promotion.finalize.json`；close `.ai/decisions/WI-542-doc-promotion.close.json`. |
-| WI-543——安全的参考台账检查与源检查器批次 37 | 已实现 | [Work Item](../work-items/WI-543-reference-file-comparison-batch-37.zh-CN.md)；只读 `--check` 会拒绝 generation/apply 选项且不重写追加式历史，七个维护中的源检查器均有明确语义边界。 |
+| WI-543——安全的参考台账检查与源检查器批次 37 | 已实现 | [Work Item](../work-items/WI-543-reference-ledger-check-safety.zh-CN.md)；终态生命周期：归档 `.ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json`；验证 `.ai/evidence/WI-543-reference-ledger-check-safety.verification.json`；最终化 `.ai/decisions/WI-543-reference-ledger-check-safety.finalize.json`；关闭 `.ai/decisions/WI-543-reference-ledger-check-safety.close.json`。只读 `--check` 会拒绝 generation/apply 选项且不重写追加式历史，七个维护中的源检查器均有明确语义边界。 |
 
 ## WI-512：治理参考页与验证边界
 
