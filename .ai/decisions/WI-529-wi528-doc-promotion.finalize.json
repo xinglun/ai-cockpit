@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "058e03d76a6a1f93cbaba414572fb0286f0d9ef6",
+    "name": "codex/wi-529-wi528-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:594c5090b7f47642285cecc0e8c9a9f1df94ffd8ccc7bdb95aeb0ce8af022402",
+  "operationId": "github-pr-506-merge-cleanup-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "957ffc989e6ebed94519385bc51f7b5379977588",
+    "headRevision": "058e03d76a6a1f93cbaba414572fb0286f0d9ef6",
+    "mergeCommit": "f82341b81c622ba114e60b221da66513402117af",
+    "number": 506,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/506"
+  },
+  "reason": "Reviewed PR #506 passed all hosted checks and was merged as f82341b81c622ba114e60b221da66513402117af; the exact Work Item branch and dedicated worktree were removed after merge and verified absent.",
+  "receiptId": "github-pr-506-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-529-wi528-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/506",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-529-wi528-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T05:50:28Z",
+  "workItemId": "WI-529-wi528-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-529-wi528-doc-promotion",
+    "headRevision": "058e03d76a6a1f93cbaba414572fb0286f0d9ef6",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-529-wi528-doc-promotion",
+    "worktreeId": "WI-529-wi528-doc-promotion"
+  }
+}
