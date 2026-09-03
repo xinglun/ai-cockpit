@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ed7f25bc36af6b60fa5c7efe8216c6692e0bf9c4",
+    "name": "codex/wi-533-release-v0-2-66",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:abbe61f8e2e4224760c0880abb9a3d822beba2111e1c04e760e98b0db331ebcc",
+  "operationId": "github-pr-509-merge-cleanup-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "efcd04b8dfccb203d91857a6158b218235a43f31",
+    "headRevision": "ed7f25bc36af6b60fa5c7efe8216c6692e0bf9c4",
+    "mergeCommit": "a36e81ddb783bddcdea7cb723b4a6fcea1af74ec",
+    "number": 509,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/509"
+  },
+  "reason": "Reviewed PR #509 passed all hosted checks and was merged as a36e81ddb783bddcdea7cb723b4a6fcea1af74ec; the exact release Work Item branch and dedicated worktree were removed after merge and verified absent.",
+  "receiptId": "github-pr-509-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-533-release-v0-2-66",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/509",
+    "worktree": "/private/tmp/ai-cockpit-wi533-release-v0-2-66"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T08:58:09Z",
+  "workItemId": "WI-533-release-v0-2-66",
+  "worktree": {
+    "branch": "codex/wi-533-release-v0-2-66",
+    "headRevision": "ed7f25bc36af6b60fa5c7efe8216c6692e0bf9c4",
+    "path": "/private/tmp/ai-cockpit-wi533-release-v0-2-66",
+    "worktreeId": "WI-533-release-v0-2-66"
+  }
+}
