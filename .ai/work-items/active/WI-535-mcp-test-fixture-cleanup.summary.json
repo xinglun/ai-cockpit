@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-535-mcp-test-fixture-cleanup.contract.json",
+    ".ai/work-items/active/WI-535-mcp-test-fixture-cleanup.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T09:54:58Z",
+  "checkpointContractDigest": "sha256:d5a2ba845dc713385971adfc590ac221763893071929f1081d4737caea7fd383",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:eaec5e886fdc05faab716d95fd96af4b98ed0ca00b8ef6f2cdd65818164f0d61",
+  "createdAt": "2026-09-03T09:52:23Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-03T09:58:48Z",
+  "preflightContractDigest": "sha256:d5a2ba845dc713385971adfc590ac221763893071929f1081d4737caea7fd383",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:eaec5e886fdc05faab716d95fd96af4b98ed0ca00b8ef6f2cdd65818164f0d61",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-03T09:58:55Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-535-mcp-test-fixture-cleanup"
+}
