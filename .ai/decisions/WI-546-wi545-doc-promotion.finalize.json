@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3b595e940a20a77abee964b148516037b4b3803a",
+    "name": "codex/wi-546-wi545-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:312441197184d82a6f479bffcc0ed9c3857ca0df6f8e7ae7cf7972df5600dea3",
+  "operationId": "github-pr-524-merge-cleanup-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "267d42c58bc67dba9bc1bb7c9aeb43039bdea62f",
+    "headRevision": "3b595e940a20a77abee964b148516037b4b3803a",
+    "mergeCommit": "a50061409e2cbb44940fe0e69e575a9765918ac7",
+    "number": 524,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/524"
+  },
+  "reason": "Reviewed PR #524 passed all hosted checks and was merged as a50061409e2cbb44940fe0e69e575a9765918ac7; the exact Work Item branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-524-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-546-wi545-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/524",
+    "worktree": "/private/tmp/ai-cockpit-wi546-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:0c491d1709fdaa98c66acfe92d89abb747d7e01e78def815ef6c57ee431b232f",
+  "runtimeVersion": "0.2.67",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T19:50:00Z",
+  "workItemId": "WI-546-wi545-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-546-wi545-doc-promotion",
+    "headRevision": "3b595e940a20a77abee964b148516037b4b3803a",
+    "path": "/private/tmp/ai-cockpit-wi546-doc-promotion",
+    "worktreeId": "WI-546-wi545-doc-promotion"
+  }
+}
