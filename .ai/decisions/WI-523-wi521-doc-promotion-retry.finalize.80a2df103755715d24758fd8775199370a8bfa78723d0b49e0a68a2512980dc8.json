@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:8d049cd3a421ea16e67a008edaa7b667d7dc0094604f516c00784377811d0e82",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "github-pr-review",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "85c56961156963449043aa64cbf579c15d50242a",
+      "name": "codex/wi-523-wi521-doc-promotion-retry",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:d73408f28665b3270480804aa8a717be3168c5cac1165c9acf235494159b9c9c",
+    "operationId": "WI-523-wi521-doc-promotion-retry-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "4f0e224dad30e2c01ab7918cc955753230f3a254",
+      "headRevision": "85c56961156963449043aa64cbf579c15d50242a",
+      "mergeCommit": "a2399324040e7b0ba66c41ef05c6416b655e1e81",
+      "number": 498,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/498"
+    },
+    "reason": "Exact remote branch and dedicated worktree cleanup verified after PR #498 merge.",
+    "receiptId": "ai-cockpit-WI-523-wi521-doc-promotion-retry-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-523-wi521-doc-promotion-retry",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/498",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-523-wi521-doc-promotion-retry"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+    "runtimeVersion": "0.2.64",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-03T02:05:00Z",
+    "workItemId": "WI-523-wi521-doc-promotion-retry",
+    "worktree": {
+      "branch": "codex/wi-523-wi521-doc-promotion-retry",
+      "headRevision": "85c56961156963449043aa64cbf579c15d50242a",
+      "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-523-wi521-doc-promotion-retry",
+      "worktreeId": "WI-523-wi521-doc-promotion-retry"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-523-wi521-doc-promotion-retry-cleanup"
+}
