@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T19:34:28Z",
+  "checkpointContractDigest": "sha256:ef63c4c8ab694c25f7a471ed1836a7d4a117bfa59f1d103a156e7768abf2d711",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:335906cced93a487b9ba29e509359ce998723b49d0ee80824cbff46956db39c6",
+  "createdAt": "2026-09-03T19:29:57Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "note": "Only the authorized terminal documentation projection was changed.",
+    "status": "aligned"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-03T19:34:41Z",
+  "preflightContractDigest": "sha256:ef63c4c8ab694c25f7a471ed1836a7d4a117bfa59f1d103a156e7768abf2d711",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:335906cced93a487b9ba29e509359ce998723b49d0ee80824cbff46956db39c6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/work-items/WI-545-release-v0-2-68.md",
+        "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
+        "docs/work-items/WI-545-release-v0-2-68.ja.md"
+      ],
+      "note": "All three WI-545 pages are terminal projections bound to immutable Runtime records.",
+      "scenario": "terminal release Work Item projection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "note": "All three parity ledgers mark WI-545 Implemented and retain terminal links.",
+      "scenario": "parity ledger terminal projection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/work_item_status_consistency.py",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "note": "The documentation, status-consistency, and promotion checks passed.",
+      "scenario": "documentation gate convergence",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-03T19:35:03Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-546-wi545-doc-promotion"
+}
