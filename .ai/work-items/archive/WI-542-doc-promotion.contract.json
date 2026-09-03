@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-541 Work Item pages carry implemented status and terminal evidence references.",
+    "The WI-542 pages and parity row remain language-linked and semantically equivalent.",
+    "The closed-Work-Item documentation promotion check passes with no stale projections."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2b5bd0aef14c0eeebd906351e82bbf84dbc20b1a",
+  "createdAt": "2026-09-03T16:40:46Z",
+  "goal": "Keep the release documentation and reference parity index synchronized with the closed WI-541 evidence without changing governance facts.",
+  "intent": "Promote the closed WI-541 release documentation and register this bounded projection.",
+  "mode": "implementation",
+  "outOfScope": [
+    "code",
+    "Cargo",
+    "release artifacts",
+    "reference source",
+    "object repositories",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:af03d056fef517650ef0edba37ec652a00bfcedeecd119dc8e08d8bdf874fd1b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-542-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/520",
+    "worktree": "/private/tmp/ai-cockpit-wi542-clean"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-541-release-v0-2-67.md",
+    "docs/work-items/WI-541-release-v0-2-67.zh-CN.md",
+    "docs/work-items/WI-541-release-v0-2-67.ja.md",
+    "docs/work-items/WI-542-doc-promotion.md",
+    "docs/work-items/WI-542-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-542-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-542-doc-promotion"
+}
