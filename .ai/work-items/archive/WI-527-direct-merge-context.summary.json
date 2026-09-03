@@ -1,0 +1,94 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-527-direct-merge-context.contract.json",
+    ".ai/work-items/archive/WI-527-direct-merge-context.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T03:53:17Z",
+  "checkpointContractDigest": "sha256:f1756119ae68ac57961599db89227d2cc32e89d2b16a8f2b75d9476d4d59665e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:851aad3d7aa3fc4a8c5caaa5b414841284347b6ed07d50558d0e90370b638a64",
+      "recorded": true,
+      "recordedAt": "2026-09-03T03:53:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b4bf855151925ced7bc841d00faf1eec4ebeb7f079bed3df3a3d4ae3e3a01c82",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-527-direct-merge-context"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:ea5ab3379c62455d148c0d715f3ac86dd753b5f1fca8be167d8340afb1e9076b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:851aad3d7aa3fc4a8c5caaa5b414841284347b6ed07d50558d0e90370b638a64",
+      "previousContractHash": "sha256:851aad3d7aa3fc4a8c5caaa5b414841284347b6ed07d50558d0e90370b638a64",
+      "reason": "Amended the high-risk Contract with the explicit scenarioCoverage declaration required to bind the new direct-merge context regression tests.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T03:57:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b4bf855151925ced7bc841d00faf1eec4ebeb7f079bed3df3a3d4ae3e3a01c82",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-527-direct-merge-context"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b4bf855151925ced7bc841d00faf1eec4ebeb7f079bed3df3a3d4ae3e3a01c82",
+  "createdAt": "2026-09-03T03:46:47Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:f1756119ae68ac57961599db89227d2cc32e89d2b16a8f2b75d9476d4d59665e",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Confirmed the fresh bounded high-risk recovery compatibility review after finalization context planning.",
+    "recordedAt": "2026-09-03T04:06:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:b4bf855151925ced7bc841d00faf1eec4ebeb7f079bed3df3a3d4ae3e3a01c82",
+    "schemaVersion": 1,
+    "workItemId": "WI-527-direct-merge-context"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-527-direct-merge-context.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-03T04:03:40Z",
+  "preflightContractDigest": "sha256:f1756119ae68ac57961599db89227d2cc32e89d2b16a8f2b75d9476d4d59665e",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:b4bf855151925ced7bc841d00faf1eec4ebeb7f079bed3df3a3d4ae3e3a01c82",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
+      "scenario": "historical direct-merge receipt preserves archived resource context",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T04:03:44Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-527-direct-merge-context"
+}

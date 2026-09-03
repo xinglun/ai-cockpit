@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "A receipt produced from finalize-recovery-plan can be completed with the archived Contract resourceContext and is accepted only for direct_merge_no_pr historical_low receipts bound to real Git parents.",
+    "The same receipt remains rejected for foreign repository/work item, branch/worktree/base mismatches, malformed or symlink inputs, and fabricated or non-ancestor merge identities.",
+    "finalize-recovery-plan includes a truthful resourceContext recommendation and actionable human-input boundary without writing repository state.",
+    "Existing shared-worktree and historical recovery behavior remains compatible and all targeted plus workspace tests pass."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "9affa7ede7bf7f57c2bd1958ddac608976da2ba0",
+  "createdAt": "2026-09-03T03:46:47Z",
+  "goal": "Make finalize-recovery-plan output actionable and allow object repositories to record truthful no-PR direct-merge history without PR fabrication or manual .ai edits.",
+  "intent": "Accept a complete historical direct-merge receipt when the receipt preserves the archived Contract resourceContext, while keeping identity validation narrow and fail-closed.",
+  "mode": "code",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "changing historical .ai bytes",
+    "inventing PR identifiers",
+    "global-Agent-MCP-configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cf3d373c7a3eb02ceae219ce954a402d661cd3972b36fbcd6456fc34701f7f8f",
+  "requiredEvidenceClasses": [
+    "verification",
+    "repository_context",
+    "lifecycle",
+    "compatibility"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-527-direct-merge-context",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/503",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-527-direct-merge-context"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "required": true,
+      "scenario": "historical direct-merge receipt preserves archived resource context",
+      "status": "verified"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/resource_finalization.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/work-items/WI-527-direct-merge-context.md",
+    "docs/work-items/WI-527-direct-merge-context.zh-CN.md",
+    "docs/work-items/WI-527-direct-merge-context.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-527-direct-merge-context"
+}

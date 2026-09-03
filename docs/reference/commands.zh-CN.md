@@ -97,7 +97,10 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
   recovery 分类，也不会改写历史 bytes。只有在 receipt 仍绑定同一主 worktree 及 repository/base
   事实时，才允许解析 provisional legacy Contract context。其他 mismatch 会 fail-closed，并指出
   binding 类别（例如 `resourceContext.worktree` 或 `resourceContext.baseRevision`）。predecessor
-  永不改写，recovery 记录本身也不能让 Work Item 变绿。
+  direct-merge receipt 也可以原样保留归档 Contract 的原始 local `resourceContext`；Runtime 将其视为
+  历史声明，同时仍强制绑定 receipt 的 branch、worktree、base、真实 merge parents、repository identity
+  与 `historical_low` assurance。plan 还会输出使用显式 historical provider/URL、与 receipt 身份一致的
+  `resourceContext`，Agent 不需要猜测应提交哪种形式。predecessor 永不改写，recovery 记录本身也不能让 Work Item 变绿。
 - `work-item finalize-recovery-plan --repo <path> --id <id>` 是只读的历史恢复发现入口。
   它输出不可变 predecessor 的路径/摘要、生成它的 Runtime identity、推导出的共享主 worktree
   disposition，以及仍需人工提供的字段。没有 canonical predecessor 时追加真实的

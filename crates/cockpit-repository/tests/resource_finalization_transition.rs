@@ -311,8 +311,10 @@ fn direct_merge_repository() -> (
         worktree: directory.path().to_string_lossy().to_string(),
         base_branch: "main".into(),
         base_remote: "origin".into(),
-        provider: "historical".into(),
-        pull_request: format!("historical://direct-merge/{merge_commit}"),
+        // Keep the original Contract binding as an object repository does:
+        // the historical receipt changes only its provider/URL identity.
+        provider: "local".into(),
+        pull_request: "https://github.com/example/project/pull/191".into(),
     };
     plan_resource_finalization(directory.path(), ID, &context).unwrap();
     let current = runtime();
@@ -880,6 +882,7 @@ fn historical_direct_merge_without_pr_is_verifiable_and_closeable() {
     let (directory, context, contract, base_revision, feature_head, merge_commit) =
         direct_merge_repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let historical_url = format!("historical://direct-merge/{merge_commit}");
     let receipt = json!({
         "schemaVersion": 1,
         "receiptId": "direct-merge-receipt",
@@ -891,7 +894,7 @@ fn historical_direct_merge_without_pr_is_verifiable_and_closeable() {
         "provider": "historical",
         "pullRequest": {
             "number": 0,
-            "url": context.pull_request,
+            "url": historical_url,
             "headRevision": feature_head,
             "baseBranch": "main",
             "baseRemote": "origin",
@@ -1006,6 +1009,18 @@ fn historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing()
     assert_eq!(
         plan["knownFacts"]["historical"]["mergeCommit"],
         merge_commit
+    );
+    assert_eq!(
+        plan["suggestedReceipt"]["resourceContext"]["branch"],
+        "feature/direct-merge"
+    );
+    assert_eq!(
+        plan["suggestedReceipt"]["resourceContext"]["provider"],
+        "historical"
+    );
+    assert_eq!(
+        plan["suggestedReceipt"]["resourceContext"]["pullRequest"],
+        format!("historical://direct-merge/{merge_commit}")
     );
     assert!(
         plan["humanInputRequired"]

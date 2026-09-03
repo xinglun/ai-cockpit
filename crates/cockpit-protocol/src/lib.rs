@@ -1357,12 +1357,22 @@ fn validate_resource_finalization_identity(
     }
     if let Some(context) = &receipt.resource_context {
         validate_resource_finalization_context(context)?;
+        let direct_merge_legacy_context = matches!(
+            receipt.historical.as_ref().map(|value| &value.kind),
+            Some(HistoricalFinalizationKind::DirectMergeNoPr)
+        ) && receipt.provider == "historical"
+            && context.provider == "local"
+            && context.pull_request != receipt.pull_request.url
+            && context.branch == receipt.branch.name
+            && context.worktree == receipt.worktree.path
+            && context.base_branch == receipt.pull_request.base_branch
+            && context.base_remote == receipt.pull_request.base_remote;
         if context.branch != receipt.branch.name
             || context.worktree != receipt.worktree.path
             || context.base_branch != receipt.pull_request.base_branch
             || context.base_remote != receipt.pull_request.base_remote
-            || context.provider != receipt.provider
-            || context.pull_request != receipt.pull_request.url
+            || ((!direct_merge_legacy_context) && context.provider != receipt.provider)
+            || ((!direct_merge_legacy_context) && context.pull_request != receipt.pull_request.url)
         {
             return Err(ResourceFinalizationError::IdentityMismatch(
                 "resource context does not match receipt identity",
@@ -1611,11 +1621,15 @@ pub fn validate_resource_finalization_receipt_for(
                 || is_provisional_resource_context_value(&expected_context.provider))
             && receipt.resource_context.as_ref().is_some_and(|actual| {
                 actual.provider == "historical"
+                    && actual.branch == expected_context.branch
                     && (is_provisional_resource_context_value(&expected_context.base_branch)
                         || actual.base_branch == expected_context.base_branch)
                     && (is_provisional_resource_context_value(&expected_context.base_remote)
                         || actual.base_remote == expected_context.base_remote)
                     && actual.worktree == expected_context.worktree
+                    && actual
+                        .pull_request
+                        .starts_with("historical://direct-merge/")
             });
         if !historical_direct_merge {
             return Err(ResourceFinalizationError::IdentityMismatch(
