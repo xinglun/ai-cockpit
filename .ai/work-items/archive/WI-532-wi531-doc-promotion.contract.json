@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "WI-531 English, Simplified Chinese, and Japanese work-item documents are promoted from in-progress to implemented with terminal evidence links.",
+    "WI-531 tri-language reference parity rows are promoted without altering immutable governance records.",
+    "The post-close documentation promotion is verified by the repository documentation acceptance and governance-integrity gates."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b6eee7271c20f9a97b7b844f62d22dabe586e281",
+  "createdAt": "2026-09-03T08:02:07Z",
+  "goal": "Synchronize tri-language WI-531 reader documentation with immutable archive, verification, finalization, and close evidence.",
+  "intent": "Promote the closed WI-531 documentation projection and prevent stale parity/frontmatter status after close.",
+  "mode": "docs",
+  "outOfScope": [
+    "crates",
+    ".ai",
+    "object-repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0463de49647027d840027e2f91c886b49c95a351a9a2880d1adb03d5f2d126d3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-532-wi531-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/508",
+    "worktree": "/private/tmp/ai-cockpit-wi532-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-531-historical-direct-merge-apply.md",
+    "docs/work-items/WI-531-historical-direct-merge-apply.zh-CN.md",
+    "docs/work-items/WI-531-historical-direct-merge-apply.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-532-wi531-doc-promotion.md",
+    "docs/work-items/WI-532-wi531-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-532-wi531-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-532-wi531-doc-promotion"
+}

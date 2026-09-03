@@ -1,7 +1,7 @@
 ---
 workItemId: WI-531-historical-direct-merge-apply
 title: "WI-531 — bundled historical direct-merge の適用"
-status: in_progress
+status: implemented
 mode: code
 author: AI Cockpit maintainers
 description: "実際の bundled merge parent と不変な Contract base を別々の監査事実として束縛する。"
@@ -9,7 +9,11 @@ audience:
   - maintainer
   - adopter
 authority: canonical
-lastVerifiedBy: documentation-acceptance
+lastVerifiedBy: WI-531-historical-direct-merge-apply
+terminalArchive: .ai/work-items/archive/WI-531-historical-direct-merge-apply.contract.json
+terminalVerification: .ai/evidence/WI-531-historical-direct-merge-apply.verification.json
+terminalFinalization: .ai/decisions/WI-531-historical-direct-merge-apply.finalize.json
+terminalDecision: .ai/decisions/WI-531-historical-direct-merge-apply.close.json
 ---
 
 # WI-531 — bundled historical direct-merge の適用
