@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "WI-535 reader pages and parity rows bind exact terminal evidence.",
+    "WI-536 is registered in all three parity ledgers before verification and archive.",
+    "Documentation, parity, and governance integrity checks pass."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "52d548ab093a806f2194958dd5fd81bfdb74b1ba",
+  "createdAt": "2026-09-03T10:49:01Z",
+  "goal": "Synchronize WI-535 reader documentation and pre-register this Work Item in all tri-language parity ledgers before archive.",
+  "intent": "Promote WI-535 terminal documentation while preserving the immutable evidence chain.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source behavior",
+    " release artifacts",
+    " and object repositories.",
+    "Manual edits to generated .ai evidence or archive records."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:82fa64e50e963d7389ed28e33a3134c3a40d7648856c913dd498b0a821469d7e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-536-wi535-doc-promotion-rebuild",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/514",
+    "worktree": "/private/tmp/ai-cockpit-wi536-wi535-doc-promotion-rebuild"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-535-mcp-fixture-cleanup.md",
+    "docs/work-items/WI-535-mcp-fixture-cleanup.ja.md",
+    "docs/work-items/WI-535-mcp-fixture-cleanup.zh-CN.md",
+    "docs/work-items/WI-536-wi535-doc-promotion.md",
+    "docs/work-items/WI-536-wi535-doc-promotion.ja.md",
+    "docs/work-items/WI-536-wi535-doc-promotion.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-536-wi535-doc-promotion"
+}
