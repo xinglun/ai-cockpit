@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-516-reference-file-comparison-batch-34
+lastVerifiedBy: WI-521-reference-file-comparison-batch-35
 capabilityClaims:
   - reference_parity
 ---
@@ -203,9 +203,32 @@ request-scoped status 和 evidence-derived Outcome 已实现，参考源更广�
 
 WI-516 在 pinned source commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 逐个重读 17 个 current path，覆盖发布投影、Python 开发元数据、adopter evidence、归档、baseline/成本观测、校准、能力事实和 canonical evidence。inventory 将 17 项全部记录为 `implemented-different-by-design`，并给出 Rust 对应或明确非声明。`scripts/ai_adoption_reality_report.py` 已从 pinned checkout 退休，只按 retired ledger 记录为历史/非当前能力。该批次是 adopter 边界的语义对齐，不复制源 Python、打包、provider 状态、交互向导或 JSON wire。
 
+## WI-521：源 guard 与采用检查批次 35
+
+WI-521 在 pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读下一组 12 个 current path，覆盖采用准备度、归档恢复、回溯/测试削弱、治理成本预算、能力声明、coverage、provider bot 接入、diff ownership、guard 校准和文件边界 guard。已退休的 `tests/test_ai_check_backtrack.py` 不属于 current slice，仅保留历史元数据。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `scripts/ai_check_adoption_ready.py` | 仅参考 | `standard-adoption-guide.md`、`adopter-configuration.md` 与 `status`/`doctor` 事实保留 adopter 检查表；源 Makefile.ai、CODEOWNERS、SECURITY、CI 和生产就绪检查仍由对象工程/provider 负责。 |
+| `scripts/ai_check_archive_recovery.py` | 有意采用不同实现 | Rust 的 append-only archive sequence、前序绑定恢复和严格 finalization 校验保护不可变归属，不复制源 archive/traceability 文件。 |
+| `scripts/ai_check_backtrack.py` | 有意采用不同实现 | Rust 从 snapshot 推导测试/coverage 削弱与输入信任信号；源 report-only 的 snapshot/Work Item 删除警告仍是源维护投影。 |
+| `scripts/ai_check_budget_impact.py` | 有意采用不同实现 | typed、identity-bound 的 `PerformanceBaseline`/成本观测与本地预算仅作 advisory；不导入源模板指标阈值或 repayment 记录。 |
+| `scripts/ai_check_capability_claims.py` | 仅参考 | 源 lexical claim/matrix checker 是参考源文档 gate；Rust 能力事实是 observed、repository-bound，并明确 exclusions，不从 prose 推断证据。 |
+| `scripts/ai_check_coverage_guard.py` | 有意采用不同实现 | Rust 检测 coverage weakening 并要求 Contract 声明验证证据；源 association 与 missing-test-diff 报告是对象工程/源维护 policy。 |
+| `scripts/ai_check_dependabot_intake.py` | 不适用 | Dependabot 事件身份和自动合并处理属于 provider；Rust 保留通用 delegated evidence 与显式 Work Item source binding。 |
+| `scripts/ai_check_diff_ownership.py` | 仅参考 | Rust 在 lifecycle gate 强制 Contract scope/outOfScope、repository isolation 与 immutable archive ownership；源跨 Work Item YAML ownership preview 不是 Runtime authority。 |
+| `scripts/ai_check_guard_calibration.py` | 有意采用不同实现 | Rust 校验 repository-bound Project Profile、能力声明、policy precedence 与显式 calibration facts，不复制源 YAML guard-map calibration。 |
+| `scripts/ai_check_guards.py` | 有意采用不同实现 | typed Contract、authority、input-trust、lifecycle 和 repository isolation 边界替代源 file-ownership/boundary manifest，不安装第二套 guard 系统。 |
+| `tests/test_ai_check_archive_recovery.py` | 有意采用不同实现 | Rust native archive-integrity 与 resource-finalization transition tests 覆盖不可变归属和前序绑定恢复。 |
+| `tests/test_ai_check_budget_impact.py` | 有意采用不同实现 | Rust native verification/performance tests 覆盖 typed budget、identity-bound observation 与 exact reuse，不复制源 fixture。 |
+
+本批没有发现新的可移植实现遗漏。描述 repository facts 或 lifecycle safety 的源脚本已由 Rust typed checks 与面向读者的指南承载；源专属 adoption、provider、lexical claim 和跨 Work Item report surface 保持明确的 external/reference 边界。当前 4,450 个路径包含 3,681 个 `generated-history`、304 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、5 个 `not-applicable`、89 个 `reference-only`、370 个 `deferred-next-batch`；append-only 台账保留 669 个 retired 路径，`migrate-gap` 仍为 0。
+
+这是语义/文档对齐，不是 Python/Make 命令、provider 事件、源 YAML 或 JSON wire 兼容。每个 attach 的对象工程继承同一份 shared Runtime、显式 `--repo` context、repository-local Contract/evidence/knowledge 和人类 Outcome 边界；不会继承参考源脚本或对象工程专属 policy 值。
+
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=296 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=382 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=5 reference-only=89 deferred-next-batch=370 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -216,11 +239,11 @@ WI-516 在 pinned source commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 逐�
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 296 |
+| `implemented-different-by-design` | 304 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 4 |
-| `reference-only` | 86 |
-| `deferred-next-batch` | 382 |
+| `not-applicable` | 5 |
+| `reference-only` | 89 |
+| `deferred-next-batch` | 370 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |

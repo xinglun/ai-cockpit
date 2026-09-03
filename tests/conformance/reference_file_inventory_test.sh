@@ -421,6 +421,30 @@ for agent_rule in \
   test "$(jq -r --arg path "$agent_rule" '.records[] | select(.referencePath == $path) | (.rustCounterparts | length)' "$manifest")" -gt 0
 done
 
+# WI-521 resolves the next pinned local source scripts one by one.  Keep this
+# explicit so a future rebaseline cannot silently return the slice to deferred
+# without a new human-owned comparison decision.
+for wi521_path in \
+  scripts/ai_check_adoption_ready.py \
+  scripts/ai_check_archive_recovery.py \
+  scripts/ai_check_backtrack.py \
+  scripts/ai_check_budget_impact.py \
+  scripts/ai_check_capability_claims.py \
+  scripts/ai_check_coverage_guard.py \
+  scripts/ai_check_dependabot_intake.py \
+  scripts/ai_check_diff_ownership.py \
+  scripts/ai_check_guard_calibration.py \
+  scripts/ai_check_guards.py \
+  tests/test_ai_check_archive_recovery.py \
+  tests/test_ai_check_budget_impact.py; do
+  test "$(jq --arg path "$wi521_path" '[.records[] | select(.referencePath == $path and .batch == "WI-521-reference-file-comparison-batch-35" and (.classification == "implemented-different-by-design" or .classification == "reference-only" or .classification == "not-applicable") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-521-reference-file-comparison-batch-35")] | length' "$manifest")" -eq 12
+test "$(jq '[.records[] | select(.batch == "WI-521-reference-file-comparison-batch-35" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+grep -q "WI-521" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-521" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-521" "$root/docs/reference/reference-file-comparison.ja.md"
+
 jq '(.records[] | select(.referencePath == ".ai/project/adopter-capability-manifest.json") | .classification) = ""' "$manifest" > "$tmp/empty-capability-classification.json"
 if python3 "$script" --manifest "$tmp/empty-capability-classification.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check; then
   echo "inventory accepted an empty scoped classification" >&2

@@ -35636,10 +35636,14 @@
     },
     {
       "referencePath": "scripts/ai_check_adoption_ready.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/standard-adoption-guide.md",
+        "docs/getting-started/adopter-configuration.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source checker validates template-specific Makefile.ai, CODEOWNERS, SECURITY, CI, and provider adoption configuration. Rust preserves the adopter checklist and repository-bound status/doctor facts, while project quality commands, provider controls, and production readiness remain adopter/external boundaries; the Python checker is not a Runtime capability."
     },
     {
       "referencePath": "scripts/ai_check_agent_risk.py",
@@ -35656,17 +35660,25 @@
     },
     {
       "referencePath": "scripts/ai_check_archive_recovery.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "reason": "The source collision preflight protects immutable archive ownership during rebases. Rust keeps append-only archive sequences, predecessor-bound recovery, and fail-closed finalization/recovery validation in the repository Runtime; source archive index and traceability files are not copied."
     },
     {
       "referencePath": "scripts/ai_check_backtrack.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "docs/reference/test-weakening-guard.md"
+      ],
+      "reason": "Rust derives fail-closed test/coverage weakening and input-trust signals from the repository snapshot. The source report-only snapshot/work-item deletion warnings remain a source maintenance projection; no Python report or policy file is copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -35674,52 +35686,79 @@
     },
     {
       "referencePath": "scripts/ai_check_budget_impact.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "docs/reference/governance-performance-budget.md",
+        "docs/reference/governance-cost-metrics.md"
+      ],
+      "reason": "The source budgetImpact repayment checker governs template Python/Markdown/archive metrics. Rust uses typed identity-bound performance/cost observations and explicit local budgets as advisory evidence; budget facts never weaken required verification and source thresholds are not imported."
     },
     {
       "referencePath": "scripts/ai_check_capability_claims.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/capability-claim-authoring.md",
+        "docs/reference/capability-truth-matrix.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source lexical claim/matrix checker is a reference-repository documentation gate. Rust exposes observed, repository-bound capability truth and explicit exclusions; it does not infer capability claims from prose or copy the source matrix/checker."
     },
     {
       "referencePath": "scripts/ai_check_coverage_guard.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "docs/operations/quality-gates.md"
+      ],
+      "reason": "Rust detects coverage weakening and requires declared verification evidence through the Contract-aware gate. The source association registry and missing-test-diff report are adopter/source maintenance policy, not a universal Runtime requirement, so they are not copied."
     },
     {
       "referencePath": "scripts/ai_check_dependabot_intake.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "not-applicable",
+      "rustCounterparts": [
+        "docs/reference/dependabot-intake.md",
+        "docs/reference/provider-reconciliation-boundary.md"
+      ],
+      "reason": "Dependabot event names, bot identity, and automatic-merge policy are provider-specific. Rust keeps generic delegated evidence and explicit Work Item source binding, but does not become a GitHub bot intake controller."
     },
     {
       "referencePath": "scripts/ai_check_diff_ownership.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/work-item-style-guide.md"
+      ],
+      "reason": "The source all-path ownership preview joins Python Work Item reports and source guard manifests. Rust enforces Contract scope/outOfScope, repository boundaries, and immutable archive ownership at lifecycle gates; the source cross-WI report and YAML ownership registry are not Runtime authority."
     },
     {
       "referencePath": "scripts/ai_check_guard_calibration.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "docs/getting-started/first-calibration.md"
+      ],
+      "reason": "Rust validates repository-bound Project Profile, capability declarations, policy precedence, and explicit calibration facts. Source YAML guard-map calibration is not copied; missing or unconfirmed adopter facts remain unknown rather than being auto-approved."
     },
     {
       "referencePath": "scripts/ai_check_guards.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "docs/reference/agent-workflow.md"
+      ],
+      "reason": "Rust enforces typed Contract scope, authority, input trust, lifecycle, and repository isolation boundaries. The source file-ownership/boundary YAML manifests and generated report remain source/adopter policy surfaces and are not installed as a second guard system."
     },
     {
       "referencePath": "scripts/ai_check_guidelines.py",
@@ -37499,10 +37538,13 @@
     },
     {
       "referencePath": "tests/test_ai_check_archive_recovery.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "reason": "Rust regression tests cover immutable archive/finalization ownership and predecessor-bound recovery. The source Python collision fixtures are represented by native tests rather than copied."
     },
     {
       "referencePath": "tests/test_ai_check_backtrack.py",
@@ -37513,10 +37555,14 @@
     },
     {
       "referencePath": "tests/test_ai_check_budget_impact.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-521-reference-file-comparison-batch-35",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/tests/graph.rs",
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "tests/performance/regression_gate.sh"
+      ],
+      "reason": "Rust tests bind typed performance budgets, identity-bound observations, and exact reuse without importing source budgetImpact repayment fixtures or source metric names."
     },
     {
       "referencePath": "tests/test_ai_check_serial_order.py",

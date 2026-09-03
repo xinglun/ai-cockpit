@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-516-reference-file-comparison-batch-34
+lastVerifiedBy: WI-521-reference-file-comparison-batch-35
 capabilityClaims:
   - reference_parity
 ---
@@ -217,9 +217,32 @@ complete parity とは扱いません。
 
 WI-516 は pinned source commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の 17 current path を一つずつ再読し、release projection、Python development metadata、adopter evidence、archive、baseline/cost observation、calibration、capability truth、canonical evidence を比較しました。inventory の 17 件は `implemented-different-by-design` として Rust counterpart または明示的 non-claim を記録しています。`scripts/ai_adoption_reality_report.py` は pinned checkout から retired され、retired ledger の historical/non-current path としてだけ扱います。これは adopter boundary の semantic parity であり、source Python、package、provider state、interactive wizard、JSON wire はコピーしません。
 
+## WI-521: source guard と adoption check の batch 35
+
+WI-521 は pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の次の 12 current path を一つずつ再読しました。対象は adoption readiness、archive recovery、backtrack/test weakening、governance cost budget、capability claim、coverage、provider bot intake、diff ownership、guard calibration、file-boundary guard です。retired の `tests/test_ai_check_backtrack.py` は current slice から除外し、historical metadata のみ保持します。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_check_adoption_ready.py` | reference-only | `standard-adoption-guide.md`、`adopter-configuration.md`、`status`/`doctor` fact が adopter checklist を保持します。source Makefile.ai、CODEOWNERS、SECURITY、CI、production readiness は adopter/provider boundary です。 |
+| `scripts/ai_check_archive_recovery.py` | implemented-different-by-design | append-only archive sequence、predecessor-bound recovery、strict finalization validation が immutable ownership を守ります。source archive/traceability file は copy しません。 |
+| `scripts/ai_check_backtrack.py` | implemented-different-by-design | Rust は snapshot から test/coverage weakening と input-trust signal を導出します。source report-only の snapshot/Work Item deletion warning は source maintenance projection です。 |
+| `scripts/ai_check_budget_impact.py` | implemented-different-by-design | typed identity-bound `PerformanceBaseline`/cost observation と local budget は advisory です。source template metric threshold/repayment record は導入しません。 |
+| `scripts/ai_check_capability_claims.py` | reference-only | source lexical claim/matrix checker は reference documentation gate です。Rust capability truth は observed、repository-bound、explicit exclusion であり、prose から evidence を推論しません。 |
+| `scripts/ai_check_coverage_guard.py` | implemented-different-by-design | Rust は coverage weakening を検出し、Contract の verification evidence を要求します。source association/missing-test-diff report は adopter/source maintenance policy です。 |
+| `scripts/ai_check_dependabot_intake.py` | not-applicable | Dependabot event identity と automatic merge は provider 固有です。Rust は delegated evidence と Work Item source binding を汎用的に保持します。 |
+| `scripts/ai_check_diff_ownership.py` | reference-only | lifecycle gate の Contract scope/outOfScope、repository isolation、immutable archive ownership は Rust が強制します。source cross-Work-Item YAML ownership preview は Runtime authority ではありません。 |
+| `scripts/ai_check_guard_calibration.py` | implemented-different-by-design | Rust は repository-bound Project Profile、capability declaration、policy precedence、calibration fact を検証します。source YAML guard-map calibration は copy しません。 |
+| `scripts/ai_check_guards.py` | implemented-different-by-design | typed Contract、authority、input-trust、lifecycle、repository isolation が source file-ownership/boundary manifest を置き換えます。第二の guard system は導入しません。 |
+| `tests/test_ai_check_archive_recovery.py` | implemented-different-by-design | Rust native archive-integrity/resource-finalization transition test が immutable ownership と predecessor-bound recovery を検証します。 |
+| `tests/test_ai_check_budget_impact.py` | implemented-different-by-design | Rust native verification/performance test が typed budget、identity-bound observation、exact reuse を検証します。source fixture は copy しません。 |
+
+この slice に新しい portable implementation omission はありません。repository fact/lifecycle safety の source script は Rust typed check と reader-facing guidance が担い、source 固有の adoption、provider、lexical claim、cross-Work-Item report surface は明示的な external/reference boundary のままです。現在の 4,450 path は 3,681 `generated-history`、304 `implemented-different-by-design`、1 `implemented-equivalent`、5 `not-applicable`、89 `reference-only`、370 `deferred-next-batch` で、append-only ledger は 669 retired path を保持し、`migrate-gap` は zero です。
+
+これは semantic/documentation parity であり、Python/Make command、provider event、source YAML、JSON-wire compatibility ではありません。各 attached object/adopter project は shared Runtime、明示的な `--repo` context、repository-local Contract/evidence/knowledge、人間向け Outcome boundary を継承しますが、reference source script や adopter 固有 policy value は継承しません。
+
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=296 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=382 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=5 reference-only=89 deferred-next-batch=370 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -231,11 +254,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 296 |
+| `implemented-different-by-design` | 304 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 4 |
-| `reference-only` | 86 |
-| `deferred-next-batch` | 382 |
+| `not-applicable` | 5 |
+| `reference-only` | 89 |
+| `deferred-next-batch` | 370 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
