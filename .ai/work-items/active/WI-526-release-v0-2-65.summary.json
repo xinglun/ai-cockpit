@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-526-release-v0-2-65.contract.json",
+    ".ai/work-items/active/WI-526-release-v0-2-65.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T04:23:47Z",
+  "checkpointContractDigest": "sha256:df23af7aaebb78e553d44bdf6dece4c82a1b1a417a013095cf9167b99bf5da3e",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:5ca8d689d27d676ca4a6409c550a1385be74e74201357ac84383d29cd4ca74ed",
+  "createdAt": "2026-09-03T03:37:20Z",
+  "mode": "release",
+  "preflightAt": "2026-09-03T04:23:40Z",
+  "preflightContractDigest": "sha256:df23af7aaebb78e553d44bdf6dece4c82a1b1a417a013095cf9167b99bf5da3e",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:5ca8d689d27d676ca4a6409c550a1385be74e74201357ac84383d29cd4ca74ed",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-03T04:23:47Z",
+  "workItemId": "WI-526-release-v0-2-65"
+}

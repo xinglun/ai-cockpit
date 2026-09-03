@@ -1,7 +1,7 @@
 ---
 workItemId: WI-527-direct-merge-context
 title: "WI-527 — direct-merge recovery context 兼容"
-status: in_progress
+status: implemented
 mode: code
 author: AI Cockpit maintainers
 description: "对保留归档 local resource context 的历史 direct-merge receipt 提供有界兼容。"
@@ -10,6 +10,10 @@ audience:
   - adopter
 authority: canonical
 lastVerifiedBy: WI-527-direct-merge-context
+terminalArchive: .ai/work-items/archive/WI-527-direct-merge-context.contract.json
+terminalVerification: .ai/evidence/WI-527-direct-merge-context.verification.json
+terminalFinalization: .ai/decisions/WI-527-direct-merge-context.finalize.f7bc389eb8064f2451fb5cbd0bb28785546030040c999d25e65f6e0adb5a7c85.json
+terminalDecision: .ai/decisions/WI-527-direct-merge-context.close.json
 ---
 
 # WI-527 — direct-merge recovery context 兼容
