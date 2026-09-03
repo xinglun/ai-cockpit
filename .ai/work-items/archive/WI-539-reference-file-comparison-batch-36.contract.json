@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "A1: 固定参考 commit 上十个脚本均逐个记录分类、Rust counterpart 和不复制边界。",
+    "A2: inventory generator/test 校验批次路径集合、分类无 deferred/migrate-gap，并保持 retired 历史。",
+    "A3: 英中日 comparison/docs/work-item 页面同步，明确 Rust-native mapping 与对象工程继承边界。",
+    "A4: cargo fmt、clippy、workspace tests、inventory check 与 docs acceptance 通过。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "42903a546880680bfeaf6e7bc8cc29c59137b121",
+  "createdAt": "2026-09-03T14:33:08Z",
+  "goal": "在不复制 Python/Make/源 JSON wire 的前提下，提交可审计的十文件语义分类、三语文档与回归验证。",
+  "intent": "逐个比对参考源下一批十个治理检查脚本，确认 Rust Runtime 对应责任、外部边界与对象工程可继承性；发现本批内有界缺口时在当前 Work Item 修复。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".github/**",
+    "tests/release/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4812f224ad556ab4247a33f4d08eabee18f45bc997a28617343c95a2d8af8fb2",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-539-reference-file-comparison-batch-36",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/517",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-539-reference-file-comparison-batch-36"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/work-items/WI-539-reference-file-comparison-batch-36.md",
+    "docs/work-items/WI-539-reference-file-comparison-batch-36.zh-CN.md",
+    "docs/work-items/WI-539-reference-file-comparison-batch-36.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/conformance/reference_file_inventory_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-539-reference-file-comparison-batch-36"
+}

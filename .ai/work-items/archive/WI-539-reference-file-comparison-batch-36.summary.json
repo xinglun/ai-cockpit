@@ -1,0 +1,178 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-539 batch 36 table",
+          "path": "docs/reference/reference-file-comparison.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "WI-539-reference-file-comparison-batch-36",
+          "path": "tests/conformance/reference_file_inventory.json",
+          "type": "inventory",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "reference file inventory regression",
+          "path": "tests/conformance/reference_file_inventory_test.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "documentation counts match",
+          "path": "tests/conformance/reference_inventory_docs_test.py",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "WI-539 history row",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "adopter inheritance boundary",
+          "path": "docs/work-items/WI-539-reference-file-comparison-batch-36.md",
+          "type": "documentation",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "passed=true",
+          "path": ".ai/evidence/WI-539-reference-file-comparison-batch-36.verification.json",
+          "type": "verification",
+          "verification": "passed"
+        },
+        {
+          "locator": "documentation acceptance passed",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T14:33:18Z",
+  "checkpointContractDigest": "sha256:bff3acb698314af308a2321d084e987f46dacd332273581fe584970a0c26253a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:6387fee2bad243691f1922101b7a12ea6d0b7fd24a4015093605c920ffed170e",
+      "recorded": true,
+      "recordedAt": "2026-09-03T14:33:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4812f224ad556ab4247a33f4d08eabee18f45bc997a28617343c95a2d8af8fb2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-539-reference-file-comparison-batch-36"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:421660d56dafefc361b34740e1f7861d72542a0cf1af31d97450fd0cc19eda20",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6387fee2bad243691f1922101b7a12ea6d0b7fd24a4015093605c920ffed170e",
+      "previousContractHash": "sha256:6387fee2bad243691f1922101b7a12ea6d0b7fd24a4015093605c920ffed170e",
+      "reason": "同步高层 reference-parity 三语矩阵与文件级批次登记；该文档投影是本批逐文件比较的必要审计输出，纳入当前 Contract scope。",
+      "recorded": true,
+      "recordedAt": "2026-09-03T14:45:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:895a36c88d2f180d55ad9646214c9a0a65d301576df3be866b62046c49e821bb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-539-reference-file-comparison-batch-36"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:7bcff3cff8dd2b252c9d5a3cce2cb65fe2a5bacb69fa64b83dd9111f04f8b8f9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6387fee2bad243691f1922101b7a12ea6d0b7fd24a4015093605c920ffed170e",
+      "previousContractHash": "sha256:421660d56dafefc361b34740e1f7861d72542a0cf1af31d97450fd0cc19eda20",
+      "reason": "批次台账完成后，inventory regression 的 sourceChanged deferred 计数按当前真实清单从 77 更新为 73；将测试脚本纳入当前 Contract，保留确定性回归。",
+      "recorded": true,
+      "recordedAt": "2026-09-03T14:47:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:448c06ea671404251761c567cc02fc8afe45e4c45fb11e414e6d4f34ea2f38c6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-539-reference-file-comparison-batch-36"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bff3acb698314af308a2321d084e987f46dacd332273581fe584970a0c26253a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6387fee2bad243691f1922101b7a12ea6d0b7fd24a4015093605c920ffed170e",
+      "previousContractHash": "sha256:7bcff3cff8dd2b252c9d5a3cce2cb65fe2a5bacb69fa64b83dd9111f04f8b8f9",
+      "reason": "Bind the reviewed PR resource context before the verification cycle; the prior verification was recorded before finalize-plan and is intentionally stale.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T14:56:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:448c06ea671404251761c567cc02fc8afe45e4c45fb11e414e6d4f34ea2f38c6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-539-reference-file-comparison-batch-36"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:448c06ea671404251761c567cc02fc8afe45e4c45fb11e414e6d4f34ea2f38c6",
+  "createdAt": "2026-09-03T14:33:08Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-539-reference-file-comparison-batch-36.md",
+      "tests/conformance/reference_file_inventory.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-03T14:57:51Z",
+  "preflightContractDigest": "sha256:bff3acb698314af308a2321d084e987f46dacd332273581fe584970a0c26253a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:448c06ea671404251761c567cc02fc8afe45e4c45fb11e414e6d4f34ea2f38c6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T14:59:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-539-reference-file-comparison-batch-36"
+}
