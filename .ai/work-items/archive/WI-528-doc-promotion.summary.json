@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-03T05:10:51Z",
-  "checkpointContractDigest": "sha256:df7c68a20912249d4d2d16352b13f8e9fe953d1a86b4369a2f82ddd3cd093648",
+  "checkpointContractDigest": "sha256:beb01a524b75a4b9132044ce74513fb6e01d2495536ff623d1362fcf2a4d6b1e",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,23 +37,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-528-doc-promotion"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:beb01a524b75a4b9132044ce74513fb6e01d2495536ff623d1362fcf2a4d6b1e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:cf08f4d669a111f32ae6b8b749f2651792e3d8d8e2b03e83807e9a04b76b9d2c",
+      "previousContractHash": "sha256:df7c68a20912249d4d2d16352b13f8e9fe953d1a86b4369a2f82ddd3cd093648",
+      "reason": "Bind the reviewed PR #505 context before finalization and refresh documentation promotion evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T05:12:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7299fb6d5b1baf0878243481465388a5560e7af63279524aa3077c886eaa7770",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-528-doc-promotion"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:7299fb6d5b1baf0878243481465388a5560e7af63279524aa3077c886eaa7770",
   "createdAt": "2026-09-03T05:10:45Z",
-  "failedGate": "finish.governance",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-03T05:12:12Z",
-  "preflightContractDigest": "sha256:df7c68a20912249d4d2d16352b13f8e9fe953d1a86b4369a2f82ddd3cd093648",
+  "preflightAt": "2026-09-03T05:13:03Z",
+  "preflightContractDigest": "sha256:beb01a524b75a4b9132044ce74513fb6e01d2495536ff623d1362fcf2a4d6b1e",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:7299fb6d5b1baf0878243481465388a5560e7af63279524aa3077c886eaa7770",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-03T05:12:18Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T05:13:11Z",
   "verification": [
     {
       "check": "project-command-0",
