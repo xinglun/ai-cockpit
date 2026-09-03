@@ -8,7 +8,7 @@
     "Visible human Outcome, archive, finalization, close, and exact branch/worktree cleanup are recorded before publication is declared complete."
   ],
   "authority": "human:repository-owner",
-  "baseRevision": "9affa7ede7bf7f57c2bd1958ddac608976da2ba0",
+  "baseRevision": "25a1ed585b97950a4b9d9acc10d130e560a137ff",
   "createdAt": "2026-09-03T03:37:20Z",
   "goal": "Release v0.2.65 with immutable supply-chain evidence, current documentation, and reproducible post-release acceptance, while promoting the closed WI-527 terminal projection.",
   "intent": "Publish v0.2.65 containing the merged direct-merge recovery context compatibility fix and synchronized terminal documentation, promote the closed WI-527 docs from immutable evidence, then prove the public artifact can be installed without modifying object repositories.",
