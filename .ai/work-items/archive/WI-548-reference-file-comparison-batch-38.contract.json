@@ -34,11 +34,11 @@
     "parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-548-reference-file-comparison-batch-38",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/526",
     "worktree": "/private/tmp/ai-cockpit-wi548-reference-file-comparison-batch-38"
   },
   "risk": "normal",
