@@ -9,14 +9,17 @@
     "No source implementation or source wire format is copied into the Rust Runtime.",
     "All parity claims bind to the pinned source and target revisions."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-03T18:00:13Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:91e647b5314e3304019189044b9abb70704562db53a6db8b4543a760f2864d3a",
   "evidenceRefs": [
     ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -24,11 +27,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -38,27 +40,25 @@
       "repositorySnapshotDigest": "sha256:4914c523755259b7a8ea7b7044f0655992a0b51f2c3c33324730ba39ffe32b83",
       "workItemId": "WI-543-reference-ledger-check-safety"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-543-reference-ledger-check-safety.summary.json"
+            ".ai/work-items/archive/WI-543-reference-ledger-check-safety.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-543-reference-ledger-check-safety.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-543-reference-ledger-check-safety.summary.json"
+            ".ai/work-items/archive/WI-543-reference-ledger-check-safety.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-543-reference-ledger-check-safety.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-543-reference-ledger-check-safety.summary.json"
         }
       ],
       "evidence": [
@@ -77,15 +77,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -96,7 +88,7 @@
             ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -106,15 +98,23 @@
             ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-543-reference-ledger-check-safety.contract.json"
+            ".ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json"
           ],
           "inference": false,
           "text": "Prevent check mode from mutating the ledger and record an evidence-backed semantic comparison batch for adopter inheritance."
@@ -123,23 +123,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-543-reference-ledger-check-safety.contract.json"
+            ".ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-543-reference-ledger-check-safety"
   },
+  "taskReportDigest": "sha256:fdf8ae0bf7a9bdd8d4f6a5f5af80349967e1d8b1d5070925e9d6ae7cd626b35d",
+  "taskReportMarkdownDigest": "sha256:d776b6c07451b18885d101cef36f69b07bc1c03cd9f82c6df1b1e5f9afd3c29d",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-543-reference-ledger-check-safety"
 }
