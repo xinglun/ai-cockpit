@@ -26,11 +26,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-531-historical-direct-merge-apply",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/507",
     "worktree": "/private/tmp/ai-cockpit-wi531-historical-direct-merge-apply"
   },
   "risk": "normal",
