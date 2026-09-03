@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-03T02:10:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-522-wi521-doc-promotion.recovery.json",
+    ".ai/work-items/archive/WI-523-wi521-doc-promotion-retry.archive.json",
+    ".ai/decisions/WI-523-wi521-doc-promotion-retry.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:0c0b060509cb0e6c092e3784c2d06a5f1dcd2ad121618dbf5d8b0a7557db883b",
+  "predecessorContractDigest": "sha256:c7213700b4a8f52602ff1bc7ddc78d19da311d0423828c4589bd9a44cd533fa8",
+  "predecessorEventsDigest": "sha256:849f2ef436f19ead0dcfd7c80b452622b27cbb830c7c06e31b78fe325469fe92",
+  "predecessorOutcomeDigest": "sha256:2d32b9027e61e868fcf4dc54e8ceacd266d2fd531552088eec296fe786a54bf0",
+  "predecessorSummaryDigest": "sha256:2fbcd3edc1fac788b46bf2bde27cea4b95698618ce5b9f601559e993f3b212f0",
+  "predecessorWorkItemId": "WI-522-wi521-doc-promotion",
+  "reason": "The linked successor WI-523 completed the same bounded documentation delivery; supersede the immutable predecessor without rewriting its historical bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further work is required for the superseded predecessor; continue from the closed successor.",
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "successorBindingMode": "legacy_terminal_evidence",
+  "successorWorkItemId": "WI-523-wi521-doc-promotion-retry",
+  "workItemId": "WI-522-wi521-doc-promotion"
+}
