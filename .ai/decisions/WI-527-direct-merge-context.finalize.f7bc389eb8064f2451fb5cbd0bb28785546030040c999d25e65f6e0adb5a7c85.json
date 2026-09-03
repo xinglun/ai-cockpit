@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:b99066c3e2f16afbaf21668beeb1510795eb4fba723cbb21b8184fdda04ab794",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "github-pr-review",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "295fed8e825822044910d3639730702ea94dc050",
+      "name": "codex/wi-527-direct-merge-context",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:1caf80dbf9a20430775194a9938c20762cc7af35dbda909a7e7816ac55f2063e",
+    "operationId": "WI-527-direct-merge-context-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "9affa7ede7bf7f57c2bd1958ddac608976da2ba0",
+      "headRevision": "295fed8e825822044910d3639730702ea94dc050",
+      "mergeCommit": "4542568aff994934a3b9888b38867e9b11a84862",
+      "number": 503,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/503"
+    },
+    "reason": "Exact remote branch and dedicated worktree cleanup verified after PR #503 merge.",
+    "receiptId": "ai-cockpit-WI-527-direct-merge-context-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-527-direct-merge-context",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/503",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-527-direct-merge-context"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+    "runtimeVersion": "0.2.64",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-03T04:18:00Z",
+    "workItemId": "WI-527-direct-merge-context",
+    "worktree": {
+      "branch": "codex/wi-527-direct-merge-context",
+      "headRevision": "295fed8e825822044910d3639730702ea94dc050",
+      "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-527-direct-merge-context",
+      "worktreeId": "WI-527-direct-merge-context"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-527-direct-merge-context-cleanup"
+}
