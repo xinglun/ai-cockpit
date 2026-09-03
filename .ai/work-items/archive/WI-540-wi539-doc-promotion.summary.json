@@ -1,0 +1,182 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-539 English reader page",
+          "path": "docs/work-items/WI-539-reference-file-comparison-batch-36.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "WI-539 Chinese reader page",
+          "path": "docs/work-items/WI-539-reference-file-comparison-batch-36.zh-CN.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "WI-539 Japanese reader page",
+          "path": "docs/work-items/WI-539-reference-file-comparison-batch-36.ja.md",
+          "type": "documentation",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "English parity row",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "Chinese parity row",
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "type": "documentation",
+          "verification": "passed"
+        },
+        {
+          "locator": "Japanese parity row",
+          "path": "docs/reference/reference-parity.ja.md",
+          "type": "documentation",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "Documentation acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "Parity integrity",
+          "path": "tests/docs/parity_status_check.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "Closed Work Item promotion",
+          "path": "tests/docs/promote_closed_work_item.py",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-540-wi539-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-540-wi539-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T15:23:40Z",
+  "checkpointContractDigest": "sha256:33e82c1dfebb0f91ccfb763abf3f10238b69909e8a5b891dacb149ac0bbc86ce",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:d3c445ac941a778d1064af250e0ce982dbaafd993a7efaf48d2252cb4b35f285",
+      "recorded": true,
+      "recordedAt": "2026-09-03T15:23:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:04cf6bee5e127370e83ceb801a9a5b8d78cb9988562e7dd98620cdeec569d571",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-540-wi539-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:7042e40b1812ec62649ce27c028b503fac3996cd41156a96d72dcf9fb427c045",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d3c445ac941a778d1064af250e0ce982dbaafd993a7efaf48d2252cb4b35f285",
+      "previousContractHash": "sha256:d3c445ac941a778d1064af250e0ce982dbaafd993a7efaf48d2252cb4b35f285",
+      "reason": "Correct Contract authority to the Runtime canonical value authorized before final verification; scope remains the bounded three-language documentation projection.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T15:26:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:04cf6bee5e127370e83ceb801a9a5b8d78cb9988562e7dd98620cdeec569d571",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-540-wi539-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:b05929054741cab760a2f6e31357927bb81535f2d9a4ec2572e36e7968e82c81",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d3c445ac941a778d1064af250e0ce982dbaafd993a7efaf48d2252cb4b35f285",
+      "previousContractHash": "sha256:7042e40b1812ec62649ce27c028b503fac3996cd41156a96d72dcf9fb427c045",
+      "reason": "Align required evidence classes with Runtime lifecycle semantics: verification is the required class; documentation and test remain acceptance-evidence references.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T15:29:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:04cf6bee5e127370e83ceb801a9a5b8d78cb9988562e7dd98620cdeec569d571",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-540-wi539-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:33e82c1dfebb0f91ccfb763abf3f10238b69909e8a5b891dacb149ac0bbc86ce",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d3c445ac941a778d1064af250e0ce982dbaafd993a7efaf48d2252cb4b35f285",
+      "previousContractHash": "sha256:b05929054741cab760a2f6e31357927bb81535f2d9a4ec2572e36e7968e82c81",
+      "reason": "Bind the reviewed PR resource context before the final verification cycle; the prior evidence was recorded before finalize-plan and is intentionally stale.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T15:30:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:04cf6bee5e127370e83ceb801a9a5b8d78cb9988562e7dd98620cdeec569d571",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-540-wi539-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:04cf6bee5e127370e83ceb801a9a5b8d78cb9988562e7dd98620cdeec569d571",
+  "createdAt": "2026-09-03T15:20:24Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-540-wi539-doc-promotion.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "documentation",
+  "preflightAt": "2026-09-03T15:30:42Z",
+  "preflightContractDigest": "sha256:33e82c1dfebb0f91ccfb763abf3f10238b69909e8a5b891dacb149ac0bbc86ce",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:04cf6bee5e127370e83ceb801a9a5b8d78cb9988562e7dd98620cdeec569d571",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T15:30:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-540-wi539-doc-promotion"
+}
