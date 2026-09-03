@@ -6,10 +6,14 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-539-reference-file-comparison-batch-36
 lastVerifiedBy: WI-539-reference-file-comparison-batch-36
+terminalArchive: .ai/work-items/archive/WI-539-reference-file-comparison-batch-36.contract.json
+terminalVerification: .ai/evidence/WI-539-reference-file-comparison-batch-36.verification.json
+terminalFinalization: .ai/decisions/WI-539-reference-file-comparison-batch-36.finalize.json
+terminalDecision: .ai/decisions/WI-539-reference-file-comparison-batch-36.close.json
 ---
 
 # WI-539——源治理检查器逐文件比较批次 36
