@@ -1,0 +1,91 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions and lockfile identify v0.2.67 while historical release records remain unchanged.",
+    "Reviewed hosted release checks, immutable tag, archives, checksums, SBOM, provenance, and release manifest agree on the published commit and bytes.",
+    "Downloaded public v0.2.67 artifact installation and adopter acceptance pass with isolation and cleanup evidence.",
+    "The installed v0.2.67 binary is verified here and release documentation remains internally consistent."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8de11a064261eac1dee1a26b610f52caa58876e2",
+  "createdAt": "2026-09-03T15:38:59Z",
+  "goal": "Release v0.2.67 from synchronized main, install the downloaded artifact, and record release and adopter evidence without mutating object repositories.",
+  "intent": "Publish the next reviewed Runtime release and verify its immutable public artifact installation boundary.",
+  "mode": "release",
+  "outOfScope": [
+    "Reference source changes",
+    " object/adopter repository writes",
+    " global Agent/MCP configuration",
+    " source-build fallback",
+    " and unrelated Runtime behavior."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:04cf6bee5e127370e83ceb801a9a5b8d78cb9988562e7dd98620cdeec569d571",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-541-release-v0-2-67",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-541-release-v0-2-67"
+  },
+  "risk": "destructive",
+  "scenarioCoverage": [
+    {
+      "scenario": "reviewed_release_candidate",
+      "expected": "The reviewed branch passes local and hosted release gates before an annotated tag is created.",
+      "verificationPlan": "Run the declared workspace and release policy checks, then inspect required PR CI before tagging.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "public_artifact_only_acceptance",
+      "expected": "The published artifact passes checksum-bound installation and adopter acceptance without source or workspace binary fallback.",
+      "verificationPlan": "Download the public v0.2.67 archive and run the release adopter acceptance harness in isolated roots.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "release_failure_preserves_truth",
+      "expected": "A failed post-release acceptance records failure without rewriting the already-published Release truth.",
+      "verificationPlan": "Inspect the post-release receipt and ensure releasePublished remains true when adopter acceptance fails.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-541-release-v0-2-67.md",
+    "docs/work-items/WI-541-release-v0-2-67.zh-CN.md",
+    "docs/work-items/WI-541-release-v0-2-67.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-541-release-v0-2-67"
+}
