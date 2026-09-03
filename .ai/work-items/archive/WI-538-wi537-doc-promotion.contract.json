@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "All six WI-537 documentation projections report status Implemented and retain the same workItemId.",
+    "Reference parity remains semantically accurate in English, Chinese, and Japanese.",
+    "documentation_acceptance.sh, work_item_status_consistency_test.sh, parity_status_check.sh, and promote_closed_work_item.py --check-all pass."
+  ],
+  "authority": "human-authorized",
+  "baseRevision": "dbdd7542278a0dc3dbe6adf76389140711166869",
+  "createdAt": "2026-09-03T12:30:53Z",
+  "goal": "Synchronize the WI-537 tri-language Work Item pages and reference parity rows with its closed Runtime evidence.",
+  "intent": "Promote the completed WI-537 capability documentation projections without changing governance facts.",
+  "mode": "docs",
+  "outOfScope": [
+    "crates/**",
+    ".ai/**",
+    "global-agent-config",
+    "object-repository"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e5f5eea3956c2ce6423c0f5c806891f4f07703c81460930702b054a01dcca2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-538-wi537-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/516",
+    "worktree": "/private/tmp/ai-cockpit-wi538-wi537-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-537-capability-surface.md",
+    "docs/work-items/WI-537-capability-surface.zh-CN.md",
+    "docs/work-items/WI-537-capability-surface.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-538-wi537-doc-promotion.md",
+    "docs/work-items/WI-538-wi537-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-538-wi537-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-538-wi537-doc-promotion"
+}
