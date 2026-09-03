@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-522——WI-521 终态文档晋级"
 description: "在 WI-521 验证关闭后晋级文档投影，不改写不可变 Runtime 记录。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: human-authorized
 workItemId: WI-522-wi521-doc-promotion
 lastVerifiedBy: WI-522-wi521-doc-promotion
@@ -14,6 +14,11 @@ lastVerifiedBy: WI-522-wi521-doc-promotion
 ## 目标
 
 将 WI-521 的读者文档和 parity 行晋级为 Runtime 已记录的确切终态。
+
+WI-522 是不可变的前驱记录。归档推进分支 HEAD 后，其合并前
+finalization 变为过期；Runtime recovery 决策记录在
+`.ai/decisions/WI-522-wi521-doc-promotion.recovery.json`。WI-523 从最新已评审
+基线重新交付同一文档投影；不会改写前驱证据，也不会把前驱伪装成新的成功。
 
 ## 范围
 

@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-522 — WI-521 terminal documentation promotion"
 description: "WI-521 の verified close 後に文書投影を昇格し、immutable Runtime 記録を書き換えない。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: human-authorized
 workItemId: WI-522-wi521-doc-promotion
 lastVerifiedBy: WI-522-wi521-doc-promotion
@@ -15,6 +15,12 @@ lastVerifiedBy: WI-522-wi521-doc-promotion
 
 WI-521 の読者向けページと parity 行を、Runtime が既に記録した terminal truth
 へ昇格する。
+
+WI-522 は immutable predecessor として保持されます。archive によって branch
+ HEAD が進み、pre-merge finalization が stale になったため、Runtime の recovery
+ decision を `.ai/decisions/WI-522-wi521-doc-promotion.recovery.json` に記録しました。
+同じ文書投影は最新の reviewed base から WI-523 が再配信します。前駆証拠は書き換えず、
+新しい成功として扱いません。
 
 ## Scope
 
