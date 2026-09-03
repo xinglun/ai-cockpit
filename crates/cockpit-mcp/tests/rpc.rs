@@ -8,6 +8,30 @@ use std::{
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+struct TestTempDir(std::path::PathBuf);
+
+impl TestTempDir {
+    fn new(prefix: &str) -> Self {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!("{prefix}-{}-{nonce}", std::process::id()));
+        fs::create_dir(&path).expect("directory");
+        Self(path)
+    }
+
+    fn path(&self) -> &std::path::Path {
+        &self.0
+    }
+}
+
+impl Drop for TestTempDir {
+    fn drop(&mut self) {
+        let _ = fs::remove_dir_all(&self.0);
+    }
+}
+
 fn test_runtime_context() -> cockpit_protocol::RuntimeContext {
     cockpit_protocol::RuntimeContext {
         runtime_version: "9.8.7-test".into(),
@@ -405,19 +429,16 @@ fn mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli() {
 
 #[test]
 fn delegated_evidence_list_exposes_only_repository_bound_receipts() {
-    let directory = std::env::temp_dir().join(format!(
-        "cockpit-mcp-delegated-{}",
-        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
-    ));
-    fs::create_dir_all(&directory).expect("directory");
+    let directory = TestTempDir::new("cockpit-mcp-delegated");
+    let root = directory.path();
     Command::new("git")
         .args(["init", "-q"])
-        .current_dir(&directory)
+        .current_dir(root)
         .status()
         .expect("git init");
-    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::attach(root).expect("attach");
     cockpit_repository::start_work_item_with_options(
-        &directory,
+        root,
         "WI-MCP-DELEGATED",
         "external evidence",
         "list provider evidence",
@@ -431,7 +452,7 @@ fn delegated_evidence_list_exposes_only_repository_bound_receipts() {
     .expect("start");
     let raw = br#"{"run":321}"#;
     cockpit_repository::import_delegated_evidence(
-        &directory,
+        root,
         "WI-MCP-DELEGATED",
         &cockpit_protocol::DelegatedEvidence {
             provider: "github".into(),
@@ -452,7 +473,7 @@ fn delegated_evidence_list_exposes_only_repository_bound_receipts() {
             "jsonrpc":"2.0","id":42,"method":"tools/call",
             "params":{"name":"delegated_evidence_list","arguments":{"workItemId":"WI-MCP-DELEGATED"}}
         }),
-        &directory,
+        root,
         &test_runtime_context(),
     );
     assert_eq!(response["result"]["isError"], false);
@@ -460,7 +481,7 @@ fn delegated_evidence_list_exposes_only_repository_bound_receipts() {
         response["result"]["structuredContent"][0]["workItemId"],
         "WI-MCP-DELEGATED"
     );
-    fs::remove_dir_all(directory).expect("cleanup");
+    fs::remove_dir_all(root).expect("cleanup");
 }
 
 #[test]

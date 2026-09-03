@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "The delegated evidence test uses an RAII temporary directory.",
+    "A panic or failed assertion cannot leave the next run with a duplicate Work Item.",
+    "The Work Item is registered in tri-language docs and parity rows before archive."
+  ],
+  "authority": "authorized",
+  "baseRevision": "6d2630cc90ada555b48839dc8fc8e1df4effa1a0",
+  "createdAt": "2026-09-03T10:19:12Z",
+  "goal": "Ensure temporary test repositories are removed on every exit path and the Work Item is represented in all required documentation projections.",
+  "intent": "Make MCP integration test fixtures failure-safe and register their governance documentation before archive.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime lifecycle semantics",
+    "Object repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c85775b8bca5fd196ab8724ad1566166dc149a22e39a79fc44e748d4065e32fa",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-535-mcp-fixture-cleanup-rebuild",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/512",
+    "worktree": "/private/tmp/ai-cockpit-wi535-mcp-fixture-cleanup-rebuild"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/work-items/WI-535-mcp-fixture-cleanup.md",
+    "docs/work-items/WI-535-mcp-fixture-cleanup.ja.md",
+    "docs/work-items/WI-535-mcp-fixture-cleanup.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-535-mcp-fixture-cleanup"
+}
