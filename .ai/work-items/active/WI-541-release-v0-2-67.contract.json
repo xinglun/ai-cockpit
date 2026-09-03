@@ -26,38 +26,38 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-541-release-v0-2-67",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/519",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-541-release-v0-2-67"
   },
   "risk": "destructive",
   "scenarioCoverage": [
     {
-      "scenario": "reviewed_release_candidate",
+      "evidence": [],
       "expected": "The reviewed branch passes local and hosted release gates before an annotated tag is created.",
-      "verificationPlan": "Run the declared workspace and release policy checks, then inspect required PR CI before tagging.",
       "required": true,
+      "scenario": "reviewed_release_candidate",
       "status": "unverified",
-      "evidence": []
+      "verificationPlan": "Run the declared workspace and release policy checks, then inspect required PR CI before tagging."
     },
     {
-      "scenario": "public_artifact_only_acceptance",
+      "evidence": [],
       "expected": "The published artifact passes checksum-bound installation and adopter acceptance without source or workspace binary fallback.",
-      "verificationPlan": "Download the public v0.2.67 archive and run the release adopter acceptance harness in isolated roots.",
       "required": true,
+      "scenario": "public_artifact_only_acceptance",
       "status": "unverified",
-      "evidence": []
+      "verificationPlan": "Download the public v0.2.67 archive and run the release adopter acceptance harness in isolated roots."
     },
     {
-      "scenario": "release_failure_preserves_truth",
+      "evidence": [],
       "expected": "A failed post-release acceptance records failure without rewriting the already-published Release truth.",
-      "verificationPlan": "Inspect the post-release receipt and ensure releasePublished remains true when adopter acceptance fails.",
       "required": true,
+      "scenario": "release_failure_preserves_truth",
       "status": "unverified",
-      "evidence": []
+      "verificationPlan": "Inspect the post-release receipt and ensure releasePublished remains true when adopter acceptance fails."
     }
   ],
   "scope": [

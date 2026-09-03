@@ -4,9 +4,45 @@
     ".ai/work-items/active/WI-541-release-v0-2-67.summary.json"
   ],
   "checkpointAt": "2026-09-03T15:44:13Z",
-  "checkpointContractDigest": "sha256:f85764cfc69f424c664940795ee14f36b7e21b5bbd42b2e288ceea1fc17ddd08",
+  "checkpointContractDigest": "sha256:d7ae8e9f90960194e1c1991678fb3ca74fb7ff624104fb6c815bced84f41af9c",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:5a38b341286e86560db83feba02468003d88a6b633929050b1adc6694bc52b80",
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f85764cfc69f424c664940795ee14f36b7e21b5bbd42b2e288ceea1fc17ddd08",
+      "recorded": true,
+      "recordedAt": "2026-09-03T15:44:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5a38b341286e86560db83feba02468003d88a6b633929050b1adc6694bc52b80",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-541-release-v0-2-67"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d7ae8e9f90960194e1c1991678fb3ca74fb7ff624104fb6c815bced84f41af9c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f85764cfc69f424c664940795ee14f36b7e21b5bbd42b2e288ceea1fc17ddd08",
+      "previousContractHash": "sha256:f85764cfc69f424c664940795ee14f36b7e21b5bbd42b2e288ceea1fc17ddd08",
+      "reason": "Bind the reviewed PR #519 and dedicated worktree before terminal release lifecycle operations.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T15:55:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:af03d056fef517650ef0edba37ec652a00bfcedeecd119dc8e08d8bdf874fd1b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-541-release-v0-2-67"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:af03d056fef517650ef0edba37ec652a00bfcedeecd119dc8e08d8bdf874fd1b",
   "createdAt": "2026-09-03T15:38:59Z",
   "intentAlignment": {
     "evidence": [
@@ -16,10 +52,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-09-03T15:54:21Z",
-  "preflightContractDigest": "sha256:f85764cfc69f424c664940795ee14f36b7e21b5bbd42b2e288ceea1fc17ddd08",
+  "preflightAt": "2026-09-03T15:58:24Z",
+  "preflightContractDigest": "sha256:d7ae8e9f90960194e1c1991678fb3ca74fb7ff624104fb6c815bced84f41af9c",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:5a38b341286e86560db83feba02468003d88a6b633929050b1adc6694bc52b80",
+  "preflightRepositorySnapshotDigest": "sha256:af03d056fef517650ef0edba37ec652a00bfcedeecd119dc8e08d8bdf874fd1b",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
