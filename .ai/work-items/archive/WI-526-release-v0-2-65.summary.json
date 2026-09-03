@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-526-release-v0-2-65.contract.json",
-    ".ai/work-items/active/WI-526-release-v0-2-65.summary.json"
+    ".ai/work-items/archive/WI-526-release-v0-2-65.contract.json",
+    ".ai/work-items/archive/WI-526-release-v0-2-65.summary.json"
   ],
   "checkpointAt": "2026-09-03T04:23:47Z",
-  "checkpointContractDigest": "sha256:21bdd32093efee232fb53e295bc3a06be505157f562fbecdebebb56d0a5fb943",
+  "checkpointContractDigest": "sha256:16dcd524b0024bd989750648dcfdc4900b985b66febdc1dded45be3eed70fec8",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,20 +40,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-526-release-v0-2-65"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:16dcd524b0024bd989750648dcfdc4900b985b66febdc1dded45be3eed70fec8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:df23af7aaebb78e553d44bdf6dece4c82a1b1a417a013095cf9167b99bf5da3e",
+      "previousContractHash": "sha256:21bdd32093efee232fb53e295bc3a06be505157f562fbecdebebb56d0a5fb943",
+      "reason": "Revalidate the current Contract after binding the reviewed PR #504 finalization context before release verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T04:52:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2e0739933f7da0ff1f300be7c4bfefbbe7f340859c7307896a47b8a656bb7a70",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-526-release-v0-2-65"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:2e0739933f7da0ff1f300be7c4bfefbbe7f340859c7307896a47b8a656bb7a70",
   "createdAt": "2026-09-03T03:37:20Z",
   "mode": "release",
-  "preflightAt": "2026-09-03T04:37:37Z",
-  "preflightContractDigest": "sha256:21bdd32093efee232fb53e295bc3a06be505157f562fbecdebebb56d0a5fb943",
+  "preflightAt": "2026-09-03T05:05:45Z",
+  "preflightContractDigest": "sha256:16dcd524b0024bd989750648dcfdc4900b985b66febdc1dded45be3eed70fec8",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:2e0739933f7da0ff1f300be7c4bfefbbe7f340859c7307896a47b8a656bb7a70",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-03T04:23:47Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T05:06:01Z",
   "verification": [
     {
       "check": "project-command-0",
