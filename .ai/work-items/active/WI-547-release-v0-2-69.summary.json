@@ -69,7 +69,7 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-03T20:13:08Z",
+  "preflightAt": "2026-09-03T20:21:46Z",
   "preflightContractDigest": "sha256:f2c9eeafd56adbf799c47ff99dd403bce59b7f83eef7eac470e9922bfb92a12e",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:9bf03ea80f967281b9dc7f0c30f571b6138820816860c73f96ad42a9eaa9e135",
@@ -112,8 +112,8 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-03T20:06:01.271718+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T20:21:49Z",
   "verification": [
     {
       "check": "project-command-0",
