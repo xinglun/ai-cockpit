@@ -47,7 +47,14 @@
   ],
   "sources": [
     "docs/work-items/WI-545-release-v0-2-68.md",
+    "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
+    "docs/work-items/WI-545-release-v0-2-68.ja.md",
     "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.ja.md",
     "tests/docs/documentation_acceptance.sh",
     "tests/docs/work_item_status_consistency.py",
     "tests/docs/promote_closed_work_item.py"
