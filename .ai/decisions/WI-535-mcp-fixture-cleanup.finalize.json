@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "696532de3539a688ae9f8a3b8a008d46c9efc077",
+    "name": "codex/wi-535-mcp-fixture-cleanup-rebuild",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b51a173e2510abe43b11fb51e468538013f2b4caf0abe0171d0014ab433df5d9",
+  "operationId": "github-pr-512-merge-cleanup-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "6d2630cc90ada555b48839dc8fc8e1df4effa1a0",
+    "headRevision": "696532de3539a688ae9f8a3b8a008d46c9efc077",
+    "mergeCommit": "ce72d30b1912c06cad2bb234a8ede8531e66b0c8",
+    "number": 512,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/512"
+  },
+  "reason": "Reviewed PR #512 passed all hosted checks and was merged as ce72d30b1912c06cad2bb234a8ede8531e66b0c8; the exact Work Item branch and dedicated worktree were removed after merge and verified absent.",
+  "receiptId": "github-pr-512-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-535-mcp-fixture-cleanup-rebuild",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/512",
+    "worktree": "/private/tmp/ai-cockpit-wi535-mcp-fixture-cleanup-rebuild"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T10:42:00Z",
+  "workItemId": "WI-535-mcp-fixture-cleanup",
+  "worktree": {
+    "branch": "codex/wi-535-mcp-fixture-cleanup-rebuild",
+    "headRevision": "696532de3539a688ae9f8a3b8a008d46c9efc077",
+    "path": "/private/tmp/ai-cockpit-wi535-mcp-fixture-cleanup-rebuild",
+    "worktreeId": "WI-535-mcp-fixture-cleanup"
+  }
+}
