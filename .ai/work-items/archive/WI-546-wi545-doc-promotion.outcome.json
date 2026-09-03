@@ -64,7 +64,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-546-wi545-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-546-wi545-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -102,7 +102,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-546-wi545-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Make the v0.2.68 release documentation and parity projections reflect the closed Work Item without changing governance facts."
@@ -111,7 +111,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-546-wi545-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -121,7 +121,7 @@
     "status": "verified",
     "workItemId": "WI-546-wi545-doc-promotion"
   },
-  "taskReportDigest": "sha256:857a8e01539efd0f51bef0c091601a26ec3e94e7b5554a43db0ffe0054e81ebf",
+  "taskReportDigest": "sha256:4b4fb0f48228bdb22a9268177e15820132783f854141d218f46294645cb194bf",
   "taskReportMarkdownDigest": "sha256:5975b1dd0f1dc526e1e39599a873ff8e0394a790255f0faa442f95a834d6fa65",
   "unknowns": [
     "user_visible_benefit_not_declared"

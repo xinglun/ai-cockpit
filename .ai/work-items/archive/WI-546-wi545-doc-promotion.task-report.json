@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-546-wi545-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-546-wi545-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-546-wi545-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "Make the v0.2.68 release documentation and parity projections reflect the closed Work Item without changing governance facts."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-546-wi545-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
