@@ -1,0 +1,124 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T19:52:38Z",
+  "checkpointContractDigest": "sha256:f2c9eeafd56adbf799c47ff99dd403bce59b7f83eef7eac470e9922bfb92a12e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:046bda1be1049e23f74b9d5bd52c1b86a798e0f3aa6607ac619e00231bb5bee9",
+      "recorded": true,
+      "recordedAt": "2026-09-03T19:52:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e46304dbe01e3f5d5c58532b0a02cb44447be4e157eef37b9873d1d0c4a5680",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-547-release-v0-2-69"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:7f255a38d5835b0c33e496a959810cf1eb5e706bacf119b072ba0a86ce5199e9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:046bda1be1049e23f74b9d5bd52c1b86a798e0f3aa6607ac619e00231bb5bee9",
+      "previousContractHash": "sha256:046bda1be1049e23f74b9d5bd52c1b86a798e0f3aa6607ac619e00231bb5bee9",
+      "reason": "Include the preceding documentation-promotion Work Item as an explicit source for the release projection correction.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T19:53:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e46304dbe01e3f5d5c58532b0a02cb44447be4e157eef37b9873d1d0c4a5680",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-547-release-v0-2-69"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:f2c9eeafd56adbf799c47ff99dd403bce59b7f83eef7eac470e9922bfb92a12e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:046bda1be1049e23f74b9d5bd52c1b86a798e0f3aa6607ac619e00231bb5bee9",
+      "previousContractHash": "sha256:7f255a38d5835b0c33e496a959810cf1eb5e706bacf119b072ba0a86ce5199e9",
+      "reason": "Bind the reviewed PR resource context before final verification so release evidence is tied to the exact branch, worktree, base, and provider.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T20:12:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9bf03ea80f967281b9dc7f0c30f571b6138820816860c73f96ad42a9eaa9e135",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-547-release-v0-2-69"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9bf03ea80f967281b9dc7f0c30f571b6138820816860c73f96ad42a9eaa9e135",
+  "createdAt": "2026-09-03T19:51:44Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-547-release-v0-2-69.md"
+    ],
+    "reason": "Changes are limited to v0.2.69 release identity, truthful failed-tag documentation, and the declared release acceptance projections.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-03T20:21:46Z",
+  "preflightContractDigest": "sha256:f2c9eeafd56adbf799c47ff99dd403bce59b7f83eef7eac470e9922bfb92a12e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9bf03ea80f967281b9dc7f0c30f571b6138820816860c73f96ad42a9eaa9e135",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md"
+      ],
+      "reason": "Package and three-language release documents consistently declare v0.2.69 and identify v0.2.68 as immutable failed-publication history.",
+      "required": true,
+      "scenario": "release metadata and failed-tag history",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "reason": "Release workflow and download-only acceptance harness are the declared supply-chain controls; public execution evidence is collected after publication.",
+      "required": true,
+      "scenario": "public artifact supply-chain acceptance",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "docs/release/distribution.md",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "reason": "The release Work Item is bound to explicit repository health, clean-base, visible Outcome, and documentation-promotion checks.",
+      "required": true,
+      "scenario": "installed runtime and repository closure",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T20:21:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-547-release-v0-2-69"
+}
