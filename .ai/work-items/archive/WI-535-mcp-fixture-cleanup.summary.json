@@ -1,26 +1,23 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-535-mcp-fixture-cleanup.contract.json",
-    ".ai/work-items/active/WI-535-mcp-fixture-cleanup.summary.json"
+    ".ai/work-items/archive/WI-535-mcp-fixture-cleanup.contract.json",
+    ".ai/work-items/archive/WI-535-mcp-fixture-cleanup.summary.json"
   ],
   "checkpointAt": "2026-09-03T10:23:05Z",
-  "checkpointContractDigest": "sha256:091b52bceb975f610e950256420b537b194186e92e112092907a18eb32de8b13",
+  "checkpointContractDigest": "sha256:61ab42c9652a594487867c3160c0a407040adc40fc5591e384b5b01b68c16022",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:82fa64e50e963d7389ed28e33a3134c3a40d7648856c913dd498b0a821469d7e",
   "createdAt": "2026-09-03T10:19:12Z",
-  "failedGate": "finish.governance",
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-03T10:27:09Z",
-  "preflightContractDigest": "sha256:091b52bceb975f610e950256420b537b194186e92e112092907a18eb32de8b13",
+  "preflightAt": "2026-09-03T10:34:57Z",
+  "preflightContractDigest": "sha256:61ab42c9652a594487867c3160c0a407040adc40fc5591e384b5b01b68c16022",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:82fa64e50e963d7389ed28e33a3134c3a40d7648856c913dd498b0a821469d7e",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-03T10:27:09Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T10:34:57Z",
   "verification": [
     {
       "check": "project-command-0",

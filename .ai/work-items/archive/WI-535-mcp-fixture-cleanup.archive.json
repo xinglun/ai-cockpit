@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-03T10:35:00Z",
+  "files": {
+    "contractDigest": "sha256:b51a173e2510abe43b11fb51e468538013f2b4caf0abe0171d0014ab433df5d9",
+    "contractPath": ".ai/work-items/archive/WI-535-mcp-fixture-cleanup.contract.json",
+    "eventsDigest": "sha256:4a11d7d761693540f76963f0a606255de4d1b64fc07535e359da74ce2c62ceda",
+    "eventsPath": ".ai/work-items/archive/WI-535-mcp-fixture-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:b07910dacdda807508d86b62760d35940010883e5e240bc513f3a77d98e37ea4",
+    "outcomePath": ".ai/work-items/archive/WI-535-mcp-fixture-cleanup.outcome.json",
+    "summaryDigest": "sha256:0f3a478b0900bdbb61763569597c573cf7f7054aca456ec8c2225e48d8d7eb1a",
+    "summaryPath": ".ai/work-items/archive/WI-535-mcp-fixture-cleanup.summary.json",
+    "taskReportDigest": "sha256:f58154c26d0fd4da9168da889d1502f212b52a6ce8fa6f5bdca20bce0e3045e9",
+    "taskReportMarkdownDigest": "sha256:a728d52685b9656a7fd02a58dc44ed20f9fed457dec53da9ab51c578638de5d8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-535-mcp-fixture-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-535-mcp-fixture-cleanup.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-535-mcp-fixture-cleanup"
+}

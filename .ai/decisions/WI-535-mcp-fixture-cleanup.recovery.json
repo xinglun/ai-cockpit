@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-recovery",
+  "decidedAt": "2026-09-03T10:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-535-mcp-fixture-cleanup.verification.json",
+    ".ai/work-items/active/WI-535-mcp-fixture-cleanup.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:61ab42c9652a594487867c3160c0a407040adc40fc5591e384b5b01b68c16022",
+  "predecessorEventsDigest": "sha256:70726971f124fb18d20b6fc0fe82a5557a1fe7ce71b786b99dc08b1a92c9fee2",
+  "predecessorOutcomeDigest": "sha256:9e1dac8656c356dbb214e255b6378962cb561676c705c2de8d237d20dbf1157b",
+  "predecessorSummaryDigest": "sha256:a98166879350eba77d2bd006141a8bac94419888542aa5dbc6db33be37542be2",
+  "predecessorWorkItemId": "WI-535-mcp-fixture-cleanup",
+  "reason": "Retry after binding the reviewed PR resource context; preserve the blocked evidence attempt and require fresh verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification with the bound PR context, then retry finish and the remaining lifecycle.",
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "workItemId": "WI-535-mcp-fixture-cleanup"
+}
