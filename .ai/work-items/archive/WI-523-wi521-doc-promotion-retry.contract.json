@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "WI-522 is documented as recovered and linked to WI-523 without rewriting immutable predecessor evidence.",
+    "WI-523 tri-language pages and parity rows are terminalized with exact evidence links.",
+    "Documentation, parity, status-consistency, and governance-integrity checks pass on the final archive commit.",
+    "The pre-merge finalization receipt head equals the reviewed PR head after archive.",
+    "No predecessor evidence or object-repository file is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4f0e224dad30e2c01ab7918cc955753230f3a254",
+  "createdAt": "2026-09-03T01:47:05Z",
+  "goal": "Complete the WI-521 documentation parity promotion with a pre-merge finalization receipt bound to the final archive commit.",
+  "intent": "Redeliver the WI-521 terminal documentation projection from a clean reviewed branch after the predecessor pre-merge receipt became stale when the archive commit advanced the PR head.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source",
+    " reference source copies",
+    " object repositories",
+    " release publication",
+    " global Agent or MCP configuration",
+    " manual rewriting of generated evidence or predecessor records."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a8237929d974b8c896175ccf836eafa2141071d3b3417b4091e49eb7b71e0569",
+  "requiredEvidenceClasses": [
+    "verification",
+    "review",
+    "archive",
+    "decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-523-wi521-doc-promotion-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/498",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-523-wi521-doc-promotion-retry"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-522-wi521-doc-promotion.md",
+    "docs/work-items/WI-522-wi521-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-522-wi521-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-523-wi521-doc-promotion-retry.md",
+    "docs/work-items/WI-523-wi521-doc-promotion-retry.zh-CN.md",
+    "docs/work-items/WI-523-wi521-doc-promotion-retry.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-523-wi521-doc-promotion-retry"
+}

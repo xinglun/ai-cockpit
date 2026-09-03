@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "99285d6ad55e83da221d6d02a5b866707d99f04a",
+    "name": "codex/wi-523-wi521-doc-promotion-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d73408f28665b3270480804aa8a717be3168c5cac1165c9acf235494159b9c9c",
+  "operationId": "ai-cockpit-WI-523-wi521-doc-promotion-retry-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "4f0e224dad30e2c01ab7918cc955753230f3a254",
+    "headRevision": "99285d6ad55e83da221d6d02a5b866707d99f04a",
+    "number": 498,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/498"
+  },
+  "reason": "awaiting_merge_close: PR #498 contains the archived WI-523 documentation retry and is awaiting hosted review and merge; retain the exact branch and dedicated worktree until checks pass.",
+  "receiptId": "ai-cockpit-WI-523-wi521-doc-promotion-retry-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-523-wi521-doc-promotion-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/498",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-523-wi521-doc-promotion-retry"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T01:56:30Z",
+  "workItemId": "WI-523-wi521-doc-promotion-retry",
+  "worktree": {
+    "branch": "codex/wi-523-wi521-doc-promotion-retry",
+    "headRevision": "99285d6ad55e83da221d6d02a5b866707d99f04a",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-523-wi521-doc-promotion-retry",
+    "worktreeId": "WI-523-wi521-doc-promotion-retry"
+  }
+}
