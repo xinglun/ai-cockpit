@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-03T12:05:03Z",
+  "files": {
+    "contractDigest": "sha256:317565d41c0f3dbc6ce8bc7828eb3d176f020df944aac237bdc08fdb5e0fa459",
+    "contractPath": ".ai/work-items/archive/WI-537-capability-surface.contract.json",
+    "eventsDigest": "sha256:a7436ac0f451831a8600dde6f8e52ad0e07d779170413f4a57db050e16841de9",
+    "eventsPath": ".ai/work-items/archive/WI-537-capability-surface.events.jsonl",
+    "outcomeDigest": "sha256:49930cd2e6255fb0645314a7034415913f16b305d85a9a4bbcae6c0e85fe4818",
+    "outcomePath": ".ai/work-items/archive/WI-537-capability-surface.outcome.json",
+    "summaryDigest": "sha256:4fe63727a67860359103ae7297ed9c719ed5b312675dfe846cef630cfd16c071",
+    "summaryPath": ".ai/work-items/archive/WI-537-capability-surface.summary.json",
+    "taskReportDigest": "sha256:ae6d4d296e19e176fd0c7407a119caf733d81750abc26711de79e4ef38cc39c0",
+    "taskReportMarkdownDigest": "sha256:2f86fda1f7ae2f7004f6719cee3d217ea2873d1c55aa9c323d712c8977dbba35",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-537-capability-surface.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-537-capability-surface.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-537-capability-surface"
+}

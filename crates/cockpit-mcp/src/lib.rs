@@ -25,6 +25,494 @@ const TOOL_NAMES: [&str; 18] = [
     "work_item_parallel",
 ];
 
+fn string_property(description: &str) -> Value {
+    json!({
+        "type": "string",
+        "minLength": 1,
+        "description": description,
+    })
+}
+
+fn object_schema(properties: Value, required: &[&str]) -> Value {
+    let mut schema = json!({
+        "type": "object",
+        "properties": properties,
+        "additionalProperties": false,
+    });
+    if !required.is_empty() {
+        schema["required"] = json!(required);
+    }
+    schema
+}
+
+fn one_of_aliases(names: &[&str]) -> Value {
+    Value::Array(
+        names
+            .iter()
+            .map(|name| json!({"required": [name]}))
+            .collect(),
+    )
+}
+
+fn mcp_tool_schema(name: &str) -> Value {
+    let id_properties = json!({
+        "workItemId": string_property("Canonical Work Item identifier."),
+        "id": string_property("Deprecated alias for workItemId."),
+    });
+    match name {
+        "status" | "work_item_list" | "repository_observe" | "capability_show" => {
+            object_schema(json!({}), &[])
+        }
+        "work_item_get" => {
+            let mut schema = object_schema(id_properties, &[]);
+            schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
+            schema
+        }
+        "work_item_outcome" => {
+            let mut properties = id_properties;
+            properties["language"] = string_property(
+                "Presentation language: en, zh, or ja (regional forms are accepted).",
+            );
+            let mut schema = object_schema(properties, &[]);
+            schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
+            schema
+        }
+        "work_item_status" => {
+            let mut properties = id_properties;
+            properties["all"] = json!({
+                "type": "boolean",
+                "description": "When true, return the stable repository-wide Work Item index.",
+            });
+            let mut schema = object_schema(properties, &[]);
+            schema["oneOf"] = json!([
+                {"properties": {"all": {"const": true}}, "required": ["all"]},
+                {"required": ["workItemId"]},
+                {"required": ["id"]}
+            ]);
+            schema
+        }
+        "work_item_validate" => {
+            let mut schema = object_schema(id_properties, &[]);
+            schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
+            schema
+        }
+        "blockers" | "safe_actions" => object_schema(
+            json!({
+                "contract": string_property("Repository-relative Contract path."),
+            }),
+            &[],
+        ),
+        "knowledge_query" => object_schema(
+            json!({
+                "topic": string_property("Optional knowledge topic filter."),
+                "component": string_property("Optional component filter."),
+                "state": string_property("Optional knowledge state filter."),
+                "workItemId": string_property("Optional Work Item filter."),
+            }),
+            &[],
+        ),
+        "evidence_get" => {
+            let mut schema = object_schema(
+                json!({
+                    "path": string_property("Repository-relative evidence path."),
+                    "evidencePath": string_property("Deprecated alias for path."),
+                    "id": string_property("Evidence identifier or Work Item evidence stem."),
+                }),
+                &[],
+            );
+            schema["oneOf"] = one_of_aliases(&["path", "evidencePath", "id"]);
+            schema
+        }
+        "delegated_evidence_list" => object_schema(
+            json!({
+                "workItemId": string_property("Work Item whose provider evidence is listed."),
+            }),
+            &["workItemId"],
+        ),
+        "preflight" => object_schema(
+            json!({
+                "contract": string_property("Repository-relative Contract path."),
+            }),
+            &["contract"],
+        ),
+        "work_item_controls" => {
+            let mut properties = id_properties;
+            properties["controls"] = json!({
+                "type": "object",
+                "description": "Explicit governance-control projection object.",
+            });
+            properties["input"] = json!({
+                "type": "object",
+                "description": "Deprecated alias for controls.",
+            });
+            let mut schema = object_schema(properties, &[]);
+            schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
+            schema["allOf"] = json!([
+                {"oneOf": [{"required": ["controls"]}, {"required": ["input"]}]}
+            ]);
+            schema
+        }
+        "work_item_recover" => {
+            let mut properties = id_properties;
+            properties["receipt"] = json!({
+                "type": "object",
+                "description": "Identity-bound recovery decision receipt.",
+            });
+            properties["input"] = json!({
+                "type": "object",
+                "description": "Deprecated alias for receipt.",
+            });
+            let mut schema = object_schema(properties, &[]);
+            schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
+            schema["allOf"] = json!([
+                {"oneOf": [{"required": ["receipt"]}, {"required": ["input"]}]}
+            ]);
+            schema
+        }
+        "verify" => object_schema(
+            json!({
+                "workItemId": string_property("Optional Work Item to bind the verification receipt."),
+                "command": string_property("Allowlisted executable; omit to detect Cargo or npm."),
+                "args": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Command arguments as a string array.",
+                },
+            }),
+            &[],
+        ),
+        "work_item_parallel" => parallel_tool_schema(),
+        _ => object_schema(json!({}), &[]),
+    }
+}
+
+fn parallel_tool_schema() -> Value {
+    let properties = json!({
+        "action": {
+            "type": "string",
+            "enum": ["inspect", "acquire", "release", "list"],
+            "default": "inspect",
+            "description": "Slot action.",
+        },
+        "workItemId": string_property("Canonical Work Item identifier."),
+        "id": string_property("Deprecated alias for workItemId."),
+        "leaseId": string_property("Lease identifier required by release."),
+    });
+    let item_id = json!({
+        "oneOf": [{"required": ["workItemId"]}, {"required": ["id"]}]
+    });
+    json!({
+        "type": "object",
+        "properties": properties,
+        "additionalProperties": false,
+        "oneOf": [
+            {"allOf": [item_id.clone()], "not": {"required": ["action"]}},
+            {"allOf": [item_id.clone(), {"required": ["action"]}], "properties": {"action": {"const": "inspect"}}},
+            {"allOf": [item_id.clone(), {"required": ["action"]}], "properties": {"action": {"const": "acquire"}}},
+            {"allOf": [item_id, {"required": ["action", "leaseId"]}], "properties": {"action": {"const": "release"}}},
+            {"required": ["action"], "properties": {"action": {"const": "list"}}, "not": {"anyOf": [{"required": ["workItemId"]}, {"required": ["id"]}, {"required": ["leaseId"]}]}}
+        ]
+    })
+}
+
+fn mcp_tool_definitions() -> Vec<Value> {
+    let descriptions = [
+        ("status", "Read current repository protocol status."),
+        ("work_item_get", "Read raw records for one Work Item."),
+        (
+            "work_item_outcome",
+            "Render a localized human handoff and structured OutcomeV2.",
+        ),
+        (
+            "work_item_status",
+            "Read one Work Item or the stable repository-wide status index.",
+        ),
+        (
+            "work_item_validate",
+            "Validate one Work Item's Contract and governance controls.",
+        ),
+        ("work_item_list", "List active and archived Work Items."),
+        (
+            "blockers",
+            "Read blockers derived from an optional Contract.",
+        ),
+        (
+            "safe_actions",
+            "Read safe recovery actions derived from an optional Contract.",
+        ),
+        (
+            "knowledge_query",
+            "Query repository-local derived knowledge.",
+        ),
+        (
+            "evidence_get",
+            "Read one repository-bound evidence record and its digest.",
+        ),
+        (
+            "delegated_evidence_list",
+            "List repository-bound provider evidence receipts.",
+        ),
+        (
+            "repository_observe",
+            "Observe repository facts and profile evolution without governance writes.",
+        ),
+        (
+            "capability_show",
+            "Show Runtime- and repository-bound capability truth.",
+        ),
+        (
+            "preflight",
+            "Evaluate a repository-relative Contract before implementation.",
+        ),
+        (
+            "work_item_controls",
+            "Record explicitly supplied Work Item governance controls.",
+        ),
+        (
+            "work_item_recover",
+            "Record an identity-bound retry, successor, or supersede decision.",
+        ),
+        (
+            "verify",
+            "Run an allowlisted verification command and optionally bind its receipt.",
+        ),
+        (
+            "work_item_parallel",
+            "Inspect or manage repository-local parallel Work Item slots.",
+        ),
+    ];
+    descriptions
+        .into_iter()
+        .map(|(name, description)| {
+            json!({
+                "name": name,
+                "description": description,
+                "inputSchema": mcp_tool_schema(name),
+            })
+        })
+        .collect()
+}
+
+fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> {
+    let object = arguments
+        .as_object()
+        .ok_or_else(|| format!("invalid arguments for {name}: expected a JSON object"))?;
+
+    let allowed = match name {
+        "status" | "work_item_list" | "repository_observe" | "capability_show" => &[][..],
+        "work_item_get" | "work_item_validate" => &["workItemId", "id"][..],
+        "work_item_outcome" => &["workItemId", "id", "language"][..],
+        "work_item_status" => &["workItemId", "id", "all"][..],
+        "blockers" | "safe_actions" | "preflight" => &["contract"][..],
+        "knowledge_query" => &["topic", "component", "state", "workItemId"][..],
+        "evidence_get" => &["path", "evidencePath", "id"][..],
+        "delegated_evidence_list" => &["workItemId"][..],
+        "work_item_controls" => &["workItemId", "id", "controls", "input"][..],
+        "work_item_recover" => &["workItemId", "id", "receipt", "input"][..],
+        "verify" => &["workItemId", "command", "args"][..],
+        "work_item_parallel" => &["action", "workItemId", "id", "leaseId"][..],
+        _ => return Err(format!("unknown tool: {name}")),
+    };
+    for key in object.keys() {
+        if !allowed.contains(&key.as_str()) {
+            return Err(format!("invalid arguments for {name}: unknown field {key}"));
+        }
+    }
+
+    match name {
+        "work_item_get" | "work_item_outcome" | "work_item_validate" => {
+            require_exactly_one_string(object, &["workItemId", "id"], name)?;
+            if name == "work_item_outcome" {
+                optional_string(object, "language", name)?;
+            }
+        }
+        "work_item_status" => {
+            if let Some(value) = object.get("all") {
+                if !value.is_boolean() {
+                    return Err(format!(
+                        "invalid arguments for {name}: all must be a boolean"
+                    ));
+                }
+                if value.as_bool() == Some(true)
+                    && (object.contains_key("workItemId") || object.contains_key("id"))
+                {
+                    return Err(
+                        "invalid arguments for work_item_status: all=true cannot include a Work Item id"
+                            .into(),
+                    );
+                }
+            }
+            if object.get("all").and_then(Value::as_bool) != Some(true) {
+                require_exactly_one_string(object, &["workItemId", "id"], name)?;
+            }
+        }
+        "blockers" | "safe_actions" => optional_string(object, "contract", name)?,
+        "knowledge_query" => {
+            for field in ["topic", "component", "state", "workItemId"] {
+                optional_string(object, field, name)?;
+            }
+        }
+        "evidence_get" => {
+            require_exactly_one_string(object, &["path", "evidencePath", "id"], name)?;
+        }
+        "delegated_evidence_list" => require_string(object, "workItemId", name)?,
+        "preflight" => require_string(object, "contract", name)?,
+        "work_item_controls" => {
+            require_exactly_one_string(object, &["workItemId", "id"], name)?;
+            require_exactly_one_object_alias(object, &["controls", "input"], name)?;
+        }
+        "work_item_recover" => {
+            require_exactly_one_string(object, &["workItemId", "id"], name)?;
+            require_exactly_one_object_alias(object, &["receipt", "input"], name)?;
+        }
+        "verify" => {
+            if let Some(value) = object.get("workItemId")
+                && (!value.is_string() || value.as_str().is_some_and(str::is_empty))
+            {
+                return Err(format!(
+                    "invalid arguments for {name}: workItemId must be a non-empty string"
+                ));
+            }
+            if let Some(value) = object.get("command")
+                && (!value.is_string() || value.as_str().is_some_and(str::is_empty))
+            {
+                return Err(format!(
+                    "invalid arguments for {name}: command must be a non-empty string"
+                ));
+            }
+            if let Some(value) = object.get("args") {
+                let Some(items) = value.as_array() else {
+                    return Err(format!(
+                        "invalid arguments for {name}: args must be an array of strings"
+                    ));
+                };
+                if items.iter().any(|item| !item.is_string()) {
+                    return Err(format!(
+                        "invalid arguments for {name}: args must be an array of strings"
+                    ));
+                }
+            }
+        }
+        "work_item_parallel" => {
+            let action = match object.get("action") {
+                None => "inspect",
+                Some(Value::String(value)) => value.as_str(),
+                Some(_) => {
+                    return Err(
+                        "invalid arguments for work_item_parallel: action must be a string".into(),
+                    );
+                }
+            };
+            if !matches!(action, "inspect" | "acquire" | "release" | "list") {
+                return Err(
+                    "invalid arguments for work_item_parallel: action must be inspect, acquire, release, or list"
+                        .into(),
+                );
+            }
+            match action {
+                "inspect" | "acquire" => {
+                    require_exactly_one_string(object, &["workItemId", "id"], name)?;
+                    if object.contains_key("leaseId") {
+                        return Err(
+                            "invalid arguments for work_item_parallel: leaseId is only valid for release"
+                                .into(),
+                        );
+                    }
+                }
+                "release" => {
+                    require_exactly_one_string(object, &["workItemId", "id"], name)?;
+                    require_string(object, "leaseId", name)?;
+                }
+                "list" => {
+                    if object.keys().any(|key| key != "action") {
+                        return Err(
+                            "invalid arguments for work_item_parallel: list accepts only action"
+                                .into(),
+                        );
+                    }
+                }
+                _ => unreachable!(),
+            }
+        }
+        "status" | "work_item_list" | "repository_observe" | "capability_show" => {}
+        _ => {}
+    }
+    Ok(())
+}
+
+fn require_string(
+    object: &serde_json::Map<String, Value>,
+    field: &str,
+    tool: &str,
+) -> Result<(), String> {
+    match object.get(field) {
+        Some(Value::String(value)) if !value.is_empty() => Ok(()),
+        Some(_) => Err(format!(
+            "invalid arguments for {tool}: {field} must be a non-empty string"
+        )),
+        None => Err(format!("invalid arguments for {tool}: {field} is required")),
+    }
+}
+
+fn optional_string(
+    object: &serde_json::Map<String, Value>,
+    field: &str,
+    tool: &str,
+) -> Result<(), String> {
+    if let Some(value) = object.get(field)
+        && (!value.is_string() || value.as_str().is_some_and(str::is_empty))
+    {
+        return Err(format!(
+            "invalid arguments for {tool}: {field} must be a non-empty string"
+        ));
+    }
+    Ok(())
+}
+
+fn require_exactly_one_string(
+    object: &serde_json::Map<String, Value>,
+    fields: &[&str],
+    tool: &str,
+) -> Result<(), String> {
+    let present = fields
+        .iter()
+        .filter(|field| object.contains_key(**field))
+        .copied()
+        .collect::<Vec<_>>();
+    if present.len() != 1 {
+        return Err(format!(
+            "invalid arguments for {tool}: exactly one of {} is required",
+            fields.join(", ")
+        ));
+    }
+    require_string(object, present[0], tool)
+}
+
+fn require_exactly_one_object_alias(
+    object: &serde_json::Map<String, Value>,
+    fields: &[&str],
+    tool: &str,
+) -> Result<(), String> {
+    let present = fields
+        .iter()
+        .filter(|field| object.contains_key(**field))
+        .copied()
+        .collect::<Vec<_>>();
+    if present.len() != 1 {
+        return Err(format!(
+            "invalid arguments for {tool}: exactly one of {} is required",
+            fields.join(", ")
+        ));
+    }
+    if !object[present[0]].is_object() {
+        return Err(format!(
+            "invalid arguments for {tool}: {} must be a JSON object",
+            present[0]
+        ));
+    }
+    Ok(())
+}
+
 pub fn handle_request(request: &Value, runtime: &cockpit_protocol::RuntimeContext) -> Value {
     let id = request.get("id").cloned().unwrap_or(Value::Null);
     match request.get("method").and_then(Value::as_str) {
@@ -44,11 +532,7 @@ pub fn handle_request(request: &Value, runtime: &cockpit_protocol::RuntimeContex
         Some("tools/list") => json!({
             "jsonrpc": "2.0",
             "id": id,
-            "result": {"tools": TOOL_NAMES.iter().map(|name| json!({
-                "name": name,
-                "description": format!("Read-only or bounded verification surface: {name}"),
-                "inputSchema": {"type": "object", "additionalProperties": true}
-            })).collect::<Vec<_>>()}
+            "result": {"tools": mcp_tool_definitions()}
         }),
         Some("tools/call") => {
             let name = request
@@ -87,6 +571,12 @@ pub fn handle_request_for_repo(
         .pointer("/params/arguments")
         .cloned()
         .unwrap_or_else(|| json!({}));
+    if !TOOL_NAMES.contains(&name) {
+        return error_response(id, -32602, "unknown tool");
+    }
+    if let Err(error) = validate_tool_arguments(name, &arguments) {
+        return tool_error_response(id, &error);
+    }
     let result: Result<Value, String> = match name {
         "status" => cockpit_repository::status(repo)
             .map_err(|error| error.to_string())
@@ -181,7 +671,7 @@ pub fn handle_request_for_repo(
         "work_item_parallel" => {
             require_compatible(repo, runtime).and_then(|_| work_item_parallel(repo, &arguments))
         }
-        _ => return error_response(id, -32602, "unknown tool"),
+        _ => unreachable!("tool names and dispatch must stay in sync"),
     };
     match result {
         Ok(value) => {
@@ -653,6 +1143,17 @@ fn validate_id(id: &str) -> Result<(), String> {
 
 fn error_response(id: Value, code: i64, message: &str) -> Value {
     json!({"jsonrpc":"2.0","id":id,"error":{"code":code,"message":message}})
+}
+
+fn tool_error_response(id: Value, message: &str) -> Value {
+    json!({
+        "jsonrpc": "2.0",
+        "id": id,
+        "result": {
+            "content": [{"type": "text", "text": message}],
+            "isError": true
+        }
+    })
 }
 
 pub fn serve<R: BufRead, W: Write>(

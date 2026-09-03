@@ -68,6 +68,26 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
 
 ## Important options
 
+## MCP tool の使い方
+
+Agent は次の順序で capability を発見します。repository-bound の stdio server を起動し、`initialize`、`tools/list` の順に呼び出し、schema に従った引数で tool を呼び出します。各 `tools/call` は repository に bind され、repository operation の前に unknown field、型違い、必須 field 欠落、競合する alias を拒否します。
+
+| Tool | 引数 | 典型的な call |
+| --- | --- | --- |
+| `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}` | repository の事実または capability registry を読む。 |
+| `work_item_get`、`work_item_outcome`、`work_item_validate` | `workItemId`（または legacy `id`）をちょうど 1 つ。`work_item_outcome` は任意の `language`（`en`、`zh`、`ja`）を受け付ける。 | `{"workItemId":"WI-123"}` |
+| `work_item_status` | `{"all":true}`、または Work Item id をちょうど 1 つ。 | `{"all":true}` |
+| `preflight` | repository 相対の `contract` が必須。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
+| `blockers`、`safe_actions` | repository 相対の `contract` は任意。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
+| `knowledge_query` | `topic`、`component`、`state`、`workItemId` は任意。 | `{"topic":"verification"}` |
+| `evidence_get` | `path`、`evidencePath`、`id` のいずれか 1 つ。 | `{"id":"WI-123"}` |
+| `delegated_evidence_list` | `workItemId` が必須。 | `{"workItemId":"WI-123"}` |
+| `work_item_controls`、`work_item_recover` | Work Item id を 1 つ、さらに object を 1 つ（それぞれ `controls`/`input`、または `receipt`/`input`）。 | `{"workItemId":"WI-123","controls":{...}}` |
+| `verify` | `workItemId`、`command`、string 配列 `args` は任意。command は allowlist 制。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"]}` |
+| `work_item_parallel` | `action` は `inspect`/`acquire`/`release`/`list`。前三者は id が必要で、`release` は `leaseId` も必要。 | `{"action":"inspect","workItemId":"WI-123"}` |
+
+人向けの結果には `work_item_outcome` を呼び、その text content を折りたたまず表示します。`--json` は自動化専用です。raw の `work_item_get` は handoff ではありません。`isError: true` は成功した空結果ではなく停止を意味します。MCP は host Agent を設定したり chat に自動投稿したり、intent、authority、acceptance、human decision を補完したりしません。結果が yellow、red、unknown、not_ready の場合、Agent/host は停止して human review を求めなければなりません。
+
 - `verify --command <program> --args <comma-separated>` は explicit command を常に fresh に実行します。
   `--work-item <id>` は receipt を記録しますが、検出された Cargo/npm command は dynamic な
   profile-authorized path を使い、explicit custom command は常に fresh です。

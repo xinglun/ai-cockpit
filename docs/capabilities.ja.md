@@ -374,10 +374,14 @@ ai-cockpit mcp --repo /path/to/repository
 `status`、`work_item_get`、`work_item_outcome`、`work_item_status`、`work_item_validate`、`work_item_list`、`blockers`、`safe_actions`、`knowledge_query`、
 `evidence_get`、`delegated_evidence_list`、`repository_observe`、`capability_show`、`preflight`、`work_item_controls`、
 `work_item_recover`、`verify`、`work_item_parallel` の 18 tools を提供します。
-`tools/list` で JSON-RPC schema を確認できます。`preflight` は repository-relative `contract`、
-`verify` は `command`、string array の `args`、optional `workItemId` を受け取ります。repository
-binding のない call は fail closed です。result には `structuredContent`、text content、`isError`
-が含まれ、CLI と同じ repository-bound verification policy を使います。
+`tools/list` で、required field、型、enum、`additionalProperties: false` 境界を含む tool ごとの typed
+JSON-RPC schema を確認できます。`tools/call` は dispatch 前に同じ catalog で arguments を検証します。
+`preflight` は repository-relative `contract`、`verify` は `command`、string array の `args`、optional
+`workItemId` を受け取ります。repository binding のない call は fail closed です。result には
+`structuredContent`、text content、`isError` が含まれ、CLI と同じ repository-bound verification policy を使います。
+CLI の surface は `ai-cockpit --help` と該当する `ai-cockpit <group> --help` で確認でき、
+`capability show --repo <path>` は stable な machine-readable Runtime capability registry です。どちらも
+host UI が conversation を自動的に開いたり投稿したりすることを意味しません。
 `work_item_get` は machine-oriented な record lookup です。`work_item_status` は read-only の request-scoped lifecycle projection で、
 `{"all": true}` を渡すと stable な repository index を返します。`capability_show` は CLI と同じ Runtime-bound
 registry を公開します。人間向けの結果が必要な場合、Agent は明示的な

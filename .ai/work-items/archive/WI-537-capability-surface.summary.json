@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-537-capability-surface.contract.json",
+    ".ai/work-items/archive/WI-537-capability-surface.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T11:36:59Z",
+  "checkpointContractDigest": "sha256:9faa2a308fe1fd60a06cb365f7781988ab55b7f965b777289791601a2bece611",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:a8ac13f2f6df9dc369c9841a41302844460a4190a2083d765f6a2f157939b653",
+  "createdAt": "2026-09-03T11:35:08Z",
+  "mode": "code",
+  "preflightAt": "2026-09-03T12:04:57Z",
+  "preflightContractDigest": "sha256:9faa2a308fe1fd60a06cb365f7781988ab55b7f965b777289791601a2bece611",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a8ac13f2f6df9dc369c9841a41302844460a4190a2083d765f6a2f157939b653",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T12:04:57Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-537-capability-surface"
+}

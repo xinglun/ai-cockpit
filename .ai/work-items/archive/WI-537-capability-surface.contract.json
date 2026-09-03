@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "tools/list exposes all 18 tools with accurate required and optional JSON Schema fields and descriptions",
+    "tools/call validates required fields, types, enums, and unknown fields against the same schema before dispatch and fails closed",
+    "CLI help remains complete and the .ai and three-language documentation explain CLI help, capability show, agent doctor, and MCP tools/list discovery",
+    "work_item_outcome retains the human-facing handoff and structured Outcome without changing governance facts",
+    "focused MCP tests and full workspace quality gates pass"
+  ],
+  "authority": "authorized",
+  "baseRevision": "3c94d8261b66958d24b977e26c01c6529683ccb3",
+  "createdAt": "2026-09-03T11:35:08Z",
+  "goal": "Make every exposed MCP tool self-describing, validate calls against the same schema, and document the CLI/help/MCP discovery route without changing governance semantics.",
+  "intent": "Expose an accurate, typed, fail-closed capability surface so Agents can discover and invoke the MCP interface safely before the next Release.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    ".github/**",
+    "global-agent-config",
+    "object-repository",
+    "automatic-chat-posting",
+    "new-mcp-lifecycle-mutations"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:265d5cfca10dba8f30c7911b692268bf86a847037f95177a85decbcbeca18be9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-537-capability-surface",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/515",
+    "worktree": "/private/tmp/ai-cockpit-wi537-capability-surface"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/capabilities.md",
+    "docs/capabilities.ja.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.zh-CN.md",
+    ".ai/README.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-537-capability-surface"
+}

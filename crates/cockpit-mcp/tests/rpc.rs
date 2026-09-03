@@ -125,6 +125,91 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
 }
 
 #[test]
+fn mcp_tool_list_exposes_typed_argument_schemas() {
+    let runtime = test_runtime_context();
+    let tools = handle_request(
+        &serde_json::json!({"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}),
+        &runtime,
+    );
+    let listed = tools["result"]["tools"].as_array().expect("tools");
+    assert_eq!(listed.len(), 18);
+    for tool in listed {
+        assert!(tool["description"].as_str().is_some_and(|value| {
+            !value.is_empty() && !value.starts_with("Read-only or bounded verification surface:")
+        }));
+        let schema = &tool["inputSchema"];
+        assert_eq!(schema["type"], "object");
+        assert_eq!(schema["additionalProperties"], false);
+        assert!(schema["properties"].is_object());
+    }
+    let outcome = listed
+        .iter()
+        .find(|tool| tool["name"] == "work_item_outcome")
+        .expect("outcome tool");
+    assert_eq!(
+        outcome["inputSchema"]["properties"]["workItemId"]["type"],
+        "string"
+    );
+    assert_eq!(
+        outcome["inputSchema"]["properties"]["language"]["type"],
+        "string"
+    );
+    assert!(outcome["inputSchema"]["oneOf"].is_array());
+    let verify = listed
+        .iter()
+        .find(|tool| tool["name"] == "verify")
+        .expect("verify tool");
+    assert_eq!(verify["inputSchema"]["properties"]["args"]["type"], "array");
+    assert_eq!(
+        verify["inputSchema"]["properties"]["command"]["type"],
+        "string"
+    );
+}
+
+#[test]
+fn mcp_tool_calls_reject_unknown_or_malformed_arguments_before_dispatch() {
+    let directory = TestTempDir::new("cockpit-mcp-schema");
+    let root = directory.path();
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(root)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(root).expect("attach");
+
+    let unknown = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":1,"method":"tools/call",
+            "params":{"name":"knowledge_query","arguments":{"unexpected":true}}
+        }),
+        root,
+        &test_runtime_context(),
+    );
+    assert_eq!(unknown["result"]["isError"], true);
+    assert!(!root.join(".ai/knowledge/index.json").exists());
+
+    let missing = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":2,"method":"tools/call",
+            "params":{"name":"work_item_outcome","arguments":{}}
+        }),
+        root,
+        &test_runtime_context(),
+    );
+    assert_eq!(missing["result"]["isError"], true);
+
+    let malformed = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":3,"method":"tools/call",
+            "params":{"name":"verify","arguments":{"args":"not-an-array"}}
+        }),
+        root,
+        &test_runtime_context(),
+    );
+    assert_eq!(malformed["result"]["isError"], true);
+}
+
+#[test]
 fn repository_bound_mcp_knowledge_query_reports_derived_write_boundary() {
     let directory = std::env::temp_dir().join(format!(
         "cockpit-mcp-knowledge-{}",

@@ -366,10 +366,15 @@ ai-cockpit mcp --repo /path/to/repository
 服务提供 18 个工具：`status`、`work_item_get`、`work_item_outcome`、`work_item_status`、`work_item_validate`、`work_item_list`、`blockers`、`safe_actions`、
 `knowledge_query`、`evidence_get`、`delegated_evidence_list`、`repository_observe`、`capability_show`、`preflight`、
 `work_item_controls`、`work_item_recover`、`verify`、`work_item_parallel`。
-用 `tools/list` 查看 JSON-RPC schema；`preflight` 要求 repository-relative `contract`，
-`verify` 接受 `command`、字符串数组 `args` 和可选 `workItemId`。未绑定 repository 的调用
-会 fail closed。结果包含 `structuredContent`、文本 content 和 `isError`。CLI 与 MCP 共用同一
+用 `tools/list` 查看逐工具的 typed JSON-RPC schema，其中包含必填字段、类型、枚举以及
+`additionalProperties: false` 边界。`tools/call` 会在 dispatch 前使用同一目录校验参数。
+`preflight` 要求 repository-relative `contract`，`verify` 接受 `command`、字符串数组 `args` 和可选
+`workItemId`。未绑定 repository 的调用会 fail closed。结果包含 `structuredContent`、文本 content 和
+`isError`。CLI 与 MCP 共用同一
 套 repository-bound verification policy。
+CLI 能力面可用 `ai-cockpit --help` 和对应的 `ai-cockpit <group> --help` 查看；
+`capability show --repo <path>` 是稳定的机器可读 Runtime capability registry。两者都不能保证宿主 UI
+自动展开或发布对话内容。
 `work_item_get` 是面向机器的记录查询。`work_item_status` 是只读的请求级生命周期投影；传入 `{"all": true}`
 可获取稳定的 repository index。`capability_show` 与 CLI 暴露相同的 Runtime-bound registry。需要面向人的结果时，Agent 必须用明确的 `workItemId` 调用
 `work_item_outcome`，并可传入对话 `language`。它的文本 content 与 CLI 使用相同的本地化 human handoff，
