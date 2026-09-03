@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-544-wi543-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-544-wi543-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-544-wi543-doc-promotion.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-544-wi543-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-544-wi543-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-544-wi543-doc-promotion.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-544-wi543-doc-promotion.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-544-wi543-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "Promote WI-543 parity projections to an evidence-linked terminal documentation state without changing Runtime-owned records."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-544-wi543-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
