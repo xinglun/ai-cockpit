@@ -21,6 +21,12 @@ Agent prose.
    remain empty or unknown until a person supplies them.
 6. For an authorized Work Item, use `start → preflight → checkpoint → verify →
    finish → archive → close`. Every command carries `--repo`.
+7. Discover the callable surface before guessing arguments: use
+   `ai-cockpit --help` and `ai-cockpit <group> --help` for CLI commands,
+   `ai-cockpit capability show --repo <repository>` for the current
+   repository-bound capability registry, and `tools/list` after starting
+   `ai-cockpit mcp --repo <repository>` for the typed MCP tool schemas. MCP
+   calls with missing, malformed, or unknown arguments fail closed.
 
 The Runtime has no global active Work Item, current repository, or project
 profile. Repository Protocol, Contract, evidence, knowledge, and adapter

@@ -1,0 +1,25 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-09-03T12:02:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-537-capability-surface.outcome.json"
+  ],
+  "policyRefs": [
+    "docs/reference/commands.md"
+  ],
+  "predecessorContractDigest": "sha256:9faa2a308fe1fd60a06cb365f7781988ab55b7f965b777289791601a2bece611",
+  "predecessorEventsDigest": "sha256:cc330bd57af096ce187ba9abe86a36fce604e94f3816628710b072dafe68e7d5",
+  "predecessorOutcomeDigest": "sha256:f6233822e31fddd08d82cc2f2f129f6152ed52eaad63575d7aca5fd8205f6483",
+  "predecessorSummaryDigest": "sha256:c65aaf375ee388165ef9ac77ec5e6ad06546537f22d9f8cfe0e570ecbbbaa7e6",
+  "predecessorWorkItemId": "WI-537-capability-surface",
+  "reason": "Retry after repairing the stale verification and lifecycle gate projections.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification, then rerun preflight and finish.",
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "workItemId": "WI-537-capability-surface"
+}

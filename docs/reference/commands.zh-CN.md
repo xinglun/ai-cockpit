@@ -62,6 +62,28 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 
 ## 重要选项
 
+## MCP 工具使用
+
+Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调用
+`initialize`，调用 `tools/list`，再按照 schema 描述的参数调用具体工具。每次
+`tools/call` 都绑定到仓库；在执行任何仓库操作前，会拒绝未知字段、错误类型、缺失必填字段和相互冲突的别名。
+
+| 工具 | 参数 | 常用调用 |
+| --- | --- | --- |
+| `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}` | 读取仓库事实或能力注册表。 |
+| `work_item_get`、`work_item_outcome`、`work_item_validate` | 必须提供且只能提供一个 `workItemId`（或旧别名 `id`）；`work_item_outcome` 可选 `language`（`en`、`zh`、`ja`）。 | `{"workItemId":"WI-123"}` |
+| `work_item_status` | `{"all":true}`，或只提供一个 Work Item id。 | `{"all":true}` |
+| `preflight` | 必填、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
+| `blockers`、`safe_actions` | 可选、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
+| `knowledge_query` | 可选 `topic`、`component`、`state`、`workItemId`。 | `{"topic":"verification"}` |
+| `evidence_get` | `path`、`evidencePath`、`id` 三者只能提供一个。 | `{"id":"WI-123"}` |
+| `delegated_evidence_list` | 必填 `workItemId`。 | `{"workItemId":"WI-123"}` |
+| `work_item_controls`、`work_item_recover` | 一个 Work Item id，加一个对象：分别为 `controls`/`input` 或 `receipt`/`input`。 | `{"workItemId":"WI-123","controls":{...}}` |
+| `verify` | 可选 `workItemId`、`command` 和字符串数组 `args`；命令必须在 allowlist 中。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"]}` |
+| `work_item_parallel` | `action` 为 `inspect`/`acquire`/`release`/`list`；前三者需要 id，`release` 还需要 `leaseId`。 | `{"action":"inspect","workItemId":"WI-123"}` |
+
+需要面向人的结果时，请调用 `work_item_outcome`，并原样展示其文本内容，不要折叠。只有自动化才使用 `--json`；原始 `work_item_get` 数据不是面向人的交接结果。返回 `isError: true` 表示停止，而不是成功的空结果。MCP 不会配置宿主 Agent、自动发消息到聊天窗口，也不会臆造 intent、authority、acceptance 或 human decision；当结果为 yellow、red、unknown 或 not_ready 时，Agent/宿主必须停止并请求人工审查。
+
 - `verify --command <program> --args <comma-separated>` 执行显式命令且总是 fresh；`--work-item <id>`
   记录该 Work Item 的 receipt，但检测到的 Cargo/npm 命令使用动态的 profile-authorized 路径，显式自定义命令仍总是 fresh。
 - 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。只有当前

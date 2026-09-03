@@ -71,6 +71,36 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 
 ## Important options
 
+## MCP tool usage
+
+Agents should discover the surface in this order: start the repository-bound
+stdio server, call `initialize`, call `tools/list`, then call one tool with the
+schema-described arguments. Every `tools/call` is repository-bound and rejects
+unknown fields, wrong types, missing required fields, and conflicting aliases
+before any repository operation runs.
+
+| Tool | Arguments | Typical call |
+| --- | --- | --- |
+| `status`, `work_item_list`, `repository_observe`, `capability_show` | `{}` | Read repository facts or the capability registry. |
+| `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts `language` (`en`, `zh`, `ja`). | `{"workItemId":"WI-123"}` |
+| `work_item_status` | `{"all":true}` or exactly one Work Item id. | `{"all":true}` |
+| `preflight` | Required repository-relative `contract`. | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
+| `blockers`, `safe_actions` | Optional repository-relative `contract`. | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
+| `knowledge_query` | Optional `topic`, `component`, `state`, `workItemId`. | `{"topic":"verification"}` |
+| `evidence_get` | Exactly one of `path`, `evidencePath`, or `id`. | `{"id":"WI-123"}` |
+| `delegated_evidence_list` | Required `workItemId`. | `{"workItemId":"WI-123"}` |
+| `work_item_controls`, `work_item_recover` | Exactly one Work Item id plus exactly one object: `controls`/`input`, or `receipt`/`input`. | `{"workItemId":"WI-123","controls":{...}}` |
+| `verify` | Optional `workItemId`, `command`, and string-array `args`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"]}` |
+| `work_item_parallel` | `action`: `inspect`/`acquire`/`release`/`list`; inspect/acquire/release require an id, release also requires `leaseId`. | `{"action":"inspect","workItemId":"WI-123"}` |
+
+For a person-facing result, call `work_item_outcome` and surface its text
+content without folding it away. Use `--json` only for automation; raw
+`work_item_get` data is not a human handoff. A tool result with `isError: true`
+is a stop, not a successful empty result. MCP does not configure a host Agent,
+post into a chat window, or invent missing intent, authority, acceptance, or a
+human decision; the Agent/host owns that presentation and must stop for human
+review when the returned state is yellow, red, unknown, or not ready.
+
 - `verify --command <program> --args <comma-separated>` runs an explicit command
   and is always fresh. `--work-item <id>` records the receipt for that Work Item;
   its detected Cargo/npm command uses the dynamic profile-authorized path, while

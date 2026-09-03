@@ -471,9 +471,16 @@ The server exposes these 18 tools: `status`, `work_item_get`, `work_item_outcome
 `work_item_list`, `blockers`, `safe_actions`, `knowledge_query`, `evidence_get`,
 `delegated_evidence_list`, `repository_observe`, `capability_show`, `preflight`,
 `work_item_controls`, `work_item_recover`, `verify`, and `work_item_parallel`. Use `tools/list` to inspect the
-JSON-RPC schema. `preflight` requires a repository-relative `contract`; `verify`
-accepts `command`, string-array `args`, and optional `workItemId`. Unbound tool
-calls fail closed. Results use `structuredContent`, text content, and `isError`.
+typed, per-tool JSON-RPC schemas, including required fields, types, enums, and
+the `additionalProperties: false` boundary. `tools/call` validates arguments
+against the same catalog before dispatch. `preflight` requires a
+repository-relative `contract`; `verify` accepts `command`, string-array `args`,
+and optional `workItemId`. Unbound tool calls fail closed. Results use
+`structuredContent`, text content, and `isError`.
+For the CLI surface, run `ai-cockpit --help` and the relevant
+`ai-cockpit <group> --help`; `capability show --repo <path>` is the stable
+machine-readable Runtime capability registry. Neither surface implies that a
+host UI will automatically open or post a conversation.
 The CLI and repository-bound MCP service share the same verification policy.
 `work_item_get` is a machine-oriented record lookup. `work_item_status` is a
 read-only request-scoped lifecycle projection; pass `{"all": true}` for the
