@@ -1,26 +1,23 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-522-wi521-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-522-wi521-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-522-wi521-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-522-wi521-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-03T01:24:45Z",
-  "checkpointContractDigest": "sha256:3e9c6732401941836060cb662491ae2c9beeb9215fa5d707a437d9dbc403e456",
+  "checkpointContractDigest": "sha256:c7213700b4a8f52602ff1bc7ddc78d19da311d0423828c4589bd9a44cd533fa8",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:d07667830609000b4db9a47ebbf1c41a033e96fea3ff4ebc543161f94942e0d4",
   "createdAt": "2026-09-03T01:20:27Z",
-  "failedGate": "finish.governance",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-03T01:28:21Z",
-  "preflightContractDigest": "sha256:3e9c6732401941836060cb662491ae2c9beeb9215fa5d707a437d9dbc403e456",
+  "preflightAt": "2026-09-03T01:30:21Z",
+  "preflightContractDigest": "sha256:c7213700b4a8f52602ff1bc7ddc78d19da311d0423828c4589bd9a44cd533fa8",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:d07667830609000b4db9a47ebbf1c41a033e96fea3ff4ebc543161f94942e0d4",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-03T01:28:36Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T01:30:27Z",
   "verification": [
     {
       "check": "project-command-0",

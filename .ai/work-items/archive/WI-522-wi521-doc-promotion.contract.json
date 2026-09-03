@@ -24,13 +24,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:a8237929d974b8c896175ccf836eafa2141071d3b3417b4091e49eb7b71e0569",
-  "requiredEvidenceClasses": ["verification"],
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
   "resourceContext": {
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-522-wi521-doc-promotion",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/497",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-522-wi521-doc-promotion"
   },
   "risk": "normal",
