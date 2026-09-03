@@ -1,0 +1,104 @@
+{
+  "acceptanceCriteria": [
+    "Cargo package metadata and all versioned release documentation consistently declare v0.2.70; v0.2.68 remains immutable failed-publication history and is never an installation baseline.",
+    "Release CI and policy checks pass from the reviewed default branch and produce immutable public artifacts with manifest, SHA256, SBOM, provenance, attestation, and runtime identity bindings.",
+    "Post-release acceptance uses only the downloaded public v0.2.70 artifact in isolated temporary roots, records a truthful receipt, proves cleanup and forbidden-root isolation, and validates the same binary for self-governance.",
+    "The WI-548 parity batch remains closed and promoted; no active Work Item, stale branch, or untracked closure artifact remains before release."
+  ],
+  "authority": "authorized",
+  "baseRevision": "27cbf2554a4ee941e6d395d2fe258dcd280d23de",
+  "createdAt": "2026-09-03T22:09:08Z",
+  "goal": "生成可审计的 v0.2.70 发布基线，确保包身份、文档、CI、公开资产、供应链证明和 adopter acceptance 一致。",
+  "intent": "发布 v0.2.70：承接已审查合并的参考源逐文件比对批次，更新运行时版本与发布文档，并用公开不可变 Release artifact 完成发布验收。",
+  "mode": "code",
+  "outOfScope": [
+    "对象工程写入",
+    "全局 Agent/MCP 配置",
+    "参考源代码复制",
+    "Runtime 行为变化",
+    "重新使用 v0.2.68 失败 tag"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:45a908230352096ef505f52d80b96b579cca525f23a98982dd14ebb76b9431bc",
+  "scenarioCoverage": [
+    {
+      "scenario": "release metadata and failed-tag history",
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/architecture/versioning.md",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Package identity and tri-language release documentation consistently declare v0.2.70 while v0.2.68 remains immutable failed-publication history.",
+      "verificationPlan": "Run cargo metadata, version consistency, source archive, documentation, and release policy checks before tagging.",
+      "required": true,
+      "status": "unverified"
+    },
+    {
+      "scenario": "public artifact supply-chain acceptance",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Public v0.2.70 archives, checksums, SBOM, provenance, attestation, and release manifest agree with the immutable tag and downloaded bytes.",
+      "verificationPlan": "After publication, download only public assets, verify digests, and run isolated adopter and N-1 acceptance without source or workspace fallback.",
+      "required": true,
+      "status": "unverified"
+    },
+    {
+      "scenario": "installed runtime and repository closure",
+      "evidence": [
+        "docs/release/distribution.md",
+        "tests/docs/promote_closed_work_item.py",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "expected": "The published binary passes explicit-repository health checks and closure leaves a visible human Outcome, clean base, and exact branch/worktree cleanup.",
+      "verificationPlan": "Install the downloaded v0.2.70 binary, run inspect/status/doctor/agent doctor, then verify closure and documentation promotion.",
+      "required": true,
+      "status": "unverified"
+    }
+  ],
+  "requiredEvidenceClasses": [
+    "verification",
+    "docs",
+    "release"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-549-release-v0-2-70",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/527",
+    "worktree": "/private/tmp/ai-cockpit-wi549-release"
+  },
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/work-items/WI-549-release-v0-2-70.md",
+    "docs/work-items/WI-549-release-v0-2-70.zh-CN.md",
+    "docs/work-items/WI-549-release-v0-2-70.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-549-release-v0-2-70"
+}
