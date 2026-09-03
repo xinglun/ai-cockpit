@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-537-capability-surface.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8ac13f2f6df9dc369c9841a41302844460a4190a2083d765f6a2f157939b653",
+      "workItemId": "WI-537-capability-surface"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-537-capability-surface.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-537-capability-surface.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-537-capability-surface.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-537-capability-surface.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-537-capability-surface.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-537-capability-surface.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-537-capability-surface.verification.json",
+            ".ai/decisions/WI-537-capability-surface.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-capability-release at 2026-09-03T12:29:07Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-537-capability-surface.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-537-capability-surface.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-537-capability-surface.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-537-capability-surface.contract.json"
+          ],
+          "inference": false,
+          "text": "Make every exposed MCP tool self-describing, validate calls against the same schema, and document the CLI/help/MCP discovery route without changing governance semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-537-capability-surface.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-537-capability-surface"
+  },
+  "finalReportDigest": "sha256:cb9fdd9089672ba0159d7af4cd7c8d8ad0a3621b19eae33af8ce764a79727760",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:7625cc69f095c31f8485a828f4b2442fb343c6975060e366189597bd30b12983",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-537-capability-surface.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-capability-release",
+    "decidedAt": "2026-09-03T12:29:07Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-537-capability-surface.verification.json",
+      ".ai/decisions/WI-537-capability-surface.finalize.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #515 passed hosted checks; capability discovery and usage documentation are complete.",
+    "resumeCondition": "not_applicable"
+  },
+  "timestamp": "2026-09-03T12:29:32Z",
+  "workItemId": "WI-537-capability-surface"
+}

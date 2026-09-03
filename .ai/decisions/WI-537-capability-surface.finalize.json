@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-capability-release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "950e611af796fe1ef373f2da395706e75f1ebccc",
+    "name": "codex/wi-537-capability-surface",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:317565d41c0f3dbc6ce8bc7828eb3d176f020df944aac237bdc08fdb5e0fa459",
+  "operationId": "github-pr-515-merge-cleanup-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "3c94d8261b66958d24b977e26c01c6529683ccb3",
+    "headRevision": "950e611af796fe1ef373f2da395706e75f1ebccc",
+    "mergeCommit": "e4dbdeff537f9c5c57ce89014c4285437c3e8916",
+    "number": 515,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/515"
+  },
+  "reason": "Reviewed PR #515 passed all hosted checks and was merged as e4dbdeff537f9c5c57ce89014c4285437c3e8916; the exact Work Item branch and dedicated worktree were removed after merge and verified absent.",
+  "receiptId": "github-pr-515-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-537-capability-surface",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/515",
+    "worktree": "/private/tmp/ai-cockpit-wi537-capability-surface"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T12:29:07Z",
+  "workItemId": "WI-537-capability-surface",
+  "worktree": {
+    "branch": "codex/wi-537-capability-surface",
+    "headRevision": "950e611af796fe1ef373f2da395706e75f1ebccc",
+    "path": "/private/tmp/ai-cockpit-wi537-capability-surface",
+    "worktreeId": "WI-537-capability-surface"
+  }
+}
