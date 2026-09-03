@@ -25,14 +25,51 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-547-release-v0-2-69",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/525",
     "worktree": "/private/tmp/ai-cockpit-wi547-release"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "v0.2.69 metadata is consistent and v0.2.68 is retained only as immutable failed-publication history.",
+      "required": true,
+      "scenario": "release metadata and failed-tag history",
+      "status": "unverified",
+      "verificationPlan": "Run package metadata, version consistency, documentation, and source archive policy checks before tagging."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Public v0.2.69 archives, checksums, SBOM, provenance, and release manifest agree with the immutable tag and downloaded bytes.",
+      "required": true,
+      "scenario": "public artifact supply-chain acceptance",
+      "status": "unverified",
+      "verificationPlan": "After publication, download only public assets, verify digests, and run isolated adopter acceptance without source or workspace fallback."
+    },
+    {
+      "evidence": [
+        "docs/release/distribution.md",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "The installed public binary passes explicit-repository health checks and closure leaves a visible human Outcome and clean base.",
+      "required": true,
+      "scenario": "installed runtime and repository closure",
+      "status": "unverified",
+      "verificationPlan": "Install the downloaded v0.2.69 binary, run inspect/status/doctor/agent doctor, then verify closure and documentation promotion."
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",
@@ -51,32 +88,6 @@
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md"
-  ],
-  "scenarioCoverage": [
-    {
-      "scenario": "release metadata and failed-tag history",
-      "required": true,
-      "evidence": ["Cargo.toml", "Cargo.lock", "tests/release/version_consistency.sh"],
-      "expected": "v0.2.69 metadata is consistent and v0.2.68 is retained only as immutable failed-publication history.",
-      "verificationPlan": "Run package metadata, version consistency, documentation, and source archive policy checks before tagging.",
-      "status": "unverified"
-    },
-    {
-      "scenario": "public artifact supply-chain acceptance",
-      "required": true,
-      "evidence": [".github/workflows/release.yml", "tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh"],
-      "expected": "Public v0.2.69 archives, checksums, SBOM, provenance, and release manifest agree with the immutable tag and downloaded bytes.",
-      "verificationPlan": "After publication, download only public assets, verify digests, and run isolated adopter acceptance without source or workspace fallback.",
-      "status": "unverified"
-    },
-    {
-      "scenario": "installed runtime and repository closure",
-      "required": true,
-      "evidence": ["docs/release/distribution.md", "tests/docs/promote_closed_work_item.py"],
-      "expected": "The installed public binary passes explicit-repository health checks and closure leaves a visible human Outcome and clean base.",
-      "verificationPlan": "Install the downloaded v0.2.69 binary, run inspect/status/doctor/agent doctor, then verify closure and documentation promotion.",
-      "status": "unverified"
-    }
   ],
   "sources": [
     "docs/release/distribution.md",

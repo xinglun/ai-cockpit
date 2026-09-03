@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-03T19:52:38Z",
-  "checkpointContractDigest": "sha256:7f255a38d5835b0c33e496a959810cf1eb5e706bacf119b072ba0a86ce5199e9",
+  "checkpointContractDigest": "sha256:f2c9eeafd56adbf799c47ff99dd403bce59b7f83eef7eac470e9922bfb92a12e",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,9 +37,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-547-release-v0-2-69"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:f2c9eeafd56adbf799c47ff99dd403bce59b7f83eef7eac470e9922bfb92a12e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:046bda1be1049e23f74b9d5bd52c1b86a798e0f3aa6607ac619e00231bb5bee9",
+      "previousContractHash": "sha256:7f255a38d5835b0c33e496a959810cf1eb5e706bacf119b072ba0a86ce5199e9",
+      "reason": "Bind the reviewed PR resource context before final verification so release evidence is tied to the exact branch, worktree, base, and provider.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T20:12:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9bf03ea80f967281b9dc7f0c30f571b6138820816860c73f96ad42a9eaa9e135",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-547-release-v0-2-69"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:93c943c45d3503cdfef499633dc64d254e53df529ae72e521ae00e89ae36f9f8",
+  "checkpointRepositorySnapshotDigest": "sha256:9bf03ea80f967281b9dc7f0c30f571b6138820816860c73f96ad42a9eaa9e135",
   "createdAt": "2026-09-03T19:51:44Z",
   "intentAlignment": {
     "evidence": [
@@ -49,10 +69,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-03T20:11:35Z",
-  "preflightContractDigest": "sha256:7f255a38d5835b0c33e496a959810cf1eb5e706bacf119b072ba0a86ce5199e9",
+  "preflightAt": "2026-09-03T20:13:08Z",
+  "preflightContractDigest": "sha256:f2c9eeafd56adbf799c47ff99dd403bce59b7f83eef7eac470e9922bfb92a12e",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:93c943c45d3503cdfef499633dc64d254e53df529ae72e521ae00e89ae36f9f8",
+  "preflightRepositorySnapshotDigest": "sha256:9bf03ea80f967281b9dc7f0c30f571b6138820816860c73f96ad42a9eaa9e135",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
