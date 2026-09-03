@@ -29,7 +29,7 @@ are independent identities.
 
 ```text
 ai-cockpit --version
-0.2.67
+0.2.68
 
 repository:
 protocol_version = 1
@@ -41,7 +41,7 @@ repository_schema_version = 2
 The reserved `v0.2.51` tag is an immutable lightweight-tag publication failure
 (workflow run `33417057474`), has no provider Release, and is never reused. The
 failed `v0.2.49` tag is retained as unpublished history and is not reused;
-`v0.2.67` is the current package identity.
+`v0.2.68` is the current package identity.
 The failed `v0.2.56` tag is immutable unpublished history from a source-quality
 failure and is never reused as an installation identity.
 
