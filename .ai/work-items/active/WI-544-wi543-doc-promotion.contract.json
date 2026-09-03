@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "Three-language parity rows link WI-543 archive, verification, finalization, and close evidence.",
+    "Parity projections report WI-543 as Implemented only with closed Runtime evidence.",
+    "Immutable Contract, verification, finalization, close, and historical ledger bytes remain unchanged.",
+    "Documentation acceptance, governance integrity, parity status, and Work Item status checks pass.",
+    "Post-close documentation promotion check reports no stale projections."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7cc7487655b7616e45653e016b871d886f4cfc6e",
+  "createdAt": "2026-09-03T18:31:09Z",
+  "goal": "Promote WI-543 parity projections to an evidence-linked terminal documentation state without changing Runtime-owned records.",
+  "intent": "Synchronize the three-language parity ledger with WI-543 immutable closed evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime behavior or CLI changes",
+    "Reference inventory semantics or source implementation",
+    "Release artifacts and object repositories",
+    "Manual edits to generated .ai records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b26ec0bea8999fccb88ac43aec55ebdd34a499d662ee11a6327b4fdc88cfa8ff",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-544-wi543-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/522",
+    "worktree": "/private/tmp/ai-cockpit-wi544-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-544-wi543-doc-promotion.md",
+    "docs/work-items/WI-544-wi543-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-544-wi543-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-544-wi543-doc-promotion"
+}
