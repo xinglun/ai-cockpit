@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "59579c8f539a0b5b7008b33a57fde8c2aae544fd",
+    "name": "codex/wi-532-wi531-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:0d24c120683395c752b1bf33a7ea03296a910499f5c18733ec04456bb0312d17",
+  "operationId": "wi532-finalization-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b6eee7271c20f9a97b7b844f62d22dabe586e281",
+    "headRevision": "59579c8f539a0b5b7008b33a57fde8c2aae544fd",
+    "mergeCommit": "2e92c6072bb7c523835a97e70987d9a6e8218b81",
+    "number": 508,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/508"
+  },
+  "reason": "Reviewed PR 508 merge, documentation verification, and exact branch/worktree cleanup.",
+  "receiptId": "github-pr-508-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-532-wi531-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/508",
+    "worktree": "/private/tmp/ai-cockpit-wi532-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T08:20:00Z",
+  "workItemId": "WI-532-wi531-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-532-wi531-doc-promotion",
+    "headRevision": "59579c8f539a0b5b7008b33a57fde8c2aae544fd",
+    "path": "/private/tmp/ai-cockpit-wi532-doc-promotion",
+    "worktreeId": "WI-532-wi531-doc-promotion"
+  }
+}
