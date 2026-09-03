@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-capability-release",
+  "decidedAt": "2026-09-03T12:59:11Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-538-wi537-doc-promotion.outcome.json",
+    ".ai/evidence/WI-538-wi537-doc-promotion.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "predecessorContractDigest": "sha256:2414aa1eb7f7d7ac1a257656d6496b5eb19b65ca8926bbdfa820fb889b8c9f0b",
+  "predecessorEventsDigest": "sha256:ff8122e1d3e2c27c775ebdfc3adbf8d7abb7fdbc9182a0645ef33130185cfa93",
+  "predecessorOutcomeDigest": "sha256:1dcd38231e484fd65c3d40d6e464e7720fd7536f3aa7b5a620d079724d7813d3",
+  "predecessorSummaryDigest": "sha256:95c0bea2e5f771adbba4ce96eb9c31537364c77befb17d1c7f6871072998fe05",
+  "predecessorWorkItemId": "WI-538-wi537-doc-promotion",
+  "reason": "Retry after finalize-plan invalidated the prior verification projection; rerun fresh verification and the lifecycle gates.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification, rerun preflight, and retry finish.",
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "workItemId": "WI-538-wi537-doc-promotion"
+}
