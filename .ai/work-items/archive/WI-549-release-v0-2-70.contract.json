@@ -22,17 +22,56 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:45a908230352096ef505f52d80b96b579cca525f23a98982dd14ebb76b9431bc",
+  "scenarioCoverage": [
+    {
+      "scenario": "release metadata and failed-tag history",
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/architecture/versioning.md",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Package identity and tri-language release documentation consistently declare v0.2.70 while v0.2.68 remains immutable failed-publication history.",
+      "verificationPlan": "Run cargo metadata, version consistency, source archive, documentation, and release policy checks before tagging.",
+      "required": true,
+      "status": "unverified"
+    },
+    {
+      "scenario": "public artifact supply-chain acceptance",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Public v0.2.70 archives, checksums, SBOM, provenance, attestation, and release manifest agree with the immutable tag and downloaded bytes.",
+      "verificationPlan": "After publication, download only public assets, verify digests, and run isolated adopter and N-1 acceptance without source or workspace fallback.",
+      "required": true,
+      "status": "unverified"
+    },
+    {
+      "scenario": "installed runtime and repository closure",
+      "evidence": [
+        "docs/release/distribution.md",
+        "tests/docs/promote_closed_work_item.py",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "expected": "The published binary passes explicit-repository health checks and closure leaves a visible human Outcome, clean base, and exact branch/worktree cleanup.",
+      "verificationPlan": "Install the downloaded v0.2.70 binary, run inspect/status/doctor/agent doctor, then verify closure and documentation promotion.",
+      "required": true,
+      "status": "unverified"
+    }
+  ],
   "requiredEvidenceClasses": [
     "verification",
     "docs",
     "release"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-549-release-v0-2-70",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/527",
     "worktree": "/private/tmp/ai-cockpit-wi549-release"
   },
   "risk": "high",

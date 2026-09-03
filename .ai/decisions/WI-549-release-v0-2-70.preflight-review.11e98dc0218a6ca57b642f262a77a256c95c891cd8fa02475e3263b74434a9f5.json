@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:0e0d444afde3915755745c7db3c2619c310aa61f197618c0e67a6fc6b20ddb8f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Confirmed the amended bounded v0.2.70 release and public-artifact acceptance scope for the current Contract and repository snapshot.",
+  "recordedAt": "2026-09-04T01:00:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:51889dcad076f37151162b8ce88c5d0d2dd81085a9291acb20931b46c42836d4",
+  "schemaVersion": 1,
+  "workItemId": "WI-549-release-v0-2-70"
+}

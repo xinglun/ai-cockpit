@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Cargo package metadata and all versioned release documentation consistently declare v0.2.70; v0.2.68 remains immutable failed-publication history and is never an installation baseline.",
+    "Release CI and policy checks pass from the reviewed default branch and produce immutable public artifacts with manifest, SHA256, SBOM, provenance, attestation, and runtime identity bindings.",
+    "Post-release acceptance uses only the downloaded public v0.2.70 artifact in isolated temporary roots, records a truthful receipt, proves cleanup and forbidden-root isolation, and validates the same binary for self-governance.",
+    "The WI-548 parity batch remains closed and promoted; no active Work Item, stale branch, or untracked closure artifact remains before release."
+  ],
+  "createdAt": "2026-09-03T22:40:59Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7ba519eef96a78d7c7c898a210af551de3511f5ebac13b115dd78f2cf62f38ee",
+  "evidenceRefs": [
+    ".ai/evidence/WI-549-release-v0-2-70.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-549-release-v0-2-70.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-549-release-v0-2-70.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:51889dcad076f37151162b8ce88c5d0d2dd81085a9291acb20931b46c42836d4",
+      "workItemId": "WI-549-release-v0-2-70"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-549-release-v0-2-70.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-549-release-v0-2-70.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-549-release-v0-2-70.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-549-release-v0-2-70.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-549-release-v0-2-70.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-549-release-v0-2-70.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-549-release-v0-2-70.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-549-release-v0-2-70.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-549-release-v0-2-70.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-549-release-v0-2-70.contract.json"
+          ],
+          "inference": false,
+          "text": "生成可审计的 v0.2.70 发布基线，确保包身份、文档、CI、公开资产、供应链证明和 adopter acceptance 一致。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-549-release-v0-2-70.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-549-release-v0-2-70"
+  },
+  "taskReportDigest": "sha256:728d6b383d642aa3055c259498fed5097c72856a312b78403e5545f33dbb77f6",
+  "taskReportMarkdownDigest": "sha256:e49f914d44d53addfa0d4dacd2ae50c4daec8105f65d06467acb7de0ac9c2b93",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-549-release-v0-2-70.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-549-release-v0-2-70"
+}
