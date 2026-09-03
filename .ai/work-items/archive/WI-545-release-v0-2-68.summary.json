@@ -1,0 +1,108 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-545-release-v0-2-68.contract.json",
+    ".ai/work-items/archive/WI-545-release-v0-2-68.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T18:48:21Z",
+  "checkpointContractDigest": "sha256:199b8703f7b391d13a9658b602686949f400f83b3437a29b34700cba061fab79",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:c78be7090a1c9a3f2b75a9b27fe81864c4b37b2179cdf1ef93b8105cf10c885e",
+      "recorded": true,
+      "recordedAt": "2026-09-03T18:48:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:541fa2536626ac0507f80258f779cafde941aaa7962f441906749dcfe627d3dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-545-release-v0-2-68"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:199b8703f7b391d13a9658b602686949f400f83b3437a29b34700cba061fab79",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c78be7090a1c9a3f2b75a9b27fe81864c4b37b2179cdf1ef93b8105cf10c885e",
+      "previousContractHash": "sha256:c78be7090a1c9a3f2b75a9b27fe81864c4b37b2179cdf1ef93b8105cf10c885e",
+      "reason": "Finalize-plan bound the reviewed PR context after the initial candidate verification; invalidate the old candidate and regenerate verification against the planned resource identity before finish.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T19:10:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:541fa2536626ac0507f80258f779cafde941aaa7962f441906749dcfe627d3dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-545-release-v0-2-68"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:541fa2536626ac0507f80258f779cafde941aaa7962f441906749dcfe627d3dd",
+  "createdAt": "2026-09-03T18:44:48Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-545-release-v0-2-68.md"
+    ],
+    "reason": "The release goal, public-artifact boundary, and object-repository read-only boundary are explicitly declared.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-03T19:14:03Z",
+  "preflightContractDigest": "sha256:199b8703f7b391d13a9658b602686949f400f83b3437a29b34700cba061fab79",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:541fa2536626ac0507f80258f779cafde941aaa7962f441906749dcfe627d3dd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/release/source_archive_policy_test.sh",
+        "tests/release/action_runtime_policy.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
+      "reason": "Pre-release metadata, archive, action-runtime, documentation, and parity checks passed on the reviewed candidate.",
+      "required": true,
+      "scenario": "release metadata and candidate integrity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        ".github/workflows/release.yml"
+      ],
+      "reason": "The release workflow and public-artifact harness define checksum-, SBOM-, provenance-, isolation-, and cleanup-bound acceptance; publication remains a separate external receipt.",
+      "required": true,
+      "scenario": "public artifact and supply-chain acceptance",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "docs/release/distribution.md",
+        "tests/docs/promote_closed_work_item.py",
+        ".ai/evidence/WI-545-release-v0-2-68.verification.json"
+      ],
+      "reason": "The documented closure chain, Runtime verification evidence, and post-close promotion check are explicitly bound; public installation is completed after publication.",
+      "required": true,
+      "scenario": "installed runtime and repository closure",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T19:14:09Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-545-release-v0-2-68"
+}

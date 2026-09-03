@@ -1,0 +1,116 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and lockfile identify v0.2.68 while historical release facts remain unchanged.",
+    "A reviewed pull request from the latest synchronized default branch passes all required hosted checks before the annotated v0.2.68 tag is created.",
+    "The public Release assets, checksums, SBOM, provenance, and release manifest agree with the tagged commit and downloaded bytes.",
+    "The downloaded public artifact, with no source or workspace-binary fallback, passes isolated adopter and N-1 acceptance including first-adopter-smoke=not_ready and temporary-root cleanup.",
+    "The installed public v0.2.68 binary passes repository-bound inspect, status, doctor, and agent doctor checks on this repository.",
+    "Human Outcome, archive, finalization, close, documentation promotion, and exact branch/worktree cleanup are recorded and verified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7d858332a878ed460db69f9df929628e6c656c09",
+  "createdAt": "2026-09-03T18:44:48Z",
+  "goal": "Deliver a reproducible v0.2.68 public release with bound checksums, supply-chain metadata, release acceptance, installed-runtime verification, and clean Work Item closure.",
+  "intent": "Publish v0.2.68 from the reviewed synchronized default branch and prove the immutable public release artifact can be installed and accepted without source or workspace fallback.",
+  "mode": "release",
+  "outOfScope": [
+    "Runtime source behavior and protocol changes",
+    "Reference source implementation and object repository changes",
+    "Global Agent or MCP configuration",
+    "Changing release or acceptance scripts unless a release-blocking defect is discovered and amended into this Contract"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4782cd3a9df90c6e00c1c54c2298f9fcabf9d25aecba3c73815d1c7b0af3d07f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-545-release-v0-2-68",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/523",
+    "worktree": "/private/tmp/ai-cockpit-wi545-release"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "v0.2.68 metadata is consistent and release inputs remain bound to the exact reviewed commit without reusing a reserved tag.",
+      "required": true,
+      "scenario": "release metadata and candidate integrity",
+      "status": "unverified",
+      "verificationPlan": "Run cargo metadata, version consistency, source archive, workflow policy, and full workspace checks before tagging."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Public archives, checksums, SBOM, provenance, and release manifest agree with the immutable v0.2.68 tag and downloaded bytes.",
+      "required": true,
+      "scenario": "public artifact and supply-chain acceptance",
+      "status": "unverified",
+      "verificationPlan": "After publication, download only public release assets, verify their digests, and run adopter and N-1 acceptance without source or workspace fallback."
+    },
+    {
+      "evidence": [
+        "docs/release/distribution.md",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "The installed public binary passes repository-bound health checks and the Work Item closes with visible Outcome, promotion check, and exact cleanup.",
+      "required": true,
+      "scenario": "installed runtime and repository closure",
+      "status": "unverified",
+      "verificationPlan": "Install the downloaded v0.2.68 binary, run inspect/status/doctor/agent doctor with explicit --repo, then verify archive, finalization, close, and documentation promotion."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-545-release-v0-2-68.md",
+    "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
+    "docs/work-items/WI-545-release-v0-2-68.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/reference/reference-parity.md",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    ".github/workflows/release.yml",
+    "docs/work-items/WI-541-release-v0-2-67.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo metadata --locked --format-version 1",
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "bash tests/release/version_consistency_test.sh",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/action_runtime_policy_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all"
+  ],
+  "workItemId": "WI-545-release-v0-2-68"
+}
