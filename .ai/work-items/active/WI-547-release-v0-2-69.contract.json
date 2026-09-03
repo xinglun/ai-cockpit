@@ -1,0 +1,104 @@
+{
+  "acceptanceCriteria": [
+    "Package and documentation identities consistently declare v0.2.69, while v0.2.68 remains explicitly documented as immutable failed-publication history and is never presented as an installation baseline.",
+    "Release CI and policy checks pass from the reviewed default branch and produce immutable public artifacts with manifest, SHA256, SBOM, and runtime identity bindings.",
+    "Post-release acceptance uses only the downloaded public v0.2.69 artifact in isolated temporary roots, records a truthful receipt, proves cleanup, and installs/verifies the same binary for self-governance."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e36f5d7ee712e301dd576418f909aa64257a24a1",
+  "createdAt": "2026-09-03T19:51:44Z",
+  "goal": "Produce a truthful v0.2.69 release baseline whose documentation, package identity, CI, public artifacts, and adopter acceptance are consistent and auditable.",
+  "intent": "Publish v0.2.69 from the reviewed synchronized default branch after correcting the v0.2.68 failed-release documentation projection, and bind immutable public-artifact acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior changes",
+    " object repository writes",
+    " global Agent or MCP configuration",
+    " reference-template source copy",
+    " and reuse of the failed v0.2.68 tag."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8e46304dbe01e3f5d5c58532b0a02cb44447be4e157eef37b9873d1d0c4a5680",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-547-release-v0-2-69",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi547-release"
+  },
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/work-items/WI-547-release-v0-2-69.md",
+    "docs/work-items/WI-547-release-v0-2-69.zh-CN.md",
+    "docs/work-items/WI-547-release-v0-2-69.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "release metadata and failed-tag history",
+      "required": true,
+      "evidence": ["Cargo.toml", "Cargo.lock", "tests/release/version_consistency.sh"],
+      "expected": "v0.2.69 metadata is consistent and v0.2.68 is retained only as immutable failed-publication history.",
+      "verificationPlan": "Run package metadata, version consistency, documentation, and source archive policy checks before tagging.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "public artifact supply-chain acceptance",
+      "required": true,
+      "evidence": [".github/workflows/release.yml", "tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh"],
+      "expected": "Public v0.2.69 archives, checksums, SBOM, provenance, and release manifest agree with the immutable tag and downloaded bytes.",
+      "verificationPlan": "After publication, download only public assets, verify digests, and run isolated adopter acceptance without source or workspace fallback.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "installed runtime and repository closure",
+      "required": true,
+      "evidence": ["docs/release/distribution.md", "tests/docs/promote_closed_work_item.py"],
+      "expected": "The installed public binary passes explicit-repository health checks and closure leaves a visible human Outcome and clean base.",
+      "verificationPlan": "Install the downloaded v0.2.69 binary, run inspect/status/doctor/agent doctor, then verify closure and documentation promotion.",
+      "status": "unverified"
+    }
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/reference/reference-parity.md",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    ".github/workflows/release.yml",
+    "docs/work-items/WI-545-release-v0-2-68.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo metadata --locked --format-version 1",
+    "cargo test --locked --workspace --all-targets --all-features -- --test-threads=1",
+    "bash tests/release/version_consistency.sh --repo <repository>",
+    "bash tests/release/source_archive_policy_test.sh",
+    "bash tests/release/action_runtime_policy_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all"
+  ],
+  "workItemId": "WI-547-release-v0-2-69"
+}
