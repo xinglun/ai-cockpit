@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-535 — MCP test fixture cleanup"
 description: "Make the delegated-evidence integration fixture failure-safe and register its governed delivery."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-535-mcp-fixture-cleanup
 lastVerifiedBy: WI-535-mcp-fixture-cleanup
+terminalArchive: .ai/work-items/archive/WI-535-mcp-fixture-cleanup.contract.json
+terminalVerification: .ai/evidence/WI-535-mcp-fixture-cleanup.verification.json
+terminalFinalization: .ai/decisions/WI-535-mcp-fixture-cleanup.finalize.json
+terminalDecision: .ai/decisions/WI-535-mcp-fixture-cleanup.close.json
 ---
 
 [简体中文](WI-535-mcp-fixture-cleanup.zh-CN.md) · [日本語](WI-535-mcp-fixture-cleanup.ja.md)

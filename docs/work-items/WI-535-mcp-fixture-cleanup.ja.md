@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-535 — MCP テストフィクスチャのクリーンアップ"
 description: "delegated-evidence 統合フィクスチャを失敗時にも安全にクリーンアップし、三言語の記録を登録する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-535-mcp-fixture-cleanup
 lastVerifiedBy: WI-535-mcp-fixture-cleanup
+terminalArchive: .ai/work-items/archive/WI-535-mcp-fixture-cleanup.contract.json
+terminalVerification: .ai/evidence/WI-535-mcp-fixture-cleanup.verification.json
+terminalFinalization: .ai/decisions/WI-535-mcp-fixture-cleanup.finalize.json
+terminalDecision: .ai/decisions/WI-535-mcp-fixture-cleanup.close.json
 ---
 
 [English](WI-535-mcp-fixture-cleanup.md) · [简体中文](WI-535-mcp-fixture-cleanup.zh-CN.md)

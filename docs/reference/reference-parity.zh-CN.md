@@ -481,7 +481,9 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-533——v0.2.66 发布与 direct-merge 恢复验收 | 已实现 | [Work Item](../work-items/WI-533-release-v0-2-66.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-533-release-v0-2-66.contract.json`; verification `.ai/evidence/WI-533-release-v0-2-66.verification.json`; finalization `.ai/decisions/WI-533-release-v0-2-66.finalize.json`; close `.ai/decisions/WI-533-release-v0-2-66.close.json`. |
 | WI-534——WI-533 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-534-wi533-doc-promotion.zh-CN.md)；计划终态 lifecycle：archive `.ai/work-items/archive/WI-534-wi533-doc-promotion.contract.json`; verification `.ai/evidence/WI-534-wi533-doc-promotion.verification.json`; finalization `.ai/decisions/WI-534-wi533-doc-promotion.finalize.json`; close `.ai/decisions/WI-534-wi533-doc-promotion.close.json`. |
 
-| WI-535——MCP 测试 fixture 清理 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-535-mcp-fixture-cleanup.zh-CN.md)；计划终态 lifecycle：archive `.ai/work-items/archive/WI-535-mcp-fixture-cleanup.contract.json`；verification `.ai/evidence/WI-535-mcp-fixture-cleanup.verification.json`；finalization `.ai/decisions/WI-535-mcp-fixture-cleanup.finalize.json`；close `.ai/decisions/WI-535-mcp-fixture-cleanup.close.json`. |
+| WI-535——MCP 测试 fixture 清理 | 已实现 | [Work Item](../work-items/WI-535-mcp-fixture-cleanup.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-535-mcp-fixture-cleanup.contract.json`; verification `.ai/evidence/WI-535-mcp-fixture-cleanup.verification.json`; finalization `.ai/decisions/WI-535-mcp-fixture-cleanup.finalize.json`; close `.ai/decisions/WI-535-mcp-fixture-cleanup.close.json`. |
+
+| WI-536——WI-535 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-536-wi535-doc-promotion.zh-CN.md)；计划终态 lifecycle：archive `.ai/work-items/archive/WI-536-wi535-doc-promotion.contract.json`；verification `.ai/evidence/WI-536-wi535-doc-promotion.verification.json`；finalization `.ai/decisions/WI-536-wi535-doc-promotion.finalize.json`；close `.ai/decisions/WI-536-wi535-doc-promotion.close.json`. |
 
 ## WI-512：治理参考页与验证边界
 
