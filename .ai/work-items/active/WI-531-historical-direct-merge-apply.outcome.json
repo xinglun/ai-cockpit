@@ -1,0 +1,141 @@
+{
+  "acceptanceResults": [
+    "A complete receipt emitted by finalize-recovery-plan can be applied as the first direct_merge_no_pr canonical record when all human-owned identity fields are correct.",
+    "The validator reports the exact mismatched resource-context category and remains fail-closed for branch, worktree, base, repository, Work Item, Git parent, and runtime identity changes.",
+    "Regression tests cover preserved legacy Contract context and generated historical context, prove predecessor bytes are unchanged, and prove no partial record is written on rejection.",
+    "The commands and three-language docs describe deterministic fields versus human-owned fields without requiring trial-and-error or fabricated PR data."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-531-historical-direct-merge-apply.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-531-historical-direct-merge-apply.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1bd8327ef85beba00810b92395c7e87997ee21f1a60b5f854059eecb5705ec15",
+      "workItemId": "WI-531-historical-direct-merge-apply"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-531-historical-direct-merge-apply.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-531-historical-direct-merge-apply.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-531-historical-direct-merge-apply.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-531-historical-direct-merge-apply.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-531-historical-direct-merge-apply.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-531-historical-direct-merge-apply.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-531-historical-direct-merge-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-531-historical-direct-merge-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-531-historical-direct-merge-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-531-historical-direct-merge-apply.contract.json"
+          ],
+          "inference": false,
+          "text": "Fix the Runtime compatibility path reported by the adopter repository, add end-to-end regression coverage for first-record direct-merge apply using both preserved contract context and generated historical context, and document the exact human-owned fields."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-531-historical-direct-merge-apply.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-531-historical-direct-merge-apply"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-531-historical-direct-merge-apply.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-531-historical-direct-merge-apply"
+}

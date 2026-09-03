@@ -46,7 +46,7 @@ one strictly bound deleted transition after close as a legacy reconciliation.
 The transition must bind the closed root path and digest and is verified as an
 append-only cleanup observation; it never rewrites the close receipt.
 
-`work-item finalize` stores the first receipt at `.ai/decisions/<id>.finalize.json`. Its PR base must equal the archived Contract's immutable `baseRevision`; both recording and `finalize-verify` reject a mismatch, including sequence 0, rather than reporting a verified chain. Rebase before archive requires a renewed active Contract binding; rebase after archive requires recovery and never permits receipt or archive rewriting. If that immutable root exists, a typed transition envelope must bind the unique head's predecessor digest and next sequence; Runtime appends `.finalize.<digest>.json`. `finalize-verify` reports `headPath`, `headDigest`, and `sequence`, which `close` binds. A sequence-1 merge observation may additionally bind `governanceAppendRevision` when the receipt commit advanced all aligned heads. Runtime requires an ancestor range of additions only. Besides regular same-Work-Item finalization receipts, the only permitted evidence additions are the complete fixed-schema pair `.ai/evidence/<id>/quality-route-post-finalize.json` and `.ai/evidence/<id>/repository-gates-post-finalize.json`; every path must be an `A`-only `100644` regular blob, and their archived Contract, PR revision, route digest, manifest, profile, and passing gate bindings must agree. The pair is evidence, not authority, and does not replace the required finalization receipt addition. This does not permit arbitrary evidence paths or archive mutation.
+`work-item finalize` stores the first receipt at `.ai/decisions/<id>.finalize.json`. For an ordinary PR receipt its base must equal the archived Contract's immutable `baseRevision`; both recording and `finalize-verify` reject a mismatch, including sequence 0. The narrow historical `direct_merge_no_pr` exception binds `pullRequest.baseRevision` to the real merge commit's first parent and records the immutable Contract base separately as `historical.contractBaseRevision`; the receipt's `contractDigest` still binds the exact archived Contract. `finalize-recovery-plan --merge-commit <sha>` derives both values, so a bundled historical merge can be recorded without changing either fact or inventing a PR. Rebase before archive requires a renewed active Contract binding; rebase after archive requires recovery and never permits receipt or archive rewriting. If that immutable root exists, a typed transition envelope must bind the unique head's predecessor digest and next sequence; Runtime appends `.finalize.<digest>.json`. `finalize-verify` reports `headPath`, `headDigest`, and `sequence`, which `close` binds. A sequence-1 merge observation may additionally bind `governanceAppendRevision` when the receipt commit advanced all aligned heads. Runtime requires an ancestor range of additions only. Besides regular same-Work-Item finalization receipts, the only permitted evidence additions are the complete fixed-schema pair `.ai/evidence/<id>/quality-route-post-finalize.json` and `.ai/evidence/<id>/repository-gates-post-finalize.json`; every path must be an `A`-only `100644` regular blob, and their archived Contract, PR revision, route digest, manifest, profile, and passing gate bindings must agree. The pair is evidence, not authority, and does not replace the required finalization receipt addition. This does not permit arbitrary evidence paths or archive mutation.
 
 All repository commands accept an explicit `--repo <path>`. Commands that
 produce records or decisions keep JSON on stdout. `finish`, `archive`, and
@@ -156,10 +156,13 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   parents and emits the deterministic identity facts (`repositoryId`, current
   Runtime, merge commit, parents, base revision, and the zero-PR URL) plus a
   partial `pullRequest.number=0`/`historical://direct-merge/<sha>` receipt
-  skeleton. It also reports the archived Contract digest/base and any
-  provisional context; receipt IDs, branch/worktree facts, disposition,
-  authority, reason, and timestamp remain human-owned. It never writes
-  `.ai/decisions` and never invents a PR number, authority, or human decision.
+  skeleton. `pullRequest.baseRevision` is the real merge first parent;
+  `historical.contractBaseRevision` is the archived Contract base. Both are
+  deterministic facts and must be preserved. It also reports the archived
+  Contract digest and any provisional context; receipt IDs, branch/worktree
+  facts, disposition, authority, reason, and timestamp remain human-owned. It
+  never writes `.ai/decisions` and never invents a PR number, authority, or
+  human decision.
 - `migrate plan --repo <path>` remains schema-compatible when the repository is
   current, but now also reports `historicalFinalization`. A stale receipt with
   a valid bound close is `historical_verified`/`historical_low`; a pending or

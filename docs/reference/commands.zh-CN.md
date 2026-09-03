@@ -39,7 +39,7 @@ repository。该例外不适用于新 Work Item，也不会把历史 evidence �
 deleted transition，作为有限的历史 reconciliation。该 transition 必须绑定已关闭 root
 的路径和 digest，并作为 append-only cleanup observation 验证；它不会重写 close receipt。
 
-`work-item finalize` 将首个 receipt 写入 `.ai/decisions/<id>.finalize.json`。其中 PR base 必须等于归档 Contract 不可变的 `baseRevision`；记录与 `finalize-verify` 都会拒绝不一致，包括 sequence 0，绝不会把该链报告为 verified。归档前 rebase 要刷新 active Contract 绑定；归档后必须走 recovery，不能改写 receipt 或 archive。若该不可变链根已存在，typed transition envelope 必须绑定唯一 head 的 predecessor digest 与下一 sequence；Runtime 追加 `.finalize.<digest>.json`。`finalize-verify` 返回 `headPath`、`headDigest` 和 `sequence`，`close` 会绑定这些值。当 receipt commit 推进了全部对齐的 head 时，sequence-1 merge observation 还可以绑定 `governanceAppendRevision`。Runtime 要求祖先区间只有新增；除同一 Work Item 的普通 finalization receipt 外，唯一允许的 evidence 新增是完整的固定 schema 文件对 `.ai/evidence/<id>/quality-route-post-finalize.json` 与 `.ai/evidence/<id>/repository-gates-post-finalize.json`。每个路径必须是 `A`-only、`100644` regular blob，且其归档 Contract、PR revision、route digest、manifest、profile 与 passing gate 绑定必须一致。这对文件是 evidence 而非 authority，不能替代仍然必需的 finalization receipt 新增；也不会授权任意 evidence 路径或归档修改。
+`work-item finalize` 将首个 receipt 写入 `.ai/decisions/<id>.finalize.json`。普通 PR receipt 的 base 必须等于归档 Contract 不可变的 `baseRevision`；记录与 `finalize-verify` 都会拒绝不一致，包括 sequence 0。窄范围的历史 `direct_merge_no_pr` 例外把 `pullRequest.baseRevision` 绑定到真实 merge commit 的第一 parent，并把不可变 Contract base 单独记录为 `historical.contractBaseRevision`；receipt 的 `contractDigest` 仍绑定准确的归档 Contract。`finalize-recovery-plan --merge-commit <sha>` 会推导这两个值，因此 bundled historical merge 不需要修改事实或虚构 PR。归档前 rebase 要刷新 active Contract 绑定；归档后必须走 recovery，不能改写 receipt 或 archive。若该不可变链根已存在，typed transition envelope 必须绑定唯一 head 的 predecessor digest 与下一 sequence；Runtime 追加 `.finalize.<digest>.json`。`finalize-verify` 返回 `headPath`、`headDigest` 和 `sequence`，`close` 会绑定这些值。当 receipt commit 推进了全部对齐的 head 时，sequence-1 merge observation 还可以绑定 `governanceAppendRevision`。Runtime 要求祖先区间只有新增；除同一 Work Item 的普通 finalization receipt 外，唯一允许的 evidence 新增是完整的固定 schema 文件对 `.ai/evidence/<id>/quality-route-post-finalize.json` 与 `.ai/evidence/<id>/repository-gates-post-finalize.json`。每个路径必须是 `A`-only、`100644` regular blob，且其归档 Contract、PR revision、route digest、manifest、profile 与 passing gate 绑定必须一致。这对文件是 evidence 而非 authority，不能替代仍然必需的 finalization receipt 新增；也不会授权任意 evidence 路径或归档修改。
 
 所有 repository 命令都接受显式 `--repo <path>`。产生记录或 decision 的命令在 stdout
 保持 JSON。`finish`、`archive`、`close` 默认还会在 stderr 输出本地化的面向人交接；
@@ -106,8 +106,10 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
   disposition，以及仍需人工提供的字段。没有 canonical predecessor 时追加真实的
   `--merge-commit <sha>`；Runtime 会校验真实 parents，并输出确定性的 identity facts（repositoryId、
   当前 Runtime、merge commit、parents、base revision 和 zero-PR URL），以及包含
-  `pullRequest.number=0` 与 `historical://direct-merge/<sha>` 的部分 receipt 骨架。同时输出 archived
-  Contract digest/base 和 provisional context。receipt ID、branch/worktree 事实、disposition、
+  `pullRequest.number=0` 与 `historical://direct-merge/<sha>` 的部分 receipt 骨架。
+  `pullRequest.baseRevision` 是真实 merge 第一 parent，`historical.contractBaseRevision`
+  是归档 Contract base；这两个确定性事实都必须保留。同时输出 archived Contract digest/base
+  和 provisional context。receipt ID、branch/worktree 事实、disposition、
   authority、reason 和 timestamp 仍由人提供。该命令不写入 `.ai/decisions`，不会虚构 PR 号、authority
   或 human decision。
 - `migrate plan --repo <path>` 在 schema 已兼容时仍保持兼容，但会额外输出

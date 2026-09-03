@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "A complete receipt emitted by finalize-recovery-plan can be applied as the first direct_merge_no_pr canonical record when all human-owned identity fields are correct.",
+    "The validator reports the exact mismatched resource-context category and remains fail-closed for branch, worktree, base, repository, Work Item, Git parent, and runtime identity changes.",
+    "Regression tests cover preserved legacy Contract context and generated historical context, prove predecessor bytes are unchanged, and prove no partial record is written on rejection.",
+    "The commands and three-language docs describe deterministic fields versus human-owned fields without requiring trial-and-error or fabricated PR data."
+  ],
+  "authority": "authorized",
+  "baseRevision": "100c3a1fd686e30d04186fbe94b9179457a3f91c",
+  "createdAt": "2026-09-03T06:54:34Z",
+  "goal": "Fix the Runtime compatibility path reported by the adopter repository, add end-to-end regression coverage for first-record direct-merge apply using both preserved contract context and generated historical context, and document the exact human-owned fields.",
+  "intent": "Make historical direct-merge recovery applyable from the read-only plan with deterministic identity diagnostics and no mutation of predecessor bytes.",
+  "mode": "code",
+  "outOfScope": [
+    "object repositories",
+    " source Python/Make/V1 copying",
+    " unrelated lifecycle or reference parity changes",
+    " global Agent/MCP configuration",
+    " release redesign beyond the resulting patch version"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:21bfdfbcbc56a7e5b34dac3e8af3b2e7d2e174874e48690048af5fe7664e2f74",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-531-historical-direct-merge-apply",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi531-historical-direct-merge-apply"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/resource_finalization.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/troubleshooting.md",
+    "docs/reference/troubleshooting.zh-CN.md",
+    "docs/reference/troubleshooting.ja.md",
+    "docs/work-items/WI-531-historical-direct-merge-apply.md",
+    "docs/work-items/WI-531-historical-direct-merge-apply.zh-CN.md",
+    "docs/work-items/WI-531-historical-direct-merge-apply.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-531-historical-direct-merge-apply"
+}

@@ -11252,13 +11252,35 @@ fn ensure_resource_finalization_base_binding(
     contract: &Contract,
     path: &Path,
 ) -> Result<(), ObserverError> {
-    if receipt.pull_request.base_revision != contract.base_revision {
+    if receipt.pull_request.base_revision == contract.base_revision {
+        return Ok(());
+    }
+    let direct_merge = receipt.historical.as_ref().filter(|historical| {
+        matches!(
+            historical.kind,
+            cockpit_protocol::HistoricalFinalizationKind::DirectMergeNoPr
+        )
+    });
+    if let Some(historical) = direct_merge {
+        if historical.contract_base_revision.as_deref() == Some(contract.base_revision.as_str()) {
+            // `pullRequest.baseRevision` is the real first parent of the
+            // historical merge. The immutable Contract base is bound
+            // separately so a bundled merge can be recorded without
+            // rewriting either fact or inventing a PR.
+            return Ok(());
+        }
         return Err(ObserverError::State {
             path: path.into(),
-            message: "resource finalization pull request base revision does not match the archived Contract base revision".into(),
+            message: format!(
+                "historical direct-merge Contract base mismatch: receipt must bind historical.contractBaseRevision={} while pullRequest.baseRevision remains the real merge first parent ({})",
+                contract.base_revision, receipt.pull_request.base_revision
+            ),
         });
     }
-    Ok(())
+    Err(ObserverError::State {
+        path: path.into(),
+        message: "resource finalization pull request base revision does not match the archived Contract base revision".into(),
+    })
 }
 
 /// Validate the additional facts that make a historical compatibility receipt
@@ -11332,6 +11354,16 @@ fn validate_historical_finalization(
                 .as_ref()
                 .map(|value| value.base_revision.as_str())
                 .unwrap_or_default();
+            if parents.first().copied() != Some(base) {
+                return Err(ObserverError::State {
+                    path: path.into(),
+                    message: format!(
+                        "historical direct-merge base must equal Git's first parent: expected {}, receipt has {}",
+                        parents.first().copied().unwrap_or("<missing>"),
+                        base
+                    ),
+                });
+            }
             let ancestor = Command::new("git")
                 .arg("-C")
                 .arg(root)
@@ -11836,6 +11868,9 @@ pub fn historical_finalization_recovery_plan(
         "repositoryId": repository_id,
         "runtimeVersion": runtime.runtime_version,
         "runtimeDigest": runtime.runtime_digest,
+        "contractBaseRevision": archived_contract
+            .as_ref()
+            .map(|(contract, _)| contract.base_revision.clone()),
         "pullRequest": {
             "number": 0,
             "url": format!("historical://direct-merge/{merge_commit}"),
@@ -11851,6 +11886,10 @@ pub fn historical_finalization_recovery_plan(
             "mergeParents": &parents[1..]
         }
     });
+    if let Some((contract, _)) = archived_contract.as_ref() {
+        result["knownFacts"]["historical"]["contractBaseRevision"] =
+            contract.base_revision.clone().into();
+    }
     if let Some((_, digest)) = archived_contract.as_ref() {
         result["knownFacts"]["contractDigest"] = digest.to_string().into();
     }
@@ -11897,7 +11936,10 @@ pub fn historical_finalization_recovery_plan(
             "assurance": "historical_low",
             "baseRevision": parents[1],
             "mergeCommit": merge_commit,
-            "mergeParents": &parents[1..]
+            "mergeParents": &parents[1..],
+            "contractBaseRevision": archived_contract
+                .as_ref()
+                .map(|(contract, _)| contract.base_revision.clone())
         },
         "workItemId": work_item_id,
         "repositoryId": repository_id

@@ -25,6 +25,8 @@ capabilityClaims:
 | stale predecessor 不应再重试 | 其 evidence 已是历史记录，且已有绑定 successor 接管工作。 | 记录绑定 identity 的 `supersede` recovery decision，再把 predecessor 作为历史项 archive/close；不要重写或重新验证旧 evidence。 |
 | `archive`/`close` 失败 | governance 非 green 或 archive identity 非法。 | 保留 active 记录，修复 evidence 后重试失败步骤。 |
 | `close` 提示 retained resources require cleanup | receipt 可能是旧版共享主 checkout 记录，也可能是普通 retained linked resource。 | 确认 `provider=local` 及主 checkout 事实；无法确定时运行 `work-item finalize-recovery-plan` 并记录显式 historical recovery receipt。不要手动把 `retained` 改为 `deleted`。 |
+| 历史 direct-merge 提示 base 与 Contract 不一致 | bundled merge 的真实第一 parent 可能不同于 Work Item 冻结时的 Contract base。 | 重新运行 `work-item finalize-recovery-plan --merge-commit <sha>`；保留 `pullRequest.baseRevision` 为真实第一 parent，保留 `historical.contractBaseRevision` 为归档 Contract base，并复制准确的 `resourceContext`/branch/worktree identity。不要修改任一历史事实或虚构 PR。 |
+| 历史 direct-merge 提示 `resourceContext.<field>` 不匹配 | receipt identity 中有字段与 Contract 或 plan 输出不同。 | 按错误中给出的字段修正人工填写的 receipt，然后重试；拒绝时 Runtime 不会写入半成品记录。 |
 | Verification 重新执行而非 reuse | identity binding 变化或 reuse 未授权。 | 把 rerun 当作安全行为，检查 receipt reason。 |
 | MCP 要求 repository binding | server 未用 repository-bound adapter 启动。 | 配置 `mcp --repo <path>` 并保持路径显式。 |
 | Release asset/tag 不存在 | 公开分发证据尚未就绪。 | 停止安装，等待不可变 Release 和匹配制品。 |

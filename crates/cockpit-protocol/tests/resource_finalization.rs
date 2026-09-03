@@ -94,6 +94,7 @@ fn historical_shared_worktree_retained_is_explicit_and_valid() {
         merge_commit: None,
         merge_parents: vec![],
         base_revision: "base-785112b".into(),
+        contract_base_revision: None,
     });
     validate_resource_finalization_receipt(&value).unwrap();
 }
@@ -116,8 +117,9 @@ fn historical_direct_merge_without_pr_uses_zero_sentinel_only_with_binding() {
         kind: HistoricalFinalizationKind::DirectMergeNoPr,
         assurance: "historical_low".into(),
         merge_commit: Some("merge-158".into()),
-        merge_parents: vec!["parent-a".into(), "parent-b".into()],
+        merge_parents: vec!["base-785112b".into(), "parent-b".into()],
         base_revision: "base-785112b".into(),
+        contract_base_revision: None,
     });
     validate_resource_finalization_receipt(&value).unwrap();
     value.historical = None;
@@ -425,7 +427,7 @@ fn foreign_repository_and_work_item_are_rejected() {
     assert_eq!(
         validate_resource_finalization_receipt(&foreign_context),
         Err(ResourceFinalizationError::IdentityMismatch(
-            "resource context does not match receipt identity",
+            "resourceContext.branch",
         ))
     );
 }
@@ -448,8 +450,9 @@ fn historical_direct_merge_can_rebind_legacy_local_context_narrowly() {
         kind: HistoricalFinalizationKind::DirectMergeNoPr,
         assurance: "historical_low".into(),
         merge_commit: Some("merge-158".into()),
-        merge_parents: vec!["parent-a".into(), "parent-b".into()],
+        merge_parents: vec!["base-785112b".into(), "parent-b".into()],
         base_revision: historical.pull_request.base_revision.clone(),
+        contract_base_revision: None,
     });
     let mut legacy_context = historical.resource_context.clone().unwrap();
     legacy_context.provider = "local".into();
@@ -491,8 +494,9 @@ fn historical_direct_merge_accepts_unchanged_archived_local_context() {
         kind: HistoricalFinalizationKind::DirectMergeNoPr,
         assurance: "historical_low".into(),
         merge_commit: Some("merge-158".into()),
-        merge_parents: vec!["parent-a".into(), "parent-b".into()],
+        merge_parents: vec!["base-785112b".into(), "parent-b".into()],
         base_revision: historical.pull_request.base_revision.clone(),
+        contract_base_revision: None,
     });
     // This is the object-repository recovery workflow: preserve the
     // Contract's original local resourceContext instead of guessing a new
@@ -539,8 +543,9 @@ fn historical_direct_merge_can_bind_provisional_legacy_context() {
         kind: HistoricalFinalizationKind::DirectMergeNoPr,
         assurance: "historical_low".into(),
         merge_commit: Some("merge-158".into()),
-        merge_parents: vec!["parent-a".into(), "parent-b".into()],
+        merge_parents: vec!["base-785112b".into(), "parent-b".into()],
         base_revision: historical.pull_request.base_revision.clone(),
+        contract_base_revision: None,
     });
     let mut provisional = historical.resource_context.clone().unwrap();
     provisional.base_branch = "unknown".into();

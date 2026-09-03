@@ -25,6 +25,8 @@ capabilityClaims:
 | stale predecessor を再試行すべきでない | evidence が履歴であり、bind 済み successor が作業を引き継いでいる。 | identity-bound な `supersede` recovery decision を記録し、predecessor を履歴項目として archive/close する。古い evidence を書き換えたり再検証したりしない。 |
 | `archive`/`close` が失敗 | governance が green でない、または archive identity が invalid。 | active record を残し evidence を修復して失敗した step を再実行する。 |
 | `close` が retained resources require cleanup を表示 | legacy の shared-primary record、または通常の retained linked resource の可能性がある。 | `provider=local` と primary checkout の fact を確認する。導出できない場合は `work-item finalize-recovery-plan` を実行して明示的な historical recovery receipt を記録する。`retained` を手で `deleted` に変更しない。 |
+| historical direct-merge が Contract と base の不一致を示す | bundled merge の実際の第一 parent が Work Item の凍結時 Contract base と異なる場合があります。 | `work-item finalize-recovery-plan --merge-commit <sha>` を再実行し、`pullRequest.baseRevision` は実際の第一 parent、`historical.contractBaseRevision` は archived Contract base として保持し、正確な `resourceContext`/branch/worktree identity を使います。どちらの事実も変更せず、PR を捏造しません。 |
+| historical direct-merge が `resourceContext.<field>` の不一致を示す | receipt identity のフィールドが Contract または plan 出力と異なります。 | エラーに示されたフィールドを human-owned receipt input で修正して再試行します。拒否時に Runtime は不完全な record を書きません。 |
 | Verification が reuse でなく rerun | identity binding が変化、または reuse が未承認。 | rerun を安全な動作として扱い receipt reason を確認する。 |
 | MCP が repository binding を要求 | repository-bound adapter なしで server を起動した。 | `mcp --repo <path>` を設定し path を明示する。 |
 | Release asset/tag がない | public distribution evidence が未準備。 | install を停止し、immutable Release と matching asset を待つ。 |

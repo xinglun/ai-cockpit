@@ -44,7 +44,7 @@ legacy reconciliation として append できます。この transition は clos
 と digest を束縛し、append-only cleanup observation として検証されます。close receipt は
 書き換えません。
 
-`work-item finalize` は最初の receipt を `.ai/decisions/<id>.finalize.json` に保存します。PR base は archived Contract の不変な `baseRevision` と一致する必要があり、record と `finalize-verify` は sequence 0 を含む mismatch を拒否して verified chain と報告しません。archive 前の rebase では active Contract binding を更新し、archive 後は receipt/archive を書き換えず recovery を行います。その不変 root が存在する場合、typed transition envelope は一意な head の predecessor digest と次の sequence を束縛し、Runtime は `.finalize.<digest>.json` を追記します。`finalize-verify` は `headPath`、`headDigest`、`sequence` を返し、`close` はそれらを束縛します。receipt commit が整合した全 head を進めた場合、sequence-1 merge observation は `governanceAppendRevision` も束縛できます。Runtime は ancestor range が追加のみであることを要求します。同一 Work Item の通常 finalization receipt 以外で許可される evidence 追加は、固定 schema の完全な pair `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` だけです。各 path は `A`-only の `100644` regular blob で、archived Contract、PR revision、route digest、manifest、profile、passing gate の binding は一致しなければなりません。この pair は evidence であって authority ではなく、必須の finalization receipt 追加を置き換えません。任意の evidence path や archive の変更を許可するものではありません。
+`work-item finalize` は最初の receipt を `.ai/decisions/<id>.finalize.json` に保存します。通常の PR receipt の base は archived Contract の不変な `baseRevision` と一致する必要があり、record と `finalize-verify` は sequence 0 を含む mismatch を拒否します。狭い歴史 `direct_merge_no_pr` 例外では、`pullRequest.baseRevision` を実際の merge commit の第一 parent に束縛し、不変な Contract base を `historical.contractBaseRevision` として別に記録します。receipt の `contractDigest` は正確な archived Contract を引き続き束縛します。`finalize-recovery-plan --merge-commit <sha>` は両方を決定論的に導出するため、bundled historical merge でも事実の変更や PR の捏造は不要です。archive 前の rebase では active Contract binding を更新し、archive 後は receipt/archive を書き換えず recovery を行います。その不変 root が存在する場合、typed transition envelope は一意な head の predecessor digest と次の sequence を束縛し、Runtime は `.finalize.<digest>.json` を追記します。`finalize-verify` は `headPath`、`headDigest`、`sequence` を返し、`close` はそれらを束縛します。receipt commit が整合した全 head を進めた場合、sequence-1 merge observation は `governanceAppendRevision` も束縛できます。Runtime は ancestor range が追加のみであることを要求します。同一 Work Item の通常 finalization receipt 以外で許可される evidence 追加は、固定 schema の完全な pair `.ai/evidence/<id>/quality-route-post-finalize.json` と `.ai/evidence/<id>/repository-gates-post-finalize.json` だけです。各 path は `A`-only の `100644` regular blob で、archived Contract、PR revision、route digest、manifest、profile、passing gate の binding は一致しなければなりません。この pair は evidence であって authority ではなく、必須の finalization receipt 追加を置き換えません。任意の evidence path や archive の変更を許可するものではありません。
 
 すべての repository command は明示的な `--repo <path>` を受け取ります。record や
 decision を作る command は stdout の JSON を維持します。`finish`、`archive`、`close`
@@ -118,7 +118,9 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   の disposition、未入力の human fields を返します。canonical predecessor がない場合は実際の
   `--merge-commit <sha>` を渡すと parents を検証し、repositoryId、current Runtime、merge commit、
   parents、base revision、zero-PR URL など決定的な identity facts と、`pullRequest.number=0`、
-  `historical://direct-merge/<sha>` を含む部分 receipt skeleton を出力します。archived Contract の
+  `historical://direct-merge/<sha>` を含む部分 receipt skeleton を出力します。
+  `pullRequest.baseRevision` は実際の merge 第一 parent、`historical.contractBaseRevision` は
+  archived Contract base であり、どちらも保持する決定論的な事実です。archived Contract の
   digest/base と provisional context も示します。receipt ID、branch/worktree facts、disposition、
   authority、reason、timestamp は人間が入力します。`.ai/decisions` は変更せず、PR number・authority・
   human decision を捏造しません。
