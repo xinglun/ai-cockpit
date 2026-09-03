@@ -6,10 +6,14 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: completed
+status: implemented
 authority: canonical
 workItemId: WI-521-reference-file-comparison-batch-35
 lastVerifiedBy: WI-521-reference-file-comparison-batch-35
+terminalArchive: .ai/work-items/archive/WI-521-reference-file-comparison-batch-35.contract.json
+terminalVerification: .ai/evidence/WI-521-reference-file-comparison-batch-35.verification.json
+terminalFinalization: .ai/decisions/WI-521-reference-file-comparison-batch-35.finalize.3963d731bcacd6a4efd4660409749638c2dcc8fe4bcde3a0bf2e8216fa12e2ae.json
+terminalDecision: .ai/decisions/WI-521-reference-file-comparison-batch-35.close.json
 ---
 
 # WI-521——参考 guard 与采用检查批次 35
