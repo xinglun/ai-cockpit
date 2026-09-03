@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-547 — v0.2.69 发布与公开产物验收"
 description: "修正 v0.2.68 发布失败投影并发布新的不可变 Runtime 基线。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-547-release-v0-2-69
 lastVerifiedBy: WI-547-release-v0-2-69
+terminalArchive: .ai/work-items/archive/WI-547-release-v0-2-69.contract.json
+terminalVerification: .ai/evidence/WI-547-release-v0-2-69.verification.json
+terminalFinalization: .ai/decisions/WI-547-release-v0-2-69.finalize.json
+terminalDecision: .ai/decisions/WI-547-release-v0-2-69.close.json
 ---
 
 [English](WI-547-release-v0-2-69.md) · [日本語](WI-547-release-v0-2-69.ja.md)

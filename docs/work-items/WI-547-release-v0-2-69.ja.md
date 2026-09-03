@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-547 — v0.2.69 release と公開 artifact acceptance"
 description: "失敗した v0.2.68 の投影を修正し、新しい immutable Runtime baseline を公開する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-547-release-v0-2-69
 lastVerifiedBy: WI-547-release-v0-2-69
+terminalArchive: .ai/work-items/archive/WI-547-release-v0-2-69.contract.json
+terminalVerification: .ai/evidence/WI-547-release-v0-2-69.verification.json
+terminalFinalization: .ai/decisions/WI-547-release-v0-2-69.finalize.json
+terminalDecision: .ai/decisions/WI-547-release-v0-2-69.close.json
 ---
 
 [English](WI-547-release-v0-2-69.md) · [简体中文](WI-547-release-v0-2-69.zh-CN.md)

@@ -500,7 +500,7 @@ verification record です。
 | WI-545 — v0.2.68 release と公開 artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546 — WI-545 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-546-wi545-doc-promotion.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
 
-| WI-547 — v0.2.69 release と公開 artifact acceptance | In progress | [Work Item](../work-items/WI-547-release-v0-2-69.ja.md); archive `.ai/work-items/archive/WI-547-release-v0-2-69.contract.json`; verification `.ai/evidence/WI-547-release-v0-2-69.verification.json`; finalization `.ai/decisions/WI-547-release-v0-2-69.finalize.json`; close `.ai/decisions/WI-547-release-v0-2-69.close.json`. |
+| WI-547 — v0.2.69 release と公開 artifact acceptance | Implemented | [Work Item](../work-items/WI-547-release-v0-2-69.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-547-release-v0-2-69.contract.json`; verification `.ai/evidence/WI-547-release-v0-2-69.verification.json`; finalization `.ai/decisions/WI-547-release-v0-2-69.finalize.json`; close `.ai/decisions/WI-547-release-v0-2-69.close.json`. |
 
 ## WI-512: governance reference page と verification boundary
 

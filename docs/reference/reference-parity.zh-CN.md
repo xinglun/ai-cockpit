@@ -495,7 +495,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-545——v0.2.68 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-545-release-v0-2-68.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546——WI-545 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-546-wi545-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
 
-| WI-547——v0.2.69 发布与公开产物验收 | 进行中 | [Work Item](../work-items/WI-547-release-v0-2-69.zh-CN.md)；archive `.ai/work-items/archive/WI-547-release-v0-2-69.contract.json`；verification `.ai/evidence/WI-547-release-v0-2-69.verification.json`；finalization `.ai/decisions/WI-547-release-v0-2-69.finalize.json`；close `.ai/decisions/WI-547-release-v0-2-69.close.json`. |
+| WI-547——v0.2.69 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-547-release-v0-2-69.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-547-release-v0-2-69.contract.json`; verification `.ai/evidence/WI-547-release-v0-2-69.verification.json`; finalization `.ai/decisions/WI-547-release-v0-2-69.finalize.json`; close `.ai/decisions/WI-547-release-v0-2-69.close.json`. |
 
 ## WI-512：治理参考页与验证边界
 
