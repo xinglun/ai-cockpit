@@ -1,0 +1,81 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T03:16:37Z",
+  "checkpointContractDigest": "sha256:70dbd92149feff2a27f32f9e13f10774cda90666d832236073325dc3aaef2e01",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f40643a8e88b9ef6b71bff9885ab95eba3cfae2c7c946a46eb8c082993c59272",
+      "recorded": true,
+      "recordedAt": "2026-09-03T03:16:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cc1228008def12c4dd75061874999b8bbbdbc9781f0a1a1b01a35401eef91e05",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-525-wi524-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:dbb256b967124f48b43bbc2afe8c1b7ef600d5daea56c2f3728e1e1c51abaecc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f40643a8e88b9ef6b71bff9885ab95eba3cfae2c7c946a46eb8c082993c59272",
+      "previousContractHash": "sha256:f40643a8e88b9ef6b71bff9885ab95eba3cfae2c7c946a46eb8c082993c59272",
+      "reason": "Register the WI-525 projection itself so documentation promotion remains auditable after terminal close.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T03:16:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cc1228008def12c4dd75061874999b8bbbdbc9781f0a1a1b01a35401eef91e05",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-525-wi524-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:70dbd92149feff2a27f32f9e13f10774cda90666d832236073325dc3aaef2e01",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f40643a8e88b9ef6b71bff9885ab95eba3cfae2c7c946a46eb8c082993c59272",
+      "previousContractHash": "sha256:dbb256b967124f48b43bbc2afe8c1b7ef600d5daea56c2f3728e1e1c51abaecc",
+      "reason": "Record the exact documentation and governance verification commands after the recovery retry, so terminal evidence is reproducible.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T03:24:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cf3d373c7a3eb02ceae219ce954a402d661cd3972b36fbcd6456fc34701f7f8f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-525-wi524-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:cf3d373c7a3eb02ceae219ce954a402d661cd3972b36fbcd6456fc34701f7f8f",
+  "createdAt": "2026-09-03T03:12:42Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-03T03:26:13Z",
+  "preflightContractDigest": "sha256:70dbd92149feff2a27f32f9e13f10774cda90666d832236073325dc3aaef2e01",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:cf3d373c7a3eb02ceae219ce954a402d661cd3972b36fbcd6456fc34701f7f8f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T03:26:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-525-wi524-doc-promotion"
+}

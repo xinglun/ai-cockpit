@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-recovery-of-failed-finish",
+  "decidedAt": "2026-09-03T03:25:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-525-wi524-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-525-wi524-doc-promotion.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery"
+  ],
+  "predecessorContractDigest": "sha256:70dbd92149feff2a27f32f9e13f10774cda90666d832236073325dc3aaef2e01",
+  "predecessorEventsDigest": "sha256:74b06d217fa79fd48776d45f6637f44bf14c690f9021efa77a3554b1651564d5",
+  "predecessorOutcomeDigest": "sha256:497c9475b16476eff0fc0e85b73dd31ab167fe1ed2c884c915d4abe16561c019",
+  "predecessorSummaryDigest": "sha256:b9510a49599f27a77553695f2c05be29a44729f2a802a79c9429fb9db6508c23",
+  "predecessorWorkItemId": "WI-525-wi524-doc-promotion",
+  "reason": "The first finish attempt recorded a stopped outcome after stale verification context; preserve that attempt and retry with fresh verification after the finalized resource plan.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification against the finalized PR context, record green preflight, then finish/archive and complete reviewed merge cleanup.",
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "workItemId": "WI-525-wi524-doc-promotion"
+}
