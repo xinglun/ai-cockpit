@@ -1,0 +1,60 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T05:35:15Z",
+  "checkpointContractDigest": "sha256:1c4d67114139d527c42f69f226057cccbbc80dedf092bea36d31d598c6af3b2a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:1c4d67114139d527c42f69f226057cccbbc80dedf092bea36d31d598c6af3b2a",
+      "recorded": true,
+      "recordedAt": "2026-09-03T05:35:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:21543a2c21957765f54ec489741525bb2b2d7217d832f8f82d1e4920e8568b25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-529-wi528-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:c7bfc8a4fb66645790dc2fdb64a94e3416ebd34b997997656ce785445d66ecaa",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1c4d67114139d527c42f69f226057cccbbc80dedf092bea36d31d598c6af3b2a",
+      "previousContractHash": "sha256:1c4d67114139d527c42f69f226057cccbbc80dedf092bea36d31d598c6af3b2a",
+      "reason": "Keep this documentation promotion self-describing by including its own tri-language pages and parity projections; no Runtime or generated evidence behavior changes.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T05:36:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:067de4ba2a3b741852520c6e667fac2d9fa0fcb217d454ccaa453080b28149b4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-529-wi528-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:21543a2c21957765f54ec489741525bb2b2d7217d832f8f82d1e4920e8568b25",
+  "createdAt": "2026-09-03T05:34:57Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-03T05:35:11Z",
+  "preflightContractDigest": "sha256:1c4d67114139d527c42f69f226057cccbbc80dedf092bea36d31d598c6af3b2a",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:21543a2c21957765f54ec489741525bb2b2d7217d832f8f82d1e4920e8568b25",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-03T05:35:15Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:c7bfc8a4fb66645790dc2fdb64a94e3416ebd34b997997656ce785445d66ecaa",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-03T05:36:20Z"
+  },
+  "workItemId": "WI-529-wi528-doc-promotion"
+}

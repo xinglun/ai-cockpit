@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-528 language pages bind the exact archive, verification, finalization, and close evidence.",
+    "All three parity rows show Implemented and preserve the terminal evidence paths.",
+    "promote_closed_work_item --check-all and governance integrity pass."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "957ffc989e6ebed94519385bc51f7b5379977588",
+  "createdAt": "2026-09-03T05:34:57Z",
+  "goal": "Keep the WI-528 reader-facing pages and parity projections synchronized with its verified close.",
+  "intent": "Promote WI-528 terminal documentation from immutable Runtime evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    "Immutable .ai archive verification finalization and close records",
+    "Object repositories and global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:21543a2c21957765f54ec489741525bb2b2d7217d832f8f82d1e4920e8568b25",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-529-wi528-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-529-wi528-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-528-doc-promotion.md",
+    "docs/work-items/WI-528-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-528-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-529-wi528-doc-promotion.md",
+    "docs/work-items/WI-529-wi528-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-529-wi528-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-529-wi528-doc-promotion"
+}

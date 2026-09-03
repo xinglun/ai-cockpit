@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-528 — WI-526 terminal documentation promotion"
 description: "Runtime の証拠を改変せず、release Work Item の文書投影を昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-528-doc-promotion
 lastVerifiedBy: WI-528-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-528-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-528-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-528-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-528-doc-promotion.close.json
 ---
 
 [English](WI-528-doc-promotion.md) · [简体中文](WI-528-doc-promotion.zh-CN.md)
