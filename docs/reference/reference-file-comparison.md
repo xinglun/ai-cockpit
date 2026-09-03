@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-521-reference-file-comparison-batch-35
+lastVerifiedBy: WI-539-reference-file-comparison-batch-36
 capabilityClaims:
   - reference_parity
 ---
@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `326ba4d47f44bd2bbf5a07b9f466683245c87b7f`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.62` binary, SHA256 `c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `42903a546880680bfeaf6e7bc8cc29c59137b121`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.66` binary, SHA256 `4d9440368f9d5b834e0eb81d217ef01f0ddcd94f8c57d6e0fdf892b6bb50f9e2`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -251,7 +251,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=5 reference-only=89 deferred-next-batch=370 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=313 implemented-equivalent=1 not-applicable=5 reference-only=90 deferred-next-batch=360 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -265,11 +265,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 304 |
+| `implemented-different-by-design` | 313 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 5 |
-| `reference-only` | 89 |
-| `deferred-next-batch` | 370 |
+| `reference-only` | 90 |
+| `deferred-next-batch` | 360 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1723,3 +1723,39 @@ source YAML, or JSON-wire compatibility. Every attached object/adopter project
 inherits the same shared Runtime, explicit `--repo` context, repository-local
 Contract/evidence/knowledge, and human Outcome boundary; it does not inherit
 the reference project's source scripts or adopter-specific policy values.
+
+## WI-539 — source governance checker comparison batch 36
+
+WI-539 re-read the next ten maintained source checker modules one by one at
+the pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. The comparison
+records semantic responsibility and ownership; it does not copy Python,
+Make, YAML, or source JSON wire formats into the Rust Runtime.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_check_guidelines.py` | implemented-different-by-design | Typed Contract guidelines remain human-owned; completion is bound through numbered acceptance/evidence and does not invent an untyped `guidelinesCompliance` field. |
+| `scripts/ai_check_pr.py` | implemented-different-by-design | Archive, recovery, scope, and evidence checks are distributed across typed lifecycle gates; PR identity and hosted checks remain provider evidence. |
+| `scripts/ai_check_reference_impact.py` | reference-only | Source AST/text impact scanning stays source/provider tooling. Rust keeps operation-time scope safety and fail-closed unknowns; it does not claim caller, external-consumer, or monitoring inference. |
+| `scripts/ai_check_registry.py` | implemented-different-by-design | Versioned gate manifests and typed receipts provide deterministic checker registration, deduplication, and explicit unavailable-gate reasons. |
+| `scripts/ai_check_review_policy.py` | implemented-different-by-design | Contract/preflight and provider PR review carry review authority; no second YAML policy or report-only focus list is installed. |
+| `scripts/ai_check_scope.py` | implemented-different-by-design | Repository-relative scope/out-of-scope, dependency, parallel-boundary, and snapshot checks are typed Runtime gates. |
+| `scripts/ai_check_serial_order.py` | implemented-different-by-design | Predecessor, merged PR, closure, exact resource cleanup, and synchronized-base requirements are enforced by lifecycle and ready-on-base checks. |
+| `scripts/ai_check_status.py` | implemented-different-by-design | Request-scoped typed status and human Outcome projections replace generated `current_status.md` as authority. |
+| `scripts/ai_check_status_consistency.py` | implemented-different-by-design | Read-only status derives active/archive ownership and rejects ambiguity; Runtime has no silent generated-status repair authority. |
+| `scripts/ai_check_summary.py` | implemented-different-by-design | Strict Contract, evidence, archive, and Outcome bindings cover the portable boundary without claiming source Summary JSON compatibility or inferring human claims. |
+
+No portable implementation omission was found in this slice. The single
+reference-impact scanner is explicitly `reference-only`, not an untracked Rust
+gap: static caller and external-consumer facts require an adopter/provider or
+human-owned evidence source, and unknown impact remains fail-closed. The other
+nine responsibilities are represented by Rust-native typed Protocol,
+repository lifecycle, gate-manifest, status, and Outcome boundaries.
+
+The current 4,450-path set contains 3,681 `generated-history`, 313
+`implemented-different-by-design`, one `implemented-equivalent`, five
+`not-applicable`, 90 `reference-only`, and 360 `deferred-next-batch` records;
+the append-only ledger retains 669 retired paths and `migrate-gap` remains
+zero. Every attached object/adopter project inherits the shared Runtime,
+explicit repository binding, isolated Contract/evidence/knowledge, fail-closed
+lifecycle, and human Outcome boundary. It does not inherit source checkers,
+provider policy values, or stack-specific commands.

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-516-reference-file-comparison-batch-34
+lastVerifiedBy: WI-539-reference-file-comparison-batch-36
 capabilityClaims:
   - reference_parity
 ---
@@ -74,7 +74,7 @@ capabilityClaims:
 | 治理性能预算 | 以不同方式实现 | 本地提供 identity-bound `PerformanceBaseline` sample 与明确 regression budget；耗时不会削弱必需验证或建立 provider assurance。 |
 | 治理 profile/成本分离 | 以不同方式实现 | light/standard/strict 路线、operation/stage escalation、`VerificationTier`、`EvidenceAssurance` 与 advisory cost 保持独立。 |
 | 操作时高风险策略重新评估 | 以不同方式实现 | Rust Core 的 `OperationTimeRequest` 在执行前评估精确操作、目标、范围、权限、新鲜度、信任和影响；从不执行操作或授予 provider 权限。 |
-| 删除/重命名/废弃前的静态引用影响扫描 | 延期 | 源 scanner 及其 Python/Make/schema surface 未提供。Rust 操作时评估器不会推导 callers、动态引用、外部 Consumer 或监控；相关影响必须声明证据，否则保持 unknown/需要人工 review。 |
+| 删除/重命名/废弃前的静态引用影响扫描 | 外部边界 | 源 scanner 保留为 reference/provider 工具。Rust 执行 operation-time scope 安全与 fail-closed unknown，但不推导 callers、动态引用、外部 Consumer 或监控；需要时由对象工程/provider 提供这些事实。 |
 | 多语言语义一致性 | 部分实现 | Runtime 自有标签及停止/下一步语义已三语文档化并测试；人类拥有的 Contract 原文保持编写语言，不宣称任意 prose comparator。 |
 | 轻量验证与软门 | 以不同方式实现 | 按比例路线、内容绑定复用、确定性的 partial 依赖处理、单调升级和可见 advisory 边界由 Runtime 原生提供。 |
 | 安装和 provider 配置 | 外部边界 | binary delivery 与 provider/global configuration 和 repository governance state 分离。 |
@@ -486,6 +486,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-536——WI-535 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-536-wi535-doc-promotion.zh-CN.md)；计划终态 lifecycle：archive `.ai/work-items/archive/WI-536-wi535-doc-promotion.contract.json`；verification `.ai/evidence/WI-536-wi535-doc-promotion.verification.json`；finalization `.ai/decisions/WI-536-wi535-doc-promotion.finalize.json`；close `.ai/decisions/WI-536-wi535-doc-promotion.close.json`. |
 | WI-537——typed MCP capability surface 与使用文档 | 已实现 | [Work Item](../work-items/WI-537-capability-surface.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-537-capability-surface.contract.json`; verification `.ai/evidence/WI-537-capability-surface.verification.json`; finalization `.ai/decisions/WI-537-capability-surface.finalize.json`; close `.ai/decisions/WI-537-capability-surface.close.json`. |
 | WI-538——WI-537 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-538-wi537-doc-promotion.zh-CN.md)；计划终态 lifecycle：archive `.ai/work-items/archive/WI-538-wi537-doc-promotion.contract.json`；verification `.ai/evidence/WI-538-wi537-doc-promotion.verification.json`；finalization `.ai/decisions/WI-538-wi537-doc-promotion.finalize.json`；close `.ai/decisions/WI-538-wi537-doc-promotion.close.json`. |
+| WI-539——源治理检查器逐文件比较批次 36 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-539-reference-file-comparison-batch-36.zh-CN.md)；verification `.ai/evidence/WI-539-reference-file-comparison-batch-36.verification.json`；计划终态 lifecycle：archive `.ai/work-items/archive/WI-539-reference-file-comparison-batch-36.contract.json`；finalize `.ai/decisions/WI-539-reference-file-comparison-batch-36.finalize.json`；close `.ai/decisions/WI-539-reference-file-comparison-batch-36.close.json`。10 个 pinned 源检查脚本已登记在追加式台账中。 |
 
 ## WI-512：治理参考页与验证边界
 

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-521-reference-file-comparison-batch-35
+lastVerifiedBy: WI-539-reference-file-comparison-batch-36
 capabilityClaims:
   - reference_parity
 ---
@@ -80,7 +80,7 @@ anti-omission index; this page remains the higher-level product-boundary matrix.
 | Governance performance budgets | Implemented differently | Identity-bound `PerformanceBaseline` samples and explicit regression budgets are available locally; timing never weakens required verification or establishes provider assurance. |
 | Governance profile/cost separation | Implemented differently | Light/standard/strict routes, operation/stage escalation, `VerificationTier`, `EvidenceAssurance`, and advisory cost remain independent. |
 | Operation-time high-risk policy re-evaluation | Implemented differently | Rust Core `OperationTimeRequest` evaluates exact operation, target, scope, authority, freshness, trust, and impact immediately before execution; it never executes or grants provider permission. |
-| Static reference-impact scan before delete/rename/deprecate | Deferred | The source scanner and its Python/Make/schema surface are not shipped. The Rust operation-time evaluator does not infer callers, dynamic references, external consumers, or monitoring; relevant impact evidence must be declared or remain unknown/human review. |
+| Static reference-impact scan before delete/rename/deprecate | External boundary | The source scanner remains reference/provider tooling. Rust enforces operation-time scope safety and fail-closed unknowns, but does not infer callers, dynamic references, external consumers, or monitoring; adopters/providers must supply those facts when required. |
 | Multilingual semantic parity | Partial | Tri-language Runtime-owned labels and stop/next-action semantics are documented and tested; human-owned Contract text remains in its authoring language and a full arbitrary-prose comparator is not claimed. |
 | Lightweight verification and soft gates | Implemented differently | Proportional routes, content-bound reuse, deterministic partial dependency handling, monotonic escalation, and visible advisory boundaries are Runtime-native. |
 | Installation and provider configuration | External boundary | Binary delivery and provider/global configuration are separate from repository governance state. |
@@ -512,6 +512,7 @@ record for each boundary.
 | WI-536 — WI-535 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-536-wi535-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-536-wi535-doc-promotion.contract.json`; verification `.ai/evidence/WI-536-wi535-doc-promotion.verification.json`; finalization `.ai/decisions/WI-536-wi535-doc-promotion.finalize.json`; close `.ai/decisions/WI-536-wi535-doc-promotion.close.json`. |
 | WI-537 — typed MCP capability surface and usage documentation | Implemented | [Work Item](../work-items/WI-537-capability-surface.md); terminal lifecycle: archive `.ai/work-items/archive/WI-537-capability-surface.contract.json`; verification `.ai/evidence/WI-537-capability-surface.verification.json`; finalization `.ai/decisions/WI-537-capability-surface.finalize.json`; close `.ai/decisions/WI-537-capability-surface.close.json`. |
 | WI-538 — WI-537 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-538-wi537-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-538-wi537-doc-promotion.contract.json`; verification `.ai/evidence/WI-538-wi537-doc-promotion.verification.json`; finalization `.ai/decisions/WI-538-wi537-doc-promotion.finalize.json`; close `.ai/decisions/WI-538-wi537-doc-promotion.close.json`. |
+| WI-539 — source governance checker comparison batch 36 | In progress → Implemented after verified close | [Work Item](../work-items/WI-539-reference-file-comparison-batch-36.md); verification `.ai/evidence/WI-539-reference-file-comparison-batch-36.verification.json`; planned terminal lifecycle: archive `.ai/work-items/archive/WI-539-reference-file-comparison-batch-36.contract.json`; finalization `.ai/decisions/WI-539-reference-file-comparison-batch-36.finalize.json`; close `.ai/decisions/WI-539-reference-file-comparison-batch-36.close.json`. Ten pinned source checker paths are recorded in the append-only inventory. |
 
 ## WI-512 — governance reference pages and verification boundaries
 
