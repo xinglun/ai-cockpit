@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-03T02:30:42Z",
+  "files": {
+    "contractDigest": "sha256:ec0ea0d8eda1fb7bb3ac1dd5da18a11b0dcbb17f96f5af3443d6e89d602a9f2e",
+    "contractPath": ".ai/work-items/archive/WI-524-recovery-successor-readiness.contract.json",
+    "eventsDigest": "sha256:a6946811ba8ecb8d90baf64b09c7f8b9bfb26f1497b88c50e4135cc0cb74d523",
+    "eventsPath": ".ai/work-items/archive/WI-524-recovery-successor-readiness.events.jsonl",
+    "outcomeDigest": "sha256:b4c66769549315e494199e96e112971272645f9d02dc1d8e7a5958ab03dd06b8",
+    "outcomePath": ".ai/work-items/archive/WI-524-recovery-successor-readiness.outcome.json",
+    "summaryDigest": "sha256:a801954afc8f1e4177cfad8002566b07a65017fbd089e421ecdbc60491b63306",
+    "summaryPath": ".ai/work-items/archive/WI-524-recovery-successor-readiness.summary.json",
+    "taskReportDigest": "sha256:d083ca01f210f087f7d3ed403566fb2a189ae0fe2840e7116a36f2c37c03eb65",
+    "taskReportMarkdownDigest": "sha256:8acf82465c2f251ad337f79fc889e382cf58f3238474755cc1dc3495d869dd4a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-524-recovery-successor-readiness.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-524-recovery-successor-readiness.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-524-recovery-successor-readiness"
+}

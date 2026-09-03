@@ -6,14 +6,17 @@
     "Regression tests cover valid successor, incomplete successor, and repository isolation.",
     "Three-language workflow documentation explains validated successor readiness and fail-closed boundary."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-03T02:30:37Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:17c5ec77df878a94f5f27dc2d2f669aa1ecbdb1abd24a0b9b42ac74c10d51313",
   "evidenceRefs": [
     ".ai/evidence/WI-524-recovery-successor-readiness.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-524-recovery-successor-readiness.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,24 +24,21 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-524-recovery-successor-readiness.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:5350fa81aa7c389ab14de71e3be73b085a68f56f7efe54821811151b89508074",
+      "repositorySnapshotDigest": "sha256:38080070b9a9f9296a2510306bd51e972765e92a5948f7799df0bea60dd03768",
       "workItemId": "WI-524-recovery-successor-readiness"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -59,22 +59,14 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-524-recovery-successor-readiness.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-524-recovery-successor-readiness.summary.json"
+            ".ai/work-items/archive/WI-524-recovery-successor-readiness.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -86,7 +78,7 @@
             ".ai/evidence/WI-524-recovery-successor-readiness.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -96,15 +88,23 @@
             ".ai/evidence/WI-524-recovery-successor-readiness.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-524-recovery-successor-readiness.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-524-recovery-successor-readiness.contract.json"
+            ".ai/work-items/archive/WI-524-recovery-successor-readiness.contract.json"
           ],
           "inference": false,
           "text": "Make recovery successor completion a validated, auditable readiness transition while retaining fail-closed behavior for incomplete or invalid successor evidence."
@@ -113,23 +113,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-524-recovery-successor-readiness.contract.json"
+            ".ai/work-items/archive/WI-524-recovery-successor-readiness.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-524-recovery-successor-readiness"
   },
+  "taskReportDigest": "sha256:d083ca01f210f087f7d3ed403566fb2a189ae0fe2840e7116a36f2c37c03eb65",
+  "taskReportMarkdownDigest": "sha256:8acf82465c2f251ad337f79fc889e382cf58f3238474755cc1dc3495d869dd4a",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-524-recovery-successor-readiness.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-524-recovery-successor-readiness"
 }
