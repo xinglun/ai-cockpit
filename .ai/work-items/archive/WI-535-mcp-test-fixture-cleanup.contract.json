@@ -20,11 +20,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-535-mcp-test-fixture-cleanup",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/511",
     "worktree": "/private/tmp/ai-cockpit-wi535-mcp-test-fixture-cleanup"
   },
   "risk": "normal",
