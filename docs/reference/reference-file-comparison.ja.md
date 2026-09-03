@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-539-reference-file-comparison-batch-36
+lastVerifiedBy: WI-543-reference-ledger-check-safety
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `42903a546880680bfeaf6e7bc8cc29c59137b121`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.66`、binary SHA256 `sha256:4d9440368f9d5b834e0eb81d217ef01f0ddcd94f8c57d6e0fdf892b6bb50f9e2`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `7c12972ff424b321b6685e0458a999cbb712f8f6`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.67`、binary SHA256 `sha256:0c491d1709fdaa98c66acfe92d89abb747d7e01e78def815ef6c57ee431b232f`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -42,6 +42,10 @@ Regression check は tracked reference path のすべてに一つだけ classifi
 first batch の未分類 file を拒否します。Target checkout metadata は dirty/untracked な
 working-tree file ではなく pinned commit から導出します。
 ledger の `targetCommit` は historical rebaseline anchor であり、上記の current Runtime baseline は今回使用する reviewed `origin/main` tip です。
+
+## Safe ledger command
+
+`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd` は read-only です。`--check` は manifest の load/write 前に `--reference`、`--target`、`--rebaseline-from`、すべての `--apply-*` option を拒否します。これらは明示的な generate/update の場合だけ使います。Conformance wrapper は拒否と manifest byte identity を検証します。
 
 ## Classification
 
@@ -263,7 +267,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=313 implemented-equivalent=1 not-applicable=5 reference-only=90 deferred-next-batch=360 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=319 implemented-equivalent=1 not-applicable=6 reference-only=90 deferred-next-batch=353 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -275,11 +279,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 313 |
+| `implemented-different-by-design` | 319 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 5 |
+| `not-applicable` | 6 |
 | `reference-only` | 90 |
-| `deferred-next-batch` | 360 |
+| `deferred-next-batch` | 353 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1358,6 +1362,22 @@ WI-508 は pinned local reference commit
 この slice に implementation omission はありません。portable な意味は既存の Rust-native Contract、verification、evidence、CI、adopter-boundary route で表現されています。target repository と attached object repository は source stack installer、Make preset、application example、sample Contract decision を継承しません。現在は 3,681 `generated-history`、278 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、83 `reference-only`、403 `deferred-next-batch` で、`migrate-gap` は 0、append-only ledger は 669 retired path を保持します。
 
 これは semantic/documentation parity であり、Python/Ruby/Rust/Swift/TypeScript toolchain support、source command compatibility、JSON-wire compatibility ではありません。各 adopter は shared Runtime を外部に一度だけ install し、明示的な `--repo` で自分の fact、Contract、evidence、knowledge、Agent adapter を bind します。
+
+## WI-543: safe reference-ledger check と source checker batch 37
+
+WI-543 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対象 source checker 7 module を一つずつ比較しました。Reference は specification/behavior corpus のままであり、Python、Make、YAML、provider、source JSON wire implementation は Rust Runtime に copy しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_check_task_outcome.py` | implemented-different-by-design | Typed OutcomeV2/TaskOutcomeReport、append-only event、localized human handoff、archive binding が portable boundary を担当し、source report wire/lexical policy は source-specific のままです。 |
+| `scripts/ai_check_test_weakening.py` | implemented-different-by-design | Snapshot-based Rust weakening signal と fail-closed unknown が boundary を担当し、source threshold/report format は source/provider policy です。 |
+| `scripts/ai_classify_operation_impact.py` | implemented-different-by-design | Operation-time policy と scope evaluation が明示的 impact fact を提供し、intent を推測せず source report format も取り込みません。 |
+| `scripts/ai_close_work_item.py` | implemented-different-by-design | Typed lifecycle/finalization/ready-on-base gate が close を検証し、provider PR 操作と source runner orchestration は external です。 |
+| `scripts/ai_common.py` | implemented-different-by-design | JSON/Git/scope/redaction は typed Core/Protocol/repository/conformance に分散し、monolithic helper は Runtime dependency ではありません。 |
+| `scripts/ai_critical_domain_guards.py` | implemented-different-by-design | Typed operation/authority、prompt injection、evidence forgery control が fail-closed を保持し、lexical classification を authority に昇格させません。 |
+| `scripts/ai_dependabot_intake.py` | not-applicable | Dependabot event identity と bot-branch intake は provider 固有です。Generic delegated evidence と source binding は利用できます。 |
+
+Portable な implementation omission はありません。Historical/retired record は append-only のまま扱い、現在の pinned path set だけを新しい比較決定の対象にします。Attached adopter は shared Runtime、明示的 repository binding、isolated Contract/evidence/knowledge、fail-closed lifecycle、human Outcome handoff を継承しますが、source checker や provider policy は継承しません。
 
 ## WI-510 — installer entrypoint と wizard locale の境界
 

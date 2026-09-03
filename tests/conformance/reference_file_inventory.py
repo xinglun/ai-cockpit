@@ -73,6 +73,7 @@ WI508_BATCH = "WI-508-reference-file-comparison-batch-31"
 WI512_BATCH = "WI-512-reference-docs-batch-33"
 WI516_BATCH = "WI-516-reference-file-comparison-batch-34"
 WI539_BATCH = "WI-539-reference-file-comparison-batch-36"
+WI543_BATCH = "WI-543-reference-file-comparison-batch-37"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1242,6 +1243,81 @@ WI539_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/outcome-report.md",
         ],
         "The source validates a broad Python Summary schema, changed-file ownership, documentation alignment, review readiness, and hosted-performance claims. Rust keeps strict typed Contract/evidence/archive/Outcome bindings and explicit partial fields; it does not claim byte-compatible Summary JSON or infer missing human claims.",
+    ),
+}
+
+# WI-543 compares the next maintained source checker modules.  These modules
+# are source-side reporting/orchestration surfaces; portable governance
+# responsibilities are recorded against the existing typed Rust Runtime
+# boundaries without copying Python, provider, or source wire formats.
+WI543_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_check_task_outcome.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "crates/cockpit-repository/tests/outcome_report.rs",
+            "crates/cockpit-cli/tests/outcome_handoff.rs",
+        ],
+        "The source validates a task-outcome JSON/Markdown projection, bindings, claims, events, and human status. Rust provides typed OutcomeV2/TaskOutcomeReport, append-only events, localized human handoff, and archive bindings; source JSON wire shape and lexical report policy are not copied.",
+    ),
+    "scripts/ai_check_test_weakening.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+            "docs/reference/test-weakening-guard.md",
+        ],
+        "The source emits static signals for verification-artifact removal, assertion/coverage reduction, workflow bypass, and narrow retirement evidence. Rust derives bounded snapshot signals and fail-closed unknowns at governance boundaries; source detector thresholds and Python report format remain source/provider maintenance policy.",
+    ),
+    "scripts/ai_classify_operation_impact.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+            "docs/reference/operation-time-policy-reevaluation.md",
+        ],
+        "The source derives compatibility/configuration/test-evidence impact from declared actions and changed paths. Rust OperationTimeRequest and repository governance signals perform explicit operation-time safety and scope evaluation; it does not infer intent or import the source report wire shape.",
+    ),
+    "scripts/ai_close_work_item.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+            "docs/reference/work-item-lifecycle-closure.md",
+        ],
+        "The source Python close workflow validates archived evidence, PR/base synchronization, worktree/branch cleanup, and closure receipts. Rust owns these lifecycle/finalization/ready-on-base invariants with typed receipts; provider PR operations and source runner orchestration remain external.",
+    ),
+    "scripts/ai_common.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "tests/conformance/reference_file_inventory.py",
+        ],
+        "The source helper module centralizes JSON/YAML, Git, scope/glob, redaction, registry, and command utilities. Rust distributes these concerns across typed Protocol/Core/repository services and conformance tooling with explicit path and identity checks; a monolithic Python helper is not a Runtime dependency.",
+    ),
+    "scripts/ai_critical_domain_guards.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+        ],
+        "The source classifies critical-domain, bypass, evidence-forgery, and production-operation signals from Contract text. Rust keeps human-owned intent, typed operation/authority controls, prompt-injection and forgery findings, and fail-closed decisions without promoting lexical classification to authority.",
+    ),
+    "scripts/ai_dependabot_intake.py": (
+        "not-applicable",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "docs/reference/ci-release-evidence.md",
+        ],
+        "Dependabot candidate event identity, locked dependency classification, and automatic bot-branch intake are provider-specific. Rust supports generic delegated evidence and explicit source binding, but does not ship a Dependabot workflow or provider event parser.",
     ),
 }
 
@@ -5119,6 +5195,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi539_classifications
         ):
             errors.append("WI-539 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI543_BATCH
+        for record in records
+    ):
+        wi543_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI543_BATCH
+            and record.get("referencePath") in WI543_REFERENCE_FILES
+        ]
+        expected_wi543_paths = set(WI543_REFERENCE_FILES) & current_reference_paths
+        actual_wi543_paths = {record.get("referencePath") for record in wi543_records}
+        if actual_wi543_paths != expected_wi543_paths:
+            errors.append(
+                "WI-543 source checker records do not match the seven scoped paths: "
+                f"expected {sorted(expected_wi543_paths)!r}, got {sorted(actual_wi543_paths)!r}"
+            )
+        if len(wi543_records) != len(expected_wi543_paths):
+            errors.append(
+                f"WI-543 batch must contain {len(expected_wi543_paths)} records, found {len(wi543_records)}"
+            )
+        wi543_classifications = [historical_classification(record) for record in wi543_records]
+        expected_wi543_classifications = Counter(
+            WI543_REFERENCE_FILES[path][0] for path in expected_wi543_paths
+        )
+        if any(
+            wi543_classifications.count(classification) != count
+            for classification, count in expected_wi543_classifications.items()
+        ):
+            errors.append("WI-543 batch classifications do not match current reference paths")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi543_classifications
+        ):
+            errors.append("WI-543 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -5506,6 +5618,34 @@ def apply_wi539_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi543_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI543_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI543_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI543_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI543_REFERENCE_FILES)} WI-543 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -5534,7 +5674,36 @@ def main() -> int:
     parser.add_argument("--apply-wi512-batch", action="store_true")
     parser.add_argument("--apply-wi516-batch", action="store_true")
     parser.add_argument("--apply-wi539-batch", action="store_true")
+    parser.add_argument("--apply-wi543-batch", action="store_true")
     args = parser.parse_args()
+
+    # ``--check`` is a read-only operation.  Do not let an accidentally
+    # combined generation/rebaseline/apply option rewrite the checked ledger
+    # before validation.  This is especially important for the append-only
+    # retired-history records: a check must never replace them with a fresh
+    # generated projection.
+    apply_options = (
+        args.apply_getting_started_batch,
+        args.apply_wi441_batch,
+        args.apply_wi461_batch,
+        args.apply_wi464_batch,
+        args.apply_wi475_batch,
+        args.apply_wi482_batch,
+        args.apply_wi494_batch,
+        args.apply_wi496_batch,
+        args.apply_wi504_batch,
+        args.apply_wi507_batch,
+        args.apply_wi508_batch,
+        args.apply_wi512_batch,
+        args.apply_wi516_batch,
+        args.apply_wi539_batch,
+        args.apply_wi543_batch,
+    )
+    if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
+        parser.error(
+            "--check is read-only and cannot be combined with --reference, --target, "
+            "--rebaseline-from, or --apply-*; pass only --manifest and expected revisions"
+        )
 
     if args.rebaseline_from:
         if not args.reference or not args.target:
@@ -5648,6 +5817,13 @@ def main() -> int:
     if args.apply_wi539_batch:
         try:
             apply_wi539_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi543_batch:
+        try:
+            apply_wi543_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

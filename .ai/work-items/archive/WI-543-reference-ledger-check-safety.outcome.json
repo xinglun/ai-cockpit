@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "Check mode never writes or regenerates a manifest; ambiguous generation-plus-check invocation is rejected clearly.",
+    "The seven pinned checker modules receive explicit file-level semantic classifications and bounded counterparts or boundaries, with no deferred or migrate-gap result.",
+    "Historical and retired records remain append-only and are not reinterpreted as current paths.",
+    "Regression tests prove check-mode non-mutation and ambiguous invocation rejection.",
+    "English, Simplified Chinese, and Japanese docs agree on decisions and adopter inheritance boundary.",
+    "Inventory, conformance, documentation, formatting, lint, and workspace tests pass.",
+    "No source implementation or source wire format is copied into the Rust Runtime.",
+    "All parity claims bind to the pinned source and target revisions."
+  ],
+  "createdAt": "2026-09-03T18:00:13Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:91e647b5314e3304019189044b9abb70704562db53a6db8b4543a760f2864d3a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4914c523755259b7a8ea7b7044f0655992a0b51f2c3c33324730ba39ffe32b83",
+      "workItemId": "WI-543-reference-ledger-check-safety"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-543-reference-ledger-check-safety.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-543-reference-ledger-check-safety.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-543-reference-ledger-check-safety.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent check mode from mutating the ledger and record an evidence-backed semantic comparison batch for adopter inheritance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-543-reference-ledger-check-safety"
+  },
+  "taskReportDigest": "sha256:fdf8ae0bf7a9bdd8d4f6a5f5af80349967e1d8b1d5070925e9d6ae7cd626b35d",
+  "taskReportMarkdownDigest": "sha256:d776b6c07451b18885d101cef36f69b07bc1c03cd9f82c6df1b1e5f9afd3c29d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-543-reference-ledger-check-safety.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-543-reference-ledger-check-safety"
+}

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-539-reference-file-comparison-batch-36
+lastVerifiedBy: WI-543-reference-ledger-check-safety
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `42903a546880680bfeaf6e7bc8cc29c59137b121`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.66`，binary SHA256 为 `sha256:4d9440368f9d5b834e0eb81d217ef01f0ddcd94f8c57d6e0fdf892b6bb50f9e2`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `7c12972ff424b321b6685e0458a999cbb712f8f6`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.67`，binary SHA256 为 `sha256:0c491d1709fdaa98c66acfe92d89abb747d7e01e78def815ef6c57ee431b232f`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -40,6 +40,10 @@ inventory 台账现在已显式重新绑定到本地 checkout。此前的
 回归检查要求每个参考源 tracked path 都有且只有一个分类，并拒绝首批未分类文件。
 目标 checkout metadata 从固定 commit 派生，不受 dirty 或 untracked 工作树文件影响。
 台账中的 `targetCommit` 是历史 rebaseline 锚点；上方当前 Runtime 基线是本批使用的、经过评审的 `origin/main` tip。
+
+## 台账安全命令
+
+`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd` 是只读操作。`--check` 会在加载或写入清单前拒绝 `--reference`、`--target`、`--rebaseline-from` 以及所有 `--apply-*` 选项；这些选项只能用于显式生成或更新。conformance wrapper 会验证拒绝行为和清单字节不变。
 
 ## 分类规则
 
@@ -249,7 +253,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=313 implemented-equivalent=1 not-applicable=5 reference-only=90 deferred-next-batch=360 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=319 implemented-equivalent=1 not-applicable=6 reference-only=90 deferred-next-batch=353 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -260,11 +264,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 313 |
+| `implemented-different-by-design` | 319 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 5 |
+| `not-applicable` | 6 |
 | `reference-only` | 90 |
-| `deferred-next-batch` | 360 |
+| `deferred-next-batch` | 353 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1313,6 +1317,22 @@ WI-508 在固定本地参考提交
 本批未发现实现遗漏。可移植意义已经由 Rust 原生 Contract、verification、evidence、CI 和 adopter 边界路线表达。本仓库及已 attach 的对象工程不会继承源技术栈安装器、Make 预设、应用示例或示例 Contract 决定。当前现行集合为 3,681 个 `generated-history`、278 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、83 个 `reference-only` 和 403 个 `deferred-next-batch`；`migrate-gap` 仍为 0，追加式台账继续保留 669 个 retired 路径。
 
 这是语义/文档对齐，不是 Python、Ruby、Rust、Swift 或 TypeScript 工具链支持、源命令兼容或 JSON wire 兼容。每个对象工程在外部安装一份共享 Runtime，并通过显式 `--repo` 绑定自己的事实、Contract、evidence、knowledge 和 Agent adapter。
+
+## WI-543：安全的参考台账检查与源检查器批次 37
+
+WI-543 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 逐个比较以下七个维护中的源检查器模块。源工程仍是规格/行为语料；不复制 Python、Make、YAML、provider 或源 JSON wire 实现到 Rust Runtime。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `scripts/ai_check_task_outcome.py` | implemented-different-by-design | typed OutcomeV2/TaskOutcomeReport、追加式事件、三语 human handoff 和 archive 绑定覆盖可移植边界；源报告 wire 与词法策略保留在源侧。 |
+| `scripts/ai_check_test_weakening.py` | implemented-different-by-design | 基于 snapshot 的 Rust weakening signal 与 fail-closed unknown 覆盖可移植边界；源阈值和维护报告格式仍是源/provider policy。 |
+| `scripts/ai_classify_operation_impact.py` | implemented-different-by-design | operation-time policy 与 scope 校验提供显式影响事实，不推断意图，也不导入源报告格式。 |
+| `scripts/ai_close_work_item.py` | implemented-different-by-design | typed lifecycle/finalization/ready-on-base gate 执行收尾；provider PR 操作和源 runner 编排仍为外部责任。 |
+| `scripts/ai_common.py` | implemented-different-by-design | JSON/Git/scope/redaction 分散在 typed Core、Protocol、repository 和 conformance 服务中，不复制单体 helper。 |
+| `scripts/ai_critical_domain_guards.py` | implemented-different-by-design | typed operation、authority、prompt injection 与 evidence forgery 控制保持 fail-closed，不把词法分类提升为 authority。 |
+| `scripts/ai_dependabot_intake.py` | not-applicable | Dependabot 事件身份和 bot branch 接入属于 provider；仍支持通用 delegated evidence 与 source binding。 |
+
+未发现可移植实现遗漏。历史和 retired 记录保持追加式；只有当前 pinned path 集合可接受新的比较决定。每个 attach 的对象工程继承相同的 shared Runtime、显式 repository 绑定、隔离 Contract/evidence/knowledge、fail-closed 生命周期和 human Outcome handoff，不继承源检查器或 provider 专属 policy。
 
 ## WI-510：安装入口与向导 locale 边界
 

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-539-reference-file-comparison-batch-36
+lastVerifiedBy: WI-543-reference-ledger-check-safety
 capabilityClaims:
   - reference_parity
 ---
@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `42903a546880680bfeaf6e7bc8cc29c59137b121`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.66` binary, SHA256 `4d9440368f9d5b834e0eb81d217ef01f0ddcd94f8c57d6e0fdf892b6bb50f9e2`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `7c12972ff424b321b6685e0458a999cbb712f8f6`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.67` binary, SHA256 `0c491d1709fdaa98c66acfe92d89abb747d7e01e78def815ef6c57ee431b232f`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -51,6 +51,10 @@ path and rejects an unclassified first-batch path. Target checkout metadata is
 derived from the pinned commit, not from dirty or untracked working-tree files.
 The ledger's `targetCommit` is its historical rebaseline anchor; the current
 Runtime baseline above is the reviewed `origin/main` tip used for this batch.
+
+## Safe ledger commands
+
+`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd` is read-only. `--check` rejects `--reference`, `--target`, `--rebaseline-from`, and every `--apply-*` option before loading or writing a manifest; use those options only for an explicit generation or update operation. The conformance wrapper proves the rejection and byte identity of the checked ledger.
 
 ## Classification rules
 
@@ -251,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=313 implemented-equivalent=1 not-applicable=5 reference-only=90 deferred-next-batch=360 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=319 implemented-equivalent=1 not-applicable=6 reference-only=90 deferred-next-batch=353 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -265,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 313 |
+| `implemented-different-by-design` | 319 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 5 |
+| `not-applicable` | 6 |
 | `reference-only` | 90 |
-| `deferred-next-batch` | 360 |
+| `deferred-next-batch` | 353 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1723,6 +1727,30 @@ source YAML, or JSON-wire compatibility. Every attached object/adopter project
 inherits the same shared Runtime, explicit `--repo` context, repository-local
 Contract/evidence/knowledge, and human Outcome boundary; it does not inherit
 the reference project's source scripts or adopter-specific policy values.
+
+## WI-543 — safe reference-ledger checking and source checker batch 37
+
+WI-543 compared the seven maintained source checker modules below at the pinned
+commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. The source remains a
+specification/behavior corpus; Python, Make, YAML, provider, and source JSON
+wire implementations are not copied into the Rust Runtime.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_check_task_outcome.py` | implemented-different-by-design | Typed OutcomeV2/TaskOutcomeReport, append-only events, localized human handoff, and archive binding cover the portable boundary; source report wire and lexical policy remain source-specific. |
+| `scripts/ai_check_test_weakening.py` | implemented-different-by-design | Snapshot-based Rust weakening signals and fail-closed unknowns cover the portable boundary; source thresholds and maintenance report format remain source/provider policy. |
+| `scripts/ai_classify_operation_impact.py` | implemented-different-by-design | Operation-time policy and scope evaluation provide explicit impact facts without inferring intent or importing the source report format. |
+| `scripts/ai_close_work_item.py` | implemented-different-by-design | Typed lifecycle/finalization/ready-on-base gates enforce closure; provider PR operations and source runner orchestration remain external. |
+| `scripts/ai_common.py` | implemented-different-by-design | JSON/Git/scope/redaction concerns are distributed across typed Core, Protocol, repository, and conformance services rather than a copied helper. |
+| `scripts/ai_critical_domain_guards.py` | implemented-different-by-design | Typed operation, authority, prompt-injection, and evidence-forgery controls preserve fail-closed governance without promoting lexical classification to authority. |
+| `scripts/ai_dependabot_intake.py` | not-applicable | Dependabot event identity and bot-branch intake are provider-specific; generic delegated evidence and source binding remain available. |
+
+No portable implementation omission was found in this batch. Historical and
+retired records remain append-only; only the current pinned path set is
+eligible for new comparison decisions. Every attached adopter inherits the
+same shared Runtime, explicit repository binding, isolated Contract/evidence/
+knowledge, fail-closed lifecycle, and human Outcome handoff, not source
+checkers or provider-specific policy.
 
 ## WI-539 — source governance checker comparison batch 36
 

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-03T18:00:19Z",
+  "files": {
+    "contractDigest": "sha256:2720e7cd5641fc8ea348df1a864bd20e88c6e0b6c594027aa13646d24befe1de",
+    "contractPath": ".ai/work-items/archive/WI-543-reference-ledger-check-safety.contract.json",
+    "eventsDigest": "sha256:1cd8401c3342aa16f063b4d4c0411115db47684674b9781645ad640ba41d5ae9",
+    "eventsPath": ".ai/work-items/archive/WI-543-reference-ledger-check-safety.events.jsonl",
+    "outcomeDigest": "sha256:5dbe733b22ca87f65000d890f0251e9a61e27a2c09f795d993e8989f5aea5abd",
+    "outcomePath": ".ai/work-items/archive/WI-543-reference-ledger-check-safety.outcome.json",
+    "summaryDigest": "sha256:1b14a517c828a20d03920f460f10a6c686c1d28d94d4b452e12f7df38e30d711",
+    "summaryPath": ".ai/work-items/archive/WI-543-reference-ledger-check-safety.summary.json",
+    "taskReportDigest": "sha256:fdf8ae0bf7a9bdd8d4f6a5f5af80349967e1d8b1d5070925e9d6ae7cd626b35d",
+    "taskReportMarkdownDigest": "sha256:d776b6c07451b18885d101cef36f69b07bc1c03cd9f82c6df1b1e5f9afd3c29d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-543-reference-ledger-check-safety.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-543-reference-ledger-check-safety.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-543-reference-ledger-check-safety"
+}
