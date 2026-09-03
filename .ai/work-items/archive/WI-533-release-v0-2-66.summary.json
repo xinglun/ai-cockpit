@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-533-release-v0-2-66.contract.json",
+    ".ai/work-items/archive/WI-533-release-v0-2-66.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T08:18:15Z",
+  "checkpointContractDigest": "sha256:e477bd8d364b06697fa00b282d5ffeb3ecee59fec53fd0990a079ab8c27998a4",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:dffd7d2daa4bcda12ddf1f5cbed0b6df0227f17d8cb447a75c74fc11215e9cb4",
+      "recorded": true,
+      "recordedAt": "2026-09-03T08:18:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3b6c15e7cc158f463f7d453929f7b7721b34a51236dd8dcf4d4d6225ccfc8329",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-533-release-v0-2-66"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:78de02a04729d2049b60541ff19b7ee3424696de8e96bb029f8b7151fa36a6e4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dffd7d2daa4bcda12ddf1f5cbed0b6df0227f17d8cb447a75c74fc11215e9cb4",
+      "previousContractHash": "sha256:dffd7d2daa4bcda12ddf1f5cbed0b6df0227f17d8cb447a75c74fc11215e9cb4",
+      "reason": "Correct the Contract directory scope patterns to explicit recursive globs after the release preflight identified nested documentation and release test paths outside exact directory patterns; no governance boundary is widened.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T08:34:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3b6c15e7cc158f463f7d453929f7b7721b34a51236dd8dcf4d4d6225ccfc8329",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-533-release-v0-2-66"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e477bd8d364b06697fa00b282d5ffeb3ecee59fec53fd0990a079ab8c27998a4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dffd7d2daa4bcda12ddf1f5cbed0b6df0227f17d8cb447a75c74fc11215e9cb4",
+      "previousContractHash": "sha256:78de02a04729d2049b60541ff19b7ee3424696de8e96bb029f8b7151fa36a6e4",
+      "reason": "Bind the actual reviewed PR resource context before the fresh release verification; preserve the prior blocked attempt and require a new preflight and evidence projection.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T08:42:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:30ca6ae0882d9682182b8ad4e1ceb51655b46cda1db457a9620eebb3fc289d3f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-533-release-v0-2-66"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:30ca6ae0882d9682182b8ad4e1ceb51655b46cda1db457a9620eebb3fc289d3f",
+  "createdAt": "2026-09-03T08:17:47Z",
+  "mode": "release",
+  "preflightAt": "2026-09-03T08:47:39Z",
+  "preflightContractDigest": "sha256:e477bd8d364b06697fa00b282d5ffeb3ecee59fec53fd0990a079ab8c27998a4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:30ca6ae0882d9682182b8ad4e1ceb51655b46cda1db457a9620eebb3fc289d3f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T08:47:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-533-release-v0-2-66"
+}

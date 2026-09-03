@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Workspace packages and lockfile identify v0.2.66 without rewriting historical release facts.",
+    "Hosted checks pass before an annotated v0.2.66 tag is created from synchronized main.",
+    "Public release archives, SHA256SUMS, SBOM, provenance, and manifest bind the same tag, bytes, and digests.",
+    "Post-release adopter and N-1 acceptance use only immutable downloaded artifacts, prove isolation and temporary-root cleanup, and preserve first-adopter-smoke=not_ready.",
+    "The published v0.2.66 binary is installed on this repository and inspect, status, doctor, Agent doctor, and documentation promotion checks pass.",
+    "Visible human Outcome, archive, finalization, close, and exact branch/worktree cleanup are recorded before publication is declared complete."
+  ],
+  "authority": "authorized",
+  "baseRevision": "efcd04b8dfccb203d91857a6158b218235a43f31",
+  "createdAt": "2026-09-03T08:17:47Z",
+  "goal": "Release v0.2.66 with immutable supply-chain evidence, tri-language documentation, and reproducible post-release acceptance.",
+  "intent": "Publish v0.2.66 containing the merged historical direct-merge recovery compatibility fix, synchronize current release documentation, and prove the immutable public binary can be adopted without touching the object repository.",
+  "mode": "release",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "global-Agent-MCP-configuration",
+    "source-fallback",
+    "unrelated-Runtime-behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:349edcf638f99c73461babe7cd776b7ada71b268fc6483e2e3ca16a91a780fc5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release",
+    "supply_chain",
+    "isolation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-533-release-v0-2-66",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/509",
+    "worktree": "/private/tmp/ai-cockpit-wi533-release-v0-2-66"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-533-release-v0-2-66.md",
+    "docs/work-items/WI-533-release-v0-2-66.zh-CN.md",
+    "docs/work-items/WI-533-release-v0-2-66.ja.md",
+    ".github/workflows/release.yml",
+    "tests/release/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-533-release-v0-2-66"
+}

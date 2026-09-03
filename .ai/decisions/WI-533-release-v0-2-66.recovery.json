@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-recovery",
+  "decidedAt": "2026-09-03T08:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-533-release-v0-2-66.events.jsonl",
+    ".ai/evidence/WI-533-release-v0-2-66.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:e477bd8d364b06697fa00b282d5ffeb3ecee59fec53fd0990a079ab8c27998a4",
+  "predecessorEventsDigest": "sha256:8033c9b6debd06fc92f2ee1521ff60d2b2492cfec7d5da9d4fad028d8869e4a0",
+  "predecessorOutcomeDigest": "sha256:647c4a0f2f62da885734057047e0d7ece56a27582d864901daa63cc5d4dd9354",
+  "predecessorSummaryDigest": "sha256:fb77e63f32da070ea25eadb1894bbedc1b62216fa194786a8612db0b88d21254",
+  "predecessorWorkItemId": "WI-533-release-v0-2-66",
+  "reason": "Recover the bounded release lifecycle after binding the actual reviewed PR resource context; preserve blocked finish attempts and require fresh preflight and verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and verification against the actual reviewed PR resource context, then retry finish and the remaining lifecycle.",
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "workItemId": "WI-533-release-v0-2-66"
+}
