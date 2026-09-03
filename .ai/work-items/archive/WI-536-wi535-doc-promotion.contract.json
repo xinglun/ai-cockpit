@@ -24,11 +24,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-536-wi535-doc-promotion-rebuild",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/514",
     "worktree": "/private/tmp/ai-cockpit-wi536-wi535-doc-promotion-rebuild"
   },
   "risk": "normal",
