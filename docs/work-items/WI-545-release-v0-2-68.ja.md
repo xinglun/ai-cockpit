@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-545 — v0.2.68 release と公開 artifact acceptance"
 description: "検証済み Runtime を公開し、公開インストールの証拠を結び付ける。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-545-release-v0-2-68
 lastVerifiedBy: WI-545-release-v0-2-68

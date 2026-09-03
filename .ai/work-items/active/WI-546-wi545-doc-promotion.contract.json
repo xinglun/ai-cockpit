@@ -1,0 +1,108 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-545 pages have terminal status implemented and preserve their evidence links.",
+    "All three parity ledgers show WI-545 as Implemented with terminal lifecycle links.",
+    "Documentation acceptance, status consistency, and closed-Work-Item promotion checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "267d42c58bc67dba9bc1bb7c9aeb43039bdea62f",
+  "createdAt": "2026-09-03T19:29:57Z",
+  "goal": "Make the v0.2.68 release documentation and parity projections reflect the closed Work Item without changing governance facts.",
+  "intent": "Promote WI-545 release documentation after its verified close so release gates consume terminal truth.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime code",
+    " generated .ai records",
+    " release artifacts",
+    " object repositories",
+    " global Agent/MCP configuration",
+    " and all other documentation."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:541fa2536626ac0507f80258f779cafde941aaa7962f441906749dcfe627d3dd",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-546-wi545-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/524",
+    "worktree": "/private/tmp/ai-cockpit-wi546-doc-promotion"
+  },
+  "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/work-items/WI-545-release-v0-2-68.md",
+        "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
+        "docs/work-items/WI-545-release-v0-2-68.ja.md"
+      ],
+      "expected": "WI-545 documentation pages expose the closed evidence boundary and preserve terminal receipt links.",
+      "required": true,
+      "scenario": "terminal release Work Item projection",
+      "status": "unverified",
+      "verificationPlan": "Promote all three pages to terminal implemented status after validating immutable archive, verification, finalization, and close records."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "All three parity ledgers mark WI-545 Implemented with terminal lifecycle links.",
+      "required": true,
+      "scenario": "parity ledger terminal projection",
+      "status": "unverified",
+      "verificationPlan": "Replace conditional status text only after WI-545 close evidence is present and keep links to immutable Runtime records."
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/work_item_status_consistency.py",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "Documentation acceptance, status consistency, and closed Work Item promotion checks pass without changing generated governance records.",
+      "required": true,
+      "scenario": "documentation gate convergence",
+      "status": "unverified",
+      "verificationPlan": "Run the three checks locally and again in the release source-quality route."
+    }
+  ],
+  "scope": [
+    "docs/work-items/WI-545-release-v0-2-68.md",
+    "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
+    "docs/work-items/WI-545-release-v0-2-68.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.ja.md"
+  ],
+  "sources": [
+    "docs/work-items/WI-545-release-v0-2-68.md",
+    "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
+    "docs/work-items/WI-545-release-v0-2-68.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-546-wi545-doc-promotion.ja.md",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo <repository>",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all",
+    "bash tests/docs/parity_status_check.sh"
+  ],
+  "workItemId": "WI-546-wi545-doc-promotion"
+}

@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-545——v0.2.68 发布与公开产物验收"
 description: "发布下一版经过验证的 Runtime，并绑定公开安装证据。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-545-release-v0-2-68
 lastVerifiedBy: WI-545-release-v0-2-68
