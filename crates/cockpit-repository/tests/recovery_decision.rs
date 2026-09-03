@@ -8,7 +8,7 @@ use cockpit_repository::{
     plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime,
     record_recovery_decision, record_verification_with_runtime, render_human_outcome,
     repository_id, revalidate_contract_amendment, run_repository_verification, snapshot_digest,
-    start_work_item_with_options,
+    start_work_item_with_options, status,
 };
 use serde_json::json;
 use std::fs;
@@ -337,6 +337,106 @@ fn outcome_rejects_a_foreign_current_recovery_with_a_stable_unknown() {
     );
     assert!(outcome.recovery_decision.is_none());
     assert_ne!(outcome.historical_status.as_deref(), Some("superseded"));
+}
+
+#[test]
+fn readiness_accepts_a_closed_terminal_recovery_successor() {
+    let directory = ready_archived_repository();
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let predecessor = "WI-ARCHIVED-RECOVERY";
+    let successor = "WI-SUCCESSOR";
+    let recovery = archived_recovery_receipt(&directory, "successor", Some(successor), &runtime);
+    record_recovery_decision(directory.path(), predecessor, &recovery, &runtime)
+        .expect("record successor recovery");
+    start_work_item_with_options(
+        directory.path(),
+        successor,
+        "continue the recovered work",
+        "complete a terminal successor with independently bound evidence",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["successor remains independently governed".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("activate recovery successor");
+    plan_resource_finalization(
+        directory.path(),
+        successor,
+        &ResourceFinalizationContext {
+            branch: "feature/successor".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/341".into(),
+        },
+    )
+    .expect("successor finalization plan");
+    let contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{successor}.contract.json"));
+    preflight_work_item(directory.path(), &contract_path).expect("preflight before evidence");
+    checkpoint_work_item(directory.path(), successor).expect("checkpoint successor");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "successor-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verify successor");
+    let verification = serde_json::to_value(&run.receipt).expect("verification JSON");
+    record_verification_with_runtime(
+        directory.path(),
+        successor,
+        &verification,
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("record successor evidence");
+    preflight_work_item(directory.path(), &contract_path).expect("green preflight");
+    finish_work_item(directory.path(), successor).expect("finish successor");
+    archive_work_item(directory.path(), successor).expect("archive successor");
+    let pending_before_close = status(directory.path())
+        .expect("repository status before successor close")
+        .readiness
+        .unclosed_archived_work_items;
+    assert!(pending_before_close.contains(&predecessor.to_owned()));
+    assert!(pending_before_close.contains(&successor.to_owned()));
+    close_work_item_with_structured_decision(
+        directory.path(),
+        successor,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "repository-owner".into(),
+            reason: "successor terminal evidence is complete".into(),
+            evidence_refs: vec![format!(".ai/evidence/{successor}.verification.json")],
+            policy_refs: vec!["docs/reference/repository-workflow.md".into()],
+            decided_at: "2026-08-28T00:01:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect("close successor");
+
+    let readiness = status(directory.path())
+        .expect("repository status")
+        .readiness;
+    assert!(readiness.unclosed_archived_work_items.is_empty());
 }
 
 #[test]
