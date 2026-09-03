@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "ee6a9ad64053f7a53763a247806dc5de4a0228d2",
+  "predecessorReceiptDigest": "sha256:59fec5c0d42f3d65b302bcadec072a501717af68a8ac1c613c6628c1aa012590",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "github-pr-review",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "ee6a9ad64053f7a53763a247806dc5de4a0228d2",
+      "name": "codex/wi-521-reference-file-comparison-batch-35",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:21efa5013ad2f868001787d6580d62f464445555b5b2b35bf8c35f647e59e5fc",
+    "operationId": "WI-521-reference-file-comparison-batch-35-merge-observation",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "0b03a18759709c6086012c048f9af2b0a4b63d79",
+      "headRevision": "ee6a9ad64053f7a53763a247806dc5de4a0228d2",
+      "mergeCommit": "4da3b5de6b162d02de17204acfe4d0f3e7777fc2",
+      "number": 496,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/496"
+    },
+    "reason": "Reviewed PR #496 merge observed on synchronized default branch; cleanup is next",
+    "receiptId": "WI-521-reference-file-comparison-batch-35-merge-observation",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-521-reference-file-comparison-batch-35",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/496",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-521-reference-file-comparison-batch-35"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+    "runtimeVersion": "0.2.64",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-03T01:20:00Z",
+    "workItemId": "WI-521-reference-file-comparison-batch-35",
+    "worktree": {
+      "branch": "codex/wi-521-reference-file-comparison-batch-35",
+      "headRevision": "ee6a9ad64053f7a53763a247806dc5de4a0228d2",
+      "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-521-reference-file-comparison-batch-35",
+      "worktreeId": "WI-521-reference-file-comparison-batch-35"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-521-reference-file-comparison-batch-35-merge-observation"
+}
