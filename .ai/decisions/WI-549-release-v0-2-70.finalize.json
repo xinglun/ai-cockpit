@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fb9d5effee24114ed71edc4434c5262bb142dd73",
+    "name": "codex/wi-549-release-v0-2-70",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d160833fd8cf3cc545e0ab60447da59ead441d03f8a810392b3205068563b194",
+  "operationId": "github-pr-527-merge-cleanup-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "27cbf2554a4ee941e6d395d2fe258dcd280d23de",
+    "headRevision": "fb9d5effee24114ed71edc4434c5262bb142dd73",
+    "mergeCommit": "6de8a91867f6c4a03417a1773d77ba42e30a22ff",
+    "number": 527,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/527"
+  },
+  "reason": "Reviewed PR #527 passed all hosted checks and was merged as 6de8a91867f6c4a03417a1773d77ba42e30a22ff; the exact WI-549 branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-527-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-549-release-v0-2-70",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/527",
+    "worktree": "/private/tmp/ai-cockpit-wi549-release"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1636e67caf25fb0421068ac0eb7a8d2e3b0c142a7fe734a2a7ad26a5b45bc1a5",
+  "runtimeVersion": "0.2.69",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T22:47:39Z",
+  "workItemId": "WI-549-release-v0-2-70",
+  "worktree": {
+    "branch": "codex/wi-549-release-v0-2-70",
+    "headRevision": "fb9d5effee24114ed71edc4434c5262bb142dd73",
+    "path": "/private/tmp/ai-cockpit-wi549-release",
+    "worktreeId": "codex/wi-549-release-v0-2-70"
+  }
+}
