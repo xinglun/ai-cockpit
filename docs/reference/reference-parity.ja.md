@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-516-reference-file-comparison-batch-34
+lastVerifiedBy: WI-539-reference-file-comparison-batch-36
 capabilityClaims:
   - reference_parity
 ---
@@ -77,7 +77,7 @@ matrix は次の 4 state だけを使います。
 | Governance performance budgets | Implemented differently | Identity-bound `PerformanceBaseline` sample と明示的 regression budget を local に利用できます。Timing は required verification を弱めず provider assurance を作りません。 |
 | Governance profile/cost separation | Implemented differently | light/standard/strict route、operation/stage escalation、`VerificationTier`、`EvidenceAssurance`、advisory cost を分離します。 |
 | Operation-time high-risk policy re-evaluation | Implemented differently | Rust Core の `OperationTimeRequest` が実行直前に operation、target、scope、authority、freshness、trust、impact を評価し、実行や provider 権限付与はしません。 |
-| delete/rename/deprecate 前の static reference-impact scan | Deferred | source scanner と Python/Make/schema surface は提供しません。Rust operation-time evaluator は caller、dynamic reference、external consumer、monitoring を推論せず、必要な impact evidence がなければ unknown/human review のままです。 |
+| delete/rename/deprecate 前の static reference-impact scan | External boundary | source scanner は reference/provider tooling として保持します。Rust は operation-time scope safety と fail-closed unknown を実施しますが、caller、dynamic reference、external consumer、monitoring は推論しません。必要な fact は adopter/provider が提供します。 |
 | Multilingual semantic parity | Partial | Runtime-owned label と stop/next-action の意味を三言語で文書化・テストします。人が所有する Contract text は作成言語を保持し、任意 prose comparator は主張しません。 |
 | Lightweight verification and soft gates | Implemented differently | 比例した route、content-bound reuse、決定的な partial dependency、単調な escalation、可視の advisory boundary を Runtime が提供します。 |
 | Installation と provider configuration | External boundary | binary delivery と provider/global configuration は repository governance state の外部で分離される。 |
@@ -491,6 +491,7 @@ verification record です。
 | WI-536 — WI-535 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-536-wi535-doc-promotion.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-536-wi535-doc-promotion.contract.json`; verification `.ai/evidence/WI-536-wi535-doc-promotion.verification.json`; finalization `.ai/decisions/WI-536-wi535-doc-promotion.finalize.json`; close `.ai/decisions/WI-536-wi535-doc-promotion.close.json`. |
 | WI-537 — typed MCP capability surface と利用ドキュメント | Implemented | [Work Item](../work-items/WI-537-capability-surface.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-537-capability-surface.contract.json`; verification `.ai/evidence/WI-537-capability-surface.verification.json`; finalization `.ai/decisions/WI-537-capability-surface.finalize.json`; close `.ai/decisions/WI-537-capability-surface.close.json`. |
 | WI-538 — WI-537 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-538-wi537-doc-promotion.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-538-wi537-doc-promotion.contract.json`; verification `.ai/evidence/WI-538-wi537-doc-promotion.verification.json`; finalization `.ai/decisions/WI-538-wi537-doc-promotion.finalize.json`; close `.ai/decisions/WI-538-wi537-doc-promotion.close.json`. |
+| WI-539 — source governance checker comparison batch 36 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-539-reference-file-comparison-batch-36.ja.md); verification `.ai/evidence/WI-539-reference-file-comparison-batch-36.verification.json`; planned terminal lifecycle: archive `.ai/work-items/archive/WI-539-reference-file-comparison-batch-36.contract.json`; finalization `.ai/decisions/WI-539-reference-file-comparison-batch-36.finalize.json`; close `.ai/decisions/WI-539-reference-file-comparison-batch-36.close.json`。pinned source checker 10 path を append-only inventory に登録しました。 |
 
 ## WI-512: governance reference page と verification boundary
 

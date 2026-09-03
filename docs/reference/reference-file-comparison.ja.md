@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-521-reference-file-comparison-batch-35
+lastVerifiedBy: WI-539-reference-file-comparison-batch-36
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `326ba4d47f44bd2bbf5a07b9f466683245c87b7f`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.62`、binary SHA256 `sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `42903a546880680bfeaf6e7bc8cc29c59137b121`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.66`、binary SHA256 `sha256:4d9440368f9d5b834e0eb81d217ef01f0ddcd94f8c57d6e0fdf892b6bb50f9e2`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -240,9 +240,30 @@ WI-521 は pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の次
 
 これは semantic/documentation parity であり、Python/Make command、provider event、source YAML、JSON-wire compatibility ではありません。各 attached object/adopter project は shared Runtime、明示的な `--repo` context、repository-local Contract/evidence/knowledge、人間向け Outcome boundary を継承しますが、reference source script や adopter 固有 policy value は継承しません。
 
+## WI-539 — source governance checker comparison batch 36
+
+WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対象 source checker 10 file を一つずつ再読しました。ここで記録するのは semantic responsibility と ownership であり、Python、Make、YAML、source JSON wire format を Rust Runtime に copy しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_check_guidelines.py` | implemented-different-by-design | typed Contract guidelines は human-owned のまま、番号付き acceptance/evidence で completion を bind します。untyped `guidelinesCompliance` field は追加しません。 |
+| `scripts/ai_check_pr.py` | implemented-different-by-design | archive、recovery、scope、evidence は typed lifecycle gate に分散して検証し、PR identity と hosted check は provider evidence のままです。 |
+| `scripts/ai_check_reference_impact.py` | reference-only | source AST/text impact scan は source/provider tooling に残します。Rust は operation-time scope safety と fail-closed unknown を維持し、caller、external consumer、monitoring の推論は claim しません。 |
+| `scripts/ai_check_registry.py` | implemented-different-by-design | versioned gate manifest と typed receipt が deterministic な checker 登録、deduplication、unavailable-gate reason を担います。 |
+| `scripts/ai_check_review_policy.py` | implemented-different-by-design | Contract/preflight と provider PR review が review authority を担い、第二の YAML policy や report-only focus list は導入しません。 |
+| `scripts/ai_check_scope.py` | implemented-different-by-design | repository-relative scope/out-of-scope、dependency、parallel boundary、snapshot check は typed Runtime gate です。 |
+| `scripts/ai_check_serial_order.py` | implemented-different-by-design | predecessor、merged PR、closure、exact resource cleanup、synchronized base は lifecycle と ready-on-base が検証します。 |
+| `scripts/ai_check_status.py` | implemented-different-by-design | request-scoped typed status と human Outcome projection が generated `current_status.md` に代わる authority です。 |
+| `scripts/ai_check_status_consistency.py` | implemented-different-by-design | read-only status は active/archive ownership を導出して ambiguity を拒否し、Runtime は generated status を silent repair しません。 |
+| `scripts/ai_check_summary.py` | implemented-different-by-design | strict Contract、evidence、archive、Outcome binding が portable boundary を担いますが、source Summary JSON compatibility や human claim の推論は行いません。 |
+
+この slice に新しい portable implementation omission はありません。reference-impact scanner は明示的に `reference-only` であり、Rust の未記録 gap ではありません。caller と external consumer の静的 fact は adopter/provider または human-owned evidence が供給し、unknown impact は fail-closed のままです。残り 9 件は Rust-native typed Protocol、repository lifecycle、gate manifest、status、Outcome boundary で表現されます。
+
+現在の 4,450 path set は 3,681 `generated-history`、313 `implemented-different-by-design`、1 `implemented-equivalent`、5 `not-applicable`、90 `reference-only`、360 `deferred-next-batch` です。append-only ledger は 669 retired path を保持し、`migrate-gap` は zero のままです。各 attached object/adopter project は shared Runtime、明示的 repository binding、isolated Contract/evidence/knowledge、fail-closed lifecycle、人間向け Outcome boundary を継承しますが、source checker、provider policy value、stack-specific command は継承しません。
+
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=5 reference-only=89 deferred-next-batch=370 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=313 implemented-equivalent=1 not-applicable=5 reference-only=90 deferred-next-batch=360 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -254,11 +275,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 304 |
+| `implemented-different-by-design` | 313 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 5 |
-| `reference-only` | 89 |
-| `deferred-next-batch` | 370 |
+| `reference-only` | 90 |
+| `deferred-next-batch` | 360 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |

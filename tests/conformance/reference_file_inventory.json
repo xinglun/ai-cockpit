@@ -35762,10 +35762,16 @@
     },
     {
       "referencePath": "scripts/ai_check_guidelines.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/tests/contract_v2.rs",
+        "docs/reference/contract-fields.md"
+      ],
+      "reason": "The source checker requires every human guideline to have a confirmed Summary claim and evidence. Rust keeps guidelines as human-owned Contract input and proves completion through typed acceptance/evidence bindings; it does not add an untyped guidelinesCompliance wire field or infer compliance.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_check_knowledge_index.py",
@@ -35776,39 +35782,62 @@
     },
     {
       "referencePath": "scripts/ai_check_pr.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source aggregate checker audits archive ownership, Summary validity, recovery chains, and a committed PR boundary. Rust distributes those responsibilities across the typed gate, immutable archive/finalization services, and reviewed provider PR boundary; GitHub PR identity and hosted checks remain external evidence, and source Python orchestration is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_reference_impact.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-core/tests/operation_time_policy.rs",
+        "docs/reference/reference-parity.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source performs language-specific static text/AST and build-reference scanning before delete/rename/deprecate operations. Shared Rust Runtime does not infer callers, dynamic references, external consumers, or monitoring; those facts stay adopter/provider or human-declared evidence and unknowns remain fail-closed. This source checker is reference material, not an omitted Runtime command.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_registry.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/repository_gate_manifest.json",
+        "tests/ci/run_repository_gates.py",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "The source registry deduplicates checker IDs and records stage results. Rust uses a versioned gate manifest plus dynamic Contract-aware routing and typed receipts; unavailable gates are explicit, required gates cannot be silently skipped, and the source registry class is not a Runtime protocol type.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_check_review_policy.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "The source reads a template-local YAML review policy and produces a changed-path focus report. Rust binds review requirements to the Contract, preflight/human decision receipts, and provider-owned PR review; it does not install a second YAML policy or treat a report-only focus list as approval.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_check_scenario_coverage.py",
@@ -35822,45 +35851,74 @@
     },
     {
       "referencePath": "scripts/ai_check_scope.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ],
+      "reason": "The source checks changed paths against scope/outOfScope, allow patterns, dependency rules, and capability evidence. Rust performs repository-relative scope/out-of-scope validation, dependency and parallel-boundary checks, and fail-closed snapshot binding in typed lifecycle gates; source YAML policies are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_check_serial_order.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source checks predecessor status, merged PR, closure, branch deletion, and synchronized base. Rust enforces the same delivery order through repository readiness, predecessor-bound recovery, finalization, close, and ready-on-base checks; provider PR fields remain external evidence.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_check_status.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source validates a generated current_status.md against Contract/Summary, ownership, calibration, and localized presentation. Rust exposes request-scoped typed WorkItemStatusSnapshot/Index and human Outcome projections instead of persisting a generated status markdown file; facts and digests remain repository-bound.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_check_status_consistency.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/how-to-read-cockpit-status.md"
+      ],
+      "reason": "The source reconciles active Contract/Summary ownership and a generated status file, with an optional repair command. Rust computes read-only repository-scoped status from current active/archive records, rejects orphaned or ambiguous state at lifecycle boundaries, and has no silent status-file repair authority.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_check_summary.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-539-reference-file-comparison-batch-36",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "docs/reference/contract-fields.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "The source validates a broad Python Summary schema, changed-file ownership, documentation alignment, review readiness, and hosted-performance claims. Rust keeps strict typed Contract/evidence/archive/Outcome bindings and explicit partial fields; it does not claim byte-compatible Summary JSON or infer missing human claims.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
