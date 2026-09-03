@@ -90,4 +90,12 @@ Runtime は、その receipt が有効で記録時刻の順序で勝つ場合に
 fail closed です。Contract、Summary、Outcome、Events、Evidence、recovery receipt の
 bytes は書き換えません。
 
+Repository readiness も同じ境界を entry gate に適用します。archived predecessor は、
+recovery receipt が有効で、選択された successor が archived になり、manifest 検証済みで
+repository-bound の Contract/Summary、verified Outcome、confirmed close decision を
+揃えるまで `pending close` のままです。missing、stale、foreign、malformed、symlink、
+または未 close の successor は blocker を抑制しません。これにより、完了した recovery
+lineage が repository 全体を不要に deadlock させず、証明されていない successor が
+historical debt を隠すことも防ぎます。
+
 これは Rust-native な semantic workflow です。参照 source の `make` command、Python module、generated history は比較材料であり、本 repository の command や Runtime authority ではありません。

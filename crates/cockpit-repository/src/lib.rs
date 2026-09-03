@@ -3700,11 +3700,85 @@ fn unclosed_archived_work_items_with_id(
         .filter(|work_item_id| {
             archive_requires_close(root, work_item_id)
                 && !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id)
+                && !recovery_successor_resolves_pending_close(
+                    root,
+                    work_item_id,
+                    expected_repository_id,
+                )
         })
         .collect::<Vec<_>>();
     pending.sort();
     pending.dedup();
     Ok(pending)
+}
+
+/// A predecessor with an explicit recovery successor is no longer a live
+/// close obligation once that successor has reached its own verified,
+/// repository-bound terminal boundary.  The recovery receipt is still
+/// validated through the normal append-only loader; this helper only decides
+/// whether the predecessor should remain in the repository-level entry gate.
+/// Missing, stale, foreign, malformed, or incomplete successor evidence keeps
+/// the predecessor blocking (fail closed).
+fn recovery_successor_resolves_pending_close(
+    root: &Path,
+    predecessor_id: &str,
+    expected_repository_id: &str,
+) -> bool {
+    let Ok(Some(recovery)) = load_recovery_decision(root, predecessor_id, None) else {
+        return false;
+    };
+    if !matches!(recovery.decision.as_str(), "successor" | "supersede")
+        || recovery.repository_id != expected_repository_id
+    {
+        return false;
+    }
+    let Some(successor_id) = recovery.successor_work_item_id.as_deref() else {
+        return false;
+    };
+
+    let archive_root = root.join(".ai/work-items/archive");
+    let contract_path = archive_root.join(format!("{successor_id}.contract.json"));
+    let manifest_path = archive_root.join(format!("{successor_id}.archive.json"));
+    let summary_path = archive_root.join(format!("{successor_id}.summary.json"));
+    let outcome_path = archive_root.join(format!("{successor_id}.outcome.json"));
+    if !is_regular_non_symlink(&contract_path).unwrap_or(false)
+        || !is_regular_non_symlink(&manifest_path).unwrap_or(false)
+        || !is_regular_non_symlink(&summary_path).unwrap_or(false)
+        || !is_regular_non_symlink(&outcome_path).unwrap_or(false)
+    {
+        return false;
+    }
+    let Ok(contract) = read_contract(&contract_path) else {
+        return false;
+    };
+    if contract.work_item_id != successor_id || contract.repository_id != expected_repository_id {
+        return false;
+    }
+    let Ok(manifest) = read_json(&manifest_path) else {
+        return false;
+    };
+    if verify_archive_manifest(root, successor_id, &manifest).is_err() {
+        return false;
+    }
+    let Ok(summary) = read_json(&summary_path) else {
+        return false;
+    };
+    if summary["workItemId"] != serde_json::json!(successor_id)
+        || summary["state"] != serde_json::json!("finish_ready")
+        || summary["checkpointCount"] != serde_json::json!(1)
+        || summary["preflightState"] != serde_json::json!("green")
+    {
+        return false;
+    }
+    let Ok(outcome) = read_json(&outcome_path) else {
+        return false;
+    };
+    if outcome["workItemId"] != serde_json::json!(successor_id)
+        || outcome["verification"]["status"] != serde_json::json!("verified")
+    {
+        return false;
+    }
+    close_decision_is_valid_for_status(root, successor_id, expected_repository_id)
 }
 
 fn classify_historical_debt(root: &Path, work_items: &[String]) -> Vec<HistoricalDebtItem> {
