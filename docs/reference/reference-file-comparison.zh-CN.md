@@ -230,6 +230,29 @@ WI-521 在 pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐
 
 这是语义/文档对齐，不是 Python/Make 命令、provider 事件、源 YAML 或 JSON wire 兼容。每个 attach 的对象工程继承同一份 shared Runtime、显式 `--repo` context、repository-local Contract/evidence/knowledge 和人类 Outcome 边界；不会继承参考源脚本或对象工程专属 policy 值。
 
+## WI-548：治理与边界脚本逐文件比较批次 38
+
+WI-548 在固定本地参考提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个比较 13 个维护中的源脚本，覆盖派生工件权威边界、安装边界、doctor 与文档路由、领域/证据模型、外部身份/交接、最终验收和影响提示。清单记录语义对应与明确不声明，不复制 Python 模块或源 JSON wire 格式。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `scripts/ai_derived_artifacts.py` | implemented-different-by-design | typed Contract/evidence/archive/Outcome 投影保持派生视图不可授权；不复制源 registry。 |
+| `scripts/ai_detached_uninstaller.py` | reference-only | installed-lifecycle 文档说明 proposal、归属、有界删除和证据保留；Rust 不提供 detached uninstaller。 |
+| `scripts/ai_disable_enable.py` | reference-only | repository attach 与 request-scoped Runtime 取代全局安装开关；不声明 disable/enable 状态文件。 |
+| `scripts/ai_doctor.py` | implemented-different-by-design | repository-bound Rust `doctor` 报告 protocol/runtime/compatibility 与 fail-closed 诊断；provider 工具链仍是对象工程事实。 |
+| `scripts/ai_documentation_authority.py` | implemented-different-by-design | `.ai` 读集、current/reference 路由、frontmatter 与文档门禁提供单一权威路线，不增加第二套 registry CLI。 |
+| `scripts/ai_documentation_journey.py` | implemented-different-by-design | 三语 current/getting-started/reference 索引与验收检查保持读者路线。 |
+| `scripts/ai_domain_model.py` | implemented-different-by-design | typed Core/Protocol/repository 生命周期服务负责状态迁移、证据、身份与 fail-closed 决策。 |
+| `scripts/ai_enterprise_control_evidence.py` | implemented-different-by-design | 企业 assurance、过期、保留和 delegated evidence 保持显式，不能由本地 receipt 推断。 |
+| `scripts/ai_evidence_dependencies.py` | implemented-different-by-design | verification 绑定 Work Item、repository、snapshot、Contract、profile、policy、command、stage、runner 和 Runtime identity。 |
+| `scripts/ai_external_handoff.py` | implemented-different-by-design | typed release/MCP/Outcome 交接保留 digest 绑定的外部责任，Core 不执行 provider。 |
+| `scripts/ai_external_identity.py` | implemented-different-by-design | typed authority 与 delegated provider/enterprise evidence 保留 assurance 层级，不在本地认证人员。 |
+| `scripts/ai_final_north_star_acceptance.py` | implemented-different-by-design | final replacement 验收保留 external adopter/provider evidence 边界与明确限制。 |
+| `scripts/ai_impact_classifier.py` | implemented-different-by-design | 影响仅来自显式 Contract、scope、profile 和 operation-time 事实；未知影响不会弱化路线。 |
+
+本批未发现可移植实现遗漏。detached uninstaller 与全局 disable/enable 是有意保留的 source/provider 边界，不是缺少的 Runtime 能力。每个 attach 的对象工程继承同一共享 binary、显式 `--repo`、隔离 Contract/evidence/knowledge 和 human Outcome 规则，不继承源安装状态、Python registry 或对象工程专属 policy。
+
 ## WI-539：源治理检查器逐文件比较批次 36
 
 WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读下一组 10 个维护中的源检查脚本。这里记录的是语义责任和归属，不把 Python、Make、YAML 或源 JSON wire 格式复制到 Rust Runtime。
@@ -253,7 +276,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=319 implemented-equivalent=1 not-applicable=6 reference-only=90 deferred-next-batch=353 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=330 implemented-equivalent=1 not-applicable=6 reference-only=92 deferred-next-batch=340 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -264,11 +287,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 319 |
+| `implemented-different-by-design` | 330 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 90 |
-| `deferred-next-batch` | 353 |
+| `reference-only` | 92 |
+| `deferred-next-batch` | 340 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |

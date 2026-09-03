@@ -74,6 +74,7 @@ WI512_BATCH = "WI-512-reference-docs-batch-33"
 WI516_BATCH = "WI-516-reference-file-comparison-batch-34"
 WI539_BATCH = "WI-539-reference-file-comparison-batch-36"
 WI543_BATCH = "WI-543-reference-file-comparison-batch-37"
+WI548_BATCH = "WI-548-reference-file-comparison-batch-38"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1318,6 +1319,139 @@ WI543_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/ci-release-evidence.md",
         ],
         "Dependabot candidate event identity, locked dependency classification, and automatic bot-branch intake are provider-specific. Rust supports generic delegated evidence and explicit source binding, but does not ship a Dependabot workflow or provider event parser.",
+    ),
+}
+
+WI548_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_derived_artifacts.py": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/outcome-report.md",
+            "docs/reference/verification-semantics.md",
+            ".ai/README.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source validator protects a fact-versus-derived-view registry. Rust preserves that authority boundary through typed Contract/evidence/archive/status/Outcome projections and repository-local derived Knowledge; derived views cannot authorize a later decision, and the source Python registry or JSON wire shape is not copied.",
+    ),
+    "scripts/ai_detached_uninstaller.py": (
+        "reference-only",
+        [
+            "docs/reference/installed-lifecycle.md",
+            "docs/reference/commands.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source detached-process uninstaller is an installer/provider implementation. Rust documents proposal-before-write, ownership, bounded removal, evidence retention, and fail-closed recovery, but does not provide a detached uninstaller or claim that deleting a local binary disposes repository state.",
+    ),
+    "scripts/ai_disable_enable.py": (
+        "reference-only",
+        [
+            "docs/reference/installed-lifecycle.md",
+            "docs/reference/commands.md",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source disable/enable state machine is a template installer control. Rust has no global installed-state toggle; its shared Runtime remains request-scoped and repository attachment/lifecycle controls are explicit, preserving evidence and refusing unsafe recovery without copying the source state file or commands.",
+    ),
+    "scripts/ai_doctor.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-cli/src/main.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/tests/doctor.rs",
+            "docs/reference/commands.md",
+        ],
+        "The source doctor aggregates Python/Make installation, POSIX, hosted-snapshot, and adopter facts. Rust provides a repository-bound JSON doctor with protocol/runtime identity, compatibility, Runtime-code exclusion, and fail-closed repository diagnostics; provider toolchain and source Make targets remain adopter boundaries.",
+    ),
+    "scripts/ai_documentation_authority.py": (
+        "implemented-different-by-design",
+        [
+            ".ai/README.md",
+            "AGENTS.md",
+            "docs/current/README.md",
+            "docs/reference/README.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The source registry validates canonical/reference/historical documentation routing. Rust keeps one repository-owned current read set, explicit current/getting-started/reference routes, frontmatter and documentation acceptance; it does not add a second generic authority CLI or trust source plan metadata as instruction.",
+    ),
+    "scripts/ai_documentation_journey.py": (
+        "implemented-different-by-design",
+        [
+            "docs/current/README.md",
+            "docs/getting-started/README.md",
+            "docs/reference/README.md",
+            "tests/docs/documentation_acceptance.sh",
+        ],
+        "The source topic registry validates reader-criticality, localized paths, fallback labels, and next-topic links. Rust expresses the maintained reader journey through current/getting-started/reference indexes, tri-language links, frontmatter, and documentation gates; source registry fields and Python checker commands are not Runtime protocol.",
+    ),
+    "scripts/ai_domain_model.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-core/tests/domain_types.rs",
+        ],
+        "The source module centralizes lifecycle vocabulary, typed facts, receipts, decisions, and canonical transitions. Rust owns the same authority in typed Core/Protocol records and repository lifecycle services, with stronger repository identity, snapshot, evidence, and Runtime bindings; source dataclasses and JSON shape are not copied.",
+    ),
+    "scripts/ai_enterprise_control_evidence.py": (
+        "implemented-different-by-design",
+        [
+            "docs/security/enterprise-governance.md",
+            "docs/security/enterprise-governance.zh-CN.md",
+            "docs/security/enterprise-governance.ja.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/tests/evidence_assurance.rs",
+        ],
+        "The source control evaluator keeps local records from becoming enterprise compliance verdicts and rejects expired or missing external evidence. Rust preserves this delegated boundary with typed assurance, external evidence import, expiry/retention validation, and explicit non-certification claims.",
+    ),
+    "scripts/ai_evidence_dependencies.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-verification/src/lib.rs",
+            "crates/cockpit-repository/tests/evidence_assurance.rs",
+            "crates/cockpit-repository/tests/verification_service.rs",
+        ],
+        "The source dependency matrix binds changed paths and generated evidence to declared capabilities and source inputs. Rust binds verification receipts to Work Item, repository, snapshot, Contract, profile, policy, command, stage, runner, and Runtime identity; source matrix files and provider-specific generated-artifact rules are not copied.",
+    ),
+    "scripts/ai_external_handoff.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/handoff.rs",
+            "crates/cockpit-mcp/src/lib.rs",
+            "docs/security/enterprise-governance.md",
+            "docs/reference/outcome-report.md",
+        ],
+        "The source generic handoff records an external fulfiller, deadline, bindings, and receipt ingestion without contacting the provider. Rust keeps typed, digest-bound release handoff and repository-bound MCP/Outcome projections; external provider execution and identity remain delegated evidence, not local authorization.",
+    ),
+    "scripts/ai_external_identity.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/evidence_assurance.rs",
+            "docs/security/enterprise-governance.md",
+        ],
+        "The source distinguishes self-declared, repository-recorded, provider, enterprise, and direct-user approval evidence and requires stronger bindings for high-risk work. Rust uses typed authority/approval evidence, policy-defined approval modes, repository identity, and delegated provider/enterprise evidence without authenticating a person locally.",
+    ),
+    "scripts/ai_final_north_star_acceptance.py": (
+        "implemented-different-by-design",
+        [
+            "docs/reference/final-replacement-acceptance.md",
+            "tests/conformance/final_replacement_acceptance.sh",
+            "crates/cockpit-repository/src/governance_controls.rs",
+        ],
+        "The source evaluator requires all twenty named dimensions and refuses GO without verified adopter and provider evidence. Rust preserves the bounded North Star through final-replacement acceptance, parity evidence, and explicit external limitations; source decision JSON and historical release claims are not copied.",
+    ),
+    "scripts/ai_impact_classifier.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-core/src/lib.rs",
+            "docs/reference/governance-profiles.md",
+            "docs/reference/operation-time-policy-reevaluation.md",
+        ],
+        "The source path classifier is a lightweight Python routing hint. Rust derives impact only from explicit Contract, operation-time policy, changed-path, and profile facts; unknown impact remains visible/fail-closed and never authorizes a weaker route. Source lexical categories are not a wire enum.",
     ),
 }
 
@@ -3804,6 +3938,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi548 = WI548_REFERENCE_FILES.get(path)
+        if wi548 is not None:
+            classification, counterparts, reason = wi548
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI548_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         if is_generated_history(path):
             records.append(
                 {
@@ -5231,6 +5378,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi543_classifications
         ):
             errors.append("WI-543 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI548_BATCH
+        for record in records
+    ):
+        wi548_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI548_BATCH
+            and record.get("referencePath") in WI548_REFERENCE_FILES
+        ]
+        expected_wi548_paths = set(WI548_REFERENCE_FILES) & current_reference_paths
+        actual_wi548_paths = {record.get("referencePath") for record in wi548_records}
+        if actual_wi548_paths != expected_wi548_paths:
+            errors.append(
+                "WI-548 batch paths do not match the pinned current-file set: "
+                f"expected {sorted(expected_wi548_paths)!r}, got {sorted(actual_wi548_paths)!r}"
+            )
+        if len(wi548_records) != len(expected_wi548_paths):
+            errors.append(
+                f"WI-548 batch must contain {len(expected_wi548_paths)} records, found {len(wi548_records)}"
+            )
+        wi548_classifications = [historical_classification(record) for record in wi548_records]
+        expected_wi548_classifications = Counter(
+            WI548_REFERENCE_FILES[path][0] for path in expected_wi548_paths
+        )
+        if any(
+            wi548_classifications.count(classification) != count
+            for classification, count in expected_wi548_classifications.items()
+        ):
+            errors.append("WI-548 batch classifications do not match current reference paths")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi548_classifications
+        ):
+            errors.append("WI-548 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -5646,6 +5829,34 @@ def apply_wi543_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi548_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI548_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI548_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI548_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI548_REFERENCE_FILES)} WI-548 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -5675,6 +5886,7 @@ def main() -> int:
     parser.add_argument("--apply-wi516-batch", action="store_true")
     parser.add_argument("--apply-wi539-batch", action="store_true")
     parser.add_argument("--apply-wi543-batch", action="store_true")
+    parser.add_argument("--apply-wi548-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -5698,6 +5910,7 @@ def main() -> int:
         args.apply_wi516_batch,
         args.apply_wi539_batch,
         args.apply_wi543_batch,
+        args.apply_wi548_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -5824,6 +6037,13 @@ def main() -> int:
     if args.apply_wi543_batch:
         try:
             apply_wi543_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi548_batch:
+        try:
+            apply_wi548_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

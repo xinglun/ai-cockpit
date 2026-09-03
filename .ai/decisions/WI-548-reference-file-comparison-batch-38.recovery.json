@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-recovery-of-failed-finish",
+  "decidedAt": "2026-09-04T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-548-reference-file-comparison-batch-38.verification.json",
+    ".ai/work-items/active/WI-548-reference-file-comparison-batch-38.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery"
+  ],
+  "predecessorContractDigest": "sha256:962e3f330e010e504c1b71fe8114804ed15c982092cc27e32e9fb2ee5a89a3e9",
+  "predecessorEventsDigest": "sha256:896d3fce8a01823bd1dff3cb3c16fc0e314910ff94b491b34024fc5bf324c402",
+  "predecessorOutcomeDigest": "sha256:fbd44e2601f528dd2aff0e5aef3781f63a23b891ed9bac066df782c9fd54c242",
+  "predecessorSummaryDigest": "sha256:2de117cc8bd18ad781bdf2ccc11458cbbb8d2a0acebfc044fdf923df4bc4e472",
+  "predecessorWorkItemId": "WI-548-reference-file-comparison-batch-38",
+  "reason": "Finalize-plan was bound after the initial verification, invalidating that evidence. Preserve the stopped attempt and retry with fresh preflight and verification against the finalized PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized resource context, then retry finish.",
+  "runtimeDigest": "sha256:1636e67caf25fb0421068ac0eb7a8d2e3b0c142a7fe734a2a7ad26a5b45bc1a5",
+  "runtimeVersion": "0.2.69",
+  "schemaVersion": 1,
+  "workItemId": "WI-548-reference-file-comparison-batch-38"
+}

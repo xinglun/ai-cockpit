@@ -36058,17 +36058,29 @@
     },
     {
       "referencePath": "scripts/ai_derived_artifacts.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/outcome-report.md",
+        "docs/reference/verification-semantics.md",
+        ".ai/README.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source validator protects a fact-versus-derived-view registry. Rust preserves that authority boundary through typed Contract/evidence/archive/status/Outcome projections and repository-local derived Knowledge; derived views cannot authorize a later decision, and the source Python registry or JSON wire shape is not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_detached_uninstaller.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/installed-lifecycle.md",
+        "docs/reference/commands.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source detached-process uninstaller is an installer/provider implementation. Rust documents proposal-before-write, ownership, bounded removal, evidence retention, and fail-closed recovery, but does not provide a detached uninstaller or claim that deleting a local binary disposes repository state.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/ai_diff_bound_reuse.py",
@@ -36083,45 +36095,82 @@
     },
     {
       "referencePath": "scripts/ai_disable_enable.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/installed-lifecycle.md",
+        "docs/reference/commands.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source disable/enable state machine is a template installer control. Rust has no global installed-state toggle; its shared Runtime remains request-scoped and repository attachment/lifecycle controls are explicit, preserving evidence and refusing unsafe recovery without copying the source state file or commands.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/ai_doctor.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/tests/doctor.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source doctor aggregates Python/Make installation, POSIX, hosted-snapshot, and adopter facts. Rust provides a repository-bound JSON doctor with protocol/runtime identity, compatibility, Runtime-code exclusion, and fail-closed repository diagnostics; provider toolchain and source Make targets remain adopter boundaries.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_documentation_authority.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/README.md",
+        "AGENTS.md",
+        "docs/current/README.md",
+        "docs/reference/README.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source registry validates canonical/reference/historical documentation routing. Rust keeps one repository-owned current read set, explicit current/getting-started/reference routes, frontmatter and documentation acceptance; it does not add a second generic authority CLI or trust source plan metadata as instruction.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_documentation_journey.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/current/README.md",
+        "docs/getting-started/README.md",
+        "docs/reference/README.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source topic registry validates reader-criticality, localized paths, fallback labels, and next-topic links. Rust expresses the maintained reader journey through current/getting-started/reference indexes, tri-language links, frontmatter, and documentation gates; source registry fields and Python checker commands are not Runtime protocol.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_domain_model.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-core/tests/domain_types.rs"
+      ],
+      "reason": "The source module centralizes lifecycle vocabulary, typed facts, receipts, decisions, and canonical transitions. Rust owns the same authority in typed Core/Protocol records and repository lifecycle services, with stronger repository identity, snapshot, evidence, and Runtime bindings; source dataclasses and JSON shape are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_enterprise_control_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/security/enterprise-governance.md",
+        "docs/security/enterprise-governance.zh-CN.md",
+        "docs/security/enterprise-governance.ja.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs"
+      ],
+      "reason": "The source control evaluator keeps local records from becoming enterprise compliance verdicts and rejects expired or missing external evidence. Rust preserves this delegated boundary with typed assurance, external evidence import, expiry/retention validation, and explicit non-certification claims.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_environment_reuse.py",
@@ -36146,35 +36195,57 @@
     },
     {
       "referencePath": "scripts/ai_evidence_dependencies.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-repository/tests/verification_service.rs"
+      ],
+      "reason": "The source dependency matrix binds changed paths and generated evidence to declared capabilities and source inputs. Rust binds verification receipts to Work Item, repository, snapshot, Contract, profile, policy, command, stage, runner, and Runtime identity; source matrix files and provider-specific generated-artifact rules are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_external_handoff.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/handoff.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/security/enterprise-governance.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "The source generic handoff records an external fulfiller, deadline, bindings, and receipt ingestion without contacting the provider. Rust keeps typed, digest-bound release handoff and repository-bound MCP/Outcome projections; external provider execution and identity remain delegated evidence, not local authorization.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_external_identity.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "docs/security/enterprise-governance.md"
+      ],
+      "reason": "The source distinguishes self-declared, repository-recorded, provider, enterprise, and direct-user approval evidence and requires stronger bindings for high-risk work. Rust uses typed authority/approval evidence, policy-defined approval modes, repository identity, and delegated provider/enterprise evidence without authenticating a person locally.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_final_north_star_acceptance.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/final-replacement-acceptance.md",
+        "tests/conformance/final_replacement_acceptance.sh",
+        "crates/cockpit-repository/src/governance_controls.rs"
+      ],
+      "reason": "The source evaluator requires all twenty named dimensions and refuses GO without verified adopter and provider evidence. Rust preserves the bounded North Star through final-replacement acceptance, parity evidence, and explicit external limitations; source decision JSON and historical release claims are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_finish.py",
@@ -36250,10 +36321,16 @@
     },
     {
       "referencePath": "scripts/ai_impact_classifier.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-548-reference-file-comparison-batch-38",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-core/src/lib.rs",
+        "docs/reference/governance-profiles.md",
+        "docs/reference/operation-time-policy-reevaluation.md"
+      ],
+      "reason": "The source path classifier is a lightweight Python routing hint. Rust derives impact only from explicit Contract, operation-time policy, changed-path, and profile facts; unknown impact remains visible/fail-closed and never authorizes a weaker route. Source lexical categories are not a wire enum.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_input_trust.py",

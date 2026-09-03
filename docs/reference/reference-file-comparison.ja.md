@@ -244,6 +244,29 @@ WI-521 は pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の次
 
 これは semantic/documentation parity であり、Python/Make command、provider event、source YAML、JSON-wire compatibility ではありません。各 attached object/adopter project は shared Runtime、明示的な `--repo` context、repository-local Contract/evidence/knowledge、人間向け Outcome boundary を継承しますが、reference source script や adopter 固有 policy value は継承しません。
 
+## WI-548 — governance と boundary script の逐次比較 batch 38
+
+WI-548 は pinned local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対象 13 script を一つずつ比較しました。derived artifact の authority、installation boundary、doctor/documentation route、domain/evidence model、external identity/handoff、final acceptance、impact hint を対象とします。inventory は semantic counterpart と明示的な non-claim を記録し、Python module や source JSON wire format は copy しません。
+
+| Pinned reference path | Classification | Rust counterpart と bounded decision |
+| --- | --- | --- |
+| `scripts/ai_derived_artifacts.py` | implemented-different-by-design | Typed Contract/evidence/archive/Outcome projection が derived view を authorization から分離し、source registry は copy しません。 |
+| `scripts/ai_detached_uninstaller.py` | reference-only | installed-lifecycle docs が proposal、ownership、bounded removal、evidence retention を説明します。Rust は detached uninstaller を提供しません。 |
+| `scripts/ai_disable_enable.py` | reference-only | Repository attach と request-scoped Runtime が global installer toggle に代わり、disable/enable state file は claim しません。 |
+| `scripts/ai_doctor.py` | implemented-different-by-design | Repository-bound Rust `doctor` が protocol/runtime/compatibility と fail-closed diagnostics を示し、provider toolchain は adopter fact です。 |
+| `scripts/ai_documentation_authority.py` | implemented-different-by-design | `.ai` read-set、current/reference route、frontmatter、documentation gate が単一の authority route を提供し、第二の registry CLI は追加しません。 |
+| `scripts/ai_documentation_journey.py` | implemented-different-by-design | Tri-language current/getting-started/reference index と acceptance check が reader journey を保持します。 |
+| `scripts/ai_domain_model.py` | implemented-different-by-design | Typed Core/Protocol/repository lifecycle service が transition、evidence、identity、fail-closed decision を所有します。 |
+| `scripts/ai_enterprise_control_evidence.py` | implemented-different-by-design | Enterprise assurance、expiry、retention、delegated evidence を明示し、local receipt から推論しません。 |
+| `scripts/ai_evidence_dependencies.py` | implemented-different-by-design | Verification が Work Item、repository、snapshot、Contract、profile、policy、command、stage、runner、Runtime identity を bind します。 |
+| `scripts/ai_external_handoff.py` | implemented-different-by-design | Typed release/MCP/Outcome handoff が digest-bound external responsibility を保持し、Core は provider を実行しません。 |
+| `scripts/ai_external_identity.py` | implemented-different-by-design | Typed authority と delegated provider/enterprise evidence が assurance level を保持し、人を local に authenticate しません。 |
+| `scripts/ai_final_north_star_acceptance.py` | implemented-different-by-design | Final replacement acceptance が external adopter/provider evidence boundary と limitation を保持します。 |
+| `scripts/ai_impact_classifier.py` | implemented-different-by-design | Impact は明示的 Contract、scope、profile、operation-time fact から導出し、unknown は route を弱めません。 |
+
+この batch に portable な implementation omission はありません。Detached uninstaller と global disable/enable は意図した source/provider boundary であり、Runtime の欠落機能ではありません。Attached object repository は shared binary、明示的な `--repo` binding、isolated Contract/evidence/knowledge、human Outcome rule を継承しますが、source installer state、Python registry、adopter-specific policy value は継承しません。
+
 ## WI-539 — source governance checker comparison batch 36
 
 WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対象 source checker 10 file を一つずつ再読しました。ここで記録するのは semantic responsibility と ownership であり、Python、Make、YAML、source JSON wire format を Rust Runtime に copy しません。
@@ -267,7 +290,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=319 implemented-equivalent=1 not-applicable=6 reference-only=90 deferred-next-batch=353 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=330 implemented-equivalent=1 not-applicable=6 reference-only=92 deferred-next-batch=340 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -279,11 +302,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 319 |
+| `implemented-different-by-design` | 330 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 90 |
-| `deferred-next-batch` | 353 |
+| `reference-only` | 92 |
+| `deferred-next-batch` | 340 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
