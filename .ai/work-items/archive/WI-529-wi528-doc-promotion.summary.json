@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-03T05:35:15Z",
-  "checkpointContractDigest": "sha256:1c4d67114139d527c42f69f226057cccbbc80dedf092bea36d31d598c6af3b2a",
+  "checkpointContractDigest": "sha256:a3cb869e3705ca5f3be0fc6da8a61f0df43a01d2193d7ddc7eeee64464290c2a",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,24 +37,45 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-529-wi528-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:a3cb869e3705ca5f3be0fc6da8a61f0df43a01d2193d7ddc7eeee64464290c2a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1c4d67114139d527c42f69f226057cccbbc80dedf092bea36d31d598c6af3b2a",
+      "previousContractHash": "sha256:c7bfc8a4fb66645790dc2fdb64a94e3416ebd34b997997656ce785445d66ecaa",
+      "reason": "Bind the reviewed PR #506 and exact branch/worktree context before the final verification; no scope change.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T05:39:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:822311a802ca7ebfe567fe90898e86d75a0f2426f41423beb0cb94b4679411ca",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-529-wi528-doc-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:21543a2c21957765f54ec489741525bb2b2d7217d832f8f82d1e4920e8568b25",
+  "checkpointRepositorySnapshotDigest": "sha256:21bfdfbcbc56a7e5b34dac3e8af3b2e7d2e174874e48690048af5fe7664e2f74",
   "createdAt": "2026-09-03T05:34:57Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-03T05:35:11Z",
-  "preflightContractDigest": "sha256:1c4d67114139d527c42f69f226057cccbbc80dedf092bea36d31d598c6af3b2a",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:21543a2c21957765f54ec489741525bb2b2d7217d832f8f82d1e4920e8568b25",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-03T05:42:26Z",
+  "preflightContractDigest": "sha256:a3cb869e3705ca5f3be0fc6da8a61f0df43a01d2193d7ddc7eeee64464290c2a",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:21bfdfbcbc56a7e5b34dac3e8af3b2e7d2e174874e48690048af5fe7664e2f74",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-03T05:35:15Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:c7bfc8a4fb66645790dc2fdb64a94e3416ebd34b997997656ce785445d66ecaa",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-03T05:36:20Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T05:42:30Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-529-wi528-doc-promotion"
 }
