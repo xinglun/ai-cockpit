@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-523-wi521-doc-promotion-retry.summary.json"
+          ".ai/work-items/archive/WI-523-wi521-doc-promotion-retry.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-523-wi521-doc-promotion-retry.contract.json"
+          ".ai/work-items/archive/WI-523-wi521-doc-promotion-retry.contract.json"
         ],
         "inference": false,
         "text": "Complete the WI-521 documentation parity promotion with a pre-merge finalization receipt bound to the final archive commit."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-523-wi521-doc-promotion-retry.contract.json"
+          ".ai/work-items/archive/WI-523-wi521-doc-promotion-retry.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
