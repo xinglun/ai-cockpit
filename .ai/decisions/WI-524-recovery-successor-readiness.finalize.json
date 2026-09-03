@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "github-pr-review",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "4ed2bbaa081f0e874ef6cc7af4c73e43c1fb6db4",
+    "name": "codex/wi-524-recovery-successor-readiness-r3",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f7bb78ce007c503fc135c50946b4bcff6b27b55932e2c34df4083421130306da",
+  "operationId": "WI-524-recovery-successor-readiness-merge-observation",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "403092abe34953fe0d0c9f9f9e45aa2b03a78099",
+    "headRevision": "4ed2bbaa081f0e874ef6cc7af4c73e43c1fb6db4",
+    "mergeCommit": "4c8ded2896533ea99296aa3d0bba64d46cc046ae",
+    "number": 501,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/501"
+  },
+  "reason": "Reviewed PR #501 merge is present on the synchronized default branch; this post-merge observation records the current merged resource state before exact branch and dedicated worktree cleanup.",
+  "receiptId": "ai-cockpit-WI-524-recovery-successor-readiness-merge-observation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-524-recovery-successor-readiness-r3",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/501",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-524-recovery-successor-readiness-r3"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T03:08:00Z",
+  "workItemId": "WI-524-recovery-successor-readiness",
+  "worktree": {
+    "branch": "codex/wi-524-recovery-successor-readiness-r3",
+    "headRevision": "4ed2bbaa081f0e874ef6cc7af4c73e43c1fb6db4",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-524-recovery-successor-readiness-r3",
+    "worktreeId": "WI-524-recovery-successor-readiness"
+  }
+}
