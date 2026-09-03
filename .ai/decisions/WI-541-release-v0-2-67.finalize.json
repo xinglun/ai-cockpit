@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c1cc246e306b1bde9428bbff20bc7df8bbccc37f",
+    "name": "codex/wi-541-release-v0-2-67",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3e21b35f63b3fbb3925c7b49300c5d55aebc902bb0d86ac27f1735e121523265",
+  "operationId": "github-pr-519-merge-cleanup-20260904",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8de11a064261eac1dee1a26b610f52caa58876e2",
+    "headRevision": "c1cc246e306b1bde9428bbff20bc7df8bbccc37f",
+    "mergeCommit": "2d6e5eaaf46d5ae91d7308f57079a5aa57ab840d",
+    "number": 519,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/519"
+  },
+  "reason": "Reviewed PR #519 passed all hosted checks and was merged as 2d6e5eaaf46d5ae91d7308f57079a5aa57ab840d; the exact WI-541 branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-519-finalization-20260904",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-541-release-v0-2-67",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/519",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-541-release-v0-2-67"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4d9440368f9d5b834e0eb81d217ef01f0ddcd94f8c57d6e0fdf892b6bb50f9e2",
+  "runtimeVersion": "0.2.66",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T00:00:00Z",
+  "workItemId": "WI-541-release-v0-2-67",
+  "worktree": {
+    "branch": "codex/wi-541-release-v0-2-67",
+    "headRevision": "c1cc246e306b1bde9428bbff20bc7df8bbccc37f",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-541-release-v0-2-67",
+    "worktreeId": "WI-541-release-v0-2-67"
+  }
+}
