@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-526——v0.2.65 发布与对象工程恢复验收"
 description: "发布 direct-merge recovery context 修复，并在不修改对象仓库的前提下验证不可变公开 artifact。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-526-release-v0-2-65
 lastVerifiedBy: WI-526-release-v0-2-65
+terminalArchive: .ai/work-items/archive/WI-526-release-v0-2-65.contract.json
+terminalVerification: .ai/evidence/WI-526-release-v0-2-65.verification.json
+terminalFinalization: .ai/decisions/WI-526-release-v0-2-65.finalize.json
+terminalDecision: .ai/decisions/WI-526-release-v0-2-65.close.json
 ---
 
 [English](WI-526-release-v0-2-65.md) · [日本語](WI-526-release-v0-2-65.ja.md)

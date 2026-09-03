@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-526 — v0.2.65 release and object-adopter recovery acceptance"
 description: "direct-merge recovery context 互換修正を公開し、対象リポジトリを変更せず immutable artifact を検証する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-526-release-v0-2-65
 lastVerifiedBy: WI-526-release-v0-2-65
+terminalArchive: .ai/work-items/archive/WI-526-release-v0-2-65.contract.json
+terminalVerification: .ai/evidence/WI-526-release-v0-2-65.verification.json
+terminalFinalization: .ai/decisions/WI-526-release-v0-2-65.finalize.json
+terminalDecision: .ai/decisions/WI-526-release-v0-2-65.close.json
 ---
 
 [English](WI-526-release-v0-2-65.md) · [简体中文](WI-526-release-v0-2-65.zh-CN.md)
