@@ -6,9 +6,13 @@ description: "Typed, fail-closed MCP capability discovery and usage guidance."
 audience:
   - adopter
   - maintainer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-537-capability-surface
+terminalArchive: .ai/work-items/archive/WI-537-capability-surface.contract.json
+terminalVerification: .ai/evidence/WI-537-capability-surface.verification.json
+terminalFinalization: .ai/decisions/WI-537-capability-surface.finalize.json
+terminalDecision: .ai/decisions/WI-537-capability-surface.close.json
 ---
 
 # WI-537 — Typed MCP capability surface

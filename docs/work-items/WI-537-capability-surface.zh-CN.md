@@ -6,9 +6,13 @@ description: "类型化、fail-closed 的 MCP 能力发现与使用说明。"
 audience:
   - adopter
   - maintainer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-537-capability-surface
+terminalArchive: .ai/work-items/archive/WI-537-capability-surface.contract.json
+terminalVerification: .ai/evidence/WI-537-capability-surface.verification.json
+terminalFinalization: .ai/decisions/WI-537-capability-surface.finalize.json
+terminalDecision: .ai/decisions/WI-537-capability-surface.close.json
 ---
 
 # WI-537——类型化 MCP 能力面
