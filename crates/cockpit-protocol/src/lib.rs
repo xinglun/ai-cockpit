@@ -1070,6 +1070,11 @@ pub struct HistoricalFinalization {
     #[serde(default)]
     pub merge_parents: Vec<String>,
     pub base_revision: String,
+    /// The immutable Work Item Contract base may differ from the first
+    /// parent of a later bundled historical merge.  Keep that fact explicit
+    /// instead of overloading `baseRevision` (the real merge base).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub contract_base_revision: Option<String>,
 }
 
 /// A Runtime-bound, append-only classification for an immutable finalization
@@ -1375,7 +1380,7 @@ fn validate_resource_finalization_identity(
             || ((!direct_merge_legacy_context) && context.pull_request != receipt.pull_request.url)
         {
             return Err(ResourceFinalizationError::IdentityMismatch(
-                "resource context does not match receipt identity",
+                resource_context_identity_mismatch_field(context, receipt),
             ));
         }
     }
@@ -1390,6 +1395,12 @@ fn validate_resource_finalization_identity(
             &historical.base_revision,
             "historical.baseRevision",
         )?;
+        if let Some(contract_base_revision) = historical.contract_base_revision.as_deref() {
+            validate_resource_finalization_revision(
+                contract_base_revision,
+                "historical.contractBaseRevision",
+            )?;
+        }
         for parent in &historical.merge_parents {
             validate_resource_finalization_revision(parent, "historical.mergeParents")?;
         }
@@ -1435,10 +1446,19 @@ fn validate_resource_finalization_identity(
                 };
                 if historical.merge_parents.len() < 2
                     || receipt.pull_request.merge_commit.as_deref() != Some(merge_commit)
-                    || receipt.pull_request.base_revision != historical.base_revision
                 {
                     return Err(ResourceFinalizationError::IdentityMismatch(
-                        "direct-merge commit, parents, and base are not bound",
+                        "direct-merge commit and parents are not bound",
+                    ));
+                }
+                if receipt.pull_request.base_revision != historical.base_revision {
+                    return Err(ResourceFinalizationError::IdentityMismatch(
+                        "direct-merge pullRequest.baseRevision",
+                    ));
+                }
+                if historical.base_revision != historical.merge_parents[0] {
+                    return Err(ResourceFinalizationError::IdentityMismatch(
+                        "historical.baseRevision",
                     ));
                 }
             }
@@ -1674,6 +1694,41 @@ fn resource_context_mismatch_field(
         ),
         (
             actual.pull_request != expected.pull_request,
+            "resourceContext.pullRequest",
+        ),
+    ]
+    .into_iter()
+    .find_map(|(mismatch, field)| mismatch.then_some(field))
+    .unwrap_or("resourceContext")
+}
+
+fn resource_context_identity_mismatch_field(
+    context: &ResourceFinalizationContext,
+    receipt: &ResourceFinalizationReceipt,
+) -> &'static str {
+    [
+        (
+            context.branch != receipt.branch.name,
+            "resourceContext.branch",
+        ),
+        (
+            context.worktree != receipt.worktree.path,
+            "resourceContext.worktree",
+        ),
+        (
+            context.base_branch != receipt.pull_request.base_branch,
+            "resourceContext.baseBranch",
+        ),
+        (
+            context.base_remote != receipt.pull_request.base_remote,
+            "resourceContext.baseRemote",
+        ),
+        (
+            context.provider != receipt.provider,
+            "resourceContext.provider",
+        ),
+        (
+            context.pull_request != receipt.pull_request.url,
             "resourceContext.pullRequest",
         ),
     ]

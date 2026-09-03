@@ -1022,6 +1022,10 @@ fn historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing()
         plan["suggestedReceipt"]["resourceContext"]["pullRequest"],
         format!("historical://direct-merge/{merge_commit}")
     );
+    assert_eq!(
+        plan["suggestedReceipt"]["historical"]["contractBaseRevision"],
+        base_revision
+    );
     assert!(
         plan["humanInputRequired"]
             .as_array()
@@ -1036,6 +1040,210 @@ fn historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing()
         before,
         "recovery plan is read-only"
     );
+}
+
+#[test]
+fn historical_direct_merge_plan_suggested_receipt_can_be_completed_and_applied() {
+    let (directory, context, _contract, _base_revision, feature_head, merge_commit) =
+        direct_merge_repository();
+    let plan = historical_finalization_recovery_plan(
+        directory.path(),
+        ID,
+        &runtime(),
+        Some(&merge_commit),
+    )
+    .expect("direct merge plan");
+    let mut receipt = plan["suggestedReceipt"].clone();
+    receipt["receiptId"] = "direct-merge-plan-receipt".into();
+    receipt["operationId"] = "direct-merge-plan-operation".into();
+    receipt["pullRequest"]["baseBranch"] = context.base_branch.clone().into();
+    receipt["pullRequest"]["baseRemote"] = context.base_remote.clone().into();
+    receipt["branch"] = json!({
+        "name": context.branch,
+        "remote": "origin",
+        "headRevision": feature_head,
+    });
+    receipt["worktree"] = json!({
+        "worktreeId": "primary-repository",
+        "path": context.worktree,
+        "branch": context.branch,
+        "headRevision": feature_head,
+    });
+    receipt["before"] = json!({
+        "pullRequest": "merged",
+        "branch": "present",
+        "worktree": "clean",
+    });
+    receipt["after"] = json!({
+        "pullRequest": "merged",
+        "branch": "deleted",
+        "worktree": "clean",
+    });
+    receipt["result"] = json!({
+        "disposition": "retained",
+        "failureCodes": [],
+        "unknownCodes": [],
+    });
+    receipt["actor"] = "human:test".into();
+    receipt["authoritySource"] = "historical-test".into();
+    receipt["reason"] = "record a direct merge without inventing a pull request".into();
+    receipt["timestamp"] = "2026-09-03T07:00:00Z".into();
+    let input = write_input(&directory, "direct-merge-plan.json", &receipt);
+    let recorded =
+        record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+            .expect("the completed plan receipt should be accepted as the first record");
+    assert_eq!(recorded["state"], "recorded");
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("the applied plan receipt should verify");
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["historicalKind"], "direct_merge_no_pr");
+}
+
+#[test]
+fn bundled_direct_merge_can_bind_contract_base_separately_from_merge_parent() {
+    let (directory, context, _contract, contract_base, _feature_head, _merge_commit) =
+        direct_merge_repository();
+
+    // The Work Item was started at contract_base, then a later main-branch
+    // commit was included in a shared merge.  The real merge's first parent
+    // is therefore not the immutable Contract base.
+    git(&directory, &["add", "."]);
+    git(&directory, &["commit", "-q", "-m", "archive baseline"]);
+    let merge_base = git(&directory, &["rev-parse", "HEAD"]);
+    git(
+        &directory,
+        &[
+            "checkout",
+            "-q",
+            "-b",
+            "feature/bundled-direct-merge",
+            &contract_base,
+        ],
+    );
+    fs::write(
+        directory.path().join("bundled-direct-merge.txt"),
+        "bundled historical merge\n",
+    )
+    .unwrap();
+    git(&directory, &["add", "bundled-direct-merge.txt"]);
+    git(
+        &directory,
+        &["commit", "-q", "-m", "bundled direct merge feature"],
+    );
+    let feature_head = git(&directory, &["rev-parse", "HEAD"]);
+    git(&directory, &["checkout", "-q", "main"]);
+    git(
+        &directory,
+        &[
+            "merge",
+            "--no-ff",
+            "-q",
+            "feature/bundled-direct-merge",
+            "-m",
+            "bundled direct merge",
+        ],
+    );
+    let merge_commit = git(&directory, &["rev-parse", "HEAD"]);
+    git(
+        &directory,
+        &["branch", "-D", "feature/bundled-direct-merge"],
+    );
+
+    let plan = historical_finalization_recovery_plan(
+        directory.path(),
+        ID,
+        &runtime(),
+        Some(&merge_commit),
+    )
+    .expect("bundled direct merge plan");
+    assert_eq!(plan["baseRevision"], merge_base);
+    assert_eq!(plan["contractBaseRevision"], contract_base);
+    let mut receipt = plan["suggestedReceipt"].clone();
+    receipt["receiptId"] = "bundled-direct-merge-receipt".into();
+    receipt["operationId"] = "bundled-direct-merge-operation".into();
+    receipt["pullRequest"]["baseBranch"] = context.base_branch.clone().into();
+    receipt["pullRequest"]["baseRemote"] = context.base_remote.clone().into();
+    receipt["branch"] = json!({
+        "name": context.branch,
+        "remote": "origin",
+        "headRevision": feature_head,
+    });
+    receipt["worktree"] = json!({
+        "worktreeId": "primary-repository",
+        "path": context.worktree,
+        "branch": context.branch,
+        "headRevision": feature_head,
+    });
+    receipt["before"] = json!({
+        "pullRequest": "merged",
+        "branch": "present",
+        "worktree": "clean",
+    });
+    receipt["after"] = json!({
+        "pullRequest": "merged",
+        "branch": "deleted",
+        "worktree": "clean",
+    });
+    receipt["result"] = json!({
+        "disposition": "retained",
+        "failureCodes": [],
+        "unknownCodes": [],
+    });
+    receipt["actor"] = "human:test".into();
+    receipt["authoritySource"] = "historical-test".into();
+    receipt["reason"] = "bind a shared merge to its real parent and Contract base".into();
+    receipt["timestamp"] = "2026-09-03T07:01:00Z".into();
+    receipt["historical"]["contractBaseRevision"] = contract_base.clone().into();
+    let mut missing_contract_base = receipt.clone();
+    missing_contract_base["historical"]
+        .as_object_mut()
+        .expect("historical object")
+        .remove("contractBaseRevision");
+    let missing_input = write_input(
+        &directory,
+        "bundled-direct-merge-missing-base.json",
+        &missing_contract_base,
+    );
+    let missing_error =
+        record_historical_finalization_recovery(directory.path(), ID, &missing_input, &runtime())
+            .expect_err("a bundled merge must not hide its Contract base binding");
+    assert!(
+        missing_error
+            .to_string()
+            .contains("historical direct-merge Contract base mismatch"),
+        "unexpected error: {missing_error}"
+    );
+    let mut wrong_merge_base = receipt.clone();
+    wrong_merge_base["pullRequest"]["baseRevision"] = contract_base.clone().into();
+    wrong_merge_base["historical"]["baseRevision"] = contract_base.clone().into();
+    let wrong_input = write_input(
+        &directory,
+        "bundled-direct-merge-wrong-parent.json",
+        &wrong_merge_base,
+    );
+    let wrong_error =
+        record_historical_finalization_recovery(directory.path(), ID, &wrong_input, &runtime())
+            .expect_err("a direct merge must keep its real first parent");
+    assert!(
+        wrong_error.to_string().contains("historical.baseRevision"),
+        "unexpected error: {wrong_error}"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.finalize.json"))
+            .exists(),
+        "rejected bundled receipts must not create a canonical record"
+    );
+    let input = write_input(&directory, "bundled-direct-merge.json", &receipt);
+    let recorded =
+        record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+            .expect("the shared merge should be accepted with an explicit Contract base binding");
+    assert_eq!(recorded["state"], "recorded");
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("the bundled direct merge should verify");
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["historicalKind"], "direct_merge_no_pr");
 }
 
 #[test]

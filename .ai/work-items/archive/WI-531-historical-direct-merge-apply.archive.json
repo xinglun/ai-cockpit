@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-03T07:51:23Z",
+  "files": {
+    "contractDigest": "sha256:3458406a1e10c0ad89f317386b55b411131153fb9d9cb0f8a955ee5b88770081",
+    "contractPath": ".ai/work-items/archive/WI-531-historical-direct-merge-apply.contract.json",
+    "eventsDigest": "sha256:027aa5c973f18a7de5256d806f4ff871deb60e1a582689bd7b4f4d4c36cf327c",
+    "eventsPath": ".ai/work-items/archive/WI-531-historical-direct-merge-apply.events.jsonl",
+    "outcomeDigest": "sha256:7106dca914a1360c5e854345a990625e41c0d38ca890573fb54db82e51b211b7",
+    "outcomePath": ".ai/work-items/archive/WI-531-historical-direct-merge-apply.outcome.json",
+    "summaryDigest": "sha256:a6fb7025f62cd8417f091ffdf792bb2b80eb85f56743742d162fa64814eb43e8",
+    "summaryPath": ".ai/work-items/archive/WI-531-historical-direct-merge-apply.summary.json",
+    "taskReportDigest": "sha256:80eb79f3d53bf917a6b30781a31ceddb0096dbbca2db1fb8989ea0a76521b39a",
+    "taskReportMarkdownDigest": "sha256:7bdfed5d27f13c8ccd3a62ad7eeeb8d8d04bf8c16fc007be00d39c3c506edb34",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-531-historical-direct-merge-apply.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-531-historical-direct-merge-apply.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-531-historical-direct-merge-apply"
+}
