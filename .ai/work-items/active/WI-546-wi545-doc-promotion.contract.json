@@ -26,14 +26,52 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-546-wi545-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/524",
     "worktree": "/private/tmp/ai-cockpit-wi546-doc-promotion"
   },
   "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/work-items/WI-545-release-v0-2-68.md",
+        "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
+        "docs/work-items/WI-545-release-v0-2-68.ja.md"
+      ],
+      "expected": "WI-545 documentation pages expose the closed evidence boundary and preserve terminal receipt links.",
+      "required": true,
+      "scenario": "terminal release Work Item projection",
+      "status": "unverified",
+      "verificationPlan": "Promote all three pages to terminal implemented status after validating immutable archive, verification, finalization, and close records."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "All three parity ledgers mark WI-545 Implemented with terminal lifecycle links.",
+      "required": true,
+      "scenario": "parity ledger terminal projection",
+      "status": "unverified",
+      "verificationPlan": "Replace conditional status text only after WI-545 close evidence is present and keep links to immutable Runtime records."
+    },
+    {
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/work_item_status_consistency.py",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "Documentation acceptance, status consistency, and closed Work Item promotion checks pass without changing generated governance records.",
+      "required": true,
+      "scenario": "documentation gate convergence",
+      "status": "unverified",
+      "verificationPlan": "Run the three checks locally and again in the release source-quality route."
+    }
+  ],
   "scope": [
     "docs/work-items/WI-545-release-v0-2-68.md",
     "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
@@ -58,44 +96,6 @@
     "tests/docs/documentation_acceptance.sh",
     "tests/docs/work_item_status_consistency.py",
     "tests/docs/promote_closed_work_item.py"
-  ],
-  "scenarioCoverage": [
-    {
-      "scenario": "terminal release Work Item projection",
-      "expected": "WI-545 documentation pages expose the closed evidence boundary and preserve terminal receipt links.",
-      "evidence": [
-        "docs/work-items/WI-545-release-v0-2-68.md",
-        "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
-        "docs/work-items/WI-545-release-v0-2-68.ja.md"
-      ],
-      "verificationPlan": "Promote all three pages to terminal implemented status after validating immutable archive, verification, finalization, and close records.",
-      "required": true,
-      "status": "unverified"
-    },
-    {
-      "scenario": "parity ledger terminal projection",
-      "expected": "All three parity ledgers mark WI-545 Implemented with terminal lifecycle links.",
-      "evidence": [
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/reference/reference-parity.ja.md"
-      ],
-      "verificationPlan": "Replace conditional status text only after WI-545 close evidence is present and keep links to immutable Runtime records.",
-      "required": true,
-      "status": "unverified"
-    },
-    {
-      "scenario": "documentation gate convergence",
-      "expected": "Documentation acceptance, status consistency, and closed Work Item promotion checks pass without changing generated governance records.",
-      "evidence": [
-        "tests/docs/documentation_acceptance.sh",
-        "tests/docs/work_item_status_consistency.py",
-        "tests/docs/promote_closed_work_item.py"
-      ],
-      "verificationPlan": "Run the three checks locally and again in the release source-quality route.",
-      "required": true,
-      "status": "unverified"
-    }
   ],
   "state": "implementation_active",
   "verification": [

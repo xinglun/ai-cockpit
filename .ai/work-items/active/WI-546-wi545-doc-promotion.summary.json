@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-03T19:34:28Z",
-  "checkpointContractDigest": "sha256:9303e459be62c0e2962becd79737d65f5b63d331876a04b66ba78316eaf54093",
+  "checkpointContractDigest": "sha256:b5d433a7c7a34d018421343ae7eccb28ea6d73de142c900b0260c3bd63e62f99",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,24 +37,44 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-546-wi545-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:b5d433a7c7a34d018421343ae7eccb28ea6d73de142c900b0260c3bd63e62f99",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ef63c4c8ab694c25f7a471ed1836a7d4a117bfa59f1d103a156e7768abf2d711",
+      "previousContractHash": "sha256:9303e459be62c0e2962becd79737d65f5b63d331876a04b66ba78316eaf54093",
+      "reason": "Finalize plan bound the reviewed PR and changed the Contract resource context; refresh verification for the bound context before archive.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T19:38:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e46304dbe01e3f5d5c58532b0a02cb44447be4e157eef37b9873d1d0c4a5680",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-546-wi545-doc-promotion"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:8e46304dbe01e3f5d5c58532b0a02cb44447be4e157eef37b9873d1d0c4a5680",
   "createdAt": "2026-09-03T19:29:57Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
-    "note": "Only the authorized terminal documentation projection was changed.",
-    "status": "aligned"
+    "evidence": [
+      "docs/work-items/WI-546-wi545-doc-promotion.md"
+    ],
+    "reason": "Only the authorized terminal documentation projection was changed.",
+    "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-03T19:38:20Z",
-  "preflightContractDigest": "sha256:9303e459be62c0e2962becd79737d65f5b63d331876a04b66ba78316eaf54093",
+  "preflightAt": "2026-09-03T19:39:48Z",
+  "preflightContractDigest": "sha256:b5d433a7c7a34d018421343ae7eccb28ea6d73de142c900b0260c3bd63e62f99",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:8e46304dbe01e3f5d5c58532b0a02cb44447be4e157eef37b9873d1d0c4a5680",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -63,7 +83,8 @@
         "docs/work-items/WI-545-release-v0-2-68.zh-CN.md",
         "docs/work-items/WI-545-release-v0-2-68.ja.md"
       ],
-      "note": "All three WI-545 pages are terminal projections bound to immutable Runtime records.",
+      "reason": "All three WI-545 pages are terminal projections bound to immutable Runtime records.",
+      "required": true,
       "scenario": "terminal release Work Item projection",
       "status": "verified"
     },
@@ -73,7 +94,8 @@
         "docs/reference/reference-parity.zh-CN.md",
         "docs/reference/reference-parity.ja.md"
       ],
-      "note": "All three parity ledgers mark WI-545 Implemented and retain terminal links.",
+      "reason": "All three parity ledgers mark WI-545 Implemented and retain terminal links.",
+      "required": true,
       "scenario": "parity ledger terminal projection",
       "status": "verified"
     },
@@ -83,13 +105,14 @@
         "tests/docs/work_item_status_consistency.py",
         "tests/docs/promote_closed_work_item.py"
       ],
-      "note": "The documentation, status-consistency, and promotion checks passed.",
+      "reason": "The documentation, status-consistency, and promotion checks passed.",
+      "required": true,
       "scenario": "documentation gate convergence",
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-03T19:35:03Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T19:40:03Z",
   "verification": [
     {
       "check": "project-command-0",
