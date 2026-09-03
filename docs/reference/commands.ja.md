@@ -107,6 +107,11 @@ handoff だけを抑止します。`work-item outcome` は既定で stdout に�
   repository/base facts に束縛された場合だけ provisional legacy Contract context を解決できます。
   その他の mismatch は fail-closed となり、`resourceContext.worktree` や
   `resourceContext.baseRevision` など binding category を示します。predecessor は書き換えられず、
+  direct-merge receipt は archived Contract の元の local `resourceContext` をそのまま保持することも
+  できます。Runtime はこれを歴史的な宣言として扱いますが、receipt の branch、worktree、base、実際の
+  merge parents、repository identity、`historical_low` assurance は引き続き厳密に bind されます。
+  plan は明示的な historical provider/URL を使う identity-consistent な `resourceContext` も出力するため、
+  Agent が形式を推測する必要はありません。predecessor は書き換えられず、
   recovery record だけで Work Item が green になることもありません。
 - `work-item finalize-recovery-plan --repo <path> --id <id>` は read-only の歴史 recovery discovery
   boundary です。immutable predecessor の path/digest、producer Runtime identity、shared-primary

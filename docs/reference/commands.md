@@ -139,6 +139,13 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
   remains bound to the same primary worktree and repository/base facts. Any
   other mismatch fails closed and identifies the binding category (for
   example `resourceContext.worktree` or `resourceContext.baseRevision`).
+  A direct-merge receipt may preserve the archived Contract's original local
+  `resourceContext` verbatim; the Runtime treats that as the historical
+  declaration and still requires the receipt's branch, worktree, base, real
+  merge parents, repository identity, and `historical_low` assurance to bind.
+  The plan also emits an identity-consistent `resourceContext` using the
+  explicit historical provider/URL, so Agents do not need to guess which form
+  to submit.
   The predecessor is never rewritten, and the recovery record cannot by itself
   make a Work Item green.
 - `work-item finalize-recovery-plan --repo <path> --id <id>` is the read-only

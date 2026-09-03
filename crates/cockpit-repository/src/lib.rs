@@ -11905,6 +11905,25 @@ pub fn historical_finalization_recovery_plan(
     if let Some((_, digest)) = archived_contract.as_ref() {
         result["suggestedReceipt"]["contractDigest"] = digest.to_string().into();
     }
+    // Give the human/Agent an identity-consistent context to start from.  A
+    // legacy Contract may still carry its original local provider and PR URL;
+    // the suggested direct-merge receipt uses the explicit historical
+    // provider/URL while preserving the Contract's branch, worktree, and base
+    // bindings.  The original Contract context remains immutable and may also
+    // be supplied verbatim; the protocol accepts that form only for this
+    // narrow direct-merge compatibility path.
+    if let Some((contract, _)) = archived_contract.as_ref()
+        && let Some(context) = contract.resource_context.as_ref()
+    {
+        result["suggestedReceipt"]["resourceContext"] = serde_json::json!({
+            "branch": context.branch,
+            "worktree": context.worktree,
+            "baseBranch": context.base_branch,
+            "baseRemote": context.base_remote,
+            "provider": "historical",
+            "pullRequest": format!("historical://direct-merge/{merge_commit}"),
+        });
+    }
     Ok(result)
 }
 

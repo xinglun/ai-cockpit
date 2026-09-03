@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:851aad3d7aa3fc4a8c5caaa5b414841284347b6ed07d50558d0e90370b638a64",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "Confirmed the bounded high-risk recovery compatibility review and its explicit scenario evidence.",
+  "recordedAt": "2026-09-03T03:55:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b4bf855151925ced7bc841d00faf1eec4ebeb7f079bed3df3a3d4ae3e3a01c82",
+  "schemaVersion": 1,
+  "workItemId": "WI-527-direct-merge-context"
+}

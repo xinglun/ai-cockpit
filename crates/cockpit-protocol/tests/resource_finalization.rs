@@ -480,6 +480,48 @@ fn historical_direct_merge_can_rebind_legacy_local_context_narrowly() {
 }
 
 #[test]
+fn historical_direct_merge_accepts_unchanged_archived_local_context() {
+    let mut historical = receipt();
+    let mut archived_context = historical.resource_context.clone().unwrap();
+    archived_context.provider = "local".into();
+    historical.pull_request.number = 0;
+    historical.pull_request.url = "historical://direct-merge/merge-158".into();
+    historical.provider = "historical".into();
+    historical.historical = Some(HistoricalFinalization {
+        kind: HistoricalFinalizationKind::DirectMergeNoPr,
+        assurance: "historical_low".into(),
+        merge_commit: Some("merge-158".into()),
+        merge_parents: vec!["parent-a".into(), "parent-b".into()],
+        base_revision: historical.pull_request.base_revision.clone(),
+    });
+    // This is the object-repository recovery workflow: preserve the
+    // Contract's original local resourceContext instead of guessing a new
+    // provider/URL. Repository-bound validation still binds it to the exact
+    // archived Contract before accepting the historical receipt.
+    historical.resource_context = Some(archived_context.clone());
+    validate_resource_finalization_receipt(&historical)
+        .expect("historical direct merge may preserve the archived context");
+    validate_resource_finalization_receipt_for(
+        &historical,
+        REPOSITORY_ID,
+        WORK_ITEM_ID,
+        Some(&Digest::sha256_bytes(b"contract")),
+        Some(&archived_context),
+    )
+    .expect("unchanged archived context remains repository-bound");
+
+    let mut foreign = archived_context;
+    foreign.worktree = "/private/tmp/foreign-worktree".into();
+    assert!(
+        validate_resource_finalization_receipt(&ResourceFinalizationReceipt {
+            resource_context: Some(foreign),
+            ..historical
+        })
+        .is_err()
+    );
+}
+
+#[test]
 fn historical_direct_merge_can_bind_provisional_legacy_context() {
     let mut historical = receipt();
     historical.pull_request.number = 0;
