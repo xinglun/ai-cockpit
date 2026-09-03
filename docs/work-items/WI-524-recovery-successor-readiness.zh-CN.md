@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-524——恢复 successor readiness 入口门禁绑定"
 description: "在抑制归档前驱 blocker 前要求已验证的 recovery successor。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human-authorized
 workItemId: WI-524-recovery-successor-readiness
 lastVerifiedBy: WI-524-recovery-successor-readiness
+terminalArchive: .ai/work-items/archive/WI-524-recovery-successor-readiness.contract.json
+terminalVerification: .ai/evidence/WI-524-recovery-successor-readiness.verification.json
+terminalFinalization: .ai/decisions/WI-524-recovery-successor-readiness.finalize.cab9a20e63481aea75e8801ff86a94cec5ddc4c99fe9602500b43537567272c6.json
+terminalDecision: .ai/decisions/WI-524-recovery-successor-readiness.close.json
 ---
 
 [English](WI-524-recovery-successor-readiness.md) · [日本語](WI-524-recovery-successor-readiness.ja.md)
