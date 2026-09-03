@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T02:22:44Z",
+  "checkpointContractDigest": "sha256:6da0e95632b9d590c089654441af9ccdec2bfaf55d507209d90f724806adea0d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:43d9c6626ea4a95dc9424dad48f19316499457e1874f6a894e0131596f9fc090",
+      "recorded": true,
+      "recordedAt": "2026-09-03T02:22:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5350fa81aa7c389ab14de71e3be73b085a68f56f7efe54821811151b89508074",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-524-recovery-successor-readiness"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6da0e95632b9d590c089654441af9ccdec2bfaf55d507209d90f724806adea0d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:43d9c6626ea4a95dc9424dad48f19316499457e1874f6a894e0131596f9fc090",
+      "previousContractHash": "sha256:43d9c6626ea4a95dc9424dad48f19316499457e1874f6a894e0131596f9fc090",
+      "reason": "Bind the three parity ledgers that were necessarily updated to register the new supersede recovery and close decision; this prevents the repository gate from reporting a false missing decision and remains within the readiness defect boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T02:27:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:38080070b9a9f9296a2510306bd51e972765e92a5948f7799df0bea60dd03768",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-524-recovery-successor-readiness"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:38080070b9a9f9296a2510306bd51e972765e92a5948f7799df0bea60dd03768",
+  "createdAt": "2026-09-03T02:17:12Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-03T02:28:53Z",
+  "preflightContractDigest": "sha256:6da0e95632b9d590c089654441af9ccdec2bfaf55d507209d90f724806adea0d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:38080070b9a9f9296a2510306bd51e972765e92a5948f7799df0bea60dd03768",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryDecisionDigest": "sha256:ced6f1077ef988bac32aa0ccbd15fd3a96b0c8c339e11437ede7063c69833f08",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-524-recovery-successor-readiness.recovery.ced6f1077ef988bac32aa0ccbd15fd3a96b0c8c339e11437ede7063c69833f08.json",
+  "recoveryRetryPending": true,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-03T02:23:48Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-524-recovery-successor-readiness"
+}

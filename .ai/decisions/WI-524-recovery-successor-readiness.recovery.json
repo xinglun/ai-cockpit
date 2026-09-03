@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-03T02:27:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-524-recovery-successor-readiness.verification.json",
+    ".ai/work-items/active/WI-524-recovery-successor-readiness.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:43d9c6626ea4a95dc9424dad48f19316499457e1874f6a894e0131596f9fc090",
+  "predecessorEventsDigest": "sha256:820b3b9c1e0dcf2c112b8a8a508b954ea2b08692652546a3e0c4af06807eadbc",
+  "predecessorOutcomeDigest": "sha256:75a71bc3a912b967b4afeb60c0941a6140c1a84c6d42699f614190bf78c05665",
+  "predecessorSummaryDigest": "sha256:eca7d83d7f9befbdc5b5dcec407cd8215bd86bdfc252d72071930691ae48eeb8",
+  "predecessorWorkItemId": "WI-524-recovery-successor-readiness",
+  "reason": "Retry the bounded Work Item after the finalization plan was supplied; preserve the failed finish evidence append-only.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the reviewed finalization context, rerun preflight, and finish with fresh evidence.",
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "workItemId": "WI-524-recovery-successor-readiness"
+}

@@ -85,4 +85,11 @@ lineage，或显式记录 `supersede`，不能把多个 successor 留给人从�
 更新但无效的记录仍然 fail closed。Runtime 不会重写任何 Contract、Summary、Outcome、
 Events、Evidence 或 recovery receipt bytes。
 
+Repository readiness 对入口门禁使用同一边界。已归档 predecessor 只有在 recovery
+receipt 有效，且选定的 successor 已归档，并同时具备通过 manifest 校验、绑定本仓库的
+Contract/Summary、已验证 Outcome 和已确认 close decision 时，才会从 `pending close`
+列表中移除。缺失、stale、foreign、malformed、symlink 或仍未关闭的 successor 都不会
+抑制该 blocker。这样既不会让一条已完成的 recovery lineage 永久阻塞整个仓库，也不会
+让未经证明的 successor 悄悄隐藏历史债务。
+
 这是 Rust-native 的语义工作流。参考源的 `make` 命令、Python 模块和生成历史只是比对材料，不是本仓库的命令或 Runtime authority。

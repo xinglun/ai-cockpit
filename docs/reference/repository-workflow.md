@@ -131,6 +131,15 @@ receipt is valid and wins by its recorded decision time; malformed, foreign,
 tampered, or newer-invalid records remain fail-closed. No Contract, Summary,
 Outcome, Events, Evidence, or recovery receipt bytes are rewritten.
 
+Repository readiness applies the same boundary to the entry gate. An archived
+predecessor remains `pending close` until its recovery receipt is valid and its
+selected successor has an archived, manifest-verified terminal record with
+repository-bound Contract, Summary, verified Outcome, and confirmed close
+decision. A missing, stale, foreign, malformed, symlinked, or still-open
+successor does not suppress the blocker. This prevents one completed recovery
+lineage from globally deadlocking the repository while ensuring an unproven
+successor cannot make historical debt disappear.
+
 This is a semantic Rust-native workflow. The reference source's `make`
 commands, Python modules, and generated history are comparison material, not
 commands or Runtime authority in this repository.

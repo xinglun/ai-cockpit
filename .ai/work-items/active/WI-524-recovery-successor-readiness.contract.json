@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "A valid repository-bound successor with archived manifest and confirmed close decision removes only its predecessor from pending-close readiness.",
+    "Missing, foreign, malformed, stale, or unclosed successor evidence remains a readiness blocker.",
+    "The recovery decision and predecessor archive bytes remain append-only and unchanged.",
+    "Regression tests cover valid successor, incomplete successor, and repository isolation.",
+    "Three-language workflow documentation explains validated successor readiness and fail-closed boundary."
+  ],
+  "authority": "authorized",
+  "baseRevision": "403092abe34953fe0d0c9f9f9e45aa2b03a78099",
+  "createdAt": "2026-09-03T02:17:12Z",
+  "goal": "Make recovery successor completion a validated, auditable readiness transition while retaining fail-closed behavior for incomplete or invalid successor evidence.",
+  "intent": "Ensure repository readiness recognizes a valid closed recovery successor and does not leave its archived predecessor blocking new Work Items.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Object repositories",
+    "Release publication",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d0533663056cc10d472a67f3db9ab1c80cf63cf69db12ae075dddc0590e0773e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "review",
+    "archive",
+    "decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-524-recovery-successor-readiness",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-524-recovery-successor-readiness"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-524-recovery-successor-readiness"
+}
