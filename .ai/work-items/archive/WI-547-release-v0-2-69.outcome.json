@@ -64,7 +64,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-547-release-v0-2-69.summary.json"
+            ".ai/work-items/archive/WI-547-release-v0-2-69.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -102,7 +102,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-547-release-v0-2-69.contract.json"
+            ".ai/work-items/archive/WI-547-release-v0-2-69.contract.json"
           ],
           "inference": false,
           "text": "Produce a truthful v0.2.69 release baseline whose documentation, package identity, CI, public artifacts, and adopter acceptance are consistent and auditable."
@@ -111,7 +111,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-547-release-v0-2-69.contract.json"
+            ".ai/work-items/archive/WI-547-release-v0-2-69.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -121,7 +121,7 @@
     "status": "verified",
     "workItemId": "WI-547-release-v0-2-69"
   },
-  "taskReportDigest": "sha256:b532d12460c91baca12995f8455bdd9124182d7056fdac7ec10fbe7d29237a26",
+  "taskReportDigest": "sha256:2ff3a2b6cf7810eede931c025aef72a8392d6221aaacdb8f86c51be2b66c2dd4",
   "taskReportMarkdownDigest": "sha256:d820bf5ccfa1f6708b1737f9cd513fb825e25ca446582f7168b71104183a04f2",
   "unknowns": [
     "user_visible_benefit_not_declared"
