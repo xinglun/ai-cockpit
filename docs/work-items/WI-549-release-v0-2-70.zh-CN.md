@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-549 — v0.2.70 发布与公开制品验收"
 description: "发布下一份不可变 Runtime 基线，并仅使用公开下载制品完成验收。"
 audience: [maintainer, reviewer, adopter]
-status: in-progress
+status: implemented
 authority: canonical
 workItemId: WI-549-release-v0-2-70
 lastVerifiedBy: WI-549-release-v0-2-70
+terminalArchive: .ai/work-items/archive/WI-549-release-v0-2-70.contract.json
+terminalVerification: .ai/evidence/WI-549-release-v0-2-70.verification.json
+terminalFinalization: .ai/decisions/WI-549-release-v0-2-70.finalize.json
+terminalDecision: .ai/decisions/WI-549-release-v0-2-70.close.json
 ---
 
 [English](WI-549-release-v0-2-70.md) · [日本語](WI-549-release-v0-2-70.ja.md)

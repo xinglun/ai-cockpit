@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-549 — v0.2.70 release and public-artifact acceptance"
 description: "Publish the next immutable Runtime baseline and verify it from downloaded public artifacts."
 audience: [maintainer, reviewer, adopter]
-status: in-progress
+status: implemented
 authority: canonical
 workItemId: WI-549-release-v0-2-70
 lastVerifiedBy: WI-549-release-v0-2-70
+terminalArchive: .ai/work-items/archive/WI-549-release-v0-2-70.contract.json
+terminalVerification: .ai/evidence/WI-549-release-v0-2-70.verification.json
+terminalFinalization: .ai/decisions/WI-549-release-v0-2-70.finalize.json
+terminalDecision: .ai/decisions/WI-549-release-v0-2-70.close.json
 ---
 
 [简体中文](WI-549-release-v0-2-70.zh-CN.md) · [日本語](WI-549-release-v0-2-70.ja.md)
