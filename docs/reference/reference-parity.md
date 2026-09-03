@@ -510,6 +510,7 @@ record for each boundary.
 | WI-535 — MCP test fixture cleanup | Implemented | [Work Item](../work-items/WI-535-mcp-fixture-cleanup.md); terminal lifecycle: archive `.ai/work-items/archive/WI-535-mcp-fixture-cleanup.contract.json`; verification `.ai/evidence/WI-535-mcp-fixture-cleanup.verification.json`; finalization `.ai/decisions/WI-535-mcp-fixture-cleanup.finalize.json`; close `.ai/decisions/WI-535-mcp-fixture-cleanup.close.json`. |
 
 | WI-536 — WI-535 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-536-wi535-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-536-wi535-doc-promotion.contract.json`; verification `.ai/evidence/WI-536-wi535-doc-promotion.verification.json`; finalization `.ai/decisions/WI-536-wi535-doc-promotion.finalize.json`; close `.ai/decisions/WI-536-wi535-doc-promotion.close.json`. |
+| WI-537 — typed MCP capability surface and usage documentation | In progress | [Work Item](../work-items/WI-537-capability-surface.md); terminal lifecycle: archive `.ai/work-items/archive/WI-537-capability-surface.contract.json`; verification `.ai/evidence/WI-537-capability-surface.verification.json`; finalization `.ai/decisions/WI-537-capability-surface.finalize.json`; close `.ai/decisions/WI-537-capability-surface.close.json`. |
 
 ## WI-512 — governance reference pages and verification boundaries
 
