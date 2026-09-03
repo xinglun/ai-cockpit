@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T00:41:23Z",
+  "checkpointContractDigest": "sha256:da209e02de40dab2fdb9aff78bce7d8eecbe4cfdb61c21dc825fd1c699bfc533",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:27da2044b355cee5952870235f6b7834fe0a84db16aafed960f43e6c5a8f4131",
+      "recorded": true,
+      "recordedAt": "2026-09-03T00:41:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c227224cf6c2d8a122ea778bec216240bb573214a002a4c058d5746fa9dfbdb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-521-reference-file-comparison-batch-35"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:da209e02de40dab2fdb9aff78bce7d8eecbe4cfdb61c21dc825fd1c699bfc533",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:27da2044b355cee5952870235f6b7834fe0a84db16aafed960f43e6c5a8f4131",
+      "previousContractHash": "sha256:27da2044b355cee5952870235f6b7834fe0a84db16aafed960f43e6c5a8f4131",
+      "reason": "Bind the reviewed PR resource context required before finish/archive; no acceptance scope or governance decision changed.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T00:50:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:81bef65692f95407cba1db711b7650f5b138db35194db3bc07ecf4cbb5e52d20",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-521-reference-file-comparison-batch-35"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:81bef65692f95407cba1db711b7650f5b138db35194db3bc07ecf4cbb5e52d20",
+  "createdAt": "2026-09-03T00:21:12Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-03T00:52:14Z",
+  "preflightContractDigest": "sha256:da209e02de40dab2fdb9aff78bce7d8eecbe4cfdb61c21dc825fd1c699bfc533",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:81bef65692f95407cba1db711b7650f5b138db35194db3bc07ecf4cbb5e52d20",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T00:52:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-521-reference-file-comparison-batch-35"
+}

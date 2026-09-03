@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-516-reference-file-comparison-batch-34
+lastVerifiedBy: WI-521-reference-file-comparison-batch-35
 capabilityClaims:
   - reference_parity
 ---
@@ -251,7 +251,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=296 implemented-equivalent=1 not-applicable=4 reference-only=86 deferred-next-batch=382 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=304 implemented-equivalent=1 not-applicable=5 reference-only=89 deferred-next-batch=370 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -265,11 +265,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 296 |
+| `implemented-different-by-design` | 304 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 4 |
-| `reference-only` | 86 |
-| `deferred-next-batch` | 382 |
+| `not-applicable` | 5 |
+| `reference-only` | 89 |
+| `deferred-next-batch` | 370 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1682,3 +1682,44 @@ interactive wizard, or JSON-wire compatibility. Each object/adopter repository
 still installs the shared Runtime externally and inherits only the explicit
 repository-bound attach, Agent, Contract, evidence, knowledge, and Outcome
 boundaries.
+
+## WI-521 — source guard and adoption-check batch 35
+
+WI-521 re-read the next twelve current reference paths one by one at the pinned
+local commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. The slice covers
+adoption readiness, archive recovery, backtrack/test weakening, governance cost
+budgets, capability claims, coverage, provider bot intake, diff ownership,
+guard calibration, and file-boundary guards. The retired
+`tests/test_ai_check_backtrack.py` path is excluded from the current slice and
+remains historical metadata only.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_check_adoption_ready.py` | reference-only | `docs/getting-started/standard-adoption-guide.md`, `adopter-configuration.md`, and repository `status`/`doctor` facts preserve the adopter checklist. Source Makefile.ai, CODEOWNERS, SECURITY, CI, and production-readiness checks remain adopter/provider boundaries. |
+| `scripts/ai_check_archive_recovery.py` | implemented-different-by-design | Append-only archive sequences, predecessor-bound recovery, and strict finalization validation in `crates/cockpit-repository` protect immutable ownership without copying source archive/traceability files. |
+| `scripts/ai_check_backtrack.py` | implemented-different-by-design | Rust derives fail-closed test/coverage weakening and input-trust signals. Source report-only snapshot/work-item deletion warnings remain source maintenance projection. |
+| `scripts/ai_check_budget_impact.py` | implemented-different-by-design | Typed identity-bound `PerformanceBaseline`/cost observations and explicit local budgets are advisory; source template metric thresholds and repayment records are not imported. |
+| `scripts/ai_check_capability_claims.py` | reference-only | The source lexical claim/matrix checker remains source documentation tooling. Rust capability truth is observed, repository-bound, and explicit about exclusions; prose cannot silently become evidence. |
+| `scripts/ai_check_coverage_guard.py` | implemented-different-by-design | Rust detects coverage weakening and requires declared verification evidence. Source association rules and missing-test-diff reports are adopter/source maintenance policy. |
+| `scripts/ai_check_dependabot_intake.py` | not-applicable | Dependabot event identity and automatic-merge handling are provider-specific; Rust retains generic delegated evidence and explicit Work Item source binding. |
+| `scripts/ai_check_diff_ownership.py` | reference-only | Rust enforces Contract scope/outOfScope, repository isolation, and immutable archive ownership at lifecycle gates. The source cross-Work-Item YAML ownership preview is not Runtime authority. |
+| `scripts/ai_check_guard_calibration.py` | implemented-different-by-design | Rust validates repository-bound Project Profile, capability declarations, policy precedence, and explicit calibration facts; source YAML guard-map calibration is not copied. |
+| `scripts/ai_check_guards.py` | implemented-different-by-design | Typed Contract, authority, input-trust, lifecycle, and repository-isolation boundaries replace source file-ownership/boundary manifests without installing a second guard system. |
+| `tests/test_ai_check_archive_recovery.py` | implemented-different-by-design | Native archive-integrity and resource-finalization transition tests cover immutable ownership and predecessor-bound recovery. |
+| `tests/test_ai_check_budget_impact.py` | implemented-different-by-design | Native verification/performance tests cover typed budgets, identity-bound observations, and exact reuse without copying source fixtures. |
+
+No new portable implementation omission was found in this slice. The source
+scripts that describe repository facts or lifecycle safety are represented by
+Rust-native typed checks and reader-facing guidance; source-specific adoption,
+provider, lexical-claim, and cross-Work-Item report surfaces remain explicit
+external/reference boundaries. The current 4,450-path set now contains 3,681
+`generated-history`, 304 `implemented-different-by-design`, one
+`implemented-equivalent`, five `not-applicable`, 89 `reference-only`, and 370
+`deferred-next-batch` records; the append-only ledger retains 669 retired paths
+and `migrate-gap` remains zero.
+
+This is semantic/documentation parity, not Python/Make command, provider-event,
+source YAML, or JSON-wire compatibility. Every attached object/adopter project
+inherits the same shared Runtime, explicit `--repo` context, repository-local
+Contract/evidence/knowledge, and human Outcome boundary; it does not inherit
+the reference project's source scripts or adopter-specific policy values.

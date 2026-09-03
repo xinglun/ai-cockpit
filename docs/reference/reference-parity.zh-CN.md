@@ -86,6 +86,10 @@ capabilityClaims:
 
 WI-516 在参考源提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 逐项重新阅读了 17 个 current path：发布投影、Python 开发元数据、adopter evidence、归档、baseline/成本观测、校准、能力事实和 canonical evidence。inventory 中 17 项全部标为 `implemented-different-by-design`，并给出 Rust 对应或明确非声明。`scripts/ai_adoption_reality_report.py` 已不在 pinned checkout 中，只作为 retired historical path 记录，不能宣称是当前能力。这些决定保留 adopter 所需的语义边界，但不复制源 Python、打包、provider 状态、交互向导或 JSON wire 格式。
 
+## WI-521 当前文件批次
+
+WI-521 在同一 pinned commit 逐个重新阅读下一组 12 个 current path。七个 guard/adoption 脚本已由不同设计实现或保持 reference-only，因为其中的 provider、词法或 report-only 行为不属于 Runtime authority；Dependabot 事件检查不适用。两个源测试由 Rust native 测试覆盖。已退休的 `tests/test_ai_check_backtrack.py` 仅保留为历史台账元数据，不作为当前遗漏。详见 [WI-521 文件级记录](../work-items/WI-521-reference-file-comparison-batch-35.zh-CN.md) 与 [对比台账](reference-file-comparison.zh-CN.md)，其中记录完整映射和对象工程继承边界。
+
 ## 当前实现基线
 
 当前 `main` 分支包含以下 Contract 和治理边界。Work Item 文档说明面向使用者的范围；
@@ -463,6 +467,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-518——历史 direct-merge 收据应用与诊断 | 已实现 | [Work Item](../work-items/WI-518-historical-finalization-apply.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-518-historical-finalization-apply.contract.json`; verification `.ai/evidence/WI-518-historical-finalization-apply.verification.json`; finalization `.ai/decisions/WI-518-historical-finalization-apply.finalize.7db915ed608082f3481130460a291a4f3845908d9bd1a8e52684846f9cc9ffec.json`; close `.ai/decisions/WI-518-historical-finalization-apply.close.json`. |
 | WI-519——WI-518 parity 晋级 | 已实现 | [Work Item](../work-items/WI-519-wi518-parity-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-519-wi518-parity-promotion.contract.json`; verification `.ai/evidence/WI-519-wi518-parity-promotion.verification.json`; finalization `.ai/decisions/WI-519-wi518-parity-promotion.finalize.json`; close `.ai/decisions/WI-519-wi518-parity-promotion.close.json`. |
 | WI-520——v0.2.64 发布与对象采用者兼容性验收 | 已实现 | [Work Item](../work-items/WI-520-release-v0-2-64.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-520-release-v0-2-64.contract.json`; verification `.ai/evidence/WI-520-release-v0-2-64.verification.json`; finalization `.ai/decisions/WI-520-release-v0-2-64.finalize.json`; close `.ai/decisions/WI-520-release-v0-2-64.close.json`. |
+| WI-521——参考 guard 与采用检查对比批次 35 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-521-reference-file-comparison-batch-35.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-521-reference-file-comparison-batch-35.contract.json`; verification `.ai/evidence/WI-521-reference-file-comparison-batch-35.verification.json`; finalization `.ai/decisions/WI-521-reference-file-comparison-batch-35.finalize.json`; close `.ai/decisions/WI-521-reference-file-comparison-batch-35.close.json`. |
 
 ## WI-512：治理参考页与验证边界
 

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-516-reference-file-comparison-batch-34
+lastVerifiedBy: WI-521-reference-file-comparison-batch-35
 capabilityClaims:
   - reference_parity
 ---
@@ -102,6 +102,18 @@ from the pinned checkout and is recorded only as a retired historical path;
 it is not claimed as a current capability. These decisions preserve the
 semantic boundaries for adopters without copying source Python, packaging,
 provider state, interactive wizard, or JSON wire formats.
+
+## WI-521 current file batch
+
+WI-521 re-read the next 12 current source paths one by one at the same pinned
+commit. Seven guard/adoption scripts are implemented differently or remain
+reference-only because their provider, lexical, or report-only behavior is not
+Runtime authority; the Dependabot event checker is not applicable. Two source
+tests are covered by native Rust tests. The retired `tests/test_ai_check_backtrack.py`
+path remains historical ledger metadata and is not treated as a current omission.
+See [the WI-521 file-level record](../work-items/WI-521-reference-file-comparison-batch-35.md)
+and the [comparison ledger](reference-file-comparison.md) for the complete
+mapping and adopter inheritance boundary.
 
 ## Current implementation baseline
 
@@ -481,6 +493,7 @@ record for each boundary.
 | WI-518 — historical direct-merge finalization apply and diagnostics | Implemented | [Work Item](../work-items/WI-518-historical-finalization-apply.md); terminal lifecycle: archive `.ai/work-items/archive/WI-518-historical-finalization-apply.contract.json`; verification `.ai/evidence/WI-518-historical-finalization-apply.verification.json`; finalization `.ai/decisions/WI-518-historical-finalization-apply.finalize.7db915ed608082f3481130460a291a4f3845908d9bd1a8e52684846f9cc9ffec.json`; close `.ai/decisions/WI-518-historical-finalization-apply.close.json`. |
 | WI-519 — WI-518 parity promotion | Implemented | [Work Item](../work-items/WI-519-wi518-parity-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-519-wi518-parity-promotion.contract.json`; verification `.ai/evidence/WI-519-wi518-parity-promotion.verification.json`; finalization `.ai/decisions/WI-519-wi518-parity-promotion.finalize.json`; close `.ai/decisions/WI-519-wi518-parity-promotion.close.json`. |
 | WI-520 — v0.2.64 release and object-adopter compatibility acceptance | Implemented | [Work Item](../work-items/WI-520-release-v0-2-64.md); terminal lifecycle: archive `.ai/work-items/archive/WI-520-release-v0-2-64.contract.json`; verification `.ai/evidence/WI-520-release-v0-2-64.verification.json`; finalization `.ai/decisions/WI-520-release-v0-2-64.finalize.json`; close `.ai/decisions/WI-520-release-v0-2-64.close.json`. |
+| WI-521 — reference guard and adoption-check comparison batch 35 | In progress → Implemented after verified close | [Work Item](../work-items/WI-521-reference-file-comparison-batch-35.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-521-reference-file-comparison-batch-35.contract.json`; verification `.ai/evidence/WI-521-reference-file-comparison-batch-35.verification.json`; finalization `.ai/decisions/WI-521-reference-file-comparison-batch-35.finalize.json`; close `.ai/decisions/WI-521-reference-file-comparison-batch-35.close.json`. |
 
 ## WI-512 — governance reference pages and verification boundaries
 

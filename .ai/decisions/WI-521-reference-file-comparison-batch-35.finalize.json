@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "078ee647ecdb1d99f8c2cbb338650e5868bbc7f8",
+    "name": "codex/wi-521-reference-file-comparison-batch-35",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:21efa5013ad2f868001787d6580d62f464445555b5b2b35bf8c35f647e59e5fc",
+  "operationId": "operation-WI-521-reference-file-comparison-batch-35-awaiting-merge-close-post-check-fix",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0b03a18759709c6086012c048f9af2b0a4b63d79",
+    "headRevision": "078ee647ecdb1d99f8c2cbb338650e5868bbc7f8",
+    "number": 496,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/496"
+  },
+  "reason": "awaiting_merge_close: PR #496 is unmerged; retain the reviewed branch and clean worktree until hosted checks pass and the reviewed PR is merged.",
+  "receiptId": "ai-cockpit-WI-521-reference-file-comparison-batch-35-post-check-fix",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-521-reference-file-comparison-batch-35",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/496",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-521-reference-file-comparison-batch-35"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T00:58:00Z",
+  "workItemId": "WI-521-reference-file-comparison-batch-35",
+  "worktree": {
+    "branch": "codex/wi-521-reference-file-comparison-batch-35",
+    "headRevision": "078ee647ecdb1d99f8c2cbb338650e5868bbc7f8",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-521-reference-file-comparison-batch-35",
+    "worktreeId": "WI-521-reference-file-comparison-batch-35"
+  }
+}

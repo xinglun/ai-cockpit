@@ -90,6 +90,10 @@ production readiness、organization approval を与えるものではありま�
 
 WI-516 は source commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の 17 current path を一つずつ再読しました。対象は release projection、Python development metadata、adopter evidence、archive、baseline/cost observation、calibration、capability truth、canonical evidence です。inventory の 17 件はすべて `implemented-different-by-design` とし、Rust counterpart または明示的 non-claim を持たせます。`scripts/ai_adoption_reality_report.py` は pinned checkout から retired されており、historical retired path としてだけ記録します。current capability とは主張しません。adopter の semantic boundary は保ちますが、source Python、package、provider state、interactive wizard、JSON wire format はコピーしません。
 
+## WI-521 current file batch
+
+WI-521 は同じ pinned commit の current path 12 件を一つずつ再読しました。七つの guard/adoption script は provider 固有、lexical、または report-only のため Runtime authority ではなく、implemented-different-by-design または reference-only として境界を記録します。Dependabot event checker は not-applicable です。二つの source test は Rust native test でカバーします。retired の `tests/test_ai_check_backtrack.py` は historical ledger metadata としてだけ保持し、current omission とは扱いません。完全な mapping と adopter 継承境界は [WI-521 file-level record](../work-items/WI-521-reference-file-comparison-batch-35.ja.md) と [comparison ledger](reference-file-comparison.ja.md) を参照してください。
+
 ## 現在の実装 baseline
 
 現在の `main` branch には、次の Contract と governance boundary が含まれます。Work Item
@@ -468,6 +472,7 @@ verification record です。
 | WI-518 — historical direct-merge finalization apply と診断 | Implemented | [Work Item](../work-items/WI-518-historical-finalization-apply.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-518-historical-finalization-apply.contract.json`; verification `.ai/evidence/WI-518-historical-finalization-apply.verification.json`; finalization `.ai/decisions/WI-518-historical-finalization-apply.finalize.7db915ed608082f3481130460a291a4f3845908d9bd1a8e52684846f9cc9ffec.json`; close `.ai/decisions/WI-518-historical-finalization-apply.close.json`. |
 | WI-519 — WI-518 parity promotion | Implemented | [Work Item](../work-items/WI-519-wi518-parity-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-519-wi518-parity-promotion.contract.json`; verification `.ai/evidence/WI-519-wi518-parity-promotion.verification.json`; finalization `.ai/decisions/WI-519-wi518-parity-promotion.finalize.json`; close `.ai/decisions/WI-519-wi518-parity-promotion.close.json`. |
 | WI-520 — v0.2.64 release と object adopter 互換性受入れ | Implemented | [Work Item](../work-items/WI-520-release-v0-2-64.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-520-release-v0-2-64.contract.json`; verification `.ai/evidence/WI-520-release-v0-2-64.verification.json`; finalization `.ai/decisions/WI-520-release-v0-2-64.finalize.json`; close `.ai/decisions/WI-520-release-v0-2-64.close.json`. |
+| WI-521 — reference guard と adoption-check 比較 batch 35 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-521-reference-file-comparison-batch-35.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-521-reference-file-comparison-batch-35.contract.json`; verification `.ai/evidence/WI-521-reference-file-comparison-batch-35.verification.json`; finalization `.ai/decisions/WI-521-reference-file-comparison-batch-35.finalize.json`; close `.ai/decisions/WI-521-reference-file-comparison-batch-35.close.json`. |
 
 ## WI-512: governance reference page と verification boundary
 

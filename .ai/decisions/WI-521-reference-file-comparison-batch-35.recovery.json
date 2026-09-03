@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-09-03T00:55:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-521-reference-file-comparison-batch-35.outcome.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:da209e02de40dab2fdb9aff78bce7d8eecbe4cfdb61c21dc825fd1c699bfc533",
+  "predecessorEventsDigest": "sha256:dcd00df652ac85e1af66946939fc9d28fd705c5fdb1e3c1faa3b102430343a98",
+  "predecessorOutcomeDigest": "sha256:60c29162bbad0a585198c62d40f0f4aedc906751395bb9106651c2f3e4f64c92",
+  "predecessorSummaryDigest": "sha256:e29522c7dea8e4097e517e70f43dca4705ef5222556c379df9bb1ce0c17860c8",
+  "predecessorWorkItemId": "WI-521-reference-file-comparison-batch-35",
+  "reason": "Refresh verification after binding the reviewed PR finalization plan; preserve the prior failed projection and record a fresh attempt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight, checkpoint, and verification for the current Contract and snapshot before retrying finish.",
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "workItemId": "WI-521-reference-file-comparison-batch-35"
+}
