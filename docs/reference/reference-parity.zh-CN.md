@@ -474,6 +474,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-525——WI-524 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-525-wi524-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-525-wi524-doc-promotion.contract.json`; verification `.ai/evidence/WI-525-wi524-doc-promotion.verification.json`; finalization `.ai/decisions/WI-525-wi524-doc-promotion.finalize.json`; close `.ai/decisions/WI-525-wi524-doc-promotion.close.json`。 |
 | WI-527——direct-merge recovery context 兼容 | 已实现 | [Work Item](../work-items/WI-527-direct-merge-context.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-527-direct-merge-context.contract.json`; verification `.ai/evidence/WI-527-direct-merge-context.verification.json`; finalization `.ai/decisions/WI-527-direct-merge-context.finalize.f7bc389eb8064f2451fb5cbd0bb28785546030040c999d25e65f6e0adb5a7c85.json`; close `.ai/decisions/WI-527-direct-merge-context.close.json`. |
 | WI-526——v0.2.65 发布与对象工程恢复验收 | 已实现 | [Work Item](../work-items/WI-526-release-v0-2-65.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-526-release-v0-2-65.contract.json`; verification `.ai/evidence/WI-526-release-v0-2-65.verification.json`; finalization `.ai/decisions/WI-526-release-v0-2-65.finalize.json`; close `.ai/decisions/WI-526-release-v0-2-65.close.json`. |
+| WI-528——WI-526 终态文档晋级 | 进行中 | [Work Item](../work-items/WI-528-doc-promotion.zh-CN.md)；verification `.ai/evidence/WI-528-doc-promotion.verification.json`。 |
 
 ## WI-512：治理参考页与验证边界
 
