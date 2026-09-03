@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-543-reference-ledger-check-safety.contract.json",
+    ".ai/work-items/active/WI-543-reference-ledger-check-safety.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T17:36:14Z",
+  "checkpointContractDigest": "sha256:72b8e270d166983e9e8ec6545734655881f4333d83574a9ad09e7d7bfa710889",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:9edc63ad71b3a4515db84b1c91bfbea018eb7538258b097bb918ed94937dc759",
+      "recorded": true,
+      "recordedAt": "2026-09-03T17:36:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4914c523755259b7a8ea7b7044f0655992a0b51f2c3c33324730ba39ffe32b83",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-543-reference-ledger-check-safety"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:72b8e270d166983e9e8ec6545734655881f4333d83574a9ad09e7d7bfa710889",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9edc63ad71b3a4515db84b1c91bfbea018eb7538258b097bb918ed94937dc759",
+      "previousContractHash": "sha256:9edc63ad71b3a4515db84b1c91bfbea018eb7538258b097bb918ed94937dc759",
+      "reason": "Align the completion evidence class with the Runtime verification receipt while retaining documentation and conformance as acceptance criteria.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T17:56:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4914c523755259b7a8ea7b7044f0655992a0b51f2c3c33324730ba39ffe32b83",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-543-reference-ledger-check-safety"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4914c523755259b7a8ea7b7044f0655992a0b51f2c3c33324730ba39ffe32b83",
+  "createdAt": "2026-09-03T17:35:05Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-03T17:57:09Z",
+  "preflightContractDigest": "sha256:72b8e270d166983e9e8ec6545734655881f4333d83574a9ad09e7d7bfa710889",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4914c523755259b7a8ea7b7044f0655992a0b51f2c3c33324730ba39ffe32b83",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-03T17:57:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-543-reference-ledger-check-safety"
+}

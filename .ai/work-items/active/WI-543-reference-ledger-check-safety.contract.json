@@ -1,0 +1,69 @@
+{
+  "acceptanceCriteria": [
+    "Check mode never writes or regenerates a manifest; ambiguous generation-plus-check invocation is rejected clearly.",
+    "The seven pinned checker modules receive explicit file-level semantic classifications and bounded counterparts or boundaries, with no deferred or migrate-gap result.",
+    "Historical and retired records remain append-only and are not reinterpreted as current paths.",
+    "Regression tests prove check-mode non-mutation and ambiguous invocation rejection.",
+    "English, Simplified Chinese, and Japanese docs agree on decisions and adopter inheritance boundary.",
+    "Inventory, conformance, documentation, formatting, lint, and workspace tests pass.",
+    "No source implementation or source wire format is copied into the Rust Runtime.",
+    "All parity claims bind to the pinned source and target revisions."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7c12972ff424b321b6685e0458a999cbb712f8f6",
+  "createdAt": "2026-09-03T17:35:05Z",
+  "goal": "Prevent check mode from mutating the ledger and record an evidence-backed semantic comparison batch for adopter inheritance.",
+  "intent": "Safely validate the pinned reference ledger and compare the next seven source checker modules without copying source implementation.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust Runtime governance semantics beyond ledger-check safety",
+    "Python",
+    " Make",
+    " YAML",
+    " provider",
+    " or source JSON implementation copying",
+    "Any adopter/object repository operation",
+    "Retired or missing reference paths"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5103d6d2f1f88554f854870956cf5bdccf5567112663a2991046e3c13bdfeb65",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-543-reference-ledger-check-safety",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi543-ledger"
+  },
+  "risk": "medium",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "tests/conformance/reference_file_inventory.json",
+    "docs/work-items/WI-543-reference-file-comparison-batch-37.md",
+    "docs/work-items/WI-543-reference-file-comparison-batch-37.zh-CN.md",
+    "docs/work-items/WI-543-reference-file-comparison-batch-37.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "Reference commit fde3380f81fea5fd2e288f7a8849f737dc074060",
+    "Pinned inventory and conformance tests",
+    "Rust governance and lifecycle implementation at target base 7c12972ff424b321b6685e0458a999cbb712f8f6"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-543-reference-ledger-check-safety"
+}

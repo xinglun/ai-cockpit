@@ -14,6 +14,23 @@ manifest="$tmp/historical.json"
 
 python3 "$script" --manifest "$manifest" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check
 python3 "$script" --manifest "$current_manifest" --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd --check
+
+# A check must never regenerate the ledger.  Supplying generation arguments
+# with --check is rejected before any write, and the input manifest remains
+# byte-identical.
+guarded_manifest="$tmp/guarded.json"
+cp "$current_manifest" "$guarded_manifest"
+before_digest=$(shasum -a 256 "$guarded_manifest" | awk '{print $1}')
+if python3 "$script" --reference "$root" --target "$root" --manifest "$guarded_manifest" --check \
+  --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 \
+  --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd 2>"$tmp/guarded.stderr"; then
+  echo "check mode unexpectedly accepted generation arguments" >&2
+  exit 1
+fi
+grep -q -- "--check is read-only" "$tmp/guarded.stderr"
+after_digest=$(shasum -a 256 "$guarded_manifest" | awk '{print $1}')
+test "$before_digest" = "$after_digest"
+
 python3 "$root/tests/conformance/reference_source_policy.py" --lock "$root/tests/conformance/reference-source.lock"
 bash "$root/tests/conformance/reference_source_policy_check.sh"
 python3 "$root/tests/conformance/reference_inventory_docs_test.py"
@@ -44,7 +61,7 @@ done
 # Bounded rebaseline batches resolve changed source records; WI-521 resolves
 # one of the previously changed deferred records. Keep this regression count
 # tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 73
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 71
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
