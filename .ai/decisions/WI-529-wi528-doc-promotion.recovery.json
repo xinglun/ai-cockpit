@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-recovery",
+  "decidedAt": "2026-09-03T05:42:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-529-wi528-doc-promotion.outcome.json",
+    ".ai/evidence/WI-529-wi528-doc-promotion.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order"
+  ],
+  "predecessorContractDigest": "sha256:a3cb869e3705ca5f3be0fc6da8a61f0df43a01d2193d7ddc7eeee64464290c2a",
+  "predecessorEventsDigest": "sha256:3254259aa3c73bfa58b45c392be96894092c177e964f01eea806bc4cc37286a6",
+  "predecessorOutcomeDigest": "sha256:8ceb2ecf4fafd99263057782e750d2577f691b6238d0f136ecab1bb38d30acfe",
+  "predecessorSummaryDigest": "sha256:1d55e3b1a730630c5717d60d0e5dcb5d544c0ac7869befe3a9772c30a8993806",
+  "predecessorWorkItemId": "WI-529-wi528-doc-promotion",
+  "reason": "The first finish attempt correctly stopped because finalize-plan was not yet bound; preserve that blocked Outcome and retry fresh verification after the reviewed PR context is bound.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, verify current documentation evidence, then finish and archive after hosted review.",
+  "runtimeDigest": "sha256:4e3b7c4c8babd74eadb47f1a6b19c6bfc1bc35191a57952628d43c2dbb5092f3",
+  "runtimeVersion": "0.2.64",
+  "schemaVersion": 1,
+  "workItemId": "WI-529-wi528-doc-promotion"
+}
