@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-release",
+  "decidedAt": "2026-09-03T09:20:35Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-534-wi533-doc-promotion.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:43a67bdbd55218a998248913f6ee921d02a0c58e4e0d327a51e83429b2008b7b",
+  "predecessorEventsDigest": "sha256:8ff104be948c5e928b593c48e389c0f38b92a7a232094ece9b8c9690ff561ac7",
+  "predecessorOutcomeDigest": "sha256:6fd97e46d4a702116fb28f9994422e56b0ecb297d0f9b836eda17f14d7a8cdca",
+  "predecessorSummaryDigest": "sha256:3bea5fcd497e22aeac9ad4642f50dc54b2dec8c991b34c71749a246c0aa86ab2",
+  "predecessorWorkItemId": "WI-534-wi533-doc-promotion",
+  "reason": "Retry the documented lifecycle after repairing the amended scope and evidence binding; no governance fact is rewritten.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun current verification and preflight, then continue finish/archive/close only with a green result.",
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "workItemId": "WI-534-wi533-doc-promotion"
+}

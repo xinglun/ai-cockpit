@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-534-wi533-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-534-wi533-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T09:03:56Z",
+  "checkpointContractDigest": "sha256:43a67bdbd55218a998248913f6ee921d02a0c58e4e0d327a51e83429b2008b7b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:7432faad0060a5022f0dfad450ece5617972b4d80b01de3c81c0bfc88ce1dfe7",
+      "recorded": true,
+      "recordedAt": "2026-09-03T09:03:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c85775b8bca5fd196ab8724ad1566166dc149a22e39a79fc44e748d4065e32fa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-534-wi533-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:eac3fd36305f5412b419b540003040a80531e0a2f8a40818bdf4b5bdc35f252b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7432faad0060a5022f0dfad450ece5617972b4d80b01de3c81c0bfc88ce1dfe7",
+      "previousContractHash": "sha256:7432faad0060a5022f0dfad450ece5617972b4d80b01de3c81c0bfc88ce1dfe7",
+      "reason": "Include this Work Item own tri-language page projections in the explicit documentation scope so terminal promotion is governed without a second projection Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T09:13:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c85775b8bca5fd196ab8724ad1566166dc149a22e39a79fc44e748d4065e32fa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-534-wi533-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:1472cf5293dd500db1b7f15ad7730c9d56b8881083e786fb36ebc3577f1dab0e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7432faad0060a5022f0dfad450ece5617972b4d80b01de3c81c0bfc88ce1dfe7",
+      "previousContractHash": "sha256:eac3fd36305f5412b419b540003040a80531e0a2f8a40818bdf4b5bdc35f252b",
+      "reason": "Use the Runtime verification evidence class for the lifecycle gate; documentation acceptance and parity scripts remain declared verification commands rather than unsupported evidence classes.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T09:16:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c85775b8bca5fd196ab8724ad1566166dc149a22e39a79fc44e748d4065e32fa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-534-wi533-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c85775b8bca5fd196ab8724ad1566166dc149a22e39a79fc44e748d4065e32fa",
+  "createdAt": "2026-09-03T09:03:37Z",
+  "mode": "documentation",
+  "preflightAt": "2026-09-03T09:21:03Z",
+  "preflightContractDigest": "sha256:43a67bdbd55218a998248913f6ee921d02a0c58e4e0d327a51e83429b2008b7b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c85775b8bca5fd196ab8724ad1566166dc149a22e39a79fc44e748d4065e32fa",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T09:21:07Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-534-wi533-doc-promotion"
+}
