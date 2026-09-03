@@ -1,0 +1,71 @@
+{
+  "acceptanceCriteria": [
+    "The scoped current reference files are each read at pinned commit fde3380f81fea5fd2e288f7a8849f737dc074060 and receive an explicit classification with a bounded Rust counterpart or non-claim.",
+    "Any confirmed documentation or capability omission is repaired in this Work Item; source implementation and source wire formats are not copied.",
+    "Inventory and tri-language parity ledgers remain internally consistent, preserve retired history, and report no migrate-gap for this batch.",
+    "The Rust-native derived-artifact and documentation-authority boundaries are documented for humans and Agents, with no unowned global configuration.",
+    "Conformance, documentation, formatting, lint, and locked workspace tests pass; the published Runtime lifecycle evidence is complete.",
+    "Object repositories inherit only the explicit shared Runtime, repository-local .ai, Agent adapter, evidence, knowledge, and Outcome boundaries; no object repository is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8352b4d191a22e4b799e069d62d14015ea122741",
+  "createdAt": "2026-09-03T21:20:07Z",
+  "goal": "Resolve the next reference parity batch, repair any confirmed target documentation or capability omission in this Work Item, and publish a truthful evidence-bound baseline for the next release.",
+  "intent": "Compare the next current reference-source governance and boundary files one by one and record whether the Rust Runtime and adopter repositories inherit their portable meaning without copying Python or source wire formats.",
+  "mode": "code",
+  "outOfScope": [
+    "Object/adopter repository writes",
+    " reference implementation copying",
+    " source Python/Make/YAML/runtime JSON wire compatibility",
+    " release publication itself",
+    " Runtime architecture split",
+    " unrelated deferred files"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d92351d397f7c95de2c96d76c9acc1d88d54b9666813c8bfd98c23bd91a85ba0",
+  "requiredEvidenceClasses": [
+    "verification",
+    "docs",
+    "parity",
+    "verification",
+    "docs",
+    "parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-548-reference-file-comparison-batch-38",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi548-reference-file-comparison-batch-38"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-548-reference-file-comparison-batch-38.md",
+    "docs/work-items/WI-548-reference-file-comparison-batch-38.zh-CN.md",
+    "docs/work-items/WI-548-reference-file-comparison-batch-38.ja.md",
+    "docs/reference/derived-artifacts.md",
+    "docs/reference/derived-artifacts.zh-CN.md",
+    "docs/reference/derived-artifacts.ja.md",
+    "docs/reference/documentation-authority-boundary.md",
+    "docs/reference/documentation-authority-boundary.zh-CN.md",
+    "docs/reference/documentation-authority-boundary.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-548-reference-file-comparison-batch-38"
+}

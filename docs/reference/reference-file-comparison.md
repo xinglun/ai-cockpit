@@ -255,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=319 implemented-equivalent=1 not-applicable=6 reference-only=90 deferred-next-batch=353 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=330 implemented-equivalent=1 not-applicable=6 reference-only=92 deferred-next-batch=340 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -269,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 319 |
+| `implemented-different-by-design` | 330 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 90 |
-| `deferred-next-batch` | 353 |
+| `reference-only` | 92 |
+| `deferred-next-batch` | 340 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1751,6 +1751,40 @@ eligible for new comparison decisions. Every attached adopter inherits the
 same shared Runtime, explicit repository binding, isolated Contract/evidence/
 knowledge, fail-closed lifecycle, and human Outcome handoff, not source
 checkers or provider-specific policy.
+
+## WI-548 — governance and boundary script batch 38
+
+WI-548 compared the next thirteen maintained reference scripts one by one at
+the pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. The batch
+covers derived-artifact authority, installation boundaries, doctor and
+documentation routing, domain/evidence models, external identity/handoff,
+final acceptance, and lightweight impact hints. The inventory records semantic
+counterparts and explicit non-claims; it does not copy Python modules or source
+JSON wire formats.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_derived_artifacts.py` | implemented-different-by-design | Typed Contract/evidence/archive/Outcome projections keep derived views non-authorizing; no source registry is copied. |
+| `scripts/ai_detached_uninstaller.py` | reference-only | Installed-lifecycle docs describe proposal, ownership, bounded removal, and evidence retention; Rust does not provide a detached uninstaller. |
+| `scripts/ai_disable_enable.py` | reference-only | Repository attachment and request-scoped Runtime replace a global installer toggle; no disable/enable state file is claimed. |
+| `scripts/ai_doctor.py` | implemented-different-by-design | Repository-bound Rust `doctor` reports protocol/runtime/compatibility and fail-closed diagnostics; provider toolchains remain adopter facts. |
+| `scripts/ai_documentation_authority.py` | implemented-different-by-design | `.ai` read-set, current/reference routes, frontmatter, and documentation gates provide one authority route without a second registry CLI. |
+| `scripts/ai_documentation_journey.py` | implemented-different-by-design | Tri-language current/getting-started/reference indexes and acceptance checks preserve the reader journey. |
+| `scripts/ai_domain_model.py` | implemented-different-by-design | Typed Core/Protocol/repository lifecycle services own transitions, evidence, identity, and fail-closed decisions. |
+| `scripts/ai_enterprise_control_evidence.py` | implemented-different-by-design | Enterprise assurance, expiry, retention, and delegated evidence remain explicit and cannot be inferred from local receipts. |
+| `scripts/ai_evidence_dependencies.py` | implemented-different-by-design | Verification binds Work Item, repository, snapshot, Contract, profile, policy, command, stage, runner, and Runtime identity. |
+| `scripts/ai_external_handoff.py` | implemented-different-by-design | Typed release/MCP/Outcome handoffs preserve digest-bound external responsibility without provider execution in Core. |
+| `scripts/ai_external_identity.py` | implemented-different-by-design | Typed authority and delegated provider/enterprise evidence preserve assurance levels without authenticating a person locally. |
+| `scripts/ai_final_north_star_acceptance.py` | implemented-different-by-design | Final replacement acceptance keeps the external-adopter/provider evidence boundary and explicit limitations. |
+| `scripts/ai_impact_classifier.py` | implemented-different-by-design | Impact is derived from explicit Contract, scope, profile, and operation-time facts; unknown impact never weakens a route. |
+
+No portable implementation omission was found in this batch. The detached
+uninstaller and global disable/enable scripts remain deliberate
+source/provider boundaries, not missing Runtime features. Attached object
+repositories inherit the same shared binary, explicit `--repo` binding,
+isolated Contract/evidence/knowledge, and human Outcome rules; they do not
+inherit source installer state, Python registries, or adopter-specific policy
+values.
 
 ## WI-539 — source governance checker comparison batch 36
 
