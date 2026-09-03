@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-531-historical-direct-merge-apply.summary.json"
+          ".ai/work-items/archive/WI-531-historical-direct-merge-apply.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-531-historical-direct-merge-apply.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-531-historical-direct-merge-apply.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-531-historical-direct-merge-apply.summary.json"
+          ".ai/work-items/archive/WI-531-historical-direct-merge-apply.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-531-historical-direct-merge-apply.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-531-historical-direct-merge-apply.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-531-historical-direct-merge-apply.contract.json"
+          ".ai/work-items/archive/WI-531-historical-direct-merge-apply.contract.json"
         ],
         "inference": false,
         "text": "Fix the Runtime compatibility path reported by the adopter repository, add end-to-end regression coverage for first-record direct-merge apply using both preserved contract context and generated historical context, and document the exact human-owned fields."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-531-historical-direct-merge-apply.contract.json"
+          ".ai/work-items/archive/WI-531-historical-direct-merge-apply.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

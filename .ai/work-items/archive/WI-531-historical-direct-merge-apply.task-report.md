@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-531-historical-direct-merge-apply.contract.json
-- Changed path: .ai/work-items/active/WI-531-historical-direct-merge-apply.summary.json
+- Changed path: .ai/work-items/archive/WI-531-historical-direct-merge-apply.contract.json
+- Changed path: .ai/work-items/archive/WI-531-historical-direct-merge-apply.summary.json
 
 ## Findings
 

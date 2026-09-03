@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-531-historical-direct-merge-apply.contract.json",
-    ".ai/work-items/active/WI-531-historical-direct-merge-apply.summary.json"
+    ".ai/work-items/archive/WI-531-historical-direct-merge-apply.contract.json",
+    ".ai/work-items/archive/WI-531-historical-direct-merge-apply.summary.json"
   ],
   "checkpointAt": "2026-09-03T07:14:28Z",
   "checkpointContractDigest": "sha256:1aefa3d4e97494875beb9c537110897d8e6f0a733be2e14f95ffd819741e1ba8",
