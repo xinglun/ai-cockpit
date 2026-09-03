@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "A valid closed terminal successor clears only its own predecessor pending-close blocker.",
+    "Missing, stale, foreign, malformed, symlinked, or open successors remain blockers.",
+    "Repository isolation regression coverage passes without changing historical evidence bytes.",
+    "Tri-lingual workflow, Work Item, and parity projections are registered and governance integrity passes.",
+    "All local and hosted quality gates pass before merge."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "403092abe34953fe0d0c9f9f9e45aa2b03a78099",
+  "createdAt": "2026-09-03T02:42:53Z",
+  "goal": "Make repository readiness recognize only a repository-bound, manifest-verified, verified-and-closed recovery successor as resolving its archived predecessor.",
+  "intent": "Prevent a completed recovery successor from being hidden by a repository-wide pending-close gate, while preserving fail-closed validation for incomplete or foreign successors.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Object repositories and their .ai state",
+    "Global Agent or MCP configuration",
+    "Runtime architecture split",
+    " scheduler",
+    " performance",
+    " CI or release implementation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d0533663056cc10d472a67f3db9ab1c80cf63cf69db12ae075dddc0590e0773e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-524-recovery-successor-readiness-r2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/500",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-524-recovery-successor-readiness-r2"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-524-recovery-successor-readiness.md",
+    "docs/work-items/WI-524-recovery-successor-readiness.zh-CN.md",
+    "docs/work-items/WI-524-recovery-successor-readiness.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-524-recovery-successor-readiness"
+}

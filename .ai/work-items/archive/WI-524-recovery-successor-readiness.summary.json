@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-03T02:44:56Z",
+  "checkpointContractDigest": "sha256:58621530865ab191a7a77b3f739e37e6b0398492d60c4c9c35d7857f2e2d72b4",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:5e24fff1ed0f362206c201e19eccf7f83be79c7cd129d4ca0d8c127b41405e5e",
+      "recorded": true,
+      "recordedAt": "2026-09-03T02:44:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3a3cc8120b9d8159b45f9953e13dbf096f244cec65c84ef78764d8710cabc68a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-524-recovery-successor-readiness"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:58621530865ab191a7a77b3f739e37e6b0398492d60c4c9c35d7857f2e2d72b4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5e24fff1ed0f362206c201e19eccf7f83be79c7cd129d4ca0d8c127b41405e5e",
+      "previousContractHash": "sha256:5e24fff1ed0f362206c201e19eccf7f83be79c7cd129d4ca0d8c127b41405e5e",
+      "reason": "The initial Contract listed evidence class labels that the Runtime does not consume as direct preflight evidence classes. Keep the five acceptance criteria and declared verification command, but bind the lifecycle gate to the canonical verification evidence class; documentation, governance, and hosted CI remain acceptance and CI checks.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T02:48:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3a3cc8120b9d8159b45f9953e13dbf096f244cec65c84ef78764d8710cabc68a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-524-recovery-successor-readiness"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3a3cc8120b9d8159b45f9953e13dbf096f244cec65c84ef78764d8710cabc68a",
+  "createdAt": "2026-09-03T02:42:53Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-03T02:48:54Z",
+  "preflightContractDigest": "sha256:58621530865ab191a7a77b3f739e37e6b0398492d60c4c9c35d7857f2e2d72b4",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:3a3cc8120b9d8159b45f9953e13dbf096f244cec65c84ef78764d8710cabc68a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T02:48:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-524-recovery-successor-readiness"
+}
