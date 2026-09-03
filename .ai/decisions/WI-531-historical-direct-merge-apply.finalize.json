@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3f5f5754b98af930ea87d9cb793ac0d281fc1007",
+    "name": "codex/wi-531-historical-direct-merge-apply",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3458406a1e10c0ad89f317386b55b411131153fb9d9cb0f8a955ee5b88770081",
+  "operationId": "wi531-finalization-20260903",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "100c3a1fd686e30d04186fbe94b9179457a3f91c",
+    "headRevision": "3f5f5754b98af930ea87d9cb793ac0d281fc1007",
+    "mergeCommit": "40ca02207b50ef3355ac94f733b9e57698ea8618",
+    "number": 507,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/507"
+  },
+  "reason": "Reviewed PR 507 merged and exact feature resources removed.",
+  "receiptId": "github-pr-507-finalization-20260903",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-531-historical-direct-merge-apply",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/507",
+    "worktree": "/private/tmp/ai-cockpit-wi531-historical-direct-merge-apply"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c45d3191d80533fb810d86912f88b94d456f32256f7fd3046a90de4b6961d25c",
+  "runtimeVersion": "0.2.65",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T08:00:00Z",
+  "workItemId": "WI-531-historical-direct-merge-apply",
+  "worktree": {
+    "branch": "codex/wi-531-historical-direct-merge-apply",
+    "headRevision": "3f5f5754b98af930ea87d9cb793ac0d281fc1007",
+    "path": "/private/tmp/ai-cockpit-wi531-historical-direct-merge-apply",
+    "worktreeId": "WI-531-historical-direct-merge-apply"
+  }
+}
