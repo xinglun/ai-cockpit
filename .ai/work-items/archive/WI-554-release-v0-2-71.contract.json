@@ -1,0 +1,103 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata, lockfile, and all current release/versioning documents consistently declare v0.2.71; v0.2.70 remains the previous public baseline and no failed tag is reused.",
+    "Release CI from the reviewed default branch produces the five-target public artifact set with manifest, SHA256SUMS, SBOM, provenance, attestation, and Runtime identity bindings.",
+    "Post-release acceptance uses only downloaded public v0.2.71 artifacts in isolated roots, proves cleanup and forbidden-root isolation, and validates the same binary for self-governance.",
+    "The WI-552 comparison and WI-553 documentation promotion remain closed and promoted; no active Work Item, stale branch, or untracked closure artifact remains before release."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3da85549ccfca6f8852677bca057c377721a084e",
+  "createdAt": "2026-09-04T01:46:09Z",
+  "goal": "生成可审计的 v0.2.71 发布基线，确保包身份、三语文档、CI、公开资产、供应链证明和 adopter acceptance 一致。",
+  "intent": "发布 v0.2.71：交付已合并的能力暴露与文档修复，并以不可变公开制品验证安装、供应链和本仓库自治理。",
+  "mode": "implementation",
+  "outOfScope": [
+    "对象工程写入",
+    "全局 Agent/MCP 配置",
+    "参考源代码复制",
+    "Runtime 行为变更",
+    "已保留的失败 tag 与历史 Work Item bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:712c20df633a3372575049f91d0dd151791097f4159114368dd617406c74dd49",
+  "requiredEvidenceClasses": [
+    "verification",
+    "docs",
+    "release"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-554-release-v0-2-71",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/532",
+    "worktree": "/private/tmp/ai-cockpit-wi554-release-v0-2-71"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/architecture/versioning.md",
+        "docs/architecture/versioning.zh-CN.md",
+        "docs/architecture/versioning.ja.md",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Package identity and tri-language versioning documentation consistently declare v0.2.71 while preserving v0.2.70 as the previous public baseline.",
+      "required": true,
+      "scenario": "release metadata and failed-tag history",
+      "status": "unverified",
+      "verificationPlan": "Run cargo metadata, version consistency, source archive, documentation, and release policy checks before tagging."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Public v0.2.71 archives, checksums, SBOM, provenance, attestation, and release manifest agree with the immutable tag and downloaded bytes.",
+      "required": true,
+      "scenario": "public artifact supply-chain acceptance",
+      "status": "unverified",
+      "verificationPlan": "After publication, download only public assets, verify digests, and run isolated adopter and N-1 acceptance without source or workspace fallback."
+    },
+    {
+      "evidence": [
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "tests/docs/promote_closed_work_item.py",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "expected": "The published binary passes explicit-repository health checks and closure leaves a visible human Outcome, clean base, and exact branch/worktree cleanup.",
+      "required": true,
+      "scenario": "installed runtime and repository closure",
+      "status": "unverified",
+      "verificationPlan": "Install the downloaded v0.2.71 binary, run inspect/status/doctor/agent doctor, then verify closure and documentation promotion."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-554-release-v0-2-71.md",
+    "docs/work-items/WI-554-release-v0-2-71.zh-CN.md",
+    "docs/work-items/WI-554-release-v0-2-71.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-554-release-v0-2-71"
+}
