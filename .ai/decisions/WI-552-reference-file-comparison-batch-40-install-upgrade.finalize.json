@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b622399288831f2a2e541392a56b7facf709c167",
+    "name": "codex/wi-552-reference-file-comparison-batch-40-install-upgrade",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:12f39571cd3ce73fe63a569a3e1ccad09bf20a6be527ae6304aa9a6bad091f2e",
+  "operationId": "github-pr-530-merge-cleanup-20260904",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "98cb678ac81c611570546be1fdf9e9181836ba2e",
+    "headRevision": "b622399288831f2a2e541392a56b7facf709c167",
+    "mergeCommit": "13f931ea1550f2cc3f73de44003fe158ea31c26e",
+    "number": 530,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/530"
+  },
+  "reason": "Reviewed PR #530 passed all hosted checks and was merged as 13f931ea1550f2cc3f73de44003fe158ea31c26e; the exact Work Item branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-530-finalization-20260904",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-552-reference-file-comparison-batch-40-install-upgrade",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/530",
+    "worktree": "/private/tmp/ai-cockpit-wi552-reference-file-comparison-batch-40-install-upgrade"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853",
+  "runtimeVersion": "0.2.70",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T01:26:52Z",
+  "workItemId": "WI-552-reference-file-comparison-batch-40-install-upgrade",
+  "worktree": {
+    "branch": "codex/wi-552-reference-file-comparison-batch-40-install-upgrade",
+    "headRevision": "b622399288831f2a2e541392a56b7facf709c167",
+    "path": "/private/tmp/ai-cockpit-wi552-reference-file-comparison-batch-40-install-upgrade",
+    "worktreeId": "WI-552-reference-file-comparison-batch-40-install-upgrade"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e6b04e0510a0ebfca93f3b2ee287a3c99804377f0ba6681959cc40bb1f03e80a",
+      "workItemId": "WI-552-reference-file-comparison-batch-40-install-upgrade"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-parity-batch at 2026-09-04T01:28:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.contract.json"
+          ],
+          "inference": false,
+          "text": "Close a bounded installation and upgrade parity batch while preserving shared Runtime isolation, explicit repository binding, fail-closed migration and human-visible Outcome rules."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-552-reference-file-comparison-batch-40-install-upgrade"
+  },
+  "finalReportDigest": "sha256:7687d51998d12cad7fa5862b8db74600ef680f9f03f6c11a2c0796bb1ecaa69a",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5c21e9f0ad5ab3bccb8126614c1421ed06c1b04cb3f30a278acf5cd437906d31",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-552-reference-file-comparison-batch-40-install-upgrade.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-parity-batch",
+    "decidedAt": "2026-09-04T01:28:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "I reviewed the pinned reference comparison, Runtime evidence, hosted checks, and merged PR; close this bounded batch.",
+    "resumeCondition": "No resume required; next batch starts from synchronized main."
+  },
+  "timestamp": "2026-09-04T01:27:35Z",
+  "workItemId": "WI-552-reference-file-comparison-batch-40-install-upgrade"
+}
