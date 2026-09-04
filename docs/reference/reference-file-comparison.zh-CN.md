@@ -302,7 +302,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=420 implemented-equivalent=1 not-applicable=7 reference-only=107 deferred-next-batch=234 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=439 implemented-equivalent=1 not-applicable=7 reference-only=108 deferred-next-batch=214 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -313,11 +313,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 420 |
+| `implemented-different-by-design` | 439 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 107 |
-| `deferred-next-batch` | 234 |
+| `reference-only` | 108 |
+| `deferred-next-batch` | 214 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1539,3 +1539,32 @@ WI-568 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 | `scripts/installer/evidence.py` | implemented-different-by-design | typed adapter receipt 与 immutable adopter manifest 绑定 repository identity、managed-section digest、Runtime 和 cleanup。 |
 
 本批没有发现可移植实现遗漏。3 个 `reference-only` 是源模板 fixture/adoption driver，而不是缺失的 Runtime 控制。所有 attach 的对象/adopter 工程继承同一 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge 与 human Outcome 边界；不继承源 Python 安装器模块、provider policy 值、技术栈矩阵或 source wire。当前 4,450 个路径为 3,681 个 `generated-history`、420 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、107 个 `reference-only` 和 234 个 `deferred-next-batch`；669 个 retired 记录继续追加式保留，`migrate-gap` 为零。
+
+## WI-572：安装器、质量、adopter、发布与声明边界比对批次 45
+
+WI-572 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读下一组 20 个维护中路径。19 项责任是 `implemented-different-by-design`，1 项是 `reference-only`。源 Python 安装器、质量运行器、发布投影和 adopter 矩阵属于 source/provider 边界，不复制源模块或 wire 格式。
+
+| 固定参考路径 | 分类 | Rust 对应 / 有界决定 |
+| --- | --- | --- |
+| `scripts/installer/git_state.py` | implemented-different-by-design | shared Runtime Git observer、repository identity、snapshot 与 Agent planning。 |
+| `scripts/installer/inspection.py` | implemented-different-by-design | typed Agent inspect/doctor 与显式 repository diagnostics。 |
+| `scripts/installer/legacy.py` | implemented-different-by-design | 发布的 shared Runtime、attach 和 Agent adapter 替代模板专属 Python/Make migration 与 rollback。 |
+| `scripts/installer/ownership.py` | implemented-different-by-design | adapter ownership record、managed path、symlink 拒绝和 doctor/repair 测试。 |
+| `scripts/installer/planning.py` | implemented-different-by-design | repository-bound Agent plan 与带显式 identity 的 attach 输出。 |
+| `scripts/installer/presentation.py` | implemented-different-by-design | 本地化 CLI/Agent presentation 与稳定 JSON；源单行渲染不是协议。 |
+| `scripts/installer/rollback.py` | implemented-different-by-design | 有界 adapter repair/detach 与 ownership、rollback evidence。 |
+| `scripts/installer/transaction.py` | implemented-different-by-design | 显式 confirmation、atomic write、lock 与 fail-closed adapter mutation。 |
+| `scripts/installer/upgrade.py` | implemented-different-by-design | 发布版本 semver 与 repository-local adapter upgrade record。 |
+| `scripts/quality_measurements.py` | implemented-different-by-design | identity-bound Rust performance sample、budget、cost observation；hosted runner 事实仍是 delegated evidence。 |
+| `scripts/quality_session_lock.py` | implemented-different-by-design | request-scoped verification concurrency 与 repository lifecycle control；Make/fcntl marker 是 provider mechanics。 |
+| `scripts/quality_test_manifest.py` | implemented-different-by-design | versioned gate manifest 与 typed receipt 绑定 command、stage、identity、required checks；pytest/JUnit shard 细节仍是 CI 事实。 |
+| `scripts/real_adopter_reference_validation.py` | reference-only | 源模板七项目矩阵；目标使用 immutable public artifact acceptance，不宣称该 stack matrix。 |
+| `scripts/release_archive.py` | implemented-different-by-design | deterministic、安全、平台感知的 Rust release archive 与 checksum/SBOM/provenance。 |
+| `scripts/run_quality_gate.py` | implemented-different-by-design | Rust verification 与 reviewed gate manifest 负责 command identity、failure evidence、Contract binding。 |
+| `scripts/run_quality_session.py` | implemented-different-by-design | dynamic route 与 canonical gates 保持有序质量阶段和失败保留。 |
+| `scripts/summarize_quality_gates.py` | implemented-different-by-design | Rust cost observation 保留 wall/total cost、重复/cache、效率和 budget evidence（适用时）。 |
+| `scripts/sync_published_release_projection.py` | implemented-different-by-design | typed ReleaseManifest/Handoff、immutable tag、archive digest 与 reviewed workflow 绑定发布 identity。 |
+| `scripts/unsupported_claim_gate.py` | implemented-different-by-design | typed Outcome claim 分离 evidence 与 inference，unsupported benefit 保持 fail-closed。 |
+| `scripts/verify_quick_install_release.py` | implemented-different-by-design | release tooling/acceptance 验证下载的 immutable artifact、manifest/binary digest 与支持平台。 |
+
+本批未发现可移植实现遗漏。对象/adopter 工程继承同一 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态质量边界与 human Outcome handoff；不继承源 Python 安装器模块、provider policy 值或 source wire。当前 4,450 个路径包含 3,681 个 `generated-history`、458 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、109 个 `reference-only` 和 214 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。

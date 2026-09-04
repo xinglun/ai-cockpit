@@ -1,0 +1,75 @@
+{
+  "acceptanceCriteria": [
+    "20 current reference paths are read at the pinned commit and each has one explicit classification",
+    "No unsubstantiated migrate-gap or equivalence claim is introduced; source-specific installer/quality/provider wire remains bounded",
+    "Inventory update is append-only, strict check passes, tri-language docs and parity registry are synchronized",
+    "If a portable omission is found, it is fixed in this Work Item with a Rust-native regression; otherwise the reason is explicit",
+    "Published release and installed binary acceptance can be completed after merge"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "reference_file_inventory_conformance",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "All 20 pinned reference paths have one explicit, bounded classification and no unsupported migration or equivalence claim.",
+      "verificationPlan": "Run tests/conformance/reference_file_inventory_test.sh and inspect the generated manifest and classification assertions."
+    },
+    {
+      "scenario": "tri_language_reference_documentation",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The English, Simplified Chinese, and Japanese comparison/parity documents and Work Item counterparts remain synchronized and pass documentation acceptance.",
+      "verificationPlan": "Run reference_inventory_docs_test.py, documentation_acceptance.sh, parity_status_check.sh, and governance_integrity_gate.py with its report output."
+    }
+  ],
+  "authority": "authorized",
+  "baseRevision": "aaee981c929e9c55981ed15fe3393c24170f6bcf",
+  "createdAt": "2026-09-04T14:44:10Z",
+  "goal": "完成 20 个 current reference path 的语义判定，必要时补 Rust-native capability/regression/docs，更新 append-only inventory 与三语 parity 文档，发布前通过全部声明的质量门。",
+  "intent": "逐个比较 pinned local reference 的 installer seam、quality orchestration、release/adopter checker；修复本批发现的可移植遗漏并记录明确边界。",
+  "mode": "code",
+  "outOfScope": [
+    "object repository changes",
+    " source checkout changes",
+    " copying Python/Make/V1 files",
+    " root architecture split",
+    " new provider/global configuration",
+    " release/adopter harness redesign"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7a8cde028ca6b1c3d7b69ef36ef1f5d7475252c1f7c260d4fbc2b24c731ff7cb",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-572-reference-installer-quality-batch-45",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi572-reference-installer-quality-batch-45"
+  },
+  "risk": "high",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-572-reference-installer-quality-batch-45.md",
+    "docs/work-items/WI-572-reference-installer-quality-batch-45.zh-CN.md",
+    "docs/work-items/WI-572-reference-installer-quality-batch-45.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-572-reference-installer-quality-batch-45"
+}

@@ -37769,88 +37769,143 @@
     },
     {
       "referencePath": "scripts/installer/git_state.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/getting-started/installation.md"
+      ],
+      "reason": "The source module re-exports installer Git facts. Rust derives repository identity and snapshots through the shared Runtime and exposes repository-bound Agent planning; the source Python import seam is not a target API.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/installer/inspection.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Read-only target inspection is provided by typed Agent doctor/inspect and explicit repository Runtime diagnostics. Source InstallationInspection dataclass and Python path probing are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/installer/legacy.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/installed-lifecycle.md",
+        "docs/getting-started/installation.md"
+      ],
+      "reason": "The source legacy installer owns template-local Python/Make migration, ownership, rollback, and provider files. Rust intentionally uses one shared published binary plus explicit attach and Agent adapters; repository state remains local and no source installer is bundled.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/installer/ownership.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-agent/tests/install.rs",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "Managed-path ownership and conflict facts map to Rust adapter ownership records, symlink rejection, and doctor/repair tests. Source Conflict dataclass fields are not a wire contract.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/installer/planning.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source InstallationPlan is projected by Rust Agent adapter plans and repository attach output with explicit repository identity and bounded writes; source Python plan objects are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/installer/presentation.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-agent/src/lib.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Human installation presentation is a CLI/Agent adapter responsibility in Rust, with stable JSON and localized handoff boundaries; source one-line plan rendering is not a target protocol.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/installer/rollback.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-agent/tests/install.rs",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "Bounded Rust adapter repair/detach retains ownership and rollback evidence and refuses unsafe paths. Source RollbackResult and Python filesystem transaction are not copied into Core.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/installer/transaction.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "The source transaction requires explicit Confirmation before writes. Rust enforces explicit attach/Agent ownership, human review, atomic writes, and fail-closed repair; source executor classes are not a Runtime wire format.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/installer/upgrade.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        "crates/cockpit-agent/src/lib.rs",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "Release semver and installed adapter upgrade are handled by the published Rust release boundary and repository-local adapter records. The source re-export seam does not require a copied Python module.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/quality_measurements.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "tests/performance",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "Identity-bound performance samples, budgets, baseline comparison, and p50/p95 cost observations are Rust verification evidence. Source hosted Python measurement receipt and runner fields remain provider evidence, not target wire compatibility.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/quality_session_lock.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "Rust request-scoped verification concurrency and repository lifecycle controls provide bounded execution. Source fcntl/Make-specific lock markers are platform/provider mechanics, not a shared Runtime contract.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/quality_shard_workspace.py",
@@ -37861,78 +37916,125 @@
     },
     {
       "referencePath": "scripts/quality_test_manifest.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/repository_gate_manifest.json",
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "The target gate manifest and typed verification receipts bind commands, stages, identity, evidence, and required checks. Source pytest/JUnit/shard manifest fields remain adopter/CI-provider facts and are not copied wholesale.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/real_adopter_reference_validation.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.md"
+      ],
+      "reason": "This source module is a reference-template-specific seven-project adopter matrix. The target validates immutable public binaries, repository isolation, lifecycle, upgrade, rollback, and cleanup without claiming the source stack matrix or provider/enterprise assurance.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/release_archive.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/archive.rs",
+        "crates/cockpit-release/src/manifest.rs",
+        "docs/release/distribution.md"
+      ],
+      "reason": "Rust release archive packaging is deterministic, platform-aware, and member-safe with checksum/SBOM/provenance bindings. The source Git-selected Python source archive is a different distribution boundary and is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/run_quality_gate.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "tests/ci/run_repository_gates.py",
+        "tests/ci/repository_gate_manifest.json",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "Rust verification and the reviewed gate manifest own command identity, timeout/failure evidence, Contract bindings, and fail-closed results. The source process-group Python wrapper remains CI orchestration detail rather than a Runtime API.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/run_quality_session.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/run_repository_gates.py",
+        "tests/ci/quality_route.py",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "Dynamic Rust/CI routing and canonical gate execution preserve ordered quality phases and explicit failure retention. Source Make phase runner and Python process-group implementation are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/summarize_quality_gates.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "tests/performance",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "Target cost observations and verification performance reports retain wall/total cost, parallel efficiency, cache/repetition and budget evidence where applicable. Source summary markdown/JSON is not a Rust protocol requirement.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/sync_published_release_projection.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/manifest.rs",
+        "crates/cockpit-release/src/handoff.rs",
+        ".github/workflows/release.yml",
+        "docs/release/distribution.md"
+      ],
+      "reason": "Published release identity and version projection are bound by typed ReleaseManifest/Handoff, immutable tags, archive digests, and the reviewed workflow. Source candidate/state files and Python atomic projection are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/unsupported_claim_gate.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Rust typed OutcomeClaim, evidence/inference separation, unknowns, and fail-closed Outcome rendering enforce the same unsupported-claim boundary. Source lexical gate/report format is not a target wire contract.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/verify_quick_install_release.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-572-reference-installer-quality-batch-45",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/workflow_policy.sh",
+        "docs/getting-started/security-release-verification.md"
+      ],
+      "reason": "Immutable tag/archive discovery, binary and manifest digests, supported-platform checks, and downloaded-artifact verification are provided by Rust release tooling and post-release acceptance. The source quick-install Python checker is not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "target/quality/project-test-aggregate/receipt.json",

@@ -1,0 +1,101 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-572-reference-installer-quality-batch-45.contract.json",
+    ".ai/work-items/active/WI-572-reference-installer-quality-batch-45.summary.json"
+  ],
+  "checkpointAt": "2026-09-04T19:39:59Z",
+  "checkpointContractDigest": "sha256:ef80117635217267c186beabc9a51094dcef8fe1baecb82163787ddf18571d05",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "recorded": true,
+      "recordedAt": "2026-09-04T19:39:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ef80117635217267c186beabc9a51094dcef8fe1baecb82163787ddf18571d05",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "previousContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "reason": "补充本批高风险参考源比对的两个可审计 scenario coverage 声明；仅描述现有台账与三语文档检查，保持实现与治理决定边界不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T20:06:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+  "createdAt": "2026-09-04T14:44:10Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:ef80117635217267c186beabc9a51094dcef8fe1baecb82163787ddf18571d05",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "确认在当前修订后的 Contract、范围、仓库快照与两个已验证 scenario coverage 记录内继续收尾；未知项保持可见，确认不等于测试或治理事实已通过。",
+    "recordedAt": "2026-09-05T00:28:00Z",
+    "recordedBy": "repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+    "schemaVersion": 1,
+    "workItemId": "WI-572-reference-installer-quality-batch-45"
+  },
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-04T20:10:23Z",
+  "preflightContractDigest": "sha256:ef80117635217267c186beabc9a51094dcef8fe1baecb82163787ddf18571d05",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/conformance/reference_file_inventory_test.sh"
+      ],
+      "required": true,
+      "scenario": "reference_file_inventory_conformance",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/conformance/reference_inventory_docs_test.py",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "required": true,
+      "scenario": "tri_language_reference_documentation",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-04T20:10:28Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-572-reference-installer-quality-batch-45"
+}

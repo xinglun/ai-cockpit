@@ -541,6 +541,7 @@ record for each boundary.
 | WI-569 — terminal documentation promotion for WI-568 | In progress → Implemented after verified close | [Work Item](../work-items/WI-569-wi568-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-569-wi568-doc-promotion.contract.json`; verification `.ai/evidence/WI-569-wi568-doc-promotion.verification.json`; finalization `.ai/decisions/WI-569-wi568-doc-promotion.finalize.json`; close `.ai/decisions/WI-569-wi568-doc-promotion.close.json`. |
 | WI-570 — v0.2.74 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-570-release-v0-2-74.md); terminal lifecycle: archive `.ai/work-items/archive/WI-570-release-v0-2-74.contract.json`; verification `.ai/evidence/WI-570-release-v0-2-74.verification.json`; finalization `.ai/decisions/WI-570-release-v0-2-74.finalize.json`; close `.ai/decisions/WI-570-release-v0-2-74.close.json`. |
 | WI-571 — terminal documentation promotion for WI-570 | In progress → Implemented after verified close | [Work Item](../work-items/WI-571-wi570-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-571-wi570-doc-promotion.contract.json`; verification `.ai/evidence/WI-571-wi570-doc-promotion.verification.json`; finalization `.ai/decisions/WI-571-wi570-doc-promotion.finalize.json`; close `.ai/decisions/WI-571-wi570-doc-promotion.close.json`. |
+| WI-572 — installer and quality reference comparison batch 45 | In progress → Implemented after verified close | [Work Item](../work-items/WI-572-reference-installer-quality-batch-45.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json`; verification `.ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json`; finalization `.ai/decisions/WI-572-reference-installer-quality-batch-45.finalize.json`; close `.ai/decisions/WI-572-reference-installer-quality-batch-45.close.json`. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-544-wi543-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546 — WI-545 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-546-wi545-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -633,3 +634,16 @@ boundaries from the shared Runtime; they do not inherit source Python modules,
 stack matrices, provider policy values, or source wire formats. See the [file-level
 ledger](reference-file-comparison.md#wi-568--release-governance-adopter-and-installer-script-comparison-batch-44)
 for the complete path set and bounded decisions.
+
+## WI-572 — installer, quality, adopter, release, and claim-boundary parity
+
+WI-572 adds twenty maintained source-path comparisons: nineteen are
+`implemented-different-by-design` and one (`real_adopter_reference_validation.py`)
+is `reference-only` because it is a reference-template-specific stack matrix.
+Rust uses the shared Runtime, explicit repository context, typed Agent/release/
+verification services, dynamic quality routing, and immutable artifact
+acceptance. Attached object/adopter repositories inherit those capabilities and
+their isolation boundaries, not source Python/Make/provider implementation or
+wire formats. The [file-level ledger](reference-file-comparison.md#wi-572--installer-quality-adopter-release-and-claim-boundary-comparison-batch-45)
+records every path and bounded decision. Current deferred paths are 214;
+`migrate-gap` remains zero.
