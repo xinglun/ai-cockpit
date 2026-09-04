@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d2a054d0bd46b3647e99ce2c09f9c3f101f5469b",
+    "name": "codex/wi-563-reference-file-comparison-batch-43-final",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:63ef328291b55d9bc0a32cec6049034c777949d34a34009909b3974fad257b80",
+  "operationId": "github-pr-543-merge-cleanup-20260904",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "89c9e63b1733ad77a58d1544105bde8ba24cf877",
+    "headRevision": "d2a054d0bd46b3647e99ce2c09f9c3f101f5469b",
+    "mergeCommit": "e3f95b98ef81346efc3a9c5982ff22c9875fc3cb",
+    "number": 543,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/543"
+  },
+  "reason": "Reviewed PR #543 passed all hosted checks and was merged as e3f95b98ef81346efc3a9c5982ff22c9875fc3cb; the exact Work Item branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-543-finalization-20260904",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-563-reference-file-comparison-batch-43-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/543",
+    "worktree": "/private/tmp/ai-cockpit-wi563-reference-file-comparison-batch-43-final"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:405247cc11f30664ab6337fd36f47a96a9d6c4907f3821077987d7fc365a85dd",
+  "runtimeVersion": "0.2.72",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T09:20:00Z",
+  "workItemId": "WI-563-reference-file-comparison-batch-43",
+  "worktree": {
+    "branch": "codex/wi-563-reference-file-comparison-batch-43-final",
+    "headRevision": "d2a054d0bd46b3647e99ce2c09f9c3f101f5469b",
+    "path": "/private/tmp/ai-cockpit-wi563-reference-file-comparison-batch-43-final",
+    "worktreeId": "wi563-reference-file-comparison-batch-43"
+  }
+}
