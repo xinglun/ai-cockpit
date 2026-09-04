@@ -15,15 +15,15 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
-公開後の installation baseline は identity-bound な `v0.2.70` Release です。provider Release が存在する前は、直前の公開
-`v0.2.65` archive を使います。予約済みの `v0.2.51` tag は immutable な公開失敗試行
+公開後の installation baseline は identity-bound な `v0.2.71` Release です。provider Release が存在する前は、直前の公開
+`v0.2.70` archive を使います。予約済みの `v0.2.51` tag は immutable な公開失敗試行
 （workflow run `33417057474`）であり、lightweight tag で provider Release はありません。再利用も installation baseline 化もできません。
 `v0.2.56` tag も immutable な公開失敗履歴です。source-quality workflow が provider Release 作成前に失敗したため、公開 installation baseline として再利用しません。
 `v0.2.68` tag も immutable な公開失敗履歴として保持します（workflow run `33795945667`）。source quality が provider Release 作成前に失敗したため、installation baseline ではなく再利用しません。
 Homebrew と manual install は
 public archive と manifest を使い、Repository configuration は `cockpit.toml` のままです。runtime の install は
 対象 repository に `.ai` を作成しません。同じ acceptance harness に publication 前の staged-candidate mode と publication 後の public-Release mode があり、どちらも source workspace から Runtime を取得しません。
-以前の公開 `v0.2.65` baseline は historical evidence として保持し、現在の installation identity として再利用しません。`v0.2.63`、`v0.2.61`、`v0.2.55`、`v0.2.53`、`v0.2.52` もさらに前の歴史的基線として保持します。未公開の `v0.2.49` tag（workflow run `33379366308`）は公開前失敗の immutable history として保持し、installation baseline にはしません。
+以前の公開 `v0.2.70` baseline は historical evidence として保持し、現在の installation identity として再利用しません。`v0.2.65`、`v0.2.63`、`v0.2.61`、`v0.2.55`、`v0.2.53`、`v0.2.52` もさらに前の歴史的基線として保持します。未公開の `v0.2.49` tag（workflow run `33379366308`）は公開前失敗の immutable history として保持し、installation baseline にはしません。
 
 `v0.2.46` tag は不変の公開失敗履歴（`33330269507`）として保持します。公開 Release は作成されず、
 installation baseline にはしません。失敗原因は、tag 作成時に closed Work Item の必須ドキュメント
@@ -58,8 +58,8 @@ upload します。`.gitattributes` は source archive から `.ai` と generate
 Cargo sources と lockfile を保持します。
 
 過去の Runtime shadow baseline は pinned public `v0.2.28` であり、現在の release route は
-`v0.2.70` も検証します。`tests/ci/runtime_verify_shadow.sh` receipt は standard/strict route の **execution smoke**
-です。identity-bound public `v0.2.70` を検証し、repository の canonical profile を実行します。
+`v0.2.71` も検証します。`tests/ci/runtime_verify_shadow.sh` receipt は standard/strict route の **execution smoke**
+です。identity-bound public `v0.2.71` を検証し、repository の canonical profile を実行します。
 Runtime-global T0–T3 route、affected graph completeness、cross-Work-Item physical execution、
 Work Item ごとの evidence coverage は claim しません。reference Makefile orchestration は
 この Rust repository では different-by-design で copy しません。Runtime-global routing と
@@ -73,10 +73,10 @@ workflow の検証前に provider Release と lightweight tag を作成する可
 
 ```bash
 git fetch origin main --tags
-git tag -a v0.2.70 -m 'ai-cockpit v0.2.70'
-test "$(git cat-file -t v0.2.70)" = tag
-test "$(git rev-parse v0.2.70^{})" = "$(git rev-parse HEAD)"
-git push origin v0.2.70
+git tag -a v0.2.71 -m 'ai-cockpit v0.2.71'
+test "$(git cat-file -t v0.2.71)" = tag
+test "$(git rev-parse v0.2.71^{})" = "$(git rev-parse HEAD)"
+git push origin v0.2.71
 ```
 
 workflow は lightweight tag、既存の provider Release、または peeled commit がレビュー済み source commit と一致しない tag を拒否します。
@@ -113,10 +113,10 @@ brew untap xinglun/tap                 # optional
 ## Release artifact の verify
 
 同じ公開済み GitHub Release から archive、`release-manifest.json`、`SHA256SUMS` を取得します。
-v0.2.70 の checksum file は全十個の archive/SBOM を対象にするため、download した archive だけを検証します。
+v0.2.71 の checksum file は全十個の archive/SBOM を対象にするため、download した archive だけを検証します。
 
 ```bash
-archive="ai-cockpit-v0.2.70-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.71-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -126,8 +126,8 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 Release 公開後は GitHub CLI で正確な 3 ファイルを取得することもできます。
 
 ```bash
-archive="ai-cockpit-v0.2.70-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.70 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.71-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.71 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -140,7 +140,7 @@ identity と結び付けます。harness 外で JSON を使う場合の比較責
 ### 以降の candidate に対する artifact-bound SBOM policy
 
 失敗した staged v0.2.32 には adopter が使える公開 asset がありません。その失敗履歴は immutable
-なまま保持し、成功した Release として再標識しません。v0.2.70 の公開後は bytes が immutable
+なまま保持し、成功した Release として再標識しません。v0.2.71 の公開後は bytes が immutable
 となり、五つの archive と五つの target-named SBOM を `SHA256SUMS` が対象にします。
 
 WI-241 boundary で build する release candidate には、より厳格な contract を適用します。
@@ -187,15 +187,15 @@ evidence として別途保持し、この single-target の永続化 baseline �
 ### 過去の N-1 schema migration 受入れ
 
 schema が変わった基準は、過去の v0.1.1 から v0.2.0 への migration です。
-v0.2.70 は同じ schema の patch Release ですが、N-1 run は同じ harness を使い、compatibility
+v0.2.71 は同じ schema の patch Release ですが、N-1 run は同じ harness を使い、compatibility
 を確認した後に `migrationState: not_required` を記録します。current N-1 run は直前の
 public Release と current Runtime、例えば次のように実行します。
 
 ```bash
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --from-tag v0.2.65 \
-  --to-tag v0.2.70 \
+  --from-tag v0.2.70 \
+  --to-tag v0.2.71 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -222,7 +222,7 @@ API から直前の published semantic Release を解決します。最初の pu
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.70 \
+  --tag v0.2.71 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -268,7 +268,7 @@ verify してから `ai-cockpit` を `$HOME/.local/bin` に置きます。
 
 ```bash
 target="aarch64-apple-darwin" # machine に合う target を選ぶ
-archive="ai-cockpit-v0.2.70-${target}.tar.gz"
+archive="ai-cockpit-v0.2.71-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -286,7 +286,7 @@ Windows では `.zip` と `SHA256SUMS` を download し、checksum を比較し�
 その directory を user `PATH` に追加します。
 
 ```powershell
-$archive = "ai-cockpit-v0.2.70-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.71-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -306,10 +306,10 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust developer fallback
 
-この fallback は現在公開済みの identity-bound な `v0.2.70` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
+この fallback は現在公開済みの identity-bound な `v0.2.71` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.70 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.71 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```

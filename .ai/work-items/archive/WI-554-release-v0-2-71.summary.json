@@ -1,0 +1,134 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-04T01:47:13Z",
+  "checkpointContractDigest": "sha256:379ced456c03db3c5589442655a754d09b43d364a50c7421233f6c1fe31a6588",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:16618918da85e8f672e08a58f62f31c4eb77c39ff12e9667c7a9bd91ab02d422",
+      "recorded": true,
+      "recordedAt": "2026-09-04T01:47:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:712c20df633a3372575049f91d0dd151791097f4159114368dd617406c74dd49",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-554-release-v0-2-71"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:66fba50f79adeaba53d679a228991c93256da8b8851d987dca6dd940a588cabc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:16618918da85e8f672e08a58f62f31c4eb77c39ff12e9667c7a9bd91ab02d422",
+      "previousContractHash": "sha256:16618918da85e8f672e08a58f62f31c4eb77c39ff12e9667c7a9bd91ab02d422",
+      "reason": "Correct scope patterns to Runtime-supported exact paths; no files or authority added beyond the existing v0.2.71 release documentation boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T01:55:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:81a6d9af0eabbc861600b2e53ef45e41d27e2a0e4b8aed791b79298fe844b5f7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-554-release-v0-2-71"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f0b59df0d6eb8b73a98c722ee61541ede6d34d296b71b2e8af332c726709e3ec",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:16618918da85e8f672e08a58f62f31c4eb77c39ff12e9667c7a9bd91ab02d422",
+      "previousContractHash": "sha256:66fba50f79adeaba53d679a228991c93256da8b8851d987dca6dd940a588cabc",
+      "reason": "Declare high-risk release scenario coverage in the Contract itself so preflight can verify the planned scenarios; execution status remains unverified until the release checks run.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T02:07:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:81a6d9af0eabbc861600b2e53ef45e41d27e2a0e4b8aed791b79298fe844b5f7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-554-release-v0-2-71"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f576f0d4fdc561e0958a9f7ede1984750fae46a6378cab31336ff9c4cbf5d42e",
+  "createdAt": "2026-09-04T01:46:09Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:379ced456c03db3c5589442655a754d09b43d364a50c7421233f6c1fe31a6588",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Fresh bounded release review after verification.",
+    "recordedAt": "2026-09-04T02:20:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f576f0d4fdc561e0958a9f7ede1984750fae46a6378cab31336ff9c4cbf5d42e",
+    "schemaVersion": 1,
+    "workItemId": "WI-554-release-v0-2-71"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-04T02:20:31Z",
+  "preflightContractDigest": "sha256:379ced456c03db3c5589442655a754d09b43d364a50c7421233f6c1fe31a6588",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f576f0d4fdc561e0958a9f7ede1984750fae46a6378cab31336ff9c4cbf5d42e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/architecture/versioning.md",
+        "docs/architecture/versioning.zh-CN.md",
+        "docs/architecture/versioning.ja.md",
+        "tests/release/version_consistency.sh"
+      ],
+      "reason": "Package metadata and tri-language versioning documentation declare v0.2.71 consistently while preserving v0.2.70 as the previous public baseline.",
+      "required": true,
+      "scenario": "release metadata and failed-tag history",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "reason": "The release workflow and download-only acceptance harness declare manifest, checksum, SBOM, provenance, attestation, runtime identity, and isolated adopter checks for post-publication execution.",
+      "required": true,
+      "scenario": "public artifact supply-chain acceptance",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "tests/docs/promote_closed_work_item.py",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "reason": "The release process binds explicit-repository health, visible human Outcome, exact closure, and documentation-promotion checks to the installed runtime.",
+      "required": true,
+      "scenario": "installed runtime and repository closure",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T02:20:38Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-554-release-v0-2-71"
+}

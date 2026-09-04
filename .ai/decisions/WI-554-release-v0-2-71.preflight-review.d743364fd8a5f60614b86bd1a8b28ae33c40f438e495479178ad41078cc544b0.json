@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f0b59df0d6eb8b73a98c722ee61541ede6d34d296b71b2e8af332c726709e3ec",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Confirmed the bounded v0.2.71 release and public-artifact acceptance scope after correcting Runtime-supported exact scope patterns; no authority or repository boundary changed.",
+  "recordedAt": "2026-09-04T01:57:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:81a6d9af0eabbc861600b2e53ef45e41d27e2a0e4b8aed791b79298fe844b5f7",
+  "schemaVersion": 1,
+  "workItemId": "WI-554-release-v0-2-71"
+}

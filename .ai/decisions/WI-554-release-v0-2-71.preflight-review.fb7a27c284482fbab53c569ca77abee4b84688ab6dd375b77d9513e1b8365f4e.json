@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:379ced456c03db3c5589442655a754d09b43d364a50c7421233f6c1fe31a6588",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Fresh bounded release review after verification.",
+  "recordedAt": "2026-09-04T02:20:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f576f0d4fdc561e0958a9f7ede1984750fae46a6378cab31336ff9c4cbf5d42e",
+  "schemaVersion": 1,
+  "workItemId": "WI-554-release-v0-2-71"
+}
