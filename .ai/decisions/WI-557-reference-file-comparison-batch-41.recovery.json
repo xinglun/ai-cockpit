@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-04T04:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-557-reference-file-comparison-batch-41.verification.json",
+    ".ai/work-items/active/WI-557-reference-file-comparison-batch-41.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:4fdd0652d46c4b3dc40d0d5a383e8f9b112ca018ed8902c2afe3e8e31fad9805",
+  "predecessorEventsDigest": "sha256:ed74c0fefda6c68935bcedf3d90e291746751a575fd6018a3e96ccb40aeeb2b6",
+  "predecessorOutcomeDigest": "sha256:1d6431c92495c2355444bd52b3ddac2d563f895177096704c45b0ad29605bec2",
+  "predecessorSummaryDigest": "sha256:5183944dd8e2f88cf5d0180fbef99f9ddba7c58784a6dfc84498b05e6bb700de",
+  "predecessorWorkItemId": "WI-557-reference-file-comparison-batch-41",
+  "reason": "The first finish attempt was blocked because the finalization plan was not yet bound; retry after the explicit plan and fresh verification, preserving the blocked attempt as immutable evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification after the bound finalization plan, then complete finish, archive, reviewed merge, and close.",
+  "runtimeDigest": "sha256:c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba",
+  "runtimeVersion": "0.2.71",
+  "schemaVersion": 1,
+  "workItemId": "WI-557-reference-file-comparison-batch-41"
+}
