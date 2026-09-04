@@ -81,7 +81,6 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:e5cb4ed61ffbd848815450d952056c094fe4e7c530a86f420e2ae91345c652a1",
   "createdAt": "2026-09-04T12:58:36Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-570-release-v0-2-74.md",
@@ -93,14 +92,12 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "preflightAt": "2026-09-04T13:23:18Z",
   "preflightContractDigest": "sha256:e4afc79b158c95f0d5e92d97677f40f84dfad7bbfee58fb64d7976e76fcd0de9",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:e5cb4ed61ffbd848815450d952056c094fe4e7c530a86f420e2ae91345c652a1",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -144,8 +141,8 @@
       "status": "not_applicable"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-04T13:09:09Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T13:23:25Z",
   "verification": [
     {
       "check": "project-command-0",

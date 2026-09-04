@@ -6,14 +6,17 @@
     "The release starts from a synchronized ready default branch and changes no Runtime behavior, object repository, global configuration, or unrelated historical evidence.",
     "The three reference-parity pages register WI-570 with its bounded release scope and preserve the release documentation traceability."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-04T13:23:25Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5ce3d98ed8204512561e82f3eedb63df9dedc55e98a8c933ffeb2b5d5f8da4aa",
   "evidenceRefs": [
     ".ai/evidence/WI-570-release-v0-2-74.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-570-release-v0-2-74.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,24 +24,21 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-570-release-v0-2-74.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:2451b90cbc31014e8509248e0c41113e1bcd37fe29929b5bb410b652672408f4",
+      "repositorySnapshotDigest": "sha256:e5cb4ed61ffbd848815450d952056c094fe4e7c530a86f420e2ae91345c652a1",
       "workItemId": "WI-570-release-v0-2-74"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -59,15 +59,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-570-release-v0-2-74.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -86,7 +78,7 @@
             ".ai/evidence/WI-570-release-v0-2-74.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -96,10 +88,18 @@
             ".ai/evidence/WI-570-release-v0-2-74.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-570-release-v0-2-74.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -120,16 +120,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-570-release-v0-2-74"
   },
+  "taskReportDigest": "sha256:b0f08e5fe7599f844e27d5f70301429d4e02b3880f2180506b35470ba4b1dcd7",
+  "taskReportMarkdownDigest": "sha256:fb1661d0457e0acf740564a94402a1e62d0f14c98fe04707a871e8011849c24f",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-570-release-v0-2-74.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-570-release-v0-2-74"
 }
