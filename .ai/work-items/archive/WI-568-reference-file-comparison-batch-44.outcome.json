@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "固定记录二十个当前 pinned reference paths，逐个给出 classification、Rust counterpart 或 reference-only reason。",
+    "ledger、三语 reference-file-comparison、三语 reference-parity 和本 WI 文档互相一致，路径集合无遗漏。",
+    "任何发现的当前 Rust/对象工程继承缺口必须在本 WI 内通过 Contract amendment 纳入并修复；无法安全修复的必须明确记录边界，不能默认为等价。",
+    "不复制 source implementation、历史 bytes、provider credentials 或全局配置；Contract 与 evidence 的事实保持可审计。",
+    "运行 inventory、documentation、governance integrity、format/diff 检查并产生 Runtime evidence。"
+  ],
+  "createdAt": "2026-09-04T12:29:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1405b405c7216c9adcf44e4004f2f7d304b3e644cf2dc740b23b1dc143cc132f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c0b5f44b19bad17f00eeac43deff638b5aab7782ef833c8efe4556bbce505893",
+      "workItemId": "WI-568-reference-file-comparison-batch-44"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-568-reference-file-comparison-batch-44.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-568-reference-file-comparison-batch-44.contract.json"
+          ],
+          "inference": false,
+          "text": "逐个比较二十个当前 pinned reference paths，更新语义台账、三语文档和回归门；不复制参考源实现、历史 bytes、provider 配置或全局规则。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-568-reference-file-comparison-batch-44.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-568-reference-file-comparison-batch-44"
+  },
+  "taskReportDigest": "sha256:9ba221a97b9c99a76b6ff9ece3bedafc98fff0cd2c5eb32077e5b4f2773f5a35",
+  "taskReportMarkdownDigest": "sha256:7f567d74dc417fd8e3776e154b0f2abcae6bd2adcc3fe805d069a4bd56a4adb5",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-568-reference-file-comparison-batch-44"
+}

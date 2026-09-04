@@ -31,8 +31,8 @@
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-568-reference-file-comparison-batch-44",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/549",
     "worktree": "/private/tmp/ai-cockpit-wi568-reference-file-comparison-batch-44"
   },
   "risk": "normal",

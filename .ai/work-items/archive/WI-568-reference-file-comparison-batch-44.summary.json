@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-04T12:23:47Z",
+  "checkpointContractDigest": "sha256:cf8d7c184f087803414a8cb3df4b41f4bbc532502f224f1244933eb94ef89fb2",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:eaced26d9fa7d7ffb2ccf627237280030d7b5b56539238c8901f6b68d9c47972",
+      "recorded": true,
+      "recordedAt": "2026-09-04T12:23:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c0b5f44b19bad17f00eeac43deff638b5aab7782ef833c8efe4556bbce505893",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-568-reference-file-comparison-batch-44"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:cf8d7c184f087803414a8cb3df4b41f4bbc532502f224f1244933eb94ef89fb2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:eaced26d9fa7d7ffb2ccf627237280030d7b5b56539238c8901f6b68d9c47972",
+      "previousContractHash": "sha256:eaced26d9fa7d7ffb2ccf627237280030d7b5b56539238c8901f6b68d9c47972",
+      "reason": "Revalidate the declared verification after binding the actual reviewed PR context for finalization.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T12:28:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c0b5f44b19bad17f00eeac43deff638b5aab7782ef833c8efe4556bbce505893",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-568-reference-file-comparison-batch-44"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c0b5f44b19bad17f00eeac43deff638b5aab7782ef833c8efe4556bbce505893",
+  "createdAt": "2026-09-04T11:57:13Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-04T12:29:11Z",
+  "preflightContractDigest": "sha256:cf8d7c184f087803414a8cb3df4b41f4bbc532502f224f1244933eb94ef89fb2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c0b5f44b19bad17f00eeac43deff638b5aab7782ef833c8efe4556bbce505893",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T12:29:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-568-reference-file-comparison-batch-44"
+}
