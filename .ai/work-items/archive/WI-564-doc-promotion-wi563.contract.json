@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "WI-563 三语页面晋级并包含终态证据链接",
+    "WI-564 三语页面说明本晋级项边界与恢复原因",
+    "三语 parity 页面登记 WI-563 与 WI-564 的一致状态及证据路径",
+    "文档治理与逐文件台账门禁全部通过且前驱不可变记录不变"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bdf54c61d39e5fae63f0e3819294cf68df3d0382",
+  "createdAt": "2026-09-04T09:47:10Z",
+  "goal": "在不改写任何不可变治理记录的前提下，令 WI-563 与本晋级项的文档投影、parity 与发布前门禁一致。",
+  "intent": "将已验证关闭的 WI-563 三语文档晋级为终态，并补齐本晋级项自身的三语文档与 parity 登记，消除 CI 文档治理投影缺口。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source behavior",
+    "object repositories",
+    "reference checkout",
+    "global Agent or MCP configuration",
+    "historical evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8943532ecea908fa323da83b3400ec1bcfe934b4c7c84b243a3b1e78c05c75a7",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-564-doc-promotion-wi563-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/545",
+    "worktree": "/private/tmp/ai-cockpit-wi564-doc-promotion-wi563-final"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.md",
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.zh-CN.md",
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.ja.md",
+    "docs/work-items/WI-564-doc-promotion-wi563.md",
+    "docs/work-items/WI-564-doc-promotion-wi563.zh-CN.md",
+    "docs/work-items/WI-564-doc-promotion-wi563.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-564-doc-promotion-wi563"
+}

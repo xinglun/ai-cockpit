@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-563 — reference file comparison batch 43"
 description: "Compare twenty maintained reference scripts and record bounded Rust semantic decisions."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-563-reference-file-comparison-batch-43
 lastVerifiedBy: WI-563-reference-file-comparison-batch-43
+terminalArchive: .ai/work-items/archive/WI-563-reference-file-comparison-batch-43.contract.json
+terminalVerification: .ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json
+terminalFinalization: .ai/decisions/WI-563-reference-file-comparison-batch-43.finalize.json
+terminalDecision: .ai/decisions/WI-563-reference-file-comparison-batch-43.close.json
 ---
 
 [简体中文](WI-563-reference-file-comparison-batch-43.zh-CN.md) · [日本語](WI-563-reference-file-comparison-batch-43.ja.md)
