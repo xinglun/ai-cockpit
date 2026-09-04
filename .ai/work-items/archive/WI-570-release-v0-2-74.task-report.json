@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-570-release-v0-2-74.summary.json"
+          ".ai/work-items/archive/WI-570-release-v0-2-74.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-570-release-v0-2-74.contract.json"
+          ".ai/work-items/archive/WI-570-release-v0-2-74.contract.json"
         ],
         "inference": false,
         "text": "Publish a verified v0.2.74 patch release and validate its public installation boundary."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-570-release-v0-2-74.contract.json"
+          ".ai/work-items/archive/WI-570-release-v0-2-74.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
