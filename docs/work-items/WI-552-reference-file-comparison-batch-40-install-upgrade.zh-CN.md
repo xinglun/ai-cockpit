@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-552——安装与升级参考源比较批次 40"
 description: "逐个比较 17 个固定安装/升级路径，并收紧 Runtime capability discovery。"
 audience: [maintainer, reviewer]
-status: current
+status: implemented
 authority: canonical
 workItemId: WI-552-reference-file-comparison-batch-40-install-upgrade
 lastVerifiedBy: WI-552-reference-file-comparison-batch-40-install-upgrade
+terminalArchive: .ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.contract.json
+terminalVerification: .ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json
+terminalFinalization: .ai/decisions/WI-552-reference-file-comparison-batch-40-install-upgrade.finalize.json
+terminalDecision: .ai/decisions/WI-552-reference-file-comparison-batch-40-install-upgrade.close.json
 ---
 
 # WI-552——安装与升级参考源比较批次 40
