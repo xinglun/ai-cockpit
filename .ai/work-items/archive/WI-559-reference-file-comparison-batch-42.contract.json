@@ -30,11 +30,11 @@
     "reference-parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-559-reference-file-comparison-batch-42",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/537",
     "worktree": "/private/tmp/ai-cockpit-wi559-reference-file-comparison-batch-42"
   },
   "risk": "normal",

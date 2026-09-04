@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-559-reference-file-comparison-batch-42.contract.json",
-    ".ai/work-items/active/WI-559-reference-file-comparison-batch-42.summary.json"
+    ".ai/work-items/archive/WI-559-reference-file-comparison-batch-42.contract.json",
+    ".ai/work-items/archive/WI-559-reference-file-comparison-batch-42.summary.json"
   ],
   "checkpointAt": "2026-09-04T05:05:00Z",
-  "checkpointContractDigest": "sha256:d0193ab9d8eb0793f52f566bc9c3ae60a248a63c1d54dde37e661a6b0fefcc33",
+  "checkpointContractDigest": "sha256:0388891cb79249ba74184857c39ad42e1bca646003057f2a909f5b49eb1db6b6",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,23 +40,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-559-reference-file-comparison-batch-42"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:0388891cb79249ba74184857c39ad42e1bca646003057f2a909f5b49eb1db6b6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d9ef8c87da2c46381eacf46380705fd5b14583d32948f58c7eabcf9d848716d0",
+      "previousContractHash": "sha256:d0193ab9d8eb0793f52f566bc9c3ae60a248a63c1d54dde37e661a6b0fefcc33",
+      "reason": "Bind the reviewed pull request resource context required for finalization.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T05:34:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3e4fe24322cd87e04791d429351163f5106c11b4e9756a5f8a95b70ded213224",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-559-reference-file-comparison-batch-42"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3e4fe24322cd87e04791d429351163f5106c11b4e9756a5f8a95b70ded213224",
   "createdAt": "2026-09-04T05:00:06Z",
-  "failedGate": "finish.governance",
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-04T05:32:11Z",
-  "preflightContractDigest": "sha256:d0193ab9d8eb0793f52f566bc9c3ae60a248a63c1d54dde37e661a6b0fefcc33",
+  "preflightAt": "2026-09-04T05:35:53Z",
+  "preflightContractDigest": "sha256:0388891cb79249ba74184857c39ad42e1bca646003057f2a909f5b49eb1db6b6",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:3e4fe24322cd87e04791d429351163f5106c11b4e9756a5f8a95b70ded213224",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-04T05:32:21Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T05:35:57Z",
   "verification": [
     {
       "check": "project-command-0",
