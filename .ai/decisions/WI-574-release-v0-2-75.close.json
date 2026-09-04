@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c7a9dd8fa4d86095c38bfc127b199737a2b52ba8a0237762d4f2857e56cf7c0b",
+      "workItemId": "WI-574-release-v0-2-75"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-574-release-v0-2-75.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-574-release-v0-2-75.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-574-release-v0-2-75.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-574-release-v0-2-75.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json",
+            ".ai/decisions/WI-574-release-v0-2-75.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-release at 2026-09-05T07:53:54+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-574-release-v0-2-75.contract.json"
+          ],
+          "inference": false,
+          "text": "Publish a verified v0.2.75 patch release and validate its immutable public installation boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-574-release-v0-2-75.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-574-release-v0-2-75"
+  },
+  "finalReportDigest": "sha256:758a937a4982ae2eb6cfea2fb9b2a8228dbf0fa66abe6ec9923f61f018b7427d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:6d8263395212056219ddedc59cf5063951323f2a8989c61824f1afe2a3d20707",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-574-release-v0-2-75.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-release",
+    "decidedAt": "2026-09-05T07:53:54+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-574-release-v0-2-75.verification.json",
+      ".ai/decisions/WI-574-release-v0-2-75.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "按已确认的发布流程，Hosted CI 已通过，PR 已评审合并，finalization receipt 已验证，允许关闭 v0.2.75 发布 Work Item。",
+    "resumeCondition": "若发布或 adopter 验收失败，保留失败 receipt，按新 Work Item 处理，不重写本 Work Item 的既有事实。"
+  },
+  "timestamp": "2026-09-04T22:54:01Z",
+  "workItemId": "WI-574-release-v0-2-75"
+}
