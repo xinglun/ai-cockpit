@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Promote only the six terminal WI-559 documentation projections identified by the closed Work Item promotion check.",
+    "All promoted pages reference the immutable WI-559 archive, verification, finalization, and close evidence without changing governance facts.",
+    "The closed Work Item promotion check passes with --check-all and documentation acceptance remains green.",
+    "No runtime behavior, object repository, global Agent/MCP configuration, or unrelated documentation is changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8c5ae390d4551deeefb9bfdcf9355045232d585a",
+  "createdAt": "2026-09-04T05:51:41Z",
+  "goal": "Promote the terminal WI-559 documentation projections after its verified close.",
+  "intent": "Apply the repository deterministic closed-Work-Item documentation promotion helper to the exact stale projections and verify the resulting pages.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime or CLI behavior changes",
+    "Reference-source inventory or semantic comparison changes",
+    "Object repository /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Global Agent or MCP configuration",
+    "Unrelated documentation or governance records",
+    "Release publication and adopter acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9ab23743f873e5a9ba2bbcd4bb09b90a2b7939137d183ba81f2ebf52dd919698",
+  "requiredEvidenceClasses": ["verification", "documentation"],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-560-doc-promotion-wi559",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi560-doc-promotion-wi559"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-559-reference-file-comparison-batch-42.md",
+    "docs/work-items/WI-559-reference-file-comparison-batch-42.zh-CN.md",
+    "docs/work-items/WI-559-reference-file-comparison-batch-42.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-560-doc-promotion-wi559.md",
+    "docs/work-items/WI-560-doc-promotion-wi559.zh-CN.md",
+    "docs/work-items/WI-560-doc-promotion-wi559.ja.md"
+  ],
+  "sources": [
+    "runtime:post-close promotion report for WI-559-reference-file-comparison-batch-42",
+    "runtime:.ai/work-items/archive/WI-559-reference-file-comparison-batch-42.archive.json",
+    "runtime:.ai/decisions/WI-559-reference-file-comparison-batch-42.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-560-doc-promotion-wi559"
+}

@@ -6,10 +6,14 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-559-reference-file-comparison-batch-42
 lastVerifiedBy: WI-559-reference-file-comparison-batch-42
+terminalArchive: .ai/work-items/archive/WI-559-reference-file-comparison-batch-42.contract.json
+terminalVerification: .ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json
+terminalFinalization: .ai/decisions/WI-559-reference-file-comparison-batch-42.finalize.json
+terminalDecision: .ai/decisions/WI-559-reference-file-comparison-batch-42.close.json
 ---
 
 [English](WI-559-reference-file-comparison-batch-42.md) · [简体中文](WI-559-reference-file-comparison-batch-42.zh-CN.md)
