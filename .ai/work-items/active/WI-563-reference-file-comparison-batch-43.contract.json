@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "固定记录二十个当前 pinned reference paths，逐个给出 classification、Rust counterpart 或 reference-only reason。",
+    "ledger、三语 reference-file-comparison、三语 reference-parity 和本 WI 文档互相一致，路径集合无遗漏。",
+    "任何发现的当前 Rust/对象工程继承缺口必须在本 WI 内修复；无法安全修复的必须明确记录为 reference-only 或后续边界，不能默认为等价。",
+    "不复制 source implementation、历史 bytes、provider credentials 或全局配置；Contract 与 evidence 的事实保持可审计。",
+    "运行 inventory、documentation、governance integrity、format/diff 检查并产生 Runtime evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "89c9e63b1733ad77a58d1544105bde8ba24cf877",
+  "createdAt": "2026-09-04T08:48:49Z",
+  "goal": "逐个比较下一组二十个维护中的参考脚本，更新语义台账、三语文档和回归门；不复制参考源实现、历史 bytes、provider 配置或全局规则。",
+  "intent": "比较固定本地参考源当前树的下一批维护脚本，记录 Rust-native 对应与对象工程继承边界，并在本 WI 范围内修复可安全补齐的遗漏。",
+  "mode": "implementation",
+  "outOfScope": [
+    "复制参考源 Python/Shell/Make 实现",
+    "改动 Rust Runtime 核心行为",
+    "修改对象工程",
+    "修改全局 Agent/MCP 配置",
+    "性能、CI/release/adopter 机制",
+    "已退役历史源路径",
+    "无证据的功能宣称"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9a7413d6c32e06183caae9b4d9c822c24bc375778772b8cd2b9a4dfe6fc9aeab",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-563-reference-file-comparison-batch-43-final",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi563-reference-file-comparison-batch-43-final"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.md",
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.zh-CN.md",
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-563-reference-file-comparison-batch-43"
+}
