@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "Three Work Item pages are promoted to completed with terminal evidence links.",
+    "All three parity pages record the same Implemented/已实现 status and terminal lifecycle links for WI-563.",
+    "promote_closed_work_item.py --check-all, parity, documentation, inventory, and governance gates pass.",
+    "No Contract, evidence, decision, or historical archive bytes are rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bdf54c61d39e5fae63f0e3819294cf68df3d0382",
+  "createdAt": "2026-09-04T09:29:07Z",
+  "goal": "完成 WI-563 的文档晋级，消除 stale promotion gate，且不改变治理事实。",
+  "intent": "将已验证关闭的 WI-563 三语文档从进行中投影为终态，并保持文档与不可变证据一致。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source behavior",
+    " object repositories",
+    " reference source checkout",
+    " release artifacts",
+    " global Agent or MCP configuration",
+    " and historical evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8943532ecea908fa323da83b3400ec1bcfe934b4c7c84b243a3b1e78c05c75a7",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-564-doc-promotion-wi563",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi564-doc-promotion-wi563"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.md",
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.zh-CN.md",
+    "docs/work-items/WI-563-reference-file-comparison-batch-43.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-564-doc-promotion-wi563"
+}
