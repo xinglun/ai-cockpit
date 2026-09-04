@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-559-reference-file-comparison-batch-42
+lastVerifiedBy: WI-563-reference-file-comparison-batch-43
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `603a82b78ff6c2c02662cd6b9f6c53b0415a2f25`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.70`，binary SHA256 为 `sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `89c9e63b1733ad77a58d1544105bde8ba24cf877`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.72`，binary SHA256 为 `sha256:405247cc11f30664ab6337fd36f47a96a9d6c4907f3821077987d7fc365a85dd`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -302,7 +302,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=389 implemented-equivalent=1 not-applicable=6 reference-only=99 deferred-next-batch=274 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=403 implemented-equivalent=1 not-applicable=7 reference-only=104 deferred-next-batch=254 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -313,11 +313,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 389 |
+| `implemented-different-by-design` | 403 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 6 |
-| `reference-only` | 99 |
-| `deferred-next-batch` | 274 |
+| `not-applicable` | 7 |
+| `reference-only` | 104 |
+| `deferred-next-batch` | 254 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1481,3 +1481,32 @@ WI-559 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 | `scripts/ai_verify.py` | implemented-different-by-design | Rust verify route、checker registry、planner、Contract gates 与 delegated release/adopter evidence。 |
 
 本批未发现可移植实现遗漏。3 个 `reference-only` 路径是源/provider 或技术栈专属工具，不是 Runtime 缺口。每个 attach 的对象工程继承 shared Runtime、显式 repository 绑定、隔离 Contract/evidence/knowledge、trust/生命周期门和 human Outcome handoff，但不继承源启动器、provider 命令或 Python wire 格式。
+
+## WI-563：向导、智能、引导、质量与发布检查器比对批次 43
+
+WI-563 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读下一组 20 个维护中脚本。下表记录每个责任的 Rust 对应与边界，不复制 Python、Shell、Make 或源 JSON 实现。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `scripts/ai_wizard_io.py` | reference-only | TTY 输入属于宿主/Agent presentation；显式非交互 CLI/MCP schema 与可见 Outcome 替代第二套 Runtime 向导。 |
+| `scripts/ai_wizard_localization.py` | implemented-different-by-design | CLI/MCP 本地化 Runtime chrome，Contract 原文保持作者语言；不复制源 locale 资源和 placeholder API。 |
+| `scripts/ai_work_item_intelligence.py` | implemented-different-by-design | typed Protocol、repository、knowledge、CLI 提供事实推导、request-scoped、追加式的 Work Item intelligence；不复制源全局缓存/聚合。 |
+| `scripts/ai_work_item_intelligence_benchmark.py` | reference-only | 源 percentile benchmark 针对 Python 实现；Rust 性能样本和回归门仅作 advisory，不能授权治理。 |
+| `scripts/ai_work_item_status.py` | implemented-different-by-design | repository-bound `status` 和 `work-item status` 提供稳定 JSON 与人类投影；不以生成的 Python status 文件作为 authority。 |
+| `scripts/bootstrap_repository.py` | implemented-different-by-design | shared Git observer 及 `inspect`/`observe`/`status`/`doctor` 提供 remote、branch、dirty、conflict、identity 事实，不兼容源 snapshot wire。 |
+| `scripts/bootstrap_wizard.py` | reference-only | 交互式 Bootstrap session 是 presentation adapter；Rust 使用显式 detect/propose/confirm/attach，不制造 readiness 或 authority。 |
+| `scripts/bootstrap_write_boundary.py` | implemented-different-by-design | typed attach/migration/adapter 写入执行 allowlist、regular path、symlink 拒绝、atomic ownership、确认和 drift 检查；不复制源 Makefile block 协议。 |
+| `scripts/check_bandit_baseline.py` | not-applicable | Python/Bandit baseline 不属于 Rust Runtime 产品面；适用控制是 Cargo、Clippy 和 Rust tests。 |
+| `scripts/check_changed_critical_coverage.py` | implemented-different-by-design | reviewed CI gate manifest 与 Contract/verification controls 绑定 changed-critical coverage 和 candidate snapshot；不使用源 pytest predictor/report 作为 authority。 |
+| `scripts/check_ci_release_evidence.sh` | implemented-different-by-design | release/adopter harness 校验 immutable public release 的字段、摘要、SBOM/provenance 与隔离；源 Shell checker 不是 fallback。 |
+| `scripts/check_critical_coverage.py` | reference-only | Python 按文件 coverage floor 是源专属；Rust 保留适用的 package/test 与 performance gate，不宣称该阈值或报告 wire。 |
+| `scripts/check_deprecated_assets.py` | reference-only | 源 deprecated-asset registry 不是删除 authority；Rust 使用 immutable history、finalization、retention metadata 和 owner-approved cleanup。 |
+| `scripts/check_dev_tool_versions.py` | implemented-different-by-design | Cargo lock/toolchain metadata 与 pinned CI actions 提供可复现性；Python package pin 解析留在源侧。 |
+| `scripts/check_docs_metadata.py` | implemented-different-by-design | documentation acceptance 与 closed-Work-Item promotion 检查 front matter、链接、三语 parity、命令证据和 claims，不复制源 schema。 |
+| `scripts/check_governance_complexity.py` | implemented-different-by-design | governance-integrity gate、complexity budget、archive check 与 Runtime lifecycle evidence 保留责任；源 Python metrics 不能改写历史。 |
+| `scripts/check_instruction_traceability.py` | implemented-different-by-design | typed Contract/evidence/archive manifest 与 integrity gate 绑定 instruction → plan → implementation → acceptance，不采用源 audit JSON。 |
+| `scripts/check_pre_release_documentation_alignment.py` | implemented-different-by-design | 三语文档检查、projection promotion 和 release gate 提供当前 alignment；源 revision-bound report 仅是历史证据。 |
+| `scripts/check_real_absurd_injection_docs.py` | implemented-different-by-design | adversarial 文档与 Rust trust 回归保留显式拒绝证据；不把源 assessment helper 和固定 case registry 放入 Core。 |
+| `scripts/check_release_distribution.py` | implemented-different-by-design | immutable tag/archive、checksum/SBOM/provenance、installer 行为和 post-release adopter acceptance 由 Rust workflow/harness 负责。 |
+
+本批没有发现可移植实现遗漏。5 个 `reference-only` 是 presentation、Python coverage 或源 registry 专属路径，1 个 Bandit checker 不适用；其余 14 项责任已由 Rust Runtime、repository、CI、文档或 release 边界承载。对象工程继承同一 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、trust/lifecycle 与 human Outcome 边界，不继承源 Python 模块、provider policy 值或 source wire。当前 4,450 个现行路径包含 3,681 个 `generated-history`、403 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、104 个 `reference-only` 和 254 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。

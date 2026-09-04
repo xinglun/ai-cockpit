@@ -1,0 +1,95 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3983f4c9f62003a4a2cbaf41730112f7011e86e0346da0f6450107cbfb8094af",
+    "workItemId": "WI-563-reference-file-comparison-batch-43"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-563-reference-file-comparison-batch-43.summary.json"
+        ],
+        "inference": false,
+        "text": "No repository paths were observed as changed by the current Summary."
+      }
+    ],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-563-reference-file-comparison-batch-43.contract.json"
+        ],
+        "inference": false,
+        "text": "逐个比较下一组二十个维护中的参考脚本，更新语义台账、三语文档和回归门；不复制参考源实现、历史 bytes、provider 配置或全局规则。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-563-reference-file-comparison-batch-43.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-563-reference-file-comparison-batch-43"
+}

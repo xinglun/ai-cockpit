@@ -79,6 +79,7 @@ WI550_BATCH = "WI-550-reference-file-comparison-batch-39"
 WI552_BATCH = "WI-552-reference-file-comparison-batch-40"
 WI557_BATCH = "WI-557-reference-file-comparison-batch-41"
 WI559_BATCH = "WI-559-reference-file-comparison-batch-42"
+WI563_BATCH = "WI-563-reference-file-comparison-batch-43"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1938,6 +1939,109 @@ WI559_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "implemented-different-by-design",
         ["crates/cockpit-cli/src/main.rs", "crates/cockpit-verification/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/verification-route.md"],
         "The source task/PR/release verification orchestration maps to Rust verify routes, checker registry, dynamic planner, Contract gates, and delegated release/adopter evidence. Rust preserves the provider boundary and does not copy source command modes or report wire.",
+    ),
+}
+
+WI563_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_wizard_io.py": (
+        "reference-only",
+        [".ai/README.md", "crates/cockpit-agent/src/lib.rs", "docs/reference/agent-workflow.md"],
+        "The source TTY input primitives are a presentation-adapter implementation. The Rust Runtime exposes explicit non-interactive CLI/MCP schemas and visible Outcomes; host or Agent adapters own conversation controls, so the source wizard I/O module is not a Core capability or wire contract.",
+    ),
+    "scripts/ai_wizard_localization.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/src/main.rs", "crates/cockpit-mcp/src/lib.rs", "docs/reference/outcome-report.md", "docs/reference/commands.md"],
+        "Language normalization and localized Runtime chrome are provided by the CLI/MCP presentation layer. Contract intent, scope, acceptance, and other governance facts remain in their authored language; source locale files and placeholder API are not copied.",
+    ),
+    "scripts/ai_work_item_intelligence.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-knowledge/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/work-item-intelligence-interface.md"],
+        "Fact-derived Work Item intelligence, append-only lifecycle evidence, repository-local indexing, request-scoped query, and v2 projections are represented by typed Protocol, repository, knowledge, and CLI services. Rust does not copy the source Python cache or global worktree aggregation and never infers human decisions.",
+    ),
+    "scripts/ai_work_item_intelligence_benchmark.py": (
+        "reference-only",
+        ["tests/performance", "docs/reference/verification-cost.md", "docs/reference/governance-performance-budget.md"],
+        "The source benchmark harness measures a Python implementation and emits source-specific percentile reports. Rust keeps performance samples and regression gates in its native test/release boundary; benchmark numbers are advisory and cannot authorize or weaken governance.",
+    ),
+    "scripts/ai_work_item_status.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/src/main.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/commands.md", "docs/reference/how-to-read-cockpit-status.md"],
+        "Read-only status and intelligence are exposed through repository-bound `status` and `work-item status` projections with stable JSON and human Outcome rendering. No generated Python status file or implicit current-worktree state is used as authority.",
+    ),
+    "scripts/bootstrap_repository.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-git/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "Repository fact detection, remote/default-branch observation, dirty/conflict checks, drift binding, and installed Runtime identity are represented by the shared Git observer and explicit `inspect`/`observe`/`status`/`doctor` commands. The source snapshot dataclasses are not a Rust wire format.",
+    ),
+    "scripts/bootstrap_wizard.py": (
+        "reference-only",
+        [".ai/README.md", "docs/getting-started/installation.md", "docs/reference/commands.md", "crates/cockpit-agent/src/lib.rs"],
+        "The source in-memory Bootstrap Wizard is an interactive presentation state machine. Rust deliberately keeps detection, proposal, confirmation, attachment, and Agent installation as explicit repository-bound commands and does not add a second wizard that could manufacture authority or readiness.",
+    ),
+    "scripts/bootstrap_write_boundary.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-agent/src/lib.rs", "docs/reference/configuration.md", "docs/reference/commands.md"],
+        "Allowlisted repository writes, regular-file and symlink checks, atomic ownership, confirmation, and drift protection are enforced by typed attach/migration/adapter services. The source generic Makefile block protocol is not copied and never grants global configuration access.",
+    ),
+    "scripts/check_bandit_baseline.py": (
+        "not-applicable",
+        [],
+        "This checker and its baseline are specific to the reference repository's Python/Bandit tooling. The Rust Runtime has no Python/Bandit product surface; Cargo, Clippy, and Rust-native tests are the applicable quality controls.",
+    ),
+    "scripts/check_changed_critical_coverage.py": (
+        "implemented-different-by-design",
+        [".github/workflows/ci.yml", "tests/ci/quality_route.py", "tests/ci/run_repository_gates.py", "crates/cockpit-repository/src/governance_controls.rs", "docs/reference/ci-quality-gates.md"],
+        "Changed-critical coverage selection, policy binding, candidate snapshots, and fail-closed gate routing are represented by the reviewed CI gate manifest and Runtime Contract/verification controls. Rust does not run the source pytest predictor or copy its candidate-report wire.",
+    ),
+    "scripts/check_ci_release_evidence.sh": (
+        "implemented-different-by-design",
+        ["tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh", ".github/workflows/release.yml", "docs/release/distribution.md"],
+        "CI/release evidence field, digest, artifact, and identity checks are provided by the Rust release/adopter harnesses, immutable archive/SHA256/SBOM/provenance checks, and post-release acceptance. The source shell checker is not a Runtime fallback.",
+    ),
+    "scripts/check_critical_coverage.py": (
+        "reference-only",
+        [".github/workflows/ci.yml", "tests/performance/regression_gate.sh", "docs/reference/ci-quality-gates.md"],
+        "The source per-file Python coverage-floor checker depends on pytest/Bandit-era implementation surfaces. Rust retains applicable package/test and performance gates, but does not claim the source file-level threshold or its JSON report as a universal Runtime requirement.",
+    ),
+    "scripts/check_deprecated_assets.py": (
+        "reference-only",
+        ["crates/cockpit-repository/src/lib.rs", "docs/reference/recovery.md", "docs/security/enterprise-governance.md"],
+        "The source registry scanner identifies template-specific deprecated assets and prohibited command chains. Rust keeps immutable history, explicit resource finalization, retention metadata, and owner-approved cleanup; it does not install a generic deletion authority or source registry.",
+    ),
+    "scripts/check_dev_tool_versions.py": (
+        "implemented-different-by-design",
+        ["Cargo.lock", "rust-toolchain.toml", ".github/workflows/ci.yml", "docs/reference/ci-quality-gates.md"],
+        "Development tool reproducibility is expressed through Cargo lock/toolchain metadata, pinned action/tool versions, and CI quality checks. Python package pin parsing and its recovery-command output remain source-specific.",
+    ),
+    "scripts/check_docs_metadata.py": (
+        "implemented-different-by-design",
+        ["tests/docs/documentation_acceptance.sh", "tests/docs/promote_closed_work_item.py", "docs/reference/documentation-authority-boundary.md", "docs/reference/reference-file-comparison.md"],
+        "Front matter, reader-route links, tri-language counterparts, command evidence, version-neutral claims, and closed-Work-Item promotion are checked by repository-native documentation acceptance and promotion gates. The source Python checker and metadata schema are not copied as Runtime protocol.",
+    ),
+    "scripts/check_governance_complexity.py": (
+        "implemented-different-by-design",
+        ["tests/ci/governance_integrity_gate.py", "docs/reference/governance-complexity.md", "docs/reference/governance-integrity-gate.md", "crates/cockpit-repository/src/lib.rs"],
+        "Complexity budgets, archive integrity, repository shape, repayment findings, and governance-integrity evidence are retained at the CI/documentation boundary and bound to Rust lifecycle records. The source Python metric implementation is not a Core authority and cannot rewrite history.",
+    ),
+    "scripts/check_instruction_traceability.py": (
+        "implemented-different-by-design",
+        ["tests/ci/governance_integrity_gate.py", "docs/reference/instruction-traceability.md", "crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs"],
+        "Instruction-to-Contract-to-implementation-to-acceptance traceability is provided by typed Work Item contracts, evidence/archive manifests, and the governance integrity gate. Rust preserves explicit locators and fail-closed missing links without adopting the source audit JSON schema.",
+    ),
+    "scripts/check_pre_release_documentation_alignment.py": (
+        "implemented-different-by-design",
+        ["tests/docs/documentation_acceptance.sh", "tests/docs/promote_closed_work_item.py", "docs/reference/documentation-authority-boundary.md", "docs/release/distribution.md"],
+        "Pre-release documentation alignment is represented by current tri-language metadata/link/claim checks, closed-Work-Item projection promotion, and release documentation gates. Source revision-bound report bytes remain historical evidence rather than Runtime state.",
+    ),
+    "scripts/check_real_absurd_injection_docs.py": (
+        "implemented-different-by-design",
+        ["tests/absurd", "tests/conformance", "docs/reference/real-absurd-injection-cases.md", "docs/security/enterprise-governance.md"],
+        "Multilingual adversarial/absurd-case documentation and fail-closed trust regressions provide the portable responsibility. Rust keeps case records and refusal evidence explicit, while source Python assessment helpers and their fixed case registry are not copied into Core.",
+    ),
+    "scripts/check_release_distribution.py": (
+        "implemented-different-by-design",
+        ["tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh", ".github/workflows/release.yml", "docs/release/distribution.md", "docs/getting-started/installation.md"],
+        "Release discovery, immutable tag/archive identity, installer behavior, checksum/SBOM/provenance, public asset validation, and adopter isolation are implemented by Rust release workflows and post-release harnesses. Provider APIs and the source Python distribution checker are not copied or used as Runtime authority.",
     ),
 }
 
@@ -6034,6 +6138,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi559_classifications
         ):
             errors.append("WI-559 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI563_BATCH
+        for record in records
+    ):
+        wi563_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI563_BATCH
+            and record.get("referencePath") in WI563_REFERENCE_FILES
+        ]
+        expected_wi563_paths = set(WI563_REFERENCE_FILES) & current_reference_paths
+        actual_wi563_paths = {record.get("referencePath") for record in wi563_records}
+        if actual_wi563_paths != expected_wi563_paths:
+            errors.append(
+                "WI-563 batch paths do not match the pinned current-file set: "
+                f"expected {sorted(expected_wi563_paths)!r}, got {sorted(actual_wi563_paths)!r}"
+            )
+        if len(wi563_records) != len(expected_wi563_paths):
+            errors.append(
+                f"WI-563 batch must contain {len(expected_wi563_paths)} records, found {len(wi563_records)}"
+            )
+        wi563_classifications = [historical_classification(record) for record in wi563_records]
+        expected_wi563_classifications = Counter(
+            WI563_REFERENCE_FILES[path][0] for path in expected_wi563_paths
+        )
+        if any(
+            wi563_classifications.count(classification) != count
+            for classification, count in expected_wi563_classifications.items()
+        ):
+            errors.append("WI-563 batch classifications do not match current reference paths")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi563_classifications
+        ):
+            errors.append("WI-563 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -6589,6 +6729,34 @@ def apply_wi559_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi563_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI563_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI563_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI563_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI563_REFERENCE_FILES)} WI-563 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -6623,6 +6791,7 @@ def main() -> int:
     parser.add_argument("--apply-wi552-batch", action="store_true")
     parser.add_argument("--apply-wi557-batch", action="store_true")
     parser.add_argument("--apply-wi559-batch", action="store_true")
+    parser.add_argument("--apply-wi563-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -6651,6 +6820,7 @@ def main() -> int:
         args.apply_wi552_batch,
         args.apply_wi557_batch,
         args.apply_wi559_batch,
+        args.apply_wi563_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -6812,6 +6982,13 @@ def main() -> int:
     if args.apply_wi559_batch:
         try:
             apply_wi559_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi563_batch:
+        try:
+            apply_wi563_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

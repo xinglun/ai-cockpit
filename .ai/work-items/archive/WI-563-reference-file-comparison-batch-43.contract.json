@@ -27,11 +27,11 @@
   "repositorySnapshotDigest": "sha256:9a7413d6c32e06183caae9b4d9c822c24bc375778772b8cd2b9a4dfe6fc9aeab",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-563-reference-file-comparison-batch-43-final",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/543",
     "worktree": "/private/tmp/ai-cockpit-wi563-reference-file-comparison-batch-43-final"
   },
   "risk": "normal",
