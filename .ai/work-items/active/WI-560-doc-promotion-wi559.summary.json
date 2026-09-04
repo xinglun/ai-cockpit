@@ -47,7 +47,7 @@
   "failedGate": "finish.governance",
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-09-04T05:59:17Z",
+  "preflightAt": "2026-09-04T06:10:36Z",
   "preflightContractDigest": "sha256:235abc45c081e59dc78b98b0ebb91145da4f157c314e37af1b988ede036de871",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:69d98d739ef8e946d65d6fcd3127df8685b435f2a584653c0447675c7643bf10",
