@@ -69,8 +69,8 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-04T10:58:06Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T11:01:40Z",
   "verification": [
     {
       "check": "project-command-0",
