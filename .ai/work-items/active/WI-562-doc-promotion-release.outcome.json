@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Pre-register and promote the three WI-562 Work Item documents and six terminal WI-561 documentation projections identified by the closed Work Item promotion check.",
+    "All promoted pages reference the immutable WI-561 archive, verification, finalization, and close evidence without changing governance facts.",
+    "The closed Work Item promotion check passes with --check-all and documentation acceptance remains green.",
+    "No runtime behavior, object repository, global Agent/MCP configuration, or unrelated documentation is changed."
+  ],
+  "createdAt": "2026-09-04T07:06:23Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:935c6b5558c3f1f9e5e8d8c16d616502c245900136e570bdfa4d0a0a55788e63",
+  "evidenceRefs": [
+    ".ai/evidence/WI-562-doc-promotion-release.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-562-doc-promotion-release.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-562-doc-promotion-release.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9a7413d6c32e06183caae9b4d9c822c24bc375778772b8cd2b9a4dfe6fc9aeab",
+      "workItemId": "WI-562-doc-promotion-release"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-562-doc-promotion-release.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-562-doc-promotion-release.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-562-doc-promotion-release.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-562-doc-promotion-release.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-562-doc-promotion-release.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-562-doc-promotion-release.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-562-doc-promotion-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-562-doc-promotion-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-562-doc-promotion-release.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-562-doc-promotion-release.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize the English, Simplified Chinese, and Japanese WI-561 and reference-parity projections with immutable terminal evidence without changing governance facts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-562-doc-promotion-release.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-562-doc-promotion-release"
+  },
+  "taskReportDigest": "sha256:f7556d1b5b18f83beda972b7db3ae449c76149a8b53307d33e25ca0cbdbd5d13",
+  "taskReportMarkdownDigest": "sha256:80e27d504e9ce9a2e8266e61c69b722f26b2974d4ccd14fbb94695a04224a580",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-562-doc-promotion-release.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-562-doc-promotion-release"
+}

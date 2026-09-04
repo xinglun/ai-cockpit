@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "Pre-register and promote the three WI-562 Work Item documents and six terminal WI-561 documentation projections identified by the closed Work Item promotion check.",
+    "All promoted pages reference the immutable WI-561 archive, verification, finalization, and close evidence without changing governance facts.",
+    "The closed Work Item promotion check passes with --check-all and documentation acceptance remains green.",
+    "No runtime behavior, object repository, global Agent/MCP configuration, or unrelated documentation is changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "39a22020675058f36ecc7237462b239c097ea9b7",
+  "createdAt": "2026-09-04T06:57:20Z",
+  "goal": "Synchronize the English, Simplified Chinese, and Japanese WI-561 and reference-parity projections with immutable terminal evidence without changing governance facts.",
+  "intent": "Promote the closed WI-561 release documentation projections to their verified terminal state.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime or CLI behavior changes",
+    "Reference-source inventory or semantic comparison changes",
+    "Object repository /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Global Agent or MCP configuration",
+    "Unrelated documentation or governance records",
+    "Release publication and adopter acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4621c323b6df13e844fe80801e929fb9175d19362c046a2ac7bf478e321c7c4c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-562-doc-promotion-release",
+    "provider": "github",
+    "pullRequest": "pending-review",
+    "worktree": "/private/tmp/ai-cockpit-wi562-doc-promotion-release"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-561-release-v0-2-72.md",
+    "docs/work-items/WI-561-release-v0-2-72.zh-CN.md",
+    "docs/work-items/WI-561-release-v0-2-72.ja.md",
+    "docs/work-items/WI-562-doc-promotion-release.md",
+    "docs/work-items/WI-562-doc-promotion-release.zh-CN.md",
+    "docs/work-items/WI-562-doc-promotion-release.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "runtime:post-close promotion report for WI-561-release-v0-2-72",
+    "runtime:.ai/work-items/archive/WI-561-release-v0-2-72.archive.json",
+    "runtime:.ai/decisions/WI-561-release-v0-2-72.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-562-doc-promotion-release"
+}
