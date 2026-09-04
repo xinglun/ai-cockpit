@@ -1,0 +1,87 @@
+{
+  "acceptanceCriteria": [
+    "All twenty pinned reference paths receive an explicit per-file classification, Rust counterpart set, and evidence-backed reason.",
+    "The classification is implemented-different-by-design or reference-only only where current Rust capabilities and boundaries are verified; no equivalence is claimed from path presence alone.",
+    "The ledger, comparison pages, parity pages, and tri-language Work Item page agree on the same twenty paths and pinned reference commit.",
+    "No reference implementation bytes are copied, no runtime behavior is changed without an amended Contract, and no object-repository or global Agent/MCP files are changed.",
+    "Reference inventory, documentation, governance-integrity, and diff checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "347f4723453814256bdba0779758ede8e48f33e7",
+  "createdAt": "2026-09-04T05:00:06Z",
+  "goal": "Compare and classify exactly twenty deferred reference scripts and document the Rust-native counterpart or explicit boundary for each.",
+  "intent": "Complete the next bounded file-by-file semantic comparison against the pinned local reference source without copying Python implementation or inventing parity.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust runtime behavior changes unless an identified omission is amended and revalidated",
+    "Python or shell source copying",
+    "object repository /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "global Agent or MCP configuration",
+    "unrelated deferred reference paths",
+    "release publication and adopter acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f57e0e52964bdc5d3731911170ae3f71e7b085d28cd9406e9610bbc6ec6227c6",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "reference-parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-559-reference-file-comparison-batch-42",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi559-reference-file-comparison-batch-42"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-559-reference-file-comparison-batch-42.md",
+    "docs/work-items/WI-559-reference-file-comparison-batch-42.zh-CN.md",
+    "docs/work-items/WI-559-reference-file-comparison-batch-42.ja.md"
+  ],
+  "sources": [
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_onboard.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_prepare_hosted_verification.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_project_doctor.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_projection_lease.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_provider_merge_state_recovery.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_quality_architecture.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_resume_work_item.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_start.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_start_receipt.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_task_event_log.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_terminology.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_trust_guards.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_trust_schema.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_uninstall_facts.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_uninstall_proposal.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_unknown_confirmation.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_validate_java_runtime.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_verification_context.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_verification_policy.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit-template@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_verify.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi559-governance-integrity-report.json",
+    "git diff --check"
+  ],
+  "workItemId": "WI-559-reference-file-comparison-batch-42"
+}

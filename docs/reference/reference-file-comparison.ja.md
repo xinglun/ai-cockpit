@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-557-reference-file-comparison-batch-41
+lastVerifiedBy: WI-559-reference-file-comparison-batch-42
 capabilityClaims:
   - reference_parity
 ---
@@ -318,7 +318,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=372 implemented-equivalent=1 not-applicable=6 reference-only=96 deferred-next-batch=294 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=389 implemented-equivalent=1 not-applicable=6 reference-only=99 deferred-next-batch=274 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -330,11 +330,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 372 |
+| `implemented-different-by-design` | 389 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 96 |
-| `deferred-next-batch` | 294 |
+| `reference-only` | 99 |
+| `deferred-next-batch` | 274 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1501,3 +1501,32 @@ WI-557 は pinned reference commit の deferred source script 13 件を一つず
 | `scripts/ai_schema_migration.py` | implemented-different-by-design | Typed compatibility と migration plan/apply が historical bytes を保持し、approval を要求し、reverse/ambiguous transition を拒否します。 |
 
 この slice に portable implementation omission はありません。各 object/adopter repository は shared Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承しますが、source issue log、provider policy value、Python module、generic recovery catalog は継承しません。対応する source test file は後続の file-level comparison batch で扱い、完了とは見なしません。
+
+## WI-559 — onboarding・trust・verification・recovery スクリプト比較バッチ 42
+
+WI-559 は固定ローカル参照コミット `fde3380f81fea5fd2e288f7a8849f737dc074060` の保守対象 20 スクリプトを一つずつ再確認した。下表は意味上の対応であり、Python、Make、provider フロー、参照 JSON wire 形式はコピーしない。
+
+| 参照パス | 分類 | Rust 側の対応／境界 |
+| --- | --- | --- |
+| `scripts/ai_onboard.py` | implemented-different-by-design | shared Runtime の attach、inspect、status、doctor、profile。校正と承認は人が決定する。 |
+| `scripts/ai_prepare_hosted_verification.py` | reference-only | 参照固有の hosted snapshot 例外であり、Rust の hosted/CI/release evidence は外部責任。 |
+| `scripts/ai_project_doctor.py` | implemented-different-by-design | typed `RepositoryObservation` と inspect/status/doctor/profile による決定的な repository facts。 |
+| `scripts/ai_projection_lease.py` | implemented-different-by-design | repository-local concurrency boundary、lease、scope 重複検査、制限付き並列検証。 |
+| `scripts/ai_provider_merge_state_recovery.py` | implemented-different-by-design | typed finalization/recovery receipt と delegated provider evidence で identity/ancestry を検証し、参照 provider workflow は主張しない。 |
+| `scripts/ai_quality_architecture.py` | reference-only | Python AST 監査は参照側ツール。Rust は Cargo、Clippy、workspace test、native gate を使用する。 |
+| `scripts/ai_resume_work_item.py` | implemented-different-by-design | typed resume/synchronization history、predecessor closure evidence、recovery identity、再検証。 |
+| `scripts/ai_start.py` | implemented-different-by-design | repository-bound scaffold、重複予約、base/branch/worktree identity、concurrency gate、preflight。 |
+| `scripts/ai_start_receipt.py` | implemented-different-by-design | Contract の base/scope/snapshot identity と lifecycle receipt。参照 Start Receipt wire は採用しない。 |
+| `scripts/ai_task_event_log.py` | implemented-different-by-design | typed 追記型 `TaskOutcomeEvent`、fingerprint、redaction、archive/Outcome binding。 |
+| `scripts/ai_terminology.py` | implemented-different-by-design | typed policy、Outcome decision state、三言語 glossary。verification tier と assurance は直交する。 |
+| `scripts/ai_trust_guards.py` | implemented-different-by-design | typed operation、intent、scope、authority、unknown、human review を fail-closed で評価。 |
+| `scripts/ai_trust_schema.py` | implemented-different-by-design | serde typed record、deny-unknown-fields、Rust native trust test。 |
+| `scripts/ai_uninstall_facts.py` | implemented-different-by-design | adapter ownership、agent doctor/detach/repair、repository identity、retention metadata。 |
+| `scripts/ai_uninstall_proposal.py` | implemented-different-by-design | detach/purge plan、ownership/drift、evidence retention、human authorization。 |
+| `scripts/ai_unknown_confirmation.py` | implemented-different-by-design | identity-bound preflight human-decision request、unknown、scope/evidence digest、expiry。 |
+| `scripts/ai_validate_java_runtime.py` | reference-only | Java/JAVA_HOME 選択は stack-specific adopter/provider の責任。 |
+| `scripts/ai_verification_context.py` | implemented-different-by-design | request-scoped snapshot/observation、Contract/Summary binding、changed paths、impact、cached facts。 |
+| `scripts/ai_verification_policy.py` | implemented-different-by-design | dynamic Tier/Assurance planning、stage/dependency routing、reuse、evidence context。 |
+| `scripts/ai_verify.py` | implemented-different-by-design | Rust verify route、checker registry、planner、Contract gate、delegated release/adopter evidence。 |
+
+この batch に portable omission はない。3 つの `reference-only` は参照/provider または stack 固有のツールであり、Runtime の欠落ではない。各 attached object/adopter repository は shared Runtime、明示的 repository binding、分離された Contract/evidence/knowledge、trust/lifecycle gate、human Outcome handoff を継承するが、参照の launcher、provider command、Python wire format は継承しない。

@@ -78,6 +78,7 @@ WI548_BATCH = "WI-548-reference-file-comparison-batch-38"
 WI550_BATCH = "WI-550-reference-file-comparison-batch-39"
 WI552_BATCH = "WI-552-reference-file-comparison-batch-40"
 WI557_BATCH = "WI-557-reference-file-comparison-batch-41"
+WI559_BATCH = "WI-559-reference-file-comparison-batch-42"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1834,6 +1835,109 @@ WI557_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/configuration.md",
         ],
         "The source explicit registry, adjacent transition plan, policy-impact confirmation, reverse-migration stop, and applied receipt are represented by the typed repository migration graph, compatibility/migrate plan, approved apply, preserved-history digest, and migration receipt. Rust does not copy the source registry or permit an unreviewed schema rewrite.",
+    ),
+}
+
+WI559_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_onboard.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/src/main.rs", "crates/cockpit-repository/src/lib.rs", "docs/getting-started/installation.md", "docs/reference/commands.md"],
+        "The source three-phase onboarding wizard is represented by explicit shared-Runtime attach, inspect, status, doctor, and profile commands. Rust keeps calibration and approval human-owned and does not copy source Make targets or auto-confirm project policy.",
+    ),
+    "scripts/ai_prepare_hosted_verification.py": (
+        "reference-only",
+        ["docs/reference/repository-workflow.md", "docs/release/distribution.md", "AGENTS.md"],
+        "The source hosted-snapshot exception is provider-specific preparation. Rust intentionally has no equivalent command; hosted, CI, and release evidence remain external and must use the published-artifact boundary.",
+    ),
+    "scripts/ai_project_doctor.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "The source read-only project fact scanner maps to typed RepositoryObservation, inspect/status/doctor, and profile projections. Rust reports deterministic repository facts without copying broad source heuristics or inferring policy approval.",
+    ),
+    "scripts/ai_projection_lease.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/parallel_boundary.rs", "docs/reference/cross-work-item-dedup.md"],
+        "The source file-lock and projection serialization semantics map to repository-local concurrency boundaries, leases, scope-overlap checks, and bounded parallel verification. Rust uses typed request-scoped records rather than the source lock-file protocol.",
+    ),
+    "scripts/ai_provider_merge_state_recovery.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "docs/reference/troubleshooting.md", "docs/reference/provider-reconciliation-boundary.md"],
+        "The source provider merge-state recovery facts map to typed finalization/recovery receipts and delegated external provider evidence. Rust validates identity, ancestry, and cleanup without claiming the source provider-specific signed-PR workflow.",
+    ),
+    "scripts/ai_quality_architecture.py": (
+        "reference-only",
+        ["docs/reference/ci-quality-gates.md", "tests/ci/quality_route_test.py"],
+        "The source AST scanner audits Python implementation details and is not a portable Runtime requirement. Rust uses Cargo, Clippy, workspace tests, and repository-native quality gates; no generic Python scanner is claimed.",
+    ),
+    "scripts/ai_resume_work_item.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/troubleshooting.md", "docs/reference/repository-workflow.md"],
+        "The source resume/rebase flow maps to typed resume and synchronization history, predecessor closure evidence, identity-bound recovery, and mandatory revalidation. Rust preserves append-only history without copying the source CLI or branch automation.",
+    ),
+    "scripts/ai_start.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/repository-workflow.md"],
+        "The source start checks map to explicit repository-bound scaffolding, duplicate reservation, base/branch/worktree identity, concurrency gates, and preflight. Rust uses its own Contract protocol and does not emit a source Start Receipt wire format.",
+    ),
+    "scripts/ai_start_receipt.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/repository-workflow.md"],
+        "The source immutable Start Receipt bindings map to Contract base/scope/snapshot identity, resume and synchronization histories, and lifecycle receipts. Rust keeps the target protocol typed and repository-local rather than copying the source receipt schema.",
+    ),
+    "scripts/ai_task_event_log.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/task_outcome_events.rs", "docs/features/task-outcome-report.md"],
+        "The source append-only event log, finding fingerprints, required fields, correction relations, and secret rejection map to typed TaskOutcomeEvent JSONL and archive/Outcome bindings. Rust does not copy the source event-name registry or wire format.",
+    ),
+    "scripts/ai_terminology.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "docs/reference/governance-profiles.md", "docs/reference/outcome-report.md", ".ai/glossary.md"],
+        "The source governance/calibration profiles and status colors map to typed Runtime policy, Outcome decision states, and tri-language glossary labels. Rust keeps verification strength and assurance separate and does not treat source profile names as authority.",
+    ),
+    "scripts/ai_trust_guards.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-core/src/lib.rs", "crates/cockpit-repository/src/governance_controls.rs", "crates/cockpit-repository/src/project_governance.rs", "docs/reference/input-trust-dataflow.md"],
+        "The source trust signals and allow/review/confirm/defer/block states map to typed operation, intent, scope, authority, unknown, and human-review evaluation. Rust rejects unsupported or ambiguous claims without copying the Python guard API.",
+    ),
+    "scripts/ai_trust_schema.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-core/src/lib.rs", "docs/reference/input-trust-dataflow.md"],
+        "The source strict schema subset maps to serde typed records, deny-unknown-fields validation, and Rust-native trust tests. Source schema examples and validator entrypoints are not Runtime wire compatibility requirements.",
+    ),
+    "scripts/ai_uninstall_facts.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/installed-lifecycle.md"],
+        "The source installer facts and drift checks map to typed adapter ownership, agent doctor/detach/repair, repository identity, and retention metadata. Rust does not copy a source installer manifest or provide a detached uninstaller executor.",
+    ),
+    "scripts/ai_uninstall_proposal.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/installed-lifecycle.md", "docs/security/enterprise-governance.md"],
+        "The source disable/preserve/purge proposal maps to explicit adapter detach proposals, evidence retention and purge plans, ownership/drift checks, and human authorization. Rust never silently deletes repository evidence and does not copy source proposal JSON.",
+    ),
+    "scripts/ai_unknown_confirmation.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-core/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/preflight_review.rs", "docs/reference/agent-workflow.md"],
+        "The source confirmation request maps to identity-bound preflight humanDecisionRequest, explicit unknowns, scope and evidence digests, expiry, and fail-closed review. Rust keeps confirmation policy typed and does not accept an OK-only shortcut.",
+    ),
+    "scripts/ai_validate_java_runtime.py": (
+        "reference-only",
+        ["docs/reference/verification-route.md", "docs/reference/python-fixture-adaptation.md"],
+        "The source Java selector is a stack-specific adopter helper. Rust accepts explicit provider command argv but does not bundle Java or JAVA_HOME discovery; Java lane selection remains an adopter/provider responsibility.",
+    ),
+    "scripts/ai_verification_context.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-verification/src/lib.rs", "docs/reference/affected-verification.md"],
+        "The source immutable verification context maps to request-scoped RepositorySnapshot/Observation, Contract and Summary bindings, changed paths, impact, and cached observation. Rust uses typed context and does not expose the source mapping-proxy API.",
+    ),
+    "scripts/ai_verification_policy.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-verification/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/lightweight-verification-and-soft-gates.md", "docs/reference/governance-profiles.md"],
+        "The source tier policy, stage floors, escalation, DAG, cache key, and receipt binding map to Rust dynamic verification planning, orthogonal Tier/Assurance, dependency graph, reuse, and evidence contexts. Source policy JSON and profile names are not copied.",
+    ),
+    "scripts/ai_verify.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/src/main.rs", "crates/cockpit-verification/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/verification-route.md"],
+        "The source task/PR/release verification orchestration maps to Rust verify routes, checker registry, dynamic planner, Contract gates, and delegated release/adopter evidence. Rust preserves the provider boundary and does not copy source command modes or report wire.",
     ),
 }
 
@@ -5894,6 +5998,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi552_classifications
         ):
             errors.append("WI-552 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI559_BATCH
+        for record in records
+    ):
+        wi559_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI559_BATCH
+            and record.get("referencePath") in WI559_REFERENCE_FILES
+        ]
+        expected_wi559_paths = set(WI559_REFERENCE_FILES) & current_reference_paths
+        actual_wi559_paths = {record.get("referencePath") for record in wi559_records}
+        if actual_wi559_paths != expected_wi559_paths:
+            errors.append(
+                "WI-559 batch paths do not match the pinned current-file set: "
+                f"expected {sorted(expected_wi559_paths)!r}, got {sorted(actual_wi559_paths)!r}"
+            )
+        if len(wi559_records) != len(expected_wi559_paths):
+            errors.append(
+                f"WI-559 batch must contain {len(expected_wi559_paths)} records, found {len(wi559_records)}"
+            )
+        wi559_classifications = [historical_classification(record) for record in wi559_records]
+        expected_wi559_classifications = Counter(
+            WI559_REFERENCE_FILES[path][0] for path in expected_wi559_paths
+        )
+        if any(
+            wi559_classifications.count(classification) != count
+            for classification, count in expected_wi559_classifications.items()
+        ):
+            errors.append("WI-559 batch classifications do not match current reference paths")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi559_classifications
+        ):
+            errors.append("WI-559 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -6421,6 +6561,34 @@ def apply_wi557_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi559_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI559_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI559_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI559_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI559_REFERENCE_FILES)} WI-559 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -6454,6 +6622,7 @@ def main() -> int:
     parser.add_argument("--apply-wi550-batch", action="store_true")
     parser.add_argument("--apply-wi552-batch", action="store_true")
     parser.add_argument("--apply-wi557-batch", action="store_true")
+    parser.add_argument("--apply-wi559-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -6481,6 +6650,7 @@ def main() -> int:
         args.apply_wi550_batch,
         args.apply_wi552_batch,
         args.apply_wi557_batch,
+        args.apply_wi559_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -6635,6 +6805,13 @@ def main() -> int:
     if args.apply_wi557_batch:
         try:
             apply_wi557_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi559_batch:
+        try:
+            apply_wi559_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

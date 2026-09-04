@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "All twenty pinned reference paths receive an explicit per-file classification, Rust counterpart set, and evidence-backed reason.",
+    "The classification is implemented-different-by-design or reference-only only where current Rust capabilities and boundaries are verified; no equivalence is claimed from path presence alone.",
+    "The ledger, comparison pages, parity pages, and tri-language Work Item page agree on the same twenty paths and pinned reference commit.",
+    "No reference implementation bytes are copied, no runtime behavior is changed without an amended Contract, and no object-repository or global Agent/MCP files are changed.",
+    "Reference inventory, documentation, governance-integrity, and diff checks pass."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3e4fe24322cd87e04791d429351163f5106c11b4e9756a5f8a95b70ded213224",
+      "workItemId": "WI-559-reference-file-comparison-batch-42"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-559-reference-file-comparison-batch-42.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-559-reference-file-comparison-batch-42.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-559-reference-file-comparison-batch-42.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-559-reference-file-comparison-batch-42.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-559-reference-file-comparison-batch-42.contract.json"
+          ],
+          "inference": false,
+          "text": "Compare and classify exactly twenty deferred reference scripts and document the Rust-native counterpart or explicit boundary for each."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-559-reference-file-comparison-batch-42.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-559-reference-file-comparison-batch-42"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-559-reference-file-comparison-batch-42"
+}
