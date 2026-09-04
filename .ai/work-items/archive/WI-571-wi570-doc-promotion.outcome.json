@@ -65,7 +65,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-571-wi570-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-571-wi570-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -103,7 +103,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-571-wi570-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-571-wi570-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Synchronize the three-language WI-570 and parity projections so the repository passes its post-close documentation readiness gate."
@@ -112,7 +112,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-571-wi570-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-571-wi570-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -122,7 +122,7 @@
     "status": "verified",
     "workItemId": "WI-571-wi570-doc-promotion"
   },
-  "taskReportDigest": "sha256:b6429c3a71e35eef6fb48d20fd197056ea05e3db82dcd2d85d1024fc0c9cda34",
+  "taskReportDigest": "sha256:b80a045f30d0d4cbf58b3dc9733cb52842191965434de444668cc6c39c8dabe3",
   "taskReportMarkdownDigest": "sha256:f5959b058763e719ed6d3499446d4a2a6de6df0205f1a858df24787979fbaaad",
   "unknowns": [
     "user_visible_benefit_not_declared"
