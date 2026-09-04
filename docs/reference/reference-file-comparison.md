@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-563-reference-file-comparison-batch-43
+lastVerifiedBy: WI-568-reference-file-comparison-batch-44
 capabilityClaims:
   - reference_parity
 ---
@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `89c9e63b1733ad77a58d1544105bde8ba24cf877`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.72` binary, SHA256 `sha256:405247cc11f30664ab6337fd36f47a96a9d6c4907f3821077987d7fc365a85dd`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `20e420cd82f5f900cc4c46ca431dbe7170fcb541`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.73` binary, SHA256 `sha256:6100ae42a456489b1f08179bf399ee6a74e6720df9d202192fcd44e25afaef7d`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -255,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=403 implemented-equivalent=1 not-applicable=7 reference-only=104 deferred-next-batch=254 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=420 implemented-equivalent=1 not-applicable=7 reference-only=107 deferred-next-batch=234 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -269,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 403 |
+| `implemented-different-by-design` | 420 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 104 |
-| `deferred-next-batch` | 254 |
+| `reference-only` | 107 |
+| `deferred-next-batch` | 234 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2002,3 +2002,45 @@ wire formats. The current 4,450-path set contains 3,681
 `implemented-equivalent`, 7 `not-applicable`, 104 `reference-only`, and 254
 `deferred-next-batch` records; `migrate-gap` remains zero and 669 retired
 records remain append-only.
+
+## WI-568 — release, governance, adopter, and installer script comparison batch 44
+
+WI-568 re-read the next twenty maintained source paths at the pinned local
+reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`, one file at a time.
+Seventeen responsibilities are implemented differently by design and three
+are reference-only. The source Python release, installer, fixture, and report
+orchestration is not copied into the Rust Runtime.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/check_release_preflight.py` | implemented-different-by-design | Typed release manifest, lifecycle/repository gates, SHA256/SBOM/provenance checks, and the reviewed release workflow. |
+| `scripts/check_release_state_consistency.py` | implemented-different-by-design | Strict `ReleaseManifest`/handoff records, exact version/tag/commit and metadata bindings, checksum inventory, and workflow consistency checks. |
+| `scripts/check_supply_chain.py` | implemented-different-by-design | Rust SBOM/archive/manifest validation plus immutable public/staged adopter acceptance; external signing and attestation remain delegated. |
+| `scripts/check_system_invariants.py` | implemented-different-by-design | Governance-integrity, documentation, lifecycle, release, dependency-lock, SBOM, and workflow gates at their owning boundaries. |
+| `scripts/check_trust_layer_docs.py` | implemented-different-by-design | Tri-language documentation/parity checks and bounded trust-layer architecture/security pages. |
+| `scripts/cross_stack_long_cycle.py` | reference-only | Source-specific fixture aggregation; target published-artifact adopter acceptance is independent and does not claim a seven-stack matrix. |
+| `scripts/determine_governance_profile.py` | implemented-different-by-design | Rust dynamic policy planning and documented Python CI shadow route; verification Tier and Evidence Assurance stay orthogonal. |
+| `scripts/determine_quality_scope.py` | implemented-different-by-design | Rust verification planner and CI route select proportional quality scope with Contract-bound reasons. |
+| `scripts/end_to_end_adoption_validation.py` | reference-only | Source seven-project in-process Installer matrix is template-specific; target immutable release/adopter harness covers portable lifecycle and isolation only. |
+| `scripts/ensure_locked_dev_environment.py` | implemented-different-by-design | `Cargo.lock`, pinned Rust toolchain, locked Cargo commands, and pinned CI actions replace Python/Ruff environment provisioning. |
+| `scripts/external_adopter_long_cycle.py` | implemented-different-by-design | Immutable staged/public release acceptance covers attach, lifecycle, upgrade, rollback, isolation, cleanup, and Runtime identity. |
+| `scripts/finalize_release_freeze.py` | implemented-different-by-design | Typed release freeze/manifest boundary and reviewed workflow bind clean synchronized source/tag/commit, archive digest, and lifecycle. |
+| `scripts/fixture_harness.py` | reference-only | Source phase driver is not a Runtime API; target conformance fixtures and release acceptance cover portable negative and artifact behavior. |
+| `scripts/installed_lifecycle_e2e.py` | implemented-different-by-design | Published-artifact acceptance classifies real execution versus simulation/not-run and binds runtime/digest/cleanup evidence. |
+| `scripts/installer/__init__.py` | implemented-different-by-design | Rust agent/repository attach seam is the shared Runtime installation boundary, not a Python package compatibility surface. |
+| `scripts/installer/application.py` | implemented-different-by-design | Typed Rust agent plan/doctor, repository attach/inspect, and CLI projections provide read-only installation facts. |
+| `scripts/installer/cli.py` | implemented-different-by-design | Explicit Rust `attach`, `agent install`, `doctor`, `repair`, and `detach` commands; adapter UX remains external. |
+| `scripts/installer/confirmation.py` | implemented-different-by-design | Identity-bound preflight human decision and adapter ownership checks; generic approval text never authorizes writes. |
+| `scripts/installer/conflict_matrix.py` | implemented-different-by-design | Rust adapter planner/doctor and tests reject symlinks, marker conflicts, ownership drift, and unsafe targets. |
+| `scripts/installer/evidence.py` | implemented-different-by-design | Typed adapter receipts and immutable adopter manifests bind repository identity, managed-section digests, Runtime, and cleanup. |
+
+No portable implementation omission was found in this batch. The three
+`reference-only` paths are source-template fixture/adoption drivers rather than
+missing Runtime controls. All attached object/adopter repositories inherit the
+same shared Runtime, explicit repository context, isolated Contract/evidence/
+knowledge, and human Outcome boundary; they do not inherit source Python
+installer modules, provider policy values, stack matrices, or source wire
+formats. The current 4,450-path snapshot is 3,681 `generated-history`, 420
+`implemented-different-by-design`, one `implemented-equivalent`, 7
+`not-applicable`, 107 `reference-only`, and 234 `deferred-next-batch`; 669
+retired records remain append-only and `migrate-gap` is zero.

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-563-reference-file-comparison-batch-43
+lastVerifiedBy: WI-568-reference-file-comparison-batch-44
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `89c9e63b1733ad77a58d1544105bde8ba24cf877`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.72`，binary SHA256 为 `sha256:405247cc11f30664ab6337fd36f47a96a9d6c4907f3821077987d7fc365a85dd`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `20e420cd82f5f900cc4c46ca431dbe7170fcb541`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.73`，binary SHA256 为 `sha256:6100ae42a456489b1f08179bf399ee6a74e6720df9d202192fcd44e25afaef7d`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -302,7 +302,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=403 implemented-equivalent=1 not-applicable=7 reference-only=104 deferred-next-batch=254 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=420 implemented-equivalent=1 not-applicable=7 reference-only=107 deferred-next-batch=234 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -313,11 +313,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 403 |
+| `implemented-different-by-design` | 420 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 104 |
-| `deferred-next-batch` | 254 |
+| `reference-only` | 107 |
+| `deferred-next-batch` | 234 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1509,4 +1509,33 @@ WI-563 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 | `scripts/check_real_absurd_injection_docs.py` | implemented-different-by-design | adversarial 文档与 Rust trust 回归保留显式拒绝证据；不把源 assessment helper 和固定 case registry 放入 Core。 |
 | `scripts/check_release_distribution.py` | implemented-different-by-design | immutable tag/archive、checksum/SBOM/provenance、installer 行为和 post-release adopter acceptance 由 Rust workflow/harness 负责。 |
 
-本批没有发现可移植实现遗漏。5 个 `reference-only` 是 presentation、Python coverage 或源 registry 专属路径，1 个 Bandit checker 不适用；其余 14 项责任已由 Rust Runtime、repository、CI、文档或 release 边界承载。对象工程继承同一 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、trust/lifecycle 与 human Outcome 边界，不继承源 Python 模块、provider policy 值或 source wire。当前 4,450 个现行路径包含 3,681 个 `generated-history`、403 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、104 个 `reference-only` 和 254 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。
+本批没有发现可移植实现遗漏。5 个 `reference-only` 是 presentation、Python coverage 或源 registry 专属路径，1 个 Bandit checker 不适用；其余 14 项责任已由 Rust Runtime、repository、CI、文档或 release 边界承载。对象工程继承同一 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、trust/lifecycle 与 human Outcome 边界，不继承源 Python 模块、provider policy 值或 source wire。当前 4,450 个现行路径包含 3,681 个 `generated-history`、420 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、107 个 `reference-only` 和 234 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。
+
+## WI-568：发布、治理、adopter 与安装器脚本比对批次 44
+
+WI-568 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读下一组 20 个维护中路径。其中 17 项责任为 `implemented-different-by-design`，3 项为 `reference-only`。不复制源 Python 的发布、安装器、fixture 和报告编排到 Rust Runtime。
+
+| 固定参考路径 | 分类 | Rust 对应 / 有界决定 |
+| --- | --- | --- |
+| `scripts/check_release_preflight.py` | implemented-different-by-design | typed release manifest、生命周期/repository gate、SHA256/SBOM/provenance 校验和 reviewed release workflow。 |
+| `scripts/check_release_state_consistency.py` | implemented-different-by-design | 严格 `ReleaseManifest`/handoff、version/tag/commit 与 metadata 绑定、checksum inventory 和 workflow consistency。 |
+| `scripts/check_supply_chain.py` | implemented-different-by-design | Rust SBOM/archive/manifest 校验与 immutable public/staged adopter acceptance；签名和 attestation 仍属外部证据。 |
+| `scripts/check_system_invariants.py` | implemented-different-by-design | governance-integrity、文档、生命周期、release、依赖锁、SBOM 与 workflow 门在各自边界执行。 |
+| `scripts/check_trust_layer_docs.py` | implemented-different-by-design | 三语文档/parity 检查与有界 trust-layer 架构/安全页面。 |
+| `scripts/cross_stack_long_cycle.py` | reference-only | 源专属 fixture 聚合；目标独立验证发布制品 adopter，不宣称七技术栈矩阵。 |
+| `scripts/determine_governance_profile.py` | implemented-different-by-design | Rust 动态 policy planner 与文档化的 Python CI shadow route；Verification Tier 与 Evidence Assurance 正交。 |
+| `scripts/determine_quality_scope.py` | implemented-different-by-design | Rust verification planner 和 CI route 按 Contract 原因选择比例化质量范围。 |
+| `scripts/end_to_end_adoption_validation.py` | reference-only | 源七项目 in-process Installer 矩阵是模板专属；目标只对可移植 lifecycle/isolation 做 immutable release/adopter 验收。 |
+| `scripts/ensure_locked_dev_environment.py` | implemented-different-by-design | `Cargo.lock`、pinned Rust toolchain、locked Cargo 命令与 pinned CI actions 替代 Python/Ruff 环境配置。 |
+| `scripts/external_adopter_long_cycle.py` | implemented-different-by-design | immutable staged/public acceptance 覆盖 attach、生命周期、upgrade、rollback、isolation、cleanup 和 Runtime identity。 |
+| `scripts/finalize_release_freeze.py` | implemented-different-by-design | typed release freeze/manifest 与 reviewed workflow 绑定 clean/synced source/tag/commit、archive digest 和 lifecycle。 |
+| `scripts/fixture_harness.py` | reference-only | 源 phase driver 不是 Runtime API；目标 conformance fixture 和 release acceptance 覆盖可移植负向与制品行为。 |
+| `scripts/installed_lifecycle_e2e.py` | implemented-different-by-design | published-artifact acceptance 区分真实执行、simulation、not-run，并绑定 runtime/digest/cleanup evidence。 |
+| `scripts/installer/__init__.py` | implemented-different-by-design | Rust agent/repository attach seam 是 shared Runtime 安装边界，不是 Python package 兼容面。 |
+| `scripts/installer/application.py` | implemented-different-by-design | typed Rust agent plan/doctor、repository attach/inspect 与 CLI projection 提供只读安装事实。 |
+| `scripts/installer/cli.py` | implemented-different-by-design | 显式 Rust `attach`、`agent install`、`doctor`、`repair`、`detach` 命令；adapter UX 属于外部。 |
+| `scripts/installer/confirmation.py` | implemented-different-by-design | identity-bound preflight human decision 与 adapter ownership 检查；通用 approval 文本不能授权写入。 |
+| `scripts/installer/conflict_matrix.py` | implemented-different-by-design | Rust adapter planner/doctor 与测试拒绝 symlink、marker 冲突、ownership drift 和不安全目标。 |
+| `scripts/installer/evidence.py` | implemented-different-by-design | typed adapter receipt 与 immutable adopter manifest 绑定 repository identity、managed-section digest、Runtime 和 cleanup。 |
+
+本批没有发现可移植实现遗漏。3 个 `reference-only` 是源模板 fixture/adoption driver，而不是缺失的 Runtime 控制。所有 attach 的对象/adopter 工程继承同一 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge 与 human Outcome 边界；不继承源 Python 安装器模块、provider policy 值、技术栈矩阵或 source wire。当前 4,450 个路径为 3,681 个 `generated-history`、420 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、107 个 `reference-only` 和 234 个 `deferred-next-batch`；669 个 retired 记录继续追加式保留，`migrate-gap` 为零。
