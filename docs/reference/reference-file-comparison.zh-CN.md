@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-557-reference-file-comparison-batch-41
+lastVerifiedBy: WI-559-reference-file-comparison-batch-42
 capabilityClaims:
   - reference_parity
 ---
@@ -302,7 +302,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=372 implemented-equivalent=1 not-applicable=6 reference-only=96 deferred-next-batch=294 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=389 implemented-equivalent=1 not-applicable=6 reference-only=99 deferred-next-batch=274 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -313,11 +313,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 372 |
+| `implemented-different-by-design` | 389 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 96 |
-| `deferred-next-batch` | 294 |
+| `reference-only` | 99 |
+| `deferred-next-batch` | 274 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1452,3 +1452,32 @@ WI-557 在固定参考提交上逐个重读 13 个 deferred 源脚本。其中 1
 | `scripts/ai_schema_migration.py` | implemented-different-by-design | typed compatibility 与 migration plan/apply 保留历史 bytes、要求批准，并拒绝反向或歧义转换。 |
 
 本批没有发现可移植实现遗漏。对象工程继承 shared Runtime、隔离 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源 issue log、provider policy 值、Python 模块或通用源恢复目录。本批对应的源测试文件仍属于后续逐文件比较，不静默标记为已完成。
+
+## WI-559：onboarding、trust、verification 与 recovery 脚本比对批次 42
+
+WI-559 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 逐个重读 20 个维护中的源脚本。下表记录语义对应；不复制 Python、Make、provider 流程或源 JSON wire 格式。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `scripts/ai_onboard.py` | implemented-different-by-design | 显式 shared Runtime 的 attach、inspect、status、doctor、profile；校准和批准仍由人负责。 |
+| `scripts/ai_prepare_hosted_verification.py` | reference-only | 源特有 hosted snapshot 例外；Rust 的 hosted、CI、release 证据仍由外部负责。 |
+| `scripts/ai_project_doctor.py` | implemented-different-by-design | typed `RepositoryObservation` 及 inspect/status/doctor/profile 提供确定性项目事实。 |
+| `scripts/ai_projection_lease.py` | implemented-different-by-design | repository-local 并发边界、lease、scope 重叠检查和受限并行验证替代源锁文件协议。 |
+| `scripts/ai_provider_merge_state_recovery.py` | implemented-different-by-design | typed finalize/recovery receipt 与 delegated provider evidence 校验身份和 ancestry，不宣称源 provider 流程兼容。 |
+| `scripts/ai_quality_architecture.py` | reference-only | Python AST 实现审计是源侧工具；Rust 使用 Cargo、Clippy、workspace tests 和原生质量门。 |
+| `scripts/ai_resume_work_item.py` | implemented-different-by-design | typed resume/synchronization history、前驱收尾证据、recovery identity 和强制重新验证。 |
+| `scripts/ai_start.py` | implemented-different-by-design | repository-bound 脚手架、重复 reservation、base/branch/worktree identity、并发门和 preflight。 |
+| `scripts/ai_start_receipt.py` | implemented-different-by-design | Contract 的 base/scope/snapshot identity 与生命周期 receipt 替代源 Start Receipt wire schema。 |
+| `scripts/ai_task_event_log.py` | implemented-different-by-design | typed 追加式 `TaskOutcomeEvent`、fingerprint、脱敏和 archive/Outcome 绑定。 |
+| `scripts/ai_terminology.py` | implemented-different-by-design | typed policy、Outcome decision state 和三语 glossary；verification tier 与 assurance 保持正交。 |
+| `scripts/ai_trust_guards.py` | implemented-different-by-design | typed operation、intent、scope、authority、unknown、human review 评估，对歧义 fail closed。 |
+| `scripts/ai_trust_schema.py` | implemented-different-by-design | serde typed record、deny-unknown-fields 校验和 Rust 原生 trust 测试。 |
+| `scripts/ai_uninstall_facts.py` | implemented-different-by-design | adapter ownership、agent doctor/detach/repair、repository identity 和 retention metadata。 |
+| `scripts/ai_uninstall_proposal.py` | implemented-different-by-design | 显式 detach/purge plan、ownership/drift 检查、evidence 保留和人工授权。 |
+| `scripts/ai_unknown_confirmation.py` | implemented-different-by-design | identity-bound preflight human-decision request，包含 unknown、scope/evidence digest 和 expiry。 |
+| `scripts/ai_validate_java_runtime.py` | reference-only | Java/JAVA_HOME 选择是技术栈 adopter/provider 责任。 |
+| `scripts/ai_verification_context.py` | implemented-different-by-design | request-scoped snapshot/observation、Contract/Summary 绑定、changed paths、impact 和缓存事实。 |
+| `scripts/ai_verification_policy.py` | implemented-different-by-design | 动态 Tier/Assurance 规划、stage/dependency 路由、reuse 和 evidence context。 |
+| `scripts/ai_verify.py` | implemented-different-by-design | Rust verify route、checker registry、planner、Contract gates 与 delegated release/adopter evidence。 |
+
+本批未发现可移植实现遗漏。3 个 `reference-only` 路径是源/provider 或技术栈专属工具，不是 Runtime 缺口。每个 attach 的对象工程继承 shared Runtime、显式 repository 绑定、隔离 Contract/evidence/knowledge、trust/生命周期门和 human Outcome handoff，但不继承源启动器、provider 命令或 Python wire 格式。

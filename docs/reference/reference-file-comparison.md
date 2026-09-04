@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-557-reference-file-comparison-batch-41
+lastVerifiedBy: WI-559-reference-file-comparison-batch-42
 capabilityClaims:
   - reference_parity
 ---
@@ -255,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=372 implemented-equivalent=1 not-applicable=6 reference-only=96 deferred-next-batch=294 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=389 implemented-equivalent=1 not-applicable=6 reference-only=99 deferred-next-batch=274 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -269,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 372 |
+| `implemented-different-by-design` | 389 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 96 |
-| `deferred-next-batch` | 294 |
+| `reference-only` | 99 |
+| `deferred-next-batch` | 274 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1919,3 +1919,41 @@ context, Contract/evidence/knowledge records, and human Outcome boundary; they
 do not inherit source issue logs, provider policy values, Python modules, or a
 generic source recovery catalog. Source test files for these scripts remain a
 later file-level comparison batch and are not silently treated as completed.
+
+## WI-559 — onboarding, trust, verification, and recovery script comparison batch 42
+
+WI-559 re-read twenty maintained source scripts at the pinned local reference
+commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. Each responsibility is
+accounted for below as a semantic Rust projection; Python, Make, provider
+workflows, and source JSON wire formats are not copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_onboard.py` | implemented-different-by-design | Explicit shared-Runtime attach, inspect, status, doctor, and profile commands; calibration and approval remain human-owned. |
+| `scripts/ai_prepare_hosted_verification.py` | reference-only | Source-specific hosted-snapshot exception; hosted, CI, and release evidence remain external in Rust. |
+| `scripts/ai_project_doctor.py` | implemented-different-by-design | Typed `RepositoryObservation`, inspect/status/doctor, and profile projections provide deterministic repository facts. |
+| `scripts/ai_projection_lease.py` | implemented-different-by-design | Repository-local concurrency boundaries, leases, scope-overlap checks, and bounded parallel verification. |
+| `scripts/ai_provider_merge_state_recovery.py` | implemented-different-by-design | Typed finalization/recovery receipts and delegated provider evidence validate identity and ancestry without claiming the source provider workflow. |
+| `scripts/ai_quality_architecture.py` | reference-only | Python AST implementation audit is source tooling; Rust quality uses Cargo, Clippy, workspace tests, and native gates. |
+| `scripts/ai_resume_work_item.py` | implemented-different-by-design | Typed resume/synchronization history, predecessor closure evidence, recovery identity, and mandatory revalidation. |
+| `scripts/ai_start.py` | implemented-different-by-design | Repository-bound scaffolding, duplicate reservation, base/branch/worktree identity, concurrency gates, and preflight. |
+| `scripts/ai_start_receipt.py` | implemented-different-by-design | Contract base/scope/snapshot identity and lifecycle receipts replace the source Start Receipt wire schema. |
+| `scripts/ai_task_event_log.py` | implemented-different-by-design | Typed append-only `TaskOutcomeEvent` records, fingerprints, redaction, and archive/Outcome bindings. |
+| `scripts/ai_terminology.py` | implemented-different-by-design | Typed policy, Outcome decision states, and tri-language glossary; verification tier and assurance remain orthogonal. |
+| `scripts/ai_trust_guards.py` | implemented-different-by-design | Typed operation, intent, scope, authority, unknown, and human-review evaluation fail closed on ambiguity. |
+| `scripts/ai_trust_schema.py` | implemented-different-by-design | Serde typed records, deny-unknown-fields validation, and Rust-native trust tests. |
+| `scripts/ai_uninstall_facts.py` | implemented-different-by-design | Adapter ownership, agent doctor/detach/repair, repository identity, and retention metadata. |
+| `scripts/ai_uninstall_proposal.py` | implemented-different-by-design | Explicit detach/purge plans, ownership/drift checks, evidence retention, and human authorization. |
+| `scripts/ai_unknown_confirmation.py` | implemented-different-by-design | Identity-bound preflight human-decision requests with explicit unknowns, scope/evidence digests, and expiry. |
+| `scripts/ai_validate_java_runtime.py` | reference-only | Java/JAVA_HOME selection is a stack-specific adopter/provider responsibility. |
+| `scripts/ai_verification_context.py` | implemented-different-by-design | Request-scoped snapshot/observation, Contract/Summary bindings, changed paths, impact, and cached facts. |
+| `scripts/ai_verification_policy.py` | implemented-different-by-design | Dynamic Tier/Assurance planning, stage and dependency routing, reuse, and evidence contexts. |
+| `scripts/ai_verify.py` | implemented-different-by-design | Rust verify routes, checker registry, planner, Contract gates, and delegated release/adopter evidence. |
+
+No portable implementation omission was found in this batch. The three
+`reference-only` paths are source/provider or stack-specific tooling, not
+missing Runtime capabilities. Every attached object/adopter repository
+inherits the shared Runtime, explicit repository binding, isolated
+Contract/evidence/knowledge, trust and lifecycle gates, and human Outcome
+handoff; it does not inherit source launchers, provider commands, or Python
+wire formats.

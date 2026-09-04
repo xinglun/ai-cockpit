@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-557-reference-file-comparison-batch-41
+lastVerifiedBy: WI-559-reference-file-comparison-batch-42
 capabilityClaims:
   - reference_parity
 ---
@@ -502,6 +502,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-556——有界文档投影 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-556-doc-projection-boundary.zh-CN.md)；archive `.ai/work-items/archive/WI-556-doc-projection-boundary.contract.json`；verification `.ai/evidence/WI-556-doc-projection-boundary.verification.json`；finalization `.ai/decisions/WI-556-doc-projection-boundary.finalize.json`；close `.ai/decisions/WI-556-doc-projection-boundary.close.json`。 |
 | WI-557——参考文件逐文件比较第 41 批 | 已实现 | [Work Item](../work-items/WI-557-reference-file-comparison-batch-41.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-557-reference-file-comparison-batch-41.contract.json`; verification `.ai/evidence/WI-557-reference-file-comparison-batch-41.verification.json`; finalization `.ai/decisions/WI-557-reference-file-comparison-batch-41.finalize.json`; close `.ai/decisions/WI-557-reference-file-comparison-batch-41.close.json`. |
 | WI-558——WI-557 终态文档投影 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-558-doc-promotion-wi557.zh-CN.md)；archive `.ai/work-items/archive/WI-558-doc-promotion-wi557.contract.json`；verification `.ai/evidence/WI-558-doc-promotion-wi557.verification.json`；finalization `.ai/decisions/WI-558-doc-promotion-wi557.finalize.json`；close `.ai/decisions/WI-558-doc-promotion-wi557.close.json`。 |
+| WI-559——参考源文件比对第 42 批 | 已实现 | [Work Item](../work-items/WI-559-reference-file-comparison-batch-42.zh-CN.md)；终态 lifecycle: archive `.ai/work-items/archive/WI-559-reference-file-comparison-batch-42.contract.json`; verification `.ai/evidence/WI-559-reference-file-comparison-batch-42.verification.json`; finalization `.ai/decisions/WI-559-reference-file-comparison-batch-42.finalize.json`; close `.ai/decisions/WI-559-reference-file-comparison-batch-42.close.json`。 |
 | WI-544——WI-543 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-544-wi543-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`；verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`；finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`；close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545——v0.2.68 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-545-release-v0-2-68.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546——WI-545 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-546-wi545-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -550,3 +551,7 @@ Work Item 中 required scenario 若仍为未验证状态，则 fail-closed。
 `4D` 字段，Runtime 也不会合成证据或把本地投影冒充 provider/enterprise assurance。
 
 WI-191 增加 append-only finalization transition 链：不可变的 canonical blocked evidence 可以通过合并观察与精确清理继续推进而不改写历史；verification 与 close 绑定唯一最新 head。WI-191H 闭合 receipt commit 的 head 绑定：只有在第一次 merge observation 中显式声明并通过 Git 证明治理 receipt 追加时，观察到的 `70c17e4` archive head 才能推进到 `8f5a025`；任意 head 漂移仍会被拒绝。
+
+## WI-559：onboarding 与 verification 脚本对齐
+
+WI-559 在[逐文件台账](reference-file-comparison.zh-CN.md)登记 20 个源脚本：17 个为 `implemented-different-by-design`，3 个为 `reference-only`。Rust Runtime 通过 typed、repository-bound API 提供可移植的 trust、生命周期、repository observation、verification、recovery 和 adapter ownership 语义；hosted snapshot 准备、Python AST 架构审计和 Java runtime 选择仍属于源/provider 或 adopter 专属能力。这是语义对齐，不是源命令或 wire 格式兼容。
