@@ -32,7 +32,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-562-doc-promotion-release",
     "provider": "github",
-    "pullRequest": "pending-review",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/540",
     "worktree": "/private/tmp/ai-cockpit-wi562-doc-promotion-release"
   },
   "risk": "normal",

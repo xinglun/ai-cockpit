@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-562-doc-promotion-release.summary.json"
+          ".ai/work-items/archive/WI-562-doc-promotion-release.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-562-doc-promotion-release.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-562-doc-promotion-release.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-562-doc-promotion-release.summary.json"
+          ".ai/work-items/archive/WI-562-doc-promotion-release.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-562-doc-promotion-release.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-562-doc-promotion-release.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-562-doc-promotion-release.contract.json"
+          ".ai/work-items/archive/WI-562-doc-promotion-release.contract.json"
         ],
         "inference": false,
         "text": "Synchronize the English, Simplified Chinese, and Japanese WI-561 and reference-parity projections with immutable terminal evidence without changing governance facts."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-562-doc-promotion-release.contract.json"
+          ".ai/work-items/archive/WI-562-doc-promotion-release.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

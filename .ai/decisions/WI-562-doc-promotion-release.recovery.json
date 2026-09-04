@@ -1,0 +1,26 @@
+{
+  "actor": "repository-owner",
+  "authoritySource": "human-directed-recovery",
+  "decidedAt": "2026-09-04T07:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-562-doc-promotion-release.verification.json",
+    ".ai/work-items/active/WI-562-doc-promotion-release.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:b05799efe9939d873668e3be03fe711042b9a669f86d814695f8664c8c2c1138",
+  "predecessorEventsDigest": "sha256:94062eb92d81f6dbe39e9dcc57ef1c788b9692c0f187c7b425f642d922892370",
+  "predecessorOutcomeDigest": "sha256:cd072586ef35bc7c557abfc9ae8fb656b5b4c42972040063f7a8ed00d5b49f7b",
+  "predecessorSummaryDigest": "sha256:02a8a4bb2bb74a3088bf858500a43375acc04d3afdc8a38ed54eacb660a6d756",
+  "predecessorWorkItemId": "WI-562-doc-promotion-release",
+  "reason": "Retry finish after the Runtime correctly rejected a terminal attempt whose finalization plan was bound after the first verification cycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verify and green preflight, then finish, archive, and close with the reviewed PR binding intact.",
+  "runtimeDigest": "sha256:c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba",
+  "runtimeVersion": "0.2.71",
+  "schemaVersion": 1,
+  "workItemId": "WI-562-doc-promotion-release"
+}

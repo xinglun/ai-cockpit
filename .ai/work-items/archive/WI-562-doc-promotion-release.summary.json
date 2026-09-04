@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-562-doc-promotion-release.contract.json",
-    ".ai/work-items/active/WI-562-doc-promotion-release.summary.json"
+    ".ai/work-items/archive/WI-562-doc-promotion-release.contract.json",
+    ".ai/work-items/archive/WI-562-doc-promotion-release.summary.json"
   ],
   "checkpointAt": "2026-09-04T06:58:32Z",
-  "checkpointContractDigest": "sha256:9a7b7a8954bf2e79f66d4f1f67e943502ca93b3b7bc4b2484ac5962a8b968e70",
+  "checkpointContractDigest": "sha256:b05799efe9939d873668e3be03fe711042b9a669f86d814695f8664c8c2c1138",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,20 +40,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-562-doc-promotion-release"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:b05799efe9939d873668e3be03fe711042b9a669f86d814695f8664c8c2c1138",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9e91493f44bdbf8a7fb9b9474a0dbf561211883aeacfceb16a5f1903fba684c6",
+      "previousContractHash": "sha256:9a7b7a8954bf2e79f66d4f1f67e943502ca93b3b7bc4b2484ac5962a8b968e70",
+      "reason": "Bind the reviewed GitHub PR #540 before restarting the terminal verification cycle; the prior attempt correctly stopped on a late finalization plan.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T07:15:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9a7413d6c32e06183caae9b4d9c822c24bc375778772b8cd2b9a4dfe6fc9aeab",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-562-doc-promotion-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:9a7413d6c32e06183caae9b4d9c822c24bc375778772b8cd2b9a4dfe6fc9aeab",
   "createdAt": "2026-09-04T06:57:20Z",
   "mode": "code",
-  "preflightAt": "2026-09-04T07:06:18Z",
-  "preflightContractDigest": "sha256:9a7b7a8954bf2e79f66d4f1f67e943502ca93b3b7bc4b2484ac5962a8b968e70",
+  "preflightAt": "2026-09-04T07:21:50Z",
+  "preflightContractDigest": "sha256:b05799efe9939d873668e3be03fe711042b9a669f86d814695f8664c8c2c1138",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:9a7413d6c32e06183caae9b4d9c822c24bc375778772b8cd2b9a4dfe6fc9aeab",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-04T07:06:23Z",
+  "updatedAt": "2026-09-04T07:21:55Z",
   "verification": [
     {
       "check": "project-command-0",

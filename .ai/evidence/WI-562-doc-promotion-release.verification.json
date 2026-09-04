@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:9a7b7a8954bf2e79f66d4f1f67e943502ca93b3b7bc4b2484ac5962a8b968e70",
-  "createdAt": "2026-09-04T07:06:17Z",
+  "contractDigest": "sha256:b05799efe9939d873668e3be03fe711042b9a669f86d814695f8664c8c2c1138",
+  "createdAt": "2026-09-04T07:21:37Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 4815,
-      "executionElapsedMs": 4678,
+      "elapsedMs": 5450,
+      "executionElapsedMs": 5312,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 4815,
-    "executionElapsedMs": 4678,
-    "filesHashed": 23,
-    "filesRead": 23,
+    "elapsedMs": 5450,
+    "executionElapsedMs": 5312,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,17 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-561-release-v0-2-72.ja.md",
-        "docs/work-items/WI-561-release-v0-2-72.md",
-        "docs/work-items/WI-561-release-v0-2-72.zh-CN.md",
-        "docs/work-items/WI-562-doc-promotion-release.ja.md",
-        "docs/work-items/WI-562-doc-promotion-release.md",
-        "docs/work-items/WI-562-doc-promotion-release.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "39a22020675058f36ecc7237462b239c097ea9b7",
       "dependencyConfidence": "unknown",
@@ -54,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 4678,
+      "executionElapsedMs": 5312,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -102,7 +92,7 @@
     "runtimeVersion": "0.2.71",
     "workItemId": "WI-562-doc-promotion-release"
   },
-  "receiptDigest": "sha256:ca744f0856be37b1114fd76ce551fee0bd10f0f17d888687f5195bcfcadb48fa",
+  "receiptDigest": "sha256:c367e4edd2d42c500c26eb5b3bf7e5ad28e5ec30214ea63482f417f720022e7b",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:9a7413d6c32e06183caae9b4d9c822c24bc375778772b8cd2b9a4dfe6fc9aeab",
   "runtimeDigest": "sha256:c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba",
