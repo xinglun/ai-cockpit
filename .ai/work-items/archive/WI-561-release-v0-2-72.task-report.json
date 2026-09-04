@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-561-release-v0-2-72.summary.json"
+          ".ai/work-items/archive/WI-561-release-v0-2-72.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-561-release-v0-2-72.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-561-release-v0-2-72.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-561-release-v0-2-72.summary.json"
+          ".ai/work-items/archive/WI-561-release-v0-2-72.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-561-release-v0-2-72.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-561-release-v0-2-72.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-561-release-v0-2-72.contract.json"
+          ".ai/work-items/archive/WI-561-release-v0-2-72.contract.json"
         ],
         "inference": false,
         "text": "Create the next auditable Runtime release, update current version guidance, and prove the downloaded v0.2.72 binary can govern this repository without source fallback."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-561-release-v0-2-72.contract.json"
+          ".ai/work-items/archive/WI-561-release-v0-2-72.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

@@ -44,17 +44,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-561-release-v0-2-72.summary.json"
+            ".ai/work-items/archive/WI-561-release-v0-2-72.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-561-release-v0-2-72.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-561-release-v0-2-72.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-561-release-v0-2-72.summary.json"
+            ".ai/work-items/archive/WI-561-release-v0-2-72.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-561-release-v0-2-72.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-561-release-v0-2-72.summary.json"
         }
       ],
       "evidence": [
@@ -110,7 +110,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-561-release-v0-2-72.contract.json"
+            ".ai/work-items/archive/WI-561-release-v0-2-72.contract.json"
           ],
           "inference": false,
           "text": "Create the next auditable Runtime release, update current version guidance, and prove the downloaded v0.2.72 binary can govern this repository without source fallback."
@@ -119,7 +119,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-561-release-v0-2-72.contract.json"
+            ".ai/work-items/archive/WI-561-release-v0-2-72.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -129,8 +129,8 @@
     "status": "verified",
     "workItemId": "WI-561-release-v0-2-72"
   },
-  "taskReportDigest": "sha256:e9b5e9a07829ff27c840de7198ae13cb02a55e4aa4a62e94b0482771c69b3379",
-  "taskReportMarkdownDigest": "sha256:8b04a3660032b7d14c03d71fdeed9d0e88d1fddc63c46850b9f685d3fcd0c6f5",
+  "taskReportDigest": "sha256:dd9abfe91506570f007ea0e1c2c9dc3426b22dbdfbefd3fbf1faaa851fc4fe4f",
+  "taskReportMarkdownDigest": "sha256:555010bcddb048bcc83028b92b660a8314b5815ab3affea980c08f98b6344fd2",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
