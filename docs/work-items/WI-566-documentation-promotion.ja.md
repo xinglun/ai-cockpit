@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-566 — WI-565 ドキュメント projection の昇格"
 description: "検証・close 済み WI-565 の三言語 page を昇格し、この限定的な Work Item を登録する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-566-documentation-promotion
 lastVerifiedBy: WI-566-documentation-promotion
+terminalArchive: .ai/work-items/archive/WI-566-documentation-promotion.contract.json
+terminalVerification: .ai/evidence/WI-566-documentation-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-566-documentation-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-566-documentation-promotion.close.json
 ---
 
 [English](WI-566-documentation-promotion.md) · [简体中文](WI-566-documentation-promotion.zh-CN.md)

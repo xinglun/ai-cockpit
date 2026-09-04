@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "三语 WI-566 文档 status 为 implemented，并绑定 archive/verification/finalization/close 证据。",
+    "三语 reference-parity 矩阵准确反映 WI-566 的已验证关闭状态。",
+    "documentation、parity、promotion 与 diff 检查通过，且不修改不可变历史 bytes。",
+    "WI-567 自身具备三语可读文档与 pre-archive parity 登记，且其生成状态与当前 Contract 一致。"
+  ],
+  "createdAt": "2026-09-04T11:01:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e000e0ed7044890d1e9dcf252b28eadf103b19063ca8c7ec4254a19653e88e06",
+  "evidenceRefs": [
+    ".ai/evidence/WI-567-wi566-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-567-wi566-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-567-wi566-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c992f940e324d3558c7127c6e78469fedd1a1482a3484c7cfc61c21f1a89ac5",
+      "workItemId": "WI-567-wi566-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-567-wi566-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-567-wi566-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-567-wi566-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-567-wi566-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-567-wi566-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-567-wi566-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-567-wi566-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 WI-566 文档终态晋级，并保持不可变治理记录不被改写。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-567-wi566-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-567-wi566-doc-promotion"
+  },
+  "taskReportDigest": "sha256:82a1341c6c01e1bae8aa65633d1d99f047e07c1cb16b6fa99801dd887d7c8649",
+  "taskReportMarkdownDigest": "sha256:84dd8dd9764a81153be6504b09f5bb13f31b9fc6938d2acca27c91b425f4aea6",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-567-wi566-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-567-wi566-doc-promotion"
+}
