@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-554 — v0.2.71 release and public-artifact acceptance"
 description: "Publish the capability-surface documentation repair as an immutable Runtime release."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-554-release-v0-2-71
 lastVerifiedBy: WI-554-release-v0-2-71
+terminalArchive: .ai/work-items/archive/WI-554-release-v0-2-71.contract.json
+terminalVerification: .ai/evidence/WI-554-release-v0-2-71.verification.json
+terminalFinalization: .ai/decisions/WI-554-release-v0-2-71.finalize.json
+terminalDecision: .ai/decisions/WI-554-release-v0-2-71.close.json
 ---
 
 [简体中文](WI-554-release-v0-2-71.zh-CN.md) · [日本語](WI-554-release-v0-2-71.ja.md)
