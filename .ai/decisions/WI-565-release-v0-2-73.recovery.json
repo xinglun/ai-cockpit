@@ -1,0 +1,24 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-04T10:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-565-release-v0-2-73.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:12a2d2314a41accb13d4f94ddd5c7091191a5630b9c24345db349c5bcf1f6358",
+  "predecessorSummaryDigest": "sha256:0a297041bc611448db27d72eba577a92684cf9e5053ad26c3e4921283998278f",
+  "predecessorWorkItemId": "WI-565-release-v0-2-73",
+  "reason": "Finalize-plan changed the Contract resource binding after an initial verification; preserve that predecessor evidence and retry the fresh verification against the bound PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence matches the current Contract, repository snapshot, and Runtime identity.",
+  "runtimeDigest": "sha256:405247cc11f30664ab6337fd36f47a96a9d6c4907f3821077987d7fc365a85dd",
+  "runtimeVersion": "0.2.72",
+  "schemaVersion": 1,
+  "workItemId": "WI-565-release-v0-2-73"
+}

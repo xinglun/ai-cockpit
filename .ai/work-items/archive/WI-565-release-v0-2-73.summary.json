@@ -1,8 +1,44 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-04T10:07:36Z",
-  "checkpointContractDigest": "sha256:ee10a118d0cff44174d1df7d9da34e4fd686978fe15ef1f09a91a07618361ec8",
+  "checkpointContractDigest": "sha256:12a2d2314a41accb13d4f94ddd5c7091191a5630b9c24345db349c5bcf1f6358",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:ee10a118d0cff44174d1df7d9da34e4fd686978fe15ef1f09a91a07618361ec8",
+      "recorded": true,
+      "recordedAt": "2026-09-04T10:07:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3241c6d8dbdf5b81fe84676a7493c9abf7383f061f5af5b723282e6dedda1191",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-565-release-v0-2-73"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:12a2d2314a41accb13d4f94ddd5c7091191a5630b9c24345db349c5bcf1f6358",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ee10a118d0cff44174d1df7d9da34e4fd686978fe15ef1f09a91a07618361ec8",
+      "previousContractHash": "sha256:ee10a118d0cff44174d1df7d9da34e4fd686978fe15ef1f09a91a07618361ec8",
+      "reason": "Finalize-plan bound the reviewed provider context after the initial verification; refresh the lifecycle binding before finish.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T10:28:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3241c6d8dbdf5b81fe84676a7493c9abf7383f061f5af5b723282e6dedda1191",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-565-release-v0-2-73"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:3241c6d8dbdf5b81fe84676a7493c9abf7383f061f5af5b723282e6dedda1191",
   "createdAt": "2026-09-04T10:06:15Z",
   "intentAlignment": {
@@ -15,11 +51,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-04T10:26:09Z",
+  "preflightAt": "2026-09-04T10:30:21Z",
   "preflightContractDigest": "sha256:12a2d2314a41accb13d4f94ddd5c7091191a5630b9c24345db349c5bcf1f6358",
-  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:3241c6d8dbdf5b81fe84676a7493c9abf7383f061f5af5b723282e6dedda1191",
-  "preflightState": "red",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -68,8 +104,8 @@
       "verificationPlan": "Exercise the release acceptance test wrapper failure path and verify its output manifest and cleanup assertion."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-04T10:12:06.832904+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T10:30:35Z",
   "verification": [
     {
       "check": "project-command-0",
