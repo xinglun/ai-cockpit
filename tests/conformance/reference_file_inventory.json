@@ -36249,24 +36249,33 @@
     },
     {
       "referencePath": "scripts/ai_finish.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "reason": "The source finish workflow combines mutex, branch/base, evidence, checkpoint, recovery, and human-report orchestration. Rust owns those lifecycle and evidence invariants through typed repository services and visible Outcome projections; source Python process/provider orchestration and report wire formats are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_generate_human_report.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Typed OutcomeV2 and TaskOutcomeReport preserve report phases, findings, risks, closure facts, and evidence bindings. The source report schema and Python generator are not a Rust wire contract.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
@@ -36278,24 +36287,32 @@
     },
     {
       "referencePath": "scripts/ai_generate_status.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Repository-bound Rust status derives lifecycle, readiness, blockers, and Outcome facts from typed records. It intentionally does not create a generated current_status.md authority or copy source status JSON.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_generate_task_outcome.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Typed TaskOutcomeReport and append-only TaskOutcomeEvent records provide deterministic findings, risks, interventions, evidence, and next actions. Source task-report JSON and lexical policy remain source-specific.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
@@ -36307,10 +36324,16 @@
     },
     {
       "referencePath": "scripts/ai_governance_compression.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-verification/src/lib.rs",
+        "docs/reference/verification-semantics.md"
+      ],
+      "reason": "The source compression helper combines policy signals and recommendations for presentation. Rust keeps governance decisions in typed policy, operation-time evaluation, verification routing, and evidence controls; source compression output is not authority or a copied protocol.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_governance_cost.py",
@@ -36334,10 +36357,16 @@
     },
     {
       "referencePath": "scripts/ai_input_trust.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "docs/reference/input-trust-dataflow.md"
+      ],
+      "reason": "Source/provenance, injection, authority, and operation-time trust semantics are represented by typed request binding, untrusted-material evaluation, and fail-closed governance signals. The source provenance enum set and Python API are not copied as wire compatibility.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_install_facts.py",
@@ -36465,10 +36494,16 @@
     },
     {
       "referencePath": "scripts/ai_japanese_capability.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "tests/conformance/reference_inventory_docs_test.py",
+        "docs/capabilities.ja.md"
+      ],
+      "reason": "The source self-assessment script is replaced by Rust-native tri-language Outcome/MCP projections, documentation checks, and conformance tests. It does not grant capability or policy authority and is not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_knowledge_projection_benchmark.py",
@@ -36486,17 +36521,28 @@
     },
     {
       "referencePath": "scripts/ai_lifecycle_facts.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Read-only lifecycle facts are emitted through typed status, inspect, and doctor projections with repository identity and readiness bindings; no generated Python facts file is treated as authority.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_lifecycle_truth.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "reason": "Immutable lifecycle, successor, recovery, finalization, and archive truth is owned by typed Rust receipts and repository services. The source Python projection and installer-specific chain are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_linked_worktree_recovery.py",
@@ -36507,17 +36553,29 @@
     },
     {
       "referencePath": "scripts/ai_multilingual_semantic_parity.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "tests/conformance/reference_inventory_docs_test.py",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Rust preserves controlled multilingual presentation while keeping Contract bytes and governance facts locale-neutral. Tri-language renderer and documentation tests replace the source utility; contract-language acceptance text is never silently translated.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_observability.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/verification-semantics.md"
+      ],
+      "reason": "Verification receipts and TaskOutcomeEvent JSONL retain deterministic timing, reuse, execution, and lifecycle facts. The source generic observability sink is not a required Runtime API; provider telemetry remains external.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_onboard.py",
@@ -36571,13 +36629,17 @@
     },
     {
       "referencePath": "scripts/ai_post_archive_recovery.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "reason": "Recovery and post-archive finalization are typed, immutable, identity-bound Rust paths. Hosted/provider failure parsing and source Python orchestration remain external boundaries rather than copied Runtime behavior.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
@@ -36656,39 +36718,58 @@
     },
     {
       "referencePath": "scripts/ai_render_task_outcome.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "The Rust Outcome renderer provides a deterministic human handoff with status markers, evidence, unknowns, decisions, and next action. Source Markdown renderer code and its wire shape are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_render_task_outcome_multilingual.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "The Rust renderer localizes fixed Runtime chrome for English, Simplified Chinese, and Japanese while preserving original Contract text. MCP and CLI expose the same human handoff boundary without importing source locale tables.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_render_task_outcome_pr.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/outcome-report.md",
+        "docs/reference/ci-release-evidence.md",
+        "crates/cockpit-mcp/src/lib.rs"
+      ],
+      "reason": "The source PR summary renderer is a provider-facing presentation helper. Rust exposes digest-bound Outcome and release/MCP handoffs, while PR-provider formatting and hosted identity remain external; no Runtime omission is claimed.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/ai_required_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-550-reference-file-comparison-batch-39",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-verification/src/lib.rs",
+        "docs/reference/verification-semantics.md"
+      ],
+      "reason": "The source dynamic evidence rule registry is represented by typed Contract requiredEvidenceClasses, delegated evidence, policy-bound verification routing, and release/permission controls. Source provider-specific rule identifiers and JSON payloads are not universal Rust protocol fields.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_resume_work_item.py",

@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-550-reference-file-comparison-batch-39.contract.json",
+    ".ai/work-items/archive/WI-550-reference-file-comparison-batch-39.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T23:53:56Z",
+  "checkpointContractDigest": "sha256:a9578d571ca9a7f5058ed55f0b3dafa09a37d2ec08e8b45e0498be4ea1b35eb1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ece8c61bf16e958c3e4de91705fab4a7336f0ee57e61a61b719351c2e651eb0f",
+      "recorded": true,
+      "recordedAt": "2026-09-03T23:53:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6a320f9c042f6ee3655b99f0b99e13cab371c364fe7807a974e13ca9adc4510d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-550-reference-file-comparison-batch-39"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f7c59fb771c0cfe81b292ec8ab3a4b5c158ad49762f52a297c512c29026e0e82",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ece8c61bf16e958c3e4de91705fab4a7336f0ee57e61a61b719351c2e651eb0f",
+      "previousContractHash": "sha256:ece8c61bf16e958c3e4de91705fab4a7336f0ee57e61a61b719351c2e651eb0f",
+      "reason": "Add the tri-language Work Item documentation paths required for an auditable comparison record and terminal documentation promotion; the initial checkpoint omitted them.",
+      "recorded": true,
+      "recordedAt": "2026-09-03T23:54:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3960882d21b974b383975daedd8d21b79c909b28d6a00962e23db629d052661f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-550-reference-file-comparison-batch-39"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e78633e06957bb22288c2ed0ded5a7cac3f6e094203a866482cc7009083ef4f2",
+  "createdAt": "2026-09-03T23:33:23Z",
+  "mode": "code",
+  "preflightAt": "2026-09-04T00:03:52Z",
+  "preflightContractDigest": "sha256:a9578d571ca9a7f5058ed55f0b3dafa09a37d2ec08e8b45e0498be4ea1b35eb1",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:e78633e06957bb22288c2ed0ded5a7cac3f6e094203a866482cc7009083ef4f2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T00:03:53Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-550-reference-file-comparison-batch-39"
+}

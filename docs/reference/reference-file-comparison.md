@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-543-reference-ledger-check-safety
+lastVerifiedBy: WI-550-reference-file-comparison-batch-39
 capabilityClaims:
   - reference_parity
 ---
@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `7c12972ff424b321b6685e0458a999cbb712f8f6`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.67` binary, SHA256 `0c491d1709fdaa98c66acfe92d89abb747d7e01e78def815ef6c57ee431b232f`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `9d5c0791c5d4fe55337bcd18251aa1de1823e602`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.70` binary, SHA256 `0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -255,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=330 implemented-equivalent=1 not-applicable=6 reference-only=92 deferred-next-batch=340 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=345 implemented-equivalent=1 not-applicable=6 reference-only=93 deferred-next-batch=324 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -269,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 330 |
+| `implemented-different-by-design` | 345 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 92 |
-| `deferred-next-batch` | 340 |
+| `reference-only` | 93 |
+| `deferred-next-batch` | 324 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1785,6 +1785,40 @@ repositories inherit the same shared binary, explicit `--repo` binding,
 isolated Contract/evidence/knowledge, and human Outcome rules; they do not
 inherit source installer state, Python registries, or adopter-specific policy
 values.
+
+## WI-550 — lifecycle and Outcome script comparison batch 39
+
+WI-550 compared sixteen maintained reference scripts one by one at the pinned
+local commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. The batch covers finish
+and report generation, status and lifecycle truth, input trust, observability,
+recovery, multilingual presentation, PR handoff, and required-evidence rules.
+The inventory records semantic ownership and explicit boundaries; it does not
+copy Python modules or source JSON wire formats.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_finish.py` | implemented-different-by-design | Typed lifecycle, evidence, checkpoint, recovery, and human Outcome gates in repository services; source process/provider orchestration is not copied. |
+| `scripts/ai_generate_human_report.py` | implemented-different-by-design | `OutcomeV2`/`TaskOutcomeReport` and visible renderer preserve report phases and evidence bindings; source report wire is not a Rust contract. |
+| `scripts/ai_generate_status.py` | implemented-different-by-design | Repository-bound status/inspect/doctor projections replace generated `current_status.md` authority. |
+| `scripts/ai_generate_task_outcome.py` | implemented-different-by-design | Typed task report/events provide deterministic findings, risks, interventions, evidence, and next action. |
+| `scripts/ai_governance_compression.py` | implemented-different-by-design | Typed policy, operation-time evaluation, verification routing, and evidence controls own decisions; compression output remains presentation. |
+| `scripts/ai_input_trust.py` | implemented-different-by-design | Request binding, untrusted-material evaluation, injection/forgery signals, and fail-closed decisions preserve trust semantics without source API compatibility. |
+| `scripts/ai_japanese_capability.py` | implemented-different-by-design | Rust-native tri-language Outcome/MCP projections, documentation checks, and conformance tests replace source self-assessment. |
+| `scripts/ai_lifecycle_facts.py` | implemented-different-by-design | Typed status and readiness projections expose read-only lifecycle facts; no generated Python facts file is authoritative. |
+| `scripts/ai_lifecycle_truth.py` | implemented-different-by-design | Immutable lifecycle, successor, recovery, finalization, and archive receipts are owned by Rust Protocol/repository services. |
+| `scripts/ai_multilingual_semantic_parity.py` | implemented-different-by-design | Fixed Runtime chrome is localized while Contract bytes and governance facts remain locale-neutral and original. |
+| `scripts/ai_observability.py` | implemented-different-by-design | Verification timing/reuse metrics and append-only TaskOutcomeEvent JSONL retain deterministic observability; generic source sink is not required Runtime API. |
+| `scripts/ai_post_archive_recovery.py` | implemented-different-by-design | Typed recovery/finalization/close paths preserve immutable identity-bound recovery; hosted failure parsing remains external. |
+| `scripts/ai_render_task_outcome.py` | implemented-different-by-design | Rust human Outcome renderer provides marker, evidence, unknowns, decisions, and next action without copying source Markdown code. |
+| `scripts/ai_render_task_outcome_multilingual.py` | implemented-different-by-design | CLI/MCP expose the same en/zh-CN/ja human handoff; Contract acceptance text is never silently translated. |
+| `scripts/ai_render_task_outcome_pr.py` | reference-only | PR summary formatting is provider-facing presentation; digest-bound Outcome/release handoff remains the Runtime boundary. |
+| `scripts/ai_required_evidence.py` | implemented-different-by-design | Typed Contract required-evidence classes, delegated evidence, policy routing, and release/permission controls preserve the portable boundary; source rule identifiers are not universal Rust fields. |
+
+No portable implementation omission was found in this batch. Attached
+object/adopter repositories inherit the shared Runtime, explicit repository
+binding, isolated Contract/evidence/knowledge, fail-closed lifecycle, and
+human Outcome handoff; they do not inherit source Python registries, provider
+policy values, or source wire formats.
 
 ## WI-539 — source governance checker comparison batch 36
 
