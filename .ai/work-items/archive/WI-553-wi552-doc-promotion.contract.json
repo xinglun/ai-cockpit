@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "All three Work Item documents identify WI-552 as closed with its terminal evidence paths.",
+    "All three reference-parity rows use the closed/implemented status and retain exact evidence bindings.",
+    "promote_closed_work_item.py --check-all passes with no stale projections."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1851ce7b7d413a557e1444cb56e24c981bdbeebf",
+  "createdAt": "2026-09-04T01:28:46Z",
+  "goal": "Make post-close documentation promotion pass deterministically for WI-552.",
+  "intent": "Promote WI-552's tri-language Work Item and reference-parity documentation from in-progress registration to its verified closed state without changing governance facts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source-code",
+    "object-repositories",
+    "global-agent-or-mcp-config",
+    "new-governance-decisions"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e6b04e0510a0ebfca93f3b2ee287a3c99804377f0ba6681959cc40bb1f03e80a",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-553-wi552-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/531",
+    "worktree": "/private/tmp/ai-cockpit-wi553-wi552-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-552-reference-file-comparison-batch-40-install-upgrade.md",
+    "docs/work-items/WI-552-reference-file-comparison-batch-40-install-upgrade.zh-CN.md",
+    "docs/work-items/WI-552-reference-file-comparison-batch-40-install-upgrade.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-553-wi552-doc-promotion.md",
+    "docs/work-items/WI-553-wi552-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-553-wi552-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-553-wi552-doc-promotion"
+}
