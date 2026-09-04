@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:b6df54fa70519cc52445e542f324f466cf3ea18256877bcb35025fc9279816a7",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "efdd03dc803243ca05e068a85af931e1efc94f88",
+      "name": "codex/wi-572-reference-installer-quality-batch-45",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:a52d6ba916f7404e4d87f8b7ddf4ba8739830b36f82848c1c7251696c48eaf42",
+    "operationId": "github-pr-553-cleanup-20260905",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "aaee981c929e9c55981ed15fe3393c24170f6bcf",
+      "headRevision": "efdd03dc803243ca05e068a85af931e1efc94f88",
+      "mergeCommit": "6d88e89c5dea47c4fe72a793188f71665652f906",
+      "number": 553,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/553"
+    },
+    "reason": "The reviewed PR was merged and the exact feature branch and dedicated worktree were removed after synchronization.",
+    "receiptId": "github-pr-553-finalization-cleanup-20260905",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-572-reference-installer-quality-batch-45",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/553",
+      "worktree": "/private/tmp/ai-cockpit-wi572-reference-installer-quality-batch-45"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:6ffcc2b697c6849dfab2e6d89d801377ffba45a9bc5d56add2e82bf1eb5e8a52",
+    "runtimeVersion": "0.2.74",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-05T00:05:00Z",
+    "workItemId": "WI-572-reference-installer-quality-batch-45",
+    "worktree": {
+      "branch": "codex/wi-572-reference-installer-quality-batch-45",
+      "headRevision": "efdd03dc803243ca05e068a85af931e1efc94f88",
+      "path": "/private/tmp/ai-cockpit-wi572-reference-installer-quality-batch-45",
+      "worktreeId": "WI-572-reference-installer-quality-batch-45"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "github-pr-553-finalization-cleanup-20260905"
+}

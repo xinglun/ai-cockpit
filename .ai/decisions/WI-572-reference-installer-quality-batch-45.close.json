@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2c7019f832e032afb51572d108d6ded0b635b16d4ad3cec208455411932fe953",
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-572-reference-installer-quality-batch-45.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json",
+            ".ai/decisions/WI-572-reference-installer-quality-batch-45.finalize.ce778cafe4377bd38aad5238a5fd182cee9611e7017c91e83f40f0a1116cda6f.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-close at 2026-09-05T00:10:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 20 个 current reference path 的语义判定，必要时补 Rust-native capability/regression/docs，更新 append-only inventory 与三语 parity 文档，发布前通过全部声明的质量门。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-572-reference-installer-quality-batch-45"
+  },
+  "finalReportDigest": "sha256:738c9abc5fc94c51f5cf921b1aff83f41363f17b7c0ec820fa6629eb1adfe45e",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:6515e841fc77d68513ca4aab0a978815cf584bc6677ebc0b13dac1c6ff07735c",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-572-reference-installer-quality-batch-45.finalize.ce778cafe4377bd38aad5238a5fd182cee9611e7017c91e83f40f0a1116cda6f.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-close",
+    "decidedAt": "2026-09-05T00:10:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json",
+      ".ai/decisions/WI-572-reference-installer-quality-batch-45.finalize.ce778cafe4377bd38aad5238a5fd182cee9611e7017c91e83f40f0a1116cda6f.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md repository workflow"
+    ],
+    "reason": "PR #553 已通过全部托管检查并合并；finalize-verify 已验证真实合并提交、分支与专用 worktree 清理。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-04T21:44:56Z",
+  "workItemId": "WI-572-reference-installer-quality-batch-45"
+}
