@@ -104,8 +104,8 @@
       "status": "not_applicable"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-04T06:36:57.977973+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T06:43:46Z",
   "verification": [
     {
       "check": "project-command-0",
