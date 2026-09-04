@@ -733,12 +733,12 @@ for wi572_path in \
   scripts/sync_published_release_projection.py \
   scripts/unsupported_claim_gate.py \
   scripts/verify_quick_install_release.py; do
-  test "$(jq --arg path "$wi572_path" '[.records[] | select(.referencePath == $path and .batch == "WI-572-reference-installer-quality-batch-45" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 1
+  test "$(jq --arg path "$wi572_path" '[.records[] | select(.referencePath == $path and .batch == "WI-572-reference-installer-quality-batch-45" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
 done
-test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45")] | length' "$manifest")" -eq 20
-test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and .classification == "implemented-different-by-design")] | length' "$manifest")" -eq 19
-test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and .classification == "reference-only")] | length' "$manifest")" -eq 1
-test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45")] | length' "$current_manifest")" -eq 20
+test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 19
+test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and .classification == "reference-only")] | length' "$current_manifest")" -eq 1
+test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
 grep -q "WI-572" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-572" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-572" "$root/docs/reference/reference-file-comparison.ja.md"
