@@ -23,42 +23,46 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:caa5f24ea6607f41b490aaa40a85f5cc7bb0a605dca572b3d34f53b8784766c6",
-  "requiredEvidenceClasses": ["verification", "docs", "release"],
-  "scenarioCoverage": [
-    {
-      "scenario": "release artifacts and version consistency",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "v0.2.72 metadata, lockfile, documentation, manifest, checksums, SBOM, provenance, and attestation agree with the reviewed tag",
-      "verificationPlan": "run the repository version, source archive policy, documentation, parity, and release CI checks"
-    },
-    {
-      "scenario": "public artifact adopter installation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "the downloaded public v0.2.72 binary governs this repository without source fallback and preserves forbidden-root isolation",
-      "verificationPlan": "run the post-release adopter acceptance harness from the immutable public archive and retain its receipt"
-    },
-    {
-      "scenario": "release acceptance failure and cleanup",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "failed acceptance preserves release truth, records the failure, and removes only its isolated temporary run root",
-      "verificationPlan": "exercise the release acceptance test wrapper failure path and verify its output manifest and cleanup assertion"
-    }
+  "requiredEvidenceClasses": [
+    "verification",
+    "docs",
+    "release"
   ],
   "resourceContext": {
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-561-release-v0-2-72",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/539",
     "worktree": "/private/tmp/ai-cockpit-wi561-release-v0-2-72"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "v0.2.72 metadata, lockfile, documentation, manifest, checksums, SBOM, provenance, and attestation agree with the reviewed tag",
+      "required": true,
+      "scenario": "release artifacts and version consistency",
+      "status": "unverified",
+      "verificationPlan": "run the repository version, source archive policy, documentation, parity, and release CI checks"
+    },
+    {
+      "evidence": [],
+      "expected": "the downloaded public v0.2.72 binary governs this repository without source fallback and preserves forbidden-root isolation",
+      "required": true,
+      "scenario": "public artifact adopter installation",
+      "status": "unverified",
+      "verificationPlan": "run the post-release adopter acceptance harness from the immutable public archive and retain its receipt"
+    },
+    {
+      "evidence": [],
+      "expected": "failed acceptance preserves release truth, records the failure, and removes only its isolated temporary run root",
+      "required": true,
+      "scenario": "release acceptance failure and cleanup",
+      "status": "unverified",
+      "verificationPlan": "exercise the release acceptance test wrapper failure path and verify its output manifest and cleanup assertion"
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",
