@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-554-release-v0-2-71.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f576f0d4fdc561e0958a9f7ede1984750fae46a6378cab31336ff9c4cbf5d42e",
+      "workItemId": "WI-554-release-v0-2-71"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-554-release-v0-2-71.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-554-release-v0-2-71.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-554-release-v0-2-71.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-release at 2026-09-04T02:36:17Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-554-release-v0-2-71.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-554-release-v0-2-71.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-554-release-v0-2-71.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-554-release-v0-2-71.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-554-release-v0-2-71.contract.json"
+          ],
+          "inference": false,
+          "text": "生成可审计的 v0.2.71 发布基线，确保包身份、三语文档、CI、公开资产、供应链证明和 adopter acceptance 一致。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-554-release-v0-2-71.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-554-release-v0-2-71"
+  },
+  "finalReportDigest": "sha256:6cdd8e670a8012e10636da22457591059d070e4af3b473c97de9984a0c2ef263",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:740c7644e23ec4de1cd1ad3a7e9211dff656d3f7cea1d4b2ea583261b665e112",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-554-release-v0-2-71.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-release",
+    "decidedAt": "2026-09-04T02:36:17Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-554-release-v0-2-71.verification.json"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md"
+    ],
+    "reason": "I reviewed the pinned reference comparison, Runtime evidence, hosted CI, merged PR, and cleanup receipt; close this release baseline.",
+    "resumeCondition": "No resume required; continue with public release tag and downloaded-adopter acceptance."
+  },
+  "timestamp": "2026-09-04T02:36:17Z",
+  "workItemId": "WI-554-release-v0-2-71"
+}
