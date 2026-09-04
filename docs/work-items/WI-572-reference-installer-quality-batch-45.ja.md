@@ -40,6 +40,13 @@ stack matrix は copy しません。attached object/adopter repository は同�
 Runtime capability と boundary を継承しますが、source implementation は継承
 しません。
 
+本 batch では lifecycle recovery も補強しました。human-authorized な Contract
+amendment が predecessor verification を無効化した場合、preflight はそれを改竄
+ではなく stale と分類し、fresh verification に置き換えられます。malformed または
+foreign evidence は従来どおり contradictory として fail-closed です。置換用の fresh
+verification が完了すると active retry marker の projection だけを消費し、append-only
+recovery receipt は historical evidence として保持します。
+
 ## Verification
 
 - `bash tests/conformance/reference_file_inventory_test.sh`

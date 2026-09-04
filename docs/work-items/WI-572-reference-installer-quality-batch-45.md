@@ -49,6 +49,13 @@ template-specific stack matrices are not copied. Attached object/adopter
 repositories inherit the same Runtime capabilities and boundaries, not the
 source implementation.
 
+The batch also hardens lifecycle recovery: when a human-authorized Contract
+amendment invalidates a predecessor verification receipt, preflight classifies
+that receipt as stale (not tampered) so a fresh verification can replace it;
+malformed or foreign evidence remains contradictory and fail-closed. A fresh
+replacement verification consumes only the active retry marker projection;
+the append-only recovery receipt remains historical evidence.
+
 ## Verification
 
 - `bash tests/conformance/reference_file_inventory_test.sh`

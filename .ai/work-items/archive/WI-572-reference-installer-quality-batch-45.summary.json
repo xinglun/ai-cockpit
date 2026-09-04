@@ -1,0 +1,207 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json",
+    ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.summary.json"
+  ],
+  "checkpointAt": "2026-09-04T19:39:59Z",
+  "checkpointContractDigest": "sha256:93122cc2afd935bd6638bfd09ac633b0f4eaee76ca26a9651f7c0036fe01160f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "recorded": true,
+      "recordedAt": "2026-09-04T19:39:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ef80117635217267c186beabc9a51094dcef8fe1baecb82163787ddf18571d05",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "previousContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "reason": "补充本批高风险参考源比对的两个可审计 scenario coverage 声明；仅描述现有台账与三语文档检查，保持实现与治理决定边界不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T20:06:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:cd40c8457871bb85dfa65f4306a3d22b8f92f831207a2a0c0554213095b7ab2f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "previousContractHash": "sha256:ef80117635217267c186beabc9a51094dcef8fe1baecb82163787ddf18571d05",
+      "reason": "将当前 WI 内发现的生命周期恢复缺陷纳入同一有界范围：显式 Contract amendment 后，旧 verification 仅标记 stale，允许按正常流程重新验证；不放宽篡改、foreign 或 malformed evidence 的 fail-closed 检查。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T20:18:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0286bca36188dff0806996bff3213f21e0766d8495a305b9ea117bae4dc98587",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:486657885fccfd212e5039e371bd30184082baa74291cf3e8433e74ab5345d6c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "previousContractHash": "sha256:cd40c8457871bb85dfa65f4306a3d22b8f92f831207a2a0c0554213095b7ab2f",
+      "reason": "在 finalize-plan 绑定真实 PR 后补充该审计性验收事实；保留历史 Contract/verification 链并要求新验证重新绑定当前上下文。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T20:20:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0286bca36188dff0806996bff3213f21e0766d8495a305b9ea117bae4dc98587",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:813f30b602717024fe66296045d8e689cb3efbf8be6d5dbe8f0fcf80c392482c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "previousContractHash": "sha256:486657885fccfd212e5039e371bd30184082baa74291cf3e8433e74ab5345d6c",
+      "reason": "将验证恢复回归测试纳入同一 Contract scope，消除当前批次自身测试文件触发的 scope_exceeded。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T20:30:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05c8687b47ca304dedc257b2d141837e2dc19516e2a7ad50bb8c46e14da850e8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:e35a7b47aaf96dc466b4922c771773ab53a46d40f27712fa7cd25bc18418b9b6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "previousContractHash": "sha256:813f30b602717024fe66296045d8e689cb3efbf8be6d5dbe8f0fcf80c392482c",
+      "reason": "修正 acceptance 文本中的冒号解析歧义，避免自然语言以 A 开头被误识别为编号验收项；治理语义不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T20:36:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05c8687b47ca304dedc257b2d141837e2dc19516e2a7ad50bb8c46e14da850e8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:93122cc2afd935bd6638bfd09ac633b0f4eaee76ca26a9651f7c0036fe01160f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:01ff198fae5129a4ed82123b687cc6bf546a32261dc9c927d7e759cc38baec16",
+      "previousContractHash": "sha256:e35a7b47aaf96dc466b4922c771773ab53a46d40f27712fa7cd25bc18418b9b6",
+      "reason": "将当前 WI 内发现的 retry marker 消费缺陷纳入同一生命周期恢复范围；fresh verification 后仅移除活动投影，保留 append-only recovery receipt。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T20:50:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:26bafdbb1f4349dad34c1deb7c8d3f80d93bb7535684b1d50434430d591338fb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2c7019f832e032afb51572d108d6ded0b635b16d4ad3cec208455411932fe953",
+  "createdAt": "2026-09-04T14:44:10Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:93122cc2afd935bd6638bfd09ac633b0f4eaee76ca26a9651f7c0036fe01160f",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "确认当前 Contract、边界、真实 PR 资源绑定、fresh verification 与当前快照；允许进入 finish，未知项保持可见。",
+    "recordedAt": "2026-09-05T07:45:00Z",
+    "recordedBy": "repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:2c7019f832e032afb51572d108d6ded0b635b16d4ad3cec208455411932fe953",
+    "schemaVersion": 1,
+    "workItemId": "WI-572-reference-installer-quality-batch-45"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "tests/conformance/reference_file_inventory_test.sh",
+      "tests/conformance/reference_inventory_docs_test.py",
+      "tests/docs/documentation_acceptance.sh",
+      "tests/docs/parity_status_check.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-04T21:19:24Z",
+  "preflightContractDigest": "sha256:93122cc2afd935bd6638bfd09ac633b0f4eaee76ca26a9651f7c0036fe01160f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2c7019f832e032afb51572d108d6ded0b635b16d4ad3cec208455411932fe953",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/conformance/reference_file_inventory_test.sh"
+      ],
+      "required": true,
+      "scenario": "reference_file_inventory_conformance",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/conformance/reference_inventory_docs_test.py",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh",
+        "tests/ci/governance_integrity_gate.py"
+      ],
+      "required": true,
+      "scenario": "tri_language_reference_documentation",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T21:19:32Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-572-reference-installer-quality-batch-45"
+}

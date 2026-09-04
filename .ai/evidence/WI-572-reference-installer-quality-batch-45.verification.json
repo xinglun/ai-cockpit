@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:ef80117635217267c186beabc9a51094dcef8fe1baecb82163787ddf18571d05",
-  "createdAt": "2026-09-04T20:09:52Z",
+  "contractDigest": "sha256:93122cc2afd935bd6638bfd09ac633b0f4eaee76ca26a9651f7c0036fe01160f",
+  "createdAt": "2026-09-04T21:18:35Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 160372,
-      "executionElapsedMs": 160047,
+      "elapsedMs": 212941,
+      "executionElapsedMs": 212643,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -20,15 +20,15 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:4026e381313d2d8875b7b52b942571ebd6b24bdfa1716883acdb631454f7b3ed",
+      "runtimeDigest": "sha256:6ffcc2b697c6849dfab2e6d89d801377ffba45a9bc5d56add2e82bf1eb5e8a52",
       "runtimeVersion": "0.2.74",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 160372,
-    "executionElapsedMs": 160047,
-    "filesHashed": 29,
-    "filesRead": 29,
+    "elapsedMs": 212941,
+    "executionElapsedMs": 212643,
+    "filesHashed": 17,
+    "filesRead": 17,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -37,18 +37,12 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        "docs/reference/reference-file-comparison.ja.md",
-        "docs/reference/reference-file-comparison.md",
-        "docs/reference/reference-file-comparison.zh-CN.md",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
         "docs/work-items/WI-572-reference-installer-quality-batch-45.ja.md",
         "docs/work-items/WI-572-reference-installer-quality-batch-45.md",
-        "docs/work-items/WI-572-reference-installer-quality-batch-45.zh-CN.md",
-        "tests/conformance/reference_file_inventory.json",
-        "tests/conformance/reference_file_inventory.py",
-        "tests/conformance/reference_file_inventory_test.sh"
+        "docs/work-items/WI-572-reference-installer-quality-batch-45.zh-CN.md"
       ],
       "assurance": "repository_verified",
       "baseRevision": "aaee981c929e9c55981ed15fe3393c24170f6bcf",
@@ -57,13 +51,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 160047,
+      "executionElapsedMs": 212643,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+      "repositorySnapshotDigest": "sha256:2c7019f832e032afb51572d108d6ded0b635b16d4ad3cec208455411932fe953",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -89,7 +83,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:33c97ce2862e1b618b2af3b1eb5a544603d066b6d8c0a66d85a54f8ce128fcc9",
+        "outputDigest": "sha256:dbf2883cc9df8434cfe44a197c5d1d862da3a88c6d0db651c4ffe2461c8dc9be",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -101,14 +95,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:4026e381313d2d8875b7b52b942571ebd6b24bdfa1716883acdb631454f7b3ed",
+    "runtimeDigest": "sha256:6ffcc2b697c6849dfab2e6d89d801377ffba45a9bc5d56add2e82bf1eb5e8a52",
     "runtimeVersion": "0.2.74",
     "workItemId": "WI-572-reference-installer-quality-batch-45"
   },
-  "receiptDigest": "sha256:3ae77168f7b906b0c7174ff2ec7839b6d4f391a45c02337d5e1477870a1b4413",
+  "receiptDigest": "sha256:7ec48cfa19b0f66ab1bde311637ab65bebd2d143d634dfe4b9c960ed2bf4a54a",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
-  "runtimeDigest": "sha256:4026e381313d2d8875b7b52b942571ebd6b24bdfa1716883acdb631454f7b3ed",
+  "repositorySnapshotDigest": "sha256:2c7019f832e032afb51572d108d6ded0b635b16d4ad3cec208455411932fe953",
+  "runtimeDigest": "sha256:6ffcc2b697c6849dfab2e6d89d801377ffba45a9bc5d56add2e82bf1eb5e8a52",
   "runtimeVersion": "0.2.74",
   "workItemId": "WI-572-reference-installer-quality-batch-45"
 }

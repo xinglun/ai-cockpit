@@ -39,6 +39,11 @@ human Outcome handoff 承载。不复制源 Python、Make/provider 编排、sour
 wire 或模板专属技术栈矩阵。attach 的对象/adopter 工程继承同一 Runtime
 能力与边界，而不是源实现。
 
+本批同时修正生命周期恢复：人类授权的 Contract amendment 使旧验证回执失效时，
+预检将其识别为 stale（而非篡改），允许新验证替换；格式错误或外部身份的证据仍
+保持 contradictory 并 fail-closed。新验证替换完成后只消费活动 retry 标记投影，
+append-only recovery receipt 仍作为历史证据保留。
+
 ## 验证
 
 - `bash tests/conformance/reference_file_inventory_test.sh`

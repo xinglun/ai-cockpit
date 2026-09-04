@@ -1,0 +1,23 @@
+{
+  "actor": "repository-owner",
+  "authoritySource": "explicit-user-confirmation",
+  "decidedAt": "2026-09-05T06:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:93122cc2afd935bd6638bfd09ac633b0f4eaee76ca26a9651f7c0036fe01160f",
+  "predecessorEventsDigest": "sha256:9ac3b27bacfc968f206f4092330316ad3fdf247901908ea5b57026f432c19565",
+  "predecessorOutcomeDigest": "sha256:8f6bd0ae0f763cbe7b6641456c0e1248547339eb57944c4da38ed16bf95cca39",
+  "predecessorSummaryDigest": "sha256:4edd5b7055730460d026fc9c813fd23a24243af1e235d02009e0027d5bb78b40",
+  "predecessorWorkItemId": "WI-572-reference-installer-quality-batch-45",
+  "reason": "Retry with a stable source-built Runtime executable after the Contract amendment; preserve predecessor evidence and require fresh verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the current Contract, then complete finish/archive and reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:23e9fd69e463bc4a6bf8dc21fbee8970e4d2d2befd0f3eca2e8d957fdc89dd2d",
+  "runtimeVersion": "0.2.74",
+  "schemaVersion": 1,
+  "workItemId": "WI-572-reference-installer-quality-batch-45"
+}

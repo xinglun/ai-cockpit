@@ -4,16 +4,22 @@
     "No unsubstantiated migrate-gap or equivalence claim is introduced; source-specific installer/quality/provider wire remains bounded",
     "Inventory update is append-only, strict check passes, tri-language docs and parity registry are synchronized",
     "If a portable omission is found, it is fixed in this Work Item with a Rust-native regression; otherwise the reason is explicit",
+    "Explicit Contract amendment with a stale predecessor verification remains recoverable: preflight does not treat that expected predecessor as tampering, and a fresh verification can replace it without weakening fail-closed checks",
+    "The reviewed PR resource context is bound before terminal lifecycle steps and remains auditable after a fresh verification",
+    "Fresh verification consumes the active retry recovery marker while preserving append-only recovery history",
     "Published release and installed binary acceptance can be completed after merge"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-04T21:19:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0a838dc94bb9d6402476b184b8af37921bff138ea8f15eed36b085b883a70349",
   "evidenceRefs": [
     ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,41 +27,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:2937e1dbc239ba676bd13ab326b62e9390916e29c6065028a1664c5a46f5f696",
+      "repositorySnapshotDigest": "sha256:2c7019f832e032afb51572d108d6ded0b635b16d4ad3cec208455411932fe953",
       "workItemId": "WI-572-reference-installer-quality-batch-45"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-572-reference-installer-quality-batch-45.summary.json"
+            ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-572-reference-installer-quality-batch-45.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-572-reference-installer-quality-batch-45.summary.json"
+            ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-572-reference-installer-quality-batch-45.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-572-reference-installer-quality-batch-45.summary.json"
         }
       ],
       "evidence": [
@@ -74,15 +77,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -93,7 +88,7 @@
             ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -103,15 +98,23 @@
             ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-572-reference-installer-quality-batch-45.contract.json"
+            ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json"
           ],
           "inference": false,
           "text": "完成 20 个 current reference path 的语义判定，必要时补 Rust-native capability/regression/docs，更新 append-only inventory 与三语 parity 文档，发布前通过全部声明的质量门。"
@@ -120,23 +123,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-572-reference-installer-quality-batch-45.contract.json"
+            ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-572-reference-installer-quality-batch-45"
   },
+  "taskReportDigest": "sha256:2c0d5dd9b76a147b4f31caacac0e77f9138b29c213883641ad3e0af8b01c2a28",
+  "taskReportMarkdownDigest": "sha256:6ed8d53d7faf0b6fe1e8ff0df5cf6db8a4af7b363a4f37de32b7d90b70362804",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-572-reference-installer-quality-batch-45"
 }

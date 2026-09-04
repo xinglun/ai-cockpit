@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-04T21:19:36Z",
+  "files": {
+    "contractDigest": "sha256:a52d6ba916f7404e4d87f8b7ddf4ba8739830b36f82848c1c7251696c48eaf42",
+    "contractPath": ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json",
+    "eventsDigest": "sha256:ef849379ddfc3e58ebca7a68605db21e82479dab5f11140b72c10a317bbdeff8",
+    "eventsPath": ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.events.jsonl",
+    "outcomeDigest": "sha256:db4e12b86cc4a2436e760e131ede165b0bd03b214f0d1ca9997ce856de6763c5",
+    "outcomePath": ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.outcome.json",
+    "summaryDigest": "sha256:9093d02b8beb23179c8c3f64a493d6059120903d65a687f896b89731e7b2cc0f",
+    "summaryPath": ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.summary.json",
+    "taskReportDigest": "sha256:2c0d5dd9b76a147b4f31caacac0e77f9138b29c213883641ad3e0af8b01c2a28",
+    "taskReportMarkdownDigest": "sha256:6ed8d53d7faf0b6fe1e8ff0df5cf6db8a4af7b363a4f37de32b7d90b70362804",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-572-reference-installer-quality-batch-45"
+}
