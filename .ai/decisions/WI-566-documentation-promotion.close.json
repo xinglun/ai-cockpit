@@ -1,0 +1,132 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-566-documentation-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8d92adef3c792e81fc1a383f306caee5f0158667af7577b7385b59ac134b0ddf",
+      "workItemId": "WI-566-documentation-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-566-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-566-documentation-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-566-documentation-promotion.verification.json",
+            ".ai/decisions/WI-566-documentation-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-release at 2026-09-04T10:55:59Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-566-documentation-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-566-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-566-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-566-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-566-documentation-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "同步已关闭 Work Item 的文档状态与终态证据引用，恢复发布前文档门禁。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-566-documentation-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-566-documentation-promotion"
+  },
+  "finalReportDigest": "sha256:830a18e669c21e2c2319e629c86d2ffa6a6b23b4eb84ae13af6464b1d36c2e1d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5e6539cd7ca6e0dac2d0b0ce8bdcfcb33e8e1f4b83385f96cc98f559e2aca127",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-566-documentation-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-release",
+    "decidedAt": "2026-09-04T10:55:59Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-566-documentation-promotion.verification.json",
+      ".ai/decisions/WI-566-documentation-promotion.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:canonical-delivery-order",
+      ".ai/README.md:documentation-promotion"
+    ],
+    "reason": "PR #547 已通过全部 hosted checks 并合并；三语文档、parity、晋级检查及精确分支与 worktree 清理证据均已核对。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-04T10:56:06Z",
+  "workItemId": "WI-566-documentation-promotion"
+}
