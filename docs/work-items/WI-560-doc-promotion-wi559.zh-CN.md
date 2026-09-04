@@ -6,10 +6,14 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-560-doc-promotion-wi559
 lastVerifiedBy: WI-560-doc-promotion-wi559
+terminalArchive: .ai/work-items/archive/WI-560-doc-promotion-wi559.contract.json
+terminalVerification: .ai/evidence/WI-560-doc-promotion-wi559.verification.json
+terminalFinalization: .ai/decisions/WI-560-doc-promotion-wi559.finalize.json
+terminalDecision: .ai/decisions/WI-560-doc-promotion-wi559.close.json
 ---
 
 [English](WI-560-doc-promotion-wi559.md) · [日本語](WI-560-doc-promotion-wi559.ja.md)
