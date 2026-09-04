@@ -103,6 +103,8 @@ ai-cockpit profile confirm --repo /path/to/repository \
 `agent-interface.json` は repository-local の discovery fact です。stable repository identity と Runtime capability
 だけを記録し、Agent prompt、provider install、authorization、global MCP setting にはなりません。
 
+`capabilities` 配列は、この Runtime が公開する command surface の完全で安定した registry です。これは「発見できる interface」を示すだけで、repository が検証済み・認可済み、または evidence を持つことを意味しません。attach/inspect、compatibility と migration plan/apply、profile confirm/propose、preflight/gate/verify、Work Item scaffold/lifecycle/Outcome/recovery/finalization/parallel slot、evidence/audit、capability lookup、knowledge、Agent adapter、MCP、diagnostics を含みます。Agent は最初に manifest を読み、その後 `ai-cockpit --help`（対象 subcommand の `--help` を含む）または MCP `initialize` → `tools/list` で正確な引数と schema を確認してください。列挙された capability は明示的な `--repo`、preflight、人による review、evidence 要件、lifecycle gate を迂回しません。
+
 ### Runtime upgrade と repository migration
 
 Runtime upgrade と repository migration は別の操作です。互換性のある Runtime upgrade は `.ai/` を

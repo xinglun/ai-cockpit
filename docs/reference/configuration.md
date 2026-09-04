@@ -40,6 +40,15 @@ and `adapterState: "unconfigured"`. It is a discovery fact, not provider
 instructions, an authorization grant, or a global MCP configuration. Provider
 installation is explicit and separate from `attach`.
 
+The `capabilities` array is the complete stable command-surface registry. It
+includes setup, inspection, compatibility/migration, profile, preflight/gate,
+verification, Work Item lifecycle and Outcome/recovery/finalization/parallel
+operations, evidence/audit, knowledge, capability lookup, Agent adapter, MCP,
+and diagnostics. Presence means discoverable only; readiness and authorization
+still come from repository-bound command results. Agents should use
+`ai-cockpit --help`/subcommand help or MCP `initialize` → `tools/list` for exact
+arguments and schemas.
+
 ## `.ai/adapters/<provider>.json`
 
 `agent install` writes a strict ownership record containing the provider,

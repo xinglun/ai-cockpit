@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-550-reference-file-comparison-batch-39
+lastVerifiedBy: WI-552-reference-file-comparison-batch-40
 capabilityClaims:
   - reference_parity
 ---
@@ -495,6 +495,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-549——v0.2.70 发布与公开制品验收 | 已实现 | [Work Item](../work-items/WI-549-release-v0-2-70.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-549-release-v0-2-70.contract.json`; verification `.ai/evidence/WI-549-release-v0-2-70.verification.json`; finalization `.ai/decisions/WI-549-release-v0-2-70.finalize.json`; close `.ai/decisions/WI-549-release-v0-2-70.close.json`. |
 | WI-550——生命周期与 Outcome 脚本逐文件比较批次 39 | 已实现 | [Work Item](../work-items/WI-550-reference-file-comparison-batch-39.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-550-reference-file-comparison-batch-39.contract.json`; verification `.ai/evidence/WI-550-reference-file-comparison-batch-39.verification.json`; finalization `.ai/decisions/WI-550-reference-file-comparison-batch-39.finalize.json`; close `.ai/decisions/WI-550-reference-file-comparison-batch-39.close.json`. |
 | WI-551——WI-550 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-551-wi550-doc-promotion.zh-CN.md)；archive `.ai/work-items/archive/WI-551-wi550-doc-promotion.contract.json`；verification `.ai/evidence/WI-551-wi550-doc-promotion.verification.json`；finalization `.ai/decisions/WI-551-wi550-doc-promotion.finalize.json`；close `.ai/decisions/WI-551-wi550-doc-promotion.close.json`；依据 WI-550 已关闭的终态证据晋级三语页面与 parity 行。 |
+| WI-552——安装与升级脚本逐文件比较批次 40 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-552-reference-file-comparison-batch-40-install-upgrade.zh-CN.md)；终态 receipts：`.ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.contract.json`、`.ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json`、`.ai/decisions/WI-552-reference-file-comparison-batch-40-install-upgrade.finalize.json`、`.ai/decisions/WI-552-reference-file-comparison-batch-40-install-upgrade.close.json`；绑定 17 个固定安装/升级路径与完整 discovery capability registry。 |
 | WI-544——WI-543 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-544-wi543-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`；verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`；finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`；close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545——v0.2.68 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-545-release-v0-2-68.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546——WI-545 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-546-wi545-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |

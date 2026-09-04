@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-550-reference-file-comparison-batch-39
+lastVerifiedBy: WI-552-reference-file-comparison-batch-40
 capabilityClaims:
   - reference_parity
 ---
@@ -20,7 +20,7 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `9d5c0791c5d4fe55337bcd18251aa1de1823e602`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `98cb678ac81c611570546be1fdf9e9181836ba2e`。
 - 比較に使う published Runtime: `ai-cockpit 0.2.70`、binary SHA256 `sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
@@ -318,7 +318,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=345 implemented-equivalent=1 not-applicable=6 reference-only=93 deferred-next-batch=324 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=360 implemented-equivalent=1 not-applicable=6 reference-only=95 deferred-next-batch=307 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -330,11 +330,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 345 |
+| `implemented-different-by-design` | 360 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 93 |
-| `deferred-next-batch` | 324 |
+| `reference-only` | 95 |
+| `deferred-next-batch` | 307 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1453,3 +1453,29 @@ host/Agent conversation UX は external responsibility です。現在の 4,450-
 これは semantic/documentation parity であり、source installer、Python dependency、interactive wizard、JSON-wire compatibility では
 ありません。各 object/adopter repository は shared Runtime を外部に install し、明示的な repository-bound attach、Agent、Contract、
 evidence、knowledge、Outcome の境界だけを継承します。
+
+## WI-552 — installation と upgrade script の逐次比較 batch 40
+
+WI-552 は pinned reference commit の維持対象 installer/upgrade path 17 file を一つずつ読みました。各 source responsibility を ledger に記録しましたが、Python module、installer registry、source JSON wire は Rust Runtime に copy しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_install_facts.py` | implemented-different-by-design | `attach`、`inspect`、`compatibility`、`doctor` と release/adopter manifest が fact を bind し、source `.ai/install` は copy しません。 |
+| `scripts/ai_install_plan.py` | implemented-different-by-design | 明示的な attach/migration/adapter plan が read-only boundary を提供し、source wizard wire は追加しません。 |
+| `scripts/ai_install_status.py` | implemented-different-by-design | `status`、`compatibility`、`migrate plan`、`doctor` が status を提供し、source status file は生成しません。 |
+| `scripts/ai_install_wizard.py` | implemented-different-by-design | 明示的 CLI confirmation と localized Outcome が TTY/provider orchestration に代わります。 |
+| `scripts/ai_installer_bootstrap.py` | implemented-different-by-design | `attach` と Work Item scaffold は minimum repository-owned skeleton だけを作ります。 |
+| `scripts/ai_installer_catalog.json` | reference-only | discovery は strict manifest と CLI/MCP schema を使い、source provider catalog は copy しません。 |
+| `scripts/ai_installer_detection.py` | implemented-different-by-design | `inspect`、`observe`、`status`、`doctor`、profile、compatibility が fact を示し、source mode/provider を推論しません。 |
+| `scripts/ai_installer_evidence.py` | implemented-different-by-design | release/adopter acceptance と adapter ownership が action、root、manifest、digest を bind します。 |
+| `scripts/ai_installer_managed_regions.py` | implemented-different-by-design | typed Agent adapter ownership と regular-path check が source heuristic に代わります。 |
+| `scripts/ai_installer_ownership.py` | implemented-different-by-design | repository-local adapter ownership と strict Protocol/profile record は明示的で非認可です。 |
+| `scripts/ai_installer_repository.py` | implemented-different-by-design | shared Git observer と明示的 `--repo` が dirty、ambiguous、foreign state を fail-closed にします。 |
+| `scripts/ai_installer_transaction.py` | implemented-different-by-design | atomic write、lock、path validation、explicit migration/adapter confirmation が source transaction に代わります。 |
+| `scripts/ai_installer_upgrade.py` | implemented-different-by-design | immutable Runtime artifact と typed schema compatibility/migration が upgrade boundary を所有します。 |
+| `scripts/ai_upgrade_apply.py` | implemented-different-by-design | `migrate apply --approved` は adjacent digest-bound migration のみ、Runtime replacement は external です。 |
+| `scripts/ai_upgrade_conflict_report.py` | implemented-different-by-design | compatibility plan と doctor safe action が conflict を示し、auto-resolution はしません。 |
+| `scripts/ai_upgrade_proposal.py` | implemented-different-by-design | migration plan は historical bytes を保持し、explicit approval を要求します。 |
+| `scripts/install_ai_cockpit.py` | reference-only | Rust は immutable release artifact から install し、Python launcher は Runtime fallback ではありません。 |
+
+この batch に portable omission はありません。各 object/adopter repository は shared Runtime、explicit repository binding、isolated protocol/evidence/knowledge、strict migration boundary、human Outcome handoff を継承しますが、source installer state、provider policy、Python implementation は継承しません。

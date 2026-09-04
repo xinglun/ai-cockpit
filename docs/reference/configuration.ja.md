@@ -36,6 +36,8 @@ runtime は両方を validate し identity mismatch を拒否します。runtime
 これは discovery fact であり、provider instruction、authorization、global MCP configuration ではありません。Provider install は
 `attach` とは別の明示操作です。
 
+`capabilities` 配列は完全で安定した command-surface registry です。setup、inspect、compatibility/migration、profile、preflight/gate、verify、Work Item lifecycle と Outcome/recovery/finalization/parallel、evidence/audit、knowledge、capability lookup、Agent adapter、MCP、diagnostics を含みます。存在は discoverable であることだけを示し、repository の ready や authorization を意味しません。Agent は `ai-cockpit --help`/subcommand help、または MCP `initialize` → `tools/list` で正確な引数と schema を確認してください。
+
 ## `.ai/adapters/<provider>.json`
 
 `agent install` は provider、repository ID、repository-relative target、adapter version、managed section の digest を含む strict ownership record を書き込みます。

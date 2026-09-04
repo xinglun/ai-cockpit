@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-550-reference-file-comparison-batch-39
+lastVerifiedBy: WI-552-reference-file-comparison-batch-40
 capabilityClaims:
   - reference_parity
 ---
@@ -20,7 +20,7 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `9d5c0791c5d4fe55337bcd18251aa1de1823e602`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `98cb678ac81c611570546be1fdf9e9181836ba2e`。
 - 比较时使用已发布的 Runtime：`ai-cockpit 0.2.70`，binary SHA256 为 `sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
@@ -302,7 +302,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=345 implemented-equivalent=1 not-applicable=6 reference-only=93 deferred-next-batch=324 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=360 implemented-equivalent=1 not-applicable=6 reference-only=95 deferred-next-batch=307 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -313,11 +313,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 345 |
+| `implemented-different-by-design` | 360 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 93 |
-| `deferred-next-batch` | 324 |
+| `reference-only` | 95 |
+| `deferred-next-batch` | 307 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1404,3 +1404,29 @@ WI-510 在固定的本地参考提交
 
 这是语义/文档对齐，不是源安装器、Python 依赖、交互向导或 JSON wire 兼容。每个对象/采用方工程仍在外部安装共享
 Runtime，并只继承显式 repository-bound 的 attach、Agent、Contract、evidence、knowledge 和 Outcome 边界。
+
+## WI-552：安装与升级脚本逐文件比较批次 40
+
+WI-552 在固定参考提交上逐个阅读 17 个维护中的安装/升级路径。每项源责任都在下表中记录，但不把 Python 模块、安装器 registry 或源 JSON wire 复制到 Rust。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `scripts/ai_install_facts.py` | implemented-different-by-design | `attach`、`inspect`、`compatibility`、`doctor` 与 release/adopter manifest 绑定事实；不复制 `.ai/install`。 |
+| `scripts/ai_install_plan.py` | implemented-different-by-design | 显式 attach、migration、adapter plan 提供只读边界，不增加源 wizard wire。 |
+| `scripts/ai_install_status.py` | implemented-different-by-design | `status`、`compatibility`、`migrate plan`、`doctor` 提供状态，不生成源 status 文件。 |
+| `scripts/ai_install_wizard.py` | implemented-different-by-design | 显式 CLI 确认和本地化 Outcome 替代隐式 TTY/provider 编排。 |
+| `scripts/ai_installer_bootstrap.py` | implemented-different-by-design | `attach` 与 Work Item 脚手架只生成最小 repository-owned skeleton。 |
+| `scripts/ai_installer_catalog.json` | reference-only | 使用严格 manifest 与 CLI/MCP schema；源 provider catalog 会过度宣称支持范围。 |
+| `scripts/ai_installer_detection.py` | implemented-different-by-design | `inspect`、`observe`、`status`、`doctor`、profile、compatibility 暴露事实，不推断 source mode/provider。 |
+| `scripts/ai_installer_evidence.py` | implemented-different-by-design | release/adopter acceptance 与 adapter ownership 绑定 action、root、manifest、digest。 |
+| `scripts/ai_installer_managed_regions.py` | implemented-different-by-design | typed Agent adapter ownership 与 regular-path 检查替代源启发式。 |
+| `scripts/ai_installer_ownership.py` | implemented-different-by-design | repository-local adapter ownership 与 strict Protocol/profile record 显式且不授予治理权。 |
+| `scripts/ai_installer_repository.py` | implemented-different-by-design | shared Git observer 与显式 `--repo` 在 dirty、歧义或 foreign 状态时 fail-closed。 |
+| `scripts/ai_installer_transaction.py` | implemented-different-by-design | atomic write、lock、路径校验与显式迁移/adapter 确认替代源 transaction。 |
+| `scripts/ai_installer_upgrade.py` | implemented-different-by-design | immutable Runtime artifact 与 typed schema compatibility/migration 负责升级边界。 |
+| `scripts/ai_upgrade_apply.py` | implemented-different-by-design | `migrate apply --approved` 仅执行相邻 digest-bound migration；Runtime 替换在外部。 |
+| `scripts/ai_upgrade_conflict_report.py` | implemented-different-by-design | compatibility plan 与 doctor safe actions 暴露冲突，不自动解决。 |
+| `scripts/ai_upgrade_proposal.py` | implemented-different-by-design | migration plan 保留历史 bytes 并要求显式批准。 |
+| `scripts/install_ai_cockpit.py` | reference-only | Rust 只从 immutable release artifact 安装；Python launcher 不是 Runtime fallback。 |
+
+本批未发现可移植遗漏。对象工程继承同一 shared Runtime、显式 repository binding、隔离 protocol/evidence/knowledge、严格 migration 边界和 human Outcome handoff；不会继承源 installer state、provider policy 或 Python 实现。

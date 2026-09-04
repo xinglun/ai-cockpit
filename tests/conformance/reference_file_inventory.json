@@ -36370,35 +36370,54 @@
     },
     {
       "referencePath": "scripts/ai_install_facts.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/configuration.md",
+        "docs/release/distribution.md"
+      ],
+      "reason": "The source records installer facts, ownership, release identity, and rollback baselines inside the project. Rust keeps the shared Runtime installation external and binds repository facts through attach, inspect, compatibility, doctor, and immutable release/adopter evidence; source .ai/install bytes are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_install_plan.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source read-only wizard plan is represented by explicit Rust command boundaries and repository-bound migration/adapter plans. The target does not add an interactive installer wizard or provider-specific plan wire format.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_install_status.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Source installer status validates local release facts and lifecycle state. Rust exposes repository/runtime status, compatibility, migration, and doctor projections without manufacturing a source current-status file.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_install_wizard.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/src/main.rs",
+        "docs/getting-started/installation.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source TTY wizard's confirmation and localization boundary is preserved as explicit, reviewable CLI commands; interactive host conversation remains an Agent adapter concern and no implicit writes, commits, or provider configuration are introduced.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_installer_adopter_capability_manifest.py",
@@ -36409,70 +36428,113 @@
     },
     {
       "referencePath": "scripts/ai_installer_bootstrap.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/capabilities.md"
+      ],
+      "reason": "Source bootstrap creates adoption records. Rust attach and Work Item scaffolding create only the minimum repository-owned protocol skeleton and leave governance decisions to humans.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_installer_catalog.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/configuration.md",
+        "docs/release/distribution.md"
+      ],
+      "reason": "The source catalog is a provider/script inventory for its installer. Runtime command discovery is defined by the strict agent-interface manifest and CLI/MCP schemas; copying the source catalog would overclaim supported providers and commands.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/ai_installer_detection.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Source detection gathers Git, tool, and adoption facts. Rust uses explicit repository observation, inspect, status, doctor, profile, and compatibility facts without inferring a source installer mode or silently choosing a provider.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_installer_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        "tests/release/adopter_acceptance.sh",
+        "docs/release/adopter-acceptance.md"
+      ],
+      "reason": "Source summarizes installer actions and managed roots. Rust records immutable release/adopter acceptance, manifests, digests, and repository-local adapter ownership; it does not copy source action-summary JSON.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_installer_managed_regions.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/configuration.md"
+      ],
+      "reason": "Source checks managed project regions. Rust makes Agent adapter ownership explicit, verifies marked sections and regular paths, and refuses ambiguous or modified regions instead of applying source installer heuristics.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_installer_ownership.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "docs/reference/configuration.md"
+      ],
+      "reason": "Source classifies project-owned installer files. Rust uses typed repository-local adapter ownership and strict protocol/profile records; ownership never grants governance authority or global configuration access.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_installer_repository.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/architecture/runtime-topology.md"
+      ],
+      "reason": "Source reads Git and repository hygiene facts with explicit roots. Rust request-scopes every operation to --repo, uses the shared Git observer, and fail-closes on dirty, ambiguous, or identity-mismatched repository state.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_installer_transaction.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-agent/src/lib.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Source orders installer writes, validates paths, and takes an installer lock. Rust uses atomic repository-local writes, strict path/ownership validation, explicit adapter/migration confirmation, and no source installer transaction protocol.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_installer_upgrade.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "docs/release/distribution.md"
+      ],
+      "reason": "Source parses installer release versions. Rust binds immutable public Runtime artifacts and typed repository schema compatibility/migration; Runtime upgrade remains external to each attached repository.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_intent_policy.py",
@@ -36892,24 +36954,39 @@
     },
     {
       "referencePath": "scripts/ai_upgrade_apply.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Source applies a confirmed upgrade with drift checks and rollback. Rust separates external Runtime replacement from explicit migrate apply, preserves historical evidence/knowledge, and writes a digest-bound migration receipt only for reviewed adjacent schema changes.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_upgrade_conflict_report.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Source emits a stable installer conflict report. Rust exposes compatibility/migration plans and doctor safe actions with fail-closed conflicts; it does not adopt the source report wire format or auto-resolve ownership.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_upgrade_proposal.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Source compares template files and proposes safe/conflicting upgrade changes. Rust's migration plan is schema- and digest-bound, keeps repository-owned history immutable, and requires explicit approval; source template file categories are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_validate_java_runtime.py",
@@ -37222,10 +37299,14 @@
     },
     {
       "referencePath": "scripts/install_ai_cockpit.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-552-reference-file-comparison-batch-40",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/release/distribution.md",
+        "docs/getting-started/installation.md"
+      ],
+      "reason": "The source Python launcher is an installer entrypoint. This Rust repository ships a binary through immutable release artifacts and documents package/installer boundaries; no Python launcher or source fallback is part of the Runtime.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/installed_lifecycle_e2e.py",

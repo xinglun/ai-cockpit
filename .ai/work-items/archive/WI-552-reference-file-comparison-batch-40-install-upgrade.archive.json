@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-04T01:20:21Z",
+  "files": {
+    "contractDigest": "sha256:12f39571cd3ce73fe63a569a3e1ccad09bf20a6be527ae6304aa9a6bad091f2e",
+    "contractPath": ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.contract.json",
+    "eventsDigest": "sha256:000ae68b3b5577bfa281a7f61a043644c9e84dae647daa3d5c77ff3edfb05edc",
+    "eventsPath": ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.events.jsonl",
+    "outcomeDigest": "sha256:305d8dfdf8b7c148e05a307f95230a2f29a21a01e2ded8b01d98d5ac67c06085",
+    "outcomePath": ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.outcome.json",
+    "summaryDigest": "sha256:2e6d507853746599c9177ac2b234074c3dbf50005edd57fb4bc45f65fff0b04e",
+    "summaryPath": ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.summary.json",
+    "taskReportDigest": "sha256:b01c812b9af4520339d3e240e7886e8d043f2fdf70849ad0e932a52e5f78e41a",
+    "taskReportMarkdownDigest": "sha256:a0ab6c2c2d8f8240a080a9853b123f40b3930dd8378a69005e011e7afee46250",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-552-reference-file-comparison-batch-40-install-upgrade"
+}
