@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-565-release-v0-2-73
+lastVerifiedBy: WI-568-reference-file-comparison-batch-44
 capabilityClaims:
   - reference_parity
 ---
@@ -511,6 +511,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-565——v0.2.73 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-565-release-v0-2-73.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-565-release-v0-2-73.contract.json`; verification `.ai/evidence/WI-565-release-v0-2-73.verification.json`; finalization `.ai/decisions/WI-565-release-v0-2-73.finalize.json`; close `.ai/decisions/WI-565-release-v0-2-73.close.json`. |
 | WI-566——WI-565 文档投影晋级 | 已实现 | [Work Item](../work-items/WI-566-documentation-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-566-documentation-promotion.contract.json`; verification `.ai/evidence/WI-566-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-566-documentation-promotion.finalize.json`; close `.ai/decisions/WI-566-documentation-promotion.close.json`. |
 | WI-567——WI-566 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-567-wi566-doc-promotion.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-567-wi566-doc-promotion.contract.json`; verification `.ai/evidence/WI-567-wi566-doc-promotion.verification.json`; finalization `.ai/decisions/WI-567-wi566-doc-promotion.finalize.json`; close `.ai/decisions/WI-567-wi566-doc-promotion.close.json`. |
+| WI-568——参考源逐文件比对批次 44 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-568-reference-file-comparison-batch-44.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-568-reference-file-comparison-batch-44.contract.json`; verification `.ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json`; finalization `.ai/decisions/WI-568-reference-file-comparison-batch-44.finalize.json`; close `.ai/decisions/WI-568-reference-file-comparison-batch-44.close.json`. |
 | WI-544——WI-543 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-544-wi543-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`；verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`；finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`；close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545——v0.2.68 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-545-release-v0-2-68.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546——WI-545 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-546-wi545-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -566,4 +567,8 @@ WI-559 在[逐文件台账](reference-file-comparison.zh-CN.md)登记 20 个源�
 
 ## WI-563：向导、智能、引导、质量与发布检查器对齐
 
-WI-563 在[逐文件台账](reference-file-comparison.zh-CN.md)登记 20 个维护中源脚本：14 个为 `implemented-different-by-design`，5 个为 `reference-only`，1 个为 `not-applicable`。Rust 目标通过 typed repository/Runtime service、显式 CLI/MCP presentation、CI/文档门和 immutable release/adopter acceptance 承载可移植责任。TTY 向导控制、Python/Bandit coverage 工具以及源 deprecated-asset registry 保持 presentation、源侧或 provider 专属边界。对象工程继承 shared Runtime 与隔离 repository context，不继承源 Python 模块或 wire 格式。台账保持追加式：669 个 retired 记录保留，`migrate-gap` 为零，当前仍有 254 个路径排入后续比对。
+WI-563 在[逐文件台账](reference-file-comparison.zh-CN.md)登记 20 个维护中源脚本：14 个为 `implemented-different-by-design`，5 个为 `reference-only`，1 个为 `not-applicable`。Rust 目标通过 typed repository/Runtime service、显式 CLI/MCP presentation、CI/文档门和 immutable release/adopter acceptance 承载可移植责任。TTY 向导控制、Python/Bandit coverage 工具以及源 deprecated-asset registry 保持 presentation、源侧或 provider 专属边界。对象工程继承 shared Runtime 与隔离 repository context，不继承源 Python 模块或 wire 格式。台账保持追加式：669 个 retired 记录保留，`migrate-gap` 为零，当前仍有 234 个路径排入后续比对。
+
+## WI-568：发布、治理、adopter 与安装器 parity
+
+WI-568 在[逐文件台账](reference-file-comparison.zh-CN.md)增加了发布 preflight/state、供应链与系统不变量、trust-layer 文档、比例化质量路由、adopter cycle 和 installer seam 的 20 项比较。17 项为 `implemented-different-by-design`，3 项为 `reference-only`；后者是源模板专属 fixture/adoption driver，不是可移植 Runtime 控制遗漏。Rust 使用 typed release manifest、SBOM/checksum、adopter evidence、repository-bound policy planner 与显式 Agent attach/doctor/ownership。对象工程从 shared Runtime 继承这些边界，不继承源 Python 模块、技术栈矩阵、provider policy 值或 source wire。完整路径和有界决定见[逐文件台账](reference-file-comparison.zh-CN.md#wi-568发布治理adopter-与安装器脚本比对批次-44)。

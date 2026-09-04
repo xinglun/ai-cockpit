@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-563-reference-file-comparison-batch-43
+lastVerifiedBy: WI-568-reference-file-comparison-batch-44
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `89c9e63b1733ad77a58d1544105bde8ba24cf877`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.72`、binary SHA256 `sha256:405247cc11f30664ab6337fd36f47a96a9d6c4907f3821077987d7fc365a85dd`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `20e420cd82f5f900cc4c46ca431dbe7170fcb541`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.73`、binary SHA256 `sha256:6100ae42a456489b1f08179bf399ee6a74e6720df9d202192fcd44e25afaef7d`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -318,7 +318,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=403 implemented-equivalent=1 not-applicable=7 reference-only=104 deferred-next-batch=254 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=420 implemented-equivalent=1 not-applicable=7 reference-only=107 deferred-next-batch=234 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -330,11 +330,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 403 |
+| `implemented-different-by-design` | 420 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 104 |
-| `deferred-next-batch` | 254 |
+| `reference-only` | 107 |
+| `deferred-next-batch` | 234 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1558,4 +1558,33 @@ WI-563 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 | `scripts/check_real_absurd_injection_docs.py` | implemented-different-by-design | adversarial docs と Rust trust regression が明示的な refusal evidence を保持する。source assessment helper/fixed case registry は Core に入れない。 |
 | `scripts/check_release_distribution.py` | implemented-different-by-design | immutable tag/archive、checksum/SBOM/provenance、installer behavior、post-release adopter acceptance を Rust workflow/harness が担当する。 |
 
-この batch に portable implementation omission はない。5 件の `reference-only` は presentation、Python coverage、source registry 固有で、Bandit checker 1 件は not-applicable である。残り 14 責務は Rust Runtime、repository、CI、documentation、release boundary で表現される。attached object/adopter repository は同じ shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、trust/lifecycle、human Outcome boundary を継承するが、source Python module、provider policy value、source wire format は継承しない。現在の 4,450 path set は 3,681 `generated-history`、403 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、104 `reference-only`、254 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only である。
+この batch に portable implementation omission はない。5 件の `reference-only` は presentation、Python coverage、source registry 固有で、Bandit checker 1 件は not-applicable である。残り 14 責務は Rust Runtime、repository、CI、documentation、release boundary で表現される。attached object/adopter repository は同じ shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、trust/lifecycle、human Outcome boundary を継承するが、source Python module、provider policy value、source wire format は継承しない。現在の 4,450 path set は 3,681 `generated-history`、420 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、107 `reference-only`、234 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only である。
+
+## WI-568 — release、governance、adopter、installer script 比較 batch 44
+
+WI-568 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の保守対象 20 path を一つずつ再読しました。17 件は `implemented-different-by-design`、3 件は `reference-only` です。source Python の release、installer、fixture、report orchestration は Rust Runtime に copy しません。
+
+| 固定 reference path | 分類 | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/check_release_preflight.py` | implemented-different-by-design | typed release manifest、lifecycle/repository gate、SHA256/SBOM/provenance 検証、reviewed release workflow。 |
+| `scripts/check_release_state_consistency.py` | implemented-different-by-design | strict `ReleaseManifest`/handoff、version/tag/commit と metadata binding、checksum inventory、workflow consistency。 |
+| `scripts/check_supply_chain.py` | implemented-different-by-design | Rust SBOM/archive/manifest validation と immutable public/staged adopter acceptance。署名/attestation は delegated。 |
+| `scripts/check_system_invariants.py` | implemented-different-by-design | governance-integrity、documentation、lifecycle、release、dependency lock、SBOM、workflow gate を ownership boundary ごとに実施。 |
+| `scripts/check_trust_layer_docs.py` | implemented-different-by-design | tri-language documentation/parity check と bounded trust-layer architecture/security page。 |
+| `scripts/cross_stack_long_cycle.py` | reference-only | source 固有の fixture aggregation。target は published artifact adopter を独立検証し、7-stack matrix を claim しない。 |
+| `scripts/determine_governance_profile.py` | implemented-different-by-design | Rust dynamic policy planner と documented Python CI shadow route。Verification Tier と Evidence Assurance は orthogonal。 |
+| `scripts/determine_quality_scope.py` | implemented-different-by-design | Rust verification planner/CI route が Contract-bound reason 付きで比例的な quality scope を選ぶ。 |
+| `scripts/end_to_end_adoption_validation.py` | reference-only | source の 7 project in-process Installer matrix は template 固有。target は portable lifecycle/isolation の immutable release/adopter のみを検証。 |
+| `scripts/ensure_locked_dev_environment.py` | implemented-different-by-design | `Cargo.lock`、pinned Rust toolchain、locked Cargo command、pinned CI action が Python/Ruff provisioning を置換。 |
+| `scripts/external_adopter_long_cycle.py` | implemented-different-by-design | immutable staged/public acceptance が attach、lifecycle、upgrade、rollback、isolation、cleanup、Runtime identity を扱う。 |
+| `scripts/finalize_release_freeze.py` | implemented-different-by-design | typed release freeze/manifest と reviewed workflow が clean/synchronized source/tag/commit、archive digest、lifecycle を bind。 |
+| `scripts/fixture_harness.py` | reference-only | source phase driver は Runtime API ではない。target conformance fixture/release acceptance は portable negative/artifact behavior を扱う。 |
+| `scripts/installed_lifecycle_e2e.py` | implemented-different-by-design | published-artifact acceptance が real execution、simulation、not-run を区別し runtime/digest/cleanup evidence を bind。 |
+| `scripts/installer/__init__.py` | implemented-different-by-design | Rust agent/repository attach seam が shared Runtime installation boundary であり、Python package compatibility surface ではない。 |
+| `scripts/installer/application.py` | implemented-different-by-design | typed Rust agent plan/doctor、repository attach/inspect、CLI projection が read-only installation facts を提供。 |
+| `scripts/installer/cli.py` | implemented-different-by-design | 明示的な Rust `attach`、`agent install`、`doctor`、`repair`、`detach` command。adapter UX は external。 |
+| `scripts/installer/confirmation.py` | implemented-different-by-design | identity-bound preflight human decision と adapter ownership check。generic approval text は write authorization ではない。 |
+| `scripts/installer/conflict_matrix.py` | implemented-different-by-design | Rust adapter planner/doctor/test が symlink、marker conflict、ownership drift、安全でない target を拒否。 |
+| `scripts/installer/evidence.py` | implemented-different-by-design | typed adapter receipt と immutable adopter manifest が repository identity、managed-section digest、Runtime、cleanup を bind。 |
+
+この batch に portable implementation omission はありません。3 件の `reference-only` は source template 固有の fixture/adoption driver であり、Runtime control の欠落ではありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、人間向け Outcome boundary を継承しますが、source Python installer module、provider policy value、stack matrix、source wire は継承しません。現在の 4,450 path snapshot は 3,681 `generated-history`、420 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、107 `reference-only`、234 `deferred-next-batch` で、669 retired record は append-only、`migrate-gap` は zero です。

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-565-release-v0-2-73
+lastVerifiedBy: WI-568-reference-file-comparison-batch-44
 capabilityClaims:
   - reference_parity
 ---
@@ -537,6 +537,7 @@ record for each boundary.
 | WI-565 — v0.2.73 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-565-release-v0-2-73.md); terminal lifecycle: archive `.ai/work-items/archive/WI-565-release-v0-2-73.contract.json`; verification `.ai/evidence/WI-565-release-v0-2-73.verification.json`; finalization `.ai/decisions/WI-565-release-v0-2-73.finalize.json`; close `.ai/decisions/WI-565-release-v0-2-73.close.json`. |
 | WI-566 — documentation promotion for WI-565 | Implemented | [Work Item](../work-items/WI-566-documentation-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-566-documentation-promotion.contract.json`; verification `.ai/evidence/WI-566-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-566-documentation-promotion.finalize.json`; close `.ai/decisions/WI-566-documentation-promotion.close.json`. |
 | WI-567 — terminal documentation promotion for WI-566 | In progress → Implemented after verified close | [Work Item](../work-items/WI-567-wi566-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-567-wi566-doc-promotion.contract.json`; verification `.ai/evidence/WI-567-wi566-doc-promotion.verification.json`; finalization `.ai/decisions/WI-567-wi566-doc-promotion.finalize.json`; close `.ai/decisions/WI-567-wi566-doc-promotion.close.json`. |
+| WI-568 — reference file comparison batch 44 | In progress → Implemented after verified close | [Work Item](../work-items/WI-568-reference-file-comparison-batch-44.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-568-reference-file-comparison-batch-44.contract.json`; verification `.ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json`; finalization `.ai/decisions/WI-568-reference-file-comparison-batch-44.finalize.json`; close `.ai/decisions/WI-568-reference-file-comparison-batch-44.close.json`. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-544-wi543-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546 — WI-545 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-546-wi545-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -613,4 +614,19 @@ WI-559 records twenty source-script comparisons in the [file-level ledger](refer
 
 ## WI-563 — wizard, intelligence, bootstrap, quality, and release checker parity
 
-WI-563 records twenty maintained source-script comparisons in the [file-level ledger](reference-file-comparison.md): fourteen are implemented-different-by-design, five are reference-only, and one is not-applicable. The Rust target exposes the portable responsibilities through typed repository/Runtime services, explicit CLI/MCP presentation, CI and documentation gates, and immutable release/adopter acceptance. TTY wizard controls, Python/Bandit coverage tooling, and the source deprecated-asset registry remain presentation-, source-, or provider-specific. Attached object repositories inherit the shared Runtime and isolated repository context, not source Python modules or wire formats. The ledger remains append-only: 669 retired records are preserved, `migrate-gap` is zero, and 254 current paths remain deferred for later comparison.
+WI-563 records twenty maintained source-script comparisons in the [file-level ledger](reference-file-comparison.md): fourteen are implemented-different-by-design, five are reference-only, and one is not-applicable. The Rust target exposes the portable responsibilities through typed repository/Runtime services, explicit CLI/MCP presentation, CI and documentation gates, and immutable release/adopter acceptance. TTY wizard controls, Python/Bandit coverage tooling, and the source deprecated-asset registry remain presentation-, source-, or provider-specific. Attached object repositories inherit the shared Runtime and isolated repository context, not source Python modules or wire formats. The ledger remains append-only: 669 retired records are preserved, `migrate-gap` is zero, and 234 current paths remain deferred for later comparison.
+
+## WI-568 — release, governance, adopter, and installer parity
+
+WI-568 adds twenty file-level comparisons for release preflight/state,
+supply-chain and system invariants, trust-layer documentation, proportional
+quality routing, adopter cycles, and installer seams. Seventeen paths are
+implemented differently by design and three remain reference-only because
+they are source-template fixture/adoption drivers rather than portable Runtime
+controls. The Rust target uses typed release manifests, SBOM/checksum and
+adopter evidence, repository-bound policy planning, and explicit Agent attach/
+doctor/adapter ownership. Attached object repositories inherit those same
+boundaries from the shared Runtime; they do not inherit source Python modules,
+stack matrices, provider policy values, or source wire formats. See the [file-level
+ledger](reference-file-comparison.md#wi-568--release-governance-adopter-and-installer-script-comparison-batch-44)
+for the complete path set and bounded decisions.

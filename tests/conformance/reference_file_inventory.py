@@ -80,6 +80,7 @@ WI552_BATCH = "WI-552-reference-file-comparison-batch-40"
 WI557_BATCH = "WI-557-reference-file-comparison-batch-41"
 WI559_BATCH = "WI-559-reference-file-comparison-batch-42"
 WI563_BATCH = "WI-563-reference-file-comparison-batch-43"
+WI568_BATCH = "WI-568-reference-file-comparison-batch-44"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -2042,6 +2043,109 @@ WI563_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "implemented-different-by-design",
         ["tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh", ".github/workflows/release.yml", "docs/release/distribution.md", "docs/getting-started/installation.md"],
         "Release discovery, immutable tag/archive identity, installer behavior, checksum/SBOM/provenance, public asset validation, and adopter isolation are implemented by Rust release workflows and post-release harnesses. Provider APIs and the source Python distribution checker are not copied or used as Runtime authority.",
+    ),
+}
+
+WI568_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/check_release_preflight.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/lib.rs", "crates/cockpit-release/src/manifest.rs", ".github/workflows/release.yml", "docs/release/distribution.md"],
+        "The source release preflight combines repository cleanliness, source/tag identity, archive digests, lifecycle state, and publication policy. Rust binds these responsibilities to typed release manifests, SHA256/SBOM/provenance validation, Runtime lifecycle gates, and the reviewed release workflow; source report JSON and provider API checks are not copied.",
+    ),
+    "scripts/check_release_state_consistency.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/manifest.rs", "crates/cockpit-release/src/handoff.rs", ".github/workflows/release.yml", "tests/release/version_consistency.sh", "docs/release/distribution.md"],
+        "The source release-state projection consistency checks map to strict typed ReleaseManifest/Handoff records, exact version/tag/commit and metadata digest bindings, checksum inventory, and release workflow consistency checks. Rust does not copy the source release-state JSON or provider bookkeeping model.",
+    ),
+    "scripts/check_supply_chain.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/sbom.rs", "crates/cockpit-release/src/manifest.rs", ".github/workflows/release.yml", "tests/release/adopter_acceptance.sh", "docs/getting-started/security-release-verification.md"],
+        "Supply-chain inventory, archive/binary digests, SPDX binding, provenance and immutable release assets are implemented by the typed Rust release boundary and public/staged adopter acceptance. External signing and provider attestation remain delegated evidence; the source Python checker is not copied.",
+    ),
+    "scripts/check_system_invariants.py": (
+        "implemented-different-by-design",
+        ["tests/ci/governance_integrity_gate.py", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-release/src/lib.rs", "tests/docs/documentation_acceptance.sh", "docs/reference/governance-integrity-gate.md"],
+        "The source cross-layer invariant audit maps to repository-native governance-integrity, documentation, lifecycle, release-manifest, dependency-lock, SBOM and workflow checks. Rust keeps each authority at its owning boundary and does not copy the source invariant registry or make provider-specific claims.",
+    ),
+    "scripts/check_trust_layer_docs.py": (
+        "implemented-different-by-design",
+        ["tests/docs/documentation_acceptance.sh", "tests/docs/parity_status_check.sh", "docs/security/enterprise-governance.md", "docs/architecture/product-boundary.md", "docs/reference/reference-parity.md"],
+        "Required trust-layer concepts, architecture links, and tri-language counterparts are checked by the target documentation and parity gates. The source documentation checker is not a Runtime authority; target trust claims remain bounded by typed evidence and explicit external-control limits.",
+    ),
+    "scripts/cross_stack_long_cycle.py": (
+        "reference-only",
+        ["tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh", "docs/reference/installed-lifecycle.md"],
+        "The source aggregate exercises a template-specific local fixture matrix and external adopter simulation. The target validates immutable published binaries and repository-bound lifecycle independently, but does not promise the source seven-stack matrix or claim provider/enterprise assurance from local fixtures.",
+    ),
+    "scripts/determine_governance_profile.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-verification/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "tests/ci/quality_route.py", "docs/reference/governance-profiles.md", "docs/reference/governance-profile-cost-separation.md"],
+        "Changed-path classification, light/standard/strict routing, release escalation, and bounded human override are represented by Rust policy planning and the CI route during the documented shadow-comparison phase. Source YAML profile bytes and source report schema are not copied, and verification tier remains orthogonal to evidence assurance.",
+    ),
+    "scripts/determine_quality_scope.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-verification/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "tests/ci/quality_route.py", "docs/reference/ci-quality-gates.md"],
+        "Fast/full quality scope selection maps to the dynamic Rust verification planner and the repository CI route, with reasons, required groups, and release preparation bound to the Contract. The source command and Python route remain a convergence/shadow boundary rather than a copied Runtime API.",
+    ),
+    "scripts/end_to_end_adoption_validation.py": (
+        "reference-only",
+        ["tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh", "tests/conformance", "docs/release/distribution.md"],
+        "The source seven-project installer matrix is specific to the reference template and its in-process Python Installer. Target release acceptance covers immutable public artifacts, repository attachment, lifecycle, isolation, upgrade and rollback, while adopter stack/toolchain behavior remains adopter-owned and is not silently claimed equivalent.",
+    ),
+    "scripts/ensure_locked_dev_environment.py": (
+        "implemented-different-by-design",
+        ["Cargo.lock", "rust-toolchain.toml", ".github/workflows/ci.yml", "docs/reference/ci-quality-gates.md"],
+        "The source Python virtual-environment and Ruff hash lock are replaced by Cargo.lock, the pinned Rust toolchain, locked Cargo commands, and pinned CI actions. The target does not install a Python development environment or copy the source provisioning script.",
+    ),
+    "scripts/external_adopter_long_cycle.py": (
+        "implemented-different-by-design",
+        ["tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh", "docs/release/distribution.md"],
+        "The source provider-simulated long cycle maps to immutable staged/public release adopter acceptance with attach, lifecycle, upgrade, rollback, isolation manifests, cleanup proof and runtime identity. Provider APIs and local fixture assertions remain outside the target Runtime.",
+    ),
+    "scripts/finalize_release_freeze.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/lib.rs", "crates/cockpit-release/src/manifest.rs", ".github/workflows/release.yml", "docs/release/distribution.md"],
+        "Release freeze validation, exact source/tag/commit identity, clean synchronized default branch, archive digest and lifecycle binding are enforced by the reviewed Rust release workflow and typed manifest boundary. Source freeze projection files are not copied into the repository protocol.",
+    ),
+    "scripts/fixture_harness.py": (
+        "reference-only",
+        ["tests/conformance", "tests/release/adopter_acceptance.sh", "docs/reference/python-fixture-adaptation.md"],
+        "The source deterministic fixture phase harness is a reference-template test driver. Target conformance fixtures and immutable release adopter scripts cover portable negative governance and published-binary behavior, but do not claim the source phase names or stack matrix as a Runtime API.",
+    ),
+    "scripts/installed_lifecycle_e2e.py": (
+        "implemented-different-by-design",
+        ["tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh", "docs/reference/installed-lifecycle.md"],
+        "Installed lifecycle evidence classification is provided by the published-artifact acceptance harness, which distinguishes real local execution from simulation/not-run and binds runtime/version/digests and cleanup. The source classifier module and report wire are not copied.",
+    ),
+    "scripts/installer/__init__.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/getting-started/installation.md"],
+        "The source installer package seam maps to the Rust shared Runtime's attach and Agent adapter modules. The target keeps installation as a published binary plus explicit repository binding, not a Python package compatibility surface.",
+    ),
+    "scripts/installer/application.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "Read-only installation planning and typed results map to Rust agent plan/doctor, repository attach/inspect and CLI JSON projections. Conflict and ownership facts are repository-local and no source dataclass or installer manifest is copied.",
+    ),
+    "scripts/installer/cli.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/src/main.rs", "crates/cockpit-agent/src/lib.rs", "docs/getting-started/installation.md"],
+        "The source installer CLI presentation seam maps to the Rust CLI's explicit attach, agent install, doctor, repair and detach commands. Human confirmation and conversation UX remain adapter responsibilities; source argparse entrypoints are not wire requirements.",
+    ),
+    "scripts/installer/confirmation.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-core/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-agent/src/lib.rs", "docs/reference/agent-workflow.md"],
+        "Installation and governance confirmation is represented by identity-bound preflight humanDecisionRequest, explicit authority and Agent adapter ownership checks. Rust never treats a generic yes/approved value as authorization and does not copy the source confirmation dataclass.",
+    ),
+    "scripts/installer/conflict_matrix.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/src/lib.rs", "crates/cockpit-agent/tests/install.rs", "docs/reference/installed-lifecycle.md"],
+        "Provider target discovery, regular-file/symlink protection, marker conflicts, ownership drift, nested repository and managed-section checks are enforced by the Rust Agent adapter planner/doctor and regression tests. Source conflict names and matrix JSON are not copied.",
+    ),
+    "scripts/installer/evidence.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "tests/release/adopter_acceptance.sh", "docs/reference/installed-lifecycle.md"],
+        "Installation evidence is represented by typed adapter receipts, repository identity, managed-section digests, Runtime evidence and immutable adopter acceptance manifests. Source installer evidence classes are not a target wire format, and external provider/enterprise assurance remains explicit.",
     ),
 }
 
@@ -6174,6 +6278,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi563_classifications
         ):
             errors.append("WI-563 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI568_BATCH
+        for record in records
+    ):
+        wi568_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI568_BATCH
+            and record.get("referencePath") in WI568_REFERENCE_FILES
+        ]
+        expected_wi568_paths = set(WI568_REFERENCE_FILES) & current_reference_paths
+        actual_wi568_paths = {record.get("referencePath") for record in wi568_records}
+        if actual_wi568_paths != expected_wi568_paths:
+            errors.append(
+                "WI-568 batch paths do not match the pinned current-file set: "
+                f"expected {sorted(expected_wi568_paths)!r}, got {sorted(actual_wi568_paths)!r}"
+            )
+        if len(wi568_records) != len(expected_wi568_paths):
+            errors.append(
+                f"WI-568 batch must contain {len(expected_wi568_paths)} records, found {len(wi568_records)}"
+            )
+        wi568_classifications = [historical_classification(record) for record in wi568_records]
+        expected_wi568_classifications = Counter(
+            WI568_REFERENCE_FILES[path][0] for path in expected_wi568_paths
+        )
+        if any(
+            wi568_classifications.count(classification) != count
+            for classification, count in expected_wi568_classifications.items()
+        ):
+            errors.append("WI-568 batch classifications do not match current reference paths")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi568_classifications
+        ):
+            errors.append("WI-568 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -6757,6 +6897,34 @@ def apply_wi563_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi568_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI568_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI568_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI568_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI568_REFERENCE_FILES)} WI-568 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -6792,6 +6960,7 @@ def main() -> int:
     parser.add_argument("--apply-wi557-batch", action="store_true")
     parser.add_argument("--apply-wi559-batch", action="store_true")
     parser.add_argument("--apply-wi563-batch", action="store_true")
+    parser.add_argument("--apply-wi568-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -6821,6 +6990,7 @@ def main() -> int:
         args.apply_wi557_batch,
         args.apply_wi559_batch,
         args.apply_wi563_batch,
+        args.apply_wi568_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -6989,6 +7159,13 @@ def main() -> int:
     if args.apply_wi563_batch:
         try:
             apply_wi563_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi568_batch:
+        try:
+            apply_wi568_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

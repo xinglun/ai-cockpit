@@ -61,7 +61,7 @@ done
 # Bounded rebaseline batches resolve changed source records; WI-521 resolves
 # one of the previously changed deferred records. Keep this regression count
 # tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 54
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 51
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -614,6 +614,44 @@ grep -q "WI-563" "$root/docs/reference/reference-file-comparison.ja.md"
 grep -q "WI-563" "$root/docs/reference/reference-parity.md"
 grep -q "WI-563" "$root/docs/reference/reference-parity.zh-CN.md"
 grep -q "WI-563" "$root/docs/reference/reference-parity.ja.md"
+
+# WI-568 compares the next twenty maintained release, governance, adopter,
+# and installer paths one by one.  Keep the exact set and classification
+# counts in the regression to prevent silent return to deferred work.
+wi568_paths=(
+  scripts/check_release_preflight.py
+  scripts/check_release_state_consistency.py
+  scripts/check_supply_chain.py
+  scripts/check_system_invariants.py
+  scripts/check_trust_layer_docs.py
+  scripts/cross_stack_long_cycle.py
+  scripts/determine_governance_profile.py
+  scripts/determine_quality_scope.py
+  scripts/end_to_end_adoption_validation.py
+  scripts/ensure_locked_dev_environment.py
+  scripts/external_adopter_long_cycle.py
+  scripts/finalize_release_freeze.py
+  scripts/fixture_harness.py
+  scripts/installed_lifecycle_e2e.py
+  scripts/installer/__init__.py
+  scripts/installer/application.py
+  scripts/installer/cli.py
+  scripts/installer/confirmation.py
+  scripts/installer/conflict_matrix.py
+  scripts/installer/evidence.py
+)
+for wi568_path in "${wi568_paths[@]}"; do
+  test "$(jq --arg path "$wi568_path" '[.records[] | select(.referencePath == $path and .batch == "WI-568-reference-file-comparison-batch-44" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-568-reference-file-comparison-batch-44")] | length' "$current_manifest")" -eq 20
+test "$(jq '[.records[] | select(.batch == "WI-568-reference-file-comparison-batch-44" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-568-reference-file-comparison-batch-44" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 17
+test "$(jq '[.records[] | select(.batch == "WI-568-reference-file-comparison-batch-44" and .classification == "reference-only")] | length' "$current_manifest")" -eq 3
+for wi568_doc in \
+  reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
+  reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
+  grep -q "WI-568" "$root/docs/reference/$wi568_doc"
+done
 
 # WI-521 resolves the next pinned local source scripts one by one.  Keep this
 # explicit so a future rebaseline cannot silently return the slice to deferred
