@@ -1,0 +1,122 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata, lockfile, and current release/versioning guidance identify v0.2.75 while retaining v0.2.74 as the immediately preceding public baseline.",
+    "Release CI produces the identity-bound five-target artifact and supply-chain receipt set for v0.2.75.",
+    "Public adopter and N-1 acceptance use only v0.2.75 downloaded artifacts, prove forbidden-root isolation and temporary-run cleanup, and exercise the same binary against this repository.",
+    "The release starts from a synchronized ready default branch and changes no Runtime behavior, object repository, global Agent/MCP configuration, failed-tag history, or unrelated evidence.",
+    "The three reference-parity pages register WI-574 with its bounded release scope and preserve the release documentation traceability.",
+    "Any release or adopter failure preserves immutable release truth, records the failure receipt, and never falls back to a source checkout, workspace binary, or moving branch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "60f7d6943148f466c152ee2ba73a91771844e796",
+  "createdAt": "2026-09-04T22:10:55Z",
+  "goal": "Publish a verified v0.2.75 patch release and validate its immutable public installation boundary.",
+  "intent": "Publish v0.2.75 from the reviewed default branch and validate its immutable public artifacts and adopter installation boundary before continuing the next reference-comparison batch.",
+  "mode": "release",
+  "outOfScope": [
+    "Runtime behavior or protocol changes",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Global Agent or MCP configuration",
+    "Reference-source code or Python/Shell implementation copying",
+    "Rewriting failed",
+    " quarantined",
+    " or tag-only release history",
+    "Rewriting immutable historical Work Item",
+    " evidence",
+    " archive",
+    " or decision bytes",
+    "Unrelated documentation or feature work",
+    "Executing or modifying the object repository; object-repository acceptance is a read-only external handoff"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2e588ad396ea351bd0af53e8fcc0f939d6c7bcc5a3539d50c04367fa99981970",
+  "requiredEvidenceClasses": [
+    "verification",
+    "docs",
+    "release"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-574-release-v0-2-75",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi574-release-v0-2-75"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "v0.2.75 metadata, documentation, manifest, checksums, SBOM, provenance, and attestation agree with the reviewed tag",
+      "required": true,
+      "scenario": "release artifacts and version consistency",
+      "status": "unverified",
+      "verificationPlan": "run version, source-archive, workflow-policy, action-runtime, documentation, parity, package, and hosted release gates"
+    },
+    {
+      "evidence": [],
+      "expected": "the downloaded public v0.2.75 binary governs this repository without source fallback and preserves forbidden-root isolation",
+      "required": true,
+      "scenario": "public artifact adopter installation",
+      "status": "unverified",
+      "verificationPlan": "run the post-release adopter acceptance harness from the immutable public archive and retain its runtime, isolation, and cleanup receipts"
+    },
+    {
+      "evidence": [],
+      "expected": "the v0.2.74-to-v0.2.75 upgrade path is tested from isolated roots using only immutable downloaded artifacts",
+      "required": true,
+      "scenario": "N-1 upgrade acceptance",
+      "status": "unverified",
+      "verificationPlan": "run the post-release adopter upgrade harness and verify source, runtime, repository, and cleanup bindings"
+    },
+    {
+      "evidence": [],
+      "expected": "failed acceptance preserves release truth, records the failure, and removes only its isolated temporary run root",
+      "required": true,
+      "scenario": "release acceptance failure and cleanup",
+      "status": "unverified",
+      "verificationPlan": "exercise release acceptance failure wrappers and verify output manifests, cleanup assertions, and failure receipts"
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-574-release-v0-2-75.md",
+    "docs/work-items/WI-574-release-v0-2-75.zh-CN.md",
+    "docs/work-items/WI-574-release-v0-2-75.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/versioning.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/workflow_policy.sh",
+    "tests/release/action_runtime_policy.sh",
+    "tests/release/source_archive_policy_test.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/isolation_manifest.sh",
+    "tests/conformance/reference-source.lock"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-574-release-v0-2-75"
+}

@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Cargo metadata, lockfile, and current release/versioning guidance identify v0.2.75 while retaining v0.2.74 as the immediately preceding public baseline.",
+    "Release CI produces the identity-bound five-target artifact and supply-chain receipt set for v0.2.75.",
+    "Public adopter and N-1 acceptance use only v0.2.75 downloaded artifacts, prove forbidden-root isolation and temporary-run cleanup, and exercise the same binary against this repository.",
+    "The release starts from a synchronized ready default branch and changes no Runtime behavior, object repository, global Agent/MCP configuration, failed-tag history, or unrelated evidence.",
+    "The three reference-parity pages register WI-574 with its bounded release scope and preserve the release documentation traceability.",
+    "Any release or adopter failure preserves immutable release truth, records the failure receipt, and never falls back to a source checkout, workspace binary, or moving branch."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9c910d8b1b8da3be7d7c74dd0d419b07a6830c4b83a75c531c6b08693da16eca",
+      "workItemId": "WI-574-release-v0-2-75"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-574-release-v0-2-75.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-574-release-v0-2-75.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-574-release-v0-2-75.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-574-release-v0-2-75.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-574-release-v0-2-75.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-574-release-v0-2-75.contract.json"
+          ],
+          "inference": false,
+          "text": "Publish a verified v0.2.75 patch release and validate its immutable public installation boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-574-release-v0-2-75.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-574-release-v0-2-75"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-574-release-v0-2-75.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-574-release-v0-2-75"
+}
