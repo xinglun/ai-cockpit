@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3e811f84179a3b26c8edf534365ff4496fa766a0",
+    "name": "codex/wi-556-doc-projection-boundary",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6e88bfe57fa614b2467d967bbce1afd6e4e8dd8197962046f3f257623dcf6f10",
+  "operationId": "github-pr-534-merge-cleanup-20260904",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bc86fb3a8952349fc051b9f95ac997068fc0d444",
+    "headRevision": "3e811f84179a3b26c8edf534365ff4496fa766a0",
+    "mergeCommit": "ebe8b155d0f5ce2c36acb10fe72379f825219e26",
+    "number": 534,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/534"
+  },
+  "reason": "Reviewed PR #534 passed all hosted checks and was merged as ebe8b155d0f5ce2c36acb10fe72379f825219e26; the exact Work Item branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "github-pr-534-finalization-20260904",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-556-doc-projection-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/534",
+    "worktree": "/private/tmp/ai-cockpit-wi556-doc-projection-boundary"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853",
+  "runtimeVersion": "0.2.70",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T03:08:47Z",
+  "workItemId": "WI-556-doc-projection-boundary",
+  "worktree": {
+    "branch": "codex/wi-556-doc-projection-boundary",
+    "headRevision": "3e811f84179a3b26c8edf534365ff4496fa766a0",
+    "path": "/private/tmp/ai-cockpit-wi556-doc-projection-boundary",
+    "worktreeId": "WI-556-doc-projection-boundary"
+  }
+}

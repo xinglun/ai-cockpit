@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-556-doc-projection-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0d9eb280e697cf6132a83e73c677b16288775234aee86263dc796fc65cd9be94",
+      "workItemId": "WI-556-doc-projection-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-556-doc-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-556-doc-projection-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-556-doc-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-cleanup at 2026-09-04T03:08:47Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-556-doc-projection-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-556-doc-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-556-doc-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-556-doc-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-556-doc-projection-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Record and validate a finite self-projection boundary so closed documentation promotion remains auditable without recursive promotion."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-556-doc-projection-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-556-doc-projection-boundary"
+  },
+  "finalReportDigest": "sha256:799c1f4f63fd24e45b7cc376d86b49e5527ed9dd4d7e2a28f8b581bdf2cb38b4",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:6824e74625dbf5487c3334ab43b8251a5b807231560e4692b648996d23169567",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-556-doc-projection-boundary.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "decidedAt": "2026-09-04T03:08:47Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-556-doc-projection-boundary.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "Reviewed PR #534 passed hosted checks, merge and exact cleanup were verified, and the bounded documentation projection checks passed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-04T03:10:15Z",
+  "workItemId": "WI-556-doc-projection-boundary"
+}
