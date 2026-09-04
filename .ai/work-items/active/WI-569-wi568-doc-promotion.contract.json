@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "Closed WI-568 documentation pages have terminal status and evidence links",
+    "Three-language parity pages register WI-568 as implemented with archive verification finalization and close references",
+    "Promotion helper check-all passes with no stale projections",
+    "WI-569 has readable tri-language documentation and a matching pre-archive parity entry"
+  ],
+  "authority": "authorized",
+  "baseRevision": "70a90ab521f4f8f88708f059af34bd40511a5e3b",
+  "createdAt": "2026-09-04T12:37:46Z",
+  "goal": "Ensure closed Work Item and reference parity projections are synchronized without changing governance facts.",
+  "intent": "Promote the closed WI-568 reference comparison documentation to its terminal documented status.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Source implementation and inventory semantics",
+    "Runtime core and object repositories",
+    "Global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c0b5f44b19bad17f00eeac43deff638b5aab7782ef833c8efe4556bbce505893",
+  "requiredEvidenceClasses": [
+    "documentation",
+    "governance",
+    "verification",
+    "release"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-569-wi568-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi569-wi568-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-568-reference-file-comparison-batch-44.md",
+    "docs/work-items/WI-568-reference-file-comparison-batch-44.zh-CN.md",
+    "docs/work-items/WI-568-reference-file-comparison-batch-44.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-569-wi568-doc-promotion.md",
+    "docs/work-items/WI-569-wi568-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-569-wi568-doc-promotion.ja.md"
+  ],
+  "sources": [
+    "docs/work-items/WI-568-reference-file-comparison-batch-44.md",
+    "docs/work-items/WI-568-reference-file-comparison-batch-44.zh-CN.md",
+    "docs/work-items/WI-568-reference-file-comparison-batch-44.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-569-wi568-doc-promotion"
+}

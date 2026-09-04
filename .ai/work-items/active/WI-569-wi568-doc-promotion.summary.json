@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-04T12:38:27Z",
+  "checkpointContractDigest": "sha256:2d1f1588f232507873ccba8b68f998a5e8c665a5db248c608d11ecdb8d74feb9",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8791df8394f0720430e64beff313fbf8e24e1886abb822c8e1e4528594dde4f8",
+      "recorded": true,
+      "recordedAt": "2026-09-04T12:38:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5b00d3b51c8c659af9d2caccb573c4fda27a6cfe5a943551b709de280a4540ee",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-569-wi568-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:2d1f1588f232507873ccba8b68f998a5e8c665a5db248c608d11ecdb8d74feb9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8791df8394f0720430e64beff313fbf8e24e1886abb822c8e1e4528594dde4f8",
+      "previousContractHash": "sha256:8791df8394f0720430e64beff313fbf8e24e1886abb822c8e1e4528594dde4f8",
+      "reason": "Include the required three-language WI-569 documentation and pre-archive parity registration discovered by governance integrity checks.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T12:41:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8e0afd469faca6feb37f434e2a82a61086e564a5bbffdbe6b4fd41c9d17839c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-569-wi568-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:48974fbe90b96d4ffeb03bd5bcd4fbccfe300ca57745d7338bd9841095cf4bd4",
+  "createdAt": "2026-09-04T12:37:46Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-04T12:42:41Z",
+  "preflightContractDigest": "sha256:2d1f1588f232507873ccba8b68f998a5e8c665a5db248c608d11ecdb8d74feb9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:48974fbe90b96d4ffeb03bd5bcd4fbccfe300ca57745d7338bd9841095cf4bd4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-04T12:38:27Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-569-wi568-doc-promotion"
+}
