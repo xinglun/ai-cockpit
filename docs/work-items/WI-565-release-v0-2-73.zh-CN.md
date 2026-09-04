@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-565——v0.2.73 发布与公开产物验收"
 description: "发布并验收下一版不可变 AI Cockpit Runtime。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-565-release-v0-2-73
 lastVerifiedBy: WI-565-release-v0-2-73
