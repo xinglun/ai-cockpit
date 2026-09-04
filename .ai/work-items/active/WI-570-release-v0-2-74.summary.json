@@ -1,0 +1,136 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-04T13:05:16Z",
+  "checkpointContractDigest": "sha256:fb3b0845a183626cc95ba956090b47a10f0723e0e1428fbfd2fab4345e26c40c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a22e47ef430070bad803fd01b092f2b78b9472ea67319d90eb9a352af7a9ae2c",
+      "recorded": true,
+      "recordedAt": "2026-09-04T13:05:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e5ccfed44d59f40c884c6db7daceb9bef9c4fb17203ca579aaac94f46fbab4e0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-570-release-v0-2-74"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:2e38e6b4306c851decf7c7a82b77d7d036724f6b70135ccd1d2931d0ab92456d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a22e47ef430070bad803fd01b092f2b78b9472ea67319d90eb9a352af7a9ae2c",
+      "previousContractHash": "sha256:a22e47ef430070bad803fd01b092f2b78b9472ea67319d90eb9a352af7a9ae2c",
+      "reason": "Declare the exact release, documentation, and diff verification commands required for this release boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T13:05:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e5ccfed44d59f40c884c6db7daceb9bef9c4fb17203ca579aaac94f46fbab4e0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-570-release-v0-2-74"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:fb3b0845a183626cc95ba956090b47a10f0723e0e1428fbfd2fab4345e26c40c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a22e47ef430070bad803fd01b092f2b78b9472ea67319d90eb9a352af7a9ae2c",
+      "previousContractHash": "sha256:2e38e6b4306c851decf7c7a82b77d7d036724f6b70135ccd1d2931d0ab92456d",
+      "reason": "Correct the release Contract verification list to reference the repository’s existing source-archive and isolation test gates, avoiding a non-existent release-manifest test.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T13:06:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2451b90cbc31014e8509248e0c41113e1bcd37fe29929b5bb410b652672408f4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-570-release-v0-2-74"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2451b90cbc31014e8509248e0c41113e1bcd37fe29929b5bb410b652672408f4",
+  "createdAt": "2026-09-04T12:58:36Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-570-release-v0-2-74.md",
+      "docs/work-items/WI-570-release-v0-2-74.zh-CN.md",
+      "docs/work-items/WI-570-release-v0-2-74.ja.md",
+      "docs/release/distribution.md"
+    ],
+    "reason": "The declared changes are limited to the v0.2.74 release identity, its tri-language distribution guidance, parity registration, and the release acceptance boundary.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-04T13:07:55Z",
+  "preflightContractDigest": "sha256:fb3b0845a183626cc95ba956090b47a10f0723e0e1428fbfd2fab4345e26c40c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2451b90cbc31014e8509248e0c41113e1bcd37fe29929b5bb410b652672408f4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "tests/release/version_consistency.sh",
+        "tests/release/source_archive_policy_test.sh",
+        "tests/release/workflow_policy.sh",
+        "tests/release/action_runtime_policy.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
+      "reason": "The local version, archive, documentation, parity, policy, and diff gates passed for the v0.2.74 candidate. Public artifact execution remains a post-tag acceptance boundary.",
+      "required": true,
+      "scenario": "release artifacts and version consistency",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "docs/release/distribution.md"
+      ],
+      "reason": "This scenario is executable only after the v0.2.74 public Release exists; the post-release harness is retained as the required next boundary.",
+      "required": true,
+      "scenario": "public artifact adopter installation",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "reason": "Failure-path acceptance is bound to the immutable public Release and cannot be executed truthfully before publication.",
+      "required": true,
+      "scenario": "release acceptance failure and cleanup",
+      "status": "not_applicable"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-04T13:09:09Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-570-release-v0-2-74"
+}

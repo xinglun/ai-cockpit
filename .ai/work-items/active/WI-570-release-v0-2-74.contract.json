@@ -1,0 +1,111 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata, lockfile, and current release/versioning guidance identify v0.2.74 while retaining v0.2.73 as the immediately preceding public baseline.",
+    "Release CI produces the identity-bound five-target artifact and supply-chain receipt set for v0.2.74.",
+    "Public adopter and N-1 acceptance use only v0.2.74 downloaded artifacts, prove isolation and cleanup, and exercise the same binary against this repository.",
+    "The release starts from a synchronized ready default branch and changes no Runtime behavior, object repository, global configuration, or unrelated historical evidence.",
+    "The three reference-parity pages register WI-570 with its bounded release scope and preserve the release documentation traceability."
+  ],
+  "authority": "authorized",
+  "baseRevision": "22979102d27e9f41acc125911a3afbdac9e49c54",
+  "createdAt": "2026-09-04T12:58:36Z",
+  "goal": "Publish a verified v0.2.74 patch release and validate its public installation boundary.",
+  "intent": "Publish v0.2.74 from the reviewed default branch and validate its immutable public artifacts and adopter installation boundary.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior or protocol changes",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Global Agent or MCP configuration",
+    "Reference-source code or Python/Shell implementation copying",
+    "Rewriting failed tags or historical Work Item/evidence bytes",
+    "Unrelated documentation or feature work"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:48974fbe90b96d4ffeb03bd5bcd4fbccfe300ca57745d7338bd9841095cf4bd4",
+  "requiredEvidenceClasses": [
+    "verification",
+    "docs",
+    "release"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-570-release-v0-2-74",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi570-release-v0-2-74"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "release artifacts and version consistency",
+      "expected": "v0.2.74 metadata, documentation, manifest, checksums, SBOM, provenance, and attestation agree with the reviewed tag",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "run the repository version, source archive policy, documentation, parity, and release CI checks",
+      "evidence": []
+    },
+    {
+      "scenario": "public artifact adopter installation",
+      "expected": "the downloaded public v0.2.74 binary governs this repository without source fallback and preserves forbidden-root isolation",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "run the post-release adopter acceptance harness from the immutable public archive and retain its receipt",
+      "evidence": []
+    },
+    {
+      "scenario": "release acceptance failure and cleanup",
+      "expected": "failed acceptance preserves release truth, records the failure, and removes only its isolated temporary run root",
+      "required": true,
+      "status": "unverified",
+      "verificationPlan": "exercise the release acceptance test wrapper failure path and verify its output manifest and cleanup assertion",
+      "evidence": []
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/work-items/WI-570-release-v0-2-74.md",
+    "docs/work-items/WI-570-release-v0-2-74.zh-CN.md",
+    "docs/work-items/WI-570-release-v0-2-74.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/versioning.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/conformance/reference-source.lock"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/release/version_consistency.sh",
+    "tests/release/workflow_policy.sh",
+    "tests/release/action_runtime_policy.sh",
+    "tests/release/source_archive_policy_test.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/isolation_manifest_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-570-release-v0-2-74"
+}
