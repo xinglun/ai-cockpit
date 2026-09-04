@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-558-doc-promotion-wi557.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f57e0e52964bdc5d3731911170ae3f71e7b085d28cd9406e9610bbc6ec6227c6",
+      "workItemId": "WI-558-doc-promotion-wi557"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-558-doc-promotion-wi557.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-558-doc-promotion-wi557.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-558-doc-promotion-wi557.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-558-doc-promotion-wi557.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-558-doc-promotion-wi557.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-558-doc-promotion-wi557.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-558-doc-promotion-wi557.verification.json",
+            ".ai/decisions/WI-558-doc-promotion-wi557.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/pull/536"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-04T04:52:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-558-doc-promotion-wi557.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-558-doc-promotion-wi557.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-558-doc-promotion-wi557.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-558-doc-promotion-wi557.contract.json"
+          ],
+          "inference": false,
+          "text": "Promote the closed WI-557 documentation projection so the repository's post-close documentation gate is current."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-558-doc-promotion-wi557.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-558-doc-promotion-wi557"
+  },
+  "finalReportDigest": "sha256:f6e70ed66d0a645c55d05252ab52fd74596bb251f527a69e7187da2c13bf1d24",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:9118d080b4364178da380efbb463b4e1ba45ef2d2b10d47c3065328be8c81a3b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-558-doc-promotion-wi557.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-04T04:52:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-558-doc-promotion-wi557.verification.json",
+      ".ai/decisions/WI-558-doc-promotion-wi557.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/536"
+    ],
+    "policyRefs": [
+      "AGENTS.md:premerge-finalization-before-close"
+    ],
+    "reason": "Reviewed PR #536 passed all hosted checks; merged default branch and exact branch/worktree cleanup are verified.",
+    "resumeCondition": "No resume required; Work Item is closed."
+  },
+  "timestamp": "2026-09-04T04:53:17Z",
+  "workItemId": "WI-558-doc-promotion-wi557"
+}
