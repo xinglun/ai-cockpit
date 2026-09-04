@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "All three Work Item projections report terminal Implemented status and link exact archive, verification, finalization, and close evidence.",
+    "All three reference-parity rows report Implemented and preserve the exact closed WI-550 evidence paths.",
+    "Documentation promotion changes no immutable .ai archive, evidence, finalization, or close bytes.",
+    "Documentation, parity, and full workspace quality gates pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7cc2287caedd333b80a9f494ab2b012e7dd31d94",
+  "createdAt": "2026-09-04T00:19:37Z",
+  "goal": "Synchronize the three-language Work Item pages and reference-parity rows with the already closed WI-550 lifecycle evidence.",
+  "intent": "Promote the closed WI-550 Work Item and parity documentation projections to their verified terminal status without changing immutable governance records.",
+  "mode": "code",
+  "outOfScope": [
+    "crates",
+    "tests/conformance",
+    "object-repositories",
+    "immutable-ai-records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:942e0f7dd75b3e53cbe1922628996f359e15cc34ca59071dafa8a5e775702aa3",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-551-wi550-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/529",
+    "worktree": "/private/tmp/ai-cockpit-wi551-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-551-wi550-doc-promotion.md",
+    "docs/work-items/WI-551-wi550-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-551-wi550-doc-promotion.ja.md",
+    "docs/work-items/WI-550-reference-file-comparison-batch-39.md",
+    "docs/work-items/WI-550-reference-file-comparison-batch-39.zh-CN.md",
+    "docs/work-items/WI-550-reference-file-comparison-batch-39.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-551-wi550-doc-promotion"
+}

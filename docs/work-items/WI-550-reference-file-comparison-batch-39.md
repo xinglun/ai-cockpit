@@ -6,10 +6,14 @@ audience:
   - maintainer
   - reviewer
   - adopter
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-550-reference-file-comparison-batch-39
 lastVerifiedBy: WI-550-reference-file-comparison-batch-39
+terminalArchive: .ai/work-items/archive/WI-550-reference-file-comparison-batch-39.contract.json
+terminalVerification: .ai/evidence/WI-550-reference-file-comparison-batch-39.verification.json
+terminalFinalization: .ai/decisions/WI-550-reference-file-comparison-batch-39.finalize.json
+terminalDecision: .ai/decisions/WI-550-reference-file-comparison-batch-39.close.json
 ---
 
 # WI-550 — Lifecycle and Outcome script comparison batch 39
