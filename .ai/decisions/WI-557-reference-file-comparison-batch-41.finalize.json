@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1b45e05e",
+    "name": "codex/wi-557-reference-file-comparison-batch-41",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d3a86e6fa193e57f98a2f5d76a11b81208422cfc3195d607aaebe832f13b2a63",
+  "operationId": "operation-WI-557-reference-file-comparison-batch-41",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "603a82b78ff6c2c02662cd6b9f6c53b0415a2f25",
+    "headRevision": "1b45e05e",
+    "mergeCommit": "ceb9455276f7eb0125c48326541a2e1efe7361ff",
+    "number": 535,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/535"
+  },
+  "reason": "Finalize the reviewed and merged WI-557 branch and dedicated worktree after hosted checks passed.",
+  "receiptId": "ai-cockpit-WI-557-reference-file-comparison-batch-41",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-557-reference-file-comparison-batch-41",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/535",
+    "worktree": "/private/tmp/ai-cockpit-wi557-reference-file-comparison-batch-41"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba",
+  "runtimeVersion": "0.2.71",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T04:35:00Z",
+  "workItemId": "WI-557-reference-file-comparison-batch-41",
+  "worktree": {
+    "branch": "codex/wi-557-reference-file-comparison-batch-41",
+    "headRevision": "1b45e05e",
+    "path": "/private/tmp/ai-cockpit-wi557-reference-file-comparison-batch-41",
+    "worktreeId": "wi557-reference-file-comparison-batch-41"
+  }
+}
