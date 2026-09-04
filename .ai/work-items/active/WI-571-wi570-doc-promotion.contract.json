@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "WI-570 pages state implemented and link to archive, verification, finalization, and close evidence in all three languages.",
+    "All three parity pages identify WI-570 as implemented and register WI-571 with terminal evidence paths.",
+    "Documentation, parity, promotion, and diff checks pass without rewriting immutable governance records.",
+    "WI-571 has readable matching English, Simplified Chinese, and Japanese pages."
+  ],
+  "authority": "authorized",
+  "baseRevision": "02a9edefa9d716384cb0f804bc61e43a5eab2eea",
+  "createdAt": "2026-09-04T13:43:43Z",
+  "goal": "Synchronize the three-language WI-570 and parity projections so the repository passes its post-close documentation readiness gate.",
+  "intent": "Promote the verified-close documentation for WI-570 to terminal documented status without rewriting immutable governance records.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source and protocol behavior",
+    "Release artifacts and object repositories",
+    "Global Agent or MCP configuration and immutable governance records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e5cb4ed61ffbd848815450d952056c094fe4e7c530a86f420e2ae91345c652a1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-571-wi570-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi571-wi570-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-570-release-v0-2-74.md",
+    "docs/work-items/WI-570-release-v0-2-74.zh-CN.md",
+    "docs/work-items/WI-570-release-v0-2-74.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-571-wi570-doc-promotion.md",
+    "docs/work-items/WI-571-wi570-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-571-wi570-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-571-wi570-doc-promotion"
+}
