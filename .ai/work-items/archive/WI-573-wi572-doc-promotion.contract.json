@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "All target and own documentation projections are deterministically promoted from immutable WI-572 terminal evidence",
+    "promote_closed_work_item.py --check-all passes after promotion",
+    "No contract, evidence, archive, close, or other Work Item bytes are changed",
+    "English, Chinese, and Japanese links and status labels remain synchronized"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d9e4322769b8c674bb571b07f8c89b0144cb132a",
+  "createdAt": "2026-09-04T21:46:42Z",
+  "goal": "Synchronize the three-language WI-572 pages and parity rows with the closed archive and close receipts.",
+  "intent": "Promote the closed WI-572 documentation projections from lifecycle evidence without altering governance facts.",
+  "mode": "docs",
+  "outOfScope": [
+    "source code",
+    " runtime behavior",
+    " object repositories",
+    " release artifacts",
+    " governance evidence bytes",
+    " other Work Item documents"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:22952ada6d52a01346d24e3e05d7fbca90d5981514f708b31e9e52ba6764d530",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-573-wi572-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/554",
+    "worktree": "/private/tmp/ai-cockpit-wi573-wi572-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-572-reference-installer-quality-batch-45.md",
+    "docs/work-items/WI-572-reference-installer-quality-batch-45.zh-CN.md",
+    "docs/work-items/WI-572-reference-installer-quality-batch-45.ja.md",
+    "docs/work-items/WI-573-wi572-doc-promotion.md",
+    "docs/work-items/WI-573-wi572-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-573-wi572-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-573-wi572-doc-promotion"
+}

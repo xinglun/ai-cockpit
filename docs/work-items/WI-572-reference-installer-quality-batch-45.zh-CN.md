@@ -7,6 +7,10 @@ status: implemented
 authority: canonical
 workItemId: WI-572-reference-installer-quality-batch-45
 lastVerifiedBy: WI-572-reference-installer-quality-batch-45
+terminalArchive: .ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json
+terminalVerification: .ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json
+terminalFinalization: .ai/decisions/WI-572-reference-installer-quality-batch-45.finalize.ce778cafe4377bd38aad5238a5fd182cee9611e7017c91e83f40f0a1116cda6f.json
+terminalDecision: .ai/decisions/WI-572-reference-installer-quality-batch-45.close.json
 ---
 
 [English](WI-572-reference-installer-quality-batch-45.md) · [日本語](WI-572-reference-installer-quality-batch-45.ja.md)
