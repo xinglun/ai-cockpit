@@ -28,16 +28,16 @@ Runtime version、Repository Protocol version、repository schema version は独
 
 ```text
 ai-cockpit --version
-0.2.70
+0.2.71
 
 repository:
 protocol_version = 1
 repository_schema_version = 2
 ```
 
-直前の公開 patch release `v0.2.65` は historical evidence として保持します。`v0.2.63`、`v0.2.61`、`v0.2.55`、`v0.2.53`、`v0.2.52` もさらに前の歴史として保持します。予約済みの `v0.2.51` tag は
+直前の公開 patch release `v0.2.70` は historical evidence として保持します。`v0.2.65`、`v0.2.63`、`v0.2.61`、`v0.2.55`、`v0.2.53`、`v0.2.52` もさらに前の歴史として保持します。予約済みの `v0.2.51` tag は
 workflow run `33417057474` の immutable な lightweight-tag 公開失敗で、provider Release はなく再利用しません。未公開で失敗した
-`v0.2.49` tag は再利用せず、現在の package identity は `v0.2.70` です。
+`v0.2.49` tag は再利用せず、現在の package identity は `v0.2.71` です。
 失敗した `v0.2.56` tag は source-quality failure による immutable な未公開履歴であり、installation identity として再利用しません。
 失敗した `v0.2.68` tag も immutable な公開失敗履歴として保持し（workflow run `33795945667`）、provider Release がないため installation identity には使用しません。
 
