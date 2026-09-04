@@ -30,38 +30,38 @@
     "release"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-570-release-v0-2-74",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/551",
     "worktree": "/private/tmp/ai-cockpit-wi570-release-v0-2-74"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "release artifacts and version consistency",
+      "evidence": [],
       "expected": "v0.2.74 metadata, documentation, manifest, checksums, SBOM, provenance, and attestation agree with the reviewed tag",
       "required": true,
+      "scenario": "release artifacts and version consistency",
       "status": "unverified",
-      "verificationPlan": "run the repository version, source archive policy, documentation, parity, and release CI checks",
-      "evidence": []
+      "verificationPlan": "run the repository version, source archive policy, documentation, parity, and release CI checks"
     },
     {
-      "scenario": "public artifact adopter installation",
+      "evidence": [],
       "expected": "the downloaded public v0.2.74 binary governs this repository without source fallback and preserves forbidden-root isolation",
       "required": true,
+      "scenario": "public artifact adopter installation",
       "status": "unverified",
-      "verificationPlan": "run the post-release adopter acceptance harness from the immutable public archive and retain its receipt",
-      "evidence": []
+      "verificationPlan": "run the post-release adopter acceptance harness from the immutable public archive and retain its receipt"
     },
     {
-      "scenario": "release acceptance failure and cleanup",
+      "evidence": [],
       "expected": "failed acceptance preserves release truth, records the failure, and removes only its isolated temporary run root",
       "required": true,
+      "scenario": "release acceptance failure and cleanup",
       "status": "unverified",
-      "verificationPlan": "exercise the release acceptance test wrapper failure path and verify its output manifest and cleanup assertion",
-      "evidence": []
+      "verificationPlan": "exercise the release acceptance test wrapper failure path and verify its output manifest and cleanup assertion"
     }
   ],
   "scope": [

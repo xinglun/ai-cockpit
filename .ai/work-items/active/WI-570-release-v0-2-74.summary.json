@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-04T13:05:16Z",
-  "checkpointContractDigest": "sha256:fb3b0845a183626cc95ba956090b47a10f0723e0e1428fbfd2fab4345e26c40c",
+  "checkpointContractDigest": "sha256:e4afc79b158c95f0d5e92d97677f40f84dfad7bbfee58fb64d7976e76fcd0de9",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -57,9 +57,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-570-release-v0-2-74"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:e4afc79b158c95f0d5e92d97677f40f84dfad7bbfee58fb64d7976e76fcd0de9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a22e47ef430070bad803fd01b092f2b78b9472ea67319d90eb9a352af7a9ae2c",
+      "previousContractHash": "sha256:fb3b0845a183626cc95ba956090b47a10f0723e0e1428fbfd2fab4345e26c40c",
+      "reason": "Rebind reviewed GitHub PR #551 after CI ordering correction",
+      "recorded": true,
+      "recordedAt": "2026-09-04T13:22:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e5cb4ed61ffbd848815450d952056c094fe4e7c530a86f420e2ae91345c652a1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-570-release-v0-2-74"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:2451b90cbc31014e8509248e0c41113e1bcd37fe29929b5bb410b652672408f4",
+  "checkpointRepositorySnapshotDigest": "sha256:e5cb4ed61ffbd848815450d952056c094fe4e7c530a86f420e2ae91345c652a1",
   "createdAt": "2026-09-04T12:58:36Z",
   "failedGate": "finish.governance",
   "intentAlignment": {
@@ -74,10 +94,10 @@
   },
   "mode": "implementation",
   "outcomeState": "blocked",
-  "preflightAt": "2026-09-04T13:07:55Z",
-  "preflightContractDigest": "sha256:fb3b0845a183626cc95ba956090b47a10f0723e0e1428fbfd2fab4345e26c40c",
+  "preflightAt": "2026-09-04T13:23:18Z",
+  "preflightContractDigest": "sha256:e4afc79b158c95f0d5e92d97677f40f84dfad7bbfee58fb64d7976e76fcd0de9",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:2451b90cbc31014e8509248e0c41113e1bcd37fe29929b5bb410b652672408f4",
+  "preflightRepositorySnapshotDigest": "sha256:e5cb4ed61ffbd848815450d952056c094fe4e7c530a86f420e2ae91345c652a1",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
