@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-552 — installation と upgrade reference 比較 batch 40"
 description: "Pinned installer/upgrade 17 path を逐次比較し、Runtime capability discovery を厳密化する。"
 audience: [maintainer, reviewer]
-status: current
+status: implemented
 authority: canonical
 workItemId: WI-552-reference-file-comparison-batch-40-install-upgrade
 lastVerifiedBy: WI-552-reference-file-comparison-batch-40-install-upgrade
+terminalArchive: .ai/work-items/archive/WI-552-reference-file-comparison-batch-40-install-upgrade.contract.json
+terminalVerification: .ai/evidence/WI-552-reference-file-comparison-batch-40-install-upgrade.verification.json
+terminalFinalization: .ai/decisions/WI-552-reference-file-comparison-batch-40-install-upgrade.finalize.json
+terminalDecision: .ai/decisions/WI-552-reference-file-comparison-batch-40-install-upgrade.close.json
 ---
 
 # WI-552 — installation と upgrade reference 比較 batch 40
