@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-573-wi572-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-573-wi572-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-573-wi572-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-573-wi572-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-04T21:47:01Z",
-  "checkpointContractDigest": "sha256:f28257f2c4ef90c7a2d957e5974c4bba1a66f59ac26269d7f0358531a62d1686",
+  "checkpointContractDigest": "sha256:37c30842f7c84d0f74967b0395990fbec53746d7b9f2e1b32777a8864c00fc65",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,29 +40,45 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-573-wi572-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:37c30842f7c84d0f74967b0395990fbec53746d7b9f2e1b32777a8864c00fc65",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dab2bf0ea86e6f1eac322d97e76a98773209b58a83ad08729ac8f2b483fb9f51",
+      "previousContractHash": "sha256:f28257f2c4ef90c7a2d957e5974c4bba1a66f59ac26269d7f0358531a62d1686",
+      "reason": "Bind the actual reviewed GitHub PR #554 resource context before the terminal lifecycle; the prior verification must be invalidated and regenerated for the exact provider identity.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T21:53:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2e588ad396ea351bd0af53e8fcc0f939d6c7bcc5a3539d50c04367fa99981970",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-573-wi572-doc-promotion"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:2e588ad396ea351bd0af53e8fcc0f939d6c7bcc5a3539d50c04367fa99981970",
   "createdAt": "2026-09-04T21:46:42Z",
-  "failedGate": "finish.governance",
   "mode": "docs",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-04T21:51:33Z",
-  "preflightContractDigest": "sha256:f28257f2c4ef90c7a2d957e5974c4bba1a66f59ac26269d7f0358531a62d1686",
+  "preflightAt": "2026-09-04T21:53:38Z",
+  "preflightContractDigest": "sha256:37c30842f7c84d0f74967b0395990fbec53746d7b9f2e1b32777a8864c00fc65",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:2e588ad396ea351bd0af53e8fcc0f939d6c7bcc5a3539d50c04367fa99981970",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-04T21:51:37Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T21:53:42Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:88850d831ffb379d20a5f6c52da49793a6ca18ecc01d7be8a665c6808ef38401",
   "workItemId": "WI-573-wi572-doc-promotion"
 }

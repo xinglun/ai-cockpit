@@ -25,11 +25,11 @@
   "repositorySnapshotDigest": "sha256:22952ada6d52a01346d24e3e05d7fbca90d5981514f708b31e9e52ba6764d530",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-573-wi572-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/554",
     "worktree": "/private/tmp/ai-cockpit-wi573-wi572-doc-promotion"
   },
   "risk": "low",
