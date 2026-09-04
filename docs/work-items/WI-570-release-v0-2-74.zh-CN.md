@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-570——v0.2.74 发布与公开制品验收"
 description: "发布并验证下一版不可变 AI Cockpit Runtime。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-570-release-v0-2-74
 lastVerifiedBy: WI-570-release-v0-2-74
+terminalArchive: .ai/work-items/archive/WI-570-release-v0-2-74.contract.json
+terminalVerification: .ai/evidence/WI-570-release-v0-2-74.verification.json
+terminalFinalization: .ai/decisions/WI-570-release-v0-2-74.finalize.json
+terminalDecision: .ai/decisions/WI-570-release-v0-2-74.close.json
 ---
 
 [English](WI-570-release-v0-2-74.md) · [日本語](WI-570-release-v0-2-74.ja.md)

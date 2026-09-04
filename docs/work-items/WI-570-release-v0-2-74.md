@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-570 — v0.2.74 release and public-artifact acceptance"
 description: "Publish and validate the next immutable AI Cockpit Runtime release."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-570-release-v0-2-74
 lastVerifiedBy: WI-570-release-v0-2-74
+terminalArchive: .ai/work-items/archive/WI-570-release-v0-2-74.contract.json
+terminalVerification: .ai/evidence/WI-570-release-v0-2-74.verification.json
+terminalFinalization: .ai/decisions/WI-570-release-v0-2-74.finalize.json
+terminalDecision: .ai/decisions/WI-570-release-v0-2-74.close.json
 ---
 
 [简体中文](WI-570-release-v0-2-74.zh-CN.md) · [日本語](WI-570-release-v0-2-74.ja.md)
