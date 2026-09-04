@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-552-reference-file-comparison-batch-40
+lastVerifiedBy: WI-557-reference-file-comparison-batch-41
 capabilityClaims:
   - reference_parity
 ---
@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `98cb678ac81c611570546be1fdf9e9181836ba2e`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.70` binary, SHA256 `0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `603a82b78ff6c2c02662cd6b9f6c53b0415a2f25`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.71` binary, SHA256 `c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -255,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=360 implemented-equivalent=1 not-applicable=6 reference-only=95 deferred-next-batch=307 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=372 implemented-equivalent=1 not-applicable=6 reference-only=96 deferred-next-batch=294 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -269,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 360 |
+| `implemented-different-by-design` | 372 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 95 |
-| `deferred-next-batch` | 307 |
+| `reference-only` | 96 |
+| `deferred-next-batch` | 294 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1886,3 +1886,36 @@ No portable omission was found. Attached object/adopter repositories inherit
 the same shared Runtime, explicit repository binding, isolated protocol/
 evidence/knowledge, strict migration boundary, and human Outcome handoff; they
 do not inherit source installer state, provider policy, or Python code.
+
+## WI-557 — source governance and maintenance script comparison batch 41
+
+WI-557 re-read thirteen deferred source scripts at the pinned reference commit.
+Twelve responsibilities are represented by Rust-native typed Protocol,
+repository, verification, or documentation boundaries. The fixed recovery
+scenario registry remains `reference-only`: the current Runtime exposes
+explicit recovery commands and evidence, but does not claim a generic source
+scenario catalog. Source Python implementation and source JSONL/YAML wire
+formats are not copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_issue_log.py` | implemented-different-by-design | Typed task-outcome events, finding/risk fingerprints, append-only evidence, and localized Outcome reporting provide issue identity and redaction boundaries; source issue-log JSONL is not a Runtime wire contract. |
+| `scripts/ai_linked_worktree_recovery.py` | implemented-different-by-design | Linked-worktree topology, finalization/recovery receipts, and exact branch/worktree cleanup are repository lifecycle responsibilities; foreign duplicate diagnosis remains read-only. |
+| `scripts/ai_ownership.py` | implemented-different-by-design | Typed Agent adapter ownership, managed-region checks, repository identity, and fail-closed mutation replace the source ownership helper. |
+| `scripts/ai_performance_budget.py` | implemented-different-by-design | Identity-bound PerformanceBaseline samples, cost observations, and regression budgets provide advisory measurement without weakening verification. |
+| `scripts/ai_project_profile.py` | implemented-different-by-design | Strict repository profile declarations, observed facts, profile policy, and explicit operation mappings replace source YAML profile validation. |
+| `scripts/ai_purge.py` | implemented-different-by-design | Evidence retention metadata and `evidence purge-plan` require export, protected paths, confirmation, and a deterministic plan; Runtime does not silently delete evidence. |
+| `scripts/ai_readiness_policy.py` | implemented-different-by-design | `status`, `doctor`, compatibility, and dynamic verification routes expose calibrated/readiness facts without executing source policy probes. |
+| `scripts/ai_recovery_usability.py` | reference-only | Recovery documentation, explicit `recover`, and human Outcome guidance preserve the portable boundary; a generic fixed scenario registry is source-specific and is not claimed. |
+| `scripts/ai_review_readiness_policy.py` | implemented-different-by-design | Preflight/review gates and provider-bound PR evidence provide review readiness; no report-only source focus list is installed. |
+| `scripts/ai_risk_policy.py` | implemented-different-by-design | Typed Contract/Outcome findings, residual-risk signals, and explicit human decisions provide the risk boundary without copying source policy fields. |
+| `scripts/ai_rollback.py` | implemented-different-by-design | Immutable release identity, migration plans, and recovery receipts provide bounded rollback/restore evidence; source managed-region restore semantics are not portable Runtime authority. |
+| `scripts/ai_safety_gate.py` | implemented-different-by-design | Operation-time policy and critical-domain guards require explicit target, scope, authority, freshness, trust, impact, and verified evidence before dangerous actions. |
+| `scripts/ai_schema_migration.py` | implemented-different-by-design | Typed compatibility and migration plans/apply preserve historical bytes, require approval, and reject reverse/ambiguous transitions. |
+
+No portable implementation omission was found in this slice. Attached
+object/adopter repositories inherit the shared Runtime, isolated repository
+context, Contract/evidence/knowledge records, and human Outcome boundary; they
+do not inherit source issue logs, provider policy values, Python modules, or a
+generic source recovery catalog. Source test files for these scripts remain a
+later file-level comparison batch and are not silently treated as completed.
