@@ -6,17 +6,75 @@
   "checkpointAt": "2026-09-04T06:31:16Z",
   "checkpointContractDigest": "sha256:68318e18b8c597ba006d3fac1307956ea8d753e932804a64b24a644d4f92d1a9",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:caa5f24ea6607f41b490aaa40a85f5cc7bb0a605dca572b3d34f53b8784766c6",
+  "checkpointRepositorySnapshotDigest": "sha256:4621c323b6df13e844fe80801e929fb9175d19362c046a2ac7bf478e321c7c4c",
   "createdAt": "2026-09-04T06:23:53Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-561-release-v0-2-72.md",
+      "docs/work-items/WI-561-release-v0-2-72.zh-CN.md",
+      "docs/work-items/WI-561-release-v0-2-72.ja.md"
+    ],
+    "reason": "The current changes remain limited to the v0.2.72 release identity, its tri-language distribution guidance, and the declared release acceptance boundary.",
+    "state": "resolved"
+  },
   "mode": "code",
-  "preflightAt": "2026-09-04T06:31:10Z",
+  "preflightAt": "2026-09-04T06:40:32Z",
   "preflightContractDigest": "sha256:68318e18b8c597ba006d3fac1307956ea8d753e932804a64b24a644d4f92d1a9",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:caa5f24ea6607f41b490aaa40a85f5cc7bb0a605dca572b3d34f53b8784766c6",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4621c323b6df13e844fe80801e929fb9175d19362c046a2ac7bf478e321c7c4c",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "tests/release/version_consistency.sh",
+        "tests/release/source_archive_policy_test.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
+      "expected": "v0.2.72 metadata, documentation, and release policy agree with the reviewed candidate",
+      "reason": "The local version, archive, documentation, and parity gates passed for the v0.2.72 release candidate. Public artifact execution remains a post-tag acceptance boundary.",
+      "required": true,
+      "scenario": "release artifacts and version consistency",
+      "status": "verified",
+      "verificationPlan": "Run the same gates in CI and bind their result to the immutable reviewed tag."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.md"
+      ],
+      "reason": "This scenario is executable only after the v0.2.72 public Release exists; the post-release harness is explicitly retained as the required next boundary.",
+      "required": true,
+      "scenario": "public artifact adopter installation",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "reason": "Failure-path acceptance runs against the immutable public Release after tagging and cannot be executed truthfully before publication.",
+      "required": true,
+      "scenario": "release acceptance failure and cleanup",
+      "status": "not_applicable"
+    }
+  ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-04T06:31:16Z",
+  "updatedAt": "2026-09-04T06:36:57.977973+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-561-release-v0-2-72"
 }
