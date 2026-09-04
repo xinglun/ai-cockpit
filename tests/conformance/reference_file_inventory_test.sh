@@ -61,7 +61,7 @@ done
 # Bounded rebaseline batches resolve changed source records; WI-521 resolves
 # one of the previously changed deferred records. Keep this regression count
 # tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 57
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 54
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -575,6 +575,45 @@ grep -q "WI-559" "$root/docs/reference/reference-file-comparison.ja.md"
 grep -q "WI-559" "$root/docs/reference/reference-parity.md"
 grep -q "WI-559" "$root/docs/reference/reference-parity.zh-CN.md"
 grep -q "WI-559" "$root/docs/reference/reference-parity.ja.md"
+
+# WI-563 compares the next twenty maintained source scripts one by one.
+# Keep this exact slice and its explicit non-claims in the regression so a
+# future rebaseline cannot silently return the paths to deferred work.
+wi563_paths=(
+  scripts/ai_wizard_io.py
+  scripts/ai_wizard_localization.py
+  scripts/ai_work_item_intelligence.py
+  scripts/ai_work_item_intelligence_benchmark.py
+  scripts/ai_work_item_status.py
+  scripts/bootstrap_repository.py
+  scripts/bootstrap_wizard.py
+  scripts/bootstrap_write_boundary.py
+  scripts/check_bandit_baseline.py
+  scripts/check_changed_critical_coverage.py
+  scripts/check_ci_release_evidence.sh
+  scripts/check_critical_coverage.py
+  scripts/check_deprecated_assets.py
+  scripts/check_dev_tool_versions.py
+  scripts/check_docs_metadata.py
+  scripts/check_governance_complexity.py
+  scripts/check_instruction_traceability.py
+  scripts/check_pre_release_documentation_alignment.py
+  scripts/check_real_absurd_injection_docs.py
+  scripts/check_release_distribution.py
+)
+for wi563_path in "${wi563_paths[@]}"; do
+  test "$(jq --arg path "$wi563_path" '[.records[] | select(.referencePath == $path and .batch == "WI-563-reference-file-comparison-batch-43" and (.classification == "implemented-different-by-design" or .classification == "reference-only" or .classification == "not-applicable") and (.classification == "not-applicable" or (.rustCounterparts | length) > 0) and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-563-reference-file-comparison-batch-43")] | length' "$current_manifest")" -eq 20
+test "$(jq '[.records[] | select(.batch == "WI-563-reference-file-comparison-batch-43" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-563-reference-file-comparison-batch-43" and .classification == "reference-only")] | length' "$current_manifest")" -eq 5
+test "$(jq '[.records[] | select(.batch == "WI-563-reference-file-comparison-batch-43" and .classification == "not-applicable")] | length' "$current_manifest")" -eq 1
+grep -q "WI-563" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-563" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-563" "$root/docs/reference/reference-file-comparison.ja.md"
+grep -q "WI-563" "$root/docs/reference/reference-parity.md"
+grep -q "WI-563" "$root/docs/reference/reference-parity.zh-CN.md"
+grep -q "WI-563" "$root/docs/reference/reference-parity.ja.md"
 
 # WI-521 resolves the next pinned local source scripts one by one.  Keep this
 # explicit so a future rebaseline cannot silently return the slice to deferred
