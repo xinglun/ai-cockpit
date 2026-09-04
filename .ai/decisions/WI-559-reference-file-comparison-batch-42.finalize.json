@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "post-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1322519863b0ff71df11070ef887b3cc1f3f3a2e",
+    "name": "codex/wi-559-reference-file-comparison-batch-42",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:134ad3c12114bd48421fab6acf193f8bdd14b99e76f8366c4f073eaced4c02b3",
+  "operationId": "github-pr-537-merge-cleanup-20260904",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "347f4723453814256bdba0779758ede8e48f33e7",
+    "headRevision": "1322519863b0ff71df11070ef887b3cc1f3f3a2e",
+    "mergeCommit": "4e2475d2f2b55e5759622f731f92c4db6aa60481",
+    "number": 537,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/537"
+  },
+  "reason": "Finalize the reviewed and merged WI-559 branch and dedicated worktree after all hosted checks passed.",
+  "receiptId": "github-pr-537-finalization-20260904",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-559-reference-file-comparison-batch-42",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/537",
+    "worktree": "/private/tmp/ai-cockpit-wi559-reference-file-comparison-batch-42"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba",
+  "runtimeVersion": "0.2.71",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T05:50:00Z",
+  "workItemId": "WI-559-reference-file-comparison-batch-42",
+  "worktree": {
+    "branch": "codex/wi-559-reference-file-comparison-batch-42",
+    "headRevision": "1322519863b0ff71df11070ef887b3cc1f3f3a2e",
+    "path": "/private/tmp/ai-cockpit-wi559-reference-file-comparison-batch-42",
+    "worktreeId": "wi559-reference-file-comparison-batch-42"
+  }
+}
