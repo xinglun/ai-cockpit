@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-release-workflow",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "91fe71c8a859e040c33403ed078005f1fbdeb114",
+    "name": "codex/wi-575-wi574-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:047858dd137fcc81c57eaed419a630e72d0d4681994f35bbe0dff657a16df2f3",
+  "operationId": "wi-575-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5f661274b72c90dd6e897f8d1437952c36c4d35e",
+    "headRevision": "91fe71c8a859e040c33403ed078005f1fbdeb114",
+    "number": 556,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/556"
+  },
+  "reason": "await reviewed PR merge before exact branch and worktree cleanup",
+  "receiptId": "wi-575-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-575-wi574-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/556",
+    "worktree": "/private/tmp/ai-cockpit-wi575-wi574-doc-promotion"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6ffcc2b697c6849dfab2e6d89d801377ffba45a9bc5d56add2e82bf1eb5e8a52",
+  "runtimeVersion": "0.2.74",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T08:24:00Z",
+  "workItemId": "WI-575-wi574-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-575-wi574-doc-promotion",
+    "headRevision": "91fe71c8a859e040c33403ed078005f1fbdeb114",
+    "path": "/private/tmp/ai-cockpit-wi575-wi574-doc-promotion",
+    "worktreeId": "WI-575-wi574-doc-promotion"
+  }
+}
