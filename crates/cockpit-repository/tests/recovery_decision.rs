@@ -1016,6 +1016,24 @@ fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
     )
     .expect("record verification");
 
+    let recovered_summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/active/{id}.summary.json")),
+        )
+        .expect("summary after retry verification"),
+    )
+    .expect("summary JSON");
+    assert!(
+        recovered_summary.get("recoveryRetryPending").is_none(),
+        "fresh verification must consume the retry marker projection"
+    );
+    assert!(
+        recovered_summary.get("recoveryRetryDecisionPath").is_none(),
+        "fresh verification must not leave a stale retry path projection"
+    );
+
     let decision = preflight_work_item_with_runtime(
         directory.path(),
         &directory
@@ -1089,10 +1107,10 @@ fn contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence() {
 
     let stale_preflight =
         preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
-            .expect("stale evidence should produce an explicit blocked decision");
-    assert_eq!(stale_preflight.state, cockpit_core::DecisionState::Red);
+            .expect("stale predecessor evidence should remain recoverable");
+    assert_ne!(stale_preflight.state, cockpit_core::DecisionState::Red);
     assert!(
-        stale_preflight
+        !stale_preflight
             .blockers
             .contains(&"evidence_contradictory".into())
     );

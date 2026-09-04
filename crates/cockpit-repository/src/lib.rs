@@ -5332,6 +5332,8 @@ fn finish_work_item_internal(
     let mut summary: serde_json::Value = read_json(&summary_path)?;
     let summary_state = summary["state"].as_str().unwrap_or("");
     let retry_recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    let verification_recovery_reconciled =
+        summary["verificationRecoveryReconciled"].as_str().is_some();
     require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
     if summary_state != "checkpointed" {
         return Err(ObserverError::State {
@@ -5513,6 +5515,7 @@ fn finish_work_item_internal(
         object.remove("failedGate");
         object.remove("recoveryCondition");
         object.remove("outcomeState");
+        object.remove("verificationRecoveryReconciled");
     }
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
@@ -5533,8 +5536,12 @@ fn finish_work_item_internal(
         recovery_condition_override: None,
         historical: false,
     });
-    let (task_report_digest, task_report_markdown_digest) =
-        write_task_outcome_artifacts(&root, work_item_id, &task_report, retry_recovery_pending)?;
+    let (task_report_digest, task_report_markdown_digest) = write_task_outcome_artifacts(
+        &root,
+        work_item_id,
+        &task_report,
+        retry_recovery_pending || verification_recovery_reconciled,
+    )?;
     if retry_recovery_pending {
         summary
             .as_object_mut()
@@ -6529,6 +6536,10 @@ fn record_verification_internal(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let prior_evidence_present = fs::symlink_metadata(&evidence_path).is_ok();
     if !matches!(
         summary["state"].as_str(),
         Some("checkpointed" | "finish_ready")
@@ -6690,6 +6701,9 @@ fn record_verification_internal(
         raw_decision.clone(),
         false,
     )?;
+    let reconcile_blocked_outcome = recovery_retry_pending
+        || contract_amendment_pending
+        || (!prior_evidence_present && decision.state != DecisionState::Red);
     let decision_value =
         serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
             path: contract_path.clone(),
@@ -6749,6 +6763,30 @@ fn record_verification_internal(
     // checkpoint against the new Contract and snapshot. The immutable
     // before_edit evidence remains in the append-only chain; only this
     // current lifecycle binding advances.
+    // A retry recovery marker authorizes exactly one replacement verification.
+    // Once that verification and its refreshed governance projection are
+    // persisted, consume only the marker projection; the append-only recovery
+    // receipt remains immutable history. Leaving the marker set would make a
+    // subsequent preflight demand a receipt bound to the already-advanced
+    // Summary and strand an otherwise valid retry.
+    if reconcile_blocked_outcome {
+        let summary_object = summary
+            .as_object_mut()
+            .expect("Work Item Summary is an object");
+        summary_object.remove("recoveryRetryPending");
+        summary_object.remove("recoveryRetryDecisionPath");
+        summary_object.remove("recoveryRetryDecisionDigest");
+        // Bind the replacement verification to the explicit retry boundary.
+        // outcome_v2 revalidates this digest against the current evidence and
+        // full identity before superseding a blocked Outcome projection.
+        summary["verificationRecoveryReconciled"] = cockpit_protocol::digest_json(&evidence)
+            .map_err(|error| ObserverError::State {
+                path: summary_path.clone(),
+                message: error.to_string(),
+            })?
+            .to_string()
+            .into();
+    }
     summary["checkpointContractDigest"] = contract_digest(&contract_path)?.to_string().into();
     summary["checkpointRepositorySnapshotDigest"] =
         snapshot_digest(&refreshed_snapshot)?.to_string().into();
@@ -6759,6 +6797,14 @@ fn record_verification_internal(
             &root,
             work_item_id,
             &evidence,
+            &snapshot_digest(&refreshed_snapshot)?,
+        )?;
+    } else if reconcile_blocked_outcome {
+        refresh_active_outcome_after_recovery_verification(
+            &root,
+            work_item_id,
+            current_runtime,
+            &refreshed_snapshot,
             &snapshot_digest(&refreshed_snapshot)?,
         )?;
     }
@@ -6837,6 +6883,80 @@ fn refresh_active_outcome_verification_binding(
         outcome["taskReportDigest"] = Digest::sha256_bytes(&report_bytes).to_string().into();
     }
     atomic_json(&outcome_path, &outcome)
+}
+
+/// Replace a blocked active Outcome after the explicitly authorized retry has
+/// produced a fresh, identity-bound verification.  Failure events remain
+/// append-only; this file is only the current projection consumed by
+/// `finish`/`archive` and must no longer strand the repaired lifecycle.
+fn refresh_active_outcome_after_recovery_verification(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+    snapshot: &RepositorySnapshot,
+    snapshot_digest: &Digest,
+) -> Result<(), ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    if fs::symlink_metadata(&outcome_path).is_err() {
+        return Ok(());
+    }
+    if !is_regular_non_symlink(&outcome_path)? {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message: "recovery verification requires a regular active Outcome".into(),
+        });
+    }
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let evidence = read_json(&evidence_path)?;
+    let outcome = outcome_v2_internal_with_snapshot(
+        root,
+        work_item_id,
+        current_runtime,
+        Some((snapshot, snapshot_digest)),
+    )?;
+    if outcome.state != OutcomeState::Verified
+        || outcome.decision_state != Some(DecisionState::Green)
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "fresh recovery verification did not produce a green Outcome projection"
+                .into(),
+        });
+    }
+    let task_report = outcome
+        .task_outcome_report
+        .as_ref()
+        .ok_or_else(|| ObserverError::State {
+            path: outcome_path.clone(),
+            message: "green recovery Outcome is missing its task report".into(),
+        })?;
+    let (task_report_digest, task_report_markdown_digest) =
+        write_task_outcome_artifacts(root, work_item_id, task_report, true)?;
+    let mut value = serde_json::to_value(outcome).map_err(|error| ObserverError::State {
+        path: outcome_path.clone(),
+        message: error.to_string(),
+    })?;
+    value["protocolVersion"] = serde_json::json!(1);
+    value["workItemId"] = serde_json::json!(work_item_id);
+    value["state"] = serde_json::json!("checkpointed");
+    value["verification"] = serde_json::json!({
+        "status": "verified",
+        "required": true,
+        "evidencePath": format!(".ai/evidence/{work_item_id}.verification.json"),
+    });
+    value["evidenceDigest"] = cockpit_protocol::digest_json(&evidence)
+        .map_err(|error| ObserverError::State {
+            path: evidence_path,
+            message: error.to_string(),
+        })?
+        .to_string()
+        .into();
+    value["taskReportDigest"] = task_report_digest.to_string().into();
+    value["taskReportMarkdownDigest"] = task_report_markdown_digest.to_string().into();
+    atomic_json(&outcome_path, &value)
 }
 
 /// Bind a raw execution result to its Work Item/repository/Runtime identity
@@ -9449,10 +9569,19 @@ fn verification_evidence_state(
     {
         return Ok(EvidenceState::Contradictory);
     }
-    if let Some(contract_digest) = envelope.contract_digest.as_ref()
-        && contract_digest != &contract_digest_for_evidence(root, contract)?
-    {
-        return Ok(EvidenceState::Contradictory);
+    let expected_contract_digest = contract_digest_for_evidence(root, contract)?;
+    // An explicit Contract amendment deliberately invalidates the previous
+    // verification cycle.  Treat only that bound predecessor digest as
+    // stale so a fresh verify can replace it; malformed, foreign, or
+    // tampered evidence still remains contradictory and fail-closed.
+    let amendment_invalidates_previous = !archived
+        && contract_amendment_invalidates_verification(root, contract, &expected_contract_digest);
+    if envelope.contract_digest.as_ref() != Some(&expected_contract_digest) {
+        return Ok(if amendment_invalidates_previous {
+            EvidenceState::Stale
+        } else {
+            EvidenceState::Contradictory
+        });
     }
 
     if let Some(embedded_retention) = envelope.retention.as_ref() {
@@ -9569,6 +9698,29 @@ fn verification_evidence_state(
         }
     }
     Ok(EvidenceState::Complete)
+}
+
+/// Return whether the active Summary records an explicit amendment for the
+/// current Contract.  This is intentionally a narrow compatibility lane for
+/// replacing a stale predecessor verification receipt; it never authorizes
+/// malformed or identity-mismatched evidence.
+fn contract_amendment_invalidates_verification(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    current_contract_digest: &Digest,
+) -> bool {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.summary.json", contract.work_item_id));
+    let Ok(summary) = read_json(&summary_path) else {
+        return false;
+    };
+    summary
+        .get("verificationInvalidatedByContractAmendment")
+        .and_then(|value| value.get("contractHash"))
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok())
+        .is_some_and(|digest| digest == *current_contract_digest)
 }
 
 /// Return true when an archived receipt is integrity-valid as historical
@@ -15184,7 +15336,40 @@ fn outcome_v2_internal_with_snapshot(
     // blocked projection.  Prefer that projection over recomputing the
     // evidence-only view so a failed finish cannot be presented as merely
     // "not ready" (or, worse, as verified after a later evidence change).
-    let persisted_failure = if !archived {
+    // A fresh verification performed through an explicit recovery retry may
+    // replace a blocked active Outcome projection. Treat the projection as
+    // reconciled only when the Summary marker matches the current evidence
+    // digest and the strict evidence validator still passes.
+    let current_summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let current_summary = read_json(&current_summary_path).ok();
+    let recovery_projection_reconciled = if !archived {
+        current_summary
+            .as_ref()
+            .and_then(|summary| summary["verificationRecoveryReconciled"].as_str())
+            .is_some_and(|marker| {
+                let evidence_path = root
+                    .join(".ai/evidence")
+                    .join(format!("{work_item_id}.verification.json"));
+                let Some(evidence) = read_json(&evidence_path).ok() else {
+                    return false;
+                };
+                let Ok(digest) = cockpit_protocol::digest_json(&evidence) else {
+                    return false;
+                };
+                marker == digest.to_string()
+                    && verification_evidence_state(
+                        &root,
+                        &contract,
+                        snapshot,
+                        false,
+                        current_runtime,
+                    )
+                    .is_ok_and(|state| state == EvidenceState::Complete)
+            })
+    } else {
+        false
+    };
+    let persisted_failure = if !archived && !recovery_projection_reconciled {
         let path = active.join(format!("{work_item_id}.outcome.json"));
         is_regular_non_symlink(&path)
             .ok()

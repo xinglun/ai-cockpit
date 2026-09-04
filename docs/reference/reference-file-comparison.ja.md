@@ -318,7 +318,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=420 implemented-equivalent=1 not-applicable=7 reference-only=107 deferred-next-batch=234 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=439 implemented-equivalent=1 not-applicable=7 reference-only=108 deferred-next-batch=214 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -330,11 +330,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 420 |
+| `implemented-different-by-design` | 439 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 107 |
-| `deferred-next-batch` | 234 |
+| `reference-only` | 108 |
+| `deferred-next-batch` | 214 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1588,3 +1588,32 @@ WI-568 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 | `scripts/installer/evidence.py` | implemented-different-by-design | typed adapter receipt と immutable adopter manifest が repository identity、managed-section digest、Runtime、cleanup を bind。 |
 
 この batch に portable implementation omission はありません。3 件の `reference-only` は source template 固有の fixture/adoption driver であり、Runtime control の欠落ではありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、人間向け Outcome boundary を継承しますが、source Python installer module、provider policy value、stack matrix、source wire は継承しません。現在の 4,450 path snapshot は 3,681 `generated-history`、420 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、107 `reference-only`、234 `deferred-next-batch` で、669 retired record は append-only、`migrate-gap` は zero です。
+
+## WI-572 — installer、quality、adopter、release、claim boundary の比較 batch 45
+
+WI-572 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の次の 20 path を一つずつ再読しました。19 件は `implemented-different-by-design`、1 件は `reference-only` です。source の Python installer、quality runner、release projection、adopter matrix は source/provider boundary であり、source module と wire format は copy しません。
+
+| 固定 reference path | 分類 | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/installer/git_state.py` | implemented-different-by-design | shared Runtime Git observer、repository identity、snapshot、Agent planning。 |
+| `scripts/installer/inspection.py` | implemented-different-by-design | typed Agent inspect/doctor と明示的 repository diagnostics。 |
+| `scripts/installer/legacy.py` | implemented-different-by-design | published shared Runtime、attach、Agent adapter が template-local Python/Make migration/rollback を置換。 |
+| `scripts/installer/ownership.py` | implemented-different-by-design | adapter ownership、managed path、symlink 拒否、doctor/repair test。 |
+| `scripts/installer/planning.py` | implemented-different-by-design | repository-bound Agent plan と identity-bound attach output。 |
+| `scripts/installer/presentation.py` | implemented-different-by-design | localized CLI/Agent presentation と stable JSON。source の一行 renderer は protocol ではない。 |
+| `scripts/installer/rollback.py` | implemented-different-by-design | bounded adapter repair/detach と ownership/rollback evidence。 |
+| `scripts/installer/transaction.py` | implemented-different-by-design | explicit confirmation、atomic write、lock、fail-closed mutation。 |
+| `scripts/installer/upgrade.py` | implemented-different-by-design | published release semver と repository-local adapter upgrade record。 |
+| `scripts/quality_measurements.py` | implemented-different-by-design | identity-bound Rust performance sample、budget、cost observation。hosted runner fact は delegated evidence。 |
+| `scripts/quality_session_lock.py` | implemented-different-by-design | request-scoped verification concurrency と lifecycle control。Make/fcntl marker は provider mechanics。 |
+| `scripts/quality_test_manifest.py` | implemented-different-by-design | versioned gate manifest と typed receipt が command/stage/identity/required checks を bind。pytest/JUnit shard は CI fact。 |
+| `scripts/real_adopter_reference_validation.py` | reference-only | source-template 七 project matrix。target は immutable artifact acceptance で、stack matrix は claim しない。 |
+| `scripts/release_archive.py` | implemented-different-by-design | deterministic、安全、platform-aware Rust release archive と checksum/SBOM/provenance。 |
+| `scripts/run_quality_gate.py` | implemented-different-by-design | Rust verification と reviewed gate manifest が command identity、failure evidence、Contract を bind。 |
+| `scripts/run_quality_session.py` | implemented-different-by-design | dynamic route/canonical gate が ordered quality phase と failure retention を保持。 |
+| `scripts/summarize_quality_gates.py` | implemented-different-by-design | Rust cost observation が wall/total cost、repetition/cache、efficiency、budget evidence を保持。 |
+| `scripts/sync_published_release_projection.py` | implemented-different-by-design | typed ReleaseManifest/Handoff、immutable tag、archive digest、reviewed workflow が publish identity を bind。 |
+| `scripts/unsupported_claim_gate.py` | implemented-different-by-design | typed Outcome claim が evidence と inference を分離し unsupported benefit を fail-closed。 |
+| `scripts/verify_quick_install_release.py` | implemented-different-by-design | release tooling/acceptance が downloaded immutable artifact、manifest/binary digest、supported platform を検証。 |
+
+この slice に portable implementation omission はありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、dynamic quality boundary、human Outcome handoff を継承しますが、source Python installer、provider policy value、source wire format は継承しません。現在の 4,450 path set は 3,681 `generated-history`、458 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、109 `reference-only`、214 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only です。

@@ -192,7 +192,37 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
     )
     .expect("summary JSON");
     assert_eq!(summary["preflightState"], "green");
+    let outcome: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-ORDER-RECOVER.outcome.json"),
+        )
+        .expect("reconciled outcome"),
+    )
+    .expect("reconciled outcome JSON");
+    assert_eq!(
+        outcome["state"], "checkpointed",
+        "fresh verification must replace the stale blocked projection"
+    );
+    assert_eq!(outcome["verification"]["status"], "verified");
+    assert_eq!(outcome["decisionState"], "green");
     finish_work_item(directory.path(), "WI-ORDER-RECOVER").expect("finish after recovery");
+    let finished_summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-ORDER-RECOVER.summary.json"),
+        )
+        .expect("finished summary"),
+    )
+    .expect("finished summary JSON");
+    assert!(
+        finished_summary
+            .get("verificationRecoveryReconciled")
+            .is_none(),
+        "finish must consume the recovery projection marker"
+    );
 }
 
 #[test]
@@ -445,4 +475,62 @@ fn legacy_command_only_amendment_after_verification_has_no_gate_to_invalidate() 
         amendment["invalidatedRequiredChecks"],
         serde_json::json!([])
     );
+}
+
+#[test]
+fn contract_amendment_allows_stale_predecessor_verification_to_be_replaced() {
+    let directory = repository();
+    let id = "WI-ORDER-AMEND-REVERIFY";
+    start(directory.path(), id, &[]);
+    let contract_path = contract(directory.path(), id);
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.74",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("initial verification");
+
+    let mut amended: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("JSON");
+    amended["title"] = serde_json::json!("amended after verification");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&amended).expect("serialize contract"),
+    )
+    .expect("amended contract");
+    revalidate_contract_amendment(
+        directory.path(),
+        id,
+        "replace the predecessor verification after an authorized Contract amendment",
+    )
+    .expect("amendment revalidation");
+
+    let decision = preflight_work_item(directory.path(), &contract_path)
+        .expect("stale predecessor must not block a fresh preflight");
+    assert_ne!(decision.state, DecisionState::Red);
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.74",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("replacement verification");
 }

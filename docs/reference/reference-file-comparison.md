@@ -255,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=420 implemented-equivalent=1 not-applicable=7 reference-only=107 deferred-next-batch=234 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=439 implemented-equivalent=1 not-applicable=7 reference-only=108 deferred-next-batch=214 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -269,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 420 |
+| `implemented-different-by-design` | 439 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 107 |
-| `deferred-next-batch` | 234 |
+| `reference-only` | 108 |
+| `deferred-next-batch` | 214 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2044,3 +2044,45 @@ formats. The current 4,450-path snapshot is 3,681 `generated-history`, 420
 `implemented-different-by-design`, one `implemented-equivalent`, 7
 `not-applicable`, 107 `reference-only`, and 234 `deferred-next-batch`; 669
 retired records remain append-only and `migrate-gap` is zero.
+
+## WI-572 — installer, quality, adopter, release, and claim-boundary comparison batch 45
+
+WI-572 re-read the next twenty maintained reference paths one by one at the
+pinned local commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. Nineteen
+responsibilities are implemented differently by design and one is
+`reference-only`. The source Python installer, quality runner, release
+projection, and adopter matrix remain source/provider boundaries; no source
+module or wire format is copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/installer/git_state.py` | implemented-different-by-design | Shared Runtime Git observer, repository identity, snapshot, and Agent planning. |
+| `scripts/installer/inspection.py` | implemented-different-by-design | Typed Agent inspect/doctor and explicit repository diagnostics. |
+| `scripts/installer/legacy.py` | implemented-different-by-design | Published shared Runtime, attach, and Agent adapters replace template-local Python/Make migration and rollback. |
+| `scripts/installer/ownership.py` | implemented-different-by-design | Adapter ownership records, managed paths, symlink rejection, and doctor/repair tests. |
+| `scripts/installer/planning.py` | implemented-different-by-design | Repository-bound Agent plans and attach output with explicit identity and bounded writes. |
+| `scripts/installer/presentation.py` | implemented-different-by-design | Localized CLI/Agent presentation with stable JSON; source one-line renderer is not a protocol. |
+| `scripts/installer/rollback.py` | implemented-different-by-design | Bounded adapter repair/detach with ownership and rollback evidence. |
+| `scripts/installer/transaction.py` | implemented-different-by-design | Explicit confirmation, atomic writes, locks, and fail-closed adapter mutation. |
+| `scripts/installer/upgrade.py` | implemented-different-by-design | Published release semver and repository-local adapter upgrade records. |
+| `scripts/quality_measurements.py` | implemented-different-by-design | Identity-bound Rust performance samples, budgets, and cost observations; hosted runner facts remain delegated evidence. |
+| `scripts/quality_session_lock.py` | implemented-different-by-design | Request-scoped verification concurrency and repository lifecycle controls; Make/fcntl markers are provider mechanics. |
+| `scripts/quality_test_manifest.py` | implemented-different-by-design | Versioned gate manifest and typed receipts bind commands, stages, identity, and required checks; pytest/JUnit shard details remain CI facts. |
+| `scripts/real_adopter_reference_validation.py` | reference-only | Reference-template seven-project matrix; target uses immutable public artifact acceptance without claiming that stack matrix. |
+| `scripts/release_archive.py` | implemented-different-by-design | Deterministic, safe, platform-aware Rust release archives with checksum/SBOM/provenance. |
+| `scripts/run_quality_gate.py` | implemented-different-by-design | Rust verification and reviewed gate manifest own command identity, failure evidence, and Contract binding. |
+| `scripts/run_quality_session.py` | implemented-different-by-design | Dynamic route and canonical gates preserve ordered quality phases and failure retention. |
+| `scripts/summarize_quality_gates.py` | implemented-different-by-design | Rust cost observations preserve wall/total cost, repetition/cache, efficiency, and budget evidence where applicable. |
+| `scripts/sync_published_release_projection.py` | implemented-different-by-design | Typed ReleaseManifest/Handoff, immutable tags, archive digests, and reviewed workflow bind published identity. |
+| `scripts/unsupported_claim_gate.py` | implemented-different-by-design | Typed Outcome claims separate evidence from inference and keep unsupported benefits fail-closed. |
+| `scripts/verify_quick_install_release.py` | implemented-different-by-design | Downloaded immutable artifacts, manifest/binary digests, and supported-platform checks in release tooling and acceptance. |
+
+No portable implementation omission was found in this slice. Attached
+object/adopter repositories inherit the same shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, dynamic quality
+boundaries, and human Outcome handoff; they do not inherit source Python
+installer modules, provider policy values, or source wire formats. The current
+4,450-path set contains 3,681 `generated-history`, 458
+`implemented-different-by-design`, one `implemented-equivalent`, 7
+`not-applicable`, 109 `reference-only`, and 214 `deferred-next-batch` records;
+`migrate-gap` remains zero and 669 retired records remain append-only.

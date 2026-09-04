@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:813f30b602717024fe66296045d8e689cb3efbf8be6d5dbe8f0fcf80c392482c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "确认在已绑定真实 PR 资源、当前 Contract 与新鲜验证快照内完成本批收尾；不扩大范围，不将历史 retry 或高风险边界外的事实转为完成。",
+  "recordedAt": "2026-09-05T01:30:00Z",
+  "recordedBy": "repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:05c8687b47ca304dedc257b2d141837e2dc19516e2a7ad50bb8c46e14da850e8",
+  "schemaVersion": 1,
+  "workItemId": "WI-572-reference-installer-quality-batch-45"
+}

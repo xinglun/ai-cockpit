@@ -61,7 +61,10 @@ done
 # Bounded rebaseline batches resolve changed source records; WI-521 resolves
 # one of the previously changed deferred records. Keep this regression count
 # tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 51
+# The pinned source inventory currently leaves 46 changed records explicitly
+# deferred. Keep this count tied to the committed ledger so a batch cannot
+# silently change the historical rebaseline boundary.
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 46
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -708,6 +711,37 @@ python3 "$script" \
   --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf \
   --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b \
   --check
+
+for wi572_path in \
+  scripts/installer/git_state.py \
+  scripts/installer/inspection.py \
+  scripts/installer/legacy.py \
+  scripts/installer/ownership.py \
+  scripts/installer/planning.py \
+  scripts/installer/presentation.py \
+  scripts/installer/rollback.py \
+  scripts/installer/transaction.py \
+  scripts/installer/upgrade.py \
+  scripts/quality_measurements.py \
+  scripts/quality_session_lock.py \
+  scripts/quality_test_manifest.py \
+  scripts/real_adopter_reference_validation.py \
+  scripts/release_archive.py \
+  scripts/run_quality_gate.py \
+  scripts/run_quality_session.py \
+  scripts/summarize_quality_gates.py \
+  scripts/sync_published_release_projection.py \
+  scripts/unsupported_claim_gate.py \
+  scripts/verify_quick_install_release.py; do
+  test "$(jq --arg path "$wi572_path" '[.records[] | select(.referencePath == $path and .batch == "WI-572-reference-installer-quality-batch-45" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45")] | length' "$current_manifest")" -eq 20
+test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 19
+test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and .classification == "reference-only")] | length' "$current_manifest")" -eq 1
+test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-batch-45" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+grep -q "WI-572" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-572" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-572" "$root/docs/reference/reference-file-comparison.ja.md"
 
 reference_fixture="$tmp/reference"
 target_fixture="$tmp/target"
