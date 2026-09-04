@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-04T12:38:27Z",
-  "checkpointContractDigest": "sha256:2d1f1588f232507873ccba8b68f998a5e8c665a5db248c608d11ecdb8d74feb9",
+  "checkpointContractDigest": "sha256:0b3507b87be18afcd3375c84a1d0623e78fa16caac4ccb39434054fe58a28729",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,20 +37,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-569-wi568-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:0b3507b87be18afcd3375c84a1d0623e78fa16caac4ccb39434054fe58a28729",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8791df8394f0720430e64beff313fbf8e24e1886abb822c8e1e4528594dde4f8",
+      "previousContractHash": "sha256:2d1f1588f232507873ccba8b68f998a5e8c665a5db248c608d11ecdb8d74feb9",
+      "reason": "Revalidate the documented promotion checks after binding the actual reviewed PR context.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T12:43:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:48974fbe90b96d4ffeb03bd5bcd4fbccfe300ca57745d7338bd9841095cf4bd4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-569-wi568-doc-promotion"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:48974fbe90b96d4ffeb03bd5bcd4fbccfe300ca57745d7338bd9841095cf4bd4",
   "createdAt": "2026-09-04T12:37:46Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-04T12:42:41Z",
-  "preflightContractDigest": "sha256:2d1f1588f232507873ccba8b68f998a5e8c665a5db248c608d11ecdb8d74feb9",
+  "preflightAt": "2026-09-04T12:43:46Z",
+  "preflightContractDigest": "sha256:0b3507b87be18afcd3375c84a1d0623e78fa16caac4ccb39434054fe58a28729",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:48974fbe90b96d4ffeb03bd5bcd4fbccfe300ca57745d7338bd9841095cf4bd4",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-04T12:38:27Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T12:43:46Z",
   "verification": [
     {
       "check": "project-command-0",
