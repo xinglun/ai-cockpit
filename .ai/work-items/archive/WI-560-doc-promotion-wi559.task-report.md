@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-560-doc-promotion-wi559.contract.json
-- Changed path: .ai/work-items/active/WI-560-doc-promotion-wi559.summary.json
+- Changed path: .ai/work-items/archive/WI-560-doc-promotion-wi559.contract.json
+- Changed path: .ai/work-items/archive/WI-560-doc-promotion-wi559.summary.json
 
 ## Findings
 

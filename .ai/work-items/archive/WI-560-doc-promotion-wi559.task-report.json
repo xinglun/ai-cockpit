@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-560-doc-promotion-wi559.summary.json"
+          ".ai/work-items/archive/WI-560-doc-promotion-wi559.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-560-doc-promotion-wi559.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-560-doc-promotion-wi559.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-560-doc-promotion-wi559.summary.json"
+          ".ai/work-items/archive/WI-560-doc-promotion-wi559.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-560-doc-promotion-wi559.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-560-doc-promotion-wi559.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-560-doc-promotion-wi559.contract.json"
+          ".ai/work-items/archive/WI-560-doc-promotion-wi559.contract.json"
         ],
         "inference": false,
         "text": "Promote the terminal WI-559 documentation projections after its verified close."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-560-doc-promotion-wi559.contract.json"
+          ".ai/work-items/archive/WI-560-doc-promotion-wi559.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
