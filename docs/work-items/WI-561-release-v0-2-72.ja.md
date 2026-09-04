@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-561 — v0.2.72 release と公開 artifact acceptance"
 description: "次の immutable AI Cockpit Runtime Release を公開し検証する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-561-release-v0-2-72
 lastVerifiedBy: WI-561-release-v0-2-72
+terminalArchive: .ai/work-items/archive/WI-561-release-v0-2-72.contract.json
+terminalVerification: .ai/evidence/WI-561-release-v0-2-72.verification.json
+terminalFinalization: .ai/decisions/WI-561-release-v0-2-72.finalize.json
+terminalDecision: .ai/decisions/WI-561-release-v0-2-72.close.json
 ---
 
 [English](WI-561-release-v0-2-72.md) · [简体中文](WI-561-release-v0-2-72.zh-CN.md)

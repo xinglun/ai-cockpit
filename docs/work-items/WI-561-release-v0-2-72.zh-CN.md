@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-561——v0.2.72 发布与公开产物验收"
 description: "发布并验收下一版不可变 AI Cockpit Runtime。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-561-release-v0-2-72
 lastVerifiedBy: WI-561-release-v0-2-72
+terminalArchive: .ai/work-items/archive/WI-561-release-v0-2-72.contract.json
+terminalVerification: .ai/evidence/WI-561-release-v0-2-72.verification.json
+terminalFinalization: .ai/decisions/WI-561-release-v0-2-72.finalize.json
+terminalDecision: .ai/decisions/WI-561-release-v0-2-72.close.json
 ---
 
 [English](WI-561-release-v0-2-72.md) · [日本語](WI-561-release-v0-2-72.ja.md)
