@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-559-reference-file-comparison-batch-42
+lastVerifiedBy: WI-563-reference-file-comparison-batch-43
 capabilityClaims:
   - reference_parity
 ---
@@ -24,8 +24,8 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `603a82b78ff6c2c02662cd6b9f6c53b0415a2f25`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.71` binary, SHA256 `c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `89c9e63b1733ad77a58d1544105bde8ba24cf877`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.72` binary, SHA256 `sha256:405247cc11f30664ab6337fd36f47a96a9d6c4907f3821077987d7fc365a85dd`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -255,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=389 implemented-equivalent=1 not-applicable=6 reference-only=99 deferred-next-batch=274 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=403 implemented-equivalent=1 not-applicable=7 reference-only=104 deferred-next-batch=254 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -269,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 389 |
+| `implemented-different-by-design` | 403 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 6 |
-| `reference-only` | 99 |
-| `deferred-next-batch` | 274 |
+| `not-applicable` | 7 |
+| `reference-only` | 104 |
+| `deferred-next-batch` | 254 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1957,3 +1957,48 @@ inherits the shared Runtime, explicit repository binding, isolated
 Contract/evidence/knowledge, trust and lifecycle gates, and human Outcome
 handoff; it does not inherit source launchers, provider commands, or Python
 wire formats.
+
+## WI-563 — wizard, intelligence, bootstrap, quality, and release checker comparison batch 43
+
+WI-563 re-read the next twenty maintained source scripts one by one at the
+pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`.
+The table records each responsibility, its Rust counterpart, and the boundary
+where the source remains presentation- or provider-specific. No Python,
+Shell, Make, or source JSON implementation is copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_wizard_io.py` | reference-only | TTY input primitives are host/Agent presentation concerns. Explicit non-interactive CLI/MCP schemas and visible Outcomes replace a second Runtime wizard. |
+| `scripts/ai_wizard_localization.py` | implemented-different-by-design | CLI/MCP localize Runtime chrome and preserve authored Contract text; source locale resources and placeholder API are not wire requirements. |
+| `scripts/ai_work_item_intelligence.py` | implemented-different-by-design | Typed Protocol, repository, knowledge, and CLI projections provide fact-derived, request-scoped Work Item intelligence with append-only evidence; source global cache/aggregation is not copied. |
+| `scripts/ai_work_item_intelligence_benchmark.py` | reference-only | Source percentile benchmark output is implementation-specific. Rust performance samples and regression gates remain advisory and cannot authorize governance. |
+| `scripts/ai_work_item_status.py` | implemented-different-by-design | Repository-bound `status` and `work-item status` provide stable JSON and human projections; no generated Python status file is authoritative. |
+| `scripts/bootstrap_repository.py` | implemented-different-by-design | Shared Git observation plus `inspect`/`observe`/`status`/`doctor` provide remote, branch, dirty, conflict, and identity facts without source snapshot wire compatibility. |
+| `scripts/bootstrap_wizard.py` | reference-only | Interactive Bootstrap session state is a presentation adapter. Rust keeps explicit detect/propose/confirm/attach commands and never manufactures readiness or authority. |
+| `scripts/bootstrap_write_boundary.py` | implemented-different-by-design | Typed attach/migration/adapter writes enforce allowlists, regular paths, symlink rejection, atomic ownership, confirmation, and drift checks; source Makefile block protocol is not copied. |
+| `scripts/check_bandit_baseline.py` | not-applicable | Python/Bandit baseline tooling has no Rust Runtime product surface; Cargo, Clippy, and Rust tests are the applicable controls. |
+| `scripts/check_changed_critical_coverage.py` | implemented-different-by-design | Reviewed CI gate manifests and Contract/verification controls bind changed-critical coverage and candidate snapshots; the source pytest predictor/report is not used as authority. |
+| `scripts/check_ci_release_evidence.sh` | implemented-different-by-design | Release/adopter harnesses validate artifact fields, digests, SBOM/provenance, and isolation against immutable public releases; source shell checker is not a fallback. |
+| `scripts/check_critical_coverage.py` | reference-only | Python per-file coverage floors are source-specific. Rust keeps applicable package/test and performance gates without claiming that threshold or report wire. |
+| `scripts/check_deprecated_assets.py` | reference-only | Source deprecated-asset registry is not a deletion authority. Rust uses immutable history, finalization, retention metadata, and owner-approved cleanup. |
+| `scripts/check_dev_tool_versions.py` | implemented-different-by-design | Cargo lock/toolchain metadata and pinned CI actions provide reproducibility; Python package-pin parsing remains source-specific. |
+| `scripts/check_docs_metadata.py` | implemented-different-by-design | Documentation acceptance and closed-Work-Item promotion check front matter, links, tri-language parity, command evidence, and claims without copying the source checker schema. |
+| `scripts/check_governance_complexity.py` | implemented-different-by-design | Governance-integrity gates, complexity budgets, archive checks, and Runtime lifecycle evidence preserve the responsibility; source Python metrics cannot rewrite history. |
+| `scripts/check_instruction_traceability.py` | implemented-different-by-design | Typed Contract/evidence/archive manifests and governance-integrity checks bind instruction → plan → implementation → acceptance links without adopting source audit JSON. |
+| `scripts/check_pre_release_documentation_alignment.py` | implemented-different-by-design | Tri-language docs checks, projection promotion, and release gates provide current alignment; source revision-bound reports remain historical evidence. |
+| `scripts/check_real_absurd_injection_docs.py` | implemented-different-by-design | Adversarial documentation and Rust trust regressions preserve explicit refusal evidence; source assessment helpers and fixed case registry are not Core code. |
+| `scripts/check_release_distribution.py` | implemented-different-by-design | Immutable tag/archive discovery, checksum/SBOM/provenance, installer behavior, and post-release adopter acceptance are handled by Rust release workflows and harnesses. |
+
+No portable implementation omission was found in this batch. Five
+`reference-only` paths are presentation-, Python-coverage-, or source-registry
+specific, and one Bandit checker is not applicable. The remaining fourteen
+responsibilities are represented by Rust-native Runtime, repository, CI,
+documentation, or release boundaries. Attached object/adopter repositories
+inherit those same shared Runtime, explicit repository-context, isolated
+Contract/evidence/knowledge, trust/lifecycle, and human Outcome boundaries;
+they do not inherit source Python modules, provider policy values, or source
+wire formats. The current 4,450-path set contains 3,681
+`generated-history`, 403 `implemented-different-by-design`, one
+`implemented-equivalent`, 7 `not-applicable`, 104 `reference-only`, and 254
+`deferred-next-batch` records; `migrate-gap` remains zero and 669 retired
+records remain append-only.

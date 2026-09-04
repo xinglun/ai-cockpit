@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-559-reference-file-comparison-batch-42
+lastVerifiedBy: WI-563-reference-file-comparison-batch-43
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `603a82b78ff6c2c02662cd6b9f6c53b0415a2f25`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.70`、binary SHA256 `sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `89c9e63b1733ad77a58d1544105bde8ba24cf877`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.72`、binary SHA256 `sha256:405247cc11f30664ab6337fd36f47a96a9d6c4907f3821077987d7fc365a85dd`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -318,7 +318,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=389 implemented-equivalent=1 not-applicable=6 reference-only=99 deferred-next-batch=274 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=403 implemented-equivalent=1 not-applicable=7 reference-only=104 deferred-next-batch=254 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -330,11 +330,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 389 |
+| `implemented-different-by-design` | 403 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 6 |
-| `reference-only` | 99 |
-| `deferred-next-batch` | 274 |
+| `not-applicable` | 7 |
+| `reference-only` | 104 |
+| `deferred-next-batch` | 254 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1530,3 +1530,32 @@ WI-559 は固定ローカル参照コミット `fde3380f81fea5fd2e288f7a8849f737
 | `scripts/ai_verify.py` | implemented-different-by-design | Rust verify route、checker registry、planner、Contract gate、delegated release/adopter evidence。 |
 
 この batch に portable omission はない。3 つの `reference-only` は参照/provider または stack 固有のツールであり、Runtime の欠落ではない。各 attached object/adopter repository は shared Runtime、明示的 repository binding、分離された Contract/evidence/knowledge、trust/lifecycle gate、human Outcome handoff を継承するが、参照の launcher、provider command、Python wire format は継承しない。
+
+## WI-563 — wizard、intelligence、bootstrap、quality、release checker の比較 batch 43
+
+WI-563 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の次の維持対象 20 script を一つずつ再読した。各責務と Rust 側の対応、source/provider 境界を下表に記録する。Python、Shell、Make、source JSON implementation は copy しない。
+
+| 参照パス | 分類 | Rust 側の対応／境界 |
+| --- | --- | --- |
+| `scripts/ai_wizard_io.py` | reference-only | TTY 入力は host/Agent presentation の責務。明示的 non-interactive CLI/MCP schema と visible Outcome が第二の Runtime wizard に代わる。 |
+| `scripts/ai_wizard_localization.py` | implemented-different-by-design | CLI/MCP が Runtime chrome を localize し、Contract は authored language のまま保持する。source locale と placeholder API は wire requirement ではない。 |
+| `scripts/ai_work_item_intelligence.py` | implemented-different-by-design | typed Protocol、repository、knowledge、CLI が fact-derived/request-scoped intelligence と append-only evidence を提供する。source global cache/aggregation は copy しない。 |
+| `scripts/ai_work_item_intelligence_benchmark.py` | reference-only | source percentile benchmark は Python 実装固有。Rust performance sample/regression gate は advisory で governance を authorize しない。 |
+| `scripts/ai_work_item_status.py` | implemented-different-by-design | repository-bound `status` と `work-item status` が stable JSON と human projection を提供し、generated Python status file は authority ではない。 |
+| `scripts/bootstrap_repository.py` | implemented-different-by-design | shared Git observer と `inspect`/`observe`/`status`/`doctor` が remote、branch、dirty、conflict、identity facts を提供し、source snapshot wire は採用しない。 |
+| `scripts/bootstrap_wizard.py` | reference-only | interactive Bootstrap session は presentation adapter。Rust は explicit detect/propose/confirm/attach を使い readiness/authority を生成しない。 |
+| `scripts/bootstrap_write_boundary.py` | implemented-different-by-design | typed attach/migration/adapter write が allowlist、regular path、symlink 拒否、atomic ownership、confirmation、drift check を実施し、source Makefile block protocol は copy しない。 |
+| `scripts/check_bandit_baseline.py` | not-applicable | Python/Bandit surface は Rust Runtime に存在しない。Cargo、Clippy、Rust test が適用される quality control である。 |
+| `scripts/check_changed_critical_coverage.py` | implemented-different-by-design | reviewed CI gate manifest と Contract/verification control が changed-critical coverage と candidate snapshot を bind する。source pytest predictor/report は authority ではない。 |
+| `scripts/check_ci_release_evidence.sh` | implemented-different-by-design | release/adopter harness が immutable public release の field、digest、SBOM/provenance、isolation を検証する。source shell checker は fallback ではない。 |
+| `scripts/check_critical_coverage.py` | reference-only | Python per-file coverage floor は source-specific。Rust は適用可能な package/test と performance gate を保持するが source threshold/report wire は主張しない。 |
+| `scripts/check_deprecated_assets.py` | reference-only | source deprecated-asset registry は deletion authority ではない。Rust は immutable history、finalization、retention metadata、owner-approved cleanup を使う。 |
+| `scripts/check_dev_tool_versions.py` | implemented-different-by-design | Cargo lock/toolchain metadata と pinned CI action が再現性を担保し、Python package pin parser は source 側に残る。 |
+| `scripts/check_docs_metadata.py` | implemented-different-by-design | documentation acceptance と closed-Work-Item promotion が front matter、link、tri-language parity、command evidence、claim を検査する。source schema は copy しない。 |
+| `scripts/check_governance_complexity.py` | implemented-different-by-design | governance-integrity gate、complexity budget、archive check、Runtime lifecycle evidence が責務を担う。source Python metric は history を書き換えない。 |
+| `scripts/check_instruction_traceability.py` | implemented-different-by-design | typed Contract/evidence/archive manifest と integrity gate が instruction → plan → implementation → acceptance を bind し、source audit JSON は採用しない。 |
+| `scripts/check_pre_release_documentation_alignment.py` | implemented-different-by-design | tri-language doc check、projection promotion、release gate が current alignment を担う。source revision-bound report は historical evidence のみである。 |
+| `scripts/check_real_absurd_injection_docs.py` | implemented-different-by-design | adversarial docs と Rust trust regression が明示的な refusal evidence を保持する。source assessment helper/fixed case registry は Core に入れない。 |
+| `scripts/check_release_distribution.py` | implemented-different-by-design | immutable tag/archive、checksum/SBOM/provenance、installer behavior、post-release adopter acceptance を Rust workflow/harness が担当する。 |
+
+この batch に portable implementation omission はない。5 件の `reference-only` は presentation、Python coverage、source registry 固有で、Bandit checker 1 件は not-applicable である。残り 14 責務は Rust Runtime、repository、CI、documentation、release boundary で表現される。attached object/adopter repository は同じ shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、trust/lifecycle、human Outcome boundary を継承するが、source Python module、provider policy value、source wire format は継承しない。現在の 4,450 path set は 3,681 `generated-history`、403 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、104 `reference-only`、254 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only である。

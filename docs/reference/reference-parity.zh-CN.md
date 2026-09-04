@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-559-reference-file-comparison-batch-42
+lastVerifiedBy: WI-563-reference-file-comparison-batch-43
 capabilityClaims:
   - reference_parity
 ---
@@ -506,6 +506,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-560——WI-559 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-560-doc-promotion-wi559.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-560-doc-promotion-wi559.contract.json`; verification `.ai/evidence/WI-560-doc-promotion-wi559.verification.json`; finalization `.ai/decisions/WI-560-doc-promotion-wi559.finalize.json`; close `.ai/decisions/WI-560-doc-promotion-wi559.close.json`. |
 | WI-561——v0.2.72 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-561-release-v0-2-72.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-561-release-v0-2-72.contract.json`; verification `.ai/evidence/WI-561-release-v0-2-72.verification.json`; finalization `.ai/decisions/WI-561-release-v0-2-72.finalize.json`; close `.ai/decisions/WI-561-release-v0-2-72.close.json`. |
 | WI-562——WI-561 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-562-doc-promotion-release.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-562-doc-promotion-release.contract.json`; verification `.ai/evidence/WI-562-doc-promotion-release.verification.json`; finalization `.ai/decisions/WI-562-doc-promotion-release.finalize.json`; close `.ai/decisions/WI-562-doc-promotion-release.close.json`. |
+| WI-563——参考源文件比对批次 43 | 已实现 | [Work Item](../work-items/WI-563-reference-file-comparison-batch-43.zh-CN.md)；终态 lifecycle: archive `.ai/work-items/archive/WI-563-reference-file-comparison-batch-43.contract.json`；verification `.ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json`；finalization `.ai/decisions/WI-563-reference-file-comparison-batch-43.finalize.json`；close `.ai/decisions/WI-563-reference-file-comparison-batch-43.close.json`。 |
 | WI-544——WI-543 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-544-wi543-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`；verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`；finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`；close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545——v0.2.68 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-545-release-v0-2-68.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546——WI-545 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-546-wi545-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -558,3 +559,7 @@ WI-191 增加 append-only finalization transition 链：不可变的 canonical b
 ## WI-559：onboarding 与 verification 脚本对齐
 
 WI-559 在[逐文件台账](reference-file-comparison.zh-CN.md)登记 20 个源脚本：17 个为 `implemented-different-by-design`，3 个为 `reference-only`。Rust Runtime 通过 typed、repository-bound API 提供可移植的 trust、生命周期、repository observation、verification、recovery 和 adapter ownership 语义；hosted snapshot 准备、Python AST 架构审计和 Java runtime 选择仍属于源/provider 或 adopter 专属能力。这是语义对齐，不是源命令或 wire 格式兼容。
+
+## WI-563：向导、智能、引导、质量与发布检查器对齐
+
+WI-563 在[逐文件台账](reference-file-comparison.zh-CN.md)登记 20 个维护中源脚本：14 个为 `implemented-different-by-design`，5 个为 `reference-only`，1 个为 `not-applicable`。Rust 目标通过 typed repository/Runtime service、显式 CLI/MCP presentation、CI/文档门和 immutable release/adopter acceptance 承载可移植责任。TTY 向导控制、Python/Bandit coverage 工具以及源 deprecated-asset registry 保持 presentation、源侧或 provider 专属边界。对象工程继承 shared Runtime 与隔离 repository context，不继承源 Python 模块或 wire 格式。台账保持追加式：669 个 retired 记录保留，`migrate-gap` 为零，当前仍有 254 个路径排入后续比对。
