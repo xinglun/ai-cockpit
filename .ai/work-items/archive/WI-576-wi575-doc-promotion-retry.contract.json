@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "WI-574 documentation is marked implemented only after its archived Contract, Summary, verification evidence, finalization receipt, and close receipt exist",
+    "The three reference-parity pages register WI-574 as implemented with exact terminal evidence paths",
+    "WI-576 parity registration is committed before its archive and remains plain In progress until verified close",
+    "No Runtime behavior, object repository, global Agent/MCP configuration, or historical governance bytes are changed",
+    "Documentation acceptance, parity checks, governance integrity, status consistency, workspace tests, and diff checks pass",
+    "The successor preserves the failed WI-575 PR as external audit history without claiming it merged"
+  ],
+  "authority": "explicit-user-authorized-successor-after-immutable-failed-delivery",
+  "baseRevision": "5f661274b72c90dd6e897f8d1437952c36c4d35e",
+  "createdAt": "2026-09-04T23:39:33Z",
+  "goal": "在不改写历史治理字节的前提下，按先登记、后归档、再评审合并、关闭后晋级的顺序完成文档投影",
+  "intent": "完成 WI-574 发布文档与三语 reference parity 的终态晋级，并以可审计方式记录 WI-575 的不可合并失败原因",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime or protocol behavior",
+    "Cargo source or binary implementation",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Global Agent or MCP configuration",
+    "Reference-source code or Python/Shell implementation copying",
+    "Rewriting WI-574",
+    " WI-575",
+    " or any historical Contract/Summary/evidence/archive/finalization/close bytes",
+    "Publishing or retagging v0.2.75",
+    "Unrelated documentation or feature work"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c7a9dd8fa4d86095c38bfc127b199737a2b52ba8a0237762d4f2857e56cf7c0b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-576-wi575-doc-promotion-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/557",
+    "worktree": "/private/tmp/ai-cockpit-wi576-wi575-doc-promotion-retry"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-574-release-v0-2-75.md",
+    "docs/work-items/WI-574-release-v0-2-75.zh-CN.md",
+    "docs/work-items/WI-574-release-v0-2-75.ja.md",
+    "docs/work-items/WI-576-wi575-doc-promotion-retry.md",
+    "docs/work-items/WI-576-wi575-doc-promotion-retry.zh-CN.md",
+    "docs/work-items/WI-576-wi575-doc-promotion-retry.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-576-wi575-doc-promotion-retry"
+}

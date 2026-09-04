@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-successor-after-immutable-failed-delivery",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "74ea1665e750b95a08a4ccfd1eb0bb1e68ecde15",
+    "name": "codex/wi-576-wi575-doc-promotion-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:aaf8eb1b67d0f317d808a09ea37dd7aca657dec71d7885026580bc211b4b35ed",
+  "operationId": "wi-576-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5f661274b72c90dd6e897f8d1437952c36c4d35e",
+    "headRevision": "74ea1665e750b95a08a4ccfd1eb0bb1e68ecde15",
+    "number": 557,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/557"
+  },
+  "reason": "await reviewed PR merge before exact branch and worktree cleanup",
+  "receiptId": "wi-576-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-576-wi575-doc-promotion-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/557",
+    "worktree": "/private/tmp/ai-cockpit-wi576-wi575-doc-promotion-retry"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6ffcc2b697c6849dfab2e6d89d801377ffba45a9bc5d56add2e82bf1eb5e8a52",
+  "runtimeVersion": "0.2.74",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T23:51:43Z",
+  "workItemId": "WI-576-wi575-doc-promotion-retry",
+  "worktree": {
+    "branch": "codex/wi-576-wi575-doc-promotion-retry",
+    "headRevision": "74ea1665e750b95a08a4ccfd1eb0bb1e68ecde15",
+    "path": "/private/tmp/ai-cockpit-wi576-wi575-doc-promotion-retry",
+    "worktreeId": "WI-576-wi575-doc-promotion-retry"
+  }
+}
