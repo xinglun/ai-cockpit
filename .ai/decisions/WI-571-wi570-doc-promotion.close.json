@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-571-wi570-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7a8cde028ca6b1c3d7b69ef36ef1f5d7475252c1f7c260d4fbc2b24c731ff7cb",
+      "workItemId": "WI-571-wi570-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-571-wi570-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-571-wi570-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-571-wi570-doc-promotion.verification.json",
+            ".ai/decisions/WI-571-wi570-doc-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-release at 2026-09-04T13:56:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-571-wi570-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-571-wi570-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-571-wi570-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-571-wi570-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-571-wi570-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize the three-language WI-570 and parity projections so the repository passes its post-close documentation readiness gate."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-571-wi570-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-571-wi570-doc-promotion"
+  },
+  "finalReportDigest": "sha256:db4a7ee59d1b45cf7cc112bb0a3920a5b0f4061b25e2b8355b4ec89998bc0cba",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:b37d5eea4719c7f443356d311519a0c8de17f948fbdcf11a6eb71701f65025e0",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-571-wi570-doc-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-release",
+    "decidedAt": "2026-09-04T13:56:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-571-wi570-doc-promotion.verification.json",
+      ".ai/decisions/WI-571-wi570-doc-promotion.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "Verified documentation projections and parity records are complete; PR #552 passed all hosted checks and the repository is synchronized.",
+    "resumeCondition": "Reopen only if post-close documentation readiness checks report a new stale projection."
+  },
+  "timestamp": "2026-09-04T13:55:45Z",
+  "workItemId": "WI-571-wi570-doc-promotion"
+}
