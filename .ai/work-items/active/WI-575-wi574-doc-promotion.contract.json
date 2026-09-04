@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "The v0.2.75 Work Item documentation is marked implemented only after its archived Contract, Summary, verification evidence, finalization receipt, and close receipt exist.",
+    "The three reference-parity pages register WI-574 as implemented with the exact release and documentation evidence paths.",
+    "No Runtime behavior, object repository, global Agent/MCP configuration, or historical governance bytes are changed.",
+    "Documentation acceptance, parity checks, status consistency, governance integrity, and diff checks pass before merge.",
+    "The promotion remains tri-language consistent and does not invent release/adopter evidence that has not been produced."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5f661274b72c90dd6e897f8d1437952c36c4d35e",
+  "createdAt": "2026-09-04T22:55:23Z",
+  "goal": "Promote the closed WI-574 release documentation and parity projections without changing governance facts.",
+  "intent": "Synchronize the tri-language WI-574 documentation and reference-parity projections with the already closed Work Item and its terminal evidence, so the repository's documentation state is current before publishing v0.2.75.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime or protocol behavior",
+    "Cargo source or binary implementation",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Global Agent or MCP configuration",
+    "Reference-source code or Python/Shell implementation copying",
+    "Rewriting WI-574 or any historical Contract",
+    " Summary",
+    " evidence",
+    " archive",
+    " finalization",
+    " or close bytes",
+    "Publishing or retagging v0.2.75",
+    "Unrelated documentation or feature work"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c7a9dd8fa4d86095c38bfc127b199737a2b52ba8a0237762d4f2857e56cf7c0b",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-575-wi574-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi575-wi574-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-574-release-v0-2-75.md",
+    "docs/work-items/WI-574-release-v0-2-75.zh-CN.md",
+    "docs/work-items/WI-574-release-v0-2-75.ja.md",
+    "docs/work-items/WI-575-wi574-doc-promotion.md",
+    "docs/work-items/WI-575-wi574-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-575-wi574-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-574-release-v0-2-75.contract.json",
+    ".ai/work-items/archive/WI-574-release-v0-2-75.summary.json",
+    ".ai/work-items/archive/WI-574-release-v0-2-75.archive.json",
+    ".ai/evidence/WI-574-release-v0-2-75.verification.json",
+    ".ai/decisions/WI-574-release-v0-2-75.finalize.json",
+    ".ai/decisions/WI-574-release-v0-2-75.close.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-575-wi574-doc-promotion"
+}

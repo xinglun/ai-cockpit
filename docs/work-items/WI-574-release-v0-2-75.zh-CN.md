@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-574——v0.2.75 发布与公开制品验收"
 description: "发布并验证下一版不可变 AI Cockpit Runtime。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-574-release-v0-2-75
 lastVerifiedBy: WI-574-release-v0-2-75
