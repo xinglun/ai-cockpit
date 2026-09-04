@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-564-doc-promotion-wi563.contract.json",
+    ".ai/work-items/archive/WI-564-doc-promotion-wi563.summary.json"
+  ],
+  "checkpointAt": "2026-09-04T09:29:07Z",
+  "checkpointContractDigest": "sha256:418ab56041e51d7d4fa35e594c11b0a496607deacdd033685c19b811b6a972f4",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bf126bf688b848432e6691e04a8e45e3578007f187ab6503a10ee4f7fc8274e3",
+      "recorded": true,
+      "recordedAt": "2026-09-04T09:29:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:946be7fd13d32d2d13b8732de5b5c004d22f2cf2766efaa3b3e0de58119d734a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-564-doc-promotion-wi563"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:418ab56041e51d7d4fa35e594c11b0a496607deacdd033685c19b811b6a972f4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bf126bf688b848432e6691e04a8e45e3578007f187ab6503a10ee4f7fc8274e3",
+      "previousContractHash": "sha256:bf126bf688b848432e6691e04a8e45e3578007f187ab6503a10ee4f7fc8274e3",
+      "reason": "Bind the reviewed PR context from finalize-plan; revalidate the current Contract before collecting verification evidence again.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T09:31:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:946be7fd13d32d2d13b8732de5b5c004d22f2cf2766efaa3b3e0de58119d734a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-564-doc-promotion-wi563"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:946be7fd13d32d2d13b8732de5b5c004d22f2cf2766efaa3b3e0de58119d734a",
+  "createdAt": "2026-09-04T09:29:07Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-04T09:32:37Z",
+  "preflightContractDigest": "sha256:418ab56041e51d7d4fa35e594c11b0a496607deacdd033685c19b811b6a972f4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:946be7fd13d32d2d13b8732de5b5c004d22f2cf2766efaa3b3e0de58119d734a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T09:32:37Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-564-doc-promotion-wi563"
+}
