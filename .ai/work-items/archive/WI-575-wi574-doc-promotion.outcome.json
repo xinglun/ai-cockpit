@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "The v0.2.75 Work Item documentation is marked implemented only after its archived Contract, Summary, verification evidence, finalization receipt, and close receipt exist.",
+    "The three reference-parity pages register WI-574 as implemented with the exact release and documentation evidence paths.",
+    "No Runtime behavior, object repository, global Agent/MCP configuration, or historical governance bytes are changed.",
+    "Documentation acceptance, parity checks, status consistency, governance integrity, and diff checks pass before merge.",
+    "The promotion remains tri-language consistent and does not invent release/adopter evidence that has not been produced."
+  ],
+  "createdAt": "2026-09-04T23:16:50Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:65efc0e426cbeffb1b7e046ec1f3f3b5f060b43d4d7caca190130fd4ad3c356b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-575-wi574-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-575-wi574-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-575-wi574-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b8077e9098d994e8ccd9a1a4a2dc6ec0a0f27756489db5dd0bc55818633583d5",
+      "workItemId": "WI-575-wi574-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-575-wi574-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-575-wi574-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-575-wi574-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-575-wi574-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-575-wi574-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-575-wi574-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-575-wi574-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-575-wi574-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-575-wi574-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-575-wi574-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Promote the closed WI-574 release documentation and parity projections without changing governance facts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-575-wi574-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-575-wi574-doc-promotion"
+  },
+  "taskReportDigest": "sha256:ac87b96378a6bcfe4a2ed8a97a472438a532dc4475749b2400fb05bf89995a67",
+  "taskReportMarkdownDigest": "sha256:473c71c3d3d9924a0465c8602fcef48e29b861260703e5154ee3b6828039c459",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-575-wi574-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-575-wi574-doc-promotion"
+}

@@ -36,11 +36,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-575-wi574-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/556",
     "worktree": "/private/tmp/ai-cockpit-wi575-wi574-doc-promotion"
   },
   "risk": "low",
