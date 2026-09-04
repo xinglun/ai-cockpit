@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:22d049e29a88e917d86ac5d3de2c3d10b13d82d03f00d68b7dddc99867db4553",
-  "createdAt": "2026-09-04T04:42:45Z",
+  "contractDigest": "sha256:9693230e67112dbe83454f401661cd782bc9c3edab863f3055517d73c6d9123d",
+  "createdAt": "2026-09-04T04:46:20Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 5256,
-      "executionElapsedMs": 5069,
+      "elapsedMs": 4701,
+      "executionElapsedMs": 4530,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 5256,
-    "executionElapsedMs": 5069,
-    "filesHashed": 23,
-    "filesRead": 23,
+    "elapsedMs": 4701,
+    "executionElapsedMs": 4530,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,17 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-557-reference-file-comparison-batch-41.ja.md",
-        "docs/work-items/WI-557-reference-file-comparison-batch-41.md",
-        "docs/work-items/WI-557-reference-file-comparison-batch-41.zh-CN.md",
-        "docs/work-items/WI-558-doc-promotion-wi557.ja.md",
-        "docs/work-items/WI-558-doc-promotion-wi557.md",
-        "docs/work-items/WI-558-doc-promotion-wi557.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "59c2d76fed1e3ce8490d31f37fd7ac279217e40d",
       "dependencyConfidence": "unknown",
@@ -54,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 5069,
+      "executionElapsedMs": 4530,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -102,7 +92,7 @@
     "runtimeVersion": "0.2.71",
     "workItemId": "WI-558-doc-promotion-wi557"
   },
-  "receiptDigest": "sha256:859164610d2be5ddd56fa70cdae05254212e9a141174a908a51c21bed636f3f1",
+  "receiptDigest": "sha256:2413f9b1ba162569f7170585fd31125e4889a372af0e5ecff281539f1bea0840",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:f57e0e52964bdc5d3731911170ae3f71e7b085d28cd9406e9610bbc6ec6227c6",
   "runtimeDigest": "sha256:c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba",
