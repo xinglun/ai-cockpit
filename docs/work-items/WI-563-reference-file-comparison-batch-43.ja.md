@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-563 — reference file 比較 batch 43"
 description: "維持対象の reference script 20 件を比較し、Rust の意味境界を記録する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-563-reference-file-comparison-batch-43
 lastVerifiedBy: WI-563-reference-file-comparison-batch-43
+terminalArchive: .ai/work-items/archive/WI-563-reference-file-comparison-batch-43.contract.json
+terminalVerification: .ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json
+terminalFinalization: .ai/decisions/WI-563-reference-file-comparison-batch-43.finalize.json
+terminalDecision: .ai/decisions/WI-563-reference-file-comparison-batch-43.close.json
 ---
 
 [English](WI-563-reference-file-comparison-batch-43.md) · [简体中文](WI-563-reference-file-comparison-batch-43.zh-CN.md)

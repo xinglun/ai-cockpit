@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-563——参考源文件比对第 43 批"
 description: "逐个比对 20 个维护中的参考脚本并记录有界的 Rust 语义决定。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-563-reference-file-comparison-batch-43
 lastVerifiedBy: WI-563-reference-file-comparison-batch-43
+terminalArchive: .ai/work-items/archive/WI-563-reference-file-comparison-batch-43.contract.json
+terminalVerification: .ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json
+terminalFinalization: .ai/decisions/WI-563-reference-file-comparison-batch-43.finalize.json
+terminalDecision: .ai/decisions/WI-563-reference-file-comparison-batch-43.close.json
 ---
 
 [English](WI-563-reference-file-comparison-batch-43.md) · [日本語](WI-563-reference-file-comparison-batch-43.ja.md)
