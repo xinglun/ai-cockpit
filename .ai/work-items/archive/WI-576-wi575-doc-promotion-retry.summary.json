@@ -1,32 +1,28 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-576-wi575-doc-promotion-retry.contract.json",
-    ".ai/work-items/active/WI-576-wi575-doc-promotion-retry.summary.json"
+    ".ai/work-items/archive/WI-576-wi575-doc-promotion-retry.contract.json",
+    ".ai/work-items/archive/WI-576-wi575-doc-promotion-retry.summary.json"
   ],
   "checkpointAt": "2026-09-04T23:43:42Z",
-  "checkpointContractDigest": "sha256:7ddfa4172771c8b0200ac3623f9f6d661dd2dd26663415fdd366ca884b67e8b6",
+  "checkpointContractDigest": "sha256:5cdc8f971296bb1840efb8677578698af72588bf5dc052da26dff8cf8d11287e",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:40b70410d1031271c4c5df97c6b6d14b7c360e814c037ab41edcca3e3d922871",
   "createdAt": "2026-09-04T23:39:33Z",
-  "failedGate": "finish.governance",
   "mode": "docs",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-04T23:46:59Z",
-  "preflightContractDigest": "sha256:7ddfa4172771c8b0200ac3623f9f6d661dd2dd26663415fdd366ca884b67e8b6",
+  "preflightAt": "2026-09-04T23:50:03Z",
+  "preflightContractDigest": "sha256:5cdc8f971296bb1840efb8677578698af72588bf5dc052da26dff8cf8d11287e",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:40b70410d1031271c4c5df97c6b6d14b7c360e814c037ab41edcca3e3d922871",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-04T23:47:12Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T23:50:09Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:eda8ed1e21b22b4b5f3227f789114e2d7ee63633ec70f1808a3f305757985405",
   "workItemId": "WI-576-wi575-doc-promotion-retry"
 }
