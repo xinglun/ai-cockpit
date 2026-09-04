@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-568：参考源逐文件比对批次 44"
 description: "逐个比较下一组 20 个维护中参考路径，记录有界的 Rust 语义决定。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-568-reference-file-comparison-batch-44
 lastVerifiedBy: WI-568-reference-file-comparison-batch-44
+terminalArchive: .ai/work-items/archive/WI-568-reference-file-comparison-batch-44.contract.json
+terminalVerification: .ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json
+terminalFinalization: .ai/decisions/WI-568-reference-file-comparison-batch-44.finalize.json
+terminalDecision: .ai/decisions/WI-568-reference-file-comparison-batch-44.close.json
 ---
 
 [English](WI-568-reference-file-comparison-batch-44.md) · [日本語](WI-568-reference-file-comparison-batch-44.ja.md)
