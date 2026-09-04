@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-566 — documentation promotion for WI-565"
 description: "Promote the verified-close documentation projections for WI-565 and register this bounded promotion Work Item."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-566-documentation-promotion
 lastVerifiedBy: WI-566-documentation-promotion
+terminalArchive: .ai/work-items/archive/WI-566-documentation-promotion.contract.json
+terminalVerification: .ai/evidence/WI-566-documentation-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-566-documentation-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-566-documentation-promotion.close.json
 ---
 
 [简体中文](WI-566-documentation-promotion.zh-CN.md) · [日本語](WI-566-documentation-promotion.ja.md)

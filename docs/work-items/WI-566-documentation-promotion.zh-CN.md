@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-566——WI-565 文档投影晋级"
 description: "晋级已验证关闭的 WI-565 三语文档，并登记本次有界晋级任务。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-566-documentation-promotion
 lastVerifiedBy: WI-566-documentation-promotion
+terminalArchive: .ai/work-items/archive/WI-566-documentation-promotion.contract.json
+terminalVerification: .ai/evidence/WI-566-documentation-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-566-documentation-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-566-documentation-promotion.close.json
 ---
 
 [English](WI-566-documentation-promotion.md) · [日本語](WI-566-documentation-promotion.ja.md)
