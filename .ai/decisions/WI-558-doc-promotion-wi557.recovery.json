@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-04T04:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-558-doc-promotion-wi557.verification.json",
+    ".ai/work-items/active/WI-558-doc-promotion-wi557.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "AGENTS.md:premerge-finalization-before-close"
+  ],
+  "predecessorContractDigest": "sha256:9693230e67112dbe83454f401661cd782bc9c3edab863f3055517d73c6d9123d",
+  "predecessorEventsDigest": "sha256:0b907d884900fdf6c36a712154f012eb2ada302b80baaa56cd98dbb41ecbbca4",
+  "predecessorOutcomeDigest": "sha256:18952ce836e0bf55c32674b011cfa5b656a518871fb421c1cc753c71d363a635",
+  "predecessorSummaryDigest": "sha256:2e721b3121f8c13c392aa590a7a49086db18ebb0e1cf1d11c9557a09d37636bb",
+  "predecessorWorkItemId": "WI-558-doc-promotion-wi557",
+  "reason": "The first finish attempt was correctly blocked because finalize-plan was not bound; retry after the explicit reviewed PR plan and fresh verification, preserving the blocked attempt as immutable evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification with the bound finalization plan, then complete finish, archive, reviewed merge, finalization, and close.",
+  "runtimeDigest": "sha256:c157d1960c19f34df790ebe5e4083eb90a360ef079b872cc7f160f266c99eaba",
+  "runtimeVersion": "0.2.71",
+  "schemaVersion": 1,
+  "workItemId": "WI-558-doc-promotion-wi557"
+}
