@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-551-wi550-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-551-wi550-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-04T00:20:23Z",
+  "checkpointContractDigest": "sha256:b98019cd8937addf3c36747ac48ee9e2e1bf50f01339663ee42d771f3702c5b8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:737c6da66d5d884ba6ec268e330842cd8b9189e82c44ac1c21bfd5a521e59b52",
+      "recorded": true,
+      "recordedAt": "2026-09-04T00:20:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4de7f8f27550787a22a9373cac7a0d431d145121e2e0f5a6ed9d8daa0536304d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-551-wi550-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bbab3584936d74bb869c8666e635276ad1076d5a3ff62920bb14d460d2ae1ea2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:737c6da66d5d884ba6ec268e330842cd8b9189e82c44ac1c21bfd5a521e59b52",
+      "previousContractHash": "sha256:737c6da66d5d884ba6ec268e330842cd8b9189e82c44ac1c21bfd5a521e59b52",
+      "reason": "Add the Work Item's own tri-language projection pages required by the repository parity gate; scope remains documentation-only and immutable governance records remain out of scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T00:21:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4de7f8f27550787a22a9373cac7a0d431d145121e2e0f5a6ed9d8daa0536304d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-551-wi550-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:52795a6d67de103e7d21e7117d01610491ca966737665b293edebc4d3ceb11c5",
+  "createdAt": "2026-09-04T00:19:37Z",
+  "mode": "code",
+  "preflightAt": "2026-09-04T00:30:48Z",
+  "preflightContractDigest": "sha256:b98019cd8937addf3c36747ac48ee9e2e1bf50f01339663ee42d771f3702c5b8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:52795a6d67de103e7d21e7117d01610491ca966737665b293edebc4d3ceb11c5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T00:30:48Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-551-wi550-doc-promotion"
+}
