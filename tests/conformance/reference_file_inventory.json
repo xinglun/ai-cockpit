@@ -37218,31 +37218,55 @@
     },
     {
       "referencePath": "scripts/ai_wizard_io.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        ".ai/README.md",
+        "crates/cockpit-agent/src/lib.rs",
+        "docs/reference/agent-workflow.md"
+      ],
+      "reason": "The source TTY input primitives are a presentation-adapter implementation. The Rust Runtime exposes explicit non-interactive CLI/MCP schemas and visible Outcomes; host or Agent adapters own conversation controls, so the source wizard I/O module is not a Core capability or wire contract.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/ai_wizard_localization.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/reference/outcome-report.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Language normalization and localized Runtime chrome are provided by the CLI/MCP presentation layer. Contract intent, scope, acceptance, and other governance facts remain in their authored language; source locale files and placeholder API are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_work_item_intelligence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/implementation-knowledge.md",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "reason": "Fact-derived Work Item intelligence, append-only lifecycle evidence, repository-local indexing, request-scoped query, and v2 projections are represented by typed Protocol, repository, knowledge, and CLI services. Rust does not copy the source Python cache or global worktree aggregation and never infers human decisions.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/ai_work_item_intelligence_benchmark.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "tests/performance",
+        "docs/reference/verification-cost.md",
+        "docs/reference/governance-performance-budget.md"
+      ],
+      "reason": "The source benchmark harness measures a Python implementation and emits source-specific percentile reports. Rust keeps performance samples and regression gates in its native test/release boundary; benchmark numbers are advisory and cannot authorize or weaken governance.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/ai_work_item_state.py",
@@ -37257,126 +37281,212 @@
     },
     {
       "referencePath": "scripts/ai_work_item_status.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/commands.md",
+        "docs/reference/how-to-read-cockpit-status.md"
+      ],
+      "reason": "Read-only status and intelligence are exposed through repository-bound `status` and `work-item status` projections with stable JSON and human Outcome rendering. No generated Python status file or implicit current-worktree state is used as authority.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/bootstrap_repository.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Repository fact detection, remote/default-branch observation, dirty/conflict checks, drift binding, and installed Runtime identity are represented by the shared Git observer and explicit `inspect`/`observe`/`status`/`doctor` commands. The source snapshot dataclasses are not a Rust wire format.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/bootstrap_wizard.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        ".ai/README.md",
+        "docs/getting-started/installation.md",
+        "docs/reference/commands.md",
+        "crates/cockpit-agent/src/lib.rs"
+      ],
+      "reason": "The source in-memory Bootstrap Wizard is an interactive presentation state machine. Rust deliberately keeps detection, proposal, confirmation, attachment, and Agent installation as explicit repository-bound commands and does not add a second wizard that could manufacture authority or readiness.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/bootstrap_write_boundary.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-agent/src/lib.rs",
+        "docs/reference/configuration.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Allowlisted repository writes, regular-file and symlink checks, atomic ownership, confirmation, and drift protection are enforced by typed attach/migration/adapter services. The source generic Makefile block protocol is not copied and never grants global configuration access.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/check_bandit_baseline.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "not-applicable",
       "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "reason": "This checker and its baseline are specific to the reference repository's Python/Bandit tooling. The Rust Runtime has no Python/Bandit product surface; Cargo, Clippy, and Rust-native tests are the applicable quality controls.",
+      "previousClassification": "not-applicable"
     },
     {
       "referencePath": "scripts/check_changed_critical_coverage.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".github/workflows/ci.yml",
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "Changed-critical coverage selection, policy binding, candidate snapshots, and fail-closed gate routing are represented by the reviewed CI gate manifest and Runtime Contract/verification controls. Rust does not run the source pytest predictor or copy its candidate-report wire.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/check_ci_release_evidence.sh",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        ".github/workflows/release.yml",
+        "docs/release/distribution.md"
+      ],
+      "reason": "CI/release evidence field, digest, artifact, and identity checks are provided by the Rust release/adopter harnesses, immutable archive/SHA256/SBOM/provenance checks, and post-release acceptance. The source shell checker is not a Runtime fallback.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/check_critical_coverage.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        ".github/workflows/ci.yml",
+        "tests/performance/regression_gate.sh",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "The source per-file Python coverage-floor checker depends on pytest/Bandit-era implementation surfaces. Rust retains applicable package/test and performance gates, but does not claim the source file-level threshold or its JSON report as a universal Runtime requirement.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/check_deprecated_assets.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/troubleshooting.md",
+        "docs/security/enterprise-governance.md"
+      ],
+      "reason": "The source registry scanner identifies template-specific deprecated assets and prohibited command chains. Rust keeps immutable history, explicit resource finalization, retention metadata, and owner-approved cleanup; it does not install a generic deletion authority or source registry.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "scripts/check_dev_tool_versions.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        ".github/workflows/ci.yml",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "Development tool reproducibility is expressed through Cargo lock/toolchain metadata, pinned action/tool versions, and CI quality checks. Python package pin parsing and its recovery-command output remain source-specific.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/check_docs_metadata.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/promote_closed_work_item.py",
+        "docs/reference/documentation-authority-boundary.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Front matter, reader-route links, tri-language counterparts, command evidence, version-neutral claims, and closed-Work-Item promotion are checked by repository-native documentation acceptance and promotion gates. The source Python checker and metadata schema are not copied as Runtime protocol.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/check_governance_complexity.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/governance_integrity_gate.py",
+        "docs/reference/governance-complexity.md",
+        "docs/reference/governance-integrity-gate.md",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "Complexity budgets, archive integrity, repository shape, repayment findings, and governance-integrity evidence are retained at the CI/documentation boundary and bound to Rust lifecycle records. The source Python metric implementation is not a Core authority and cannot rewrite history.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "scripts/check_instruction_traceability.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/governance_integrity_gate.py",
+        "docs/reference/instruction-traceability.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "Instruction-to-Contract-to-implementation-to-acceptance traceability is provided by typed Work Item contracts, evidence/archive manifests, and the governance integrity gate. Rust preserves explicit locators and fail-closed missing links without adopting the source audit JSON schema.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/check_pre_release_documentation_alignment.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/promote_closed_work_item.py",
+        "docs/reference/documentation-authority-boundary.md",
+        "docs/release/distribution.md"
+      ],
+      "reason": "Pre-release documentation alignment is represented by current tri-language metadata/link/claim checks, closed-Work-Item projection promotion, and release documentation gates. Source revision-bound report bytes remain historical evidence rather than Runtime state.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/check_real_absurd_injection_docs.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/adversarial/README.md",
+        "docs/security/enterprise-governance.md"
+      ],
+      "reason": "Multilingual adversarial/absurd-case documentation and fail-closed trust regressions provide the portable responsibility. Rust keeps case records and refusal evidence explicit, while source Python assessment helpers and their fixed case registry are not copied into Core.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "scripts/check_release_distribution.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-563-reference-file-comparison-batch-43",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        ".github/workflows/release.yml",
+        "docs/release/distribution.md",
+        "docs/getting-started/installation.md"
+      ],
+      "reason": "Release discovery, immutable tag/archive identity, installer behavior, checksum/SBOM/provenance, public asset validation, and adopter isolation are implemented by Rust release workflows and post-release harnesses. Provider APIs and the source Python distribution checker are not copied or used as Runtime authority.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {

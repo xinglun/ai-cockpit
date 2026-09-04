@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-559-reference-file-comparison-batch-42
+lastVerifiedBy: WI-563-reference-file-comparison-batch-43
 capabilityClaims:
   - reference_parity
 ---
@@ -511,6 +511,7 @@ verification record です。
 | WI-560 — WI-559 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-560-doc-promotion-wi559.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-560-doc-promotion-wi559.contract.json`; verification `.ai/evidence/WI-560-doc-promotion-wi559.verification.json`; finalization `.ai/decisions/WI-560-doc-promotion-wi559.finalize.json`; close `.ai/decisions/WI-560-doc-promotion-wi559.close.json`. |
 | WI-561 — v0.2.72 release と公開 artifact acceptance | Implemented | [Work Item](../work-items/WI-561-release-v0-2-72.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-561-release-v0-2-72.contract.json`; verification `.ai/evidence/WI-561-release-v0-2-72.verification.json`; finalization `.ai/decisions/WI-561-release-v0-2-72.finalize.json`; close `.ai/decisions/WI-561-release-v0-2-72.close.json`. |
 | WI-562 — WI-561 の終端ドキュメント昇格 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-562-doc-promotion-release.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-562-doc-promotion-release.contract.json`; verification `.ai/evidence/WI-562-doc-promotion-release.verification.json`; finalization `.ai/decisions/WI-562-doc-promotion-release.finalize.json`; close `.ai/decisions/WI-562-doc-promotion-release.close.json`. |
+| WI-563 — reference file comparison batch 43 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-563-reference-file-comparison-batch-43.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-563-reference-file-comparison-batch-43.contract.json`; verification `.ai/evidence/WI-563-reference-file-comparison-batch-43.verification.json`; finalization `.ai/decisions/WI-563-reference-file-comparison-batch-43.finalize.json`; close `.ai/decisions/WI-563-reference-file-comparison-batch-43.close.json`. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-544-wi543-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release と公開 artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546 — WI-545 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-546-wi545-doc-promotion.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -569,3 +570,7 @@ WI-191 は append-only finalization transition chain を追加します。不変
 ## WI-559 — onboarding と verification script parity
 
 WI-559 は[ファイル単位の台帳](reference-file-comparison.ja.md)に 20 件の source script 比較を記録しました。17 件は `implemented-different-by-design`、3 件は `reference-only` です。Rust Runtime は typed かつ repository-bound な API で trust、lifecycle、repository observation、verification、recovery、adapter ownership の portable semantics を提供します。Hosted snapshot 準備、Python AST architecture audit、Java runtime 選択は source/provider または adopter 固有です。これは semantic parity であり、source command や wire format の互換性ではありません。
+
+## WI-563 — wizard、intelligence、bootstrap、quality、release checker parity
+
+WI-563 は[ファイル単位の台帳](reference-file-comparison.ja.md)に維持対象 20 script の比較を記録しました。14 件は `implemented-different-by-design`、5 件は `reference-only`、1 件は `not-applicable` です。Rust target は typed repository/Runtime service、明示的な CLI/MCP presentation、CI/documentation gate、immutable release/adopter acceptance で portable responsibility を担います。TTY wizard control、Python/Bandit coverage tooling、source deprecated-asset registry は presentation/source/provider 固有の境界です。attached object repository は shared Runtime と isolated repository context を継承しますが、source Python module や wire format は継承しません。台帳は append-only で、669 retired record を保持し、`migrate-gap` は zero、current の 254 path は後続比較に残ります。
