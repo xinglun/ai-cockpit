@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "三语 WI-565 文档 status 为 implemented 并绑定 archive/verification/finalization/close 证据。",
+    "三语 reference-parity 矩阵准确反映 WI-565 的已验证关闭状态。",
+    "promotion、documentation acceptance、parity status 与 diff 检查全部通过，且不修改不可变历史 bytes。",
+    "WI-566 自身具备三语可读文档与 pre-archive parity 登记，且其生成状态与当前 Contract 一致。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "281b2dd432b7d41cf917d0c391a9fdf5e3eeec67",
+  "createdAt": "2026-09-04T10:39:46Z",
+  "goal": "同步已关闭 Work Item 的文档状态与终态证据引用，恢复发布前文档门禁。",
+  "intent": "将已关闭 WI-565 的三语 Work Item 页面与参考对照矩阵提升为终态文档投影，保持不可变治理证据不变。",
+  "mode": "implementation",
+  "outOfScope": [
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "对象工程与全局 Agent/MCP 配置"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3241c6d8dbdf5b81fe84676a7493c9abf7383f061f5af5b723282e6dedda1191",
+  "requiredEvidenceClasses": [
+    "docs",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-566-documentation-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/547",
+    "worktree": "/private/tmp/ai-cockpit-wi566-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-565-release-v0-2-73.md",
+    "docs/work-items/WI-565-release-v0-2-73.zh-CN.md",
+    "docs/work-items/WI-565-release-v0-2-73.ja.md",
+    "docs/work-items/WI-566-documentation-promotion.md",
+    "docs/work-items/WI-566-documentation-promotion.zh-CN.md",
+    "docs/work-items/WI-566-documentation-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "sources": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "docs/work-items/WI-566-documentation-promotion.md",
+    "docs/work-items/WI-566-documentation-promotion.zh-CN.md",
+    "docs/work-items/WI-566-documentation-promotion.ja.md",
+    ".ai/work-items/archive/WI-565-release-v0-2-73.contract.json",
+    ".ai/evidence/WI-565-release-v0-2-73.verification.json",
+    ".ai/decisions/WI-565-release-v0-2-73.finalize.json",
+    ".ai/decisions/WI-565-release-v0-2-73.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-565-release-v0-2-73",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-566-documentation-promotion"
+}

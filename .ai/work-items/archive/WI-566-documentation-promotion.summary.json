@@ -1,0 +1,81 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-04T10:40:35Z",
+  "checkpointContractDigest": "sha256:f3ca1e87ad11dad42e945ab8c669da3a8bb7f9a666b6c4a431256398e41beb97",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e0b43debcbcd99c61bb1ffe1da2fac090b54fd2c4f1cea7ce9c0914d97ac3622",
+      "recorded": true,
+      "recordedAt": "2026-09-04T10:40:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3241c6d8dbdf5b81fe84676a7493c9abf7383f061f5af5b723282e6dedda1191",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-566-documentation-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8211b5112875eacae16a12edd5455ba89fe942fa5917f16cdf5aa3c1c71dbec0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e0b43debcbcd99c61bb1ffe1da2fac090b54fd2c4f1cea7ce9c0914d97ac3622",
+      "previousContractHash": "sha256:e0b43debcbcd99c61bb1ffe1da2fac090b54fd2c4f1cea7ce9c0914d97ac3622",
+      "reason": "The repository documentation gate requires every active Work Item to have tri-language documentation and a pre-archive parity entry; include WI-566 self-documentation in this bounded promotion.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T10:41:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2ec705125f7062eb780aecafcdfea426e0e22dc6e3287abec63bef733a914e57",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-566-documentation-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f3ca1e87ad11dad42e945ab8c669da3a8bb7f9a666b6c4a431256398e41beb97",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e0b43debcbcd99c61bb1ffe1da2fac090b54fd2c4f1cea7ce9c0914d97ac3622",
+      "previousContractHash": "sha256:8211b5112875eacae16a12edd5455ba89fe942fa5917f16cdf5aa3c1c71dbec0",
+      "reason": "The reviewed PR context is now bound by finalize-plan; revalidate the current Contract before collecting verification evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T10:47:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8d92adef3c792e81fc1a383f306caee5f0158667af7577b7385b59ac134b0ddf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-566-documentation-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8d92adef3c792e81fc1a383f306caee5f0158667af7577b7385b59ac134b0ddf",
+  "createdAt": "2026-09-04T10:39:46Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-04T10:47:41Z",
+  "preflightContractDigest": "sha256:f3ca1e87ad11dad42e945ab8c669da3a8bb7f9a666b6c4a431256398e41beb97",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8d92adef3c792e81fc1a383f306caee5f0158667af7577b7385b59ac134b0ddf",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T10:48:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-566-documentation-promotion"
+}
