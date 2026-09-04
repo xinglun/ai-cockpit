@@ -77,6 +77,7 @@ WI543_BATCH = "WI-543-reference-file-comparison-batch-37"
 WI548_BATCH = "WI-548-reference-file-comparison-batch-38"
 WI550_BATCH = "WI-550-reference-file-comparison-batch-39"
 WI552_BATCH = "WI-552-reference-file-comparison-batch-40"
+WI557_BATCH = "WI-557-reference-file-comparison-batch-41"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1697,6 +1698,142 @@ WI552_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "reference-only",
         ["docs/release/distribution.md", "docs/getting-started/installation.md"],
         "The source Python launcher is an installer entrypoint. This Rust repository ships a binary through immutable release artifacts and documents package/installer boundaries; no Python launcher or source fallback is part of the Runtime.",
+    ),
+}
+
+WI557_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_issue_log.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/task_outcome_events.rs",
+            "docs/features/task-outcome-report.md",
+        ],
+        "The source append-only issue record, sensitive-value rejection, transition checks, and reviewer overview are represented by typed TaskOutcomeEvent findings/resolutions, stable fingerprints, evidence-bound Outcome sections, and repository lifecycle validation. Rust intentionally does not copy the source issue-id/status wire or infer issue ownership from prose.",
+    ),
+    "scripts/ai_linked_worktree_recovery.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+            "docs/reference/recovery.md",
+            "docs/reference/repository-workflow.md",
+        ],
+        "The source diagnostic-only foreign linked-worktree recovery path is preserved through Git topology checks, identity-bound finalization/recovery receipts, and explicit owner-only recovery actions. Rust keeps recovery request-scoped and non-mutating until the owning Work Item authorizes a change; the Python report shape is not copied.",
+    ),
+    "scripts/ai_ownership.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-agent/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "docs/reference/configuration.md",
+        ],
+        "The source ownership classes, managed-region boundaries, digest facts, and fail-closed mutation decision are represented by typed repository/adapter ownership records, regular-file and marked-region checks, and immutable historical ownership. Rust does not treat a path heuristic or ownership label as governance authority and does not copy the generic Python parser.",
+    ),
+    "scripts/ai_performance_budget.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-verification/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "docs/reference/governance-performance-budget.md",
+            "tests/performance/regression_gate.sh",
+        ],
+        "The source local profile samples and P95 baseline are projected into identity-bound Rust PerformanceBaseline samples, budgets, and cost observations. Measurements remain advisory and never lower a verification requirement; source profile names, JSONL reports, and automatic P95 inference are not Runtime authority.",
+    ),
+    "scripts/ai_project_profile.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/src/main.rs",
+            ".ai/project.json",
+            ".ai/project/profile-policy.json",
+            "docs/reference/governance-profiles.md",
+        ],
+        "The source YAML Profile facts, suggested/approved boundaries, unknowns, and approval checks are represented by typed Project Profile facts plus repository-local profile-policy and read-only profile propose/validate commands. The target keeps candidate and approved state separate and does not copy the source YAML schema or infer approval.",
+    ),
+    "scripts/ai_purge.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "docs/security/enterprise-governance.md",
+            "docs/reference/commands.md",
+        ],
+        "The source export-before-purge, protected-path filtering, double-confirmation, and digest-bound receipt are represented by retention metadata and the read-only evidence purge-plan. Rust never silently deletes repository evidence; final disposal remains an explicit external/owner action and the source purge receipt wire is not copied.",
+    ),
+    "scripts/ai_readiness_policy.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/src/main.rs",
+            "docs/reference/repository-workflow.md",
+            "docs/reference/verification-route.md",
+        ],
+        "The source separates installed, calibrated, and production-ready states and reports static evidence without executing project commands. Rust preserves that separation through repository status/doctor, profile and policy projections, dynamic verification routing, and explicit unknowns; adopter CI/review policy remains external and source readiness JSON is not copied.",
+    ),
+    "scripts/ai_recovery_usability.py": (
+        "reference-only",
+        [
+            "docs/reference/recovery.md",
+            "docs/reference/troubleshooting.md",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+        ],
+        "The source validates a complete fixed set of user-facing recovery scenarios and renders a generic guidance report. Rust provides identity-bound lifecycle/recovery receipts and human Outcome recovery conditions, but does not currently expose the source scenario registry or guarantee one generic guidance record for every scenario; this bounded projection remains reference-only rather than an equivalence claim.",
+    ),
+    "scripts/ai_review_readiness_policy.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "docs/reference/outcome-report.md",
+            "docs/reference/repository-workflow.md",
+        ],
+        "The source review-readiness signal is represented by preflight/review gates, typed Outcome report sections, explicit blockers, and provider review evidence. Rust does not copy the report-only reviewReadiness field or treat a focus list as approval; missing review facts remain visible and fail closed where required.",
+    ),
+    "scripts/ai_risk_policy.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/task_outcome_events.rs",
+            "docs/reference/outcome-report.md",
+        ],
+        "The source residual-risk projection is represented by typed Contract risk, Outcome residualRisks/risks, stable finding fingerprints, and explicit unknowns. Rust preserves the highest-observed risk without inventing a level or converting a local summary into an organizational approval.",
+    ),
+    "scripts/ai_rollback.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "docs/release/distribution.md",
+            "docs/reference/upgrade.md",
+        ],
+        "The source snapshot, drift check, confirmation, partial-rollback, and project-config preservation semantics are represented by immutable release identity, explicit repository migration plans, rollback guidance, and preservation of historical evidence. Rust does not provide a source-compatible managed-region restore function or silently roll back project-owned content.",
+    ),
+    "scripts/ai_safety_gate.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/operation_time_policy.rs",
+            "docs/reference/operation-time-policy-reevaluation.md",
+        ],
+        "The source dangerous-case and verified-evidence gate is represented by operation-time policy re-evaluation, explicit operation/scope/authority/trust/freshness checks, and fail-closed lifecycle gates. Rust keeps the executor/provider boundary separate and does not copy the source case-name or result wire format.",
+    ),
+    "scripts/ai_schema_migration.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/src/main.rs",
+            "docs/reference/upgrade.md",
+            "docs/reference/configuration.md",
+        ],
+        "The source explicit registry, adjacent transition plan, policy-impact confirmation, reverse-migration stop, and applied receipt are represented by the typed repository migration graph, compatibility/migrate plan, approved apply, preserved-history digest, and migration receipt. Rust does not copy the source registry or permit an unreviewed schema rewrite.",
     ),
 }
 
@@ -6256,6 +6393,34 @@ def apply_wi552_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi557_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI557_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI557_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI557_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI557_REFERENCE_FILES)} WI-557 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -6288,6 +6453,7 @@ def main() -> int:
     parser.add_argument("--apply-wi548-batch", action="store_true")
     parser.add_argument("--apply-wi550-batch", action="store_true")
     parser.add_argument("--apply-wi552-batch", action="store_true")
+    parser.add_argument("--apply-wi557-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -6314,6 +6480,7 @@ def main() -> int:
         args.apply_wi548_batch,
         args.apply_wi550_batch,
         args.apply_wi552_batch,
+        args.apply_wi557_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -6461,6 +6628,13 @@ def main() -> int:
     if args.apply_wi552_batch:
         try:
             apply_wi552_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi557_batch:
+        try:
+            apply_wi557_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

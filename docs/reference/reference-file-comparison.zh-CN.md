@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-552-reference-file-comparison-batch-40
+lastVerifiedBy: WI-557-reference-file-comparison-batch-41
 capabilityClaims:
   - reference_parity
 ---
@@ -20,7 +20,7 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `98cb678ac81c611570546be1fdf9e9181836ba2e`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `603a82b78ff6c2c02662cd6b9f6c53b0415a2f25`。
 - 比较时使用已发布的 Runtime：`ai-cockpit 0.2.70`，binary SHA256 为 `sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
@@ -302,7 +302,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=360 implemented-equivalent=1 not-applicable=6 reference-only=95 deferred-next-batch=307 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=372 implemented-equivalent=1 not-applicable=6 reference-only=96 deferred-next-batch=294 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -313,11 +313,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 360 |
+| `implemented-different-by-design` | 372 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 95 |
-| `deferred-next-batch` | 307 |
+| `reference-only` | 96 |
+| `deferred-next-batch` | 294 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1430,3 +1430,25 @@ WI-552 在固定参考提交上逐个阅读 17 个维护中的安装/升级路�
 | `scripts/install_ai_cockpit.py` | reference-only | Rust 只从 immutable release artifact 安装；Python launcher 不是 Runtime fallback。 |
 
 本批未发现可移植遗漏。对象工程继承同一 shared Runtime、显式 repository binding、隔离 protocol/evidence/knowledge、严格 migration 边界和 human Outcome handoff；不会继承源 installer state、provider policy 或 Python 实现。
+
+## WI-557：源治理与维护脚本逐文件比较第 41 批
+
+WI-557 在固定参考提交上逐个重读 13 个 deferred 源脚本。其中 12 项责任由 Rust-native typed Protocol、repository、verification 或文档边界承载。固定恢复场景 registry 明确保持 `reference-only`：当前 Runtime 提供显式恢复命令和证据，但不宣称拥有源工程那样的通用场景目录。不复制源 Python 实现或 JSONL/YAML wire 格式。
+
+| 固定参考路径 | 分类 | Rust 对应/有界决定 |
+| --- | --- | --- |
+| `scripts/ai_issue_log.py` | implemented-different-by-design | typed task-outcome events、finding/risk fingerprint、追加式 evidence 和本地化 Outcome 提供问题身份与脱敏边界；源 issue-log JSONL 不是 Runtime wire contract。 |
+| `scripts/ai_linked_worktree_recovery.py` | implemented-different-by-design | linked-worktree topology、finalization/recovery receipt 以及精确 branch/worktree 清理由 repository lifecycle 负责；外部重复项诊断保持只读。 |
+| `scripts/ai_ownership.py` | implemented-different-by-design | typed Agent adapter ownership、managed-region 检查、repository identity 与 fail-closed mutation 替代源 ownership helper。 |
+| `scripts/ai_performance_budget.py` | implemented-different-by-design | identity-bound PerformanceBaseline、cost observation 与 regression budget 提供不削弱验证的 advisory 测量。 |
+| `scripts/ai_project_profile.py` | implemented-different-by-design | 严格 repository profile 声明、observed facts、profile policy 与显式 operation mapping 替代源 YAML profile 校验。 |
+| `scripts/ai_purge.py` | implemented-different-by-design | Evidence retention metadata 与 `evidence purge-plan` 要求导出、受保护路径、确认和确定性计划；Runtime 不静默删除 evidence。 |
+| `scripts/ai_readiness_policy.py` | implemented-different-by-design | `status`、`doctor`、compatibility 与动态 verification route 暴露 calibrated/readiness 事实，不执行源 policy probe。 |
+| `scripts/ai_recovery_usability.py` | reference-only | recovery 文档、显式 `recover` 和 human Outcome 指引保留可移植边界；通用固定场景 registry 是源专属，不宣称已迁入。 |
+| `scripts/ai_review_readiness_policy.py` | implemented-different-by-design | preflight/review gate 与 provider-bound PR evidence 提供 review readiness；不安装仅用于报告的源 focus list。 |
+| `scripts/ai_risk_policy.py` | implemented-different-by-design | typed Contract/Outcome findings、残余风险信号和显式 Human Decision 提供风险边界，不复制源 policy 字段。 |
+| `scripts/ai_rollback.py` | implemented-different-by-design | immutable release identity、migration plan 和 recovery receipt 提供有界 rollback/restore evidence；源 managed-region restore 不是可移植 Runtime authority。 |
+| `scripts/ai_safety_gate.py` | implemented-different-by-design | operation-time policy 与 critical-domain guard 在危险操作前要求明确 target、scope、authority、freshness、trust、impact 和 verified evidence。 |
+| `scripts/ai_schema_migration.py` | implemented-different-by-design | typed compatibility 与 migration plan/apply 保留历史 bytes、要求批准，并拒绝反向或歧义转换。 |
+
+本批没有发现可移植实现遗漏。对象工程继承 shared Runtime、隔离 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源 issue log、provider policy 值、Python 模块或通用源恢复目录。本批对应的源测试文件仍属于后续逐文件比较，不静默标记为已完成。

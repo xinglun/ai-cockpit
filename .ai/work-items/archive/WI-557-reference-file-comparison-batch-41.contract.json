@@ -1,0 +1,78 @@
+{
+  "acceptanceCriteria": [
+    "All thirteen pinned reference paths receive an explicit per-file classification, Rust counterpart set, and evidence-backed reason.",
+    "The classification is implemented-different-by-design or reference-only only where current Rust capabilities and boundaries are verified; no equivalence is claimed from path presence alone.",
+    "The ledger, comparison pages, parity pages, and tri-language Work Item page agree on the same thirteen paths and pinned reference commit.",
+    "No reference implementation bytes are copied and no runtime or object-repository files are changed.",
+    "Reference inventory, documentation, governance-integrity, and diff checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "603a82b78ff6c2c02662cd6b9f6c53b0415a2f25",
+  "createdAt": "2026-09-04T04:00:39Z",
+  "goal": "Compare and classify exactly thirteen deferred reference scripts and document the Rust-native counterpart or explicit boundary for each.",
+  "intent": "Complete the next bounded file-by-file semantic comparison against the pinned local reference source without copying Python implementation or inventing parity.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust runtime behavior changes",
+    "Python or shell source copying",
+    "object repository /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "global Agent or MCP configuration",
+    "unrelated deferred reference paths"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0d9eb280e697cf6132a83e73c677b16288775234aee86263dc796fc65cd9be94",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "reference-parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-557-reference-file-comparison-batch-41",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/535",
+    "worktree": "/private/tmp/ai-cockpit-wi557-reference-file-comparison-batch-41"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-557-reference-file-comparison-batch-41.md",
+    "docs/work-items/WI-557-reference-file-comparison-batch-41.zh-CN.md",
+    "docs/work-items/WI-557-reference-file-comparison-batch-41.ja.md"
+  ],
+  "sources": [
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_issue_log.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_linked_worktree_recovery.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_ownership.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_performance_budget.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_project_profile.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_purge.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_readiness_policy.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_recovery_usability.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_review_readiness_policy.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_risk_policy.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_rollback.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_safety_gate.py",
+    "reference:/Users/sei-rinn/dev/workspace_python/ai-cockpit@fde3380f81fea5fd2e288f7a8849f737dc074060:scripts/ai_schema_migration.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/docs/documentation_acceptance.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-557-reference-file-comparison-batch-41"
+}

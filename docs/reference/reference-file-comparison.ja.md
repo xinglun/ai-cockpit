@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-552-reference-file-comparison-batch-40
+lastVerifiedBy: WI-557-reference-file-comparison-batch-41
 capabilityClaims:
   - reference_parity
 ---
@@ -20,7 +20,7 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `98cb678ac81c611570546be1fdf9e9181836ba2e`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `603a82b78ff6c2c02662cd6b9f6c53b0415a2f25`。
 - 比較に使う published Runtime: `ai-cockpit 0.2.70`、binary SHA256 `sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
@@ -318,7 +318,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=360 implemented-equivalent=1 not-applicable=6 reference-only=95 deferred-next-batch=307 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=372 implemented-equivalent=1 not-applicable=6 reference-only=96 deferred-next-batch=294 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -330,11 +330,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 360 |
+| `implemented-different-by-design` | 372 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 95 |
-| `deferred-next-batch` | 307 |
+| `reference-only` | 96 |
+| `deferred-next-batch` | 294 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1479,3 +1479,25 @@ WI-552 は pinned reference commit の維持対象 installer/upgrade path 17 fil
 | `scripts/install_ai_cockpit.py` | reference-only | Rust は immutable release artifact から install し、Python launcher は Runtime fallback ではありません。 |
 
 この batch に portable omission はありません。各 object/adopter repository は shared Runtime、explicit repository binding、isolated protocol/evidence/knowledge、strict migration boundary、human Outcome handoff を継承しますが、source installer state、provider policy、Python implementation は継承しません。
+
+## WI-557 — governance / maintenance script の逐次比較 batch 41
+
+WI-557 は pinned reference commit の deferred source script 13 件を一つずつ再読しました。12 件の責務は Rust-native typed Protocol、repository、verification、または documentation boundary で表現されています。固定 recovery scenario registry は `reference-only` のままです。現 Runtime は明示的な recovery command と evidence を提供しますが、source と同じ generic scenario catalog があるとは主張しません。Python 実装、JSONL/YAML wire format は copy しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_issue_log.py` | implemented-different-by-design | Typed task-outcome event、finding/risk fingerprint、append-only evidence、localized Outcome が issue identity と redaction boundary を担当します。source issue-log JSONL は Runtime wire contract ではありません。 |
+| `scripts/ai_linked_worktree_recovery.py` | implemented-different-by-design | Linked-worktree topology、finalization/recovery receipt、exact branch/worktree cleanup は repository lifecycle の責務です。foreign duplicate の診断は read-only です。 |
+| `scripts/ai_ownership.py` | implemented-different-by-design | Typed Agent adapter ownership、managed-region check、repository identity、fail-closed mutation が source ownership helper に代わります。 |
+| `scripts/ai_performance_budget.py` | implemented-different-by-design | Identity-bound PerformanceBaseline、cost observation、regression budget が verification を弱めない advisory measurement を提供します。 |
+| `scripts/ai_project_profile.py` | implemented-different-by-design | Strict repository profile declaration、observed facts、profile policy、explicit operation mapping が source YAML profile validation に代わります。 |
+| `scripts/ai_purge.py` | implemented-different-by-design | Evidence retention metadata と `evidence purge-plan` が export、protected path、confirmation、deterministic plan を要求します。Runtime は evidence を silent delete しません。 |
+| `scripts/ai_readiness_policy.py` | implemented-different-by-design | `status`、`doctor`、compatibility、dynamic verification route が calibrated/readiness fact を示し、source policy probe を実行しません。 |
+| `scripts/ai_recovery_usability.py` | reference-only | Recovery documentation、明示的 `recover`、human Outcome guidance が portable boundary を保持します。Generic fixed scenario registry は source-specific であり、移行済みとは主張しません。 |
+| `scripts/ai_review_readiness_policy.py` | implemented-different-by-design | Preflight/review gate と provider-bound PR evidence が review readiness を提供します。Report-only の source focus list は導入しません。 |
+| `scripts/ai_risk_policy.py` | implemented-different-by-design | Typed Contract/Outcome findings、residual-risk signal、explicit Human Decision が risk boundary を提供し、source policy field は copy しません。 |
+| `scripts/ai_rollback.py` | implemented-different-by-design | Immutable release identity、migration plan、recovery receipt が bounded rollback/restore evidence を提供します。Source managed-region restore は portable Runtime authority ではありません。 |
+| `scripts/ai_safety_gate.py` | implemented-different-by-design | Operation-time policy と critical-domain guard が dangerous action 前に target、scope、authority、freshness、trust、impact、verified evidence を要求します。 |
+| `scripts/ai_schema_migration.py` | implemented-different-by-design | Typed compatibility と migration plan/apply が historical bytes を保持し、approval を要求し、reverse/ambiguous transition を拒否します。 |
+
+この slice に portable implementation omission はありません。各 object/adopter repository は shared Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承しますが、source issue log、provider policy value、Python module、generic recovery catalog は継承しません。対応する source test file は後続の file-level comparison batch で扱い、完了とは見なしません。
