@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "The exact bounded documentation paths are registered before archive and remain consistent with terminal evidence.",
+    "The previously closed WI-555 projection is promoted to terminal documentation status.",
+    "The closed Work Item promotion check reports a bounded self-projection rather than requiring an unbounded successor."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bc86fb3a8952349fc051b9f95ac997068fc0d444",
+  "createdAt": "2026-09-04T02:55:45Z",
+  "goal": "Record and validate a finite self-projection boundary so closed documentation promotion remains auditable without recursive promotion.",
+  "intent": "Establish an exact bounded documentation projection for the release documentation closure path.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    " tests",
+    " CI",
+    " historical evidence",
+    " object repositories",
+    " global configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6c10ba8b80ff63150ddf3032212d115eb587aeb30584c9610e5694994b271c6c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-556-doc-projection-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/534",
+    "worktree": "/private/tmp/ai-cockpit-wi556-doc-projection-boundary"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-556-doc-projection-boundary.md",
+    "docs/work-items/WI-556-doc-projection-boundary.zh-CN.md",
+    "docs/work-items/WI-556-doc-projection-boundary.ja.md",
+    "docs/work-items/WI-555-wi554-doc-promotion.md",
+    "docs/work-items/WI-555-wi554-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-555-wi554-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-556-doc-projection-boundary"
+}

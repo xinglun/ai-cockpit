@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-04T03:03:17Z",
+  "files": {
+    "contractDigest": "sha256:6e88bfe57fa614b2467d967bbce1afd6e4e8dd8197962046f3f257623dcf6f10",
+    "contractPath": ".ai/work-items/archive/WI-556-doc-projection-boundary.contract.json",
+    "eventsDigest": "sha256:a2fb33fc1f04d8f7b7c97f0ed235a97b98dbc4a3566db9ad80010063b44f10c1",
+    "eventsPath": ".ai/work-items/archive/WI-556-doc-projection-boundary.events.jsonl",
+    "outcomeDigest": "sha256:144d54ed689ca76c7533b1e6de0d8dbcabcbe009f47fb305accbb88c7916b1fb",
+    "outcomePath": ".ai/work-items/archive/WI-556-doc-projection-boundary.outcome.json",
+    "summaryDigest": "sha256:baab34d9fc91e24fb50084e4e741db1ede289d40422b80004e4f08993b01348c",
+    "summaryPath": ".ai/work-items/archive/WI-556-doc-projection-boundary.summary.json",
+    "taskReportDigest": "sha256:d1617b88b1d383e00eda4fc99f168d2fbd7eaba49f0c3931c2abd7a08d012206",
+    "taskReportMarkdownDigest": "sha256:6f6c49f1097ae1209adaf7031de05172fc6c8b160bd6bad5bdaadb3fce74172b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-556-doc-projection-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-556-doc-projection-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-556-doc-projection-boundary"
+}

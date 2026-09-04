@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-04T02:56:03Z",
+  "checkpointContractDigest": "sha256:f0c556abc6a6691cf6653fb091145d8147edee267cd7287b17b9f476762ba217",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:e3dfbdb2db67d4e1bdbbbcd82731c7143007ec599c6868cc16066bcfbca72f5b",
+      "recorded": true,
+      "recordedAt": "2026-09-04T02:56:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6c10ba8b80ff63150ddf3032212d115eb587aeb30584c9610e5694994b271c6c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-556-doc-projection-boundary"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:b4b79dfec656c0ee024fe533472277d8b4c99c210e8fb12439eff065b26c23cb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e3dfbdb2db67d4e1bdbbbcd82731c7143007ec599c6868cc16066bcfbca72f5b",
+      "previousContractHash": "sha256:e3dfbdb2db67d4e1bdbbbcd82731c7143007ec599c6868cc16066bcfbca72f5b",
+      "reason": "Bound the projection WI to its own pages plus the previously closed WI-555 pages so the existing terminal projection can be completed without recursive successors.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T02:59:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b913e79769c638c88883ed48ee07beb238cd9fa8e8e813b6bf1dc025f0175c5c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-556-doc-projection-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0d9eb280e697cf6132a83e73c677b16288775234aee86263dc796fc65cd9be94",
+  "createdAt": "2026-09-04T02:55:45Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-04T03:03:09Z",
+  "preflightContractDigest": "sha256:f0c556abc6a6691cf6653fb091145d8147edee267cd7287b17b9f476762ba217",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0d9eb280e697cf6132a83e73c677b16288775234aee86263dc796fc65cd9be94",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T03:03:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-556-doc-projection-boundary"
+}
