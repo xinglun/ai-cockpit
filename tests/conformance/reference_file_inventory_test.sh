@@ -439,6 +439,40 @@ for agent_rule in \
   test "$(jq -r --arg path "$agent_rule" '.records[] | select(.referencePath == $path) | (.rustCounterparts | length)' "$manifest")" -gt 0
 done
 
+# WI-550 records the lifecycle/Outcome/trust/observability comparison one
+# source path at a time. Keep the exact slice and classifications explicit so
+# a rebaseline cannot silently return any of it to deferred work.
+wi550_paths=(
+  scripts/ai_finish.py
+  scripts/ai_generate_human_report.py
+  scripts/ai_generate_status.py
+  scripts/ai_generate_task_outcome.py
+  scripts/ai_governance_compression.py
+  scripts/ai_input_trust.py
+  scripts/ai_japanese_capability.py
+  scripts/ai_lifecycle_facts.py
+  scripts/ai_lifecycle_truth.py
+  scripts/ai_multilingual_semantic_parity.py
+  scripts/ai_observability.py
+  scripts/ai_post_archive_recovery.py
+  scripts/ai_render_task_outcome.py
+  scripts/ai_render_task_outcome_multilingual.py
+  scripts/ai_render_task_outcome_pr.py
+  scripts/ai_required_evidence.py
+)
+for wi550_path in "${wi550_paths[@]}"; do
+  test "$(jq --arg path "$wi550_path" '[.records[] | select(.referencePath == $path and .batch == "WI-550-reference-file-comparison-batch-39" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-550-reference-file-comparison-batch-39")] | length' "$current_manifest")" -eq 16
+test "$(jq '[.records[] | select(.batch == "WI-550-reference-file-comparison-batch-39" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-550-reference-file-comparison-batch-39" and .classification == "reference-only")] | length' "$current_manifest")" -eq 1
+grep -q "WI-550" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-550" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-550" "$root/docs/reference/reference-file-comparison.ja.md"
+grep -q "WI-550" "$root/docs/reference/reference-parity.md"
+grep -q "WI-550" "$root/docs/reference/reference-parity.zh-CN.md"
+grep -q "WI-550" "$root/docs/reference/reference-parity.ja.md"
+
 # WI-521 resolves the next pinned local source scripts one by one.  Keep this
 # explicit so a future rebaseline cannot silently return the slice to deferred
 # without a new human-owned comparison decision.

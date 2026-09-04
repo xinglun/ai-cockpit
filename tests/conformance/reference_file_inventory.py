@@ -75,6 +75,7 @@ WI516_BATCH = "WI-516-reference-file-comparison-batch-34"
 WI539_BATCH = "WI-539-reference-file-comparison-batch-36"
 WI543_BATCH = "WI-543-reference-file-comparison-batch-37"
 WI548_BATCH = "WI-548-reference-file-comparison-batch-38"
+WI550_BATCH = "WI-550-reference-file-comparison-batch-39"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1452,6 +1453,161 @@ WI548_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/operation-time-policy-reevaluation.md",
         ],
         "The source path classifier is a lightweight Python routing hint. Rust derives impact only from explicit Contract, operation-time policy, changed-path, and profile facts; unknown impact remains visible/fail-closed and never authorizes a weaker route. Source lexical categories are not a wire enum.",
+    ),
+}
+
+WI550_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_finish.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "docs/reference/work-item-lifecycle-closure.md",
+        ],
+        "The source finish workflow combines mutex, branch/base, evidence, checkpoint, recovery, and human-report orchestration. Rust owns those lifecycle and evidence invariants through typed repository services and visible Outcome projections; source Python process/provider orchestration and report wire formats are not copied.",
+    ),
+    "scripts/ai_generate_human_report.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "docs/reference/outcome-report.md",
+        ],
+        "Typed OutcomeV2 and TaskOutcomeReport preserve report phases, findings, risks, closure facts, and evidence bindings. The source report schema and Python generator are not a Rust wire contract.",
+    ),
+    "scripts/ai_generate_status.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/src/main.rs",
+            "docs/reference/commands.md",
+        ],
+        "Repository-bound Rust status derives lifecycle, readiness, blockers, and Outcome facts from typed records. It intentionally does not create a generated current_status.md authority or copy source status JSON.",
+    ),
+    "scripts/ai_generate_task_outcome.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "docs/reference/outcome-report.md",
+        ],
+        "Typed TaskOutcomeReport and append-only TaskOutcomeEvent records provide deterministic findings, risks, interventions, evidence, and next actions. Source task-report JSON and lexical policy remain source-specific.",
+    ),
+    "scripts/ai_governance_compression.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-verification/src/lib.rs",
+            "docs/reference/verification-semantics.md",
+        ],
+        "The source compression helper combines policy signals and recommendations for presentation. Rust keeps governance decisions in typed policy, operation-time evaluation, verification routing, and evidence controls; source compression output is not authority or a copied protocol.",
+    ),
+    "scripts/ai_input_trust.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/src/lib.rs",
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-repository/tests/input_trust.rs",
+            "docs/reference/input-trust-dataflow.md",
+        ],
+        "Source/provenance, injection, authority, and operation-time trust semantics are represented by typed request binding, untrusted-material evaluation, and fail-closed governance signals. The source provenance enum set and Python API are not copied as wire compatibility.",
+    ),
+    "scripts/ai_japanese_capability.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "crates/cockpit-mcp/src/lib.rs",
+            "tests/conformance/reference_inventory_docs_test.py",
+            "docs/capabilities.ja.md",
+        ],
+        "The source self-assessment script is replaced by Rust-native tri-language Outcome/MCP projections, documentation checks, and conformance tests. It does not grant capability or policy authority and is not copied.",
+    ),
+    "scripts/ai_lifecycle_facts.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-cli/src/main.rs",
+            "docs/reference/commands.md",
+        ],
+        "Read-only lifecycle facts are emitted through typed status, inspect, and doctor projections with repository identity and readiness bindings; no generated Python facts file is treated as authority.",
+    ),
+    "scripts/ai_lifecycle_truth.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+            "docs/reference/work-item-lifecycle-closure.md",
+        ],
+        "Immutable lifecycle, successor, recovery, finalization, and archive truth is owned by typed Rust receipts and repository services. The source Python projection and installer-specific chain are not copied.",
+    ),
+    "scripts/ai_multilingual_semantic_parity.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "tests/conformance/reference_inventory_docs_test.py",
+            "docs/reference/outcome-report.md",
+        ],
+        "Rust preserves controlled multilingual presentation while keeping Contract bytes and governance facts locale-neutral. Tri-language renderer and documentation tests replace the source utility; contract-language acceptance text is never silently translated.",
+    ),
+    "scripts/ai_observability.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-verification/src/lib.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "docs/reference/verification-semantics.md",
+        ],
+        "Verification receipts and TaskOutcomeEvent JSONL retain deterministic timing, reuse, execution, and lifecycle facts. The source generic observability sink is not a required Runtime API; provider telemetry remains external.",
+    ),
+    "scripts/ai_post_archive_recovery.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+            "docs/reference/work-item-lifecycle-closure.md",
+        ],
+        "Recovery and post-archive finalization are typed, immutable, identity-bound Rust paths. Hosted/provider failure parsing and source Python orchestration remain external boundaries rather than copied Runtime behavior.",
+    ),
+    "scripts/ai_render_task_outcome.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "crates/cockpit-protocol/src/lib.rs",
+            "docs/reference/outcome-report.md",
+        ],
+        "The Rust Outcome renderer provides a deterministic human handoff with status markers, evidence, unknowns, decisions, and next action. Source Markdown renderer code and its wire shape are not copied.",
+    ),
+    "scripts/ai_render_task_outcome_multilingual.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "crates/cockpit-mcp/src/lib.rs",
+            "docs/reference/outcome-report.md",
+        ],
+        "The Rust renderer localizes fixed Runtime chrome for English, Simplified Chinese, and Japanese while preserving original Contract text. MCP and CLI expose the same human handoff boundary without importing source locale tables.",
+    ),
+    "scripts/ai_render_task_outcome_pr.py": (
+        "reference-only",
+        [
+            "docs/reference/outcome-report.md",
+            "docs/reference/ci-release-evidence.md",
+            "crates/cockpit-mcp/src/lib.rs",
+        ],
+        "The source PR summary renderer is a provider-facing presentation helper. Rust exposes digest-bound Outcome and release/MCP handoffs, while PR-provider formatting and hosted identity remain external; no Runtime omission is claimed.",
+    ),
+    "scripts/ai_required_evidence.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-verification/src/lib.rs",
+            "docs/reference/verification-semantics.md",
+        ],
+        "The source dynamic evidence rule registry is represented by typed Contract requiredEvidenceClasses, delegated evidence, policy-bound verification routing, and release/permission controls. Source provider-specific rule identifiers and JSON payloads are not universal Rust protocol fields.",
     ),
 }
 
@@ -3951,6 +4107,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi550 = WI550_REFERENCE_FILES.get(path)
+        if wi550 is not None:
+            classification, counterparts, reason = wi550
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI550_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         if is_generated_history(path):
             records.append(
                 {
@@ -5414,6 +5583,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi548_classifications
         ):
             errors.append("WI-548 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI550_BATCH
+        for record in records
+    ):
+        wi550_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI550_BATCH
+            and record.get("referencePath") in WI550_REFERENCE_FILES
+        ]
+        expected_wi550_paths = set(WI550_REFERENCE_FILES) & current_reference_paths
+        actual_wi550_paths = {record.get("referencePath") for record in wi550_records}
+        if actual_wi550_paths != expected_wi550_paths:
+            errors.append(
+                "WI-550 batch paths do not match the pinned current-file set: "
+                f"expected {sorted(expected_wi550_paths)!r}, got {sorted(actual_wi550_paths)!r}"
+            )
+        if len(wi550_records) != len(expected_wi550_paths):
+            errors.append(
+                f"WI-550 batch must contain {len(expected_wi550_paths)} records, found {len(wi550_records)}"
+            )
+        wi550_classifications = [historical_classification(record) for record in wi550_records]
+        expected_wi550_classifications = Counter(
+            WI550_REFERENCE_FILES[path][0] for path in expected_wi550_paths
+        )
+        if any(
+            wi550_classifications.count(classification) != count
+            for classification, count in expected_wi550_classifications.items()
+        ):
+            errors.append("WI-550 batch classifications do not match current reference paths")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi550_classifications
+        ):
+            errors.append("WI-550 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -5857,6 +6062,34 @@ def apply_wi548_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi550_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI550_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI550_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI550_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI550_REFERENCE_FILES)} WI-550 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -5887,6 +6120,7 @@ def main() -> int:
     parser.add_argument("--apply-wi539-batch", action="store_true")
     parser.add_argument("--apply-wi543-batch", action="store_true")
     parser.add_argument("--apply-wi548-batch", action="store_true")
+    parser.add_argument("--apply-wi550-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -5911,6 +6145,7 @@ def main() -> int:
         args.apply_wi539_batch,
         args.apply_wi543_batch,
         args.apply_wi548_batch,
+        args.apply_wi550_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -6044,6 +6279,13 @@ def main() -> int:
     if args.apply_wi548_batch:
         try:
             apply_wi548_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi550_batch:
+        try:
+            apply_wi550_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

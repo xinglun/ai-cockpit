@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-543-reference-ledger-check-safety
+lastVerifiedBy: WI-550-reference-file-comparison-batch-39
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 ## 固定 baseline
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `7c12972ff424b321b6685e0458a999cbb712f8f6`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.67`、binary SHA256 `sha256:0c491d1709fdaa98c66acfe92d89abb747d7e01e78def815ef6c57ee431b232f`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `9d5c0791c5d4fe55337bcd18251aa1de1823e602`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.70`、binary SHA256 `sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -267,6 +267,34 @@ WI-548 は pinned local reference commit
 
 この batch に portable な implementation omission はありません。Detached uninstaller と global disable/enable は意図した source/provider boundary であり、Runtime の欠落機能ではありません。Attached object repository は shared binary、明示的な `--repo` binding、isolated Contract/evidence/knowledge、human Outcome rule を継承しますが、source installer state、Python registry、adopter-specific policy value は継承しません。
 
+## WI-550 — lifecycle と Outcome script の逐次比較 batch 39
+
+WI-550 は pinned local reference commit
+`fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対象 script 16 file を一つずつ再読しました。対象は finish/report generation、status/lifecycle truth、input trust、observability、post-archive recovery、多言語 presentation、PR handoff、required-evidence rule です。ledger は semantic ownership と明示的 boundary を記録し、Python module や source JSON wire format は copy しません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_finish.py` | implemented-different-by-design | Rust typed lifecycle、evidence、checkpoint、recovery、human Outcome gate。source process/provider orchestration は copy しません。 |
+| `scripts/ai_generate_human_report.py` | implemented-different-by-design | `OutcomeV2`/`TaskOutcomeReport` と visible renderer が report phase/evidence binding を保持し、source report wire は Rust contract ではありません。 |
+| `scripts/ai_generate_status.py` | implemented-different-by-design | repository-bound status/inspect/doctor projection が generated `current_status.md` authority を置き換えます。 |
+| `scripts/ai_generate_task_outcome.py` | implemented-different-by-design | typed task report/events が deterministic findings、risks、interventions、evidence、next action を提供します。 |
+| `scripts/ai_governance_compression.py` | implemented-different-by-design | typed policy、operation-time evaluation、verification routing、evidence controls が decision を所有し、compression は presentation です。 |
+| `scripts/ai_input_trust.py` | implemented-different-by-design | request binding、untrusted-material evaluation、injection/forgery signal、fail-closed decision が trust semantics を保持し、source API compatibility は主張しません。 |
+| `scripts/ai_japanese_capability.py` | implemented-different-by-design | Rust-native tri-language Outcome/MCP、documentation check、conformance test が source self-assessment を置き換えます。 |
+| `scripts/ai_lifecycle_facts.py` | implemented-different-by-design | typed status/readiness projection が read-only lifecycle fact を公開し、authoritative Python facts file は生成しません。 |
+| `scripts/ai_lifecycle_truth.py` | implemented-different-by-design | immutable lifecycle、successor、recovery、finalization、archive receipt は Rust Protocol/repository service が所有します。 |
+| `scripts/ai_multilingual_semantic_parity.py` | implemented-different-by-design | fixed Runtime chrome は localize しますが、Contract bytes と governance fact は locale-neutral で原文を保持します。 |
+| `scripts/ai_observability.py` | implemented-different-by-design | verification timing/reuse metrics と append-only TaskOutcomeEvent JSONL が deterministic observability を保持し、source generic sink は必須 Runtime API ではありません。 |
+| `scripts/ai_post_archive_recovery.py` | implemented-different-by-design | typed recovery/finalization/close が immutable identity-bound recovery を保持し、hosted failure parsing は external です。 |
+| `scripts/ai_render_task_outcome.py` | implemented-different-by-design | Rust human Outcome renderer が marker、evidence、unknowns、decisions、next action を提供し、source Markdown 実装は copy しません。 |
+| `scripts/ai_render_task_outcome_multilingual.py` | implemented-different-by-design | CLI/MCP は同じ en/zh-CN/ja handoff を公開し、Contract acceptance text を silent translation しません。 |
+| `scripts/ai_render_task_outcome_pr.py` | reference-only | PR summary formatting は provider-facing presentation。Runtime boundary は digest-bound Outcome/release handoff です。 |
+| `scripts/ai_required_evidence.py` | implemented-different-by-design | typed Contract required-evidence classes、delegated evidence、policy routing、release/permission controls が portable boundary を保持し、source rule identifier は universal Rust field ではありません。 |
+
+この batch に portable implementation omission はありません。Attached
+object/adopter project は shared Runtime、明示的 repository binding、isolated
+Contract/evidence/knowledge、fail-closed lifecycle、人間向け Outcome handoff を継承しますが、source Python registry、provider policy value、source wire format は継承しません。
+
 ## WI-539 — source governance checker comparison batch 36
 
 WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対象 source checker 10 file を一つずつ再読しました。ここで記録するのは semantic responsibility と ownership であり、Python、Make、YAML、source JSON wire format を Rust Runtime に copy しません。
@@ -286,11 +314,11 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 この slice に新しい portable implementation omission はありません。reference-impact scanner は明示的に `reference-only` であり、Rust の未記録 gap ではありません。caller と external consumer の静的 fact は adopter/provider または human-owned evidence が供給し、unknown impact は fail-closed のままです。残り 9 件は Rust-native typed Protocol、repository lifecycle、gate manifest、status、Outcome boundary で表現されます。
 
-現在の 4,450 path set は 3,681 `generated-history`、313 `implemented-different-by-design`、1 `implemented-equivalent`、5 `not-applicable`、90 `reference-only`、360 `deferred-next-batch` です。append-only ledger は 669 retired path を保持し、`migrate-gap` は zero のままです。各 attached object/adopter project は shared Runtime、明示的 repository binding、isolated Contract/evidence/knowledge、fail-closed lifecycle、人間向け Outcome boundary を継承しますが、source checker、provider policy value、stack-specific command は継承しません。
+現在の 4,450 path set は 3,681 `generated-history`、345 `implemented-different-by-design`、1 `implemented-equivalent`、6 `not-applicable`、93 `reference-only`、324 `deferred-next-batch` です。append-only ledger は 669 retired path を保持し、`migrate-gap` は zero のままです。各 attached object/adopter project は shared Runtime、明示的 repository binding、isolated Contract/evidence/knowledge、fail-closed lifecycle、人間向け Outcome boundary を継承しますが、source checker、provider policy value、stack-specific command は継承しません。
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=330 implemented-equivalent=1 not-applicable=6 reference-only=92 deferred-next-batch=340 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=345 implemented-equivalent=1 not-applicable=6 reference-only=93 deferred-next-batch=324 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -302,11 +330,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 330 |
+| `implemented-different-by-design` | 345 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 92 |
-| `deferred-next-batch` | 340 |
+| `reference-only` | 93 |
+| `deferred-next-batch` | 324 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |

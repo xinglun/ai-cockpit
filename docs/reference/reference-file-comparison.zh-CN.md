@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-543-reference-ledger-check-safety
+lastVerifiedBy: WI-550-reference-file-comparison-batch-39
 capabilityClaims:
   - reference_parity
 ---
@@ -20,8 +20,8 @@ capabilityClaims:
 ## 固定基线
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `7c12972ff424b321b6685e0458a999cbb712f8f6`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.67`，binary SHA256 为 `sha256:0c491d1709fdaa98c66acfe92d89abb747d7e01e78def815ef6c57ee431b232f`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `9d5c0791c5d4fe55337bcd18251aa1de1823e602`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.70`，binary SHA256 为 `sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -253,6 +253,32 @@ WI-548 在固定本地参考提交
 
 本批未发现可移植实现遗漏。detached uninstaller 与全局 disable/enable 是有意保留的 source/provider 边界，不是缺少的 Runtime 能力。每个 attach 的对象工程继承同一共享 binary、显式 `--repo`、隔离 Contract/evidence/knowledge 和 human Outcome 规则，不继承源安装状态、Python registry 或对象工程专属 policy。
 
+## WI-550：生命周期与 Outcome 脚本逐文件比较批次 39
+
+WI-550 在固定本地参考提交
+`fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读 16 个维护中的参考脚本，覆盖 finish 与报告生成、status 与生命周期事实、输入信任、可观测性、归档恢复、多语言展示、PR handoff 以及 required-evidence 规则。台账记录语义归属和明确边界，不复制 Python 模块或源 JSON wire。
+
+| 固定参考路径 | 分类 | Rust counterpart 与边界 |
+| --- | --- | --- |
+| `scripts/ai_finish.py` | implemented-different-by-design | Rust typed lifecycle、evidence、checkpoint、recovery 与 human Outcome gate 承载责任；不复制源进程/provider 编排。 |
+| `scripts/ai_generate_human_report.py` | implemented-different-by-design | `OutcomeV2`/`TaskOutcomeReport` 与可见 renderer 保留报告阶段和证据绑定；源报告 wire 不是 Rust 合约。 |
+| `scripts/ai_generate_status.py` | implemented-different-by-design | repository-bound status/inspect/doctor projection 替代生成 `current_status.md` 权威。 |
+| `scripts/ai_generate_task_outcome.py` | implemented-different-by-design | typed task report/events 提供确定性的 findings、risks、interventions、evidence 与 next action。 |
+| `scripts/ai_governance_compression.py` | implemented-different-by-design | typed policy、operation-time evaluation、verification routing 和 evidence controls 持有决定；compression 仅是展示。 |
+| `scripts/ai_input_trust.py` | implemented-different-by-design | request binding、untrusted-material evaluation、injection/forgery signals 与 fail-closed decision 保留信任语义，不承诺源 API 兼容。 |
+| `scripts/ai_japanese_capability.py` | implemented-different-by-design | Rust-native 三语 Outcome/MCP、文档检查和 conformance tests 替代源自评脚本。 |
+| `scripts/ai_lifecycle_facts.py` | implemented-different-by-design | typed status/readiness projection 暴露只读生命周期事实；不生成权威 Python facts 文件。 |
+| `scripts/ai_lifecycle_truth.py` | implemented-different-by-design | immutable lifecycle、successor、recovery、finalization 与 archive receipt 由 Rust Protocol/repository service 持有。 |
+| `scripts/ai_multilingual_semantic_parity.py` | implemented-different-by-design | 固定 Runtime chrome 本地化，Contract bytes 与治理事实保持 locale-neutral 且保留原文。 |
+| `scripts/ai_observability.py` | implemented-different-by-design | verification timing/reuse metrics 与 append-only TaskOutcomeEvent JSONL 保留确定性可观测性；源 generic sink 不是 Runtime 必需 API。 |
+| `scripts/ai_post_archive_recovery.py` | implemented-different-by-design | typed recovery/finalization/close 保留 immutable identity-bound recovery；hosted failure parsing 仍属外部。 |
+| `scripts/ai_render_task_outcome.py` | implemented-different-by-design | Rust human Outcome renderer 提供 marker、evidence、unknowns、decisions、next action；不复制源 Markdown 实现。 |
+| `scripts/ai_render_task_outcome_multilingual.py` | implemented-different-by-design | CLI/MCP 暴露相同的中/日/英 handoff；Contract acceptance text 不会被静默翻译。 |
+| `scripts/ai_render_task_outcome_pr.py` | reference-only | PR summary formatting 是 provider-facing presentation；Runtime 边界是 digest-bound Outcome/release handoff。 |
+| `scripts/ai_required_evidence.py` | implemented-different-by-design | typed Contract required-evidence classes、delegated evidence、policy routing 与 release/permission controls 承载可移植边界；源规则标识符不成为通用 Rust 字段。 |
+
+本批未发现可移植实现遗漏。对象/adopter 工程继承 shared Runtime、显式 repository binding、隔离 Contract/evidence/knowledge、fail-closed lifecycle 和 human Outcome handoff；不会继承源 Python registry、provider policy 值或源 wire。
+
 ## WI-539：源治理检查器逐文件比较批次 36
 
 WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读下一组 10 个维护中的源检查脚本。这里记录的是语义责任和归属，不把 Python、Make、YAML 或源 JSON wire 格式复制到 Rust Runtime。
@@ -272,11 +298,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 本批没有发现新的可移植实现遗漏。唯一的 reference-impact scanner 明确登记为 `reference-only`，不是未记录的 Rust 缺口：调用方和外部消费者等静态事实必须由对象工程/provider 或人维护的 evidence 提供，未知影响仍 fail-closed。其余 9 项责任由 Rust-native typed Protocol、repository lifecycle、gate manifest、status 与 Outcome 边界承载。
 
-当前 4,450 个路径包含 3,681 个 `generated-history`、313 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、5 个 `not-applicable`、90 个 `reference-only` 和 360 个 `deferred-next-batch`；追加式台账保留 669 个 retired 路径，`migrate-gap` 仍为 0。每个 attach 的对象工程继承 shared Runtime、显式 repository binding、隔离的 Contract/evidence/knowledge、fail-closed lifecycle 和 human Outcome 边界，但不会继承源检查器、provider policy 值或技术栈命令。
+当前 4,450 个路径包含 3,681 个 `generated-history`、345 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、6 个 `not-applicable`、93 个 `reference-only` 和 324 个 `deferred-next-batch`；追加式台账保留 669 个 retired 路径，`migrate-gap` 仍为 0。每个 attach 的对象工程继承 shared Runtime、显式 repository binding、隔离的 Contract/evidence/knowledge、fail-closed lifecycle 和 human Outcome 边界，但不会继承源检查器、provider policy 值或技术栈命令。
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=330 implemented-equivalent=1 not-applicable=6 reference-only=92 deferred-next-batch=340 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=345 implemented-equivalent=1 not-applicable=6 reference-only=93 deferred-next-batch=324 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -287,11 +313,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 330 |
+| `implemented-different-by-design` | 345 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 92 |
-| `deferred-next-batch` | 340 |
+| `reference-only` | 93 |
+| `deferred-next-batch` | 324 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
