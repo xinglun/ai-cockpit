@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-574 — v0.2.75 release and public-artifact acceptance"
 description: "Publish and validate the next immutable AI Cockpit Runtime release."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-574-release-v0-2-75
 lastVerifiedBy: WI-574-release-v0-2-75

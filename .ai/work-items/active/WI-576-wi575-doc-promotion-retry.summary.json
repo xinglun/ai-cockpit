@@ -1,0 +1,15 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-576-wi575-doc-promotion-retry.contract.json",
+    ".ai/work-items/active/WI-576-wi575-doc-promotion-retry.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-04T23:39:33Z",
+  "mode": "docs",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-04T23:39:56Z",
+  "workItemId": "WI-576-wi575-doc-promotion-retry"
+}
