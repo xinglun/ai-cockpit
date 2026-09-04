@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-568 — reference file comparison batch 44"
 description: "Compare the next twenty maintained reference paths and record bounded Rust semantic decisions."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-568-reference-file-comparison-batch-44
 lastVerifiedBy: WI-568-reference-file-comparison-batch-44
+terminalArchive: .ai/work-items/archive/WI-568-reference-file-comparison-batch-44.contract.json
+terminalVerification: .ai/evidence/WI-568-reference-file-comparison-batch-44.verification.json
+terminalFinalization: .ai/decisions/WI-568-reference-file-comparison-batch-44.finalize.json
+terminalDecision: .ai/decisions/WI-568-reference-file-comparison-batch-44.close.json
 ---
 
 [简体中文](WI-568-reference-file-comparison-batch-44.zh-CN.md) · [日本語](WI-568-reference-file-comparison-batch-44.ja.md)
