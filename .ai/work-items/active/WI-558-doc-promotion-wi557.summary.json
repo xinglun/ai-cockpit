@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-558-doc-promotion-wi557.contract.json",
+    ".ai/work-items/active/WI-558-doc-promotion-wi557.summary.json"
+  ],
+  "checkpointAt": "2026-09-04T04:36:36Z",
+  "checkpointContractDigest": "sha256:22d049e29a88e917d86ac5d3de2c3d10b13d82d03f00d68b7dddc99867db4553",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e8d94849d5a97254f8204f6fcbef5ccdf96f71c257e2d6751bd4f67cc6a54f4a",
+      "recorded": true,
+      "recordedAt": "2026-09-04T04:36:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cfa0a399ee1dcabd34f9175bbe560750418a693be34d1b1421515860fe443900",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-558-doc-promotion-wi557"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:22d049e29a88e917d86ac5d3de2c3d10b13d82d03f00d68b7dddc99867db4553",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e8d94849d5a97254f8204f6fcbef5ccdf96f71c257e2d6751bd4f67cc6a54f4a",
+      "previousContractHash": "sha256:e8d94849d5a97254f8204f6fcbef5ccdf96f71c257e2d6751bd4f67cc6a54f4a",
+      "reason": "Expand the bounded documentation scope to register this Work Item own pages and parity row for the Runtime self-projection exception; no behavior or unrelated paths are added.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T04:41:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f57e0e52964bdc5d3731911170ae3f71e7b085d28cd9406e9610bbc6ec6227c6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-558-doc-promotion-wi557"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f57e0e52964bdc5d3731911170ae3f71e7b085d28cd9406e9610bbc6ec6227c6",
+  "createdAt": "2026-09-04T04:35:22Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-04T04:42:51Z",
+  "preflightContractDigest": "sha256:22d049e29a88e917d86ac5d3de2c3d10b13d82d03f00d68b7dddc99867db4553",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f57e0e52964bdc5d3731911170ae3f71e7b085d28cd9406e9610bbc6ec6227c6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-04T04:42:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-558-doc-promotion-wi557"
+}

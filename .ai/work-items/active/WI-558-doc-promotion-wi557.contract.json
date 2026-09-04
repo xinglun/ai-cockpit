@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "Promote WI-557's English, Simplified Chinese, and Japanese Work Item pages with terminal archive, verification, finalization, and decision bindings.",
+    "Promote the matching English, Simplified Chinese, and Japanese reference-parity rows to the verified closed status without changing unrelated rows.",
+    "Run the official closed-Work-Item promotion check for WI-557 and the repository-wide check-all gate successfully.",
+    "Preserve the immutable WI-557 archive, evidence, finalization, and close receipts; no runtime or object-repository files are changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "59c2d76fed1e3ce8490d31f37fd7ac279217e40d",
+  "createdAt": "2026-09-04T04:35:22Z",
+  "goal": "Promote the closed WI-557 documentation projection so the repository's post-close documentation gate is current.",
+  "intent": "Bring the six WI-557 documentation/parity projections into their deterministic terminal form after verified close.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime behavior, protocol schemas, CI policy, release artifacts, and object repositories.",
+    "Any Work Item documentation or parity row unrelated to WI-557."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cfa0a399ee1dcabd34f9175bbe560750418a693be34d1b1421515860fe443900",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-558-doc-promotion-wi557",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi558-doc-promotion-wi557"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-557-reference-file-comparison-batch-41.md",
+    "docs/work-items/WI-557-reference-file-comparison-batch-41.zh-CN.md",
+    "docs/work-items/WI-557-reference-file-comparison-batch-41.ja.md",
+    "docs/work-items/WI-558-doc-promotion-wi557.md",
+    "docs/work-items/WI-558-doc-promotion-wi557.zh-CN.md",
+    "docs/work-items/WI-558-doc-promotion-wi557.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "tests/docs/promote_closed_work_item.py",
+    ".ai/work-items/archive/WI-557-reference-file-comparison-batch-41.archive.json",
+    ".ai/evidence/WI-557-reference-file-comparison-batch-41.verification.json",
+    ".ai/decisions/WI-557-reference-file-comparison-batch-41.finalize.json",
+    ".ai/decisions/WI-557-reference-file-comparison-batch-41.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-557-reference-file-comparison-batch-41",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/documentation_acceptance.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-558-doc-promotion-wi557"
+}
