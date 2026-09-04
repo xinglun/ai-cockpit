@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "WI-574 documentation is marked implemented only after its archived Contract, Summary, verification evidence, finalization receipt, and close receipt exist",
+    "The three reference-parity pages register WI-574 as implemented with exact terminal evidence paths",
+    "WI-576 parity registration is committed before its archive and remains plain In progress until verified close",
+    "No Runtime behavior, object repository, global Agent/MCP configuration, or historical governance bytes are changed",
+    "Documentation acceptance, parity checks, governance integrity, status consistency, workspace tests, and diff checks pass",
+    "The successor preserves the failed WI-575 PR as external audit history without claiming it merged"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:40b70410d1031271c4c5df97c6b6d14b7c360e814c037ab41edcca3e3d922871",
+      "workItemId": "WI-576-wi575-doc-promotion-retry"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-576-wi575-doc-promotion-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-576-wi575-doc-promotion-retry.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-576-wi575-doc-promotion-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-576-wi575-doc-promotion-retry.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-576-wi575-doc-promotion-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改写历史治理字节的前提下，按先登记、后归档、再评审合并、关闭后晋级的顺序完成文档投影"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-576-wi575-doc-promotion-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-576-wi575-doc-promotion-retry"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-576-wi575-doc-promotion-retry"
+}
