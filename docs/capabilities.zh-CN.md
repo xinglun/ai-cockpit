@@ -104,6 +104,8 @@ ai-cockpit profile confirm --repo /path/to/repository \
 `agent-interface.json` 是 repository-local discovery fact，记录稳定的 repository identity 和 Runtime
 能力；它不是 Agent prompt、provider 安装、授权或全局 MCP 设置。
 
+其中的 `capabilities` 数组是当前 Runtime 完整且稳定的命令能力注册表。它只说明“可以发现哪些接口”，不表示某个仓库已经验证、授权或具备所需证据。注册表覆盖 attach/inspect、兼容性与迁移计划/应用、profile 确认/提案、preflight/gate/verify、Work Item 脚手架/生命周期/Outcome/恢复/终结/并行插槽、evidence/audit、能力查询、knowledge、Agent adapter、MCP 和诊断。Agent 应先读取该清单，再用 `ai-cockpit --help`（以及相关子命令的 `--help`）或 MCP `initialize` → `tools/list` 查询精确参数和 schema。列出的能力不能绕过显式 `--repo`、preflight、人类复核、证据要求或生命周期门禁。
+
 ### Runtime 升级与 repository migration
 
 Runtime 升级和 repository migration 是两件事。兼容的 Runtime 升级不会重写 `.ai/`，也不会产生全局

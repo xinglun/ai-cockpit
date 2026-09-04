@@ -45,6 +45,24 @@ fn attach_creates_only_protocol_state_and_is_idempotent() {
     let manifest_path = directory.join(".ai/agent-interface.json");
     assert!(manifest_path.is_file());
     let manifest_before = fs::read(&manifest_path).expect("manifest");
+    let manifest_json: serde_json::Value =
+        serde_json::from_slice(&manifest_before).expect("manifest JSON");
+    let capabilities = manifest_json["capabilities"]
+        .as_array()
+        .expect("capabilities array");
+    for expected in cockpit_protocol::AGENT_INTERFACE_CAPABILITIES {
+        assert!(
+            capabilities
+                .iter()
+                .any(|value| value.as_str() == Some(expected)),
+            "attach discovery manifest must advertise {expected}"
+        );
+    }
+    assert_eq!(
+        capabilities.len(),
+        cockpit_protocol::AGENT_INTERFACE_CAPABILITIES.len(),
+        "capability registry must not silently drift"
+    );
     assert!(directory.join(".ai/work-items/active").is_dir());
     assert!(!directory.join("scripts").exists());
     for forbidden in ["AGENTS.md", "CLAUDE.md", "GEMINI.md", ".cursor"] {

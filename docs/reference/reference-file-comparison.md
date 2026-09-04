@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-550-reference-file-comparison-batch-39
+lastVerifiedBy: WI-552-reference-file-comparison-batch-40
 capabilityClaims:
   - reference_parity
 ---
@@ -24,7 +24,7 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `9d5c0791c5d4fe55337bcd18251aa1de1823e602`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `98cb678ac81c611570546be1fdf9e9181836ba2e`.
 - Runtime used for the comparison work: the published `ai-cockpit 0.2.70` binary, SHA256 `0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
@@ -255,7 +255,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=345 implemented-equivalent=1 not-applicable=6 reference-only=93 deferred-next-batch=324 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=360 implemented-equivalent=1 not-applicable=6 reference-only=95 deferred-next-batch=307 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -269,11 +269,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 345 |
+| `implemented-different-by-design` | 360 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 6 |
-| `reference-only` | 93 |
-| `deferred-next-batch` | 324 |
+| `reference-only` | 95 |
+| `deferred-next-batch` | 307 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1855,3 +1855,34 @@ zero. Every attached object/adopter project inherits the shared Runtime,
 explicit repository binding, isolated Contract/evidence/knowledge, fail-closed
 lifecycle, and human Outcome boundary. It does not inherit source checkers,
 provider policy values, or stack-specific commands.
+
+## WI-552 — installation and upgrade script comparison batch 40
+
+WI-552 re-read seventeen maintained installer/upgrade paths at the pinned
+reference commit. Each source responsibility is accounted for below; source
+Python modules, installer registries, and wire JSON are not copied into Rust.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `scripts/ai_install_facts.py` | implemented-different-by-design | `attach`, `inspect`, `compatibility`, `doctor`, and release/adopter manifests bind facts; source `.ai/install` is not copied. |
+| `scripts/ai_install_plan.py` | implemented-different-by-design | Explicit attach, migration, and adapter plans provide the read-only boundary; no source wizard wire is added. |
+| `scripts/ai_install_status.py` | implemented-different-by-design | `status`, `compatibility`, `migrate plan`, and `doctor` provide status without a generated source file. |
+| `scripts/ai_install_wizard.py` | implemented-different-by-design | Explicit CLI confirmation and localized Outcome replace implicit TTY/provider orchestration. |
+| `scripts/ai_installer_bootstrap.py` | implemented-different-by-design | `attach` and Work Item scaffolding create only minimum repository-owned skeletons. |
+| `scripts/ai_installer_catalog.json` | reference-only | Discovery uses the strict manifest and CLI/MCP schemas; the source provider catalog would overclaim support. |
+| `scripts/ai_installer_detection.py` | implemented-different-by-design | `inspect`, `observe`, `status`, `doctor`, profile, and compatibility expose facts without source mode/provider inference. |
+| `scripts/ai_installer_evidence.py` | implemented-different-by-design | Release/adopter acceptance and adapter ownership bind actions, roots, manifests, and digests. |
+| `scripts/ai_installer_managed_regions.py` | implemented-different-by-design | Typed Agent adapter ownership and regular-path checks replace source heuristics. |
+| `scripts/ai_installer_ownership.py` | implemented-different-by-design | Repository-local adapter ownership and strict Protocol/profile records are explicit and non-authorizing. |
+| `scripts/ai_installer_repository.py` | implemented-different-by-design | Shared Git observer and explicit `--repo` operations fail closed on dirty, ambiguous, or foreign state. |
+| `scripts/ai_installer_transaction.py` | implemented-different-by-design | Atomic writes, locks, path validation, and explicit migration/adapter confirmation replace source transaction code. |
+| `scripts/ai_installer_upgrade.py` | implemented-different-by-design | Immutable Runtime artifacts and typed schema compatibility/migration own upgrade boundaries. |
+| `scripts/ai_upgrade_apply.py` | implemented-different-by-design | `migrate apply --approved` is an adjacent digest-bound repository migration; Runtime replacement remains external. |
+| `scripts/ai_upgrade_conflict_report.py` | implemented-different-by-design | Compatibility plans and doctor safe actions expose conflicts without source auto-resolution. |
+| `scripts/ai_upgrade_proposal.py` | implemented-different-by-design | Migration planning preserves historical bytes and requires explicit approval. |
+| `scripts/install_ai_cockpit.py` | reference-only | Rust installs from immutable release artifacts; the Python launcher is not a Runtime fallback. |
+
+No portable omission was found. Attached object/adopter repositories inherit
+the same shared Runtime, explicit repository binding, isolated protocol/
+evidence/knowledge, strict migration boundary, and human Outcome handoff; they
+do not inherit source installer state, provider policy, or Python code.

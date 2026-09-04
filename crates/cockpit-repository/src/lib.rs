@@ -2945,18 +2945,10 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
         root_binding: AgentRootBinding {
             binding_type: "manifest-parent".into(),
         },
-        capabilities: vec![
-            "inspect".into(),
-            "observe".into(),
-            "status".into(),
-            "preflight".into(),
-            "verify".into(),
-            "work-item-scaffold".into(),
-            "profile-propose".into(),
-            "knowledge".into(),
-            "doctor".into(),
-            "mcp".into(),
-        ],
+        capabilities: cockpit_protocol::AGENT_INTERFACE_CAPABILITIES
+            .iter()
+            .map(|capability| (*capability).into())
+            .collect(),
         interfaces: AgentInterfaces {
             cli: AgentInterfaceAvailability {
                 available: true,

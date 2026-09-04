@@ -110,6 +110,18 @@ ai-cockpit profile confirm --repo /path/to/repository \
 stable repository identity and available Runtime capabilities; it is not an
 Agent prompt, provider installation, authorization, or global MCP setting.
 
+The `capabilities` array is a complete, stable command-surface registry for
+this Runtime. It advertises what can be discovered—not what is currently
+verified or authorized. The registry covers attachment and inspection,
+compatibility and migration planning/application, profile confirmation and
+proposal, preflight/gate/verification, Work Item scaffolding/lifecycle/
+Outcome/recovery/finalization/parallel slots, evidence/audit, capability
+lookup, knowledge, Agent adapter, MCP, and diagnostics. An Agent should use
+the manifest as its first discovery step, then query exact schemas with
+`ai-cockpit --help` (and each relevant subcommand's `--help`) or MCP
+`initialize` → `tools/list`. A listed capability never bypasses `--repo`,
+preflight, human review, evidence requirements, or lifecycle gates.
+
 ### Upgrade a Runtime or migrate a repository
 
 Runtime upgrades and repository migrations are separate operations. A compatible

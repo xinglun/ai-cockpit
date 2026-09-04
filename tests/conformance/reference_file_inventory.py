@@ -76,6 +76,7 @@ WI539_BATCH = "WI-539-reference-file-comparison-batch-36"
 WI543_BATCH = "WI-543-reference-file-comparison-batch-37"
 WI548_BATCH = "WI-548-reference-file-comparison-batch-38"
 WI550_BATCH = "WI-550-reference-file-comparison-batch-39"
+WI552_BATCH = "WI-552-reference-file-comparison-batch-40"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -1608,6 +1609,94 @@ WI550_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/verification-semantics.md",
         ],
         "The source dynamic evidence rule registry is represented by typed Contract requiredEvidenceClasses, delegated evidence, policy-bound verification routing, and release/permission controls. Source provider-specific rule identifiers and JSON payloads are not universal Rust protocol fields.",
+    ),
+}
+
+WI552_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "scripts/ai_install_facts.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "docs/reference/configuration.md", "docs/release/distribution.md"],
+        "The source records installer facts, ownership, release identity, and rollback baselines inside the project. Rust keeps the shared Runtime installation external and binds repository facts through attach, inspect, compatibility, doctor, and immutable release/adopter evidence; source .ai/install bytes are not copied.",
+    ),
+    "scripts/ai_install_plan.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "The source read-only wizard plan is represented by explicit Rust command boundaries and repository-bound migration/adapter plans. The target does not add an interactive installer wizard or provider-specific plan wire format.",
+    ),
+    "scripts/ai_install_status.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "Source installer status validates local release facts and lifecycle state. Rust exposes repository/runtime status, compatibility, migration, and doctor projections without manufacturing a source current-status file.",
+    ),
+    "scripts/ai_install_wizard.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/src/main.rs", "docs/getting-started/installation.md", "docs/reference/commands.md"],
+        "The source TTY wizard's confirmation and localization boundary is preserved as explicit, reviewable CLI commands; interactive host conversation remains an Agent adapter concern and no implicit writes, commits, or provider configuration are introduced.",
+    ),
+    "scripts/ai_installer_bootstrap.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/capabilities.md"],
+        "Source bootstrap creates adoption records. Rust attach and Work Item scaffolding create only the minimum repository-owned protocol skeleton and leave governance decisions to humans.",
+    ),
+    "scripts/ai_installer_catalog.json": (
+        "reference-only",
+        ["docs/reference/configuration.md", "docs/release/distribution.md"],
+        "The source catalog is a provider/script inventory for its installer. Runtime command discovery is defined by the strict agent-interface manifest and CLI/MCP schemas; copying the source catalog would overclaim supported providers and commands.",
+    ),
+    "scripts/ai_installer_detection.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "Source detection gathers Git, tool, and adoption facts. Rust uses explicit repository observation, inspect, status, doctor, profile, and compatibility facts without inferring a source installer mode or silently choosing a provider.",
+    ),
+    "scripts/ai_installer_evidence.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/lib.rs", "tests/release/adopter_acceptance.sh", "docs/release/adopter-acceptance.md"],
+        "Source summarizes installer actions and managed roots. Rust records immutable release/adopter acceptance, manifests, digests, and repository-local adapter ownership; it does not copy source action-summary JSON.",
+    ),
+    "scripts/ai_installer_managed_regions.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/reference/configuration.md"],
+        "Source checks managed project regions. Rust makes Agent adapter ownership explicit, verifies marked sections and regular paths, and refuses ambiguous or modified regions instead of applying source installer heuristics.",
+    ),
+    "scripts/ai_installer_ownership.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "docs/reference/configuration.md"],
+        "Source classifies project-owned installer files. Rust uses typed repository-local adapter ownership and strict protocol/profile records; ownership never grants governance authority or global configuration access.",
+    ),
+    "scripts/ai_installer_repository.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-git/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "docs/architecture/runtime-topology.md"],
+        "Source reads Git and repository hygiene facts with explicit roots. Rust request-scopes every operation to --repo, uses the shared Git observer, and fail-closes on dirty, ambiguous, or identity-mismatched repository state.",
+    ),
+    "scripts/ai_installer_transaction.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-agent/src/lib.rs", "docs/reference/commands.md"],
+        "Source orders installer writes, validates paths, and takes an installer lock. Rust uses atomic repository-local writes, strict path/ownership validation, explicit adapter/migration confirmation, and no source installer transaction protocol.",
+    ),
+    "scripts/ai_installer_upgrade.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "docs/release/distribution.md"],
+        "Source parses installer release versions. Rust binds immutable public Runtime artifacts and typed repository schema compatibility/migration; Runtime upgrade remains external to each attached repository.",
+    ),
+    "scripts/ai_upgrade_apply.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "Source applies a confirmed upgrade with drift checks and rollback. Rust separates external Runtime replacement from explicit migrate apply, preserves historical evidence/knowledge, and writes a digest-bound migration receipt only for reviewed adjacent schema changes.",
+    ),
+    "scripts/ai_upgrade_conflict_report.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "Source emits a stable installer conflict report. Rust exposes compatibility/migration plans and doctor safe actions with fail-closed conflicts; it does not adopt the source report wire format or auto-resolve ownership.",
+    ),
+    "scripts/ai_upgrade_proposal.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-cli/src/main.rs", "docs/reference/commands.md"],
+        "Source compares template files and proposes safe/conflicting upgrade changes. Rust's migration plan is schema- and digest-bound, keeps repository-owned history immutable, and requires explicit approval; source template file categories are not copied.",
+    ),
+    "scripts/install_ai_cockpit.py": (
+        "reference-only",
+        ["docs/release/distribution.md", "docs/getting-started/installation.md"],
+        "The source Python launcher is an installer entrypoint. This Rust repository ships a binary through immutable release artifacts and documents package/installer boundaries; no Python launcher or source fallback is part of the Runtime.",
     ),
 }
 
@@ -4120,6 +4209,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi552 = WI552_REFERENCE_FILES.get(path)
+        if wi552 is not None:
+            classification, counterparts, reason = wi552
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI552_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         if is_generated_history(path):
             records.append(
                 {
@@ -5619,6 +5721,42 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi550_classifications
         ):
             errors.append("WI-550 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI552_BATCH
+        for record in records
+    ):
+        wi552_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI552_BATCH
+            and record.get("referencePath") in WI552_REFERENCE_FILES
+        ]
+        expected_wi552_paths = set(WI552_REFERENCE_FILES) & current_reference_paths
+        actual_wi552_paths = {record.get("referencePath") for record in wi552_records}
+        if actual_wi552_paths != expected_wi552_paths:
+            errors.append(
+                "WI-552 batch paths do not match the pinned current-file set: "
+                f"expected {sorted(expected_wi552_paths)!r}, got {sorted(actual_wi552_paths)!r}"
+            )
+        if len(wi552_records) != len(expected_wi552_paths):
+            errors.append(
+                f"WI-552 batch must contain {len(expected_wi552_paths)} records, found {len(wi552_records)}"
+            )
+        wi552_classifications = [historical_classification(record) for record in wi552_records]
+        expected_wi552_classifications = Counter(
+            WI552_REFERENCE_FILES[path][0] for path in expected_wi552_paths
+        )
+        if any(
+            wi552_classifications.count(classification) != count
+            for classification, count in expected_wi552_classifications.items()
+        ):
+            errors.append("WI-552 batch classifications do not match current reference paths")
+        if any(
+            classification in {"deferred-next-batch", "migrate-gap"}
+            for classification in wi552_classifications
+        ):
+            errors.append("WI-552 batch cannot leave deferred or migrate-gap records")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -6090,6 +6228,34 @@ def apply_wi550_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi552_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI552_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI552_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI552_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI552_REFERENCE_FILES)} WI-552 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -6121,6 +6287,7 @@ def main() -> int:
     parser.add_argument("--apply-wi543-batch", action="store_true")
     parser.add_argument("--apply-wi548-batch", action="store_true")
     parser.add_argument("--apply-wi550-batch", action="store_true")
+    parser.add_argument("--apply-wi552-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -6146,6 +6313,7 @@ def main() -> int:
         args.apply_wi543_batch,
         args.apply_wi548_batch,
         args.apply_wi550_batch,
+        args.apply_wi552_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -6286,6 +6454,13 @@ def main() -> int:
     if args.apply_wi550_batch:
         try:
             apply_wi550_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi552_batch:
+        try:
+            apply_wi552_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

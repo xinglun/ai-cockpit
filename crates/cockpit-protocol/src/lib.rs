@@ -8,6 +8,39 @@ pub const PROTOCOL_VERSION: u32 = 1;
 pub const AGENT_INTERFACE_VERSION: u32 = 1;
 pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;
 
+/// Stable command-level capabilities advertised by a repository's discovery
+/// manifest.  These names describe Runtime surfaces only; they do not claim
+/// that a repository is ready, that evidence is present, or that an Agent
+/// provider has been installed.  Keeping the registry in the protocol crate
+/// prevents `attach`, documentation, and adapters from silently drifting.
+pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
+    "attach",
+    "inspect",
+    "observe",
+    "status",
+    "compatibility",
+    "migrate-plan",
+    "migrate-apply",
+    "profile-confirm",
+    "profile-propose",
+    "preflight",
+    "gate",
+    "verify",
+    "work-item-scaffold",
+    "work-item-lifecycle",
+    "work-item-outcome",
+    "work-item-recovery",
+    "work-item-finalization",
+    "work-item-parallel",
+    "evidence",
+    "audit",
+    "capability-show",
+    "knowledge",
+    "agent-adapter",
+    "mcp",
+    "doctor",
+];
+
 /// The repository schema migration graph is intentionally explicit.  A
 /// Runtime may only apply one adjacent edge at a time; adding a future schema
 /// requires adding another reviewed edge instead of changing a direct

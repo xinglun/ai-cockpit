@@ -35,6 +35,8 @@ Runtime 会验证两个字段并拒绝 identity 不一致。不要把 runtime so
 `repositoryId`、`rootBinding: "manifest-parent"`、当前 Runtime 能力和 `adapterState: "unconfigured"`。它是 discovery fact，
 不是 provider instruction、授权或全局 MCP 配置。Provider 安装必须是独立的显式操作。
 
+其中的 `capabilities` 数组是完整且稳定的命令能力注册表，覆盖 setup、inspect、兼容性/迁移、profile、preflight/gate、verify、Work Item 生命周期与 Outcome/恢复/终结/并行、evidence/audit、knowledge、能力查询、Agent adapter、MCP 和诊断。存在某项只表示可发现，不代表仓库已 ready 或已获授权；Agent 仍应通过 `ai-cockpit --help`/子命令帮助或 MCP `initialize` → `tools/list` 查询精确参数和 schema。
+
 ## `.ai/adapters/<provider>.json`
 
 `agent install` 会写入严格的 ownership record，包括 provider、repository ID、repository-relative target、adapter version

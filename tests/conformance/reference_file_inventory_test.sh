@@ -61,7 +61,7 @@ done
 # Bounded rebaseline batches resolve changed source records; WI-521 resolves
 # one of the previously changed deferred records. Keep this regression count
 # tied to the current pinned source ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 63
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 61
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -472,6 +472,42 @@ grep -q "WI-550" "$root/docs/reference/reference-file-comparison.ja.md"
 grep -q "WI-550" "$root/docs/reference/reference-parity.md"
 grep -q "WI-550" "$root/docs/reference/reference-parity.zh-CN.md"
 grep -q "WI-550" "$root/docs/reference/reference-parity.ja.md"
+
+# WI-552 compares the pinned installer/upgrade paths one by one.  The source
+# installer remains an explicit boundary: repository onboarding and migration
+# are Rust-native, while provider catalogs and the Python launcher are not
+# copied into the shared Runtime.
+wi552_paths=(
+  scripts/ai_install_facts.py
+  scripts/ai_install_plan.py
+  scripts/ai_install_status.py
+  scripts/ai_install_wizard.py
+  scripts/ai_installer_bootstrap.py
+  scripts/ai_installer_catalog.json
+  scripts/ai_installer_detection.py
+  scripts/ai_installer_evidence.py
+  scripts/ai_installer_managed_regions.py
+  scripts/ai_installer_ownership.py
+  scripts/ai_installer_repository.py
+  scripts/ai_installer_transaction.py
+  scripts/ai_installer_upgrade.py
+  scripts/ai_upgrade_apply.py
+  scripts/ai_upgrade_conflict_report.py
+  scripts/ai_upgrade_proposal.py
+  scripts/install_ai_cockpit.py
+)
+for wi552_path in "${wi552_paths[@]}"; do
+  test "$(jq --arg path "$wi552_path" '[.records[] | select(.referencePath == $path and .batch == "WI-552-reference-file-comparison-batch-40" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-552-reference-file-comparison-batch-40")] | length' "$current_manifest")" -eq 17
+test "$(jq '[.records[] | select(.batch == "WI-552-reference-file-comparison-batch-40" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-552-reference-file-comparison-batch-40" and .classification == "reference-only")] | length' "$current_manifest")" -eq 2
+grep -q "WI-552" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-552" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-552" "$root/docs/reference/reference-file-comparison.ja.md"
+grep -q "WI-552" "$root/docs/reference/reference-parity.md"
+grep -q "WI-552" "$root/docs/reference/reference-parity.zh-CN.md"
+grep -q "WI-552" "$root/docs/reference/reference-parity.ja.md"
 
 # WI-521 resolves the next pinned local source scripts one by one.  Keep this
 # explicit so a future rebaseline cannot silently return the slice to deferred
