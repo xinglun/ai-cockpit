@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-560-doc-promotion-wi559.summary.json"
   ],
   "checkpointAt": "2026-09-04T05:53:27Z",
-  "checkpointContractDigest": "sha256:235abc45c081e59dc78b98b0ebb91145da4f157c314e37af1b988ede036de871",
+  "checkpointContractDigest": "sha256:6f7e222cea375c71ce8016f81539aee94a3344ea6810ff56ac5ce768ff405216",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,6 +40,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-560-doc-promotion-wi559"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:6f7e222cea375c71ce8016f81539aee94a3344ea6810ff56ac5ce768ff405216",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6b8e53095f2f90129920a943d94c40abc11be58cf93a645bc2a62a4357e6c015",
+      "previousContractHash": "sha256:235abc45c081e59dc78b98b0ebb91145da4f157c314e37af1b988ede036de871",
+      "reason": "Rebound the unmerged PR #538 context after reconstructing commit order so parity registration predates verification evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-04T06:11:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:69d98d739ef8e946d65d6fcd3127df8685b435f2a584653c0447675c7643bf10",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-560-doc-promotion-wi559"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:69d98d739ef8e946d65d6fcd3127df8685b435f2a584653c0447675c7643bf10",
@@ -47,8 +67,8 @@
   "failedGate": "finish.governance",
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-09-04T06:10:36Z",
-  "preflightContractDigest": "sha256:235abc45c081e59dc78b98b0ebb91145da4f157c314e37af1b988ede036de871",
+  "preflightAt": "2026-09-04T06:11:53Z",
+  "preflightContractDigest": "sha256:6f7e222cea375c71ce8016f81539aee94a3344ea6810ff56ac5ce768ff405216",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:69d98d739ef8e946d65d6fcd3127df8685b435f2a584653c0447675c7643bf10",
   "preflightState": "green",
@@ -56,7 +76,7 @@
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-04T05:59:21Z",
+  "updatedAt": "2026-09-04T06:11:14Z",
   "verification": [
     {
       "check": "project-command-0",

@@ -23,13 +23,16 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:9ab23743f873e5a9ba2bbcd4bb09b90a2b7939137d183ba81f2ebf52dd919698",
-  "requiredEvidenceClasses": ["verification", "documentation"],
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-560-doc-promotion-wi559",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/538",
     "worktree": "/private/tmp/ai-cockpit-wi560-doc-promotion-wi559"
   },
   "risk": "normal",
