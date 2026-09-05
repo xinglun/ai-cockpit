@@ -15,7 +15,10 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-发布完成后，当前安装基线是公开且绑定身份的 `v0.2.78` Release；在 provider Release
+当前发布产物命名为 `ai-cockpit-v0.2.79-<target>.tar.gz`（Windows 使用对应的
+archive）。只有公开 Release 和发布后验收完成后，它才成为安装基线。
+
+发布完成后，当前安装基线是公开且绑定身份的 `v0.2.79` Release；在 provider Release
 存在之前，应使用上一个公开的 `v0.2.76` archive。`v0.2.77` tag 作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。预留的 `v0.2.51` tag 是不可变的发布失败尝试
 （workflow run `33417057474`）：它是 lightweight tag，没有 provider Release，永远不能复用或作为安装基线。
 `v0.2.56` tag 也只是不可变的发布失败历史：source-quality workflow 在创建 provider Release

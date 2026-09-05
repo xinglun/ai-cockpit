@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Cargo metadata and lockfile resolve to v0.2.79.",
+    "Release policy and hosted checks bind the tag, artifacts, checksums, SBOM, provenance, and Runtime identity.",
+    "Post-release adopter acceptance uses only immutable public v0.2.79 artifacts and proves isolation and cleanup.",
+    "The object repositories remain untouched and receive a reproducible recovery handoff after publication.",
+    "All current installation and architecture documentation uses v0.2.79 as the current baseline in all three languages."
+  ],
+  "createdAt": "2026-09-05T23:30:55Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f32a79268b489341f1a18a0d50100245184be723842027a922eb32ab76aa94a5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0de3d294a72ceb8e47d82fe5a7dcbd50dde640f087be91aa54fc193b7d9564f",
+      "workItemId": "WI-600-release-v0-2-79"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-600-release-v0-2-79.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-600-release-v0-2-79.contract.json"
+          ],
+          "inference": false,
+          "text": "Release the reviewed Runtime and verify that a fresh adopter can use only the published artifact."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-600-release-v0-2-79.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-600-release-v0-2-79"
+  },
+  "taskReportDigest": "sha256:22099c4185885eebd386093659316ab4a62b4003e51e405392ea6890ed8b7763",
+  "taskReportMarkdownDigest": "sha256:d88c7ca4a4d5856ce3582b6c69541f0af10f9640f6a2229fbda888a8af4900b2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-600-release-v0-2-79.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-600-release-v0-2-79"
+}

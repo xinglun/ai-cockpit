@@ -15,7 +15,11 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
-The public, identity-bound `v0.2.78` Release is the current installation baseline
+The current release artifact naming is `ai-cockpit-v0.2.79-<target>.tar.gz` or
+the corresponding Windows archive. This becomes the installation baseline only
+after the public Release and post-release acceptance are complete.
+
+The public, identity-bound `v0.2.79` Release is the current installation baseline
 after publication; before the provider Release exists, use the preceding public
 `v0.2.76` archive. The `v0.2.77` tag is retained as immutable failed-publication
 history with no provider Release and is never an installation baseline. The reserved `v0.2.51` tag is an immutable failed publication

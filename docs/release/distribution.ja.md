@@ -15,7 +15,10 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
-公開後の installation baseline は identity-bound な `v0.2.78` Release です。provider Release が存在する前は、直前の公開
+現在の Release artifact は `ai-cockpit-v0.2.79-<target>.tar.gz`（Windows は対応する
+archive）という名前です。公開 Release と post-release acceptance が完了してから installation baseline になります。
+
+公開後の installation baseline は identity-bound な `v0.2.79` Release です。provider Release が存在する前は、直前の公開
 `v0.2.76` archive を使います。`v0.2.77` tag は provider Release のない immutable な公開失敗履歴として保持し、installation baseline にはしません。予約済みの `v0.2.51` tag は immutable な公開失敗試行
 （workflow run `33417057474`）であり、lightweight tag で provider Release はありません。再利用も installation baseline 化もできません。
 `v0.2.56` tag も immutable な公開失敗履歴です。source-quality workflow が provider Release 作成前に失敗したため、公開 installation baseline として再利用しません。
