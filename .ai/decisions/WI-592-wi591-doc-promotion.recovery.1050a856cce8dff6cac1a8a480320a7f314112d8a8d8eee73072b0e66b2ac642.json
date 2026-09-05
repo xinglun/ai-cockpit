@@ -1,0 +1,27 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-09-05T13:40:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-592-wi591-doc-promotion.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:9c6e2ff70bb0c4eb3cefc455c7a6aaf3085773113031d0acffdb47e1e42168a8",
+  "predecessorEventsDigest": "sha256:f3839e917eaf079e049d7bddc6261f04ec6c190f633087033321978f26b0fb1e",
+  "predecessorOutcomeDigest": "sha256:cfe8c03870870b8fc11b1aad5638fa3d1d42ff22e72bb32dfe04132d3b00599e",
+  "predecessorSummaryDigest": "sha256:094de12ade19fc0a3420c43cb14bb289a916ef3386645e63d9c4f887d8138d07",
+  "predecessorWorkItemId": "WI-592-wi591-doc-promotion",
+  "reason": "CI found that the archived WI-592 itself lacked a required three-language parity registry entry. Preserve WI-592 immutable bytes and redeliver the missing parity registration in a successor before release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-593 parity registration, verify the full docs gate, and close both successor and predecessor without rewriting archived bytes.",
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "successorBindingMode": "legacy_terminal_evidence",
+  "successorWorkItemId": "WI-593-wi591-doc-parity-recovery",
+  "workItemId": "WI-592-wi591-doc-promotion"
+}

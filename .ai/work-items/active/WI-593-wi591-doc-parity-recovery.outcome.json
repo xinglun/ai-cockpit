@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "Current three-language parity gate passes without modifying WI-592 immutable archive bytes.",
+    "The recovery decision remains bound to archived WI-592 repository identity and digests.",
+    "Verification and documentation outputs are reproducible from latest origin/main without unsupported governance claims."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3a155297743a52e4032fa109872aaad901e8b1d329dd39a2141b33c10230992f",
+      "workItemId": "WI-593-wi591-doc-parity-recovery"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-593-wi591-doc-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-592-wi591-doc-promotion.recovery.1050a856cce8dff6cac1a8a480320a7f314112d8a8d8eee73072b0e66b2ac642.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-593-wi591-doc-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-593-wi591-doc-parity-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-593-wi591-doc-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-593-wi591-doc-parity-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-593-wi591-doc-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish a current, auditable verification record for WI-592 recovery and prove all three-language documentation parity and promotion checks on latest main."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-593-wi591-doc-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-593-wi591-doc-parity-recovery"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-593-wi591-doc-parity-recovery"
+}

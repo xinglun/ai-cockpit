@@ -1,0 +1,36 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-592-wi591-doc-promotion.recovery.1050a856cce8dff6cac1a8a480320a7f314112d8a8d8eee73072b0e66b2ac642.json",
+    ".ai/work-items/active/WI-593-wi591-doc-parity-recovery.contract.json",
+    ".ai/work-items/active/WI-593-wi591-doc-parity-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T14:18:10Z",
+  "checkpointContractDigest": "sha256:4bd2c398ea43c765e43af66b3bdc6ceb4200127a684da7d0e273dc2a8b1d0fc5",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3a155297743a52e4032fa109872aaad901e8b1d329dd39a2141b33c10230992f",
+  "createdAt": "2026-09-05T14:14:20Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:9c6e2ff70bb0c4eb3cefc455c7a6aaf3085773113031d0acffdb47e1e42168a8",
+  "predecessorWorkItemId": "WI-592-wi591-doc-promotion",
+  "preflightAt": "2026-09-05T14:22:20Z",
+  "preflightContractDigest": "sha256:4bd2c398ea43c765e43af66b3bdc6ceb4200127a684da7d0e273dc2a8b1d0fc5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3a155297743a52e4032fa109872aaad901e8b1d329dd39a2141b33c10230992f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-592-wi591-doc-promotion.recovery.1050a856cce8dff6cac1a8a480320a7f314112d8a8d8eee73072b0e66b2ac642.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-05T14:22:26Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:0164a3306ace96d1f7fc1f6dd16f615b75b9f910e7891830821b2ba1ec3c9090",
+  "workItemId": "WI-593-wi591-doc-parity-recovery"
+}
