@@ -28,11 +28,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-593-wi592-doc-parity-recovery-final2",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/578",
     "worktree": "/private/tmp/ai-cockpit-wi593-recovery-final2"
   },
   "risk": "low",
