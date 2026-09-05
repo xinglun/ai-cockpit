@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-578 — WI-577 terminal documentation promotion"
 description: "immutable record を書き換えず、closed WI-577 の documentation projection を昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-578-wi577-doc-promotion
 lastVerifiedBy: WI-578-wi577-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-578-wi577-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-578-wi577-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-578-wi577-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-578-wi577-doc-promotion.close.json
 ---
 
 [English](WI-578-wi577-doc-promotion.md) · [简体中文](WI-578-wi577-doc-promotion.zh-CN.md)

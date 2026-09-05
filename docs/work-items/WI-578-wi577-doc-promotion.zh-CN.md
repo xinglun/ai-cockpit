@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-578：WI-577 终态文档晋级"
 description: "在不重写不可变记录的前提下晋级已关闭 WI-577 的文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-578-wi577-doc-promotion
 lastVerifiedBy: WI-578-wi577-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-578-wi577-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-578-wi577-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-578-wi577-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-578-wi577-doc-promotion.close.json
 ---
 
 [English](WI-578-wi577-doc-promotion.md) · [日本語](WI-578-wi577-doc-promotion.ja.md)
