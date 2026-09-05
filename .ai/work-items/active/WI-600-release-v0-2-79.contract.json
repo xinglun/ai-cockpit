@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and lockfile resolve to v0.2.79.",
+    "Release policy and hosted checks bind the tag, artifacts, checksums, SBOM, provenance, and Runtime identity.",
+    "Post-release adopter acceptance uses only immutable public v0.2.79 artifacts and proves isolation and cleanup.",
+    "The object repositories remain untouched and receive a reproducible recovery handoff after publication.",
+    "All current installation and architecture documentation uses v0.2.79 as the current baseline in all three languages."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "27c15763e3545686975d277ad6986d0b6c6dc918",
+  "createdAt": "2026-09-05T22:47:42Z",
+  "goal": "Release the reviewed Runtime and verify that a fresh adopter can use only the published artifact.",
+  "intent": "Publish v0.2.79 after the WI-599 process-order fix, with immutable public artifacts and adopter acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "object repositories",
+    "global Agent/MCP configuration",
+    "historical evidence bytes",
+    "reference comparison metadata"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:af44d27c2e4cc9603ffd18988dbb61846240b229dd55718f11731d5a89d6604c",
+  "requiredEvidenceClasses": [
+    "release_policy",
+    "adopter_acceptance",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-600-release-v0-2-79",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi600-release-v0-2-79"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/work-items/WI-600-release-v0-2-79.md",
+    "docs/work-items/WI-600-release-v0-2-79.zh-CN.md",
+    "docs/work-items/WI-600-release-v0-2-79.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-600-release-v0-2-79"
+}
