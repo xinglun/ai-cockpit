@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-590-wi589-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:614a2334274480b4cfe5ddff9939d65adf6a2b3bedffce5bfa08b70f77a6c90f",
+      "workItemId": "WI-590-wi589-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-590-wi589-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-590-wi589-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-590-wi589-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-590-wi589-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-590-wi589-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-590-wi589-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-590-wi589-doc-promotion.verification.json",
+            ".ai/decisions/WI-590-wi589-doc-promotion.finalize.dbcba9abc2d42533d7f90acaa2955072159f5a5e88197760c2f85e867ee39563.json",
+            "https://github.com/xinglun/ai-cockpit/pull/575"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-release-fix at 2026-09-05T12:50:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-590-wi589-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-590-wi589-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-590-wi589-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-590-wi589-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep three-language WI-589 documentation and reference parity synchronized with its closed lifecycle, while registering WI-590 self-projection so check-all remains deterministic."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-590-wi589-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-590-wi589-doc-promotion"
+  },
+  "finalReportDigest": "sha256:c08bcf82fc12b0aad9e5d463ba61595da53a0d93bd1ae5cc1b6ff9e83c91cba6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:fc52c7b34e9802960cc6b4399c36c0dec8de28100ccccec7bfa47e2a507f1d6d",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-590-wi589-doc-promotion.finalize.dbcba9abc2d42533d7f90acaa2955072159f5a5e88197760c2f85e867ee39563.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-release-fix",
+    "decidedAt": "2026-09-05T12:50:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-590-wi589-doc-promotion.verification.json",
+      ".ai/decisions/WI-590-wi589-doc-promotion.finalize.dbcba9abc2d42533d7f90acaa2955072159f5a5e88197760c2f85e867ee39563.json",
+      "https://github.com/xinglun/ai-cockpit/pull/575"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "WI-590 documentation projections passed verification, PR #575 was reviewed and merged, finalization and exact cleanup receipts are verified, and WI-589 terminal projections are now current.",
+    "resumeCondition": "No follow-up for WI-590; continue only from synchronized main after all post-close checks pass."
+  },
+  "timestamp": "2026-09-05T12:44:34Z",
+  "workItemId": "WI-590-wi589-doc-promotion"
+}
