@@ -27,11 +27,11 @@
   "repositorySnapshotDigest": "sha256:14298ab921cf921dafdfce5a80fb760c10ec63aaa5989962eb23b24eab654c0f",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-580-reference-template-parity-batch-46-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/562",
     "worktree": "/private/tmp/ai-cockpit-wi580-reference-template-parity-batch-46-recovery"
   },
   "risk": "normal",
