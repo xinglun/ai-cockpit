@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-584 — v0.2.76 release and object-adopter recovery handoff"
 description: "Publish and validate the Runtime release required by archived Work Item revalidation."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-584-release-v0-2-76
 lastVerifiedBy: WI-584-release-v0-2-76
+terminalArchive: .ai/work-items/archive/WI-584-release-v0-2-76.contract.json
+terminalVerification: .ai/evidence/WI-584-release-v0-2-76.verification.json
+terminalFinalization: .ai/decisions/WI-584-release-v0-2-76.finalize.json
+terminalDecision: .ai/decisions/WI-584-release-v0-2-76.close.json
 ---
 
 [简体中文](WI-584-release-v0-2-76.zh-CN.md) · [日本語](WI-584-release-v0-2-76.ja.md)
