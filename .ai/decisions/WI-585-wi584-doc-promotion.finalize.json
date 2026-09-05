@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ca7049e709918ef94a4bb09542dbe754029ee144",
+    "name": "codex/wi-585-wi584-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c29c201c469d1369acc7dccc022aa6ee02f019b01f5347137cf83a8b6352ea47",
+  "operationId": "github-pr-570-merge-cleanup-20260905",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "35f7e48a92b18fb26049922034f885eadff10ef3",
+    "headRevision": "ca7049e709918ef94a4bb09542dbe754029ee144",
+    "mergeCommit": "facb86bb54019e6d1677b89a7769e28391300f02",
+    "number": 570,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/570"
+  },
+  "reason": "Reviewed PR #570 passed all hosted checks, merged as facb86bb, and the exact feature branch and dedicated worktree were removed after synchronization.",
+  "receiptId": "github-pr-570-finalization-20260905",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-585-wi584-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/570",
+    "worktree": "/private/tmp/ai-cockpit-wi585-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+  "runtimeVersion": "0.2.75",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T07:48:13Z",
+  "workItemId": "WI-585-wi584-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-585-wi584-doc-promotion",
+    "headRevision": "ca7049e709918ef94a4bb09542dbe754029ee144",
+    "path": "/private/tmp/ai-cockpit-wi585-doc-promotion",
+    "worktreeId": "WI-585-wi584-doc-promotion"
+  }
+}
