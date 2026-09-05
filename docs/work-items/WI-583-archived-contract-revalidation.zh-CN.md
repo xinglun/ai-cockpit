@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-583——归档 Contract 重验证与后继关闭"
 description: "为历史验证后经合法修订的归档 Work Item 提供追加式、有证据绑定的恢复路径。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-583-archived-contract-revalidation
 lastVerifiedBy: WI-583-archived-contract-revalidation
+terminalArchive: .ai/work-items/archive/WI-583-archived-contract-revalidation.contract.json
+terminalVerification: .ai/evidence/WI-583-archived-contract-revalidation.verification.json
+terminalFinalization: .ai/decisions/WI-583-archived-contract-revalidation.finalize.json
+terminalDecision: .ai/decisions/WI-583-archived-contract-revalidation.close.json
 ---
 
 [English](WI-583-archived-contract-revalidation.md) · [日本語](WI-583-archived-contract-revalidation.ja.md)

@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-583 — Archived Contract 再検証と successor close"
 description: "履歴検証後に正当に変更された archived Work Item のための append-only recovery path。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-583-archived-contract-revalidation
 lastVerifiedBy: WI-583-archived-contract-revalidation
+terminalArchive: .ai/work-items/archive/WI-583-archived-contract-revalidation.contract.json
+terminalVerification: .ai/evidence/WI-583-archived-contract-revalidation.verification.json
+terminalFinalization: .ai/decisions/WI-583-archived-contract-revalidation.finalize.json
+terminalDecision: .ai/decisions/WI-583-archived-contract-revalidation.close.json
 ---
 
 [English](WI-583-archived-contract-revalidation.md) · [简体中文](WI-583-archived-contract-revalidation.zh-CN.md)
