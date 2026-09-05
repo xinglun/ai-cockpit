@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7ab787e3699e3cc8c3c84391b02911cddc405c4a152a22ee0f60ffc30d961147",
+      "workItemId": "WI-587-reference-file-comparison-batch-47"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json",
+            ".ai/decisions/WI-587-reference-file-comparison-batch-47.finalize.77d894a5f84cb71e7a2270802132f00a78b05cc2a8aa2b6e51131daeec4a3782.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-release at 2026-09-05T11:30:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-587-reference-file-comparison-batch-47.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-587-reference-file-comparison-batch-47.contract.json"
+          ],
+          "inference": false,
+          "text": "完成参考源第47批20个路径的证据化语义分类，避免复制源实现或把源专属事实宣称为Rust能力。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-587-reference-file-comparison-batch-47.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-587-reference-file-comparison-batch-47"
+  },
+  "finalReportDigest": "sha256:343ad31afdedee6ce03bf1c5d83068121f28415931bd9edaba17b2396717feb6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5df95fa4122709d4f05bdd7153e16ac40981d9539170d4b87838d97bc3451c77",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-587-reference-file-comparison-batch-47.finalize.77d894a5f84cb71e7a2270802132f00a78b05cc2a8aa2b6e51131daeec4a3782.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-release",
+    "decidedAt": "2026-09-05T11:30:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json",
+      ".ai/decisions/WI-587-reference-file-comparison-batch-47.finalize.77d894a5f84cb71e7a2270802132f00a78b05cc2a8aa2b6e51131daeec4a3782.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "PR #572 passed all hosted checks, merged to main, the exact feature branch and dedicated worktree were removed, and finalize-verify passed with the deleted sequence-2 head.",
+    "resumeCondition": "If a future reference comparison is stale, open one bounded successor Work Item and preserve this immutable close record."
+  },
+  "timestamp": "2026-09-05T10:52:34Z",
+  "workItemId": "WI-587-reference-file-comparison-batch-47"
+}
