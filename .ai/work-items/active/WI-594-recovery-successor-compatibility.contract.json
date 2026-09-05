@@ -1,0 +1,77 @@
+{
+  "acceptanceCriteria": [
+    "An archived predecessor with an older legacy successorBindingMode candidate and a newer valid successor/revalidation record can complete the supported close path without rewriting either predecessor record.",
+    "The older legacy recovery bytes remain immutable and are classified only as stale historical binding when a newer valid candidate is present; malformed, foreign, contradictory, or sole invalid records remain fail-closed.",
+    "The close-bound projection preserves the original recovery path, digest, sequence, and successor lineage and does not reclassify a PR finalization as direct_merge_no_pr.",
+    "Regression tests cover the compatibility path and negative cases, and the three-language recovery documentation describes the append-only rule and recovery boundary."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a84a13cce3f3c1dc6cbdb64d0e65480776ba3abd",
+  "createdAt": "2026-09-05T15:15:33Z",
+  "goal": "Provide a first-class, append-only compatibility path for closing an archived predecessor after a valid successor supersedes an older legacy recovery binding.",
+  "intent": "Fix the Runtime recovery-decision loader so a known historical successorBindingMode conflict is treated as stale only when a newer valid successor record binds the same immutable predecessor; retain fail-closed behavior for every unrelated invalid record.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Object repository operations or edits under /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator and sentinel",
+    "Direct edits or migrations of WI-592",
+    " WI-593",
+    " or any historical archive/evidence/decision bytes",
+    "Direct-merge-no-PR schema changes",
+    "Release publication and adopter acceptance implementation (handled after this Runtime fix is merged)",
+    "Reference-source feature parity unrelated to recovery compatibility"
+  ],
+  "predecessorContractDigest": "sha256:0163ee04bdf160f13ab9b717b0871d6617ff71b9582339be0ffb3ce949f1ba1d",
+  "predecessorWorkItemId": "WI-593-wi591-doc-parity-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-593-wi591-doc-parity-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3a155297743a52e4032fa109872aaad901e8b1d329dd39a2141b33c10230992f",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-594-recovery-successor-compatibility",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi594-recovery-successor-compatibility"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/recovery_revalidation.rs",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "legacy binding candidate superseded by valid successor",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "A newer valid successor candidate is selected and the predecessor can close without rewriting older recovery bytes.",
+      "verificationPlan": "Add a repository test with an older legacy successorBindingMode record and a newer valid mode-less supersede, then execute the full recovery close path."
+    },
+    {
+      "scenario": "malformed or foreign recovery candidate",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The invalid candidate remains fail-closed and cannot be ignored or used as authorization.",
+      "verificationPlan": "Extend recovery decision regression tests for malformed, foreign, contradictory, and sole-invalid candidates."
+    }
+  ],
+  "sources": [
+    "Object-reported P1: predecessor close blocked after successor revalidation because an older legacy recovery candidate is rejected before close-bound projection (Runtime 0.2.76).",
+    "crates/cockpit-repository/src/lib.rs:load_recovery_decision",
+    "crates/cockpit-repository/src/lib.rs:validate_recovery_successor_binding",
+    "AGENTS.md#immutable-history-and-successor-recovery"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-594-recovery-successor-compatibility"
+}

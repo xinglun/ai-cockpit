@@ -16272,9 +16272,17 @@ fn is_stale_recovery_binding_error(error: &ObserverError) -> bool {
 /// applies to archived records and only when a later valid candidate wins;
 /// malformed, foreign, or otherwise untrusted receipts still fail closed.
 fn is_historical_successor_binding_error(error: &ObserverError) -> bool {
+    let message = error.to_string();
     ["successor_binding_missing", "successor_binding_mismatch"]
         .iter()
-        .any(|code| error.to_string().contains(code))
+        .any(|code| message.contains(code))
+        // A pre-strict Runtime could persist the legacy marker even after a
+        // successor Contract had gained the mandatory predecessor binding.
+        // Treat only this exact, deterministic compatibility error as stale;
+        // other successor-binding errors remain fail-closed.
+        || message.contains(
+            "successor_binding_mode_invalid: legacy successorBindingMode cannot be used by a strictly bound successor",
+        )
 }
 
 fn load_recovery_decision(

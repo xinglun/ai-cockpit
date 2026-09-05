@@ -1,0 +1,36 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-593-wi591-doc-parity-recovery.recovery.json",
+    ".ai/work-items/active/WI-594-recovery-successor-compatibility.contract.json",
+    ".ai/work-items/active/WI-594-recovery-successor-compatibility.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T15:18:15Z",
+  "checkpointContractDigest": "sha256:83b752f949bd04a23c0a26d64407c8467d9cc1bd323eb2d466ff9772cf539a5f",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:5a5d48b26139656e1565e762d00d74101f0818dc898b9d0f25357a04151b1ecc",
+  "createdAt": "2026-09-05T15:15:33Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:0163ee04bdf160f13ab9b717b0871d6617ff71b9582339be0ffb3ce949f1ba1d",
+  "predecessorWorkItemId": "WI-593-wi591-doc-parity-recovery",
+  "preflightAt": "2026-09-05T15:23:57Z",
+  "preflightContractDigest": "sha256:83b752f949bd04a23c0a26d64407c8467d9cc1bd323eb2d466ff9772cf539a5f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5a5d48b26139656e1565e762d00d74101f0818dc898b9d0f25357a04151b1ecc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-593-wi591-doc-parity-recovery.recovery.json",
+  "recoveryRetryDecisionDigest": "sha256:e039a44b95ab953b4d47fd9841bd1ee709a4cc13a1bcb51debe2e85a7718b3a1",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-594-recovery-successor-compatibility.recovery.json",
+  "recoveryRetryPending": true,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-05T15:24:01Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:c6aad889faa220c9e58740a04ac699ce5ce2dece0c018c782bddcfa93e1d8d6a",
+  "workItemId": "WI-594-recovery-successor-compatibility"
+}

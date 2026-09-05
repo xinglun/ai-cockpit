@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-runtime-correction",
+  "decidedAt": "2026-09-06T05:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-594-recovery-successor-compatibility.outcome.json",
+    ".ai/evidence/WI-594-recovery-successor-compatibility.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order",
+    ".ai/README.md#evidence-discipline"
+  ],
+  "predecessorContractDigest": "sha256:83b752f949bd04a23c0a26d64407c8467d9cc1bd323eb2d466ff9772cf539a5f",
+  "predecessorEventsDigest": "sha256:bae63b7443babc6c5ffc0a11d0e996405b7a66615a2d9a6c802830fffe8ffce1",
+  "predecessorOutcomeDigest": "sha256:c3a1f2a064acd1fcd558c4d91177735e1c7023c3338b7b0686fbf67dc0019f53",
+  "predecessorSummaryDigest": "sha256:78aff786ee55109d7178e9ddbd25cae5b6ff30bb9520cb9b7cc2eec8987ec7c3",
+  "predecessorWorkItemId": "WI-594-recovery-successor-compatibility",
+  "reason": "Retry the failed finish after binding the required reviewed resource finalization plan; preserve the blocked outcome and all prior evidence as append-only history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind a non-provisional reviewed resource context, rerun verification if required, then finish and archive the compatibility fix.",
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "workItemId": "WI-594-recovery-successor-compatibility"
+}

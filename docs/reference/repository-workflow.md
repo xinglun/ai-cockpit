@@ -134,11 +134,14 @@ finalized, human-closed terminal record. Predecessor bytes are never rewritten,
 and invalid historical evidence cannot create the successor.
 
 When an archived predecessor contains an older successor attempt whose target
-was never bound, a newer valid `supersede` receipt may resolve that historical
-residue. Runtime only treats the older record as historical when the newer
-receipt is valid and wins by its recorded decision time; malformed, foreign,
-tampered, or newer-invalid records remain fail-closed. No Contract, Summary,
-Outcome, Events, Evidence, or recovery receipt bytes are rewritten.
+was never bound, or whose `legacy_terminal_evidence` marker conflicts with a
+newer strictly predecessor-bound successor Contract, a newer valid `supersede`
+receipt may resolve that historical residue. Runtime only treats the older
+record as historical when the newer receipt is valid and wins by its recorded
+decision time. This exception recognizes only the deterministic legacy-marker
+compatibility error; malformed, foreign, tampered, or newer-invalid records
+remain fail-closed. No Contract, Summary, Outcome, Events, Evidence, or
+recovery receipt bytes are rewritten.
 
 Repository readiness applies the same boundary to the entry gate. An archived
 predecessor remains `pending close` until its recovery receipt is valid and its

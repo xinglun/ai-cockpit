@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-runtime-correction",
+  "decidedAt": "2026-09-06T05:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.archive.json",
+    ".ai/decisions/WI-592-wi591-doc-promotion.recovery.4437e98230369ff2355f7e1bbc02d4a7c0564009ffac56d420ef03a84e249eb6.json",
+    ".ai/decisions/WI-593-wi591-doc-parity-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#immutable-history-and-successor-recovery",
+    "AGENTS.md#canonical-delivery-order",
+    ".ai/README.md#evidence-discipline"
+  ],
+  "predecessorContractDigest": "sha256:0163ee04bdf160f13ab9b717b0871d6617ff71b9582339be0ffb3ce949f1ba1d",
+  "predecessorEventsDigest": "sha256:021bdaa1ff35a038703bead3daf9ff8f9f660ec1f5bf93383277af5a3be2b50d",
+  "predecessorOutcomeDigest": "sha256:9421e6a258394e9979c6b6b144f7676645aedd6e63eb860ba2c07cd58a977bfe",
+  "predecessorSummaryDigest": "sha256:7c4e4707f6d3a754c812b956581ccabb93904bd66cdadf7719512d58fabd137b",
+  "predecessorWorkItemId": "WI-593-wi591-doc-parity-recovery",
+  "reason": "Create a bounded successor to fix recovery-decision loading when an older legacy binding candidate is superseded by a valid strict successor, preserving all predecessor bytes and fail-closed validation.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Implement and verify the recovery compatibility guard, then close WI-592 without rewriting WI-593 or WI-592 immutable records and release the corrected Runtime.",
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-594-recovery-successor-compatibility",
+  "workItemId": "WI-593-wi591-doc-parity-recovery"
+}
