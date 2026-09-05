@@ -5,10 +5,14 @@ author: AI Cockpit maintainers
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-598-reference-test-parity-batch-48
 lastVerifiedBy: WI-598-reference-test-parity-batch-48
+terminalArchive: .ai/work-items/archive/WI-598-reference-test-parity-batch-48.contract.json
+terminalVerification: .ai/evidence/WI-598-reference-test-parity-batch-48.verification.json
+terminalFinalization: .ai/decisions/WI-598-reference-test-parity-batch-48.finalize.json
+terminalDecision: .ai/decisions/WI-598-reference-test-parity-batch-48.close.json
 ---
 
 # WI-598 — reference test parity batch 48
