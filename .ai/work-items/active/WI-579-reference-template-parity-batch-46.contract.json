@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "Each of the 16 pinned template paths has a file-level semantic decision and source digest/commit reference.",
+    "Portable governance responsibilities have an explicit Rust or repository-native counterpart; source-only templates are marked reference-only with rationale.",
+    "No source Python, Make, stack implementation, or source JSON wire format is copied into the Rust Runtime or adopter boundary.",
+    "The tri-language file-level ledger and reference-parity route are updated consistently, with current counts and no migrate-gap.",
+    "Reference metadata, documentation acceptance, governance integrity, and status consistency checks pass.",
+    "The shared Runtime, explicit repository context, isolated evidence/knowledge, and human Outcome boundary remain documented as inherited adopter capabilities."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3b49e8777c1e0087ea945a9327f2d77f650039e8",
+  "createdAt": "2026-09-05T01:34:37Z",
+  "goal": "Read all 16 deferred template paths at the pinned reference commit, record an explicit Rust counterpart or reference-only boundary for each, update the tri-language comparison ledger and reader documentation, and prove no migrate gap without copying source Python, Make, stack, or wire-format implementation.",
+  "intent": "Complete a bounded, evidence-backed semantic comparison of the remaining reference template paths so the Rust Runtime and attached adopter repositories do not miss portable governance responsibilities.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "src/**",
+    "release/**",
+    "object repositories",
+    "source implementation copying",
+    "tests outside the reference inventory and documentation regression files"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:14298ab921cf921dafdfce5a80fb760c10ec63aaa5989962eb23b24eab654c0f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-579-reference-template-parity-batch-46",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi579-reference-template-parity-batch-46"
+  },
+  "risk": "normal",
+  "scope": [
+    "templates/agents/AI_COCKPIT_RULES.md",
+    "templates/glossary.md",
+    "templates/make/Makefile.ai",
+    "templates/stacks/android.mk",
+    "templates/stacks/csharp.mk",
+    "templates/stacks/flutter.mk",
+    "templates/stacks/generic.mk",
+    "templates/stacks/go.mk",
+    "templates/stacks/java.mk",
+    "templates/stacks/kotlin.mk",
+    "templates/stacks/php.mk",
+    "templates/stacks/python.mk",
+    "templates/stacks/ruby.mk",
+    "templates/stacks/rust.mk",
+    "templates/stacks/swift.mk",
+    "templates/stacks/typescript.mk",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-579-reference-template-parity-batch-46.md",
+    "docs/work-items/WI-579-reference-template-parity-batch-46.zh-CN.md",
+    "docs/work-items/WI-579-reference-template-parity-batch-46.ja.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/reference_comparison_metadata_test.py"
+  ],
+  "sources": [
+    "local reference checkout /Users/sei-rinn/dev/workspace_python/ai-cockpit-template at fde3380f81fea5fd2e288f7a8849f737dc074060",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/reference_comparison_metadata_test.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-579-reference-template-parity-batch-46"
+}

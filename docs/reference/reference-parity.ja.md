@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-577-reference-metadata-sync
+lastVerifiedBy: WI-579-reference-template-parity-batch-46
 capabilityClaims:
   - reference_parity
 ---
@@ -606,3 +606,7 @@ WI-572 は[ファイル単位の台帳](reference-file-comparison.ja.md#wi-572--
 ## WI-574 — v0.2.75 release と公開 artifact acceptance
 
 WI-574 は review 済み source、五 target artifact、supply-chain receipt、public adopter、N-1 upgrade、cleanup/isolation evidence が一致した後だけ release baseline を v0.2.74 から v0.2.75 に進めます。これは Runtime behavior の変更ではなく release boundary です。attached object repository は公開 Runtime と repository isolation を継承し、object repository 自体の acceptance は外部 read-only handoff のままです。
+
+## WI-579 — reference template parity batch 46
+
+WI-579 は固定した local source commit の残り 16 reference template path の file-level comparison を完了しました。Agent rule、glossary、Make entrypoint は shared Rust Runtime と repository-local documentation が `implemented-different-by-design` で担います。13 の stack preset は `reference-only` です。command、toolchain 選択、platform assumption は adopter/provider-owned で Runtime capability claim にはしません。portable implementation omission と `migrate-gap` はありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated governance record、dynamic verification boundary、人間向け Outcome handoff を継承しますが、source Python/Make/stack implementation や wire format は継承しません。[WI-579 file-level record](reference-file-comparison.ja.md#wi-579--reference-template-parity-batch-46) を参照してください。

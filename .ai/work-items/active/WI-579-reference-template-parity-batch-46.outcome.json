@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Each of the 16 pinned template paths has a file-level semantic decision and source digest/commit reference.",
+    "Portable governance responsibilities have an explicit Rust or repository-native counterpart; source-only templates are marked reference-only with rationale.",
+    "No source Python, Make, stack implementation, or source JSON wire format is copied into the Rust Runtime or adopter boundary.",
+    "The tri-language file-level ledger and reference-parity route are updated consistently, with current counts and no migrate-gap.",
+    "Reference metadata, documentation acceptance, governance integrity, and status consistency checks pass.",
+    "The shared Runtime, explicit repository context, isolated evidence/knowledge, and human Outcome boundary remain documented as inherited adopter capabilities."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-579-reference-template-parity-batch-46.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-579-reference-template-parity-batch-46.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
+      "workItemId": "WI-579-reference-template-parity-batch-46"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-579-reference-template-parity-batch-46.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-579-reference-template-parity-batch-46.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-579-reference-template-parity-batch-46.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-579-reference-template-parity-batch-46.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-579-reference-template-parity-batch-46.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-579-reference-template-parity-batch-46.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-579-reference-template-parity-batch-46.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-579-reference-template-parity-batch-46.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-579-reference-template-parity-batch-46.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-579-reference-template-parity-batch-46.contract.json"
+          ],
+          "inference": false,
+          "text": "Read all 16 deferred template paths at the pinned reference commit, record an explicit Rust counterpart or reference-only boundary for each, update the tri-language comparison ledger and reader documentation, and prove no migrate gap without copying source Python, Make, stack, or wire-format implementation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-579-reference-template-parity-batch-46.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-579-reference-template-parity-batch-46"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-579-reference-template-parity-batch-46.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-579-reference-template-parity-batch-46"
+}

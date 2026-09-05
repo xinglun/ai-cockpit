@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-577-reference-metadata-sync
+lastVerifiedBy: WI-579-reference-template-parity-batch-46
 capabilityClaims:
   - reference_parity
 ---
@@ -668,3 +668,17 @@ N-1 upgrade, and cleanup/isolation evidence agree. This is a release boundary,
 not a Runtime behavior change: attached repositories inherit the published
 Runtime and its repository isolation, while object-repository acceptance remains
 an external read-only handoff.
+
+## WI-579 — reference template parity batch 46
+
+WI-579 completes the file-level comparison of the sixteen remaining reference
+template paths at the pinned local source commit. Agent rules, glossary, and
+the Make entrypoint are represented by the shared Rust Runtime and
+repository-local documentation (`implemented-different-by-design`). Thirteen
+stack presets are `reference-only`: their commands, toolchain selection, and
+platform assumptions remain adopter/provider-owned and are not Runtime claims.
+No portable implementation omission or `migrate-gap` was found. Attached
+object/adopter repositories inherit the shared Runtime, explicit repository
+context, isolated governance records, dynamic verification boundary, and human
+Outcome handoff, not source Python/Make/stack implementations or wire formats.
+See the [file-level WI-579 record](reference-file-comparison.md#wi-579--reference-template-parity-batch-46).

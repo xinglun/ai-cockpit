@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-577-reference-metadata-sync
+lastVerifiedBy: WI-579-reference-template-parity-batch-46
 capabilityClaims:
   - reference_parity
 ---
@@ -30,7 +30,7 @@ check is executable and fails closed when any translated page drifts.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `07a7b1e268477f973766c735754a5594ecee11e7`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `3b49e8777c1e0087ea945a9327f2d77f650039e8`.
 - Runtime used for the comparison work: the published `ai-cockpit 0.2.75` binary, SHA256 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=439 implemented-equivalent=1 not-applicable=7 reference-only=108 deferred-next-batch=214 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=442 implemented-equivalent=1 not-applicable=7 reference-only=121 deferred-next-batch=198 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -275,11 +275,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 439 |
+| `implemented-different-by-design` | 442 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 108 |
-| `deferred-next-batch` | 214 |
+| `reference-only` | 121 |
+| `deferred-next-batch` | 198 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2102,3 +2102,29 @@ append-only historical batch paragraphs. The sidecar
 the single source for the current reference commit, reviewed Rust baseline,
 Runtime identity, and current ledger counts; the tri-language metadata test
 fails closed if any page diverges.
+
+## WI-579 — reference template parity batch 46
+
+WI-579 re-read all sixteen remaining `templates/**` paths at the pinned local
+reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. Three paths have
+portable governance responsibilities represented differently by the shared
+Rust Runtime and repository documentation; thirteen stack presets remain
+explicitly `reference-only` because their commands and toolchain assumptions
+are adopter/provider-owned. No source implementation or wire format is copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `templates/agents/AI_COCKPIT_RULES.md` | implemented-different-by-design | `AGENTS.md`, `.ai/README.md`, `.ai/glossary.md`, `crates/cockpit-agent`, and tri-language agent workflow preserve Contract-first review, pause, evidence, Outcome, and exact cleanup. |
+| `templates/glossary.md` | implemented-different-by-design | `.ai/glossary.md` plus command/workflow references preserve governance vocabulary; domain placeholders remain adopter-owned. |
+| `templates/make/Makefile.ai` | implemented-different-by-design | Rust CLI/Repository/Verification services and the reviewed gate manifest provide lifecycle, quality, and evidence boundaries; source Make/Python targets are not copied. |
+| `templates/stacks/android.mk`, `csharp.mk`, `flutter.mk`, `generic.mk`, `go.mk`, `java.mk`, `kotlin.mk`, `php.mk`, `python.mk`, `ruby.mk`, `rust.mk`, `swift.mk`, `typescript.mk` | reference-only | Stack commands, toolchain selection, and platform assumptions remain explicit adopter-owned verification; the shared Runtime does not infer or ship stack presets. |
+
+No portable implementation omission was found. Attached object/adopter
+repositories inherit the shared Runtime, explicit repository context, isolated
+Contract/evidence/knowledge, dynamic verification boundary, and human Outcome
+handoff. They do not inherit source Python, Make, stack presets, provider policy
+values, or source wire formats. The current snapshot now has 3,681
+`generated-history`, 442 `implemented-different-by-design`, one
+`implemented-equivalent`, 7 `not-applicable`, 121 `reference-only`, and 198
+`deferred-next-batch` records; `migrate-gap` remains zero and 669 retired
+records remain append-only. See the [WI-579 Work Item record](../work-items/WI-579-reference-template-parity-batch-46.md).

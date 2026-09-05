@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-577-reference-metadata-sync
+lastVerifiedBy: WI-579-reference-template-parity-batch-46
 capabilityClaims:
   - reference_parity
 ---
@@ -594,3 +594,7 @@ WI-572 在[逐文件台账](reference-file-comparison.zh-CN.md#wi-572安装器�
 ## WI-574：v0.2.75 发布与公开制品验收
 
 WI-574 只有在审查后的源码、五目标制品、供应链 receipt、public adopter、N-1 升级以及清理/隔离证据一致时，才将发布基线从 v0.2.74 推进到 v0.2.75。这是发布边界，不是 Runtime 行为变更；对象工程继承已发布 Runtime 与 repository 隔离能力，对象工程自身的验收仍是外部只读交接。
+
+## WI-579——参考模板对等批次 46
+
+WI-579 在固定本地源提交上完成剩余 16 个参考模板路径的逐文件比较。Agent 规则、Glossary 和 Make 入口由 shared Rust Runtime 与仓库文档以 `implemented-different-by-design` 承载。13 个 stack preset 为 `reference-only`：命令、工具链选择和平台假设仍由 adopter/provider 负责，不构成 Runtime 能力声明。本批未发现可移植实现遗漏或 `migrate-gap`。对象/adopter 工程继承 shared Runtime、显式 repository context、隔离治理记录、动态验证边界和 human Outcome handoff，不继承源 Python/Make/stack 实现或 wire format。详见[WI-579 逐文件记录](reference-file-comparison.zh-CN.md#wi-579参考模板对等批次-46)。

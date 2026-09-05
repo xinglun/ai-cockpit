@@ -1,0 +1,143 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:3d5ccef558591b0c54166cae009cb36c19bad36bf19ca1cafff603d7fda2c12f",
+  "createdAt": "2026-09-05T01:57:41Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 119726,
+      "executionElapsedMs": 119160,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+      "runtimeVersion": "0.2.75",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 119726,
+    "executionElapsedMs": 119160,
+    "filesHashed": 38,
+    "filesRead": 41,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "docs/reference/reference-comparison-metadata.json",
+        "docs/reference/reference-file-comparison.ja.md",
+        "docs/reference/reference-file-comparison.md",
+        "docs/reference/reference-file-comparison.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/work-items/WI-579-reference-template-parity-batch-46.ja.md",
+        "docs/work-items/WI-579-reference-template-parity-batch-46.md",
+        "docs/work-items/WI-579-reference-template-parity-batch-46.zh-CN.md",
+        "tests/conformance/reference_file_inventory.json",
+        "tests/conformance/reference_file_inventory.py",
+        "tests/conformance/reference_file_inventory_test.sh",
+        "tests/docs/reference_comparison_metadata_test.py"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "3b49e8777c1e0087ea945a9327f2d77f650039e8",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 119160,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-579-reference-template-parity-batch-46"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [
+      {
+        "context": {
+          "commandDigest": "sha256:8dd9fe5065dec61bbd38471cbfdf83e202c64a624d3ebe92376e5ecbd60f4400",
+          "contentDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
+          "diff": {
+            "baseCommit": "3b49e8777c1e0087ea945a9327f2d77f650039e8",
+            "changedPathsDigest": "sha256:c704bbb12bb52397d759bfab38309ded8d6dc16dbd092f7bb0dadeab3636da1e",
+            "headCommit": "3b49e8777c1e0087ea945a9327f2d77f650039e8"
+          },
+          "environmentDigest": "sha256:6683e0eb1443488c147d78d0114606125ce58c16aa31384e276fedbf760ab60c",
+          "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
+          "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+          "profileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+          "runner": "local",
+          "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+          "stage": "task",
+          "toolchainDigest": "sha256:5ccc12508c73a5f9ee965c3ea970fc4099a33d2b263463234a238ea71d99fdd5"
+        },
+        "createdAtEpochSeconds": 1788573341,
+        "expiresAtEpochSeconds": 1788659741,
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:a94ac5c904237ad16f5f5a22370c8e980ef7b16005021d80005e6ccd823934a1",
+        "passed": true,
+        "receiptId": "sha256:38bf29a676330f74880dae6dcfb5bf230d7860bda38bae0e4c14d75019c1ce32",
+        "schemaVersion": 2
+      }
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 1,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:a94ac5c904237ad16f5f5a22370c8e980ef7b16005021d80005e6ccd823934a1",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "binding_mismatch",
+        "receiptId": "sha256:38bf29a676330f74880dae6dcfb5bf230d7860bda38bae0e4c14d75019c1ce32",
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "stale",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+    "runtimeVersion": "0.2.75",
+    "workItemId": "WI-579-reference-template-parity-batch-46"
+  },
+  "receiptDigest": "sha256:0b7125cd970c605c504dfd13f635a69c9fb3e95c6a4dc71a1911fe21d3977f4d",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
+  "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+  "runtimeVersion": "0.2.75",
+  "workItemId": "WI-579-reference-template-parity-batch-46"
+}
