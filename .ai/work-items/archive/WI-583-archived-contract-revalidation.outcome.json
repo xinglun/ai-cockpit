@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "A first-class repository-bound command can append a contract_amendment_revalidation successor decision for an archived Work Item whose current archived Contract digest differs from the historical verification evidence digest.",
+    "The revalidation receipt binds the current archive manifest, current Contract/Summary/Outcome/Events bytes, historical verification evidence bytes, repository identity, current Runtime identity, successor identity, and explicit human authority without rewriting predecessor bytes.",
+    "Missing, malformed, foreign, stale, symlink-backed, contradictory, or digest-mismatched archive/evidence inputs fail closed with stable recovery errors and no partial successor or receipt.",
+    "A revalidation successor can be activated while its predecessor remains pending close, can run fresh verification against the current Contract, and can complete its own verified terminal lifecycle; the predecessor pending-close gate is cleared only after the successor has a valid archived terminal boundary and human close decision.",
+    "Predecessor close, Outcome, status, and recovery projections distinguish historical evidence from current revalidation and retain an auditable link to the successor and human decision.",
+    "Rust protocol/repository/CLI tests cover amended Contract, stale predecessor receipt, evidence tamper, manifest tamper, symlink, repository isolation, and successor lifecycle behavior; existing recovery and legacy compatibility tests remain passing.",
+    "English, Simplified Chinese, and Japanese command/workflow documentation describe the append-only revalidation boundary, exact command/help surface, immutable predecessor bytes, and no-hand-edit rule."
+  ],
+  "createdAt": "2026-09-05T05:26:07Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3274de282f326830457c56f9030cccc42611c2a8424a73915e908d470f31e9a1",
+  "evidenceRefs": [
+    ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:07b39d23745eff67597ea7d50f45ea8cf54b1e9f7b0c50228961b6ccf470f773",
+      "workItemId": "WI-583-archived-contract-revalidation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-583-archived-contract-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-583-archived-contract-revalidation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-583-archived-contract-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-583-archived-contract-revalidation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-583-archived-contract-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide a first-class, append-only recovery path for archived Work Items whose reviewed Contract repair invalidated earlier verification identity, while preserving immutable history and fail-closed governance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-583-archived-contract-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-583-archived-contract-revalidation"
+  },
+  "taskReportDigest": "sha256:385607930d2a92ff6c5adcd2859a36fd5199f51231be1046b6005da57735ad0d",
+  "taskReportMarkdownDigest": "sha256:56baeea89b11f71f15fc7bd68acb720f8195444d2874cea0aa69194b5a771ab7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-583-archived-contract-revalidation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-583-archived-contract-revalidation"
+}

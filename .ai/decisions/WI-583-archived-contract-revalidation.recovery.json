@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-retry",
+  "decidedAt": "2026-09-05T05:15:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-583-archived-contract-revalidation.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:b40bc3866ab9c3c6d29f4991ea5d802944a9049fdeed4d2ee05c12118388c2aa",
+  "predecessorEventsDigest": "sha256:5661ea39e4d33a32a13a6521e8f03badc1904d6840b57a0671c604b9f8fa66ff",
+  "predecessorOutcomeDigest": "sha256:ba56dbcbeacfca99e41384faf16a47a98eeac2d0429cb372d7c3236cb8aa2c92",
+  "predecessorSummaryDigest": "sha256:52161c595dac054d861d3fba821a3db784f97e54a551d90e332cf13eac9c9646",
+  "predecessorWorkItemId": "WI-583-archived-contract-revalidation",
+  "reason": "Retry lifecycle after recording verified governance controls.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun fresh verification, preflight, and finish.",
+  "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+  "runtimeVersion": "0.2.75",
+  "schemaVersion": 1,
+  "workItemId": "WI-583-archived-contract-revalidation"
+}

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-05T05:26:13Z",
+  "files": {
+    "contractDigest": "sha256:29bd45aeaa65047c6a20786f2e75362dc2eb197333b36832a576104e8f76d832",
+    "contractPath": ".ai/work-items/archive/WI-583-archived-contract-revalidation.contract.json",
+    "eventsDigest": "sha256:d47f7f74ef0eb5524639cf53d1a4ef404df53f39bc7a627594e49847bb90469f",
+    "eventsPath": ".ai/work-items/archive/WI-583-archived-contract-revalidation.events.jsonl",
+    "outcomeDigest": "sha256:fcf0a613ced5caeeb06fe14d072c51ddadaa5cbfecbe2a05473ee6a784d590ad",
+    "outcomePath": ".ai/work-items/archive/WI-583-archived-contract-revalidation.outcome.json",
+    "summaryDigest": "sha256:e9511e0931c3bf0a2ef0e93b2d3e721d38692764981f785e77fbe31e5c11cf8e",
+    "summaryPath": ".ai/work-items/archive/WI-583-archived-contract-revalidation.summary.json",
+    "taskReportDigest": "sha256:385607930d2a92ff6c5adcd2859a36fd5199f51231be1046b6005da57735ad0d",
+    "taskReportMarkdownDigest": "sha256:56baeea89b11f71f15fc7bd68acb720f8195444d2874cea0aa69194b5a771ab7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-583-archived-contract-revalidation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-583-archived-contract-revalidation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-583-archived-contract-revalidation"
+}

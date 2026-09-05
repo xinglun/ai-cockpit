@@ -1,0 +1,108 @@
+{
+  "acceptanceCriteria": [
+    "A first-class repository-bound command can append a contract_amendment_revalidation successor decision for an archived Work Item whose current archived Contract digest differs from the historical verification evidence digest.",
+    "The revalidation receipt binds the current archive manifest, current Contract/Summary/Outcome/Events bytes, historical verification evidence bytes, repository identity, current Runtime identity, successor identity, and explicit human authority without rewriting predecessor bytes.",
+    "Missing, malformed, foreign, stale, symlink-backed, contradictory, or digest-mismatched archive/evidence inputs fail closed with stable recovery errors and no partial successor or receipt.",
+    "A revalidation successor can be activated while its predecessor remains pending close, can run fresh verification against the current Contract, and can complete its own verified terminal lifecycle; the predecessor pending-close gate is cleared only after the successor has a valid archived terminal boundary and human close decision.",
+    "Predecessor close, Outcome, status, and recovery projections distinguish historical evidence from current revalidation and retain an auditable link to the successor and human decision.",
+    "Rust protocol/repository/CLI tests cover amended Contract, stale predecessor receipt, evidence tamper, manifest tamper, symlink, repository isolation, and successor lifecycle behavior; existing recovery and legacy compatibility tests remain passing.",
+    "English, Simplified Chinese, and Japanese command/workflow documentation describe the append-only revalidation boundary, exact command/help surface, immutable predecessor bytes, and no-hand-edit rule."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1cfe850f6a5a4f1102d1bd3f58f36b76ee6efb19",
+  "createdAt": "2026-09-05T03:49:23Z",
+  "goal": "Provide a first-class, append-only recovery path for archived Work Items whose reviewed Contract repair invalidated earlier verification identity, while preserving immutable history and fail-closed governance.",
+  "intent": "Object repositories can have an archived Contract repaired by a reviewed governance change after verification. The current Runtime treats the old evidence as contradictory and rejects recovery because predecessor digests no longer match, leaving the repository blocked. The Runtime must let a human explicitly bind a current archive snapshot and fresh successor verification without fabricating or rewriting historical evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template",
+    "business behavior or application code in adopter repositories",
+    "rewriting deleting or migrating historical Contract Summary Outcome Evidence Archive or Recovery bytes",
+    "provider-side PR creation merge branch/worktree deletion release publication Homebrew or global Agent/MCP configuration",
+    "parallel scheduler dependency graph performance optimization and lib.rs architecture split"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b81acdbd067956bb1749fa37b1e6271c6ee4097a7f28d1a46f33eff3049fdd08",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-583-archived-revalidation",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi583-archived-revalidation"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "expected": "The Runtime records a current-contract-bound successor decision while retaining the historical verification evidence digest and archive manifest.",
+      "required": true,
+      "scenario": "archived Contract amendment with valid historical evidence",
+      "status": "unverified",
+      "verificationPlan": "Run the repository regression fixture and inspect the append-only recovery receipt and successor scaffold."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "expected": "Foreign, malformed, stale, symlink-backed, or digest-mismatched archive/evidence is rejected before any repository state is written.",
+      "required": true,
+      "scenario": "tampered or ambiguous archived revalidation input",
+      "status": "unverified",
+      "verificationPlan": "Exercise each negative fixture and assert stable fail-closed recovery errors plus no partial successor or receipt."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "expected": "An explicitly bound successor can be activated and verified while the predecessor remains pending; repository readiness changes only after the successor reaches its terminal boundary.",
+      "required": true,
+      "scenario": "successor lifecycle while predecessor remains pending close",
+      "status": "unverified",
+      "verificationPlan": "Run the recovery successor lifecycle fixture and assert predecessor/successor status projections and immutable predecessor bytes."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/recovery_receipt.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/recovery_revalidation.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md"
+  ],
+  "sources": [
+    "Object-repository report: archived Contract amendment leaves predecessor verification stale and recovery blocked (2026-09-05)",
+    "crates/cockpit-repository/src/lib.rs: recovery decision validation, archived evidence, successor scaffold, and close gates",
+    "crates/cockpit-protocol/src/lib.rs: RecoveryDecisionReceipt and Contract lineage schema",
+    "docs/reference/agent-workflow.md: append-only recovery and immutable evidence boundary"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-protocol --all-targets --all-features",
+    "cargo test --locked -p cockpit-repository --all-targets --all-features -- --test-threads=1",
+    "cargo test --locked -p cockpit-cli --all-targets --all-features",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-583-archived-contract-revalidation"
+}

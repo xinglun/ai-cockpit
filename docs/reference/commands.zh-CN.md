@@ -53,7 +53,7 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision 与 `reviewState`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`finalize-recovery` | 读取请求级状态投影或写入显式生命周期记录；`close` 和 recovery 都要求显式 human decision。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`revalidate-archived`、`finalize-recovery` | 读取请求级状态投影或写入显式生命周期记录；`close` 和 recovery 都要求显式 human decision。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
@@ -161,6 +161,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。
   `work-item controls --repo <path> --id <id> --input <json>` 只记录显式提供的 projection 字段（包括绑定 identity 的 `decisionEvidence` review receipt），不能改变生命周期状态、Contract facts 或 verification receipt。
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` 记录绑定 identity 的 `retry`、`successor` 或 `supersede` decision。`supersede` 要求已经绑定的 successor Work Item，并把 predecessor 归档为明确的历史 `superseded` 状态；原始 bytes 不会改写。receipt 必须绑定 predecessor 的 Contract、Summary、Outcome 以及存在时的 event digest，并绑定当前 Runtime identity。既有 receipt 永不覆盖，后续 decision 使用 digest 后缀文件；recovery receipt 不会让 verification 自动变绿，也不会静默重写 predecessor。被替代的 predecessor 不是当前成功或失败，后续工作由 successor 负责。Outcome 与 archive consumer 会重验每个 current candidate 的 regular-file/文件名边界、repository 和当前 Runtime identity、predecessor digest、时间戳、decision shape 与 successor Contract 绑定。invalid 或 ambiguous candidate 以 `recovery_decision_invalid` 失败关闭；历史 archive bytes 与投影保持不可变。当 retry 的 predecessor digest 在新鲜归档的 Contract/Summary/Outcome/Events 中不再匹配时，它属于已消费历史，静态门禁会投影真正的 finalization 路径，不会虚构 recovered 终态；仍然匹配且 blocked 的 retry 继续 fail closed。
+- `work-item revalidate-archived --repo <path> --id <predecessor> --successor <id> --reason <text> --actor <id> --authority-source <source> --resume-condition <text> [--evidence-ref <ref>] [--policy-ref <ref>]` 是归档后 Contract 经审查修订时的正式 append-only 重验证入口。它校验当前 archive manifest，保留并以 digest 绑定历史 verification evidence，并在 predecessor 仍 pending close 时创建 `not_ready` successor。Successor 必须独立完成 start、verification、archive、finalization 和显式 close，之后 predecessor 才能 close。该命令不会改写 predecessor Contract、archive、Outcome、Events 或 verification evidence；malformed、foreign、stale 或 contradictory 历史会 fail closed。
 - `profile propose --repo <path>` 只读输出 `candidate`/`proposed` amendment，不会应用 profile baseline 修改。
 - `agent list --repo <path>` 是只读操作；`agent install` 是唯一正常的 adapter 写入口，必须指定
   `--provider`（`auto` 只有在恰好一个无歧义安全 surface 时可用；`AGENTS.md` 默认选择 Codex）。`agent doctor --repo <path> --json`

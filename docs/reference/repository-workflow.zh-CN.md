@@ -79,6 +79,13 @@ python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all
 lineage，或显式记录 `supersede`，不能把多个 successor 留给人从文件名中猜测。
 这样可以让 recovery graph 确定，并在不重写历史 bytes 的前提下保持终态决策可审计。
 
+如果经审查的修复合法地修改了已归档 Contract，应使用 `work-item revalidate-archived` 记录
+`contract_amendment_revalidation` successor decision。它绑定当前 archive manifest 与
+Contract digest，同时保留历史 Contract 和 verification evidence digest，创建
+`not_ready` successor scaffold，并让 predecessor 保持 pending，直到 successor 达到已
+验证、已 finalization 且有人类确认 close 的终态。predecessor bytes 永不改写；无效历史
+evidence 不能用于创建 successor。
+
 如果已归档 predecessor 中还保留了一个目标从未完成绑定的旧 successor 尝试，
 较新的有效 `supersede` receipt 可以解决这类历史残留。Runtime 只有在该较新 receipt
 有效且按记录的决定时间胜出时，才把旧记录视为历史；malformed、foreign、被篡改或

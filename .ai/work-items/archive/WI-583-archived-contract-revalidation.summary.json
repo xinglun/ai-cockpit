@@ -1,0 +1,60 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-583-archived-contract-revalidation.contract.json",
+    ".ai/work-items/archive/WI-583-archived-contract-revalidation.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T03:54:47Z",
+  "checkpointContractDigest": "sha256:b40bc3866ab9c3c6d29f4991ea5d802944a9049fdeed4d2ee05c12118388c2aa",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:07b39d23745eff67597ea7d50f45ea8cf54b1e9f7b0c50228961b6ccf470f773",
+  "createdAt": "2026-09-05T03:49:23Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/recovery_revalidation.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-05T05:25:56Z",
+  "preflightContractDigest": "sha256:b40bc3866ab9c3c6d29f4991ea5d802944a9049fdeed4d2ee05c12118388c2aa",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:07b39d23745eff67597ea7d50f45ea8cf54b1e9f7b0c50228961b6ccf470f773",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "required": true,
+      "scenario": "archived Contract amendment with valid historical evidence",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "required": true,
+      "scenario": "tampered or ambiguous archived revalidation input",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "required": true,
+      "scenario": "successor lifecycle while predecessor remains pending close",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T05:26:07Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-583-archived-contract-revalidation"
+}

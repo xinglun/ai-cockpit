@@ -124,6 +124,15 @@ never leave competing successors for a human to resolve from filenames. This
 rule makes recovery graphs deterministic and keeps every predecessor's
 terminal decision auditable without rewriting its historical bytes.
 
+When a reviewed repair legitimately changes an archived Contract, use
+`work-item revalidate-archived` to record a
+`contract_amendment_revalidation` successor decision. It binds the current
+archive manifest and Contract digest while retaining the historical Contract
+and verification-evidence digests, creates a `not_ready` successor scaffold,
+and keeps the predecessor pending until that successor reaches a verified,
+finalized, human-closed terminal record. Predecessor bytes are never rewritten,
+and invalid historical evidence cannot create the successor.
+
 When an archived predecessor contains an older successor attempt whose target
 was never bound, a newer valid `supersede` receipt may resolve that historical
 residue. Runtime only treats the older record as historical when the newer

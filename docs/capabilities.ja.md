@@ -140,6 +140,11 @@ attached protocol file が揃っている場合、stateful な governance operat
 evidence を作る前に停止します。compatibility、migration plan、observe、status、doctor などの read-only
 diagnostic は利用でき、次の安全な操作を確認できます。
 
+archive 後に reviewed Contract が正当に修正された場合、`work-item revalidate-archived` は append-only の
+`contract_amendment_revalidation` successor を作成します。現在の archive/Contract を bind しつつ歴史
+evidence bytes を保持し、predecessor は successor が独立して verification、finalization、human close を
+完了するまで pending のままです。invalid な歴史 evidence は現在の結論へ昇格できません。
+
 ### Agent を明示的に接続する
 
 `attach` は repository fact だけを作成し、`AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、`.cursor/`、
