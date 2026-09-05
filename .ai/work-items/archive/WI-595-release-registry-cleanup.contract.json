@@ -39,7 +39,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-595-release-registry-cleanup",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/582",
     "worktree": "/private/tmp/ai-cockpit-wi595-release-registry-cleanup"
   },
   "risk": "low",

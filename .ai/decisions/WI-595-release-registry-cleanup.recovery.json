@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-runtime-correction",
+  "decidedAt": "2026-09-06T03:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-595-release-registry-cleanup.verification.json",
+    ".ai/work-items/active/WI-595-release-registry-cleanup.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order",
+    ".ai/README.md#evidence-discipline"
+  ],
+  "predecessorContractDigest": "sha256:3de8f8d10593d48c72d54a3d8bc9a204fd70779c5ae4c814c89f3b99b8610ad9",
+  "predecessorEventsDigest": "sha256:450dc5ec32c4a7dda630a819ff7222ed906d5c63dd730762fe9d783a1678e1d4",
+  "predecessorOutcomeDigest": "sha256:c95331d5c447f8b68a18f98d0fb9e908ba48bbe4ae8113057efa7b0b07d88d1c",
+  "predecessorSummaryDigest": "sha256:1349d5e97be48d52a21aeee8b2e9629cb824790b7f0c53dadf83436c514afd68",
+  "predecessorWorkItemId": "WI-595-release-registry-cleanup",
+  "reason": "Retry after binding the required reviewed resource finalization plan; preserve the blocked finish event and prior verification evidence as append-only history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, checkpoint, and verification after the non-provisional finalize-plan, then finish and archive without rewriting prior evidence.",
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "workItemId": "WI-595-release-registry-cleanup"
+}
