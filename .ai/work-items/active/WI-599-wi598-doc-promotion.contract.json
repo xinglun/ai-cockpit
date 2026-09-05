@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-598 Work Item documents state terminal implemented status and link the immutable archive, verification, finalization, and close records.",
+    "All three parity pages contain one matching WI-598 implemented row with exact evidence and close bindings.",
+    "promote_closed_work_item.py --check-all and all declared documentation/conformance checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5d1d7b4e99d4a15c40238b1964425b4c39a2934b",
+  "createdAt": "2026-09-05T22:01:34Z",
+  "goal": "Synchronize the tri-language WI-598 Work Item and reference parity pages with its verified close evidence so the repository documentation truth gate passes.",
+  "intent": "Promote the closed WI-598 reference parity documentation projection without changing governance facts.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime behavior or protocol changes",
+    "Historical evidence",
+    " archive",
+    " or decision bytes",
+    "Object repositories or global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:57417e25799f7a8696dc6545c63df19a5a3935d2ee69d3ac59ad1ea39597feea",
+  "requiredEvidenceClasses": [
+    "documentation",
+    "conformance",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-599-doc-promotion-wi598",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi599-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-598-reference-test-parity-batch-48.md",
+    "docs/work-items/WI-598-reference-test-parity-batch-48.zh-CN.md",
+    "docs/work-items/WI-598-reference-test-parity-batch-48.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-599-wi598-doc-promotion"
+}
