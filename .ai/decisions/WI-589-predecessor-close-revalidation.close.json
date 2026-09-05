@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-589-predecessor-close-revalidation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8ed6f558973931a37c747afbb5885e4a14c3f53da132c4f29146d8afcea3ac44",
+      "workItemId": "WI-589-predecessor-close-revalidation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-589-predecessor-close-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-589-predecessor-close-revalidation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-589-predecessor-close-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-589-predecessor-close-revalidation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-589-predecessor-close-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-589-predecessor-close-revalidation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-589-predecessor-close-revalidation.verification.json",
+            ".ai/decisions/WI-589-predecessor-close-revalidation.finalize.046eea80433b45884c522474d2bca7da061b2056187418e638d962d86699db3d.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-release-fix at 2026-09-05T12:26:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-589-predecessor-close-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-589-predecessor-close-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-589-predecessor-close-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-589-predecessor-close-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "Implement and verify a close-bound historical projection for resolved Contract-amendment predecessor finalization without rewriting historical evidence or reclassifying provider receipts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-589-predecessor-close-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-589-predecessor-close-revalidation"
+  },
+  "finalReportDigest": "sha256:ec739573982f7b859690bd52d56ce1e5f6d4cac3104b023a75f190b7321bcd4e",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:e3dd7336f7b66ea162ccba5e4d101d168552afb6898964155fa61a1b7eedad78",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-589-predecessor-close-revalidation.finalize.046eea80433b45884c522474d2bca7da061b2056187418e638d962d86699db3d.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-release-fix",
+    "decidedAt": "2026-09-05T12:26:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-589-predecessor-close-revalidation.verification.json",
+      ".ai/decisions/WI-589-predecessor-close-revalidation.finalize.046eea80433b45884c522474d2bca7da061b2056187418e638d962d86699db3d.json"
+    ],
+    "policyRefs": [
+      "docs/reference/commands.md"
+    ],
+    "reason": "P1 predecessor close compatibility is fixed and verified; the resolved Contract-amendment successor path preserves historical provider evidence without reclassification.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-05T12:25:55Z",
+  "workItemId": "WI-589-predecessor-close-revalidation"
+}
