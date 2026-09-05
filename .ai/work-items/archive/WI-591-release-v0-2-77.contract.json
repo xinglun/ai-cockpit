@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata and release/versioning guidance identify v0.2.77 while retaining v0.2.76 as the preceding public baseline.",
+    "Release CI produces identity-bound five-target artifacts and supply-chain receipts for v0.2.77.",
+    "Public adopter and N-1 acceptance use only v0.2.77 downloaded artifacts, prove forbidden-root isolation and temporary-run cleanup, and exercise the released binary against this repository.",
+    "The release starts from a synchronized ready default branch and changes no Runtime behavior, object repository, global Agent/MCP configuration, failed-tag history, or unrelated evidence.",
+    "Any release or adopter failure preserves immutable release truth and records a failure receipt without source checkout, workspace binary, or moving-branch fallback."
+  ],
+  "authority": "authorized",
+  "baseRevision": "80b1d5a657cb2dd955787c2dfb49f412433d10ee",
+  "createdAt": "2026-09-05T12:46:23Z",
+  "goal": "Release v0.2.77 without changing Runtime behavior, bind all release evidence to the published artifacts, and prepare a read-only acceptance handoff for the object repository.",
+  "intent": "Publish v0.2.77 from the reviewed synchronized default branch, then validate immutable public artifacts and provide the released Runtime for object-repository recovery acceptance.",
+  "mode": "release",
+  "outOfScope": [
+    "crates/",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "global Agent or MCP configuration",
+    "reference-source implementation copying",
+    "rewriting immutable historical evidence/archive/decision bytes",
+    "unrelated documentation or feature work"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:614a2334274480b4cfe5ddff9939d65adf6a2b3bedffce5bfa08b70f77a6c90f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-591-release-v0-2-77",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/576",
+    "worktree": "/private/tmp/ai-cockpit-wi591-release-v0-2-77"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "published v0.2.77 artifacts and their post-release adopter evidence remain identity-bound and isolated",
+      "required": true,
+      "scenario": "immutable public release and adopter acceptance",
+      "status": "unverified",
+      "verificationPlan": "run the release policy, artifact integrity, documentation, and post-release adopter acceptance checks against the published tag"
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-591-release-v0-2-77.md",
+    "docs/work-items/WI-591-release-v0-2-77.zh-CN.md",
+    "docs/work-items/WI-591-release-v0-2-77.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-591-release-v0-2-77"
+}

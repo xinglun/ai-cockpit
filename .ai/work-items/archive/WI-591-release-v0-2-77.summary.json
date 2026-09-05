@@ -1,0 +1,106 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-591-release-v0-2-77.contract.json",
+    ".ai/work-items/archive/WI-591-release-v0-2-77.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T12:50:09Z",
+  "checkpointContractDigest": "sha256:df1f31487c5393bdedd6617bd289623dc063d5045c9c21c77543416c81c9bafe",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:09e85db0e23f54d96688e90ec1bef3e39a94ff9870b081471a6dc31bbb9a8d69",
+      "recorded": true,
+      "recordedAt": "2026-09-05T12:50:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:957a014b023a0c92d58a48d0657e16dd03e994293286dbb3a12fa5cf38c3b868",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-591-release-v0-2-77"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6d14dd2536e1d619857a954efdf0ca5ccc1a15e1b8fa4f862945268ccecfcbda",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:09e85db0e23f54d96688e90ec1bef3e39a94ff9870b081471a6dc31bbb9a8d69",
+      "previousContractHash": "sha256:09e85db0e23f54d96688e90ec1bef3e39a94ff9870b081471a6dc31bbb9a8d69",
+      "reason": "Keep release Contract free of optional operation mapping; release stage is already explicit and project declarations are not authoritative for this version-only boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T13:02:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:957a014b023a0c92d58a48d0657e16dd03e994293286dbb3a12fa5cf38c3b868",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-591-release-v0-2-77"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:df1f31487c5393bdedd6617bd289623dc063d5045c9c21c77543416c81c9bafe",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:09e85db0e23f54d96688e90ec1bef3e39a94ff9870b081471a6dc31bbb9a8d69",
+      "previousContractHash": "sha256:6d14dd2536e1d619857a954efdf0ca5ccc1a15e1b8fa4f862945268ccecfcbda",
+      "reason": "Bind the reviewed GitHub PR #576 and dedicated release worktree before terminal verification; this is the required provider identity for the release evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T13:06:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0282478461aaca28120241fbf5eaea516c9b59694427b6b13fe5d37294dcc7b1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-591-release-v0-2-77"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0282478461aaca28120241fbf5eaea516c9b59694427b6b13fe5d37294dcc7b1",
+  "createdAt": "2026-09-05T12:46:23Z",
+  "intentAlignment": {
+    "evidence": [
+      "WI-591 Contract and release-stage verification evidence"
+    ],
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-05T13:17:22Z",
+  "preflightContractDigest": "sha256:df1f31487c5393bdedd6617bd289623dc063d5045c9c21c77543416c81c9bafe",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0282478461aaca28120241fbf5eaea516c9b59694427b6b13fe5d37294dcc7b1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/release/workflow_policy.sh",
+        "tests/release/action_runtime_policy.sh",
+        "tests/release/source_archive_policy_test.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh",
+        "cargo test --locked --workspace"
+      ],
+      "required": true,
+      "scenario": "immutable public release and adopter acceptance",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T13:17:26Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-591-release-v0-2-77"
+}

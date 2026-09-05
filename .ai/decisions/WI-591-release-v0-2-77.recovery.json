@@ -1,0 +1,25 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-09-05T13:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-591-release-v0-2-77.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:df1f31487c5393bdedd6617bd289623dc063d5045c9c21c77543416c81c9bafe",
+  "predecessorEventsDigest": "sha256:fa7d5ff9a639e39dd5d1a1b0fb0bbdb792512f1bb5223dedbd25c035de806982",
+  "predecessorOutcomeDigest": "sha256:2ca3c36cb7f9525d720c4625d9332c41bdfc42ea37d2c14859053d2309198462",
+  "predecessorSummaryDigest": "sha256:80f52d54bdb6636be5008863447832086cd4cb2b7537fb9c7ac8d09b1da083fd",
+  "predecessorWorkItemId": "WI-591-release-v0-2-77",
+  "reason": "Retry the terminal lifecycle after a failed duplicate finish projection; preserve all prior evidence and regenerate only the current outcome.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun current verification and finish once, then archive and continue reviewed release closure.",
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "workItemId": "WI-591-release-v0-2-77"
+}
