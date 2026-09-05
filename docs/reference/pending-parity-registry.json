@@ -16,7 +16,7 @@
         },
         {
           "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-597——WI-596 终态文档晋级 | 进行中 | [Work Item](../work-items/WI-597-doc-promotion-wi596.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json`; verification `.ai/evidence/WI-597-doc-promotion-wi596.verification.json`; finalization `.ai/decisions/WI-597-doc-promotion-wi596.finalize.json`; close `.ai/decisions/WI-597-doc-promotion-wi596.close.json`. |"
+          "row": "| WI-597 —— WI-596 终态文档晋级 | 进行中 | [Work Item](../work-items/WI-597-doc-promotion-wi596.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json`; verification `.ai/evidence/WI-597-doc-promotion-wi596.verification.json`; finalization `.ai/decisions/WI-597-doc-promotion-wi596.finalize.json`; close `.ai/decisions/WI-597-doc-promotion-wi596.close.json`. |"
         },
         {
           "path": "docs/reference/reference-parity.ja.md",
