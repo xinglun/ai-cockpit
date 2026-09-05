@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "631fcd208405a917cd2ea3fc6f2512ee705113a4",
+  "predecessorReceiptDigest": "sha256:13daad5e2673db76d7f6e10dca3c738d53c7f35e40b86f52549216ea6d4334b0",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "explicit-user-authorized-merge-observation",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "631fcd208405a917cd2ea3fc6f2512ee705113a4",
+      "name": "codex/wi-587-reference-file-comparison-batch-47",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:84ad5d8bf08df8155e0c5b24162b1665b55d26f9d928a3b254f0d74bf236fdc5",
+    "operationId": "github-pr-572-WI-587-merge-observation-20260905",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "aa721c6172d4f6bc41d7d5205eaa34757441efa8",
+      "headRevision": "631fcd208405a917cd2ea3fc6f2512ee705113a4",
+      "mergeCommit": "a0fb0e8214ca650fd011a5a5ce53973b4d41bb1a",
+      "number": 572,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/572"
+    },
+    "reason": "PR #572 was reviewed, passed all hosted checks, and merged as a0fb0e8; the exact reviewed branch and worktree were rehydrated at the PR head to record the append-only merge observation before cleanup.",
+    "receiptId": "github-pr-572-WI-587-merge-observation-20260905",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-587-reference-file-comparison-batch-47",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/572",
+      "worktree": "/private/tmp/ai-cockpit-wi587-reference-batch-47"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+    "runtimeVersion": "0.2.76",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-05T11:20:00Z",
+    "workItemId": "WI-587-reference-file-comparison-batch-47",
+    "worktree": {
+      "branch": "codex/wi-587-reference-file-comparison-batch-47",
+      "headRevision": "631fcd208405a917cd2ea3fc6f2512ee705113a4",
+      "path": "/private/tmp/ai-cockpit-wi587-reference-batch-47",
+      "worktreeId": "WI-587-reference-file-comparison-batch-47"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "github-pr-572-WI-587-merge-observed-20260905"
+}
