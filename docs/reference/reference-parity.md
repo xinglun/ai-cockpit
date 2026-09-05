@@ -720,3 +720,5 @@ release boundary covers version metadata, immutable artifacts, supply-chain
 receipts, and isolated public/N-1 acceptance. Object-repository recovery stays
 an external read-only handoff: no object `.ai/` bytes or historical evidence
 are rewritten here.
+
+| WI-597 — WI-596 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-597-doc-promotion-wi596.md); terminal lifecycle: archive `.ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json`; verification `.ai/evidence/WI-597-doc-promotion-wi596.verification.json`; finalization `.ai/decisions/WI-597-doc-promotion-wi596.finalize.34b2d27066299df9fed65741230bb4bc3bd9285e005610c6348f6dcc09f9f6eb.json`; close `.ai/decisions/WI-597-doc-promotion-wi596.close.json`. |

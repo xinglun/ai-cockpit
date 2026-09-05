@@ -625,3 +625,5 @@ WI-587 完成下一批 20 个维护中测试/夹具路径的逐文件比较。12
 WI-584 发布对象工程执行 append-only 归档 Contract 重验证与后继关闭所需的
 Runtime 基线。发布边界包含版本元数据、不可变制品、供应链 receipt 以及隔离的
 public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重写对象 `.ai/` 字节或历史证据。
+
+| WI-597 —— WI-596 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-597-doc-promotion-wi596.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json`; verification `.ai/evidence/WI-597-doc-promotion-wi596.verification.json`; finalization `.ai/decisions/WI-597-doc-promotion-wi596.finalize.34b2d27066299df9fed65741230bb4bc3bd9285e005610c6348f6dcc09f9f6eb.json`; close `.ai/decisions/WI-597-doc-promotion-wi596.close.json`. |

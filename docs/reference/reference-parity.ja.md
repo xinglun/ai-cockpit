@@ -639,3 +639,5 @@ successor close に必要な Runtime baseline を公開します。release bound
 version metadata、immutable artifact、supply-chain receipt、隔離された public/N-1
 acceptance を含みます。object repository の recovery は外部 read-only handoff のままで、
 本 repository は object `.ai/` bytes や historical evidence を書き換えません。
+
+| WI-597 — WI-596 の終端ドキュメント昇格 | Implemented | [Work Item](../work-items/WI-597-doc-promotion-wi596.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json`; verification `.ai/evidence/WI-597-doc-promotion-wi596.verification.json`; finalization `.ai/decisions/WI-597-doc-promotion-wi596.finalize.34b2d27066299df9fed65741230bb4bc3bd9285e005610c6348f6dcc09f9f6eb.json`; close `.ai/decisions/WI-597-doc-promotion-wi596.close.json`. |

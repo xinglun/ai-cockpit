@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-597 — WI-596 terminal documentation promotion"
 description: "Promote the closed WI-596 release facts into the tri-language documentation projections."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-597-doc-promotion-wi596
 lastVerifiedBy: WI-597-doc-promotion-wi596
+terminalArchive: .ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json
+terminalVerification: .ai/evidence/WI-597-doc-promotion-wi596.verification.json
+terminalFinalization: .ai/decisions/WI-597-doc-promotion-wi596.finalize.34b2d27066299df9fed65741230bb4bc3bd9285e005610c6348f6dcc09f9f6eb.json
+terminalDecision: .ai/decisions/WI-597-doc-promotion-wi596.close.json
 ---
 
 [简体中文](WI-597-doc-promotion-wi596.zh-CN.md) · [日本語](WI-597-doc-promotion-wi596.ja.md)
