@@ -1,0 +1,145 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3a155297743a52e4032fa109872aaad901e8b1d329dd39a2141b33c10230992f",
+      "workItemId": "WI-593-wi591-doc-parity-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-592-wi591-doc-promotion.recovery.1050a856cce8dff6cac1a8a480320a7f314112d8a8d8eee73072b0e66b2ac642.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-593-wi591-doc-parity-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-593-wi591-doc-parity-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json",
+            ".ai/decisions/WI-593-wi591-doc-parity-recovery.finalize.f1adebd4711b32d6c621eb97a93219fe741ed770d738229ff4e65c712b470b4b.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-doc-parity at 2026-09-06T00:50:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish a current, auditable verification record for WI-592 recovery and prove all three-language documentation parity and promotion checks on latest main."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-593-wi591-doc-parity-recovery"
+  },
+  "finalReportDigest": "sha256:b70fbfabe689c9cb968a902ab28c90cec47bfa6696b9d7770309baf3cce41b05",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:831457fc2f08a60735ee2f781df19ca510962259477692a719c96cf548b181c1",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-593-wi591-doc-parity-recovery.finalize.f1adebd4711b32d6c621eb97a93219fe741ed770d738229ff4e65c712b470b4b.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-doc-parity",
+    "decidedAt": "2026-09-06T00:50:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json",
+      ".ai/decisions/WI-593-wi591-doc-parity-recovery.finalize.f1adebd4711b32d6c621eb97a93219fe741ed770d738229ff4e65c712b470b4b.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Hosted checks passed, merged PR #579 was synchronized, and the exact feature branch and worktree cleanup was verified.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-05T15:04:50Z",
+  "workItemId": "WI-593-wi591-doc-parity-recovery"
+}
