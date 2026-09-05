@@ -38319,73 +38319,116 @@
     },
     {
       "referencePath": "tests/conftest.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "tests/conformance/reference_file_inventory.py"
+      ],
+      "reason": "This source session fixture clears an environment override for its own harness. Rust uses process-local setup and explicit --repo contexts; the template harness and variable are not Runtime protocol.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "tests/fixtures/japanese-capability-corpus.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/capabilities.ja.md",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "tests/conformance/reference_file_inventory.py"
+      ],
+      "reason": "This corpus is source-bound Japanese prompt/injection study data with expected presentation outcomes. Rust preserves multilingual human presentation and adversarial boundaries, but does not import participant/corpus bytes or claim language capability from them.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "tests/fixtures/wizard/android.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The Android wizard fixture supplies source-template stack detection and toolchain defaults. Adopters own SDK/toolchain facts; the shared Runtime records observed repository capabilities without copying a stack fixture or inferring commands.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "tests/fixtures/wizard/ios.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The iOS wizard fixture is source onboarding data for platform/toolchain selection. Rust keeps explicit repository observation and owner-declared verification commands; no SDK or provider preset is a Runtime requirement.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "tests/fixtures/wizard/monorepo.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "The monorepo wizard fixture encodes source-specific discovery examples. Rust repository identity, scope, and Work Item isolation are explicit and request-scoped; the source fixture does not define a portable monorepo wire format.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "tests/repository_fixture.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "tests/release/isolation_manifest.sh"
+      ],
+      "reason": "The source helper creates an isolated copy while omitting caches and VCS internals. Rust uses typed Git snapshots, repository-context isolation checks, and release isolation manifests with stronger identity/digest checks; the source helper is not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "tests/snapshots/wizard/kotlin.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "This snapshot is a source wizard presentation example with review-required/not-run fields. Rust does not claim Kotlin toolchain support or copy a source wizard output schema; provider and adopter planning remain explicit.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "tests/snapshots/wizard/mixed.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "This mixed-stack snapshot is source wizard output, not governance evidence. Rust keeps observed capabilities and explicit verification argv separate from provider stack detection and does not import the snapshot wire shape.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "tests/snapshots/wizard/swift.json",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/adopter-configuration.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "This Swift snapshot records source wizard defaults and review state. Swift/Xcode toolchain choices remain adopter/provider-owned; the Rust Runtime does not copy or infer this source presentation record.",
+      "previousClassification": "reference-only"
     },
     {
       "referencePath": "tests/test_absurd_capability_truth.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/tests/adversarial_v2.rs",
+        "tests/adversarial/manifest.json",
+        "tests/conformance/final_replacement_acceptance.sh"
+      ],
+      "reason": "The source absurd-input evaluator requires adversarial text to remain unexecuted, unsupported claims to stay blocked, and malformed evidence to fail closed. Rust-native adversarial tests and manifests enforce those semantics without copying the Python evaluator or its corpus wire format.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "tests/test_acceptance_policy.py",
@@ -38406,28 +38449,43 @@
     },
     {
       "referencePath": "tests/test_adoption_e2e.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/isolation_manifest.sh"
+      ],
+      "reason": "The source adoption E2E suite exercises Python/Make installation and provider workflows. Rust uses immutable public-artifact adopter and N-1 acceptance harnesses with isolated repository/runtime roots; source installer commands are not target behavior.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_adoption_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/isolation_manifest.sh",
+        "crates/cockpit-release/tests/handoff.rs"
+      ],
+      "reason": "Adopter evidence binding, not-run preservation, and template-owned rejection are covered by the Rust release/adopter receipt and isolation checks. The source Python evidence helper and JSON format are not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "tests/test_adoption_ready.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/workflow_policy.sh",
+        "crates/cockpit-agent/tests/doctor.rs",
+        "docs/getting-started/adopter-configuration.md"
+      ],
+      "reason": "The source readiness tests distinguish installation, calibration, and production readiness across generic stacks. Rust keeps repository/runtime doctor, release acceptance, explicit adapter ownership, and fail-closed unknowns while leaving provider toolchain readiness external.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "tests/test_ai_adoption_reality_report.py",
@@ -38438,13 +38496,17 @@
     },
     {
       "referencePath": "tests/test_ai_archive_work_item.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "reason": "Archive transactionality, append-only history, manifest binding, supersede/recovery, rollback, and traceability are covered by typed Rust repository tests. The source Python archive implementation and generated-file protocol are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
@@ -38490,28 +38552,43 @@
     },
     {
       "referencePath": "tests/test_ai_check_serial_order.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "The source serial-order gate blocks incomplete predecessors and permits a complete successor boundary. Rust enforces repository lifecycle ordering and ready_on_base with explicit Work Item state; source checker code is not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "tests/test_ai_check_summary.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-protocol/tests/verification_semantics.rs"
+      ],
+      "reason": "The source summary gate validates acceptance evidence, intent/scenario, hosted facts, legacy records, receipts, and unknowns. Rust derives typed Summary/Outcome/verification projections and fail-closed bindings; the source summary JSON is not a wire contract.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_ai_check_work_item.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/tests/contract_v2.rs",
+        "crates/cockpit-repository/tests/contract_schema.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs"
+      ],
+      "reason": "The source Work Item checker semantics are represented by strict Rust Contract v2 schema, scope/authority/acceptance validation, and preflight decisions. Rust intentionally does not copy Python field parsing or provider-specific command syntax.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "tests/test_ai_checkpoint.py",
@@ -38562,10 +38639,15 @@
     },
     {
       "referencePath": "tests/test_ai_external_handoff.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/tests/handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "crates/cockpit-repository/tests/task_outcome_events.rs"
+      ],
+      "reason": "External handoff identity, deadlines, bindings, timeout, malformed facts, and append-only receipts are covered by typed release/MCP/task-outcome boundaries. Provider execution remains delegated and the source Python handoff report is not copied.",
+      "previousClassification": "implemented-different-by-design"
     },
     {
       "referencePath": "tests/test_ai_generate_work_item_status.py",
@@ -38583,13 +38665,18 @@
     },
     {
       "referencePath": "tests/test_ai_onboard.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-agent/tests/install.rs",
+        "crates/cockpit-agent/tests/doctor.rs",
+        "docs/getting-started/installation.md"
+      ],
+      "reason": "The source onboarding tests cover helper-driven profile/bootstrap/calibration phases and Make entrypoint selection. Rust attach/scaffold, adapter install/doctor, profile, and explicit Runtime commands preserve the review boundary without source wizard or Make behavior.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
@@ -38611,13 +38698,18 @@
     },
     {
       "referencePath": "tests/test_ai_post_archive_recovery.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-587-reference-file-comparison-batch-47",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs",
+        "crates/cockpit-repository/tests/recovery_events.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "docs/reference/recovery.md"
+      ],
+      "reason": "The source post-archive recovery tests cover append-only provider/CI/functional recovery, exact facts, stale heads, and receipt tampering. Rust owns these identity-bound recovery and revalidation semantics with typed receipts; provider parser details and source Python orchestration remain external.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
-      "previousClassification": "deferred-next-batch",
+      "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
