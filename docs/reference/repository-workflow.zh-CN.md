@@ -86,11 +86,12 @@ Contract digest，同时保留历史 Contract 和 verification evidence digest�
 验证、已 finalization 且有人类确认 close 的终态。predecessor bytes 永不改写；无效历史
 evidence 不能用于创建 successor。
 
-如果已归档 predecessor 中还保留了一个目标从未完成绑定的旧 successor 尝试，
+如果已归档 predecessor 中还保留了一个目标从未完成绑定的旧 successor 尝试，或旧
+`legacy_terminal_evidence` 标记与较新的严格 predecessor 绑定 successor Contract 冲突，
 较新的有效 `supersede` receipt 可以解决这类历史残留。Runtime 只有在该较新 receipt
-有效且按记录的决定时间胜出时，才把旧记录视为历史；malformed、foreign、被篡改或
-更新但无效的记录仍然 fail closed。Runtime 不会重写任何 Contract、Summary、Outcome、
-Events、Evidence 或 recovery receipt bytes。
+有效且按记录的决定时间胜出时，才把旧记录视为历史；此例外只识别确定性的旧标记兼容错误。
+malformed、foreign、被篡改或更新但无效的记录仍然 fail closed。Runtime 不会重写任何
+Contract、Summary、Outcome、Events、Evidence 或 recovery receipt bytes。
 
 Repository readiness 对入口门禁使用同一边界。已归档 predecessor 只有在 recovery
 receipt 有效，且选定的 successor 已归档，并同时具备通过 manifest 校验、绑定本仓库的

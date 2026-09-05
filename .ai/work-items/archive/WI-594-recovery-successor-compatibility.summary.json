@@ -1,0 +1,58 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-593-wi591-doc-parity-recovery.recovery.json",
+    ".ai/work-items/archive/WI-594-recovery-successor-compatibility.contract.json",
+    ".ai/work-items/archive/WI-594-recovery-successor-compatibility.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T15:18:15Z",
+  "checkpointContractDigest": "sha256:e86a6f94c11052fe0f22fc7e9d7a9a54fdd0ae517da11ae7110366f35a7f8485",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:5a5d48b26139656e1565e762d00d74101f0818dc898b9d0f25357a04151b1ecc",
+  "createdAt": "2026-09-05T15:15:33Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs",
+      ".ai/evidence/WI-594-recovery-successor-compatibility.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:0163ee04bdf160f13ab9b717b0871d6617ff71b9582339be0ffb3ce949f1ba1d",
+  "predecessorWorkItemId": "WI-593-wi591-doc-parity-recovery",
+  "preflightAt": "2026-09-05T15:27:44Z",
+  "preflightContractDigest": "sha256:e86a6f94c11052fe0f22fc7e9d7a9a54fdd0ae517da11ae7110366f35a7f8485",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5a5d48b26139656e1565e762d00d74101f0818dc898b9d0f25357a04151b1ecc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-593-wi591-doc-parity-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "required": true,
+      "scenario": "legacy binding candidate superseded by valid successor",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "required": true,
+      "scenario": "malformed or foreign recovery candidate",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T15:28:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-594-recovery-successor-compatibility"
+}

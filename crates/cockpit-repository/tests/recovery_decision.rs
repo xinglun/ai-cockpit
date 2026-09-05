@@ -1449,9 +1449,11 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
         predecessor_outcome
     );
 
-    // Preserve an older, digest-named successor attempt whose target was
-    // never bound.  A later valid supersede must make this historical residue
-    // non-blocking without rewriting or trusting the invalid receipt.
+    // Preserve an older, digest-named successor attempt carrying the legacy
+    // binding marker.  The successor is now strictly predecessor-bound, so
+    // this old marker is invalid for the current shape. A later valid
+    // supersede must make this historical residue non-blocking without
+    // rewriting or trusting the invalid receipt.
     let archive_root = directory.path().join(".ai/work-items/archive");
     let archived_contract: serde_json::Value =
         serde_json::from_slice(&fs::read(archive_root.join("WI-BLOCKED.contract.json")).unwrap())
@@ -1484,7 +1486,8 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
         "decidedAt": "2026-08-23T00:01:00Z",
         "resumeCondition": "continue on the successor Work Item"
     });
-    invalid_historical["successorWorkItemId"] = json!("WI-MISSING-HISTORICAL");
+    invalid_historical["successorWorkItemId"] = json!("WI-SUCCESSOR");
+    invalid_historical["successorBindingMode"] = json!("legacy_terminal_evidence");
     let invalid_digest = cockpit_protocol::digest_json(&invalid_historical).unwrap();
     fs::write(
         directory.path().join(format!(
@@ -1892,6 +1895,65 @@ fn strict_successor_rejects_a_forged_legacy_binding_marker() {
     assert!(
         error.to_string().contains("successor_binding_mode_invalid"),
         "unexpected error: {error}"
+    );
+}
+
+#[test]
+fn archived_legacy_binding_candidate_is_stale_when_newer_supersede_exists() {
+    let directory = ready_archived_repository();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let successor_id = "WI-ARCHIVED-NEXT";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+
+    // Create the strictly predecessor-bound successor that the older
+    // Runtime's legacy marker will now conflict with.
+    let successor =
+        archived_recovery_receipt(&directory, "successor", Some(successor_id), &runtime);
+    record_recovery_decision(directory.path(), id, &successor, &runtime)
+        .expect("successor recovery receipt");
+
+    // Preserve an older invalid candidate exactly as an append-only,
+    // digest-named historical byte. It is not passed through the writer so
+    // the test models a receipt emitted by an older Runtime.
+    let mut legacy =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    legacy["successorBindingMode"] = json!("legacy_terminal_evidence");
+    legacy["decidedAt"] = json!("2026-08-28T00:00:01Z");
+    let digest = cockpit_protocol::digest_json(&legacy).unwrap();
+    fs::write(
+        directory.path().join(format!(
+            ".ai/decisions/{id}.recovery.{}.json",
+            digest.to_string().strip_prefix("sha256:").unwrap()
+        )),
+        serde_json::to_vec_pretty(&legacy).unwrap(),
+    )
+    .expect("legacy historical candidate");
+
+    // A newer valid supersede is the only record allowed to become current.
+    let mut supersede =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    supersede["decidedAt"] = json!("2026-08-28T00:01:00Z");
+    record_recovery_decision(directory.path(), id, &supersede, &runtime)
+        .expect("newer supersede recovery receipt");
+
+    let outcome = outcome_v2_with_runtime(directory.path(), id, &runtime)
+        .expect("legacy marker is stale once a newer valid receipt exists");
+    assert_eq!(
+        outcome
+            .recovery_decision
+            .as_ref()
+            .map(|value| value.decision.as_str()),
+        Some("supersede")
+    );
+    assert!(
+        !outcome
+            .unknowns
+            .contains(&"recovery_decision_invalid".into()),
+        "{outcome:?}"
     );
 }
 

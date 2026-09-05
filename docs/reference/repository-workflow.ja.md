@@ -91,10 +91,12 @@ successor が verified、finalized、human-confirmed close の terminal record �
 pending のままです。predecessor bytes は書き換えず、invalid な historical evidence から
 successor を作成することもできません。
 
-archived predecessor に、対象の binding が未完了だった古い successor 試行が残って
-いる場合でも、より新しく有効な `supersede` receipt がその歴史的残留を解決できます。
-Runtime は、その receipt が有効で記録時刻の順序で勝つ場合に限り古い記録を historical
-として扱います。malformed、foreign、改ざん、または新しいが無効な記録は引き続き
+archived predecessor に、対象の binding が未完了だった古い successor 試行、または
+古い `legacy_terminal_evidence` marker と、より新しい strict predecessor-bound successor
+Contract の衝突が残っている場合でも、より新しく有効な `supersede` receipt がその歴史的
+残留を解決できます。Runtime は、その receipt が有効で記録時刻の順序で勝つ場合に限り
+古い記録を historical として扱います。この例外は決定的な legacy-marker compatibility
+error だけを認識します。malformed、foreign、改ざん、または新しいが無効な記録は引き続き
 fail closed です。Contract、Summary、Outcome、Events、Evidence、recovery receipt の
 bytes は書き換えません。
 

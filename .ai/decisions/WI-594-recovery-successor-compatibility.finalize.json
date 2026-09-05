@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "pre-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2bd8c8c1debef418199e442fef6f6d5bc4fa365b",
+    "name": "codex/wi-594-recovery-successor-compatibility",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6b3843022750f99b993fec019f5afa95ba3fdeb7e338a60553773f5dea3fc31d",
+  "operationId": "operation-WI-594-recovery-successor-compatibility",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a84a13cce3f3c1dc6cbdb64d0e65480776ba3abd",
+    "headRevision": "2bd8c8c1debef418199e442fef6f6d5bc4fa365b",
+    "number": 580,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/580"
+  },
+  "reason": "PR #580 is open and unmerged; preserve the exact reviewed branch and worktree until hosted checks pass and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-594-recovery-successor-compatibility-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-594-recovery-successor-compatibility",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/580",
+    "worktree": "/private/tmp/ai-cockpit-wi594-recovery-successor-compatibility"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T05:45:00Z",
+  "workItemId": "WI-594-recovery-successor-compatibility",
+  "worktree": {
+    "branch": "codex/wi-594-recovery-successor-compatibility",
+    "headRevision": "2bd8c8c1debef418199e442fef6f6d5bc4fa365b",
+    "path": "/private/tmp/ai-cockpit-wi594-recovery-successor-compatibility",
+    "worktreeId": "WI-594-recovery-successor-compatibility"
+  }
+}
