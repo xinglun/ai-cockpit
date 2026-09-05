@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "70494c135566b249aa33b15db92afa63bc5561ca",
+    "name": "codex/wi-583-archived-revalidation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:bef362ddd9c17f6cf2801b16306c97516f1541687ab8aa6095d11982cc89b165",
+  "operationId": "github-pr-567-merge-cleanup-20260905",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "40c12ad6e15241a2923e707a53c7ba4242da2b54",
+    "headRevision": "70494c135566b249aa33b15db92afa63bc5561ca",
+    "mergeCommit": "3d3f6a046d065392600566fd8e44973e692ebe83",
+    "number": 1,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #567 passed all hosted checks and merged as 3d3f6a0; the Contract-bound local feature branch and dedicated worktree were then removed. The Contract intentionally retained a local not-requested pull-request context.",
+  "receiptId": "local-wi583-finalization-20260905",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-583-archived-revalidation",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi583-archived-revalidation"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+  "runtimeVersion": "0.2.75",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T06:31:09Z",
+  "workItemId": "WI-583-archived-contract-revalidation",
+  "worktree": {
+    "branch": "codex/wi-583-archived-revalidation",
+    "headRevision": "70494c135566b249aa33b15db92afa63bc5561ca",
+    "path": "/private/tmp/ai-cockpit-wi583-archived-revalidation",
+    "worktreeId": "WI-583-archived-contract-revalidation"
+  }
+}
