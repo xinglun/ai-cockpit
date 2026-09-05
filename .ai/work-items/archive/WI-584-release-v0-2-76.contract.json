@@ -1,0 +1,90 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata, lockfile, and release/versioning guidance identify v0.2.76 while retaining v0.2.75 as the preceding public baseline.",
+    "Release CI produces identity-bound five-target artifacts and supply-chain receipts for v0.2.76.",
+    "Public adopter and N-1 acceptance use only v0.2.76 downloaded artifacts, prove forbidden-root isolation and temporary-run cleanup, and exercise the same binary against this repository.",
+    "The release starts from a synchronized ready default branch and changes no Runtime behavior, object repository, global Agent/MCP configuration, failed-tag history, or unrelated evidence.",
+    "Any release or adopter failure preserves immutable release truth and records a failure receipt without source checkout, workspace binary, or moving-branch fallback."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8aa602bf26b7434ce2cbc875266723fb5bae0ef7",
+  "createdAt": "2026-09-05T06:52:28Z",
+  "goal": "Create a reproducible v0.2.76 release baseline with versioned metadata, supply-chain and adopter acceptance evidence, without changing Runtime behavior or the object repository.",
+  "intent": "Publish v0.2.76 from the reviewed synchronized default branch, then validate its immutable public artifacts and provide the released Runtime required by the object repository recovery handoff.",
+  "mode": "release",
+  "outOfScope": [
+    "Runtime implementation or protocol behavior",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Global Agent or MCP configuration",
+    "Reference-source implementation copying",
+    "Rewriting failed",
+    " quarantined",
+    " or tag-only release history",
+    "Rewriting immutable historical Work Item",
+    " evidence",
+    " archive",
+    " or decision bytes",
+    "Unrelated documentation or feature work"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:134c3c20031e67af628fc80bc56dcfaf4e1979d82c8ba06c6c7692dc1c21d014",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release",
+    "supply_chain",
+    "isolation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-584-release-v0-2-76",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/569",
+    "worktree": "/private/tmp/ai-cockpit-wi584-release-v0-2-76"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-584-release-v0-2-76.md",
+    "docs/work-items/WI-584-release-v0-2-76.zh-CN.md",
+    "docs/work-items/WI-584-release-v0-2-76.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/versioning.md",
+    ".github/workflows/release.yml",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "WI-583 archived-contract-revalidation release prerequisite"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/release/version_consistency.sh",
+    "tests/release/workflow_policy.sh",
+    "tests/release/action_runtime_policy.sh",
+    "tests/release/source_archive_policy_test.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "cargo test --locked --workspace",
+    "git diff --check"
+  ],
+  "workItemId": "WI-584-release-v0-2-76"
+}

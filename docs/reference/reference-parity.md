@@ -558,6 +558,7 @@ record for each boundary.
 | WI-581 — WI-580 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-581-doc-promotion-wi580.md); terminal lifecycle: archive `.ai/work-items/archive/WI-581-doc-promotion-wi580.contract.json`; verification `.ai/evidence/WI-581-doc-promotion-wi580.verification.json`; finalization `.ai/decisions/WI-581-doc-promotion-wi580.finalize.2c045b801ad0a39909547eeed34d24da608fa121228b58ffa932079a6461b235.json`; close `.ai/decisions/WI-581-doc-promotion-wi580.close.json`. |
 | WI-582 — WI-581 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-582-doc-promotion-wi581.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-582-doc-promotion-wi581.contract.json`; verification `.ai/evidence/WI-582-doc-promotion-wi581.verification.json`; finalization `.ai/decisions/WI-582-doc-promotion-wi581.finalize.json`; close `.ai/decisions/WI-582-doc-promotion-wi581.close.json`. |
 | WI-583 — archived Contract revalidation and successor close | Implemented | [Work Item](../work-items/WI-583-archived-contract-revalidation.md); terminal lifecycle: archive `.ai/work-items/archive/WI-583-archived-contract-revalidation.contract.json`; verification `.ai/evidence/WI-583-archived-contract-revalidation.verification.json`; finalization `.ai/decisions/WI-583-archived-contract-revalidation.finalize.json`; close `.ai/decisions/WI-583-archived-contract-revalidation.close.json`. |
+| WI-584 — v0.2.76 release and object-adopter recovery handoff | In progress → Implemented after verified close | [Work Item](../work-items/WI-584-release-v0-2-76.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-584-release-v0-2-76.contract.json`; verification `.ai/evidence/WI-584-release-v0-2-76.verification.json`; finalization `.ai/decisions/WI-584-release-v0-2-76.finalize.json`; close `.ai/decisions/WI-584-release-v0-2-76.close.json`. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-544-wi543-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546 — WI-545 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-546-wi545-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -686,3 +687,12 @@ object/adopter repositories inherit the shared Runtime, explicit repository
 context, isolated governance records, dynamic verification boundary, and human
 Outcome handoff, not source Python/Make/stack implementations or wire formats.
 See the [file-level WI-579 record](reference-file-comparison.md#wi-579--reference-template-parity-batch-46).
+
+## WI-584 — v0.2.76 release and object-adopter recovery handoff
+
+WI-584 publishes the Runtime baseline required by the object repository's
+append-only archived-Contract revalidation and successor-close path. The
+release boundary covers version metadata, immutable artifacts, supply-chain
+receipts, and isolated public/N-1 acceptance. Object-repository recovery stays
+an external read-only handoff: no object `.ai/` bytes or historical evidence
+are rewritten here.
