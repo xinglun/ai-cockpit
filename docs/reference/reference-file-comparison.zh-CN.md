@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-568-reference-file-comparison-batch-44
+lastVerifiedBy: WI-577-reference-metadata-sync
 capabilityClaims:
   - reference_parity
 ---
@@ -19,9 +19,14 @@ capabilityClaims:
 
 ## 固定基线
 
+本入口的当前元数据由
+[`reference-comparison-metadata.json`](reference-comparison-metadata.json) 单一
+旁车文件维护。它统一记录当前参考提交、经过评审的 Rust 基线、已发布 Runtime
+identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
+
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `20e420cd82f5f900cc4c46ca431dbe7170fcb541`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.73`，binary SHA256 为 `sha256:6100ae42a456489b1f08179bf399ee6a74e6720df9d202192fcd44e25afaef7d`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `07a7b1e268477f973766c735754a5594ecee11e7`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.75`，binary SHA256 为 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -1568,3 +1573,7 @@ WI-572 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 | `scripts/verify_quick_install_release.py` | implemented-different-by-design | release tooling/acceptance 验证下载的 immutable artifact、manifest/binary digest 与支持平台。 |
 
 本批未发现可移植实现遗漏。对象/adopter 工程继承同一 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态质量边界与 human Outcome handoff；不继承源 Python 安装器模块、provider policy 值或 source wire。当前 4,450 个路径包含 3,681 个 `generated-history`、458 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、109 个 `reference-only` 和 214 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。
+
+## WI-577：当前比对元数据同步
+
+WI-577 在 v0.2.75 发布后同步当前表头和基线展示，不增加语义分类，也不重写追加式的历史批次段落。[`reference-comparison-metadata.json`](reference-comparison-metadata.json) 旁车文件是当前参考提交、经过评审的 Rust 基线、Runtime identity 和当前台账计数的单一事实源；三语元数据测试会在任一页面漂移时 fail-closed。

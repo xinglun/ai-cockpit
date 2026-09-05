@@ -269,4 +269,6 @@ python3 tests/docs/work_item_status_consistency.py \
 
 python3 tests/docs/promote_closed_work_item.py --repo "$root" --check-all
 
+python3 tests/docs/reference_comparison_metadata_test.py
+
 bash tests/docs/getting_started_semantic.sh

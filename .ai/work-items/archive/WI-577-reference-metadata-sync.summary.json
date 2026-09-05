@@ -1,0 +1,98 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "tri-language live metadata",
+          "path": "docs/reference/reference-comparison-metadata.json",
+          "type": "metadata",
+          "verification": "passed"
+        },
+        {
+          "locator": "comparison and parity pages",
+          "path": "docs/reference/reference-file-comparison.md",
+          "type": "documentation",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "metadata regression guard",
+          "path": "tests/docs/reference_comparison_metadata_test.py",
+          "type": "test",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "append-only history boundary",
+          "path": "docs/reference/reference-file-comparison.md",
+          "type": "documentation",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "documentation acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "diff boundary",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "pending"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-577-reference-metadata-sync.contract.json",
+    ".ai/work-items/archive/WI-577-reference-metadata-sync.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T00:58:38Z",
+  "checkpointContractDigest": "sha256:c7053521d8b9a744795c7254c6d71f3ed7c522e7837fdd636ed420a77b5234a2",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:621fd1f32cd3dd10175b91933ce3c45c30542d6e207e314c1e238fdc0b6f59a6",
+  "createdAt": "2026-09-05T00:46:14Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/reference-comparison-metadata.json",
+      "tests/docs/reference_comparison_metadata_test.py"
+    ],
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-05T01:01:07Z",
+  "preflightContractDigest": "sha256:c7053521d8b9a744795c7254c6d71f3ed7c522e7837fdd636ed420a77b5234a2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:621fd1f32cd3dd10175b91933ce3c45c30542d6e207e314c1e238fdc0b6f59a6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T01:01:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-577-reference-metadata-sync"
+}

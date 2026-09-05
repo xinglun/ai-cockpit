@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-570-release-v0-2-74
+lastVerifiedBy: WI-577-reference-metadata-sync
 capabilityClaims:
   - reference_parity
 ---
@@ -20,6 +20,12 @@ reference product boundary と一致する部分、partial/deferred の部分、
 mapping は [Contract と Summary の fields](contract-fields.ja.md) を参照してください。
 
 ## Current reference source
+
+Current comparison metadata は file-level comparison route と共有する
+[`reference-comparison-metadata.json`](reference-comparison-metadata.json) の sidecar
+で管理します。pinned source commit、review 済み Rust baseline、published Runtime
+identity、current ledger count を束縛し、三言語 page を同時に検査して release または
+comparison 更新後の stale header を防ぎます。
 
 維持されている semantic reference は `AI_COCKPIT_REFERENCE_ROOT` で選択する local checkout で、現在は
 commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。file-level ledger はこの commit、以前の
@@ -523,6 +529,7 @@ verification record です。
 | WI-573 — WI-572 の終端ドキュメント昇格 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-573-wi572-doc-promotion.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-573-wi572-doc-promotion.contract.json`; verification `.ai/evidence/WI-573-wi572-doc-promotion.verification.json`; finalization `.ai/decisions/WI-573-wi572-doc-promotion.finalize.json`; close `.ai/decisions/WI-573-wi572-doc-promotion.close.json`. |
 | WI-574 — v0.2.75 release と公開 artifact acceptance | Implemented | [Work Item](../work-items/WI-574-release-v0-2-75.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-574-release-v0-2-75.contract.json`; verification `.ai/evidence/WI-574-release-v0-2-75.verification.json`; finalization `.ai/decisions/WI-574-release-v0-2-75.finalize.json`; close `.ai/decisions/WI-574-release-v0-2-75.close.json`. |
 | WI-576 — WI-575 ドキュメント昇格 retry | Implemented | [Work Item](../work-items/WI-576-wi575-doc-promotion-retry.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-576-wi575-doc-promotion-retry.contract.json`; verification `.ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json`; finalization `.ai/decisions/WI-576-wi575-doc-promotion-retry.finalize.ff9b14cb37866d6e475e2dfc72c705bd289d494ae54790b2b5625c5292a94d42.json`; close `.ai/decisions/WI-576-wi575-doc-promotion-retry.close.json`. |
+| WI-577 — current comparison metadata synchronization | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-577-reference-metadata-sync.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-577-reference-metadata-sync.contract.json`; verification `.ai/evidence/WI-577-reference-metadata-sync.verification.json`; finalization `.ai/decisions/WI-577-reference-metadata-sync.finalize.json`; close `.ai/decisions/WI-577-reference-metadata-sync.close.json`. bounded metadata/projection guard であり semantic parity classification は追加しません。 |
 | WI-570 — v0.2.74 release と公開 artifact 受入れ | Implemented | [Work Item](../work-items/WI-570-release-v0-2-74.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-570-release-v0-2-74.contract.json`; verification `.ai/evidence/WI-570-release-v0-2-74.verification.json`; finalization `.ai/decisions/WI-570-release-v0-2-74.finalize.json`; close `.ai/decisions/WI-570-release-v0-2-74.close.json`. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-544-wi543-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release と公開 artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |

@@ -1,0 +1,75 @@
+{
+  "acceptanceCriteria": [
+    "A1: 六个目标页面的 lastVerifiedBy、Rust baseline 与 Runtime identity 与当前已发布主线/固定参考提交一致",
+    "A2: 三种语言页面的固定参考提交、基线提交、Runtime 版本与 digest 一致且语义不变",
+    "A3: 新增或扩展的检查能在旧元数据回归时 fail closed，并通过当前页面检查",
+    "A4: 元数据单一事实源、三语页面和可执行检查必须保持一致；历史批次文字保持 append-only，不因当前快照重写",
+    "A5: 不修改任何 Runtime 代码、对象工程、全局配置或历史生成证据"
+  ],
+  "authority": "authorized",
+  "baseRevision": "07a7b1e268477f973766c735754a5594ecee11e7",
+  "createdAt": "2026-09-05T00:46:14Z",
+  "goal": "同步三语 reference-file-comparison 与 reference-parity 页的验证元数据，并增加可执行检查，防止比较批次或发布后再次出现旧基线信息。",
+  "intent": "修复参考源逐文件比较与对齐入口页的终态元数据漂移，使读者看到的验证 Work Item、Rust 基线和 Runtime 版本与当前已发布主线一致。",
+  "mode": "docs",
+  "outOfScope": [
+    "参考源实现、Rust Runtime 行为、对象工程、用户全局 Agent/MCP 配置、既有历史 Work Item/evidence/archive bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5e29533167d1cbaea1ee4c8e5b7a38d729c4b720548e56e95ad2f8d3d73025c5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-577-reference-metadata-sync",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/558",
+    "worktree": "/private/tmp/ai-cockpit-wi577-reference-metadata-sync"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "tests/docs/reference_comparison_metadata_test.py",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/work-items/WI-577-reference-metadata-sync.md",
+    "docs/work-items/WI-577-reference-metadata-sync.zh-CN.md",
+    "docs/work-items/WI-577-reference-metadata-sync.ja.md"
+  ],
+  "sources": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference-source.lock",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/archive/WI-572-reference-installer-quality-batch-45.contract.json",
+    ".ai/evidence/WI-572-reference-installer-quality-batch-45.verification.json",
+    "docs/release/distribution.md",
+    ".ai/evidence/WI-574-release-v0-2-75.verification.json",
+    "release-adopter-acceptance-artifacts/release-manifest.json",
+    "Cargo.toml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --check",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/docs/documentation_acceptance.sh .",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "git diff --check"
+  ],
+  "workItemId": "WI-577-reference-metadata-sync"
+}

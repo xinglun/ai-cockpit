@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-568-reference-file-comparison-batch-44
+lastVerifiedBy: WI-577-reference-metadata-sync
 capabilityClaims:
   - reference_parity
 ---
@@ -19,9 +19,15 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 
 ## 固定 baseline
 
+この route の current metadata は
+[`reference-comparison-metadata.json`](reference-comparison-metadata.json) の
+sidecar を single source とします。reference commit、review 済み Rust baseline、
+published Runtime identity、ledger count を一元管理し、実行可能な check は三言語
+ページの drift を fail-closed で拒否します。
+
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `20e420cd82f5f900cc4c46ca431dbe7170fcb541`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.73`、binary SHA256 `sha256:6100ae42a456489b1f08179bf399ee6a74e6720df9d202192fcd44e25afaef7d`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `07a7b1e268477f973766c735754a5594ecee11e7`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.75`、binary SHA256 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -1617,3 +1623,7 @@ WI-572 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 | `scripts/verify_quick_install_release.py` | implemented-different-by-design | release tooling/acceptance が downloaded immutable artifact、manifest/binary digest、supported platform を検証。 |
 
 この slice に portable implementation omission はありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、dynamic quality boundary、human Outcome handoff を継承しますが、source Python installer、provider policy value、source wire format は継承しません。現在の 4,450 path set は 3,681 `generated-history`、458 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、109 `reference-only`、214 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only です。
+
+## WI-577 — current comparison metadata synchronization
+
+WI-577 は v0.2.75 release 後の live frontmatter と baseline 表示を同期します。semantic classification は追加せず、append-only の過去 batch paragraph も書き換えません。[`reference-comparison-metadata.json`](reference-comparison-metadata.json) sidecar が current reference commit、review 済み Rust baseline、Runtime identity、current ledger count の single source であり、tri-language metadata test が page drift を fail-closed で検出します。

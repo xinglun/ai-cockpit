@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "lastVerifiedBy": "WI-577-reference-metadata-sync",
+  "referenceCommit": "fde3380f81fea5fd2e288f7a8849f737dc074060",
+  "rustBaselineCommit": "07a7b1e268477f973766c735754a5594ecee11e7",
+  "runtimeVersion": "0.2.75",
+  "runtimeBinaryDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+  "currentPathCount": 4450,
+  "classifiedPathCount": 4236,
+  "semanticDecisionCount": 555,
+  "deferredPathCount": 214,
+  "retiredPathCount": 669,
+  "migrateGapCount": 0
+}
