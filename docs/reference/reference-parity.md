@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-570-release-v0-2-74
+lastVerifiedBy: WI-577-reference-metadata-sync
 capabilityClaims:
   - reference_parity
 ---
@@ -21,6 +21,13 @@ starts at [Current reader route](../current/README.md). For field-level
 mapping, see [Contract and Summary fields](contract-fields.md).
 
 ## Current reference source
+
+Current comparison metadata is maintained in the
+[`reference-comparison-metadata.json`](reference-comparison-metadata.json)
+sidecar shared with the file-level comparison route. It binds the pinned
+source commit, reviewed Rust baseline, published Runtime identity, and current
+ledger counts; the tri-language pages are checked together so a release or
+comparison update cannot leave a stale presentation header.
 
 The maintained semantic reference is the local checkout selected by
 `AI_COCKPIT_REFERENCE_ROOT`, currently pinned to commit
@@ -545,6 +552,7 @@ record for each boundary.
 | WI-573 — terminal documentation promotion for WI-572 | In progress → Implemented after verified close | [Work Item](../work-items/WI-573-wi572-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-573-wi572-doc-promotion.contract.json`; verification `.ai/evidence/WI-573-wi572-doc-promotion.verification.json`; finalization `.ai/decisions/WI-573-wi572-doc-promotion.finalize.json`; close `.ai/decisions/WI-573-wi572-doc-promotion.close.json`. |
 | WI-574 — v0.2.75 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-574-release-v0-2-75.md); terminal lifecycle: archive `.ai/work-items/archive/WI-574-release-v0-2-75.contract.json`; verification `.ai/evidence/WI-574-release-v0-2-75.verification.json`; finalization `.ai/decisions/WI-574-release-v0-2-75.finalize.json`; close `.ai/decisions/WI-574-release-v0-2-75.close.json`. |
 | WI-576 — WI-575 documentation-promotion retry | Implemented | [Work Item](../work-items/WI-576-wi575-doc-promotion-retry.md); terminal lifecycle: archive `.ai/work-items/archive/WI-576-wi575-doc-promotion-retry.contract.json`; verification `.ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json`; finalization `.ai/decisions/WI-576-wi575-doc-promotion-retry.finalize.ff9b14cb37866d6e475e2dfc72c705bd289d494ae54790b2b5625c5292a94d42.json`; close `.ai/decisions/WI-576-wi575-doc-promotion-retry.close.json`. |
+| WI-577 — current comparison metadata synchronization | In progress → Implemented after verified close | [Work Item](../work-items/WI-577-reference-metadata-sync.md); terminal lifecycle: archive `.ai/work-items/archive/WI-577-reference-metadata-sync.contract.json`; verification `.ai/evidence/WI-577-reference-metadata-sync.verification.json`; finalization `.ai/decisions/WI-577-reference-metadata-sync.finalize.json`; close `.ai/decisions/WI-577-reference-metadata-sync.close.json`. This is a bounded metadata/projection guard and adds no semantic parity classification. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-544-wi543-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546 — WI-545 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-546-wi545-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |

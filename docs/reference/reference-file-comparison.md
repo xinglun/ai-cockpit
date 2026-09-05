@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-568-reference-file-comparison-batch-44
+lastVerifiedBy: WI-577-reference-metadata-sync
 capabilityClaims:
   - reference_parity
 ---
@@ -20,12 +20,18 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
 
 ## Pinned baseline
 
+The live metadata for this route is maintained in the
+[`reference-comparison-metadata.json`](reference-comparison-metadata.json)
+sidecar. The sidecar is the single source for the current reference commit,
+reviewed Rust baseline, published Runtime identity, and ledger counts; this
+check is executable and fails closed when any translated page drifts.
+
 - Current reference checkout: the local Git checkout supplied through
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `20e420cd82f5f900cc4c46ca431dbe7170fcb541`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.73` binary, SHA256 `sha256:6100ae42a456489b1f08179bf399ee6a74e6720df9d202192fcd44e25afaef7d`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `07a7b1e268477f973766c735754a5594ecee11e7`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.75` binary, SHA256 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -2086,3 +2092,13 @@ installer modules, provider policy values, or source wire formats. The current
 `implemented-different-by-design`, one `implemented-equivalent`, 7
 `not-applicable`, 109 `reference-only`, and 214 `deferred-next-batch` records;
 `migrate-gap` remains zero and 669 retired records remain append-only.
+
+## WI-577 — current comparison metadata synchronization
+
+WI-577 synchronizes the live frontmatter and baseline presentation after the
+v0.2.75 release. It adds no semantic classification and does not rewrite the
+append-only historical batch paragraphs. The sidecar
+[`reference-comparison-metadata.json`](reference-comparison-metadata.json) is
+the single source for the current reference commit, reviewed Rust baseline,
+Runtime identity, and current ledger counts; the tri-language metadata test
+fails closed if any page diverges.
