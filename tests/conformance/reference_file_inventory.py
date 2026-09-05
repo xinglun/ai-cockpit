@@ -83,6 +83,7 @@ WI563_BATCH = "WI-563-reference-file-comparison-batch-43"
 WI568_BATCH = "WI-568-reference-file-comparison-batch-44"
 WI572_BATCH = "WI-572-reference-installer-quality-batch-45"
 WI579_BATCH = "WI-579-reference-template-parity-batch-46"
+WI587_BATCH = "WI-587-reference-file-comparison-batch-47"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -2300,6 +2301,115 @@ WI579_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/ci-quality-gates.md",
         ],
         "The source Make entrypoint's lifecycle, quality, and evidence responsibilities are provided by explicit Rust CLI/Runtime commands and the reviewed gate manifest. Make/Python target names, shell defaults, and source wire formats remain provider or adopter integration choices and are not copied.",
+    ),
+}
+
+# WI-587 compares the next twenty maintained source test/fixture paths one by
+# one. Test harness details, sample corpora, and stack wizard snapshots are
+# source-owned inputs rather than portable Runtime protocol. Behavioral
+# responsibilities already live in Rust-native tests and release/adopter
+# harnesses; these mappings prevent source Python fixtures or JSON wire shapes
+# from silently becoming target requirements.
+WI587_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "tests/conftest.py": (
+        "reference-only",
+        ["crates/cockpit-repository/tests/repository_context.rs", "tests/conformance/reference_file_inventory.py"],
+        "This source session fixture clears an environment override for its own harness. Rust uses process-local setup and explicit --repo contexts; the template harness and variable are not Runtime protocol.",
+    ),
+    "tests/fixtures/japanese-capability-corpus.json": (
+        "reference-only",
+        ["docs/capabilities.ja.md", "crates/cockpit-cli/tests/intelligence.rs", "tests/conformance/reference_file_inventory.py"],
+        "This corpus is source-bound Japanese prompt/injection study data with expected presentation outcomes. Rust preserves multilingual human presentation and adversarial boundaries, but does not import participant/corpus bytes or claim language capability from them.",
+    ),
+    "tests/fixtures/wizard/android.json": (
+        "reference-only",
+        ["docs/getting-started/adopter-configuration.md", "docs/reference/commands.md"],
+        "The Android wizard fixture supplies source-template stack detection and toolchain defaults. Adopters own SDK/toolchain facts; the shared Runtime records observed repository capabilities without copying a stack fixture or inferring commands.",
+    ),
+    "tests/fixtures/wizard/ios.json": (
+        "reference-only",
+        ["docs/getting-started/adopter-configuration.md", "docs/reference/commands.md"],
+        "The iOS wizard fixture is source onboarding data for platform/toolchain selection. Rust keeps explicit repository observation and owner-declared verification commands; no SDK or provider preset is a Runtime requirement.",
+    ),
+    "tests/fixtures/wizard/monorepo.json": (
+        "reference-only",
+        ["docs/getting-started/adopter-configuration.md", "docs/reference/repository-workflow.md"],
+        "The monorepo wizard fixture encodes source-specific discovery examples. Rust repository identity, scope, and Work Item isolation are explicit and request-scoped; the source fixture does not define a portable monorepo wire format.",
+    ),
+    "tests/repository_fixture.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-git/tests/repository.rs", "crates/cockpit-repository/tests/repository_context.rs", "tests/release/isolation_manifest.sh"],
+        "The source helper creates an isolated copy while omitting caches and VCS internals. Rust uses typed Git snapshots, repository-context isolation checks, and release isolation manifests with stronger identity/digest checks; the source helper is not copied.",
+    ),
+    "tests/snapshots/wizard/kotlin.json": (
+        "reference-only",
+        ["docs/getting-started/adopter-configuration.md", "docs/reference/commands.md"],
+        "This snapshot is a source wizard presentation example with review-required/not-run fields. Rust does not claim Kotlin toolchain support or copy a source wizard output schema; provider and adopter planning remain explicit.",
+    ),
+    "tests/snapshots/wizard/mixed.json": (
+        "reference-only",
+        ["docs/getting-started/adopter-configuration.md", "docs/reference/commands.md"],
+        "This mixed-stack snapshot is source wizard output, not governance evidence. Rust keeps observed capabilities and explicit verification argv separate from provider stack detection and does not import the snapshot wire shape.",
+    ),
+    "tests/snapshots/wizard/swift.json": (
+        "reference-only",
+        ["docs/getting-started/adopter-configuration.md", "docs/reference/commands.md"],
+        "This Swift snapshot records source wizard defaults and review state. Swift/Xcode toolchain choices remain adopter/provider-owned; the Rust Runtime does not copy or infer this source presentation record.",
+    ),
+    "tests/test_absurd_capability_truth.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-core/tests/adversarial_v2.rs", "tests/adversarial/manifest.json", "tests/conformance/final_replacement_acceptance.sh"],
+        "The source absurd-input evaluator requires adversarial text to remain unexecuted, unsupported claims to stay blocked, and malformed evidence to fail closed. Rust-native adversarial tests and manifests enforce those semantics without copying the Python evaluator or its corpus wire format.",
+    ),
+    "tests/test_adoption_e2e.py": (
+        "implemented-different-by-design",
+        ["tests/release/adopter_acceptance.sh", "tests/release/adopter_upgrade_acceptance.sh", "tests/release/isolation_manifest.sh"],
+        "The source adoption E2E suite exercises Python/Make installation and provider workflows. Rust uses immutable public-artifact adopter and N-1 acceptance harnesses with isolated repository/runtime roots; source installer commands are not target behavior.",
+    ),
+    "tests/test_adoption_evidence.py": (
+        "implemented-different-by-design",
+        ["tests/release/adopter_acceptance.sh", "tests/release/isolation_manifest.sh", "crates/cockpit-release/tests/handoff.rs"],
+        "Adopter evidence binding, not-run preservation, and template-owned rejection are covered by the Rust release/adopter receipt and isolation checks. The source Python evidence helper and JSON format are not copied.",
+    ),
+    "tests/test_adoption_ready.py": (
+        "implemented-different-by-design",
+        ["tests/release/adopter_acceptance.sh", "tests/release/workflow_policy.sh", "crates/cockpit-agent/tests/doctor.rs", "docs/getting-started/adopter-configuration.md"],
+        "The source readiness tests distinguish installation, calibration, and production readiness across generic stacks. Rust keeps repository/runtime doctor, release acceptance, explicit adapter ownership, and fail-closed unknowns while leaving provider toolchain readiness external.",
+    ),
+    "tests/test_ai_archive_work_item.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/archive_integrity.rs", "crates/cockpit-repository/tests/resource_finalization_transition.rs", "crates/cockpit-repository/tests/recovery_revalidation.rs"],
+        "Archive transactionality, append-only history, manifest binding, supersede/recovery, rollback, and traceability are covered by typed Rust repository tests. The source Python archive implementation and generated-file protocol are not copied.",
+    ),
+    "tests/test_ai_check_serial_order.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/lifecycle_order.rs", "crates/cockpit-repository/tests/lifecycle_entry.rs", "docs/reference/repository-workflow.md"],
+        "The source serial-order gate blocks incomplete predecessors and permits a complete successor boundary. Rust enforces repository lifecycle ordering and ready_on_base with explicit Work Item state; source checker code is not copied.",
+    ),
+    "tests/test_ai_check_summary.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/contract_preflight.rs", "crates/cockpit-repository/tests/status_projection.rs", "crates/cockpit-repository/tests/outcome_report.rs", "crates/cockpit-protocol/tests/verification_semantics.rs"],
+        "The source summary gate validates acceptance evidence, intent/scenario, hosted facts, legacy records, receipts, and unknowns. Rust derives typed Summary/Outcome/verification projections and fail-closed bindings; the source summary JSON is not a wire contract.",
+    ),
+    "tests/test_ai_check_work_item.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-protocol/tests/contract_v2.rs", "crates/cockpit-repository/tests/contract_schema.rs", "crates/cockpit-repository/tests/contract_preflight.rs"],
+        "The source Work Item checker semantics are represented by strict Rust Contract v2 schema, scope/authority/acceptance validation, and preflight decisions. Rust intentionally does not copy Python field parsing or provider-specific command syntax.",
+    ),
+    "tests/test_ai_external_handoff.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-release/tests/handoff.rs", "crates/cockpit-mcp/tests/rpc.rs", "crates/cockpit-repository/tests/task_outcome_events.rs"],
+        "External handoff identity, deadlines, bindings, timeout, malformed facts, and append-only receipts are covered by typed release/MCP/task-outcome boundaries. Provider execution remains delegated and the source Python handoff report is not copied.",
+    ),
+    "tests/test_ai_onboard.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/tests/attach.rs", "crates/cockpit-agent/tests/install.rs", "crates/cockpit-agent/tests/doctor.rs", "docs/getting-started/installation.md"],
+        "The source onboarding tests cover helper-driven profile/bootstrap/calibration phases and Make entrypoint selection. Rust attach/scaffold, adapter install/doctor, profile, and explicit Runtime commands preserve the review boundary without source wizard or Make behavior.",
+    ),
+    "tests/test_ai_post_archive_recovery.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/recovery_revalidation.rs", "crates/cockpit-repository/tests/recovery_events.rs", "crates/cockpit-repository/tests/resource_finalization_transition.rs", "docs/reference/recovery.md"],
+        "The source post-archive recovery tests cover append-only provider/CI/functional recovery, exact facts, stale heads, and receipt tampering. Rust owns these identity-bound recovery and revalidation semantics with typed receipts; provider parser details and source Python orchestration remain external.",
     ),
 }
 
@@ -6568,6 +6678,45 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(
                     f"{record.get('referencePath')}: WI-579 cannot leave deferred or migrate-gap"
                 )
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI587_BATCH
+        for record in records
+    ):
+        wi587_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI587_BATCH
+            and record.get("referencePath") in WI587_REFERENCE_FILES
+        ]
+        expected_wi587_paths = set(WI587_REFERENCE_FILES) & current_reference_paths
+        actual_wi587_paths = {record.get("referencePath") for record in wi587_records}
+        if actual_wi587_paths != expected_wi587_paths:
+            errors.append(
+                "WI-587 batch paths do not match the pinned twenty-file set: "
+                f"expected {sorted(expected_wi587_paths)!r}, got {sorted(actual_wi587_paths)!r}"
+            )
+        if len(wi587_records) != len(expected_wi587_paths):
+            errors.append(
+                f"WI-587 batch must contain {len(expected_wi587_paths)} records, found {len(wi587_records)}"
+            )
+        expected_wi587_classifications = Counter(
+            WI587_REFERENCE_FILES[path][0] for path in expected_wi587_paths
+        )
+        wi587_classifications = [record.get("classification") for record in wi587_records]
+        if Counter(wi587_classifications) != expected_wi587_classifications:
+            errors.append(
+                "WI-587 classifications do not match the bounded source/test decisions"
+            )
+        for record in wi587_records:
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(
+                    f"{record.get('referencePath')}: WI-587 result needs counterparts and reason"
+                )
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(
+                    f"{record.get('referencePath')}: WI-587 cannot leave deferred or migrate-gap"
+                )
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -7236,6 +7385,34 @@ def apply_wi579_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi587_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI587_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI587_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": record.get("classification"),
+            }
+        )
+        updated += 1
+    if updated != len(WI587_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI587_REFERENCE_FILES)} WI-587 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -7274,6 +7451,7 @@ def main() -> int:
     parser.add_argument("--apply-wi568-batch", action="store_true")
     parser.add_argument("--apply-wi572-batch", action="store_true")
     parser.add_argument("--apply-wi579-batch", action="store_true")
+    parser.add_argument("--apply-wi587-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -7306,6 +7484,7 @@ def main() -> int:
         args.apply_wi568_batch,
         args.apply_wi572_batch,
         args.apply_wi579_batch,
+        args.apply_wi587_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -7495,6 +7674,13 @@ def main() -> int:
     if args.apply_wi579_batch:
         try:
             apply_wi579_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi587_batch:
+        try:
+            apply_wi587_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

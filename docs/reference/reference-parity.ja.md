@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-579-reference-template-parity-batch-46
+lastVerifiedBy: WI-587-reference-file-comparison-batch-47
 capabilityClaims:
   - reference_parity
 ---
@@ -538,6 +538,7 @@ verification record です。
 | WI-584 — v0.2.76 release と object-adopter recovery handoff | Implemented | [Work Item](../work-items/WI-584-release-v0-2-76.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-584-release-v0-2-76.contract.json`; verification `.ai/evidence/WI-584-release-v0-2-76.verification.json`; finalization `.ai/decisions/WI-584-release-v0-2-76.finalize.json`; close `.ai/decisions/WI-584-release-v0-2-76.close.json`. |
 | WI-585 — WI-584 終端ドキュメント投影 | Implemented | [Work Item](../work-items/WI-585-wi584-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-585-wi584-doc-promotion.contract.json`; verification `.ai/evidence/WI-585-wi584-doc-promotion.verification.json`; finalization `.ai/decisions/WI-585-wi584-doc-promotion.finalize.json`; close `.ai/decisions/WI-585-wi584-doc-promotion.close.json`. |
 | WI-586 — WI-585 終端ドキュメント投影 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-586-wi585-doc-promotion.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-586-wi585-doc-promotion.contract.json`; verification `.ai/evidence/WI-586-wi585-doc-promotion.verification.json`; finalization `.ai/decisions/WI-586-wi585-doc-promotion.finalize.json`; close `.ai/decisions/WI-586-wi585-doc-promotion.close.json`. |
+| WI-587 — reference test/fixture 比較 batch 47 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-587-reference-file-comparison-batch-47.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-587-reference-file-comparison-batch-47.contract.json`; verification `.ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json`; finalization `.ai/decisions/WI-587-reference-file-comparison-batch-47.finalize.json`; close `.ai/decisions/WI-587-reference-file-comparison-batch-47.close.json`. |
 | WI-570 — v0.2.74 release と公開 artifact 受入れ | Implemented | [Work Item](../work-items/WI-570-release-v0-2-74.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-570-release-v0-2-74.contract.json`; verification `.ai/evidence/WI-570-release-v0-2-74.verification.json`; finalization `.ai/decisions/WI-570-release-v0-2-74.finalize.json`; close `.ai/decisions/WI-570-release-v0-2-74.close.json`. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-544-wi543-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release と公開 artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
@@ -617,6 +618,10 @@ WI-574 は review 済み source、五 target artifact、supply-chain receipt、p
 ## WI-579 — reference template parity batch 46
 
 WI-579 は固定した local source commit の残り 16 reference template path の file-level comparison を完了しました。Agent rule、glossary、Make entrypoint は shared Rust Runtime と repository-local documentation が `implemented-different-by-design` で担います。13 の stack preset は `reference-only` です。command、toolchain 選択、platform assumption は adopter/provider-owned で Runtime capability claim にはしません。portable implementation omission と `migrate-gap` はありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated governance record、dynamic verification boundary、人間向け Outcome handoff を継承しますが、source Python/Make/stack implementation や wire format は継承しません。[WI-579 file-level record](reference-file-comparison.ja.md#wi-579--reference-template-parity-batch-46) を参照してください。
+
+## WI-587 — reference test/fixture 比較 batch 47
+
+WI-587 は maintained source test/fixture path 20 件の次の slice を file-level に比較しました。12 件は typed Rust Runtime/native test が portable な責務を異なる設計で実装し、8 件は source 固有の environment、study、wizard、stack snapshot input のため `reference-only` です。portable implementation omission と `migrate-gap` はありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated governance record、fail-closed lifecycle、人間向け Outcome boundary を継承しますが、source pytest fixture、Python evaluator、toolchain preset、wire data は継承しません。[WI-587 file-level record](reference-file-comparison.ja.md#wi-587--reference-testfixture-比較-batch-47) を参照してください。
 
 ## WI-584 — v0.2.76 release と object-adopter recovery handoff
 

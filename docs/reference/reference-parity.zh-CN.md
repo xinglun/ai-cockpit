@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-579-reference-template-parity-batch-46
+lastVerifiedBy: WI-587-reference-file-comparison-batch-47
 capabilityClaims:
   - reference_parity
 ---
@@ -533,6 +533,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-584——v0.2.76 发布与对象工程恢复交接 | 已实现 | [Work Item](../work-items/WI-584-release-v0-2-76.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-584-release-v0-2-76.contract.json`; verification `.ai/evidence/WI-584-release-v0-2-76.verification.json`; finalization `.ai/decisions/WI-584-release-v0-2-76.finalize.json`; close `.ai/decisions/WI-584-release-v0-2-76.close.json`. |
 | WI-585——WI-584 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-585-wi584-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-585-wi584-doc-promotion.contract.json`; verification `.ai/evidence/WI-585-wi584-doc-promotion.verification.json`; finalization `.ai/decisions/WI-585-wi584-doc-promotion.finalize.json`; close `.ai/decisions/WI-585-wi584-doc-promotion.close.json`. |
 | WI-586——WI-585 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-586-wi585-doc-promotion.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-586-wi585-doc-promotion.contract.json`; verification `.ai/evidence/WI-586-wi585-doc-promotion.verification.json`; finalization `.ai/decisions/WI-586-wi585-doc-promotion.finalize.json`; close `.ai/decisions/WI-586-wi585-doc-promotion.close.json`. |
+| WI-587——参考源测试与夹具对比第 47 批 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-587-reference-file-comparison-batch-47.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-587-reference-file-comparison-batch-47.contract.json`; verification `.ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json`; finalization `.ai/decisions/WI-587-reference-file-comparison-batch-47.finalize.json`; close `.ai/decisions/WI-587-reference-file-comparison-batch-47.close.json`. |
 | WI-544——WI-543 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-544-wi543-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`；verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`；finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`；close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545——v0.2.68 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-545-release-v0-2-68.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546——WI-545 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-546-wi545-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -605,6 +606,10 @@ WI-574 只有在审查后的源码、五目标制品、供应链 receipt、publi
 ## WI-579——参考模板对等批次 46
 
 WI-579 在固定本地源提交上完成剩余 16 个参考模板路径的逐文件比较。Agent 规则、Glossary 和 Make 入口由 shared Rust Runtime 与仓库文档以 `implemented-different-by-design` 承载。13 个 stack preset 为 `reference-only`：命令、工具链选择和平台假设仍由 adopter/provider 负责，不构成 Runtime 能力声明。本批未发现可移植实现遗漏或 `migrate-gap`。对象/adopter 工程继承 shared Runtime、显式 repository context、隔离治理记录、动态验证边界和 human Outcome handoff，不继承源 Python/Make/stack 实现或 wire format。详见[WI-579 逐文件记录](reference-file-comparison.zh-CN.md#wi-579参考模板对等批次-46)。
+
+## WI-587——参考源测试与夹具对比第 47 批
+
+WI-587 完成下一批 20 个维护中测试/夹具路径的逐文件比较。12 个路径的可迁移责任由 Rust Runtime 和原生测试以不同设计承载，8 个源专属环境、研究语料、向导和栈快照保持 `reference-only`。没有发现可移植实现遗漏或 `migrate-gap`。对象/adopter 工程继承 shared Runtime、显式 repository context、隔离治理记录、fail-closed 生命周期和 human Outcome 边界，不继承源 pytest 夹具、Python evaluator、工具链 preset 或源 wire 数据。详见 [WI-587 逐文件记录](reference-file-comparison.zh-CN.md#wi-587参考源测试与夹具对比第-47-批)。
 
 ## WI-584：v0.2.76 发布与对象工程恢复交接
 
