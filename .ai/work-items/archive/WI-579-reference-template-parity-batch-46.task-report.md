@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-579-reference-template-parity-batch-46.contract.json
-- Changed path: .ai/work-items/active/WI-579-reference-template-parity-batch-46.summary.json
+- Changed path: .ai/work-items/archive/WI-579-reference-template-parity-batch-46.contract.json
+- Changed path: .ai/work-items/archive/WI-579-reference-template-parity-batch-46.summary.json
 
 ## Findings
 

@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-579-reference-template-parity-batch-46.contract.json",
-    ".ai/work-items/active/WI-579-reference-template-parity-batch-46.summary.json"
+    ".ai/work-items/archive/WI-579-reference-template-parity-batch-46.contract.json",
+    ".ai/work-items/archive/WI-579-reference-template-parity-batch-46.summary.json"
   ],
   "checkpointAt": "2026-09-05T01:35:43Z",
-  "checkpointContractDigest": "sha256:3d5ccef558591b0c54166cae009cb36c19bad36bf19ca1cafff603d7fda2c12f",
+  "checkpointContractDigest": "sha256:0e9e547578ac2a590b3297d7a322c399496db74b7bf17f408d9a846fee052370",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,29 +40,45 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-579-reference-template-parity-batch-46"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:0e9e547578ac2a590b3297d7a322c399496db74b7bf17f408d9a846fee052370",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:00b680ac606b5e9352ac7b362bff8a7f8b87daba676914dea4e9ebadca1e2eed",
+      "previousContractHash": "sha256:3d5ccef558591b0c54166cae009cb36c19bad36bf19ca1cafff603d7fda2c12f",
+      "reason": "Bind the real reviewed PR #561 finalization context before the definitive verification cycle; preserve the pre-plan attempt as stale/contradictory history and require fresh evidence against the bound Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T01:59:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-579-reference-template-parity-batch-46"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
   "createdAt": "2026-09-05T01:34:37Z",
-  "failedGate": "finish.governance",
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-05T01:57:46Z",
-  "preflightContractDigest": "sha256:3d5ccef558591b0c54166cae009cb36c19bad36bf19ca1cafff603d7fda2c12f",
+  "preflightAt": "2026-09-05T02:01:56Z",
+  "preflightContractDigest": "sha256:0e9e547578ac2a590b3297d7a322c399496db74b7bf17f408d9a846fee052370",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-05T01:57:49Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T02:01:57Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:9fc8aa3bb8d73877476ce1b32be3bae17f1b528da6ff623560c234a31b81efec",
   "workItemId": "WI-579-reference-template-parity-batch-46"
 }

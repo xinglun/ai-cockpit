@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-05T02:02:01Z",
+  "files": {
+    "contractDigest": "sha256:624c1ee453b4b94ed25c1bed07e705b9857e1ca0602f2a6af2cc37df2d725887",
+    "contractPath": ".ai/work-items/archive/WI-579-reference-template-parity-batch-46.contract.json",
+    "eventsDigest": "sha256:541633ecff0dd35ea8f700237725f26b16f02a36548547f69d3b17a22fe32ee7",
+    "eventsPath": ".ai/work-items/archive/WI-579-reference-template-parity-batch-46.events.jsonl",
+    "outcomeDigest": "sha256:17d332550e79dcbd0f3d603162525fda82319d29637b98effe90133469109cb0",
+    "outcomePath": ".ai/work-items/archive/WI-579-reference-template-parity-batch-46.outcome.json",
+    "summaryDigest": "sha256:771c32eb4242bfad4bd48e0ac72dec9c5b77618fef9f9c93c362ccf4173d5b99",
+    "summaryPath": ".ai/work-items/archive/WI-579-reference-template-parity-batch-46.summary.json",
+    "taskReportDigest": "sha256:9c9986c2f90434ffa245df4f0cbc2b396337b7a22ea227ef183dc8d3afbf6956",
+    "taskReportMarkdownDigest": "sha256:3bca57c7529c01919713f9ff97d7079a8683703caf3e5d5483087f0166894bde",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-579-reference-template-parity-batch-46.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-579-reference-template-parity-batch-46.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-579-reference-template-parity-batch-46"
+}

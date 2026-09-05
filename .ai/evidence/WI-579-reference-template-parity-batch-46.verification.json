@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:3d5ccef558591b0c54166cae009cb36c19bad36bf19ca1cafff603d7fda2c12f",
-  "createdAt": "2026-09-05T01:57:41Z",
+  "contractDigest": "sha256:0e9e547578ac2a590b3297d7a322c399496db74b7bf17f408d9a846fee052370",
+  "createdAt": "2026-09-05T02:01:50Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 119726,
-      "executionElapsedMs": 119160,
+      "elapsedMs": 118922,
+      "executionElapsedMs": 118536,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 119726,
-    "executionElapsedMs": 119160,
-    "filesHashed": 38,
-    "filesRead": 41,
+    "elapsedMs": 118922,
+    "executionElapsedMs": 118536,
+    "filesHashed": 10,
+    "filesRead": 13,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,22 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-comparison-metadata.json",
-        "docs/reference/reference-file-comparison.ja.md",
-        "docs/reference/reference-file-comparison.md",
-        "docs/reference/reference-file-comparison.zh-CN.md",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-579-reference-template-parity-batch-46.ja.md",
-        "docs/work-items/WI-579-reference-template-parity-batch-46.md",
-        "docs/work-items/WI-579-reference-template-parity-batch-46.zh-CN.md",
-        "tests/conformance/reference_file_inventory.json",
-        "tests/conformance/reference_file_inventory.py",
-        "tests/conformance/reference_file_inventory_test.sh",
-        "tests/docs/reference_comparison_metadata_test.py"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "3b49e8777c1e0087ea945a9327f2d77f650039e8",
       "dependencyConfidence": "unknown",
@@ -59,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 119160,
+      "executionElapsedMs": 118536,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -89,9 +74,9 @@
           "commandDigest": "sha256:8dd9fe5065dec61bbd38471cbfdf83e202c64a624d3ebe92376e5ecbd60f4400",
           "contentDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
           "diff": {
-            "baseCommit": "3b49e8777c1e0087ea945a9327f2d77f650039e8",
-            "changedPathsDigest": "sha256:c704bbb12bb52397d759bfab38309ded8d6dc16dbd092f7bb0dadeab3636da1e",
-            "headCommit": "3b49e8777c1e0087ea945a9327f2d77f650039e8"
+            "baseCommit": "f6a89157d906383d6c99fa46b9eecb88b35447fa",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "f6a89157d906383d6c99fa46b9eecb88b35447fa"
           },
           "environmentDigest": "sha256:6683e0eb1443488c147d78d0114606125ce58c16aa31384e276fedbf760ab60c",
           "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
@@ -102,12 +87,12 @@
           "stage": "task",
           "toolchainDigest": "sha256:5ccc12508c73a5f9ee965c3ea970fc4099a33d2b263463234a238ea71d99fdd5"
         },
-        "createdAtEpochSeconds": 1788573341,
-        "expiresAtEpochSeconds": 1788659741,
+        "createdAtEpochSeconds": 1788573592,
+        "expiresAtEpochSeconds": 1788659992,
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:a94ac5c904237ad16f5f5a22370c8e980ef7b16005021d80005e6ccd823934a1",
+        "outputDigest": "sha256:7e7ba899facfb64681aa2191ee41c03ae65c26b964005e678255faa78c8c7deb",
         "passed": true,
-        "receiptId": "sha256:38bf29a676330f74880dae6dcfb5bf230d7860bda38bae0e4c14d75019c1ce32",
+        "receiptId": "sha256:2204561b702dad7f30abac2737185b9266efaa82bbe55ee4233ef57cfe58b856",
         "schemaVersion": 2
       }
     ],
@@ -118,12 +103,12 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:a94ac5c904237ad16f5f5a22370c8e980ef7b16005021d80005e6ccd823934a1",
+        "outputDigest": "sha256:7e7ba899facfb64681aa2191ee41c03ae65c26b964005e678255faa78c8c7deb",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
         "reason": "binding_mismatch",
-        "receiptId": "sha256:38bf29a676330f74880dae6dcfb5bf230d7860bda38bae0e4c14d75019c1ce32",
+        "receiptId": "sha256:2204561b702dad7f30abac2737185b9266efaa82bbe55ee4233ef57cfe58b856",
         "reused": false,
         "satisfiedBy": "execution",
         "state": "stale",
@@ -134,7 +119,7 @@
     "runtimeVersion": "0.2.75",
     "workItemId": "WI-579-reference-template-parity-batch-46"
   },
-  "receiptDigest": "sha256:0b7125cd970c605c504dfd13f635a69c9fb3e95c6a4dc71a1911fe21d3977f4d",
+  "receiptDigest": "sha256:fd6301aed88608dcb99727528711358870c955fa23b4c03ae05f122f6ce6a7c5",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:d83f157e12ed757bd178a18a40e6163e419f411c2d748fda45df3a60dadf07dd",
   "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
