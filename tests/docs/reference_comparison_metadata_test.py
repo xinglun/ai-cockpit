@@ -145,7 +145,7 @@ def main() -> None:
             metadata["rustBaselineCommit"],
             metadata["runtimeVersion"],
             metadata["runtimeBinaryDigest"],
-            "reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=439 implemented-equivalent=1 not-applicable=7 reference-only=108 deferred-next-batch=214 migrate-gap=0",
+            "reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=442 implemented-equivalent=1 not-applicable=7 reference-only=121 deferred-next-batch=198 migrate-gap=0",
         ):
             if marker not in text:
                 fail(f"{path}: current comparison marker missing: {marker}")

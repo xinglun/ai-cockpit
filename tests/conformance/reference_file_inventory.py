@@ -82,6 +82,7 @@ WI559_BATCH = "WI-559-reference-file-comparison-batch-42"
 WI563_BATCH = "WI-563-reference-file-comparison-batch-43"
 WI568_BATCH = "WI-568-reference-file-comparison-batch-44"
 WI572_BATCH = "WI-572-reference-installer-quality-batch-45"
+WI579_BATCH = "WI-579-reference-template-parity-batch-46"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -2258,6 +2259,74 @@ WI572_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "Immutable tag/archive discovery, binary and manifest digests, supported-platform checks, and downloaded-artifact verification are provided by Rust release tooling and post-release acceptance. The source quick-install Python checker is not copied.",
     ),
 }
+
+# WI-579 compares the remaining maintained template surfaces one file at a
+# time.  Agent rules, glossary, and the Make entrypoint have portable
+# governance responsibilities represented by the shared Rust Runtime and
+# repository-local documentation.  Stack presets are source-template
+# convenience commands: adopters own their toolchains and verification argv,
+# so these paths remain explicit reference-only boundaries rather than copied
+# Runtime code or policy.
+WI579_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "templates/agents/AI_COCKPIT_RULES.md": (
+        "implemented-different-by-design",
+        [
+            "AGENTS.md",
+            ".ai/README.md",
+            ".ai/glossary.md",
+            "crates/cockpit-agent/src/lib.rs",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/agent-workflow.ja.md",
+        ],
+        "The source Agent rules are preserved as repository-local Rust Runtime and Agent workflow boundaries: explicit repository context, Contract-first review, pause rules, evidence, Outcome, and exact cleanup. The template Markdown surface and its Make commands are not copied into the Runtime.",
+    ),
+    "templates/glossary.md": (
+        "implemented-different-by-design",
+        [
+            ".ai/glossary.md",
+            "docs/reference/commands.md",
+            "docs/reference/agent-workflow.md",
+        ],
+        "The source glossary's governance vocabulary is represented by the maintained repository glossary and reader-facing command/workflow documentation. Its project-specific placeholder domain terms remain adopter-owned and are not fabricated by the shared Runtime.",
+    ),
+    "templates/make/Makefile.ai": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-cli/src/main.rs",
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-verification/src/lib.rs",
+            "docs/reference/commands.md",
+            "docs/reference/ci-quality-gates.md",
+        ],
+        "The source Make entrypoint's lifecycle, quality, and evidence responsibilities are provided by explicit Rust CLI/Runtime commands and the reviewed gate manifest. Make/Python target names, shell defaults, and source wire formats remain provider or adopter integration choices and are not copied.",
+    ),
+}
+
+for _stack_name in (
+    "android",
+    "csharp",
+    "flutter",
+    "generic",
+    "go",
+    "java",
+    "kotlin",
+    "php",
+    "python",
+    "ruby",
+    "rust",
+    "swift",
+    "typescript",
+):
+    WI579_REFERENCE_FILES[f"templates/stacks/{_stack_name}.mk"] = (
+        "reference-only",
+        [
+            "docs/getting-started/adopter-configuration.md",
+            "docs/reference/ci-quality-gates.md",
+            "crates/cockpit-verification/src/lib.rs",
+        ],
+        "This stack preset supplies source-template command defaults and toolchain assumptions. The shared Rust Runtime keeps verification argv, formatter/linter/test ownership, platform capability, and assurance repository/adopter-owned; it does not copy or infer a stack preset.",
+    )
 
 WI272_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     "scripts/ai_check_agent_risk.py": (
@@ -6460,6 +6529,45 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
             for classification in wi572_classifications
         ):
             errors.append("WI-572 batch cannot leave deferred or migrate-gap records")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI579_BATCH
+        for record in records
+    ):
+        wi579_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI579_BATCH
+            and record.get("referencePath") in WI579_REFERENCE_FILES
+        ]
+        expected_wi579_paths = set(WI579_REFERENCE_FILES) & current_reference_paths
+        actual_wi579_paths = {record.get("referencePath") for record in wi579_records}
+        if actual_wi579_paths != expected_wi579_paths:
+            errors.append(
+                "WI-579 template batch paths do not match the pinned sixteen-file set: "
+                f"expected {sorted(expected_wi579_paths)!r}, got {sorted(actual_wi579_paths)!r}"
+            )
+        if len(wi579_records) != len(expected_wi579_paths):
+            errors.append(
+                f"WI-579 batch must contain {len(expected_wi579_paths)} records, found {len(wi579_records)}"
+            )
+        expected_wi579_classifications = Counter(
+            WI579_REFERENCE_FILES[path][0] for path in expected_wi579_paths
+        )
+        wi579_classifications = [record.get("classification") for record in wi579_records]
+        if Counter(wi579_classifications) != expected_wi579_classifications:
+            errors.append(
+                "WI-579 template classifications do not match the bounded decisions"
+            )
+        for record in wi579_records:
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(
+                    f"{record.get('referencePath')}: WI-579 result needs counterparts and reason"
+                )
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(
+                    f"{record.get('referencePath')}: WI-579 cannot leave deferred or migrate-gap"
+                )
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -7099,6 +7207,35 @@ def apply_wi572_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi579_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI579_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        previous_classification = record.get("classification")
+        record.update(
+            {
+                "batch": WI579_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": previous_classification,
+            }
+        )
+        updated += 1
+    if updated != len(WI579_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI579_REFERENCE_FILES)} WI-579 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -7136,6 +7273,7 @@ def main() -> int:
     parser.add_argument("--apply-wi563-batch", action="store_true")
     parser.add_argument("--apply-wi568-batch", action="store_true")
     parser.add_argument("--apply-wi572-batch", action="store_true")
+    parser.add_argument("--apply-wi579-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -7167,6 +7305,7 @@ def main() -> int:
         args.apply_wi563_batch,
         args.apply_wi568_batch,
         args.apply_wi572_batch,
+        args.apply_wi579_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -7349,6 +7488,13 @@ def main() -> int:
     if args.apply_wi572_batch:
         try:
             apply_wi572_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi579_batch:
+        try:
+            apply_wi579_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

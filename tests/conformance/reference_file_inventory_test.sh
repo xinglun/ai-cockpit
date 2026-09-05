@@ -61,10 +61,10 @@ done
 # Bounded rebaseline batches resolve changed source records; WI-521 resolves
 # one of the previously changed deferred records. Keep this regression count
 # tied to the current pinned source ledger.
-# The pinned source inventory currently leaves 46 changed records explicitly
+# The pinned source inventory currently leaves 44 changed records explicitly
 # deferred. Keep this count tied to the committed ledger so a batch cannot
 # silently change the historical rebaseline boundary.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 46
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 44
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -742,6 +742,33 @@ test "$(jq '[.records[] | select(.batch == "WI-572-reference-installer-quality-b
 grep -q "WI-572" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-572" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-572" "$root/docs/reference/reference-file-comparison.ja.md"
+
+for wi579_path in \
+  templates/agents/AI_COCKPIT_RULES.md \
+  templates/glossary.md \
+  templates/make/Makefile.ai \
+  templates/stacks/android.mk \
+  templates/stacks/csharp.mk \
+  templates/stacks/flutter.mk \
+  templates/stacks/generic.mk \
+  templates/stacks/go.mk \
+  templates/stacks/java.mk \
+  templates/stacks/kotlin.mk \
+  templates/stacks/php.mk \
+  templates/stacks/python.mk \
+  templates/stacks/ruby.mk \
+  templates/stacks/rust.mk \
+  templates/stacks/swift.mk \
+  templates/stacks/typescript.mk; do
+  test "$(jq --arg path "$wi579_path" '[.records[] | select(.referencePath == $path and .batch == "WI-579-reference-template-parity-batch-46" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-579-reference-template-parity-batch-46")] | length' "$current_manifest")" -eq 16
+test "$(jq '[.records[] | select(.batch == "WI-579-reference-template-parity-batch-46" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 3
+test "$(jq '[.records[] | select(.batch == "WI-579-reference-template-parity-batch-46" and .classification == "reference-only")] | length' "$current_manifest")" -eq 13
+test "$(jq '[.records[] | select(.batch == "WI-579-reference-template-parity-batch-46" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+grep -q "WI-579" "$root/docs/reference/reference-file-comparison.md"
+grep -q "WI-579" "$root/docs/reference/reference-file-comparison.zh-CN.md"
+grep -q "WI-579" "$root/docs/reference/reference-file-comparison.ja.md"
 
 reference_fixture="$tmp/reference"
 target_fixture="$tmp/target"

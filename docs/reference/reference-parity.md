@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-577-reference-metadata-sync
+lastVerifiedBy: WI-579-reference-template-parity-batch-46
 capabilityClaims:
   - reference_parity
 ---
@@ -554,6 +554,7 @@ record for each boundary.
 | WI-576 — WI-575 documentation-promotion retry | Implemented | [Work Item](../work-items/WI-576-wi575-doc-promotion-retry.md); terminal lifecycle: archive `.ai/work-items/archive/WI-576-wi575-doc-promotion-retry.contract.json`; verification `.ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json`; finalization `.ai/decisions/WI-576-wi575-doc-promotion-retry.finalize.ff9b14cb37866d6e475e2dfc72c705bd289d494ae54790b2b5625c5292a94d42.json`; close `.ai/decisions/WI-576-wi575-doc-promotion-retry.close.json`. |
 | WI-577 — current comparison metadata synchronization | Implemented | [Work Item](../work-items/WI-577-reference-metadata-sync.md); terminal lifecycle: archive `.ai/work-items/archive/WI-577-reference-metadata-sync.contract.json`; verification `.ai/evidence/WI-577-reference-metadata-sync.verification.json`; finalization `.ai/decisions/WI-577-reference-metadata-sync.finalize.json`; close `.ai/decisions/WI-577-reference-metadata-sync.close.json`. |
 | WI-578 — WI-577 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-578-wi577-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-578-wi577-doc-promotion.contract.json`; verification `.ai/evidence/WI-578-wi577-doc-promotion.verification.json`; finalization `.ai/decisions/WI-578-wi577-doc-promotion.finalize.json`; close `.ai/decisions/WI-578-wi577-doc-promotion.close.json`. |
+| WI-580 — reference template parity batch 46 recovery | In progress → Implemented after verified close | [Work Item](../work-items/WI-580-reference-template-parity-batch-46-recovery.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.contract.json`; verification `.ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json`; finalization `.ai/decisions/WI-580-reference-template-parity-batch-46-recovery.finalize.json`; close `.ai/decisions/WI-580-reference-template-parity-batch-46-recovery.close.json`. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-544-wi543-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546 — WI-545 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-546-wi545-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -668,3 +669,17 @@ N-1 upgrade, and cleanup/isolation evidence agree. This is a release boundary,
 not a Runtime behavior change: attached repositories inherit the published
 Runtime and its repository isolation, while object-repository acceptance remains
 an external read-only handoff.
+
+## WI-579 — reference template parity batch 46
+
+WI-579 completes the file-level comparison of the sixteen remaining reference
+template paths at the pinned local source commit. Agent rules, glossary, and
+the Make entrypoint are represented by the shared Rust Runtime and
+repository-local documentation (`implemented-different-by-design`). Thirteen
+stack presets are `reference-only`: their commands, toolchain selection, and
+platform assumptions remain adopter/provider-owned and are not Runtime claims.
+No portable implementation omission or `migrate-gap` was found. Attached
+object/adopter repositories inherit the shared Runtime, explicit repository
+context, isolated governance records, dynamic verification boundary, and human
+Outcome handoff, not source Python/Make/stack implementations or wire formats.
+See the [file-level WI-579 record](reference-file-comparison.md#wi-579--reference-template-parity-batch-46).

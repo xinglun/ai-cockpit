@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-577-reference-metadata-sync
+lastVerifiedBy: WI-579-reference-template-parity-batch-46
 capabilityClaims:
   - reference_parity
 ---
@@ -526,6 +526,7 @@ repository evidence 路径是各边界的机器可读验证记录。
 | WI-576——WI-575 文档晋级重试 | 已实现 | [Work Item](../work-items/WI-576-wi575-doc-promotion-retry.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-576-wi575-doc-promotion-retry.contract.json`; verification `.ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json`; finalization `.ai/decisions/WI-576-wi575-doc-promotion-retry.finalize.ff9b14cb37866d6e475e2dfc72c705bd289d494ae54790b2b5625c5292a94d42.json`; close `.ai/decisions/WI-576-wi575-doc-promotion-retry.close.json`. |
 | WI-577——当前比对元数据同步 | 已实现 | [Work Item](../work-items/WI-577-reference-metadata-sync.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-577-reference-metadata-sync.contract.json`; verification `.ai/evidence/WI-577-reference-metadata-sync.verification.json`; finalization `.ai/decisions/WI-577-reference-metadata-sync.finalize.json`; close `.ai/decisions/WI-577-reference-metadata-sync.close.json`. |
 | WI-578——WI-577 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-578-wi577-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-578-wi577-doc-promotion.contract.json`; verification `.ai/evidence/WI-578-wi577-doc-promotion.verification.json`; finalization `.ai/decisions/WI-578-wi577-doc-promotion.finalize.json`; close `.ai/decisions/WI-578-wi577-doc-promotion.close.json`. |
+| WI-580——参考模板对等批次 46 恢复交付 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-580-reference-template-parity-batch-46-recovery.zh-CN.md); 计划终态 lifecycle：archive `.ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.contract.json`; verification `.ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json`; finalization `.ai/decisions/WI-580-reference-template-parity-batch-46-recovery.finalize.json`; close `.ai/decisions/WI-580-reference-template-parity-batch-46-recovery.close.json`. |
 | WI-544——WI-543 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-544-wi543-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`；verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`；finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`；close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545——v0.2.68 发布与公开产物验收 | 已实现 | [Work Item](../work-items/WI-545-release-v0-2-68.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546——WI-545 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-546-wi545-doc-promotion.zh-CN.md)；计划终态 lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -594,3 +595,7 @@ WI-572 在[逐文件台账](reference-file-comparison.zh-CN.md#wi-572安装器�
 ## WI-574：v0.2.75 发布与公开制品验收
 
 WI-574 只有在审查后的源码、五目标制品、供应链 receipt、public adopter、N-1 升级以及清理/隔离证据一致时，才将发布基线从 v0.2.74 推进到 v0.2.75。这是发布边界，不是 Runtime 行为变更；对象工程继承已发布 Runtime 与 repository 隔离能力，对象工程自身的验收仍是外部只读交接。
+
+## WI-579——参考模板对等批次 46
+
+WI-579 在固定本地源提交上完成剩余 16 个参考模板路径的逐文件比较。Agent 规则、Glossary 和 Make 入口由 shared Rust Runtime 与仓库文档以 `implemented-different-by-design` 承载。13 个 stack preset 为 `reference-only`：命令、工具链选择和平台假设仍由 adopter/provider 负责，不构成 Runtime 能力声明。本批未发现可移植实现遗漏或 `migrate-gap`。对象/adopter 工程继承 shared Runtime、显式 repository context、隔离治理记录、动态验证边界和 human Outcome handoff，不继承源 Python/Make/stack 实现或 wire format。详见[WI-579 逐文件记录](reference-file-comparison.zh-CN.md#wi-579参考模板对等批次-46)。

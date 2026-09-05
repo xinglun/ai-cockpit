@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "Every pinned template path in this batch has a file-level semantic decision and source digest/commit reference.",
+    "Portable governance responsibilities have an explicit Rust or repository-native counterpart; source-only templates are marked reference-only with rationale.",
+    "No source Python, Make, stack implementation, or source JSON wire format is copied into the Rust Runtime or adopter boundary.",
+    "The tri-language file-level ledger and reference-parity route are updated consistently, with current counts and no migrate-gap.",
+    "Reference metadata, documentation acceptance, governance integrity, and status consistency checks pass.",
+    "The shared Runtime, explicit repository context, isolated evidence/knowledge, and human Outcome boundary remain documented as inherited adopter capabilities."
+  ],
+  "createdAt": "2026-09-05T02:25:16Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:26242e9b78b8c2b46ee8493347632b1fe592e6cc1cbbfbda688d7b9e51bfd05c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1a91fc6d1d1bc5d8be07c84521c17f2b2475f6e027bd39ef37ad916766c1b89b",
+      "workItemId": "WI-580-reference-template-parity-batch-46-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Compare the pinned reference paths, register parity rows before verification, update tri-language ledger and tests, and prove the Rust/adopter boundary without copying source implementation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-580-reference-template-parity-batch-46-recovery"
+  },
+  "taskReportDigest": "sha256:13917aa969b9fd676d6623b33f3659024cff6072f6a5a60058ab2b73266583da",
+  "taskReportMarkdownDigest": "sha256:564e91ff324b1cd75cc68c66012458532df9842b90904341ae75d4ea254b8ad5",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-580-reference-template-parity-batch-46-recovery"
+}
