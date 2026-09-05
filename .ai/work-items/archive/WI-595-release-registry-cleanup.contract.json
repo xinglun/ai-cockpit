@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "Remove only the stale WI-594 entry from docs/reference/pending-parity-registry.json after WI-594 is closed and its immutable close/finalization records are present.",
+    "The pending-parity registry remains valid JSON with schemaVersion 1 and no in-progress entry for a closed Work Item.",
+    "The three-language parity projections include the authoritative recovery decision for WI-593 and a truthful terminal projection for WI-594, so the documentation parity status check and tag-mode governance integrity gate pass.",
+    "The documented WI-594 Runtime fix and this WI-595 cleanup have readable English, Chinese, and Japanese Work Item pages with links to their current archive, evidence, finalization, and close records.",
+    "No historical .ai archive, evidence, finalization, recovery, summary, outcome, or close bytes are modified.",
+    "The change is reviewed through one dedicated branch and pull request; no Runtime source behavior or release tag is changed in this Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e3e0ff667d917531bdc21e19934326318eca1c9c",
+  "createdAt": "2026-09-05T18:09:40Z",
+  "goal": "Remove the stale pending-parity registration left by the completed WI-594 Runtime fix so the next release gate evaluates current repository truth.",
+  "intent": "The WI-594 recovery successor compatibility Work Item is closed, but its temporary pending-parity registry entry still describes it as in progress and causes the release governance gate to fail. Remove that stale projection without rewriting historical evidence.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust Runtime source or protocol behavior",
+    "Any .ai archive",
+    " evidence",
+    " finalization",
+    " recovery",
+    " summary",
+    " outcome",
+    " or close bytes",
+    "New semantic reference parity migration beyond the WI-593/WI-594 terminal projections",
+    "Release tag",
+    " version",
+    " artifact",
+    " or provider Release publication",
+    "Object repositories or global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b33a7f16c166a7d9503f194944ae468c67f5776a9b52b80f47fdd26be5953c34",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-595-release-registry-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/582",
+    "worktree": "/private/tmp/ai-cockpit-wi595-release-registry-cleanup"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/pending-parity-registry.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-594-recovery-successor-compatibility.md",
+    "docs/work-items/WI-594-recovery-successor-compatibility.zh-CN.md",
+    "docs/work-items/WI-594-recovery-successor-compatibility.ja.md",
+    "docs/work-items/WI-595-release-registry-cleanup.md",
+    "docs/work-items/WI-595-release-registry-cleanup.zh-CN.md",
+    "docs/work-items/WI-595-release-registry-cleanup.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 -m json.tool docs/reference/pending-parity-registry.json",
+    "bash tests/docs/parity_status_check.sh .",
+    "GITHUB_REF=refs/tags/v0.2.77 GITHUB_SHA=$(git rev-parse HEAD) GITHUB_EVENT_NAME=push python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi595-governance-report.json",
+    "bash tests/docs/documentation_acceptance.sh .",
+    "python3 tests/docs/work_item_status_consistency.py --repo ."
+  ],
+  "workItemId": "WI-595-release-registry-cleanup"
+}

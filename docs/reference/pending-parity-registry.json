@@ -1,38 +1,4 @@
 {
-  "entries": [
-    {
-      "baseRevision": "a84a13cce3f3c1dc6cbdb64d0e65480776ba3abd",
-      "createdAt": "2026-09-06T00:00:00Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-594-recovery-successor-compatibility.contract.json",
-        "finalize": ".ai/decisions/WI-594-recovery-successor-compatibility.finalize.json",
-        "verification": ".ai/evidence/WI-594-recovery-successor-compatibility.verification.json"
-      },
-      "headRevision": "2bd8c8c1debef418199e442fef6f6d5bc4fa365b",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-594 — recovery successor compatibility | In progress | [Work Item](../work-items/WI-594-recovery-successor-compatibility.md); archive `.ai/work-items/archive/WI-594-recovery-successor-compatibility.archive.json`; verification `.ai/evidence/WI-594-recovery-successor-compatibility.verification.json`; finalization `.ai/decisions/WI-594-recovery-successor-compatibility.finalize.json`; close `.ai/decisions/WI-594-recovery-successor-compatibility.close.json`. |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-594 —— 恢复 successor compatibility | 进行中 | [Work Item](../work-items/WI-594-recovery-successor-compatibility.zh-CN.md)；archive `.ai/work-items/archive/WI-594-recovery-successor-compatibility.archive.json`；verification `.ai/evidence/WI-594-recovery-successor-compatibility.verification.json`；finalization `.ai/decisions/WI-594-recovery-successor-compatibility.finalize.json`；close `.ai/decisions/WI-594-recovery-successor-compatibility.close.json`。 |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-594 — recovery successor compatibility | In progress | [Work Item](../work-items/WI-594-recovery-successor-compatibility.ja.md)；archive `.ai/work-items/archive/WI-594-recovery-successor-compatibility.archive.json`；verification `.ai/evidence/WI-594-recovery-successor-compatibility.verification.json`；finalization `.ai/decisions/WI-594-recovery-successor-compatibility.finalize.json`；close `.ai/decisions/WI-594-recovery-successor-compatibility.close.json`。 |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 580,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/580"
-      },
-      "registryBaseRevision": "80f8c576c86ec726055029132956d22aff251160",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-594-recovery-successor-compatibility"
-    }
-  ],
+  "entries": [],
   "schemaVersion": 1
 }

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-05T18:25:29Z",
+  "files": {
+    "contractDigest": "sha256:ecc9017cf446a25048f3e14985bb0e6d6a461e61d9b4400468fd1f37af2feee9",
+    "contractPath": ".ai/work-items/archive/WI-595-release-registry-cleanup.contract.json",
+    "eventsDigest": "sha256:cff61079cc09b2b8717e9a8258ed61498da0049f596122ea7441e8f063f226a8",
+    "eventsPath": ".ai/work-items/archive/WI-595-release-registry-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:6368f8825e34edf3ec0b72e7c85d93b7a260a0998a6f7675146233fcff1ca019",
+    "outcomePath": ".ai/work-items/archive/WI-595-release-registry-cleanup.outcome.json",
+    "summaryDigest": "sha256:6e1e62f30bf132651874f3720bdd784904d3866989eeb609d068bebf56a1d527",
+    "summaryPath": ".ai/work-items/archive/WI-595-release-registry-cleanup.summary.json",
+    "taskReportDigest": "sha256:7b876c7a1fc0f277b4f3b2d43220e6c72c3aa7aed6a2bdbcba402f241c001587",
+    "taskReportMarkdownDigest": "sha256:36dd01030bddacbf96890837cbcf24fbbdf70eb7a851e34df90a897110cf3194",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-595-release-registry-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-595-release-registry-cleanup.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-595-release-registry-cleanup"
+}

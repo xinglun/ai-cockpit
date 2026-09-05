@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-595-release-registry-cleanup.contract.json",
+    ".ai/work-items/archive/WI-595-release-registry-cleanup.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T18:12:50Z",
+  "checkpointContractDigest": "sha256:3de8f8d10593d48c72d54a3d8bc9a204fd70779c5ae4c814c89f3b99b8610ad9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d6cbc37ef3be02b2c7f27fc8c2935fffecc5d5128dd0f9ac921b40c14e9e0639",
+  "createdAt": "2026-09-05T18:09:40Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-05T18:25:09Z",
+  "preflightContractDigest": "sha256:3de8f8d10593d48c72d54a3d8bc9a204fd70779c5ae4c814c89f3b99b8610ad9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d6cbc37ef3be02b2c7f27fc8c2935fffecc5d5128dd0f9ac921b40c14e9e0639",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T18:25:25Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-595-release-registry-cleanup"
+}
