@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ac06c1b6a19ea8a82818c0c57fad7b094d881c57",
+    "name": "codex/wi-577-reference-metadata-sync",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4eed9a2b3b17e0ad1fe106053afd31e9715e656f3dffe03d6397e6c47697c940",
+  "operationId": "github-pr-558-merge-cleanup-20260905",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "07a7b1e268477f973766c735754a5594ecee11e7",
+    "headRevision": "ac06c1b6a19ea8a82818c0c57fad7b094d881c57",
+    "mergeCommit": "aa15c5be4301e27a50977c27ae6b31a73c5035aa",
+    "number": 558,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/558"
+  },
+  "reason": "Reviewed PR #558 passed the available hosted checks, merged as aa15c5be, and the exact feature branch and dedicated worktree were removed after synchronization.",
+  "receiptId": "github-pr-558-finalization-20260905",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-577-reference-metadata-sync",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/558",
+    "worktree": "/private/tmp/ai-cockpit-wi577-reference-metadata-sync"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+  "runtimeVersion": "0.2.75",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T01:03:00Z",
+  "workItemId": "WI-577-reference-metadata-sync",
+  "worktree": {
+    "branch": "codex/wi-577-reference-metadata-sync",
+    "headRevision": "ac06c1b6a19ea8a82818c0c57fad7b094d881c57",
+    "path": "/private/tmp/ai-cockpit-wi577-reference-metadata-sync",
+    "worktreeId": "WI-577-reference-metadata-sync"
+  }
+}
