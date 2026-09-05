@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "pre-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c5197101f2922026c44d806edba08c7c9ad5802b",
+    "name": "codex/wi-593-wi592-doc-parity-recovery-final2",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e88b5926e8c7eccf06adf66933467ed88c6bd479b0ab552cb6cb71781a013063",
+  "operationId": "operation-WI-593-wi591-doc-parity-recovery",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "54e6af282ab483422e244e4428b299dc4a1182d4",
+    "headRevision": "c5197101f2922026c44d806edba08c7c9ad5802b",
+    "number": 578,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/578"
+  },
+  "reason": "awaiting_merge_close: PR #578 is unmerged; retain the exact reviewed branch and worktree until hosted checks pass and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-593-wi591-doc-parity-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-593-wi592-doc-parity-recovery-final2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/578",
+    "worktree": "/private/tmp/ai-cockpit-wi593-recovery-final2"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T14:45:00Z",
+  "workItemId": "WI-593-wi591-doc-parity-recovery",
+  "worktree": {
+    "branch": "codex/wi-593-wi592-doc-parity-recovery-final2",
+    "headRevision": "c5197101f2922026c44d806edba08c7c9ad5802b",
+    "path": "/private/tmp/ai-cockpit-wi593-recovery-final2",
+    "worktreeId": "WI-593-wi591-doc-parity-recovery"
+  }
+}
