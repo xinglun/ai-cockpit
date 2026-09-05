@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-591——v0.2.77 发布与对象工程恢复交接"
 description: "发布包含 predecessor close 再验证修复的 Runtime，并校验公开产物。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-591-release-v0-2-77
 lastVerifiedBy: WI-591-release-v0-2-77
+terminalArchive: .ai/work-items/archive/WI-591-release-v0-2-77.contract.json
+terminalVerification: .ai/evidence/WI-591-release-v0-2-77.verification.json
+terminalFinalization: .ai/decisions/WI-591-release-v0-2-77.finalize.5e0a83694b8c0cc446f933fdfec8909a4fe84d4bcceb1e55ba03d5a2fbe6e7aa.json
+terminalDecision: .ai/decisions/WI-591-release-v0-2-77.close.json
 ---
 
 [English](WI-591-release-v0-2-77.md) · [日本語](WI-591-release-v0-2-77.ja.md)
