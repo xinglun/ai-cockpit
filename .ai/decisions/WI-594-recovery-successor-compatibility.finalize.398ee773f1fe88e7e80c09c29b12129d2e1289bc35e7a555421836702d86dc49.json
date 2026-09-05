@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:5bd678f5aca79c07135bd205bf368913c334bffd60dad3b115495210df98b97f",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-resource-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "2bd8c8c1debef418199e442fef6f6d5bc4fa365b",
+      "name": "codex/wi-594-recovery-successor-compatibility",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:6b3843022750f99b993fec019f5afa95ba3fdeb7e338a60553773f5dea3fc31d",
+    "operationId": "operation-WI-594-recovery-successor-compatibility-post-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "a84a13cce3f3c1dc6cbdb64d0e65480776ba3abd",
+      "headRevision": "2bd8c8c1debef418199e442fef6f6d5bc4fa365b",
+      "mergeCommit": "f996f730a6b662399b2f114581043d2fbc9c8784",
+      "number": 580,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/580"
+    },
+    "reason": "Record verified deletion of the merged feature branch and linked worktree.",
+    "receiptId": "ai-cockpit-WI-594-recovery-successor-compatibility-post-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-594-recovery-successor-compatibility",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/580",
+      "worktree": "/private/tmp/ai-cockpit-wi594-recovery-successor-compatibility"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:15156aeec3e76515b62d55d2573f08a08abdb6d968788c9ba22d2e906beb57c5",
+    "runtimeVersion": "0.2.77",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-06T03:05:00Z",
+    "workItemId": "WI-594-recovery-successor-compatibility",
+    "worktree": {
+      "branch": "codex/wi-594-recovery-successor-compatibility",
+      "headRevision": "2bd8c8c1debef418199e442fef6f6d5bc4fa365b",
+      "path": "/private/tmp/ai-cockpit-wi594-recovery-successor-compatibility",
+      "worktreeId": "WI-594-recovery-successor-compatibility"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "transition-WI-594-post-cleanup"
+}
