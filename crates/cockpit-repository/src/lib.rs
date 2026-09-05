@@ -5678,6 +5678,139 @@ fn recovery_decision_error(
     }
 }
 
+/// Validate the historical verification envelope used by an archived
+/// Contract-amendment revalidation.  The current archive Contract may have a
+/// different digest, but the old evidence must remain an intact, successful,
+/// repository-bound v2 record and its bytes are never rewritten.
+fn validate_archived_revalidation_evidence(
+    root: &Path,
+    work_item_id: &str,
+    historical_contract_digest: &Digest,
+    expected_evidence_digest: &Digest,
+) -> Result<(), ObserverError> {
+    let path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    if !is_regular_non_symlink(&path)? {
+        return Err(recovery_decision_error(
+            path,
+            "revalidation_evidence_invalid",
+            "historical verification evidence must be a regular non-symlink file",
+        ));
+    }
+    let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
+    if Digest::sha256_bytes(&bytes) != *expected_evidence_digest {
+        return Err(recovery_decision_error(
+            path,
+            "revalidation_evidence_digest_mismatch",
+            "historical verification evidence bytes do not match the recovery binding",
+        ));
+    }
+    reject_duplicate_json_keys(&bytes).map_err(|message| {
+        recovery_decision_error(
+            path.clone(),
+            "revalidation_evidence_invalid",
+            format!("historical verification evidence JSON is invalid: {message}"),
+        )
+    })?;
+    let value: serde_json::Value = serde_json::from_slice(&bytes).map_err(|error| {
+        recovery_decision_error(
+            path.clone(),
+            "revalidation_evidence_invalid",
+            format!("historical verification evidence JSON is invalid: {error}"),
+        )
+    })?;
+    let envelope: VerificationEvidenceEnvelope =
+        serde_json::from_value(value.clone()).map_err(|error| {
+            recovery_decision_error(
+                path.clone(),
+                "revalidation_evidence_invalid",
+                format!("historical verification evidence schema is invalid: {error}"),
+            )
+        })?;
+    let expected_repository_id = repository_id(root).to_string();
+    if envelope.protocol_version != 1
+        || envelope.evidence_schema_version != 2
+        || envelope.work_item_id != work_item_id
+        || envelope.repository_id != expected_repository_id
+        || !envelope.passed
+        || envelope.contract_digest.as_ref() != Some(historical_contract_digest)
+        || envelope.runtime_version.trim().is_empty()
+        || !valid_sha256_digest(&envelope.runtime_digest.to_string())
+        || !valid_sha256_digest(&envelope.repository_snapshot_digest.to_string())
+        || !valid_sha256_digest(&envelope.receipt_digest.to_string())
+        || chrono::DateTime::parse_from_rfc3339(&envelope.created_at).is_err()
+    {
+        return Err(recovery_decision_error(
+            path,
+            "revalidation_evidence_invalid",
+            "historical verification evidence is missing a strict predecessor binding",
+        ));
+    }
+    match envelope.capture_mode {
+        VerificationCaptureMode::DigestOnly => {
+            if envelope.receipt.is_some() {
+                return Err(recovery_decision_error(
+                    path,
+                    "revalidation_evidence_invalid",
+                    "digest-only historical verification evidence must not contain a receipt",
+                ));
+            }
+        }
+        VerificationCaptureMode::FullCapture | VerificationCaptureMode::RedactedCapture => {
+            let Some(receipt) = envelope.receipt.as_ref() else {
+                return Err(recovery_decision_error(
+                    path,
+                    "revalidation_evidence_invalid",
+                    "historical verification evidence is missing its captured receipt",
+                ));
+            };
+            let typed: cockpit_verification::VerificationReceipt =
+                serde_json::from_value(receipt.clone()).map_err(|error| {
+                    recovery_decision_error(
+                        path.clone(),
+                        "revalidation_evidence_invalid",
+                        format!("historical verification receipt schema is invalid: {error}"),
+                    )
+                })?;
+            if !typed.passed
+                || typed.work_item_id.as_deref() != Some(work_item_id)
+                || typed.repository_id.as_deref() != Some(expected_repository_id.as_str())
+                || typed.runtime_version.as_deref() != Some(envelope.runtime_version.as_str())
+                || typed.runtime_digest.as_deref()
+                    != Some(envelope.runtime_digest.to_string().as_str())
+            {
+                return Err(recovery_decision_error(
+                    path,
+                    "revalidation_evidence_invalid",
+                    "historical verification receipt identity is not repository-bound",
+                ));
+            }
+            let receipt_digest = cockpit_protocol::digest_json(receipt).map_err(|error| {
+                recovery_decision_error(path.clone(), "revalidation_evidence_invalid", error)
+            })?;
+            if receipt_digest != envelope.receipt_digest {
+                return Err(recovery_decision_error(
+                    path,
+                    "revalidation_evidence_digest_mismatch",
+                    "historical verification receipt digest does not match its envelope",
+                ));
+            }
+        }
+        VerificationCaptureMode::LegacyUntyped => {
+            return Err(recovery_decision_error(
+                path,
+                "revalidation_evidence_invalid",
+                "legacy untyped verification evidence cannot authorize revalidation",
+            ));
+        }
+    }
+    Ok(())
+}
+
 fn validate_recovery_predecessor_bindings(
     root: &Path,
     work_item_id: &str,
@@ -5688,6 +5821,8 @@ fn validate_recovery_predecessor_bindings(
     candidate_path: Option<&Path>,
 ) -> Result<(), ObserverError> {
     let decisions = root.join(".ai/decisions");
+    let amendment_revalidation =
+        receipt.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation");
     if receipt.schema_version != 1
         || receipt.decision_id != "work-item-recovery"
         || !matches!(
@@ -5710,6 +5845,27 @@ fn validate_recovery_predecessor_bindings(
     }
     if receipt.predecessor_archive_manifest_digest.is_some() {
         validate_recovery_archive_manifest_binding(root, work_item_id, receipt)?;
+    }
+    if amendment_revalidation {
+        if receipt.decision != "successor"
+            || receipt.current_contract_digest.is_none()
+            || receipt.predecessor_archive_manifest_digest.is_none()
+            || receipt.predecessor_verification_evidence_digest.is_none()
+        {
+            return Err(recovery_decision_error(
+                decisions,
+                "revalidation_binding_invalid",
+                "contract amendment revalidation requires successor, current Contract, archive manifest, and historical verification bindings",
+            ));
+        }
+    } else if receipt.current_contract_digest.is_some()
+        || receipt.predecessor_verification_evidence_digest.is_some()
+    {
+        return Err(recovery_decision_error(
+            decisions,
+            "revalidation_binding_invalid",
+            "current Contract and historical verification bindings require contract_amendment_revalidation",
+        ));
     }
     match receipt.decision.as_str() {
         "retry" if receipt.successor_work_item_id.is_some() => {
@@ -5763,12 +5919,34 @@ fn validate_recovery_predecessor_bindings(
     }
 
     let expected_contract_digest = contract_digest(contract_path)?;
-    if receipt.predecessor_contract_digest != expected_contract_digest {
+    let contract_binding = receipt
+        .current_contract_digest
+        .as_ref()
+        .unwrap_or(&receipt.predecessor_contract_digest);
+    if contract_binding != &expected_contract_digest {
         return Err(recovery_decision_error(
             contract_path,
             "predecessor_contract_mismatch",
             "predecessor Contract digest mismatch",
         ));
+    }
+    if amendment_revalidation {
+        if receipt.predecessor_contract_digest == expected_contract_digest {
+            return Err(recovery_decision_error(
+                contract_path,
+                "revalidation_binding_invalid",
+                "contract amendment revalidation requires a historical Contract digest distinct from the current Contract",
+            ));
+        }
+        validate_archived_revalidation_evidence(
+            root,
+            work_item_id,
+            &receipt.predecessor_contract_digest,
+            receipt
+                .predecessor_verification_evidence_digest
+                .as_ref()
+                .expect("revalidation evidence binding validated"),
+        )?;
     }
     let summary = read_json(summary_path)?;
     let expected_summary_digest =
@@ -5952,7 +6130,10 @@ fn validate_recovery_successor_binding(
         ));
     }
     if let Some(mode) = receipt.successor_binding_mode.as_deref()
-        && mode != "legacy_terminal_evidence"
+        && !matches!(
+            mode,
+            "legacy_terminal_evidence" | "contract_amendment_revalidation"
+        )
     {
         return Err(recovery_decision_error(
             successor_contract_path.clone(),
@@ -5960,13 +6141,19 @@ fn validate_recovery_successor_binding(
             "successorBindingMode is not a recognized Runtime marker",
         ));
     }
+    let expected_predecessor_contract_digest = receipt
+        .current_contract_digest
+        .as_ref()
+        .unwrap_or(&receipt.predecessor_contract_digest);
     let strictly_bound = successor_contract.predecessor_work_item_id.as_deref()
         == Some(work_item_id)
         && successor_contract.predecessor_contract_digest.as_ref()
-            == Some(&receipt.predecessor_contract_digest)
+            == Some(expected_predecessor_contract_digest)
         && successor_contract.recovery_decision_path.is_some();
     if strictly_bound {
-        if receipt.successor_binding_mode.is_some() {
+        if receipt.successor_binding_mode.is_some()
+            && receipt.successor_binding_mode.as_deref() != Some("contract_amendment_revalidation")
+        {
             return Err(recovery_decision_error(
                 successor_contract_path,
                 "successor_binding_mode_invalid",
@@ -6163,6 +6350,224 @@ fn validate_legacy_successor_terminal_evidence(
     Ok(())
 }
 
+/// Record an append-only successor revalidation for an archived Work Item
+/// whose reviewed Contract bytes changed after the historical verification.
+/// The command derives every repository fact from current archive bytes and
+/// requires explicit human authority; it never edits the predecessor archive
+/// or evidence.
+#[derive(Clone, Debug, Default)]
+pub struct ArchivedContractRevalidationRequest {
+    pub successor_work_item_id: String,
+    pub reason: String,
+    pub actor: String,
+    pub authority_source: String,
+    pub resume_condition: String,
+    pub evidence_refs: Vec<String>,
+    pub policy_refs: Vec<String>,
+}
+
+pub fn revalidate_archived_work_item_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    request: &ArchivedContractRevalidationRequest,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    validate_work_item_id(&request.successor_work_item_id)?;
+    for (field, value) in [
+        ("reason", request.reason.as_str()),
+        ("actor", request.actor.as_str()),
+        ("authoritySource", request.authority_source.as_str()),
+        ("resumeCondition", request.resume_condition.as_str()),
+    ] {
+        if value.trim().is_empty() {
+            return Err(ObserverError::State {
+                path: root.join(".ai/decisions"),
+                message: format!("{field} must not be empty for archived revalidation"),
+            });
+        }
+    }
+    if work_item_id == request.successor_work_item_id {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items"),
+            message: "archived revalidation successor must differ from its predecessor".into(),
+        });
+    }
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let archive = root.join(".ai/work-items/archive");
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let manifest_bytes = fs::read(&manifest_path).map_err(|source| ObserverError::Read {
+        path: manifest_path.clone(),
+        source,
+    })?;
+    let manifest: serde_json::Value =
+        serde_json::from_slice(&manifest_bytes).map_err(|error| ObserverError::State {
+            path: manifest_path.clone(),
+            message: format!("archived revalidation manifest is invalid: {error}"),
+        })?;
+    if manifest["state"] != serde_json::json!("archived") {
+        return Err(ObserverError::State {
+            path: manifest_path,
+            message: "archived revalidation requires an archive still awaiting close".into(),
+        });
+    }
+    verify_archive_manifest(&root, work_item_id, &manifest)?;
+
+    let contract_path = archive.join(format!("{work_item_id}.contract.json"));
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let summary = read_json(&summary_path)?;
+    let outcome = read_json(&outcome_path)?;
+    let current_contract_digest = contract_digest(&contract_path)?;
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let evidence_bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
+        path: evidence_path.clone(),
+        source,
+    })?;
+    reject_duplicate_json_keys(&evidence_bytes).map_err(|message| ObserverError::State {
+        path: evidence_path.clone(),
+        message: format!("historical verification evidence JSON is invalid: {message}"),
+    })?;
+    let evidence_value: serde_json::Value =
+        serde_json::from_slice(&evidence_bytes).map_err(|error| ObserverError::State {
+            path: evidence_path.clone(),
+            message: format!("historical verification evidence JSON is invalid: {error}"),
+        })?;
+    let historical_contract_digest = evidence_value
+        .get("contractDigest")
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok())
+        .ok_or_else(|| {
+            recovery_decision_error(
+                &evidence_path,
+                "revalidation_evidence_invalid",
+                "historical verification evidence has no valid Contract digest",
+            )
+        })?;
+    let evidence_digest = Digest::sha256_bytes(&evidence_bytes);
+    validate_archived_revalidation_evidence(
+        &root,
+        work_item_id,
+        &historical_contract_digest,
+        &evidence_digest,
+    )?;
+    if historical_contract_digest == current_contract_digest {
+        return Err(recovery_decision_error(
+            contract_path,
+            "revalidation_binding_invalid",
+            "archived Contract has not changed relative to its historical verification evidence",
+        ));
+    }
+    // Resource-finalization receipts historically used a raw Contract-file
+    // digest, while verification evidence uses the canonical JSON digest.
+    // Preserve that exact predecessor identity when a provider receipt
+    // already exists; close/verify can then accept the old receipt without
+    // weakening the amended Contract binding or asking a human to rewrite it.
+    let predecessor_finalization_contract_digest = {
+        let finalization_path = resource_finalization_decision_path(&root, work_item_id);
+        if fs::symlink_metadata(&finalization_path).is_ok() {
+            let finalization = read_resource_finalization_receipt(&finalization_path)?;
+            let current_contract = read_contract(&contract_path)?;
+            validate_resource_finalization_receipt_for(
+                &finalization,
+                &current_contract.repository_id,
+                work_item_id,
+                None,
+                current_contract.resource_context.as_ref(),
+            )
+            .map_err(|error| ObserverError::State {
+                path: finalization_path.clone(),
+                message: format!(
+                    "existing provider finalization cannot be bound for archived revalidation: {error}"
+                ),
+            })?;
+            ensure_resource_finalization_base_binding(
+                &finalization,
+                &current_contract,
+                &finalization_path,
+            )?;
+            Some(finalization.contract_digest.ok_or_else(|| {
+                recovery_decision_error(
+                    &finalization_path,
+                    "revalidation_finalization_binding_invalid",
+                    "existing provider finalization has no Contract digest",
+                )
+            })?)
+        } else {
+            None
+        }
+    };
+    if let Ok(Some(existing)) = load_recovery_decision(&root, work_item_id, None)
+        && existing.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation")
+        && existing.successor_work_item_id.as_deref() == Some(&request.successor_work_item_id)
+        && existing.current_contract_digest.as_ref() == Some(&current_contract_digest)
+        && existing.predecessor_contract_digest == historical_contract_digest
+        && existing.predecessor_verification_evidence_digest.as_ref() == Some(&evidence_digest)
+    {
+        let mut result = serde_json::to_value(existing).map_err(|error| ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: error.to_string(),
+        })?;
+        result["state"] = serde_json::json!("idempotent");
+        return Ok(result);
+    }
+    let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+    let predecessor_events_digest = if optional_regular_artifact(&events_path, "archived Events")? {
+        Some(Digest::sha256_bytes(&fs::read(&events_path).map_err(
+            |source| ObserverError::Read {
+                path: events_path.clone(),
+                source,
+            },
+        )?))
+    } else {
+        None
+    };
+    let receipt = serde_json::json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "successor",
+        "workItemId": work_item_id,
+        "repositoryId": repository_id(&root),
+        "predecessorWorkItemId": work_item_id,
+        "predecessorContractDigest": historical_contract_digest,
+        "currentContractDigest": current_contract_digest,
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?,
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).map_err(|error| ObserverError::State {
+            path: outcome_path.clone(),
+            message: error.to_string(),
+        })?,
+        "predecessorEventsDigest": predecessor_events_digest,
+        "predecessorArchiveManifestDigest": Digest::sha256_bytes(&manifest_bytes),
+        "predecessorVerificationEvidenceDigest": evidence_digest,
+        "predecessorFinalizationContractDigest": predecessor_finalization_contract_digest,
+        "successorWorkItemId": &request.successor_work_item_id,
+        "successorBindingMode": "contract_amendment_revalidation",
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "actor": request.actor.trim(),
+        "authoritySource": request.authority_source.trim(),
+        "reason": request.reason.trim(),
+        "evidenceRefs": &request.evidence_refs,
+        "policyRefs": &request.policy_refs,
+        "decidedAt": now(),
+        "resumeCondition": request.resume_condition.trim()
+    });
+    let recorded = record_recovery_decision(&root, work_item_id, &receipt, runtime)?;
+    let mut result = recorded;
+    result["state"] = serde_json::json!("recorded");
+    result["successorWorkItemId"] = serde_json::json!(request.successor_work_item_id);
+    result["successorBindingMode"] = serde_json::json!("contract_amendment_revalidation");
+    Ok(result)
+}
+
 /// Record an immutable, repository-bound retry, successor, or supersession decision. The
 /// receipt binds the predecessor's exact Contract/Summary/Outcome/Event
 /// digests and the Runtime identity. A second decision is appended under a
@@ -6320,8 +6725,13 @@ pub fn record_recovery_decision(
             .join(format!("{successor_id}.contract.json"));
         let mut successor_contract = read_json(&successor_contract_path)?;
         successor_contract["predecessorWorkItemId"] = serde_json::json!(work_item_id);
-        successor_contract["predecessorContractDigest"] =
-            serde_json::json!(typed.predecessor_contract_digest.to_string());
+        successor_contract["predecessorContractDigest"] = serde_json::json!(
+            typed
+                .current_contract_digest
+                .as_ref()
+                .unwrap_or(&typed.predecessor_contract_digest)
+                .to_string()
+        );
         successor_contract["recoveryDecisionPath"] =
             serde_json::json!(repository_relative_path(&root, &path));
         atomic_json(&successor_contract_path, &successor_contract)?;
@@ -6330,8 +6740,13 @@ pub fn record_recovery_decision(
             .join(format!("{successor_id}.summary.json"));
         let mut successor_summary = read_json(&successor_summary_path)?;
         successor_summary["predecessorWorkItemId"] = serde_json::json!(work_item_id);
-        successor_summary["predecessorContractDigest"] =
-            serde_json::json!(typed.predecessor_contract_digest.to_string());
+        successor_summary["predecessorContractDigest"] = serde_json::json!(
+            typed
+                .current_contract_digest
+                .as_ref()
+                .unwrap_or(&typed.predecessor_contract_digest)
+                .to_string()
+        );
         successor_summary["recoveryDecisionPath"] =
             serde_json::json!(repository_relative_path(&root, &path));
         atomic_json(&successor_summary_path, &successor_summary)?;
@@ -12427,7 +12842,33 @@ fn verify_resource_finalization_internal(
     })?;
     let (receipt, path, receipt_digest, sequence) =
         resolve_resource_finalization_head(&root, work_item_id)?;
-    let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
+    let (contract, finalization_contract_digest) = archived_contract_digest(&root, work_item_id)?;
+    let current_contract_canonical_digest = contract_digest(
+        &root
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.contract.json")),
+    )?;
+    let contract_amendment_revalidation = runtime
+        .and_then(|_| {
+            load_recovery_decision(&root, work_item_id, None)
+                .ok()
+                .flatten()
+        })
+        .filter(|decision| {
+            decision.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation")
+                && decision.current_contract_digest.as_ref()
+                    == Some(&current_contract_canonical_digest)
+                && decision.current_contract_digest.as_ref()
+                    != Some(&decision.predecessor_contract_digest)
+                && receipt.contract_digest.as_ref()
+                    == Some(
+                        decision
+                            .predecessor_finalization_contract_digest
+                            .as_ref()
+                            .unwrap_or(&decision.predecessor_contract_digest),
+                    )
+        })
+        .is_some();
     let mut receipt_for_context_validation = receipt.clone();
     if sequence > 0
         && matches!(
@@ -12455,7 +12896,7 @@ fn verify_resource_finalization_internal(
         &receipt_for_context_validation,
         &contract.repository_id,
         work_item_id,
-        Some(&contract_digest),
+        (!contract_amendment_revalidation).then_some(&finalization_contract_digest),
         contract.resource_context.as_ref(),
     )
     .map_err(|error| ObserverError::State {
@@ -12691,6 +13132,21 @@ fn close_work_item_with_structured_decision_internal(
     // archive manifest remains `archived` and is never rewritten merely to
     // make close succeed.
     let recovery_decision = load_recovery_decision(&root, work_item_id, current_runtime)?;
+    let amendment_revalidation = recovery_decision.as_ref().is_some_and(|decision| {
+        decision.decision == "successor"
+            && decision.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation")
+    });
+    // A Contract-amendment recovery is still non-terminal until its
+    // repository-bound successor has completed its own lifecycle.  Once the
+    // successor is closed, the predecessor can be closed as a historical
+    // lineage record without pretending that the old evidence proves the
+    // amended Contract.
+    let amendment_revalidation_resolved = amendment_revalidation
+        && recovery_successor_resolves_pending_close(
+            &root,
+            work_item_id,
+            &repository_id(&root).to_string(),
+        );
     let mut historical_archive_integrity = None;
     if let Err(manifest_error) = verify_archive_manifest(&root, work_item_id, &manifest) {
         let can_quarantine = recovery_decision
@@ -12744,6 +13200,20 @@ fn close_work_item_with_structured_decision_internal(
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
     let mut finalization_binding: Option<serde_json::Value> = None;
+    if amendment_revalidation_resolved && contract.resource_context.is_some() {
+        let finalization_path = resource_finalization_decision_path(&root, work_item_id);
+        finalization_binding = Some(require_resource_finalization_for_close(
+            &root,
+            work_item_id,
+            current_runtime,
+        )?);
+        if !finalization_path.exists() {
+            return Err(ObserverError::State {
+                path: finalization_path,
+                message: "resolved Contract-amendment revalidation still requires provider finalization evidence".into(),
+            });
+        }
+    }
     if (!superseded && summary["state"] != serde_json::json!("finish_ready"))
         || summary["checkpointCount"] != serde_json::json!(1)
         || (!superseded && summary["preflightState"] != serde_json::json!("green"))
@@ -12755,7 +13225,7 @@ fn close_work_item_with_structured_decision_internal(
                     .into(),
         });
     }
-    if !superseded {
+    if !superseded && !amendment_revalidation_resolved {
         let git =
             cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
                 path: root.clone(),
@@ -12860,6 +13330,21 @@ fn close_work_item_with_structured_decision_internal(
     }
     decision["humanDecision"] = serde_json::Value::String(human_decision.decision.trim().into());
     decision["decisionState"] = serde_json::Value::String("confirmed".into());
+    if amendment_revalidation_resolved {
+        let recovery = recovery_decision
+            .as_ref()
+            .expect("amendment revalidation resolution has a recovery decision");
+        decision["historicalRevalidation"] = serde_json::json!({
+            "state": "current_successor_revalidated",
+            "successorWorkItemId": recovery.successor_work_item_id,
+            "historicalContractDigest": recovery.predecessor_contract_digest,
+            "currentContractDigest": recovery.current_contract_digest,
+            "historicalVerificationEvidenceDigest": recovery.predecessor_verification_evidence_digest,
+            "archiveManifestDigest": recovery.predecessor_archive_manifest_digest,
+            "assurance": "historical_low",
+            "originalEvidencePreserved": true,
+        });
+    }
     if let Some(artifact) = historical_archive_integrity {
         decision["historicalArchiveIntegrity"] = serde_json::json!({
             "state": "quarantined",
@@ -13213,11 +13698,13 @@ fn validate_recovery_archive_manifest_binding(
     work_item_id: &str,
     receipt: &RecoveryDecisionReceipt,
 ) -> Result<(), ObserverError> {
-    if receipt.decision != "supersede" {
+    let contract_amendment_revalidation =
+        receipt.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation");
+    if receipt.decision != "supersede" && !contract_amendment_revalidation {
         return Err(recovery_decision_error(
             root.join(".ai/decisions"),
             "archive_manifest_binding_invalid",
-            "predecessorArchiveManifestDigest is only valid for supersede decisions",
+            "predecessorArchiveManifestDigest is only valid for supersede or contract amendment revalidation decisions",
         ));
     }
     let Some(expected) = receipt.predecessor_archive_manifest_digest.as_ref() else {
@@ -15182,7 +15669,43 @@ fn outcome_v2_internal_with_snapshot(
             == EvidenceState::Complete
         && verification_evidence_state(&root, &contract, snapshot, true, current_runtime)?
             != EvidenceState::Complete;
-    let historical = legacy || historical_runtime;
+    // A reviewed archive repair intentionally changes the archived Contract
+    // digest while preserving the original verification bytes.  A valid
+    // append-only revalidation receipt makes this a historical, actionable
+    // yellow state instead of misclassifying the old evidence as tampering.
+    let archived_revalidation = if archived {
+        let decision = load_recovery_decision(&root, work_item_id, current_runtime)
+            .ok()
+            .flatten();
+        decision.filter(|decision| {
+            decision.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation")
+                && decision
+                    .current_contract_digest
+                    .as_ref()
+                    .is_some_and(|digest| {
+                        contract_digest(&contract_path).ok().as_ref() == Some(digest)
+                    })
+                && decision
+                    .current_contract_digest
+                    .as_ref()
+                    .is_some_and(|digest| digest != &decision.predecessor_contract_digest)
+                && decision
+                    .predecessor_verification_evidence_digest
+                    .as_ref()
+                    .is_some_and(|evidence_digest| {
+                        validate_archived_revalidation_evidence(
+                            &root,
+                            work_item_id,
+                            &decision.predecessor_contract_digest,
+                            evidence_digest,
+                        )
+                        .is_ok()
+                    })
+        })
+    } else {
+        None
+    };
+    let historical = legacy || historical_runtime || archived_revalidation.is_some();
     let evidence_state = if historical {
         None
     } else {
@@ -15200,11 +15723,15 @@ fn outcome_v2_internal_with_snapshot(
             DecisionState::Yellow,
             if legacy {
                 "Historical verification evidence uses a legacy schema and is not revalidated as a current result."
+            } else if archived_revalidation.is_some() {
+                "The archived Contract was reviewed and amended; historical evidence is preserved while a successor revalidates the current Contract."
             } else {
                 "Historical verification evidence was produced by an older Runtime and is not revalidated as a current result."
             },
             Some(if legacy {
                 "legacy_evidence_historical"
+            } else if archived_revalidation.is_some() {
+                "contract_amendment_revalidation_pending"
             } else {
                 "historical_evidence_not_revalidated"
             }),
@@ -15412,6 +15939,8 @@ fn outcome_v2_internal_with_snapshot(
     let historical_status = if historical {
         Some(if legacy {
             "legacy".to_owned()
+        } else if archived_revalidation.is_some() {
+            "contract_amendment_revalidation".to_owned()
         } else {
             "runtime_historical".to_owned()
         })

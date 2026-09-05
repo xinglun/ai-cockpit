@@ -16,6 +16,9 @@ fn receipt() -> RecoveryDecisionReceipt {
         predecessor_archive_manifest_digest: None,
         successor_work_item_id: Some("WI-SUCCESSOR".into()),
         successor_binding_mode: None,
+        current_contract_digest: None,
+        predecessor_verification_evidence_digest: None,
+        predecessor_finalization_contract_digest: None,
         runtime_version: "0.2.12".into(),
         runtime_digest: Digest::sha256_bytes(b"runtime"),
         actor: "human:owner".into(),
@@ -41,4 +44,24 @@ fn recovery_receipt_rejects_unknown_fields() {
     let mut value = serde_json::to_value(receipt()).unwrap();
     value["secret"] = serde_json::json!("must not pass");
     assert!(serde_json::from_value::<RecoveryDecisionReceipt>(value).is_err());
+}
+
+#[test]
+fn recovery_receipt_accepts_append_only_revalidation_bindings() {
+    let mut receipt = receipt();
+    receipt.current_contract_digest = Some(Digest::sha256_bytes(b"current-contract"));
+    receipt.predecessor_verification_evidence_digest =
+        Some(Digest::sha256_bytes(b"historical-evidence"));
+    receipt.predecessor_finalization_contract_digest =
+        Some(Digest::sha256_bytes(b"historical-finalization-contract"));
+    receipt.successor_binding_mode = Some("contract_amendment_revalidation".into());
+    let value = serde_json::to_value(&receipt).unwrap();
+    let parsed: RecoveryDecisionReceipt = serde_json::from_value(value).unwrap();
+    assert_eq!(
+        parsed.successor_binding_mode.as_deref(),
+        Some("contract_amendment_revalidation")
+    );
+    assert!(parsed.current_contract_digest.is_some());
+    assert!(parsed.predecessor_verification_evidence_digest.is_some());
+    assert!(parsed.predecessor_finalization_contract_digest.is_some());
 }

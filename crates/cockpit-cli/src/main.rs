@@ -358,6 +358,30 @@ enum WorkItemCommand {
         #[arg(long)]
         reason: String,
     },
+    /// Append a successor revalidation for an archived Contract that was
+    /// legitimately amended after its historical verification.  The
+    /// predecessor archive/evidence bytes remain immutable.
+    RevalidateArchived {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// Successor Work Item id that will verify the current Contract.
+        #[arg(long)]
+        successor: String,
+        #[arg(long)]
+        reason: String,
+        #[arg(long)]
+        actor: String,
+        #[arg(long)]
+        authority_source: String,
+        #[arg(long)]
+        resume_condition: String,
+        #[arg(long, action = ArgAction::Append)]
+        evidence_ref: Vec<String>,
+        #[arg(long, action = ArgAction::Append)]
+        policy_ref: Vec<String>,
+    },
     Approach {
         #[arg(long)]
         repo: PathBuf,
@@ -1202,6 +1226,36 @@ fn run() -> Result<()> {
                 require_compatible(&repo, &runtime_context)?;
                 let record = cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
                     .context("revalidate amended Contract")?;
+                println!("{}", serde_json::to_string_pretty(&record)?);
+            }
+            WorkItemCommand::RevalidateArchived {
+                repo,
+                id,
+                successor,
+                reason,
+                actor,
+                authority_source,
+                resume_condition,
+                evidence_ref,
+                policy_ref,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let request = cockpit_repository::ArchivedContractRevalidationRequest {
+                    successor_work_item_id: successor,
+                    reason,
+                    actor,
+                    authority_source,
+                    resume_condition,
+                    evidence_refs: evidence_ref,
+                    policy_refs: policy_ref,
+                };
+                let record = cockpit_repository::revalidate_archived_work_item_with_runtime(
+                    &repo,
+                    &id,
+                    &request,
+                    &runtime_context,
+                )
+                .context("record archived Contract revalidation")?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::Approach { repo, id } => {

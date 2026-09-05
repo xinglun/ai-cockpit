@@ -162,6 +162,12 @@ record or evidence. Read-only compatibility, migration planning, observation,
 status, and diagnostics remain available so an operator can review the next
 safe action.
 
+For a reviewed Contract repair after archive, `work-item revalidate-archived`
+creates an append-only `contract_amendment_revalidation` successor. It binds
+the current archive/Contract while preserving the historical evidence bytes;
+the predecessor stays pending until the successor is independently verified,
+finalized, and human-closed. Invalid historical evidence cannot be promoted.
+
 ### Connect an Agent explicitly
 
 `attach` creates the repository facts but does not modify `AGENTS.md`,

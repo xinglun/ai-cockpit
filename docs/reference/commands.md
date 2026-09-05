@@ -62,7 +62,7 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance | `preflight` | Read a Contract and return a green/yellow/red decision plus `reviewState`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `recover`, `finalize-recovery` | Read a request-scoped status projection or write explicit lifecycle records; `close` and recovery require explicit human decisions. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `recover`, `revalidate-archived`, `finalize-recovery` | Read a request-scoped status projection or write explicit lifecycle records; `close` and recovery require explicit human decisions. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
@@ -270,6 +270,17 @@ review when the returned state is yellow, red, unknown, or not ready.
   Contract/Summary/Outcome/Events is consumed history, so the static gate
   projects the real finalization path instead of inventing a recovered
   terminal state; matching blocked retries remain fail-closed recovery.
+- `work-item revalidate-archived --repo <path> --id <predecessor> --successor <id>
+  --reason <text> --actor <id> --authority-source <source>
+  --resume-condition <text> [--evidence-ref <ref>] [--policy-ref <ref>]` is the
+  first-class append-only path for a reviewed Contract amendment after archive.
+  It verifies the current archive manifest, preserves and digest-binds the
+  historical verification evidence, and creates a `not_ready` successor while
+  the predecessor remains pending close. The successor must complete its own
+  start, verification, archive, finalization, and explicit close before the
+  predecessor can close. It never rewrites predecessor Contract, archive,
+  Outcome, Events, or verification evidence; malformed, foreign, stale, or
+  contradictory history fails closed.
 - `profile propose --repo <path>` is read-only and reports a `candidate`/
   `proposed` amendment. It never applies a profile baseline change.
 - `agent list --repo <path>` is read-only. `agent install` is the only normal
