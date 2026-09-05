@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-584——v0.2.76 发布与对象工程恢复交接"
 description: "发布并验证归档 Work Item 重验证所需的 Runtime。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-584-release-v0-2-76
 lastVerifiedBy: WI-584-release-v0-2-76
+terminalArchive: .ai/work-items/archive/WI-584-release-v0-2-76.contract.json
+terminalVerification: .ai/evidence/WI-584-release-v0-2-76.verification.json
+terminalFinalization: .ai/decisions/WI-584-release-v0-2-76.finalize.json
+terminalDecision: .ai/decisions/WI-584-release-v0-2-76.close.json
 ---
 
 [English](WI-584-release-v0-2-76.md) · [日本語](WI-584-release-v0-2-76.ja.md)

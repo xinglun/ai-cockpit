@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-05T07:34:16Z",
+  "checkpointContractDigest": "sha256:e986d15d732d3502eca4c5f049f4a163e6567461e291a92409a5fc093830be75",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:95f11bc38ec1ceae9c3ac1443233060942c9f0cff6b5facd887558f5bfb5d004",
+      "recorded": true,
+      "recordedAt": "2026-09-05T07:34:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05681525d7f396ec265dc29aaf27a92feadbf5ddd3383ab70cd04ddebe8b4dae",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-585-wi584-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:e986d15d732d3502eca4c5f049f4a163e6567461e291a92409a5fc093830be75",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:95f11bc38ec1ceae9c3ac1443233060942c9f0cff6b5facd887558f5bfb5d004",
+      "previousContractHash": "sha256:95f11bc38ec1ceae9c3ac1443233060942c9f0cff6b5facd887558f5bfb5d004",
+      "reason": "Align the documentation promotion Contract with the Runtime-supported verification evidence class; the documentation acceptance command remains the declared verification gate.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T07:36:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05681525d7f396ec265dc29aaf27a92feadbf5ddd3383ab70cd04ddebe8b4dae",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-585-wi584-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:05681525d7f396ec265dc29aaf27a92feadbf5ddd3383ab70cd04ddebe8b4dae",
+  "createdAt": "2026-09-05T07:34:02Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-05T07:36:26Z",
+  "preflightContractDigest": "sha256:e986d15d732d3502eca4c5f049f4a163e6567461e291a92409a5fc093830be75",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:05681525d7f396ec265dc29aaf27a92feadbf5ddd3383ab70cd04ddebe8b4dae",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T07:36:30Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-585-wi584-doc-promotion"
+}
