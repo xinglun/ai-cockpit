@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:3e1bf8f6399d9d864c8b722029abf808e95e1431e84e400a63ddd5c4bd59e76a",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "4081a17904be7785245b886ff91277ef5dff7872",
+      "name": "codex/wi-588-wi587-doc-promotion",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:cca6f8849a814cca4440fbe435c9d7a96b3c1ee6ef69c325747b2c4cf94bffe2",
+    "operationId": "github-pr-573-WI-588-cleanup-20260905",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "37c31aa96c843d0ab2c93011202bdb0c67031152",
+      "headRevision": "4081a17904be7785245b886ff91277ef5dff7872",
+      "mergeCommit": "1abc54925da959b2267202d4ac1054ba31971ecb",
+      "number": 573,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/573"
+    },
+    "reason": "PR #573 is merged, the synchronized default branch contains the reviewed changes, and the exact dedicated branch and worktree were removed after cleanup verification.",
+    "receiptId": "github-pr-573-WI-588-cleanup-20260905",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-588-wi587-doc-promotion",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/573",
+      "worktree": "/private/tmp/ai-cockpit-wi588-doc-promotion"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+    "runtimeVersion": "0.2.76",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-05T11:35:45Z",
+    "workItemId": "WI-588-wi587-doc-promotion",
+    "worktree": {
+      "branch": "codex/wi-588-wi587-doc-promotion",
+      "headRevision": "4081a17904be7785245b886ff91277ef5dff7872",
+      "path": "/private/tmp/ai-cockpit-wi588-doc-promotion",
+      "worktreeId": "WI-588-wi587-doc-promotion"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "github-pr-573-WI-588-cleanup-deleted-20260905"
+}
