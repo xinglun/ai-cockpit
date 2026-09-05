@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:8409d0e4ba63680b9f533e3e4a7e8bec7ea4f63918d3f17588d9cf17b495e2da",
-  "createdAt": "2026-09-05T12:05:49Z",
+  "contractDigest": "sha256:e188c783c990809b823f361ce8d872e36e76321e27df6a3c4008acbaf8d0da42",
+  "createdAt": "2026-09-05T12:15:58Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 160878,
-      "executionElapsedMs": 160579,
+      "elapsedMs": 157072,
+      "executionElapsedMs": 156780,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 160878,
-    "executionElapsedMs": 160579,
-    "filesHashed": 27,
-    "filesRead": 27,
+    "elapsedMs": 157072,
+    "executionElapsedMs": 156780,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,19 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-repository/tests/recovery_revalidation.rs",
-        "docs/reference/commands.ja.md",
-        "docs/reference/commands.md",
-        "docs/reference/commands.zh-CN.md",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-589-predecessor-close-revalidation.ja.md",
-        "docs/work-items/WI-589-predecessor-close-revalidation.md",
-        "docs/work-items/WI-589-predecessor-close-revalidation.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "3dfda5ab02b7f0e0cda688f146ea2fa1fa963ab2",
       "dependencyConfidence": "unknown",
@@ -56,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 160579,
+      "executionElapsedMs": 156780,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -88,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ae4ff969a14c7ea888234f55a8cc4126e13c24d6ded50398bc6e3a9e1031f66e",
+        "outputDigest": "sha256:f6313e3bb6eb1353823f64f2012fb9af1f0fbbba1a436aebe367ee3b57194cf4",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -104,7 +92,7 @@
     "runtimeVersion": "0.2.76",
     "workItemId": "WI-589-predecessor-close-revalidation"
   },
-  "receiptDigest": "sha256:effd5f44f6409c195a8e8f6edef7c2279cc2ca49b62438f55dc286af18d54096",
+  "receiptDigest": "sha256:0fd88fd57b29c531b77c2f2d47dea6569dd2599044adc6d373e76cda1f4553e1",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:8ed6f558973931a37c747afbb5885e4a14c3f53da132c4f29146d8afcea3ac44",
   "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",

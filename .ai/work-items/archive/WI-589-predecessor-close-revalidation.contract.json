@@ -30,38 +30,44 @@
     "runtime_identity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-589-predecessor-close-revalidation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/574",
     "worktree": "/private/tmp/ai-cockpit-wi589-predecessor-close-revalidation"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "old-runtime PR receipt with resolved Contract-amendment successor",
-      "required": true,
-      "status": "unverified",
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
       "expected": "A predecessor with an older valid PR finalization receipt closes only after its current successor revalidation is verified and closed, while the predecessor receipt bytes remain unchanged.",
-      "verificationPlan": "Run the repository regression fixture with an old-runtime predecessor receipt, amended archive Contract, current successor lifecycle, and predecessor close.",
-      "evidence": ["crates/cockpit-repository/tests/recovery_revalidation.rs"]
+      "required": true,
+      "scenario": "old-runtime PR receipt with resolved Contract-amendment successor",
+      "status": "unverified",
+      "verificationPlan": "Run the repository regression fixture with an old-runtime predecessor receipt, amended archive Contract, current successor lifecycle, and predecessor close."
     },
     {
-      "scenario": "malformed, foreign, stale, or contradictory lineage evidence",
-      "required": true,
-      "status": "unverified",
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
       "expected": "The Runtime rejects mismatched successor, archive, finalization path, digest, sequence, or repository identity before writing a close decision.",
-      "verificationPlan": "Exercise tampered predecessor receipt, foreign successor, stale archive binding, and missing successor evidence cases and assert no partial close record.",
-      "evidence": ["crates/cockpit-repository/tests/recovery_revalidation.rs"]
+      "required": true,
+      "scenario": "malformed, foreign, stale, or contradictory lineage evidence",
+      "status": "unverified",
+      "verificationPlan": "Exercise tampered predecessor receipt, foreign successor, stale archive binding, and missing successor evidence cases and assert no partial close record."
     },
     {
-      "scenario": "historical provider receipt projection",
-      "required": true,
-      "status": "unverified",
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs"
+      ],
       "expected": "The close decision records the exact historical finalization path, digest, and sequence without reclassifying a PR receipt as direct_merge_no_pr.",
-      "verificationPlan": "Inspect the generated close decision and verify its historicalRevalidation and resourceFinalization bindings against immutable receipt bytes.",
-      "evidence": ["crates/cockpit-repository/src/lib.rs"]
+      "required": true,
+      "scenario": "historical provider receipt projection",
+      "status": "unverified",
+      "verificationPlan": "Inspect the generated close decision and verify its historicalRevalidation and resourceFinalization bindings against immutable receipt bytes."
     }
   ],
   "scope": [

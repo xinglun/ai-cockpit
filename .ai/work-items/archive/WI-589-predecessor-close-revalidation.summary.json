@@ -1,0 +1,61 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-589-predecessor-close-revalidation.contract.json",
+    ".ai/work-items/archive/WI-589-predecessor-close-revalidation.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T12:02:58Z",
+  "checkpointContractDigest": "sha256:e188c783c990809b823f361ce8d872e36e76321e27df6a3c4008acbaf8d0da42",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8ed6f558973931a37c747afbb5885e4a14c3f53da132c4f29146d8afcea3ac44",
+  "createdAt": "2026-09-05T11:40:35Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/recovery_revalidation.rs",
+      "docs/reference/commands.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-05T12:16:45Z",
+  "preflightContractDigest": "sha256:e188c783c990809b823f361ce8d872e36e76321e27df6a3c4008acbaf8d0da42",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8ed6f558973931a37c747afbb5885e4a14c3f53da132c4f29146d8afcea3ac44",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "required": true,
+      "scenario": "old-runtime PR receipt with resolved Contract-amendment successor",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "required": true,
+      "scenario": "malformed, foreign, stale, or contradictory lineage evidence",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "required": true,
+      "scenario": "historical provider receipt projection",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T12:16:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-589-predecessor-close-revalidation"
+}
