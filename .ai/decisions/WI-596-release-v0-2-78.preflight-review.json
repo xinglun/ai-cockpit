@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a5852229f76e6f7547cd44b29b70a0d022e40bb21137e9004c72fb74f9d016dc",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "The repository owner authorized this bounded release compatibility update and its public artifact acceptance.",
+  "recordedAt": "2026-09-06T00:00:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:23f58913d37a4e98d6860bf79e51e7fe364dd3537af31d3d753b67aca0d01eed",
+  "schemaVersion": 1,
+  "workItemId": "WI-596-release-v0-2-78"
+}
