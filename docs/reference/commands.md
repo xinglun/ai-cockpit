@@ -281,6 +281,17 @@ review when the returned state is yellow, red, unknown, or not ready.
   predecessor can close. It never rewrites predecessor Contract, archive,
   Outcome, Events, or verification evidence; malformed, foreign, stale, or
   contradictory history fails closed.
+- When the predecessor already has a valid provider PR finalization receipt
+  from an older Runtime, a terminal Contract-amendment successor is also the
+  supported cross-version close path. After the successor's current
+  verification, finalization, and human close are bound, predecessor `close`
+  records `historicalRevalidation` with `assurance=historical_low` and binds
+  the old receipt's exact path, digest, and sequence. The old receipt bytes
+  remain immutable and keep their provider/PR identity; they are never
+  reclassified as `direct_merge_no_pr`. Without a resolved successor, or when
+  any archive, Contract, evidence, receipt, or lineage binding is malformed,
+  foreign, stale, or contradictory, the current Runtime identity check still
+  fails closed.
 - `profile propose --repo <path>` is read-only and reports a `candidate`/
   `proposed` amendment. It never applies a profile baseline change.
 - `agent list --repo <path>` is read-only. `agent install` is the only normal

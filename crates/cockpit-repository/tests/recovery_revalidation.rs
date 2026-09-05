@@ -7,7 +7,7 @@ use cockpit_repository::{
     outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
     record_resource_finalization, record_verification_with_runtime,
     revalidate_archived_work_item_with_runtime, run_repository_verification,
-    start_work_item_with_options, status,
+    start_work_item_with_options, status, verify_resource_finalization,
 };
 use serde_json::json;
 use std::fs;
@@ -21,6 +21,14 @@ fn runtime() -> RuntimeContext {
         runtime_version: "0.2.75".into(),
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"wi583-runtime"),
+    }
+}
+
+fn upgraded_runtime() -> RuntimeContext {
+    RuntimeContext {
+        runtime_version: "0.2.76".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"wi589-runtime"),
     }
 }
 
@@ -83,8 +91,8 @@ fn archived_amended_repository() -> tempfile::TempDir {
             worktree: directory.path().display().to_string(),
             base_branch: "main".into(),
             base_remote: "origin".into(),
-            provider: "local".into(),
-            pull_request: "local://archived-amendment".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/589".into(),
         },
     )
     .unwrap();
@@ -133,8 +141,8 @@ fn archived_amended_repository() -> tempfile::TempDir {
         worktree: directory.path().display().to_string(),
         base_branch: "main".into(),
         base_remote: "origin".into(),
-        provider: "local".into(),
-        pull_request: "local://archived-amendment".into(),
+        provider: "github".into(),
+        pull_request: "https://github.com/example/ai-cockpit/pull/589".into(),
     };
     let repository_id = status(directory.path()).unwrap().repository_id;
     let predecessor_receipt = json!({
@@ -145,7 +153,7 @@ fn archived_amended_repository() -> tempfile::TempDir {
         "workItemId": ID,
         "runtimeVersion": runtime().runtime_version,
         "runtimeDigest": runtime().runtime_digest,
-        "provider": "local",
+        "provider": "github",
         "pullRequest": {
             "number": 1,
             "url": predecessor_context.pull_request,
@@ -440,9 +448,67 @@ fn archived_contract_revalidation_rejects_tampered_historical_evidence_without_w
 }
 
 #[test]
+fn unresolved_successor_does_not_relax_old_runtime_finalization_identity() {
+    let directory = archived_amended_repository();
+    let runtime = upgraded_runtime();
+    revalidate_archived_work_item_with_runtime(
+        directory.path(),
+        ID,
+        &ArchivedContractRevalidationRequest {
+            successor_work_item_id: SUCCESSOR.into(),
+            reason: "successor must be terminal before predecessor close".into(),
+            actor: "human:repository-owner".into(),
+            authority_source: "explicit-user-authorized-revalidation".into(),
+            resume_condition: "complete and close the successor before retrying predecessor close"
+                .into(),
+            evidence_refs: vec![format!(".ai/evidence/{ID}.verification.json")],
+            policy_refs: vec!["docs/reference/agent-workflow.md".into()],
+        },
+        &runtime,
+    )
+    .unwrap();
+    let error = close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:repository-owner".into(),
+            authority_source: "explicit-user-authorized-revalidation".into(),
+            reason: "successor is not terminal yet".into(),
+            evidence_refs: Vec::new(),
+            policy_refs: Vec::new(),
+            decided_at: "2026-09-05T00:00:00Z".into(),
+            resume_condition: Some("complete successor lifecycle".into()),
+        },
+        &runtime,
+    )
+    .expect_err("an unresolved successor must not authorize historical projection");
+    let message = error.to_string();
+    assert!(
+        message.contains("close requires valid verification evidence")
+            || message.contains("resource finalization receipt Runtime identity does not match"),
+        "unexpected fail-closed error: {message}"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.close.json"))
+            .exists()
+    );
+}
+
+#[test]
 fn successor_terminal_lifecycle_allows_predecessor_historical_close() {
     let directory = archived_amended_repository();
-    let runtime = runtime();
+    // The predecessor finalization is intentionally produced by an older
+    // Runtime. The successor and both close operations use the upgraded
+    // Runtime, matching the cross-version adopter failure that motivated
+    // this regression.
+    let runtime = upgraded_runtime();
+    let predecessor_finalization_path = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    let predecessor_finalization_before = fs::read(&predecessor_finalization_path).unwrap();
     revalidate_archived_work_item_with_runtime(
         directory.path(),
         ID,
@@ -567,5 +633,45 @@ fn successor_terminal_lifecycle_allows_predecessor_historical_close() {
     assert_eq!(
         decision["historicalRevalidation"]["successorWorkItemId"],
         SUCCESSOR
+    );
+    assert_eq!(
+        decision["resourceFinalizationSequence"],
+        serde_json::json!(0)
+    );
+    assert_eq!(
+        decision["resourceFinalizationHeadPath"],
+        serde_json::json!(format!(".ai/decisions/{ID}.finalize.json"))
+    );
+    assert_eq!(
+        fs::read(&predecessor_finalization_path).unwrap(),
+        predecessor_finalization_before,
+        "historical provider finalization bytes must remain immutable"
+    );
+    let projection = verify_resource_finalization(directory.path(), ID, &runtime).unwrap();
+    assert_eq!(
+        projection["historicalKind"],
+        serde_json::json!("contract_amendment_revalidation")
+    );
+    assert_eq!(projection["historical"], serde_json::json!(true));
+
+    // A close-bound projection must not fall back to the pre-close successor
+    // proof when its own historical metadata is tampered after close.
+    let close_path = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.close.json"));
+    let mut tampered_close: serde_json::Value =
+        serde_json::from_slice(&fs::read(&close_path).unwrap()).unwrap();
+    tampered_close["historicalRevalidation"]["assurance"] = json!("provider_verified");
+    fs::write(
+        &close_path,
+        serde_json::to_vec_pretty(&tampered_close).unwrap(),
+    )
+    .unwrap();
+    let tamper_error = verify_resource_finalization(directory.path(), ID, &runtime)
+        .expect_err("tampered close metadata must not project historical evidence");
+    assert!(
+        tamper_error
+            .to_string()
+            .contains("Runtime identity does not match")
     );
 }

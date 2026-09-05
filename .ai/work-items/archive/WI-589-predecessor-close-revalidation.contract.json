@@ -1,0 +1,103 @@
+{
+  "acceptanceCriteria": [
+    "An archived predecessor with a valid old-runtime PR finalization receipt and a resolved Contract-amendment successor can close through a supported Runtime path without changing predecessor receipt bytes.",
+    "The close record binds the exact historical finalization path, digest, and sequence and distinguishes current successor revalidation from historical provider evidence.",
+    "The old provider receipt is not reclassified as direct_merge_no_pr and no hand-editing of generated evidence is required.",
+    "Malformed, foreign, stale, contradictory, or tampered predecessor/successor evidence remains fail-closed.",
+    "The regression fixture covers an old Runtime PR receipt, amended archived Contract, current successor verification/finalization/close, and predecessor close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "3dfda5ab02b7f0e0cda688f146ea2fa1fa963ab2",
+  "createdAt": "2026-09-05T11:40:35Z",
+  "goal": "Implement and verify a close-bound historical projection for resolved Contract-amendment predecessor finalization without rewriting historical evidence or reclassifying provider receipts.",
+  "intent": "Allow an archived predecessor to close honestly after a Contract-amendment successor has completed current revalidation, while preserving the predecessor's older provider finalization receipt and fail-closed integrity checks.",
+  "mode": "code",
+  "outOfScope": [
+    "object repository /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "direct-merge receipt schema",
+    "release/adopter scripts",
+    "reference-source parity implementation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8fcf14603b9cd098ebde11dc11cc0711610f881749fd9b167169ee628d1ae2f8",
+  "requiredEvidenceClasses": [
+    "verification",
+    "lifecycle",
+    "regression",
+    "documentation",
+    "runtime_identity"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-589-predecessor-close-revalidation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/574",
+    "worktree": "/private/tmp/ai-cockpit-wi589-predecessor-close-revalidation"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "expected": "A predecessor with an older valid PR finalization receipt closes only after its current successor revalidation is verified and closed, while the predecessor receipt bytes remain unchanged.",
+      "required": true,
+      "scenario": "old-runtime PR receipt with resolved Contract-amendment successor",
+      "status": "unverified",
+      "verificationPlan": "Run the repository regression fixture with an old-runtime predecessor receipt, amended archive Contract, current successor lifecycle, and predecessor close."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "expected": "The Runtime rejects mismatched successor, archive, finalization path, digest, sequence, or repository identity before writing a close decision.",
+      "required": true,
+      "scenario": "malformed, foreign, stale, or contradictory lineage evidence",
+      "status": "unverified",
+      "verificationPlan": "Exercise tampered predecessor receipt, foreign successor, stale archive binding, and missing successor evidence cases and assert no partial close record."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "expected": "The close decision records the exact historical finalization path, digest, and sequence without reclassifying a PR receipt as direct_merge_no_pr.",
+      "required": true,
+      "scenario": "historical provider receipt projection",
+      "status": "unverified",
+      "verificationPlan": "Inspect the generated close decision and verify its historicalRevalidation and resourceFinalization bindings against immutable receipt bytes."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_revalidation.rs",
+    "crates/cockpit-repository/tests",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/work-items/WI-589-predecessor-close-revalidation.md",
+    "docs/work-items/WI-589-predecessor-close-revalidation.zh-CN.md",
+    "docs/work-items/WI-589-predecessor-close-revalidation.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_revalidation.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/work-items/WI-583-archived-contract-revalidation.md",
+    "docs/work-items/WI-583-archived-contract-revalidation.zh-CN.md",
+    "docs/work-items/WI-583-archived-contract-revalidation.ja.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-589-predecessor-close-revalidation"
+}

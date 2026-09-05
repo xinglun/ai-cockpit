@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-05T12:16:55Z",
+  "files": {
+    "approachDigest": "sha256:4d999c9407d76f1dead186a393f999cc8bd257370312ae5e0cd347fc2b744512",
+    "approachPath": ".ai/work-items/archive/WI-589-predecessor-close-revalidation.approach.json",
+    "contractDigest": "sha256:168d0331cb65b313306dbcebd70719a9263500f17bdd5e22e5ffc8ee530e02a8",
+    "contractPath": ".ai/work-items/archive/WI-589-predecessor-close-revalidation.contract.json",
+    "eventsDigest": "sha256:cb4a745bbc7bb6c2e59c8362f5617f1b4d097cd86d456b719558a29c7a089355",
+    "eventsPath": ".ai/work-items/archive/WI-589-predecessor-close-revalidation.events.jsonl",
+    "outcomeDigest": "sha256:456264da0fb3befc29cb9b02a6f37cf46f42b93adc56bc563f7694df21390225",
+    "outcomePath": ".ai/work-items/archive/WI-589-predecessor-close-revalidation.outcome.json",
+    "summaryDigest": "sha256:97979507a8ddc870f5232048174c357754fd4c3d39eb40e2d631ab3d9df6209a",
+    "summaryPath": ".ai/work-items/archive/WI-589-predecessor-close-revalidation.summary.json",
+    "taskReportDigest": "sha256:3e59ac7488a0bb2d5e0ca1909830978d7b2d17ff786fcdd0f310c1c1e9c7f0ae",
+    "taskReportMarkdownDigest": "sha256:09c7e63d8516e8685d653afe46e0539ac307222942c55216f44968bfd2779616",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-589-predecessor-close-revalidation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-589-predecessor-close-revalidation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-589-predecessor-close-revalidation"
+}

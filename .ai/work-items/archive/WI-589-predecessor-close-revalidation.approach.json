@@ -1,0 +1,77 @@
+{
+  "derivations": [
+    {
+      "confidence": "medium",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "inputFactKeys": [
+        "buildSystems"
+      ],
+      "key": "verificationCapability",
+      "rule": "observer.quality_commands_from_detected_build_system",
+      "value": [
+        {
+          "args": [
+            "test",
+            "--workspace"
+          ],
+          "program": "cargo",
+          "state": "detected"
+        }
+      ]
+    }
+  ],
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-589-predecessor-close-revalidation",
+    "repository-snapshot"
+  ],
+  "facts": [
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "git:HEAD"
+      ],
+      "key": "baseRevision",
+      "origin": "observed",
+      "value": "3dfda5ab02b7f0e0cda688f146ea2fa1fa963ab2"
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "key": "buildSystems",
+      "origin": "observed",
+      "value": [
+        "Cargo"
+      ]
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        "repository-snapshot"
+      ],
+      "key": "languages",
+      "origin": "observed",
+      "value": [
+        "Python",
+        "Rust"
+      ]
+    },
+    {
+      "confidence": "high",
+      "evidenceRefs": [
+        ".ai/cockpit.toml"
+      ],
+      "key": "repositoryId",
+      "origin": "observed",
+      "value": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b"
+    }
+  ],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8fcf14603b9cd098ebde11dc11cc0711610f881749fd9b167169ee628d1ae2f8",
+  "schemaVersion": 2,
+  "unknowns": [],
+  "workItemId": "WI-589-predecessor-close-revalidation"
+}
