@@ -84,6 +84,7 @@ WI568_BATCH = "WI-568-reference-file-comparison-batch-44"
 WI572_BATCH = "WI-572-reference-installer-quality-batch-45"
 WI579_BATCH = "WI-579-reference-template-parity-batch-46"
 WI587_BATCH = "WI-587-reference-file-comparison-batch-47"
+WI598_BATCH = "WI-598-reference-test-parity-batch-48"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -2410,6 +2411,115 @@ WI587_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "implemented-different-by-design",
         ["crates/cockpit-repository/tests/recovery_revalidation.rs", "crates/cockpit-repository/tests/recovery_events.rs", "crates/cockpit-repository/tests/resource_finalization_transition.rs", "docs/reference/recovery.md"],
         "The source post-archive recovery tests cover append-only provider/CI/functional recovery, exact facts, stale heads, and receipt tampering. Rust owns these identity-bound recovery and revalidation semantics with typed receipts; provider parser details and source Python orchestration remain external.",
+    ),
+}
+
+# WI-598 compares the next twenty maintained source test paths.  The source
+# tests are a specification corpus: portable governance responsibilities map
+# to existing Rust-native tests and repository/release gates, while
+# stack-specific validators, Bandit, and interactive wizard presentation stay
+# explicit reference/provider boundaries.  No source Python implementation or
+# wire shape is imported.
+WI598_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "tests/test_ai_project_doctor.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/tests/doctor.rs", "crates/cockpit-repository/tests/observer.rs", "docs/getting-started/installation.md"],
+        "Read-only project fact discovery is represented by typed RepositoryObservation and inspect/status/doctor projections. Rust does not copy source heuristics or infer provider toolchain approval.",
+    ),
+    "tests/test_ai_validate_java_runtime.py": (
+        "reference-only",
+        ["docs/getting-started/examples/java.md", "docs/reference/commands.md"],
+        "Java/JAVA_HOME selection and stack-lane command gating are adopter/provider toolchain responsibilities. The shared Runtime accepts explicit argv and evidence but does not ship a Java validator or infer a matching runtime.",
+    ),
+    "tests/test_bandit_baseline.py": (
+        "reference-only",
+        ["tests/ci/governance_integrity_gate.py", "docs/reference/ci-quality-gates.md"],
+        "Bandit baseline hashing is Python-toolchain-specific source security history. Rust uses native quality/security gates and delegated evidence without a Python/Bandit product surface or copied baseline wire.",
+    ),
+    "tests/test_baseline_diff.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-git/tests/repository.rs", "crates/cockpit-repository/tests/verification_context.rs", "crates/cockpit-repository/tests/scope_overlap.rs"],
+        "Baseline commit, dirty-path, rename, mode, and safe scope observations are represented by typed Git snapshots and Contract-bound verification context. Rust keeps conservative path normalization rather than copying the source helper implementation.",
+    ),
+    "tests/test_baseline_evidence.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/verification_context.rs", "crates/cockpit-repository/tests/evidence_assurance.rs", "crates/cockpit-protocol/tests/verification_semantics.rs"],
+        "Baseline evidence captures identity, unavailable measurements, regression findings, and deterministic digests through typed verification/evidence services. The source Python report shape is not a Runtime wire contract.",
+    ),
+    "tests/test_bootstrap_repository.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-git/tests/repository.rs", "crates/cockpit-repository/tests/observer.rs", "crates/cockpit-cli/tests/attach.rs"],
+        "Repository detection and revalidation of Git, remotes, dirty/conflict state, and identity are provided by the shared Git observer and explicit attach/inspect routes. Rust does not copy bootstrap dataclasses or filesystem fallbacks as authority.",
+    ),
+    "tests/test_bootstrap_wizard.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/tests/attach.rs", "crates/cockpit-cli/tests/profile_propose.rs", "crates/cockpit-repository/tests/preflight_review.rs"],
+        "The source wizard's back/cancel/stale-confirmation and explicit-write boundaries are preserved by read-only attach/profile proposal, identity-bound confirmation, and fail-closed preflight. Interactive prompt/session presentation remains adapter-owned.",
+    ),
+    "tests/test_bootstrap_write_boundary.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-agent/tests/install.rs", "crates/cockpit-agent/tests/doctor.rs", "crates/cockpit-cli/tests/agent.rs"],
+        "Dry-run, exact confirmation, path/symlink safety, idempotent managed sections, and revalidation are enforced by the repository-local Agent adapter planner and doctor. Source Makefile marker bytes are not copied.",
+    ),
+    "tests/test_calibrate.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/project_governance.rs", "crates/cockpit-cli/tests/profile_propose.rs", "docs/getting-started/first-calibration.md"],
+        "Calibration proposals project observed controls without claiming human selection; Rust keeps candidate/confirmed profile state, explicit owner confirmation, and repository/snapshot binding without the source Python session implementation.",
+    ),
+    "tests/test_calibration_inventory.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/project_governance.rs", "crates/cockpit-repository/tests/status_projection.rs", "docs/reference/governance-profiles.md"],
+        "Calibration inventory facts distinguish command evidence from static configuration, missing/stale inputs, and template boundaries through typed profile/status projections. Source ten-column inventory JSON is not imported.",
+    ),
+    "tests/test_calibration_profiles.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/project_governance.rs", "crates/cockpit-repository/tests/verification_context.rs", "docs/reference/governance-profiles.md"],
+        "Profile selection, monotonic upgrades, bounded downgrades, exact controls, and human evidence are represented by repository-local JSON policy and explicit profile confirmation. Source Lite/Standard/Strict YAML bytes remain outside the protocol.",
+    ),
+    "tests/test_calibration_session.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/project_governance.rs", "crates/cockpit-repository/tests/evolution.rs", "docs/getting-started/calibration.md"],
+        "Unknown answers, checklist evidence, stale dependencies, atomic activation, and recovery are preserved by candidate profile/proposal and repository-bound amendment checks. Rust intentionally does not add a generic source Session wire format.",
+    ),
+    "tests/test_calibration_wizard.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-cli/tests/profile.rs", "crates/cockpit-cli/tests/profile_propose.rs", "docs/getting-started/first-calibration.md"],
+        "Wizard ordering, pause/resume, applicability, unknowns, and activation safety are expressed through explicit non-interactive profile commands and human confirmation. TTY prompts and source locale resources remain presentation-adapter concerns.",
+    ),
+    "tests/test_canonical_evidence.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-evidence/src/lib.rs", "crates/cockpit-repository/tests/evidence_assurance.rs", "crates/cockpit-protocol/tests/verification_semantics.rs"],
+        "Canonical evidence identity, digest, expiry, duplicate-reference, claim binding, and deterministic rendering are enforced by typed evidence/repository receipts. The source document JSON is not a Rust wire-compatible schema.",
+    ),
+    "tests/test_capability_claims.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/evidence_assurance.rs", "crates/cockpit-repository/tests/project_governance.rs", "docs/capabilities.md"],
+        "Capability claim extraction, evidence binding, multilingual sibling consistency, freshness, and bounded qualifiers are represented by typed project/evidence projections and documentation gates; prose never becomes authority.",
+    ),
+    "tests/test_capability_freshness.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/evidence_assurance.rs", "crates/cockpit-repository/tests/verification_context.rs", "docs/capabilities.md"],
+        "Environment-neutral freshness, expiry, mismatch, and re-verification are represented by identity-bound Runtime evidence. Source Python freshness records and host-specific heuristics are not copied.",
+    ),
+    "tests/test_capability_truth_matrix.py": (
+        "implemented-different-by-design",
+        ["crates/cockpit-repository/tests/evidence_assurance.rs", "crates/cockpit-repository/tests/project_governance.rs", "docs/capabilities.md"],
+        "Capability matrix status vocabulary, evidence fields, source-digest binding, regeneration, and documentation claims are covered by typed repository evidence and native documentation checks without importing source matrix bytes.",
+    ),
+    "tests/test_changed_critical_coverage.py": (
+        "implemented-different-by-design",
+        ["tests/ci/governance_integrity_gate.py", "tests/ci/workspace_package_coverage_test.sh", "crates/cockpit-repository/tests/ci_quality_gate.rs"],
+        "Changed-critical selection, declared test mapping, floor integrity, candidate snapshots, and not-applicable evidence are represented by the reviewed gate manifest and Runtime Contract controls. Source pytest predictor output is not authority.",
+    ),
+    "tests/test_ci_quality_orchestration.py": (
+        "implemented-different-by-design",
+        ["tests/ci/quality_route.py", "tests/ci/run_repository_gates.py", "crates/cockpit-repository/tests/ci_quality_gate.rs", "docs/reference/ci-quality-gates.md"],
+        "Phased lightweight-to-expensive routing, release-intent separation, one workflow owner, and terminal job aggregation are represented by the reviewed dynamic gate manifest and native Runtime checks; source Python orchestration is not copied.",
+    ),
+    "tests/test_ci_release_evidence.sh": (
+        "implemented-different-by-design",
+        ["tests/ci/release_gate_policy_test.sh", "tests/ci/repository_gate_manifest_test.sh", "crates/cockpit-cli/tests/ci_gate.rs", "docs/reference/ci-release-evidence.md"],
+        "CI release evidence identity, required-job completeness, head/merge binding, failure reasons, artifact digests, SBOM, and provenance are enforced by typed gate/release manifests and native regressions. The source shell fixture is not a Runtime command contract.",
     ),
 }
 
@@ -6717,6 +6827,45 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(
                     f"{record.get('referencePath')}: WI-587 cannot leave deferred or migrate-gap"
                 )
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI598_BATCH
+        for record in records
+    ):
+        wi598_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI598_BATCH
+            and record.get("referencePath") in WI598_REFERENCE_FILES
+        ]
+        expected_wi598_paths = set(WI598_REFERENCE_FILES) & current_reference_paths
+        actual_wi598_paths = {record.get("referencePath") for record in wi598_records}
+        if actual_wi598_paths != expected_wi598_paths:
+            errors.append(
+                "WI-598 reference test batch paths do not match the bounded twenty-file set: "
+                f"expected {sorted(expected_wi598_paths)!r}, got {sorted(actual_wi598_paths)!r}"
+            )
+        if len(wi598_records) != len(expected_wi598_paths):
+            errors.append(
+                f"WI-598 batch must contain {len(expected_wi598_paths)} records, found {len(wi598_records)}"
+            )
+        expected_wi598_classifications = Counter(
+            WI598_REFERENCE_FILES[path][0] for path in expected_wi598_paths
+        )
+        wi598_classifications = [record.get("classification") for record in wi598_records]
+        if Counter(wi598_classifications) != expected_wi598_classifications:
+            errors.append(
+                "WI-598 classifications do not match the bounded source/test decisions"
+            )
+        for record in wi598_records:
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(
+                    f"{record.get('referencePath')}: WI-598 result needs counterparts and reason"
+                )
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(
+                    f"{record.get('referencePath')}: WI-598 cannot leave deferred or migrate-gap"
+                )
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -7413,6 +7562,34 @@ def apply_wi587_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi598_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI598_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI598_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": record.get("classification"),
+            }
+        )
+        updated += 1
+    if updated != len(WI598_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI598_REFERENCE_FILES)} WI-598 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -7452,6 +7629,7 @@ def main() -> int:
     parser.add_argument("--apply-wi572-batch", action="store_true")
     parser.add_argument("--apply-wi579-batch", action="store_true")
     parser.add_argument("--apply-wi587-batch", action="store_true")
+    parser.add_argument("--apply-wi598-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -7485,6 +7663,7 @@ def main() -> int:
         args.apply_wi572_batch,
         args.apply_wi579_batch,
         args.apply_wi587_batch,
+        args.apply_wi598_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -7681,6 +7860,13 @@ def main() -> int:
     if args.apply_wi587_batch:
         try:
             apply_wi587_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi598_batch:
+        try:
+            apply_wi598_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

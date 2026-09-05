@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-587-reference-file-comparison-batch-47
+lastVerifiedBy: WI-598-reference-test-parity-batch-48
 capabilityClaims:
   - reference_parity
 ---
@@ -70,6 +70,12 @@ capabilityClaims:
 | Runtime-only upgrade 与 repository migration | 已实现 | compatibility 检查和显式 migration 保留历史记录并绑定 Runtime identity。 |
 | N-1 旧 adopter 升级验收 | 已实现 | public-artifact harness 覆盖旧 schema 检测、批准、历史保持和继续运行。 |
 | Adopter capability manifest 与 status projection | 延期 | 当前 `capability show` 和 `status` 是真实的 Runtime/repository 视图，不等同于参考源完整的 adopter manifest/status projection。 |
+
+## WI-598——参考源测试对等批次 48
+
+在固定本地参考提交上逐个比较下一批二十个维护测试。18 项可移植责任由现有类型化 Rust/仓库/CI evidence 边界承载；Java Runtime 选择和 Bandit 基线测试保持 `reference-only`，属于供应商/工具链内容。没有发现可移植遗漏或 `migrate-gap`。完整分类与对应集合见[逐文件台账](reference-file-comparison.zh-CN.md)及 [WI-598 记录](../work-items/WI-598-reference-test-parity-batch-48.zh-CN.md)。
+
+对象/adopter 工程继承 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态质量路由与 human Outcome handoff；不会继承源 Python 测试、工具链 validator、Bandit 数据或源 wire 格式。
 | Recovery state machine 与丰富 recovery projection | 部分实现 | 已有 blocked Outcome、append-only recovery receipt、绑定 predecessor 的 retry/successor decision 及人类/MCP 投影；paused/stale/cancelled/rollback 等更广表面仍窄于参考源。 |
 | 多语言语义 parity gate | 部分实现 | CLI 面向人的输出已本地化；所有报告逐字段语义一致尚未成为 CI gate。 |
 | 历史 evidence 边界 | 已实现 | 历史 evidence 只作为历史输入，永远不能提升为新的 green verification。 |
@@ -627,3 +633,4 @@ Runtime 基线。发布边界包含版本元数据、不可变制品、供应链
 public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重写对象 `.ai/` 字节或历史证据。
 
 | WI-597 —— WI-596 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-597-doc-promotion-wi596.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json`; verification `.ai/evidence/WI-597-doc-promotion-wi596.verification.json`; finalization `.ai/decisions/WI-597-doc-promotion-wi596.finalize.34b2d27066299df9fed65741230bb4bc3bd9285e005610c6348f6dcc09f9f6eb.json`; close `.ai/decisions/WI-597-doc-promotion-wi596.close.json`. |
+| WI-598——参考源测试对等批次 48 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-598-reference-test-parity-batch-48.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-598-reference-test-parity-batch-48.contract.json`; verification `.ai/evidence/WI-598-reference-test-parity-batch-48.verification.json`; finalization `.ai/decisions/WI-598-reference-test-parity-batch-48.finalize.json`; close `.ai/decisions/WI-598-reference-test-parity-batch-48.close.json`; recovery `.ai/decisions/WI-598-reference-test-parity-batch-48.recovery.json`. |

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-587-reference-file-comparison-batch-47
+lastVerifiedBy: WI-598-reference-test-parity-batch-48
 capabilityClaims:
   - reference_parity
 ---
@@ -78,6 +78,21 @@ anti-omission index; this page remains the higher-level product-boundary matrix.
 | Runtime-only upgrade versus repository migration | Implemented | Compatibility checks and explicit migration preserve historical records and bind Runtime identity. |
 | N-1 old-adopter upgrade acceptance | Implemented | The public-artifact harness covers old-schema detection, approval, history preservation, and continued operation. |
 | Adopter capability manifest and status projection | Deferred | Current `capability show` and `status` are truthful Runtime/repository views, not the reference's full adopter manifest/status projection. |
+
+## WI-598 — reference test parity batch 48
+
+The next twenty maintained reference tests were compared one by one at the
+pinned local source commit. Eighteen portable responsibilities are represented
+by existing typed Rust/repository/CI evidence boundaries; Java runtime
+selection and Bandit baseline tests remain `reference-only` provider/toolchain
+material. No portable omission or `migrate-gap` was found. The complete
+classification and counterpart set is maintained in the [file-level ledger](reference-file-comparison.md)
+and [WI-598 record](../work-items/WI-598-reference-test-parity-batch-48.md).
+
+Attached object/adopter repositories inherit the shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, dynamic quality
+route, and human Outcome handoff. They do not inherit source Python tests,
+toolchain validators, Bandit data, or source wire formats.
 | Recovery state machine and rich recovery projections | Partial | Blocked Outcome, append-only recovery receipts, predecessor-bound retry/successor decisions, and a human/MCP projection now exist; the broader paused/stale/cancelled/rollback surface remains narrower than the reference. |
 | Multilingual semantic parity gate | Partial | CLI human output is localized; full field-by-field semantic parity across all reports is not yet a CI gate. |
 | Legacy evidence boundary | Implemented | Legacy evidence remains historical input and is never promoted to fresh green verification. |
@@ -722,3 +737,4 @@ an external read-only handoff: no object `.ai/` bytes or historical evidence
 are rewritten here.
 
 | WI-597 — WI-596 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-597-doc-promotion-wi596.md); terminal lifecycle: archive `.ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json`; verification `.ai/evidence/WI-597-doc-promotion-wi596.verification.json`; finalization `.ai/decisions/WI-597-doc-promotion-wi596.finalize.34b2d27066299df9fed65741230bb4bc3bd9285e005610c6348f6dcc09f9f6eb.json`; close `.ai/decisions/WI-597-doc-promotion-wi596.close.json`. |
+| WI-598 — reference test parity batch 48 | In progress → Implemented after verified close | [Work Item](../work-items/WI-598-reference-test-parity-batch-48.md); terminal lifecycle: archive `.ai/work-items/archive/WI-598-reference-test-parity-batch-48.contract.json`; verification `.ai/evidence/WI-598-reference-test-parity-batch-48.verification.json`; finalization `.ai/decisions/WI-598-reference-test-parity-batch-48.finalize.json`; close `.ai/decisions/WI-598-reference-test-parity-batch-48.close.json`; recovery `.ai/decisions/WI-598-reference-test-parity-batch-48.recovery.json`. |

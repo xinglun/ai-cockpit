@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-587-reference-file-comparison-batch-47
+lastVerifiedBy: WI-598-reference-test-parity-batch-48
 capabilityClaims:
   - reference_parity
 ---
@@ -26,8 +26,8 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `aa721c6172d4f6bc41d7d5205eaa34757441efa8`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.76`、binary SHA256 `sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `8c619299c3d2d672ece1497392006812cc874ee5`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.78`、binary SHA256 `sha256:cebab206b1609660d548c889cf79cd07e60ba3ab78953b180dd34d3c7b4c4869`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -324,7 +324,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=454 implemented-equivalent=1 not-applicable=7 reference-only=129 deferred-next-batch=178 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=472 implemented-equivalent=1 not-applicable=7 reference-only=131 deferred-next-batch=158 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -336,11 +336,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 454 |
+| `implemented-different-by-design` | 472 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 129 |
-| `deferred-next-batch` | 178 |
+| `reference-only` | 131 |
+| `deferred-next-batch` | 158 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1663,3 +1663,17 @@ WI-579 は固定した local reference commit `fde3380f81fea5fd2e288f7a8849f737d
 | `templates/stacks/android.mk`、`csharp.mk`、`flutter.mk`、`generic.mk`、`go.mk`、`java.mk`、`kotlin.mk`、`php.mk`、`python.mk`、`ruby.mk`、`rust.mk`、`swift.mk`、`typescript.mk` | reference-only | stack command、toolchain 選択、platform assumption は adopter-owned verification。shared Runtime は stack preset を推測・配布しない。 |
 
 この batch に portable implementation omission はありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、dynamic verification boundary、人間向け Outcome handoff を継承しますが、source Python、Make、stack preset、provider policy value、source wire format は継承しません。現在の snapshot は 3,681 `generated-history`、442 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、121 `reference-only`、198 `deferred-next-batch`、`migrate-gap` zero で、669 retired record は append-only です。[WI-580 recovery Work Item record](../work-items/WI-580-reference-template-parity-batch-46-recovery.ja.md) を参照してください。
+
+## WI-598 — reference test parity batch 48
+
+WI-598 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の maintained test path 次の二十件を一件ずつ比較しました。詳細な path decision は machine ledger にあり、boundary は次の通りです。
+
+| Source path group | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `tests/test_ai_project_doctor.py`, `tests/test_bootstrap_repository.py` | implemented-different-by-design | typed Git/RepositoryObservation と attach、inspect、status、doctor fact。source heuristic は copy しません。 |
+| `tests/test_ai_validate_java_runtime.py`, `tests/test_bandit_baseline.py` | reference-only | Java/JAVA_HOME selection と Python/Bandit baseline は provider/toolchain responsibility です。 |
+| `tests/test_baseline_diff.py`, `tests/test_baseline_evidence.py`, `tests/test_canonical_evidence.py` | implemented-different-by-design | Rust-native snapshot、scope、evidence identity、digest、expiry、deterministic receipt validation。 |
+| `tests/test_bootstrap_wizard.py`, `tests/test_bootstrap_write_boundary.py`, `tests/test_calibrate.py`, `tests/test_calibration_inventory.py`, `tests/test_calibration_profiles.py`, `tests/test_calibration_session.py`, `tests/test_calibration_wizard.py` | implemented-different-by-design | explicit profile proposal/confirm、preflight、adapter write boundary、unknown preservation、repository binding。Python wizard/session bytes は import しません。 |
+| `tests/test_capability_claims.py`, `tests/test_capability_freshness.py`, `tests/test_capability_truth_matrix.py`, `tests/test_changed_critical_coverage.py`, `tests/test_ci_quality_orchestration.py`, `tests/test_ci_release_evidence.sh` | implemented-different-by-design | typed capability/evidence freshness、reviewed CI gate manifest、phased quality route、release evidence、SBOM/provenance、native regression。 |
+
+この batch に portable implementation omission はありません。attached object/adopter は shared Runtime、repository isolation、evidence、dynamic quality、人間向け Outcome boundary を継承しますが、Python test、toolchain validator、Bandit data、source wire format は継承しません。現在は 3,681 `generated-history`、472 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、131 `reference-only`、158 `deferred-next-batch`、`migrate-gap` zero、669 retired record append-only です。[WI-598 Work Item](../work-items/WI-598-reference-test-parity-batch-48.ja.md) を参照してください。

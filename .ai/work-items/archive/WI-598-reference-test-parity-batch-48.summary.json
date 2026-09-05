@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-598-reference-test-parity-batch-48.contract.json",
+    ".ai/work-items/archive/WI-598-reference-test-parity-batch-48.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T20:58:01Z",
+  "checkpointContractDigest": "sha256:e4ad0ddcc929e937de71286a7baf1cafa3a763f0a7c641eb1f905e3807d344c5",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7750cc52a706b62fc8b5ff800e2035017678bd83bfd10f8c0b85f75c3a488ace",
+  "createdAt": "2026-09-05T20:57:23Z",
+  "mode": "code",
+  "preflightAt": "2026-09-05T21:29:14Z",
+  "preflightContractDigest": "sha256:e4ad0ddcc929e937de71286a7baf1cafa3a763f0a7c641eb1f905e3807d344c5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7750cc52a706b62fc8b5ff800e2035017678bd83bfd10f8c0b85f75c3a488ace",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T21:29:21Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-598-reference-test-parity-batch-48"
+}

@@ -61,10 +61,10 @@ done
 # Bounded rebaseline batches resolve changed source records; WI-521 resolves
 # one of the previously changed deferred records. Keep this regression count
 # tied to the current pinned source ledger.
-# The pinned source inventory currently leaves 39 changed records explicitly
+# The pinned source inventory currently leaves 38 changed records explicitly
 # deferred. Keep this count tied to the committed ledger so a batch cannot
 # silently change the historical rebaseline boundary.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 39
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 38
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -804,6 +804,42 @@ for wi587_doc in \
   reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
   reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
   grep -q "WI-587" "$root/docs/reference/$wi587_doc"
+done
+
+# WI-598 resolves the next twenty maintained source test paths. Keep the
+# bounded set and the 18/2 semantic-versus-reference-only split explicit so a
+# future rebaseline cannot silently return this slice to deferred.
+for wi598_path in \
+  tests/test_ai_project_doctor.py \
+  tests/test_ai_validate_java_runtime.py \
+  tests/test_bandit_baseline.py \
+  tests/test_baseline_diff.py \
+  tests/test_baseline_evidence.py \
+  tests/test_bootstrap_repository.py \
+  tests/test_bootstrap_wizard.py \
+  tests/test_bootstrap_write_boundary.py \
+  tests/test_calibrate.py \
+  tests/test_calibration_inventory.py \
+  tests/test_calibration_profiles.py \
+  tests/test_calibration_session.py \
+  tests/test_calibration_wizard.py \
+  tests/test_canonical_evidence.py \
+  tests/test_capability_claims.py \
+  tests/test_capability_freshness.py \
+  tests/test_capability_truth_matrix.py \
+  tests/test_changed_critical_coverage.py \
+  tests/test_ci_quality_orchestration.py \
+  tests/test_ci_release_evidence.sh; do
+  test "$(jq --arg path "$wi598_path" '[.records[] | select(.referencePath == $path and .batch == "WI-598-reference-test-parity-batch-48" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-598-reference-test-parity-batch-48")] | length' "$current_manifest")" -eq 20
+test "$(jq '[.records[] | select(.batch == "WI-598-reference-test-parity-batch-48" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-598-reference-test-parity-batch-48" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 18
+test "$(jq '[.records[] | select(.batch == "WI-598-reference-test-parity-batch-48" and .classification == "reference-only")] | length' "$current_manifest")" -eq 2
+for wi598_doc in \
+  reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
+  reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
+  grep -q "WI-598" "$root/docs/reference/$wi598_doc"
 done
 
 reference_fixture="$tmp/reference"

@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-09-06T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-598-reference-test-parity-batch-48.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order"
+  ],
+  "predecessorContractDigest": "sha256:e4ad0ddcc929e937de71286a7baf1cafa3a763f0a7c641eb1f905e3807d344c5",
+  "predecessorEventsDigest": "sha256:b6981aa1f3c6752cddde337e72cb3ec3e52404c9ef453bb6d8ad7fefda18544d",
+  "predecessorOutcomeDigest": "sha256:806da602596a88e1ed8dc8360885bd4be2b82c6723c34b9fd3b3d244004ca42e",
+  "predecessorSummaryDigest": "sha256:c0cdc15a3fa4c41137c5056f50d2edd851b2adbd359bce44699a94a2e701742a",
+  "predecessorWorkItemId": "WI-598-reference-test-parity-batch-48",
+  "reason": "Retry after finalize-plan invalidated the earlier verification; preserve prior evidence append-only and rerun current verification before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and verification after the reviewed finalize-plan, then finish and archive.",
+  "runtimeDigest": "sha256:cebab206b1609660d548c889cf79cd07e60ba3ab78953b180dd34d3c7b4c4869",
+  "runtimeVersion": "0.2.78",
+  "schemaVersion": 1,
+  "workItemId": "WI-598-reference-test-parity-batch-48"
+}

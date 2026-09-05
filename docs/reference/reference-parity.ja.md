@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-587-reference-file-comparison-batch-47
+lastVerifiedBy: WI-598-reference-test-parity-batch-48
 capabilityClaims:
   - reference_parity
 ---
@@ -74,6 +74,18 @@ matrix は次の 4 state だけを使います。
 | Runtime-only upgrade と repository migration | Implemented | compatibility check と explicit migration が historical record を保持し Runtime identity を bind する。 |
 | N-1 old-adopter upgrade acceptance | Implemented | public-artifact harness が old-schema detection、approval、history preservation、continued operation を確認する。 |
 | Adopter capability manifest と status projection | Deferred | `capability show` と `status` は truthful な Runtime/repository view であり、reference の full adopter manifest/status projection ではない。 |
+
+## WI-598 — reference test parity batch 48
+
+Pinned local source commit の次の maintained test 二十件を一件ずつ比較しました。18 件の
+portable responsibility は既存の typed Rust/repository/CI evidence boundary で表現され、Java
+runtime 選択と Bandit baseline test は provider/toolchain 固有の `reference-only` です。
+portable omission と `migrate-gap` はありません。完全な classification と counterpart は
+[file-level ledger](reference-file-comparison.ja.md) と [WI-598 record](../work-items/WI-598-reference-test-parity-batch-48.ja.md) にあります。
+
+Attached object/adopter repository は shared Runtime、explicit repository context、isolated
+Contract/evidence/knowledge、dynamic quality route、人間向け Outcome handoff を継承しますが、
+source Python test、toolchain validator、Bandit data、source wire format は継承しません。
 | Recovery state machine と rich recovery projection | Partial | blocked Outcome、append-only recovery receipt、predecessor に bind された retry/successor decision、人間/MCP projection を追加したが、paused/stale/cancelled/rollback の広い surface は reference より狭い。 |
 | Multilingual semantic parity gate | Partial | CLI human output は localize されるが、全 report の field-by-field semantic parity は CI gate ではない。 |
 | Legacy evidence boundary | Implemented | legacy evidence は historical input のままで、fresh green verification に昇格しない。 |
@@ -641,3 +653,4 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 本 repository は object `.ai/` bytes や historical evidence を書き換えません。
 
 | WI-597 — WI-596 の終端ドキュメント昇格 | Implemented | [Work Item](../work-items/WI-597-doc-promotion-wi596.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json`; verification `.ai/evidence/WI-597-doc-promotion-wi596.verification.json`; finalization `.ai/decisions/WI-597-doc-promotion-wi596.finalize.34b2d27066299df9fed65741230bb4bc3bd9285e005610c6348f6dcc09f9f6eb.json`; close `.ai/decisions/WI-597-doc-promotion-wi596.close.json`. |
+| WI-598 — reference test parity batch 48 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-598-reference-test-parity-batch-48.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-598-reference-test-parity-batch-48.contract.json`; verification `.ai/evidence/WI-598-reference-test-parity-batch-48.verification.json`; finalization `.ai/decisions/WI-598-reference-test-parity-batch-48.finalize.json`; close `.ai/decisions/WI-598-reference-test-parity-batch-48.close.json`; recovery `.ai/decisions/WI-598-reference-test-parity-batch-48.recovery.json`. |
