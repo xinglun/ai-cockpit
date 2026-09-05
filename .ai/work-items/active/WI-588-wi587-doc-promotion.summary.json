@@ -1,0 +1,65 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-588-wi587-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-588-wi587-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T10:54:24Z",
+  "checkpointContractDigest": "sha256:ea2899b8e12928be4dc9dac70b068a2ab3fcc6192ac9d7a7d959f3f2af1ce9a6",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:65d56296cb81e6988a088ce16f7cef06a6d5927b8278ddcb697ce89c004bcd68",
+      "recorded": true,
+      "recordedAt": "2026-09-05T10:54:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23e7d78dda4a9cc9e9463ec5f3ae6c4f5ad7da4f7c3fbcb24286682b17c053de",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-588-wi587-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:ea2899b8e12928be4dc9dac70b068a2ab3fcc6192ac9d7a7d959f3f2af1ce9a6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:65d56296cb81e6988a088ce16f7cef06a6d5927b8278ddcb697ce89c004bcd68",
+      "previousContractHash": "sha256:65d56296cb81e6988a088ce16f7cef06a6d5927b8278ddcb697ce89c004bcd68",
+      "reason": "The static parity gate requires this Work Item to register its own tri-language lifecycle pages before archive; expand the current documentation-only scope without changing governance facts.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T10:56:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23e7d78dda4a9cc9e9463ec5f3ae6c4f5ad7da4f7c3fbcb24286682b17c053de",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-588-wi587-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8fcf14603b9cd098ebde11dc11cc0711610f881749fd9b167169ee628d1ae2f8",
+  "createdAt": "2026-09-05T10:53:31Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-05T10:59:16Z",
+  "preflightContractDigest": "sha256:ea2899b8e12928be4dc9dac70b068a2ab3fcc6192ac9d7a7d959f3f2af1ce9a6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8fcf14603b9cd098ebde11dc11cc0711610f881749fd9b167169ee628d1ae2f8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-05T10:54:24Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:42c9a3dbaf90689c75f73ec0115864e5a99564d5f1418af87da1afcaa4136bf5",
+  "workItemId": "WI-588-wi587-doc-promotion"
+}
