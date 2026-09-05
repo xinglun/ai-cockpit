@@ -1,0 +1,57 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-05T06:15:26Z",
+  "checkpointContractDigest": "sha256:f3dbb50721786230481df64f9e935cc2cc58d3984db29409a0a4e6b00648ad81",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:f33a3e4ce9ff6ae6592aabfbfaf12f51f9ffe609453291ae7fe081022bfd7998",
+  "createdAt": "2026-09-05T06:03:18Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/recovery_revalidation.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-05T06:25:59Z",
+  "preflightContractDigest": "sha256:f3dbb50721786230481df64f9e935cc2cc58d3984db29409a0a4e6b00648ad81",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f33a3e4ce9ff6ae6592aabfbfaf12f51f9ffe609453291ae7fe081022bfd7998",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "required": true,
+      "scenario": "archived Contract amendment with valid historical evidence",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "required": true,
+      "scenario": "tampered or ambiguous archived revalidation input",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "required": true,
+      "scenario": "successor lifecycle while predecessor remains pending close",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T06:26:04Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-583-archived-contract-revalidation"
+}

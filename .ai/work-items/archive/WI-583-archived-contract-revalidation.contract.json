@@ -25,6 +25,32 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:e7fe44d58e1ed84ce7a3c7518a43752f4e0d709255589c2618e4ba59f35acfec",
+  "scenarioCoverage": [
+    {
+      "scenario": "archived Contract amendment with valid historical evidence",
+      "required": true,
+      "status": "unverified",
+      "expected": "The Runtime records a current-Contract-bound successor decision while retaining the historical verification evidence digest and archive manifest.",
+      "verificationPlan": "Run the repository regression fixture and inspect the append-only recovery receipt and successor scaffold.",
+      "evidence": ["crates/cockpit-repository/tests/recovery_revalidation.rs"]
+    },
+    {
+      "scenario": "tampered or ambiguous archived revalidation input",
+      "required": true,
+      "status": "unverified",
+      "expected": "Foreign, malformed, stale, symlink-backed, or digest-mismatched archive/evidence is rejected before any repository state is written.",
+      "verificationPlan": "Exercise each negative fixture and assert stable fail-closed recovery errors plus no partial successor or receipt.",
+      "evidence": ["crates/cockpit-repository/tests/recovery_revalidation.rs"]
+    },
+    {
+      "scenario": "successor lifecycle while predecessor remains pending close",
+      "required": true,
+      "status": "unverified",
+      "expected": "An explicitly bound successor can be activated and verified while the predecessor remains pending; repository readiness changes only after the successor reaches its terminal boundary.",
+      "verificationPlan": "Run the recovery successor lifecycle fixture and assert predecessor/successor status projections and immutable predecessor bytes.",
+      "evidence": ["crates/cockpit-repository/tests/recovery_revalidation.rs"]
+    }
+  ],
   "requiredEvidenceClasses": [
     "verification"
   ],
