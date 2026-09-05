@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-577-reference-metadata-sync
+lastVerifiedBy: WI-579-reference-template-parity-batch-46
 capabilityClaims:
   - reference_parity
 ---
@@ -25,7 +25,7 @@ capabilityClaims:
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `07a7b1e268477f973766c735754a5594ecee11e7`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `3b49e8777c1e0087ea945a9327f2d77f650039e8`。
 - 比较时使用已发布的 Runtime：`ai-cockpit 0.2.75`，binary SHA256 为 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
@@ -307,7 +307,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=439 implemented-equivalent=1 not-applicable=7 reference-only=108 deferred-next-batch=214 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=442 implemented-equivalent=1 not-applicable=7 reference-only=121 deferred-next-batch=198 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -318,11 +318,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 439 |
+| `implemented-different-by-design` | 442 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 108 |
-| `deferred-next-batch` | 214 |
+| `reference-only` | 121 |
+| `deferred-next-batch` | 198 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1577,3 +1577,16 @@ WI-572 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 ## WI-577：当前比对元数据同步
 
 WI-577 在 v0.2.75 发布后同步当前表头和基线展示，不增加语义分类，也不重写追加式的历史批次段落。[`reference-comparison-metadata.json`](reference-comparison-metadata.json) 旁车文件是当前参考提交、经过评审的 Rust 基线、Runtime identity 和当前台账计数的单一事实源；三语元数据测试会在任一页面漂移时 fail-closed。
+
+## WI-579——参考模板对等批次 46
+
+WI-579 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读剩余 16 个 `templates/**` 路径。3 个路径的可移植治理责任已由 shared Rust Runtime 和仓库文档以不同设计承载；13 个技术栈 preset 明确保持 `reference-only`，因为其命令和工具链假设属于 adopter/provider。没有复制源实现或 wire format。
+
+| 固定参考路径 | 分类 | Rust 对应 / 有边界决定 |
+| --- | --- | --- |
+| `templates/agents/AI_COCKPIT_RULES.md` | implemented-different-by-design | `AGENTS.md`、`.ai/README.md`、`.ai/glossary.md`、`crates/cockpit-agent` 和三语 Agent 工作流保留 Contract 优先审查、暂停、证据、Outcome 与精确清理。 |
+| `templates/glossary.md` | implemented-different-by-design | `.ai/glossary.md` 与命令/工作流文档保留治理词汇；领域占位词由 adopter 自己定义。 |
+| `templates/make/Makefile.ai` | implemented-different-by-design | Rust CLI/Repository/Verification 服务和 reviewed gate manifest 承载生命周期、质量和证据边界；不复制源 Make/Python target。 |
+| `templates/stacks/android.mk`、`csharp.mk`、`flutter.mk`、`generic.mk`、`go.mk`、`java.mk`、`kotlin.mk`、`php.mk`、`python.mk`、`ruby.mk`、`rust.mk`、`swift.mk`、`typescript.mk` | reference-only | 技术栈命令、工具链选择和平台假设由 adopter 明确负责；shared Runtime 不推断或提供 stack preset。 |
+
+本批未发现可移植实现遗漏。对象/adopter 工程继承 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态验证边界和 human Outcome handoff；不会继承源 Python、Make、stack preset、provider policy 值或 source wire。当前快照为 3,681 个 `generated-history`、442 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、121 个 `reference-only`、198 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。详见 [WI-580 recovery Work Item 记录](../work-items/WI-580-reference-template-parity-batch-46-recovery.zh-CN.md)。

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-577-reference-metadata-sync
+lastVerifiedBy: WI-579-reference-template-parity-batch-46
 capabilityClaims:
   - reference_parity
 ---
@@ -26,7 +26,7 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `07a7b1e268477f973766c735754a5594ecee11e7`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `3b49e8777c1e0087ea945a9327f2d77f650039e8`。
 - 比較に使う published Runtime: `ai-cockpit 0.2.75`、binary SHA256 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
@@ -324,7 +324,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=439 implemented-equivalent=1 not-applicable=7 reference-only=108 deferred-next-batch=214 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=442 implemented-equivalent=1 not-applicable=7 reference-only=121 deferred-next-batch=198 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -336,11 +336,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 439 |
+| `implemented-different-by-design` | 442 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 108 |
-| `deferred-next-batch` | 214 |
+| `reference-only` | 121 |
+| `deferred-next-batch` | 198 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1627,3 +1627,16 @@ WI-572 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 ## WI-577 — current comparison metadata synchronization
 
 WI-577 は v0.2.75 release 後の live frontmatter と baseline 表示を同期します。semantic classification は追加せず、append-only の過去 batch paragraph も書き換えません。[`reference-comparison-metadata.json`](reference-comparison-metadata.json) sidecar が current reference commit、review 済み Rust baseline、Runtime identity、current ledger count の single source であり、tri-language metadata test が page drift を fail-closed で検出します。
+
+## WI-579 — reference template parity batch 46
+
+WI-579 は固定した local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の残り 16 `templates/**` path を一つずつ再読しました。3 path の portable governance responsibility は shared Rust Runtime と repository documentation が異なる設計で担い、13 の stack preset は command と toolchain assumption が adopter/provider-owned のため明示的に `reference-only` とします。source implementation や wire format はコピーしません。
+
+| 固定 reference path | 分類 | Rust counterpart / 限定判断 |
+| --- | --- | --- |
+| `templates/agents/AI_COCKPIT_RULES.md` | implemented-different-by-design | `AGENTS.md`、`.ai/README.md`、`.ai/glossary.md`、`crates/cockpit-agent`、tri-language agent workflow が Contract-first review、pause、evidence、Outcome、exact cleanup を保持。 |
+| `templates/glossary.md` | implemented-different-by-design | `.ai/glossary.md` と command/workflow reference が governance vocabulary を担い、domain placeholder は adopter-owned。 |
+| `templates/make/Makefile.ai` | implemented-different-by-design | Rust CLI/Repository/Verification service と reviewed gate manifest が lifecycle、quality、evidence boundary を提供し、source Make/Python target はコピーしない。 |
+| `templates/stacks/android.mk`、`csharp.mk`、`flutter.mk`、`generic.mk`、`go.mk`、`java.mk`、`kotlin.mk`、`php.mk`、`python.mk`、`ruby.mk`、`rust.mk`、`swift.mk`、`typescript.mk` | reference-only | stack command、toolchain 選択、platform assumption は adopter-owned verification。shared Runtime は stack preset を推測・配布しない。 |
+
+この batch に portable implementation omission はありません。attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、dynamic verification boundary、人間向け Outcome handoff を継承しますが、source Python、Make、stack preset、provider policy value、source wire format は継承しません。現在の snapshot は 3,681 `generated-history`、442 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、121 `reference-only`、198 `deferred-next-batch`、`migrate-gap` zero で、669 retired record は append-only です。[WI-580 recovery Work Item record](../work-items/WI-580-reference-template-parity-batch-46-recovery.ja.md) を参照してください。
