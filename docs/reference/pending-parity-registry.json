@@ -8,7 +8,7 @@
         "finalize": ".ai/decisions/WI-597-doc-promotion-wi596.finalize.json",
         "verification": ".ai/evidence/WI-597-doc-promotion-wi596.verification.json"
       },
-      "headRevision": "c05a4af6ffa137e1d029b91e15a75f54e3dc1824",
+      "headRevision": "e2f730af8a4f9c5df000cfd1b2ad8c99d3122375",
       "parityRows": [
         {
           "path": "docs/reference/reference-parity.md",
@@ -28,7 +28,7 @@
         "number": 584,
         "url": "https://github.com/xinglun/ai-cockpit/pull/584"
       },
-      "registryBaseRevision": "c05a4af6ffa137e1d029b91e15a75f54e3dc1824",
+      "registryBaseRevision": "e2f730af8a4f9c5df000cfd1b2ad8c99d3122375",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-597-doc-promotion-wi596"
