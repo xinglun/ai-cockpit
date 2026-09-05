@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "Current three-language parity gate passes without modifying WI-592 immutable archive bytes.",
+    "The recovery decision remains bound to archived WI-592 repository identity and digests.",
+    "Verification and documentation outputs are reproducible from latest origin/main without unsupported governance claims."
+  ],
+  "authority": "authorized",
+  "baseRevision": "54e6af282ab483422e244e4428b299dc4a1182d4",
+  "createdAt": "2026-09-05T14:45:24Z",
+  "goal": "Establish a current, auditable verification record for WI-592 recovery and prove all three-language documentation parity and promotion checks on latest main.",
+  "intent": "Revalidate and register the WI-592 documentation parity records without rewriting immutable archive bytes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Source code behavior",
+    "Immutable WI-592 archive/evidence/summary/outcome bytes",
+    "Release publication",
+    "Provider configuration"
+  ],
+  "predecessorContractDigest": "sha256:9c6e2ff70bb0c4eb3cefc455c7a6aaf3085773113031d0acffdb47e1e42168a8",
+  "predecessorWorkItemId": "WI-592-wi591-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-592-wi591-doc-promotion.recovery.1050a856cce8dff6cac1a8a480320a7f314112d8a8d8eee73072b0e66b2ac642.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7487d4c0b5921642ba3d1fe6dcf32dcc532da9719be3e7983eaa88ec6c924c49",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-593-wi592-doc-parity-retry",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/579",
+    "worktree": "/private/tmp/ai-cockpit-wi593-retry"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-593-wi591-doc-parity-recovery.md",
+    "docs/work-items/WI-593-wi591-doc-parity-recovery.zh-CN.md",
+    "docs/work-items/WI-593-wi591-doc-parity-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-593-wi591-doc-parity-recovery"
+}
