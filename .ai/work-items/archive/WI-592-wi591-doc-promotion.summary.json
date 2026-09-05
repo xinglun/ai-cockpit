@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-05T13:29:13Z",
+  "checkpointContractDigest": "sha256:9c6e2ff70bb0c4eb3cefc455c7a6aaf3085773113031d0acffdb47e1e42168a8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:8291ee10eebdf9e15bcc92fbbb755483a21cd8d890a27801844af9d22b409f7f",
+      "recorded": true,
+      "recordedAt": "2026-09-05T13:29:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e965c487123a322f76e68321309bf3b408979ec8c3fbe1b173ee3dd15c5aca87",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-592-wi591-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:9c6e2ff70bb0c4eb3cefc455c7a6aaf3085773113031d0acffdb47e1e42168a8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8291ee10eebdf9e15bcc92fbbb755483a21cd8d890a27801844af9d22b409f7f",
+      "previousContractHash": "sha256:8291ee10eebdf9e15bcc92fbbb755483a21cd8d890a27801844af9d22b409f7f",
+      "reason": "Bind the reviewed GitHub PR #577 and dedicated documentation worktree before terminal verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T13:30:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e965c487123a322f76e68321309bf3b408979ec8c3fbe1b173ee3dd15c5aca87",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-592-wi591-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e965c487123a322f76e68321309bf3b408979ec8c3fbe1b173ee3dd15c5aca87",
+  "createdAt": "2026-09-05T13:28:46Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-05T13:31:07Z",
+  "preflightContractDigest": "sha256:9c6e2ff70bb0c4eb3cefc455c7a6aaf3085773113031d0acffdb47e1e42168a8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e965c487123a322f76e68321309bf3b408979ec8c3fbe1b173ee3dd15c5aca87",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T13:31:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-592-wi591-doc-promotion"
+}

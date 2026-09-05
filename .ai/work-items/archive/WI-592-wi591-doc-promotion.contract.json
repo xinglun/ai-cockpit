@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-591 Work Item documents match their archived Contract/Summary evidence and contain no invented governance claims.",
+    "All three reference-parity files register WI-591 consistently with links and evidence paths.",
+    "promote_closed_work_item.py --repo <repo> --check-all reports overall state current."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8b42b9c0c7fa5546134284a13b9ee1bc2632df8b",
+  "createdAt": "2026-09-05T13:28:46Z",
+  "goal": "Make the post-close documentation promotion gate current for WI-591 before publishing v0.2.77.",
+  "intent": "Promote the closed WI-591 release Work Item documentation and three-language reference parity projections without changing governance facts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "Cargo.toml",
+    "Cargo.lock",
+    "object repositories",
+    "global Agent/MCP configuration",
+    "historical .ai bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0282478461aaca28120241fbf5eaea516c9b59694427b6b13fe5d37294dcc7b1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-592-wi591-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/577",
+    "worktree": "/private/tmp/ai-cockpit-wi592-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-591-release-v0-2-77.md",
+    "docs/work-items/WI-591-release-v0-2-77.zh-CN.md",
+    "docs/work-items/WI-591-release-v0-2-77.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-592-wi591-doc-promotion"
+}
