@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-589——Contract 修订重验证后的前置 Work Item 关闭"
 description: "在后继 Work Item 重验证修订后的 Contract 后，为旧 Provider 收据提供绑定关闭的历史投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-589-predecessor-close-revalidation
 lastVerifiedBy: WI-589-predecessor-close-revalidation
+terminalArchive: .ai/work-items/archive/WI-589-predecessor-close-revalidation.contract.json
+terminalVerification: .ai/evidence/WI-589-predecessor-close-revalidation.verification.json
+terminalFinalization: .ai/decisions/WI-589-predecessor-close-revalidation.finalize.046eea80433b45884c522474d2bca7da061b2056187418e638d962d86699db3d.json
+terminalDecision: .ai/decisions/WI-589-predecessor-close-revalidation.close.json
 ---
 
 [English](WI-589-predecessor-close-revalidation.md) · [日本語](WI-589-predecessor-close-revalidation.ja.md)

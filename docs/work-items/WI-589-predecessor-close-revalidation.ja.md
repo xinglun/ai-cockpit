@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-589 — Contract amendment 再検証後の predecessor close"
 description: "successor が修訂 Contract を再検証した後、旧 provider finalization receipt を歴史証拠として close に束縛する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-589-predecessor-close-revalidation
 lastVerifiedBy: WI-589-predecessor-close-revalidation
+terminalArchive: .ai/work-items/archive/WI-589-predecessor-close-revalidation.contract.json
+terminalVerification: .ai/evidence/WI-589-predecessor-close-revalidation.verification.json
+terminalFinalization: .ai/decisions/WI-589-predecessor-close-revalidation.finalize.046eea80433b45884c522474d2bca7da061b2056187418e638d962d86699db3d.json
+terminalDecision: .ai/decisions/WI-589-predecessor-close-revalidation.close.json
 ---
 
 [English](WI-589-predecessor-close-revalidation.md) · [简体中文](WI-589-predecessor-close-revalidation.zh-CN.md)
