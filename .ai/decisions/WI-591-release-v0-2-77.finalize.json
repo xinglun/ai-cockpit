@@ -1,0 +1,58 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cc15a423311e97d1551992620de802a4bed1a046",
+    "name": "codex/wi-591-release-v0-2-77",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:72602a6a8fc834f3c44084a46b04dfccf4177a395d139eb758304319e3a51ec3",
+  "operationId": "github-pr-576-finalization-20260905",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "80b1d5a657cb2dd955787c2dfb49f412433d10ee",
+    "headRevision": "cc15a423311e97d1551992620de802a4bed1a046",
+    "mergeCommit": "0ad494cd610e1ca4fcca3b647857ad901a068a66",
+    "number": 576,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/576"
+  },
+  "reason": "Reviewed PR merged; record provider finalization before exact cleanup.",
+  "receiptId": "github-pr-576-finalization-20260905",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-591-release-v0-2-77",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/576",
+    "worktree": "/private/tmp/ai-cockpit-wi591-release-v0-2-77"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T13:23:30Z",
+  "workItemId": "WI-591-release-v0-2-77",
+  "worktree": {
+    "branch": "codex/wi-591-release-v0-2-77",
+    "headRevision": "cc15a423311e97d1551992620de802a4bed1a046",
+    "path": "/private/tmp/ai-cockpit-wi591-release-v0-2-77",
+    "worktreeId": "WI-591-release-v0-2-77"
+  }
+}
