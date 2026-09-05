@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-593——WI-592 parity 恢复重验证"
 description: "通过追加式后继任务重新交付缺失的 parity 登记，不重写 WI-592 历史。"
 audience: [maintainer, reviewer, adopter]
-status: in-progress
+status: implemented
 authority: canonical
 workItemId: WI-593-wi591-doc-parity-recovery
 lastVerifiedBy: WI-593-wi591-doc-parity-recovery
+terminalArchive: .ai/work-items/archive/WI-593-wi591-doc-parity-recovery.contract.json
+terminalVerification: .ai/evidence/WI-593-wi591-doc-parity-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-593-wi591-doc-parity-recovery.finalize.f1adebd4711b32d6c621eb97a93219fe741ed770d738229ff4e65c712b470b4b.json
+terminalDecision: .ai/decisions/WI-593-wi591-doc-parity-recovery.close.json
 ---
 
 [English](WI-593-wi591-doc-parity-recovery.md) · [日本語](WI-593-wi591-doc-parity-recovery.ja.md)
