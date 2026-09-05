@@ -28,7 +28,7 @@
         "number": 580,
         "url": "https://github.com/xinglun/ai-cockpit/pull/580"
       },
-      "registryBaseRevision": "2f9bc90dde78a2d899150c23d70de78a3258be56",
+      "registryBaseRevision": "0449bcfe931bc7313668c249ee1f1f2798bf4f21",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-594-recovery-successor-compatibility"
