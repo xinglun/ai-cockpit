@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-release-fix",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2f3f6c55241c6e6110b1f307fd2ee7cc334e9ab0",
+    "name": "codex/wi-589-predecessor-close-revalidation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:168d0331cb65b313306dbcebd70719a9263500f17bdd5e22e5ffc8ee530e02a8",
+  "operationId": "github-pr-574-WI-589-merge-observation-20260905",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "3dfda5ab02b7f0e0cda688f146ea2fa1fa963ab2",
+    "headRevision": "2f3f6c55241c6e6110b1f307fd2ee7cc334e9ab0",
+    "mergeCommit": "8f7cc904d2bec03596af91baf531b581f2b3b761",
+    "number": 574,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/574"
+  },
+  "reason": "reviewed PR merged; cleanup is recorded as a separate append-only transition",
+  "receiptId": "github-pr-574-WI-589-merge-observation-20260905",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-589-predecessor-close-revalidation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/574",
+    "worktree": "/private/tmp/ai-cockpit-wi589-predecessor-close-revalidation"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T12:22:05Z",
+  "workItemId": "WI-589-predecessor-close-revalidation",
+  "worktree": {
+    "branch": "codex/wi-589-predecessor-close-revalidation",
+    "headRevision": "2f3f6c55241c6e6110b1f307fd2ee7cc334e9ab0",
+    "path": "/private/tmp/ai-cockpit-wi589-predecessor-close-revalidation",
+    "worktreeId": "WI-589-predecessor-close-revalidation"
+  }
+}
