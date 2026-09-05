@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a2b781219cae60fb040cde962ab516f0ae783515",
+    "name": "codex/wi-596-release-v0-2-78",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:2e326205d6ebfb5361a6601b7f1c36f6dda6f7fe39f46b4323de50c2530fcfb3",
+  "operationId": "github-pr-583-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "170631f2cb7c2b2a0d12e18dc98ecbbe9310d0da",
+    "headRevision": "a2b781219cae60fb040cde962ab516f0ae783515",
+    "mergeCommit": "c07ef9d3779402daa3a43bad766430544176e247",
+    "number": 583,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/583"
+  },
+  "reason": "Record the reviewed PR merge and exact branch/worktree cleanup for the v0.2.78 release Work Item.",
+  "receiptId": "github-pr-583-finalization-20260905",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-596-release-v0-2-78",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/583",
+    "worktree": "/private/tmp/ai-cockpit-wi596-release-v0-2-78"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T19:08:54Z",
+  "workItemId": "WI-596-release-v0-2-78",
+  "worktree": {
+    "branch": "codex/wi-596-release-v0-2-78",
+    "headRevision": "a2b781219cae60fb040cde962ab516f0ae783515",
+    "path": "/private/tmp/ai-cockpit-wi596-release-v0-2-78",
+    "worktreeId": "WI-596-release-v0-2-78"
+  }
+}
