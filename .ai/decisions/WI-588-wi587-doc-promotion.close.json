@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-588-wi587-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8fcf14603b9cd098ebde11dc11cc0711610f881749fd9b167169ee628d1ae2f8",
+      "workItemId": "WI-588-wi587-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-588-wi587-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-588-wi587-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-588-wi587-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-588-wi587-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-588-wi587-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-588-wi587-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-588-wi587-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-documentation-promotion at 2026-09-05T11:40:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-588-wi587-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-588-wi587-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-588-wi587-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-588-wi587-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the three-language Work Item pages and parity rows reflect the immutable closed WI-587 evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-588-wi587-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-588-wi587-doc-promotion"
+  },
+  "finalReportDigest": "sha256:5225b7ff423ef97af9453eb5747f197bbe9c2da09b742a26a571a1e0e5f107c6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:33965ff4941241515f9bbc71af9d8ed56a248ef0ffe41c9a679aa67e35dc2194",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-588-wi587-doc-promotion.finalize.e458f29a50aff6e220e47e456aca04ea30806268c8a8de77596ba1a0421cb41f.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-documentation-promotion",
+    "decidedAt": "2026-09-05T11:40:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-588-wi587-doc-promotion.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "Reviewed PR #573 is merged; finalization sequence and exact branch/worktree cleanup are verified; WI-587 terminal documentation now matches immutable evidence.",
+    "resumeCondition": "If later evidence is contradicted, open a bounded recovery Work Item."
+  },
+  "timestamp": "2026-09-05T11:36:41Z",
+  "workItemId": "WI-588-wi587-doc-promotion"
+}
