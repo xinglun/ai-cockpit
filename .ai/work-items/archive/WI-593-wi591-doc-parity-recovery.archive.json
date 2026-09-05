@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-05T14:52:17Z",
+  "files": {
+    "contractDigest": "sha256:4691f9ae5f5dca55ccaf3d430a69a9119e6cf75d7a8a3dc09872f17017ba4bb7",
+    "contractPath": ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.contract.json",
+    "eventsDigest": "sha256:021bdaa1ff35a038703bead3daf9ff8f9f660ec1f5bf93383277af5a3be2b50d",
+    "eventsPath": ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.events.jsonl",
+    "outcomeDigest": "sha256:61a8e175018f81185dfc67560ff3fa0c4bc839185db98d75a59b7f4574fdb8bf",
+    "outcomePath": ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.outcome.json",
+    "summaryDigest": "sha256:5bbf15418a6db15a18fdc73294a1d946bb6faab31da1feb628f73b5020a63af9",
+    "summaryPath": ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.summary.json",
+    "taskReportDigest": "sha256:bd491448d3398c39ecded2bd789d88ad14985e94191acd47830bc95d4eaec482",
+    "taskReportMarkdownDigest": "sha256:6b0ce04b27b0d43f1951734202b7384a18a49a06042b8ae1a341904588a0d50a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-593-wi591-doc-parity-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-593-wi591-doc-parity-recovery"
+}
