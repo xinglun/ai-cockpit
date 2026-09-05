@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-577：当前参考比对元数据同步"
 description: "让当前比对基线和三语元数据投影绑定经过评审的发布版本。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-577-reference-metadata-sync
 lastVerifiedBy: WI-577-reference-metadata-sync
+terminalArchive: .ai/work-items/archive/WI-577-reference-metadata-sync.contract.json
+terminalVerification: .ai/evidence/WI-577-reference-metadata-sync.verification.json
+terminalFinalization: .ai/decisions/WI-577-reference-metadata-sync.finalize.json
+terminalDecision: .ai/decisions/WI-577-reference-metadata-sync.close.json
 ---
 
 [English](WI-577-reference-metadata-sync.md) · [日本語](WI-577-reference-metadata-sync.ja.md)

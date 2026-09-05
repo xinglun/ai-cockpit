@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-577 — current reference-comparison metadata synchronization"
 description: "Keep the live comparison baseline and tri-language metadata projection bound to the reviewed release."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-577-reference-metadata-sync
 lastVerifiedBy: WI-577-reference-metadata-sync
+terminalArchive: .ai/work-items/archive/WI-577-reference-metadata-sync.contract.json
+terminalVerification: .ai/evidence/WI-577-reference-metadata-sync.verification.json
+terminalFinalization: .ai/decisions/WI-577-reference-metadata-sync.finalize.json
+terminalDecision: .ai/decisions/WI-577-reference-metadata-sync.close.json
 ---
 
 [简体中文](WI-577-reference-metadata-sync.zh-CN.md) · [日本語](WI-577-reference-metadata-sync.ja.md)
