@@ -1,0 +1,81 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "WI-577 terminal projection",
+          "path": "docs/work-items/WI-577-reference-metadata-sync.md",
+          "type": "documentation",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "parity registration",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "promotion and docs checks",
+          "path": "tests/docs/promote_closed_work_item.py",
+          "type": "test",
+          "verification": "pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "immutable record boundary",
+          "path": ".ai/decisions/WI-577-reference-metadata-sync.close.json",
+          "type": "evidence",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-578-wi577-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-578-wi577-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T01:10:04Z",
+  "checkpointContractDigest": "sha256:55217c1082cf1e41bdd4f01c2626b89c4ab1849873ba4215801d8f4489bfc85b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d18f26ddf476299373427ec351f29cb97d93d01d1cdb6e63decc65ff1533c67c",
+  "createdAt": "2026-09-05T01:04:47Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-577-reference-metadata-sync.close.json",
+      "tests/docs/promote_closed_work_item.py"
+    ],
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-05T01:12:29Z",
+  "preflightContractDigest": "sha256:55217c1082cf1e41bdd4f01c2626b89c4ab1849873ba4215801d8f4489bfc85b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d18f26ddf476299373427ec351f29cb97d93d01d1cdb6e63decc65ff1533c67c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T01:12:34Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-578-wi577-doc-promotion"
+}

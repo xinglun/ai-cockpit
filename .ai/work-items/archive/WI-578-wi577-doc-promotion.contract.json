@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "A1: 三个 WI-577 Work Item 页面升级为 implemented，并链接 archive、verification、finalization、close 终态证据",
+    "A2: 三个 reference-parity 页面将 WI-577 标记为已实现，并保留元数据防回归的有界说明",
+    "A3: 三种语言页面保持对应链接、语义一致，文档验收和状态一致性检查通过",
+    "A4: 不修改 WI-577 不可变治理 bytes、Runtime、对象工程或全局配置"
+  ],
+  "authority": "authorized",
+  "baseRevision": "94b8179811a951389e2debc381e60758e00a1133",
+  "createdAt": "2026-09-05T01:04:47Z",
+  "goal": "晋级已关闭 WI-577 的三语文档投影，消除 promote_closed_work_item 检出的终态文档遗漏。",
+  "intent": "将 WI-577 的三语 Work Item 页面和 parity 登记从 in_progress 晋级为与已验证 close 证据一致的 implemented，且不重写历史事实。",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust Runtime 行为、参考源实现复制、对象工程、全局 Agent/MCP 配置、WI-577 archive/evidence/decision bytes、历史批次文字"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:621fd1f32cd3dd10175b91933ce3c45c30542d6e207e314c1e238fdc0b6f59a6",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-578-wi577-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/560",
+    "worktree": "/private/tmp/ai-cockpit-wi578-wi577-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-577-reference-metadata-sync.md",
+    "docs/work-items/WI-577-reference-metadata-sync.zh-CN.md",
+    "docs/work-items/WI-577-reference-metadata-sync.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-578-wi577-doc-promotion.md",
+    "docs/work-items/WI-578-wi577-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-578-wi577-doc-promotion.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-577-reference-metadata-sync.contract.json",
+    ".ai/evidence/WI-577-reference-metadata-sync.verification.json",
+    ".ai/decisions/WI-577-reference-metadata-sync.finalize.json",
+    ".ai/decisions/WI-577-reference-metadata-sync.close.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/work-items/WI-577-reference-metadata-sync.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-578-wi577-doc-promotion"
+}
