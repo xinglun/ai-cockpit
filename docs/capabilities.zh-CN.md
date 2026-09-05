@@ -139,6 +139,11 @@ knowledge 保持 byte-for-byte historical record。`INCOMPATIBLE` 会在写入�
 `COMPATIBLE`。`MIGRATION_REQUIRED` 或 `INCOMPATIBLE` 会在创建新 record 或 evidence 前停止。
 compatibility、migration plan、observe、status 和 doctor 等只读诊断仍可用，以便审查下一步安全操作。
 
+如果归档后的 Contract 经审查被合法修复，`work-item revalidate-archived` 会创建 append-only 的
+`contract_amendment_revalidation` successor。它绑定当前 archive/Contract，同时保留历史 evidence bytes；
+predecessor 会保持 pending，直到 successor 独立完成 verification、finalization 和 human close。无效历史
+evidence 不能被提升为当前结论。
+
 ### 显式连接 Agent
 
 `attach` 只创建 repository facts，不修改 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、

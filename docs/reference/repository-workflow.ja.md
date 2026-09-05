@@ -83,6 +83,14 @@ lineage を継続するか、明示的に `supersede` を記録してくださ�
 をファイル名から人が推測する状態を残さず、predecessor の bytes を書き換えずに
 recovery graph と終端 decision の監査可能性を保ちます。
 
+review 済みの修正が archived Contract を正当に変更した場合は、`work-item
+revalidate-archived` で `contract_amendment_revalidation` successor decision を記録します。
+現在の archive manifest と Contract digest を bind しつつ、歴史的 Contract と verification
+evidence digest を保持し、`not_ready` successor scaffold を作成します。predecessor は
+successor が verified、finalized、human-confirmed close の terminal record に到達するまで
+pending のままです。predecessor bytes は書き換えず、invalid な historical evidence から
+successor を作成することもできません。
+
 archived predecessor に、対象の binding が未完了だった古い successor 試行が残って
 いる場合でも、より新しく有効な `supersede` receipt がその歴史的残留を解決できます。
 Runtime は、その receipt が有効で記録時刻の順序で勝つ場合に限り古い記録を historical

@@ -3374,6 +3374,22 @@ pub struct RecoveryDecisionReceipt {
     /// omitted remains the wire-compatible default for historical receipts.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub successor_binding_mode: Option<String>,
+    /// Current archived Contract bytes used by the narrow append-only
+    /// revalidation path.  For ordinary retry/successor decisions this is
+    /// omitted and `predecessorContractDigest` remains the exact binding.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub current_contract_digest: Option<Digest>,
+    /// Digest of the repository-local verification evidence that still binds
+    /// the historical predecessor Contract.  This is required only for the
+    /// `contract_amendment_revalidation` successor mode.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_verification_evidence_digest: Option<Digest>,
+    /// The Contract digest recorded by an existing provider finalization
+    /// receipt. Older finalization records used a raw Contract-file digest,
+    /// while verification evidence used the canonical JSON digest; preserve
+    /// that exact identity when an amended archive is revalidated.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_finalization_contract_digest: Option<Digest>,
     pub runtime_version: String,
     pub runtime_digest: Digest,
     pub actor: String,

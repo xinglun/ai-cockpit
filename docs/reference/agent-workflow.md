@@ -84,6 +84,16 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   its original bytes unchanged. It does not make verification green or rewrite
   the predecessor; the superseded item is neither a current pass nor a current
   failure, and follow-up belongs to the successor.
+- When a reviewed governance change legitimately repairs an archived Contract,
+  use `work-item revalidate-archived` rather than editing historical evidence or
+  reusing `work-item recover` with a stale Contract digest. The command records
+  an append-only `contract_amendment_revalidation` successor decision bound to
+  the current archive manifest/Contract and intact historical verification
+  evidence, then creates a `not_ready` successor while the predecessor remains
+  pending close. The successor owns fresh intent, scope, verification,
+  finalization, and human close; only its repository-bound terminal evidence
+  permits the predecessor's historical close. Missing or contradictory history
+  remains fail-closed and no predecessor bytes are rewritten.
 - A required high-risk scenario that can only run after implementation may be
   marked `unverified` in Contract `scenarioCoverage` only when both a non-empty
   `expected` (or `expectedResult`) and a concrete `verificationPlan` are
