@@ -13,14 +13,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-05T22:57:17Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T23:30:55Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:f32a79268b489341f1a18a0d50100245184be723842027a922eb32ab76aa94a5",
   "workItemId": "WI-600-release-v0-2-79"
 }
