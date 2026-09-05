@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-596 — v0.2.78 release と object-adopter recovery handoff"
 description: "archived Work Item recovery compatibility 修正を含む Runtime を公開し、public artifact を検証します。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-596-release-v0-2-78
 lastVerifiedBy: WI-596-release-v0-2-78
+terminalArchive: .ai/work-items/archive/WI-596-release-v0-2-78.contract.json
+terminalVerification: .ai/evidence/WI-596-release-v0-2-78.verification.json
+terminalFinalization: .ai/decisions/WI-596-release-v0-2-78.finalize.json
+terminalDecision: .ai/decisions/WI-596-release-v0-2-78.close.json
 ---
 
 [English](WI-596-release-v0-2-78.md) · [简体中文](WI-596-release-v0-2-78.zh-CN.md)

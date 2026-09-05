@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-596——v0.2.78 发布与对象工程恢复交接"
 description: "发布包含归档 Work Item 恢复兼容修复的 Runtime，并验收公开产物。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-596-release-v0-2-78
 lastVerifiedBy: WI-596-release-v0-2-78
+terminalArchive: .ai/work-items/archive/WI-596-release-v0-2-78.contract.json
+terminalVerification: .ai/evidence/WI-596-release-v0-2-78.verification.json
+terminalFinalization: .ai/decisions/WI-596-release-v0-2-78.finalize.json
+terminalDecision: .ai/decisions/WI-596-release-v0-2-78.close.json
 ---
 
 [English](WI-596-release-v0-2-78.md) · [日本語](WI-596-release-v0-2-78.ja.md)

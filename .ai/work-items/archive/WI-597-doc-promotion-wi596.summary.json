@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json",
+    ".ai/work-items/archive/WI-597-doc-promotion-wi596.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T19:12:36Z",
+  "checkpointContractDigest": "sha256:9e6ade9e2b8b0fb87e3c4407e1763c17d939ca5a9b486d69cff6f289fd61a2ab",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:34f60e2cb72e10dcacafc7b2fcce05d32392fab80a46a31ddb84822ff10ff079",
+      "recorded": true,
+      "recordedAt": "2026-09-05T19:12:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:af2adb6bf25322116130b903b1fca8c62cbfa227ebed31d269b75b03622f87b0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-597-doc-promotion-wi596"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:308485c84e4d23ed0ae2d486a7fe9060b395c05a7cdb609b34c2ad635025b0f0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:34f60e2cb72e10dcacafc7b2fcce05d32392fab80a46a31ddb84822ff10ff079",
+      "previousContractHash": "sha256:34f60e2cb72e10dcacafc7b2fcce05d32392fab80a46a31ddb84822ff10ff079",
+      "reason": "Narrow docs promotion requires no separate evidence class; verification remains the authoritative evidence receipt.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T19:14:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:af2adb6bf25322116130b903b1fca8c62cbfa227ebed31d269b75b03622f87b0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-597-doc-promotion-wi596"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:af2adb6bf25322116130b903b1fca8c62cbfa227ebed31d269b75b03622f87b0",
+  "createdAt": "2026-09-05T19:11:51Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-05T19:15:14Z",
+  "preflightContractDigest": "sha256:9e6ade9e2b8b0fb87e3c4407e1763c17d939ca5a9b486d69cff6f289fd61a2ab",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:af2adb6bf25322116130b903b1fca8c62cbfa227ebed31d269b75b03622f87b0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T19:15:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-597-doc-promotion-wi596"
+}
