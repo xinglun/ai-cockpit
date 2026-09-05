@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2e9b0b78e08629382dd28d86fc03de9deaba5694",
+    "name": "codex/wi-587-reference-file-comparison-batch-47",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:84ad5d8bf08df8155e0c5b24162b1665b55d26f9d928a3b254f0d74bf236fdc5",
+  "operationId": "github-pr-572-WI-587-awaiting-merge-close-20260905",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "aa721c6172d4f6bc41d7d5205eaa34757441efa8",
+    "headRevision": "2e9b0b78e08629382dd28d86fc03de9deaba5694",
+    "number": 572,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/572"
+  },
+  "reason": "PR #572 is open and the exact reviewed branch and dedicated worktree remain retained until merge and close.",
+  "receiptId": "github-pr-572-WI-587-pre-merge-20260905",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-587-reference-file-comparison-batch-47",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/572",
+    "worktree": "/private/tmp/ai-cockpit-wi587-reference-batch-47"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T11:00:00Z",
+  "workItemId": "WI-587-reference-file-comparison-batch-47",
+  "worktree": {
+    "branch": "codex/wi-587-reference-file-comparison-batch-47",
+    "headRevision": "2e9b0b78e08629382dd28d86fc03de9deaba5694",
+    "path": "/private/tmp/ai-cockpit-wi587-reference-batch-47",
+    "worktreeId": "WI-587-reference-file-comparison-batch-47"
+  }
+}
