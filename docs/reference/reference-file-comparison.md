@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-587-reference-file-comparison-batch-47
+lastVerifiedBy: WI-598-reference-test-parity-batch-48
 capabilityClaims:
   - reference_parity
 ---
@@ -30,8 +30,8 @@ check is executable and fails closed when any translated page drifts.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `aa721c6172d4f6bc41d7d5205eaa34757441efa8`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.76` binary, SHA256 `sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `8c619299c3d2d672ece1497392006812cc874ee5`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.78` binary, SHA256 `sha256:cebab206b1609660d548c889cf79cd07e60ba3ab78953b180dd34d3c7b4c4869`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=454 implemented-equivalent=1 not-applicable=7 reference-only=129 deferred-next-batch=178 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=472 implemented-equivalent=1 not-applicable=7 reference-only=131 deferred-next-batch=158 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -275,11 +275,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 454 |
+| `implemented-different-by-design` | 472 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 129 |
-| `deferred-next-batch` | 178 |
+| `reference-only` | 131 |
+| `deferred-next-batch` | 158 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2152,3 +2152,26 @@ values, or source wire formats. The current snapshot now has 3,681
 `implemented-equivalent`, 7 `not-applicable`, 121 `reference-only`, and 198
 `deferred-next-batch` records; `migrate-gap` remains zero and 669 retired
 records remain append-only. See the [WI-580 recovery Work Item record](../work-items/WI-580-reference-template-parity-batch-46-recovery.md).
+
+## WI-598 — reference test parity batch 48
+
+WI-598 compares the next twenty maintained source test paths at the pinned
+local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`. The complete
+path-level decisions are in the machine ledger and are summarized below:
+
+| Source path group | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `tests/test_ai_project_doctor.py`, `tests/test_bootstrap_repository.py` | implemented-different-by-design | Typed Git/RepositoryObservation plus attach, inspect, status, and doctor facts; source heuristics are not copied. |
+| `tests/test_ai_validate_java_runtime.py`, `tests/test_bandit_baseline.py` | reference-only | Java/JAVA_HOME selection and Python/Bandit baseline remain provider/toolchain responsibilities. |
+| `tests/test_baseline_diff.py`, `tests/test_baseline_evidence.py`, `tests/test_canonical_evidence.py` | implemented-different-by-design | Snapshot, scope, evidence identity, digest, expiry, and deterministic receipt validation in Rust-native services/tests. |
+| `tests/test_bootstrap_wizard.py`, `tests/test_bootstrap_write_boundary.py`, `tests/test_calibrate.py`, `tests/test_calibration_inventory.py`, `tests/test_calibration_profiles.py`, `tests/test_calibration_session.py`, `tests/test_calibration_wizard.py` | implemented-different-by-design | Explicit profile proposal/confirmation, preflight, adapter write boundary, unknown preservation, and repository binding; interactive Python wizard/session bytes are not imported. |
+| `tests/test_capability_claims.py`, `tests/test_capability_freshness.py`, `tests/test_capability_truth_matrix.py`, `tests/test_changed_critical_coverage.py`, `tests/test_ci_quality_orchestration.py`, `tests/test_ci_release_evidence.sh` | implemented-different-by-design | Typed capability/evidence freshness, reviewed CI gate manifest, phased quality routing, release evidence, SBOM/provenance, and native regressions. |
+
+No portable implementation omission was found. The attached object/adopter
+route inherits these shared Runtime, repository-isolation, evidence, dynamic
+quality, and human Outcome boundaries; it does not inherit Python tests,
+toolchain validators, Bandit data, or source wire formats. The current snapshot
+is 3,681 `generated-history`, 472 `implemented-different-by-design`, one
+`implemented-equivalent`, 7 `not-applicable`, 131 `reference-only`, and 158
+`deferred-next-batch` records; `migrate-gap` remains zero and 669 retired
+records remain append-only. See the [WI-598 Work Item record](../work-items/WI-598-reference-test-parity-batch-48.md).

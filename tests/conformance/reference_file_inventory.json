@@ -38714,17 +38714,26 @@
     },
     {
       "referencePath": "tests/test_ai_project_doctor.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/doctor.rs",
+        "crates/cockpit-repository/tests/observer.rs",
+        "docs/getting-started/installation.md"
+      ],
+      "reason": "Read-only project fact discovery is represented by typed RepositoryObservation and inspect/status/doctor projections. Rust does not copy source heuristics or infer provider toolchain approval.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_ai_validate_java_runtime.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/examples/java.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Java/JAVA_HOME selection and stack-lane command gating are adopter/provider toolchain responsibilities. The shared Runtime accepts explicit argv and evidence but does not ship a Java validator or infer a matching runtime.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_ai_verification_runtime.py",
@@ -38742,115 +38751,193 @@
     },
     {
       "referencePath": "tests/test_bandit_baseline.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "tests/ci/governance_integrity_gate.py",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "Bandit baseline hashing is Python-toolchain-specific source security history. Rust uses native quality/security gates and delegated evidence without a Python/Bandit product surface or copied baseline wire.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_baseline_diff.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "crates/cockpit-repository/tests/scope_overlap.rs"
+      ],
+      "reason": "Baseline commit, dirty-path, rename, mode, and safe scope observations are represented by typed Git snapshots and Contract-bound verification context. Rust keeps conservative path normalization rather than copying the source helper implementation.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_baseline_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-protocol/tests/verification_semantics.rs"
+      ],
+      "reason": "Baseline evidence captures identity, unavailable measurements, regression findings, and deterministic digests through typed verification/evidence services. The source Python report shape is not a Runtime wire contract.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_bootstrap_repository.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/tests/observer.rs",
+        "crates/cockpit-cli/tests/attach.rs"
+      ],
+      "reason": "Repository detection and revalidation of Git, remotes, dirty/conflict state, and identity are provided by the shared Git observer and explicit attach/inspect routes. Rust does not copy bootstrap dataclasses or filesystem fallbacks as authority.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_bootstrap_wizard.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-cli/tests/profile_propose.rs",
+        "crates/cockpit-repository/tests/preflight_review.rs"
+      ],
+      "reason": "The source wizard's back/cancel/stale-confirmation and explicit-write boundaries are preserved by read-only attach/profile proposal, identity-bound confirmation, and fail-closed preflight. Interactive prompt/session presentation remains adapter-owned.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_bootstrap_write_boundary.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/tests/install.rs",
+        "crates/cockpit-agent/tests/doctor.rs",
+        "crates/cockpit-cli/tests/agent.rs"
+      ],
+      "reason": "Dry-run, exact confirmation, path/symlink safety, idempotent managed sections, and revalidation are enforced by the repository-local Agent adapter planner and doctor. Source Makefile marker bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_calibrate.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-cli/tests/profile_propose.rs",
+        "docs/getting-started/first-calibration.md"
+      ],
+      "reason": "Calibration proposals project observed controls without claiming human selection; Rust keeps candidate/confirmed profile state, explicit owner confirmation, and repository/snapshot binding without the source Python session implementation.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_calibration_inventory.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/governance-profiles.md"
+      ],
+      "reason": "Calibration inventory facts distinguish command evidence from static configuration, missing/stale inputs, and template boundaries through typed profile/status projections. Source ten-column inventory JSON is not imported.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_calibration_profiles.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "docs/reference/governance-profiles.md"
+      ],
+      "reason": "Profile selection, monotonic upgrades, bounded downgrades, exact controls, and human evidence are represented by repository-local JSON policy and explicit profile confirmation. Source Lite/Standard/Strict YAML bytes remain outside the protocol.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_calibration_session.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-repository/tests/evolution.rs",
+        "docs/getting-started/calibration.md"
+      ],
+      "reason": "Unknown answers, checklist evidence, stale dependencies, atomic activation, and recovery are preserved by candidate profile/proposal and repository-bound amendment checks. Rust intentionally does not add a generic source Session wire format.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_calibration_wizard.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/profile.rs",
+        "crates/cockpit-cli/tests/profile_propose.rs",
+        "docs/getting-started/first-calibration.md"
+      ],
+      "reason": "Wizard ordering, pause/resume, applicability, unknowns, and activation safety are expressed through explicit non-interactive profile commands and human confirmation. TTY prompts and source locale resources remain presentation-adapter concerns.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_canonical_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-evidence/src/lib.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-protocol/tests/verification_semantics.rs"
+      ],
+      "reason": "Canonical evidence identity, digest, expiry, duplicate-reference, claim binding, and deterministic rendering are enforced by typed evidence/repository receipts. The source document JSON is not a Rust wire-compatible schema.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_capability_claims.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "docs/capabilities.md"
+      ],
+      "reason": "Capability claim extraction, evidence binding, multilingual sibling consistency, freshness, and bounded qualifiers are represented by typed project/evidence projections and documentation gates; prose never becomes authority.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_capability_freshness.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "docs/capabilities.md"
+      ],
+      "reason": "Environment-neutral freshness, expiry, mismatch, and re-verification are represented by identity-bound Runtime evidence. Source Python freshness records and host-specific heuristics are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_capability_truth_matrix.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "docs/capabilities.md"
+      ],
+      "reason": "Capability matrix status vocabulary, evidence fields, source-digest binding, regeneration, and documentation claims are covered by typed repository evidence and native documentation checks without importing source matrix bytes.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_changed_critical_coverage.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/workspace_package_coverage_test.sh",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs"
+      ],
+      "reason": "Changed-critical selection, declared test mapping, floor integrity, candidate snapshots, and not-applicable evidence are represented by the reviewed gate manifest and Runtime Contract controls. Source pytest predictor output is not authority.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -38868,17 +38955,29 @@
     },
     {
       "referencePath": "tests/test_ci_quality_orchestration.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "Phased lightweight-to-expensive routing, release-intent separation, one workflow owner, and terminal job aggregation are represented by the reviewed dynamic gate manifest and native Runtime checks; source Python orchestration is not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_ci_release_evidence.sh",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-598-reference-test-parity-batch-48",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/release_gate_policy_test.sh",
+        "tests/ci/repository_gate_manifest_test.sh",
+        "crates/cockpit-cli/tests/ci_gate.rs",
+        "docs/reference/ci-release-evidence.md"
+      ],
+      "reason": "CI release evidence identity, required-job completeness, head/merge binding, failure reasons, artifact digests, SBOM, and provenance are enforced by typed gate/release manifests and native regressions. The source shell fixture is not a Runtime command contract.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_configuration_gate.py",

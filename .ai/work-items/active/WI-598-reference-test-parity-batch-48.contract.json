@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "Every one of the twenty pinned source paths has exactly one bounded classification, counterpart set, and non-overclaiming reason.",
+    "Portable governance semantics are mapped to existing Rust-native or repository-native responsibilities; source-only fixtures and provider/toolchain data remain reference-only.",
+    "Any real omission found in this comparison is fixed within this Work Item; no issue is silently deferred.",
+    "The inventory ledger, tri-language comparison/parity pages, metadata sidecar, regression scripts, and Work Item docs agree.",
+    "No historical evidence/archive, global configuration, or unsupported governance decision is modified or generated.",
+    "All declared conformance, documentation, governance-integrity, and locked workspace checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8c619299c3d2d672ece1497392006812cc874ee5",
+  "createdAt": "2026-09-05T20:57:23Z",
+  "goal": "Complete a bounded reference test parity batch, repair any confirmed portable omission in this Work Item, synchronize the tri-language ledger and release-bound documentation truth, and leave a clean published-runtime baseline for the next batch.",
+  "intent": "Compare the next twenty pinned reference test and fixture paths one file at a time and carry forward only evidence-backed governance semantics for the Rust Runtime and adopter repositories.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust Runtime behavior outside a confirmed portable omission in this slice",
+    "reference source copying or source wire compatibility",
+    "object repositories and their .ai records",
+    "global Agent or MCP configuration",
+    "future comparison batches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb2e39d6b3189c902befb9a1248808590cdf06a299133422fac916344e0b9950",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "conformance"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-598-reference-test-parity",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi598-reference-test-parity"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/reference_comparison_metadata_test.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/work-items/WI-598-reference-test-parity-batch-48.md",
+    "docs/work-items/WI-598-reference-test-parity-batch-48.zh-CN.md",
+    "docs/work-items/WI-598-reference-test-parity-batch-48.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-598-reference-test-parity-batch-48"
+}

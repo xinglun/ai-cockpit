@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-587-reference-file-comparison-batch-47
+lastVerifiedBy: WI-598-reference-test-parity-batch-48
 capabilityClaims:
   - reference_parity
 ---
@@ -25,8 +25,8 @@ capabilityClaims:
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `aa721c6172d4f6bc41d7d5205eaa34757441efa8`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.76`，binary SHA256 为 `sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `8c619299c3d2d672ece1497392006812cc874ee5`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.78`，binary SHA256 为 `sha256:cebab206b1609660d548c889cf79cd07e60ba3ab78953b180dd34d3c7b4c4869`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -307,7 +307,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=454 implemented-equivalent=1 not-applicable=7 reference-only=129 deferred-next-batch=178 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=472 implemented-equivalent=1 not-applicable=7 reference-only=131 deferred-next-batch=158 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -318,11 +318,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 454 |
+| `implemented-different-by-design` | 472 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 129 |
-| `deferred-next-batch` | 178 |
+| `reference-only` | 131 |
+| `deferred-next-batch` | 158 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1612,3 +1612,17 @@ WI-579 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 | `templates/stacks/android.mk`、`csharp.mk`、`flutter.mk`、`generic.mk`、`go.mk`、`java.mk`、`kotlin.mk`、`php.mk`、`python.mk`、`ruby.mk`、`rust.mk`、`swift.mk`、`typescript.mk` | reference-only | 技术栈命令、工具链选择和平台假设由 adopter 明确负责；shared Runtime 不推断或提供 stack preset。 |
 
 本批未发现可移植实现遗漏。对象/adopter 工程继承 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态验证边界和 human Outcome handoff；不会继承源 Python、Make、stack preset、provider policy 值或 source wire。当前快照为 3,681 个 `generated-history`、442 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、121 个 `reference-only`、198 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。详见 [WI-580 recovery Work Item 记录](../work-items/WI-580-reference-template-parity-batch-46-recovery.zh-CN.md)。
+
+## WI-598——参考源测试对等批次 48
+
+WI-598 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个比较下一批二十个维护测试路径。完整路径决定保存在机器台账，边界摘要如下：
+
+| 源路径组 | 分类 | Rust 对应/边界 |
+| --- | --- | --- |
+| `tests/test_ai_project_doctor.py`、`tests/test_bootstrap_repository.py` | 有意采用不同实现 | 类型化 Git/RepositoryObservation 以及 attach、inspect、status、doctor 事实；不复制源启发式。 |
+| `tests/test_ai_validate_java_runtime.py`、`tests/test_bandit_baseline.py` | 仅供参考 | Java/JAVA_HOME 选择和 Python/Bandit 基线是供应商/工具链责任。 |
+| `tests/test_baseline_diff.py`、`tests/test_baseline_evidence.py`、`tests/test_canonical_evidence.py` | 有意采用不同实现 | Rust-native snapshot、scope、evidence identity、digest、expiry 与确定性 receipt 校验。 |
+| `tests/test_bootstrap_wizard.py`、`tests/test_bootstrap_write_boundary.py`、`tests/test_calibrate.py`、`tests/test_calibration_inventory.py`、`tests/test_calibration_profiles.py`、`tests/test_calibration_session.py`、`tests/test_calibration_wizard.py` | 有意采用不同实现 | 显式 profile proposal/confirm、preflight、adapter 写边界、unknown 保留和仓库绑定；不导入 Python wizard/session 字节。 |
+| `tests/test_capability_claims.py`、`tests/test_capability_freshness.py`、`tests/test_capability_truth_matrix.py`、`tests/test_changed_critical_coverage.py`、`tests/test_ci_quality_orchestration.py`、`tests/test_ci_release_evidence.sh` | 有意采用不同实现 | 类型化 capability/evidence freshness、reviewed CI gate manifest、分阶段质量路由、release evidence、SBOM/provenance 与原生回归。 |
+
+本批没有发现可移植实现遗漏。对象/adopter 工程继承 shared Runtime、仓库隔离、evidence、动态质量和 human Outcome 边界；不会继承 Python 测试、工具链 validator、Bandit 数据或源 wire。当前快照为 3,681 个 `generated-history`、472 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、131 个 `reference-only` 和 158 个 `deferred-next-batch`；`migrate-gap` 仍为 0，669 个 retired 记录保持追加式不变。详见 [WI-598 Work Item](../work-items/WI-598-reference-test-parity-batch-48.zh-CN.md)。

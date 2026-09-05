@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-598-reference-test-parity-batch-48.contract.json",
+    ".ai/work-items/active/WI-598-reference-test-parity-batch-48.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T20:58:01Z",
+  "checkpointContractDigest": "sha256:fdff71c4a3fcbfb09f7677df97a3e230b812239ba7cecd0c00eb670e449c537c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7750cc52a706b62fc8b5ff800e2035017678bd83bfd10f8c0b85f75c3a488ace",
+  "createdAt": "2026-09-05T20:57:23Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-05T21:18:17Z",
+  "preflightContractDigest": "sha256:fdff71c4a3fcbfb09f7677df97a3e230b812239ba7cecd0c00eb670e449c537c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7750cc52a706b62fc8b5ff800e2035017678bd83bfd10f8c0b85f75c3a488ace",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-05T21:18:24Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:a710d616f6d80e64a2c5db0ea0e791d0ce4a930c7097f197bf024894a00c4076",
+  "workItemId": "WI-598-reference-test-parity-batch-48"
+}
