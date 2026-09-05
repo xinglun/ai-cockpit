@@ -16,7 +16,8 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # 发布分发架构
 
-发布完成后当前不可变发布基线是 `v0.2.77`；在其 provider Release 存在之前，`v0.2.76` 仍是可安装的公开基线。
+发布完成后当前不可变发布基线是 `v0.2.78`；在其 provider Release 存在之前，`v0.2.76` 仍是可安装的公开基线。
+`v0.2.77` 标签作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。
 `v0.2.68` 标签保留为不可变的发布失败历史（workflow run `33795945667`）：source quality
 在创建 provider Release 之前失败，因此不是安装基线且不得复用。
 预留的 `v0.2.51` tag 是不可变的发布失败尝试（workflow run `33417057474`），是没有 provider Release 的 lightweight tag，永远不会复用。
@@ -123,7 +124,7 @@ Release，并独立上传 receipt。手动触发必须显式提供公开的 `fro
 
 - `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
   hosted checks 和已发布 Release identity。
-- 当前不可变公开基线是 `v0.2.77`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
+- 当前不可变公开基线是 `v0.2.78`；public adopter acceptance 和 N-1 升级验收属于发布后 evidence。外部 Homebrew tap 是
   独立 provider surface，不由本仓库自动保证。
 - 预留的 `v0.2.24` tag 与不可变的 `v0.2.25` tag 作为发布前失败历史保留，不作为公开 Release，也永远不会复用。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。
