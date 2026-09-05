@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-576——WI-575 文档晋级重试"
 description: "以可证明的生命周期顺序重新交付 WI-574 终态文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-576-wi575-doc-promotion-retry
 lastVerifiedBy: WI-576-wi575-doc-promotion-retry
+terminalArchive: .ai/work-items/archive/WI-576-wi575-doc-promotion-retry.contract.json
+terminalVerification: .ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json
+terminalFinalization: .ai/decisions/WI-576-wi575-doc-promotion-retry.finalize.ff9b14cb37866d6e475e2dfc72c705bd289d494ae54790b2b5625c5292a94d42.json
+terminalDecision: .ai/decisions/WI-576-wi575-doc-promotion-retry.close.json
 ---
 
 [English](WI-576-wi575-doc-promotion-retry.md) · [日本語](WI-576-wi575-doc-promotion-retry.ja.md)

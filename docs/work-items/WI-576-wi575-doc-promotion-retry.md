@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-576 — WI-575 documentation-promotion retry"
 description: "Re-deliver the WI-574 terminal documentation projection with a provable lifecycle order."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-576-wi575-doc-promotion-retry
 lastVerifiedBy: WI-576-wi575-doc-promotion-retry
+terminalArchive: .ai/work-items/archive/WI-576-wi575-doc-promotion-retry.contract.json
+terminalVerification: .ai/evidence/WI-576-wi575-doc-promotion-retry.verification.json
+terminalFinalization: .ai/decisions/WI-576-wi575-doc-promotion-retry.finalize.ff9b14cb37866d6e475e2dfc72c705bd289d494ae54790b2b5625c5292a94d42.json
+terminalDecision: .ai/decisions/WI-576-wi575-doc-promotion-retry.close.json
 ---
 
 [简体中文](WI-576-wi575-doc-promotion-retry.zh-CN.md) · [日本語](WI-576-wi575-doc-promotion-retry.ja.md)
