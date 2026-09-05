@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Cargo metadata, lockfile, and release/versioning guidance identify v0.2.76 while retaining v0.2.75 as the preceding public baseline.",
+    "Release CI produces identity-bound five-target artifacts and supply-chain receipts for v0.2.76.",
+    "Public adopter and N-1 acceptance use only v0.2.76 downloaded artifacts, prove forbidden-root isolation and temporary-run cleanup, and exercise the same binary against this repository.",
+    "The release starts from a synchronized ready default branch and changes no Runtime behavior, object repository, global Agent/MCP configuration, failed-tag history, or unrelated evidence.",
+    "Any release or adopter failure preserves immutable release truth and records a failure receipt without source checkout, workspace binary, or moving-branch fallback."
+  ],
+  "createdAt": "2026-09-05T07:16:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:52a8e1faacd32120cf7ef81d0fe4d441222e220bf80114f5a36be48f9e61c82e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-584-release-v0-2-76.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-584-release-v0-2-76.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-584-release-v0-2-76.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:929437c8a6d5f85e9029d1bdf84ad6d4629ececce339d8175880eb5edd3db2bc",
+      "workItemId": "WI-584-release-v0-2-76"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-584-release-v0-2-76.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-584-release-v0-2-76.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-584-release-v0-2-76.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-584-release-v0-2-76.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-584-release-v0-2-76.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-584-release-v0-2-76.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-584-release-v0-2-76.contract.json"
+          ],
+          "inference": false,
+          "text": "Create a reproducible v0.2.76 release baseline with versioned metadata, supply-chain and adopter acceptance evidence, without changing Runtime behavior or the object repository."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-584-release-v0-2-76.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-584-release-v0-2-76"
+  },
+  "taskReportDigest": "sha256:aeb2ae3cf59db2b44ff819b979b82c39d7a8dfc2706b5a21d5360584f20c6b56",
+  "taskReportMarkdownDigest": "sha256:80aca180a5324591bff23e99028679f7b23e4111d60aa68c8c2378fe4c6f82ed",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-584-release-v0-2-76.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-584-release-v0-2-76"
+}

@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-05T06:54:06Z",
+  "checkpointContractDigest": "sha256:647415f518eb5a19a01745bb10f2c047d088299a47e7c9ae54bbd6cc63978638",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:364e632b122a618bbf289c6c20f40fa958996da04c9018a45567dc342cd24fda",
+      "recorded": true,
+      "recordedAt": "2026-09-05T06:54:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e909a1a03ff44e71fc1239d723d44e455475cbff7d61e09d5594721b36612b62",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-584-release-v0-2-76"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:647415f518eb5a19a01745bb10f2c047d088299a47e7c9ae54bbd6cc63978638",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:364e632b122a618bbf289c6c20f40fa958996da04c9018a45567dc342cd24fda",
+      "previousContractHash": "sha256:364e632b122a618bbf289c6c20f40fa958996da04c9018a45567dc342cd24fda",
+      "reason": "Bind the reviewed GitHub pull request before the initial verification receipt was regenerated; preserve the earlier provisional verification and require fresh release verification for the planned context.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T07:11:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:929437c8a6d5f85e9029d1bdf84ad6d4629ececce339d8175880eb5edd3db2bc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-584-release-v0-2-76"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:929437c8a6d5f85e9029d1bdf84ad6d4629ececce339d8175880eb5edd3db2bc",
+  "createdAt": "2026-09-05T06:52:28Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-05T07:16:13Z",
+  "preflightContractDigest": "sha256:647415f518eb5a19a01745bb10f2c047d088299a47e7c9ae54bbd6cc63978638",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:929437c8a6d5f85e9029d1bdf84ad6d4629ececce339d8175880eb5edd3db2bc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T07:16:17Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-584-release-v0-2-76"
+}
