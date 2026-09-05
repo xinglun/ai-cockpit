@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-595 — release registry cleanup"
 description: "WI-594 close 後に stale な pending-parity projection を削除します。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-595-release-registry-cleanup
 lastVerifiedBy: WI-595-release-registry-cleanup
+terminalArchive: .ai/work-items/archive/WI-595-release-registry-cleanup.contract.json
+terminalVerification: .ai/evidence/WI-595-release-registry-cleanup.verification.json
+terminalFinalization: .ai/decisions/WI-595-release-registry-cleanup.finalize.b6cc3d25fa5d2ccdadcc9e441e9944f87e0ecd381cc845386f0ddd1f88f7adec.json
+terminalDecision: .ai/decisions/WI-595-release-registry-cleanup.close.json
 ---
 
 [English](WI-595-release-registry-cleanup.md) · [简体中文](WI-595-release-registry-cleanup.zh-CN.md)

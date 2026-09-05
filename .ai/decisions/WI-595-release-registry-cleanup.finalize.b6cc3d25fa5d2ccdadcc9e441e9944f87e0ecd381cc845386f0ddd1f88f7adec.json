@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:2a924dadfff546a06f9fbacd839491e1feb8b1c9391777d302a9256a4ba45808",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "post-merge-resource-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "d01aace7bdaffed14332a894d75ef846e2eff30b",
+      "name": "codex/wi-595-release-registry-cleanup",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:ecc9017cf446a25048f3e14985bb0e6d6a461e61d9b4400468fd1f37af2feee9",
+    "operationId": "operation-WI-595-release-registry-cleanup-post-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "e3e0ff667d917531bdc21e19934326318eca1c9c",
+      "headRevision": "d01aace7bdaffed14332a894d75ef846e2eff30b",
+      "mergeCommit": "237d5d3af1762fe659cffa2c25f0b2ff11bee8f1",
+      "number": 582,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/582"
+    },
+    "reason": "Record verified deletion of the merged feature branch and linked worktree after PR #582 was merged and main synchronized.",
+    "receiptId": "ai-cockpit-WI-595-release-registry-cleanup-post-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-595-release-registry-cleanup",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/582",
+      "worktree": "/private/tmp/ai-cockpit-wi595-release-registry-cleanup"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+    "runtimeVersion": "0.2.76",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-06T03:45:00Z",
+    "workItemId": "WI-595-release-registry-cleanup",
+    "worktree": {
+      "branch": "codex/wi-595-release-registry-cleanup",
+      "headRevision": "d01aace7bdaffed14332a894d75ef846e2eff30b",
+      "path": "/private/tmp/ai-cockpit-wi595-release-registry-cleanup",
+      "worktreeId": "WI-595-release-registry-cleanup"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "transition-WI-595-post-cleanup"
+}
