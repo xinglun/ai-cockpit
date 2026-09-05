@@ -1,0 +1,29 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "5d1d7b4e99d4a15c40238b1964425b4c39a2934b",
+  "createdAt": "2026-09-05T22:23:41Z",
+  "goal": "",
+  "intent": "",
+  "mode": "docs",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:57417e25799f7a8696dc6545c63df19a5a3935d2ee69d3ac59ad1ea39597feea",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-599-doc-promotion-wi598-retry",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi599-doc-promotion"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-599-wi598-doc-promotion"
+}
