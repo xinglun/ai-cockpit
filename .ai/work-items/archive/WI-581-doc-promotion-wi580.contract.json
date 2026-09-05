@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "Promote the closed WI-580 terminal lifecycle projection in the English, Simplified Chinese, and Japanese reference parity ledgers.",
+    "Promote the closed WI-580 Work Item documents in all three supported languages without changing governance facts.",
+    "Register this Work Item through the pending parity bridge until its own terminal documentation can be promoted after close.",
+    "The promotion helper check and check-all report no stale or missing documentation projections."
+  ],
+  "authority": "authorized",
+  "baseRevision": "436986f40e93cee48c1f1ddb8b40f75da5aefc62",
+  "createdAt": "2026-09-05T02:55:43Z",
+  "goal": "Promote WI-580 terminal documentation and keep parity projections auditable.",
+  "intent": "Synchronize the reference parity ledgers and tri-language Work Item documentation after WI-580 closed.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust runtime behavior changes",
+    "Reference source implementation changes",
+    "Object repository changes",
+    "Release or CI policy changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1a91fc6d1d1bc5d8be07c84521c17f2b2475f6e027bd39ef37ad916766c1b89b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-581-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/563",
+    "worktree": "/private/tmp/ai-cockpit-wi581-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-580-reference-template-parity-batch-46-recovery.md",
+    "docs/work-items/WI-580-reference-template-parity-batch-46-recovery.zh-CN.md",
+    "docs/work-items/WI-580-reference-template-parity-batch-46-recovery.ja.md",
+    "docs/reference/pending-parity-registry.json"
+  ],
+  "sources": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo /private/tmp/ai-cockpit-wi581-doc-promotion --work-item WI-580-reference-template-parity-batch-46-recovery --check",
+    "python3 tests/docs/promote_closed_work_item.py --repo /private/tmp/ai-cockpit-wi581-doc-promotion --check-all",
+    "git diff --check"
+  ],
+  "workItemId": "WI-581-doc-promotion-wi580"
+}
