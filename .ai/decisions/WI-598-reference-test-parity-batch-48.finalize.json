@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "787c147351cee2b56ce92d081ee0c95ae4d06694",
+    "name": "codex/wi-598-reference-test-parity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4907755cdf6d79444b142755f6fb865b95c63715be38be5dd0fcd25c78e1749d",
+  "operationId": "github-pr-585-finalization-20260906",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8c619299c3d2d672ece1497392006812cc874ee5",
+    "headRevision": "787c147351cee2b56ce92d081ee0c95ae4d06694",
+    "mergeCommit": "12383a7825a1d4428042d4d9c48d86709fdc6aa1",
+    "number": 585,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/585"
+  },
+  "reason": "Reviewed PR #585 was merged and the exact Work Item branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "github-pr-585-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-598-reference-test-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/585",
+    "worktree": "/private/tmp/ai-cockpit-wi598-reference-test-parity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:cebab206b1609660d548c889cf79cd07e60ba3ab78953b180dd34d3c7b4c4869",
+  "runtimeVersion": "0.2.78",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T00:00:00Z",
+  "workItemId": "WI-598-reference-test-parity-batch-48",
+  "worktree": {
+    "branch": "codex/wi-598-reference-test-parity",
+    "headRevision": "787c147351cee2b56ce92d081ee0c95ae4d06694",
+    "path": "/private/tmp/ai-cockpit-wi598-reference-test-parity",
+    "worktreeId": "WI-598-reference-test-parity-batch-48"
+  }
+}
