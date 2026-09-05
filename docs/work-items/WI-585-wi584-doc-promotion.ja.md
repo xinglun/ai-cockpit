@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-585 — WI-584 終端ドキュメント投影"
 description: "WI-584 の close 後に三言語ドキュメント投影を昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-585-wi584-doc-promotion
 lastVerifiedBy: WI-585-wi584-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-585-wi584-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-585-wi584-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-585-wi584-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-585-wi584-doc-promotion.close.json
 ---
 
 [English](WI-585-wi584-doc-promotion.md) · [简体中文](WI-585-wi584-doc-promotion.zh-CN.md)

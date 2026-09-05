@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "All WI-585 Work Item pages contain terminal archive, verification, finalization, and close paths derived from immutable receipts.",
+    "All three reference-parity rows report the closed WI-585 documentation promotion as implemented with matching evidence paths.",
+    "No governance facts, source implementation, object repository, or generated receipt bytes are changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "392da528efec313de9b20e28bb94088e1212fc05",
+  "createdAt": "2026-09-05T07:49:58Z",
+  "goal": "Synchronize the three-language WI-585 Work Item pages and reference-parity rows with immutable close evidence without changing governance facts",
+  "intent": "Promote the closed WI-585 documentation projections to terminal status",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    "Object repository",
+    "Global Agent/MCP configuration",
+    "Historical evidence or generated receipts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fec4ac367f0028489bde4fa6844e751e6307f3dfd8ab48cfe042a4496e6a2c94",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-586-wi585-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/571",
+    "worktree": "/private/tmp/ai-cockpit-wi586-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-585-wi584-doc-promotion.md",
+    "docs/work-items/WI-585-wi584-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-585-wi584-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-586-wi585-doc-promotion.md",
+    "docs/work-items/WI-586-wi585-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-586-wi585-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-586-wi585-doc-promotion"
+}
