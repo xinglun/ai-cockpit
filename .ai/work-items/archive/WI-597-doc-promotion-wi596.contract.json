@@ -22,12 +22,12 @@
   "repositorySnapshotDigest": "sha256:a8430e57f090f1d02f424ce2ebf359e4e3514e2d4d3cd4315b58d965163bd8fd",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-597-doc-promotion-wi596",
-    "provider": "unknown",
-    "pullRequest": "unknown",
-    "worktree": "/private/tmp/ai-cockpit-wi597-doc-promotion-wi596"
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/584",
+    "worktree": "/tmp/ai-cockpit-wi597-doc-promotion-wi596"
   },
   "risk": "normal",
   "scope": [

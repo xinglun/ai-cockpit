@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-597-doc-promotion-wi596.contract.json",
-    ".ai/work-items/active/WI-597-doc-promotion-wi596.summary.json"
+    ".ai/work-items/archive/WI-597-doc-promotion-wi596.contract.json",
+    ".ai/work-items/archive/WI-597-doc-promotion-wi596.summary.json"
   ],
   "checkpointAt": "2026-09-05T19:12:36Z",
-  "checkpointContractDigest": "sha256:308485c84e4d23ed0ae2d486a7fe9060b395c05a7cdb609b34c2ad635025b0f0",
+  "checkpointContractDigest": "sha256:9e6ade9e2b8b0fb87e3c4407e1763c17d939ca5a9b486d69cff6f289fd61a2ab",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -44,25 +44,21 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:af2adb6bf25322116130b903b1fca8c62cbfa227ebed31d269b75b03622f87b0",
   "createdAt": "2026-09-05T19:11:51Z",
-  "failedGate": "finish.governance",
   "mode": "docs",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-05T19:14:13Z",
-  "preflightContractDigest": "sha256:308485c84e4d23ed0ae2d486a7fe9060b395c05a7cdb609b34c2ad635025b0f0",
+  "preflightAt": "2026-09-05T19:15:14Z",
+  "preflightContractDigest": "sha256:9e6ade9e2b8b0fb87e3c4407e1763c17d939ca5a9b486d69cff6f289fd61a2ab",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:af2adb6bf25322116130b903b1fca8c62cbfa227ebed31d269b75b03622f87b0",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-05T19:14:17Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T19:15:14Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:3173f9fbbff34874f21624d2879a693021a3770d0e8b093d8ef3ea3efbe81b61",
   "workItemId": "WI-597-doc-promotion-wi596"
 }
