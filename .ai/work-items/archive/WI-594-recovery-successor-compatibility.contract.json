@@ -29,14 +29,32 @@
   "repositorySnapshotDigest": "sha256:3a155297743a52e4032fa109872aaad901e8b1d329dd39a2141b33c10230992f",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-594-recovery-successor-compatibility",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/580",
     "worktree": "/private/tmp/ai-cockpit-wi594-recovery-successor-compatibility"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A newer valid successor candidate is selected and the predecessor can close without rewriting older recovery bytes.",
+      "required": true,
+      "scenario": "legacy binding candidate superseded by valid successor",
+      "status": "unverified",
+      "verificationPlan": "Add a repository test with an older legacy successorBindingMode record and a newer valid mode-less supersede, then execute the full recovery close path."
+    },
+    {
+      "evidence": [],
+      "expected": "The invalid candidate remains fail-closed and cannot be ignored or used as authorization.",
+      "required": true,
+      "scenario": "malformed or foreign recovery candidate",
+      "status": "unverified",
+      "verificationPlan": "Extend recovery decision regression tests for malformed, foreign, contradictory, and sole-invalid candidates."
+    }
+  ],
   "scope": [
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/tests/recovery_decision.rs",
@@ -44,24 +62,6 @@
     "docs/reference/repository-workflow.md",
     "docs/reference/repository-workflow.zh-CN.md",
     "docs/reference/repository-workflow.ja.md"
-  ],
-  "scenarioCoverage": [
-    {
-      "scenario": "legacy binding candidate superseded by valid successor",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "A newer valid successor candidate is selected and the predecessor can close without rewriting older recovery bytes.",
-      "verificationPlan": "Add a repository test with an older legacy successorBindingMode record and a newer valid mode-less supersede, then execute the full recovery close path."
-    },
-    {
-      "scenario": "malformed or foreign recovery candidate",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "The invalid candidate remains fail-closed and cannot be ignored or used as authorization.",
-      "verificationPlan": "Extend recovery decision regression tests for malformed, foreign, contradictory, and sole-invalid candidates."
-    }
   ],
   "sources": [
     "Object-reported P1: predecessor close blocked after successor revalidation because an older legacy recovery candidate is rejected before close-bound projection (Runtime 0.2.76).",

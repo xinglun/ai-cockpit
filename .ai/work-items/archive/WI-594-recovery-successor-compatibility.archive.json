@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-05T15:28:48Z",
+  "files": {
+    "contractDigest": "sha256:6b3843022750f99b993fec019f5afa95ba3fdeb7e338a60553773f5dea3fc31d",
+    "contractPath": ".ai/work-items/archive/WI-594-recovery-successor-compatibility.contract.json",
+    "eventsDigest": "sha256:15604796419ae8883b8a46968f9f24e777245ad0c64d69ff984e7d60552f8a50",
+    "eventsPath": ".ai/work-items/archive/WI-594-recovery-successor-compatibility.events.jsonl",
+    "outcomeDigest": "sha256:e31720590365e34c15293bfb47aac939fe4e78dc9eae36458ac68ff512eeed7d",
+    "outcomePath": ".ai/work-items/archive/WI-594-recovery-successor-compatibility.outcome.json",
+    "summaryDigest": "sha256:e492a26ad0276d60874233890079a5d855878ee0d5fc96c0cebee0068963c098",
+    "summaryPath": ".ai/work-items/archive/WI-594-recovery-successor-compatibility.summary.json",
+    "taskReportDigest": "sha256:e36f5722c5ac904e9bed9edb3db59d00552c5ea83b5f2f9270c9be9a9d7a68a8",
+    "taskReportMarkdownDigest": "sha256:e7ec4f16386961e39444c8ad8e002677db37d0e19c9c21c16a6bf9288a30ba42",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-594-recovery-successor-compatibility.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-594-recovery-successor-compatibility.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-594-recovery-successor-compatibility"
+}

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-runtime-correction",
+  "decidedAt": "2026-09-06T05:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-594-recovery-successor-compatibility.recovery.json",
+    ".ai/evidence/WI-594-recovery-successor-compatibility.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order",
+    ".ai/README.md#evidence-discipline"
+  ],
+  "predecessorContractDigest": "sha256:e86a6f94c11052fe0f22fc7e9d7a9a54fdd0ae517da11ae7110366f35a7f8485",
+  "predecessorEventsDigest": "sha256:bae63b7443babc6c5ffc0a11d0e996405b7a66615a2d9a6c802830fffe8ffce1",
+  "predecessorOutcomeDigest": "sha256:c3a1f2a064acd1fcd558c4d91177735e1c7023c3338b7b0686fbf67dc0019f53",
+  "predecessorSummaryDigest": "sha256:1a6f8127be16efdb385b95ebeb65d5d4bdd41b467ef1fb84fac1ae3836a4cf21",
+  "predecessorWorkItemId": "WI-594-recovery-successor-compatibility",
+  "reason": "Rebind the retry recovery to the finalized reviewed resource context after the prior retry became stale at the Contract amendment boundary.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and verification, then finish and archive the compatibility fix.",
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "workItemId": "WI-594-recovery-successor-compatibility"
+}
