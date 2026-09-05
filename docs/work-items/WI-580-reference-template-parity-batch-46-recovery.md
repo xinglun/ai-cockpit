@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-580 — reference template parity batch 46"
 description: "Re-read the remaining sixteen reference template paths and record bounded Rust semantic decisions without copying source implementation."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-580-reference-template-parity-batch-46-recovery
 lastVerifiedBy: WI-580-reference-template-parity-batch-46-recovery
+terminalArchive: .ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.contract.json
+terminalVerification: .ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-580-reference-template-parity-batch-46-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-580-reference-template-parity-batch-46-recovery.close.json
 ---
 
 
