@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:0e1b298453e8dab4dd8f4e8f568d272a7d043fc9024e6952edbaa0851d4b9ee9",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "repository-owner",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "e2f730af8a4f9c5df000cfd1b2ad8c99d3122375",
+      "name": "codex/wi-597-doc-promotion-wi596",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:8a3335a985fdbfddc08ca91c5e051c9a8c08efe3ea83718c17ad125cac571082",
+    "operationId": "github-pr-584-merge-observation-20260906",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "6b232c27f1bf6de0e3bf7a0aea03b58f631bd826",
+      "headRevision": "e2f730af8a4f9c5df000cfd1b2ad8c99d3122375",
+      "mergeCommit": "d40d3e0ff4bc92f42b2d223d08dc6bcd88d02f7f",
+      "number": 584,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/584"
+    },
+    "reason": "Reviewed PR #584 merged; observe the provider merge while retaining the exact branch and worktree until cleanup is verified.",
+    "receiptId": "github-pr-584-merge-observation-20260906",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-597-doc-promotion-wi596",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/584",
+      "worktree": "/tmp/ai-cockpit-wi597-doc-promotion-wi596"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+    "runtimeVersion": "0.2.76",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-06T00:00:00Z",
+    "workItemId": "WI-597-doc-promotion-wi596",
+    "worktree": {
+      "branch": "codex/wi-597-doc-promotion-wi596",
+      "headRevision": "e2f730af8a4f9c5df000cfd1b2ad8c99d3122375",
+      "path": "/tmp/ai-cockpit-wi597-doc-promotion-wi596",
+      "worktreeId": "WI-597-doc-promotion-wi596"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "github-pr-584-merge-observation-20260906"
+}
