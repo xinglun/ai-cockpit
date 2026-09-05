@@ -30,25 +30,25 @@
     "verification",
     "release"
   ],
-  "scenarioCoverage": [
-    {
-      "scenario": "public artifact identity and adopter isolation",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "The published v0.2.78 artifact, checksum, SBOM, Runtime identity, adopter repository, and cleanup manifests agree.",
-      "verificationPlan": "Run release policy and public adopter/N-1 acceptance using only downloaded v0.2.78 artifacts; retain the receipts and cleanup proof."
-    }
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-596-release-v0-2-78",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/583",
     "worktree": "/private/tmp/ai-cockpit-wi596-release-v0-2-78"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The published v0.2.78 artifact, checksum, SBOM, Runtime identity, adopter repository, and cleanup manifests agree.",
+      "required": true,
+      "scenario": "public artifact identity and adopter isolation",
+      "status": "unverified",
+      "verificationPlan": "Run release policy and public adopter/N-1 acceptance using only downloaded v0.2.78 artifacts; retain the receipts and cleanup proof."
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",

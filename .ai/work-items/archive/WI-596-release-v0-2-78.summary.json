@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-596-release-v0-2-78.contract.json",
-    ".ai/work-items/active/WI-596-release-v0-2-78.summary.json"
+    ".ai/work-items/archive/WI-596-release-v0-2-78.contract.json",
+    ".ai/work-items/archive/WI-596-release-v0-2-78.summary.json"
   ],
   "checkpointAt": "2026-09-05T18:39:46Z",
-  "checkpointContractDigest": "sha256:a5852229f76e6f7547cd44b29b70a0d022e40bb21137e9004c72fb74f9d016dc",
+  "checkpointContractDigest": "sha256:9630e9b746f10ea4b5d339cd0db44db163ada0be2f844fe005eadaf243abe32d",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,20 +40,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-596-release-v0-2-78"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:9630e9b746f10ea4b5d339cd0db44db163ada0be2f844fe005eadaf243abe32d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a5852229f76e6f7547cd44b29b70a0d022e40bb21137e9004c72fb74f9d016dc",
+      "previousContractHash": "sha256:b845a976069f165915207922eb34b5dd2ce0124abaecd9da08b8246a901d37f7",
+      "reason": "Bind the reviewed PR resource context before the release verification boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T18:49:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8430e57f090f1d02f424ce2ebf359e4e3514e2d4d3cd4315b58d965163bd8fd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-596-release-v0-2-78"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:23f58913d37a4e98d6860bf79e51e7fe364dd3537af31d3d753b67aca0d01eed",
+  "checkpointRepositorySnapshotDigest": "sha256:a8430e57f090f1d02f424ce2ebf359e4e3514e2d4d3cd4315b58d965163bd8fd",
   "createdAt": "2026-09-05T18:36:30Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:b845a976069f165915207922eb34b5dd2ce0124abaecd9da08b8246a901d37f7",
+    "contractDigest": "sha256:9630e9b746f10ea4b5d339cd0db44db163ada0be2f844fe005eadaf243abe32d",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
     "reason": "The repository owner authorized this bounded release compatibility update and its public artifact acceptance.",
     "recordedAt": "2026-09-06T00:00:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:62db19b28fe841dc5154f024264611d1d58974d88e82d4817f9af21e2caad71e",
+    "repositorySnapshotDigest": "sha256:a8430e57f090f1d02f424ce2ebf359e4e3514e2d4d3cd4315b58d965163bd8fd",
     "schemaVersion": 1,
     "workItemId": "WI-596-release-v0-2-78"
   },
@@ -64,29 +84,35 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-09-05T18:46:56Z",
-  "preflightContractDigest": "sha256:b845a976069f165915207922eb34b5dd2ce0124abaecd9da08b8246a901d37f7",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:62db19b28fe841dc5154f024264611d1d58974d88e82d4817f9af21e2caad71e",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-05T18:59:46Z",
+  "preflightContractDigest": "sha256:9630e9b746f10ea4b5d339cd0db44db163ada0be2f844fe005eadaf243abe32d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a8430e57f090f1d02f424ce2ebf359e4e3514e2d4d3cd4315b58d965163bd8fd",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked --workspace",
+        "tests/release/version_consistency.sh",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
       "expected": "The published v0.2.78 artifact, checksum, SBOM, Runtime identity, adopter repository, and cleanup manifests agree.",
       "required": true,
       "scenario": "public artifact identity and adopter isolation",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run release policy and public adopter/N-1 acceptance using only downloaded v0.2.78 artifacts; retain the receipts and cleanup proof."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-05T18:46:44.475526+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:b845a976069f165915207922eb34b5dd2ce0124abaecd9da08b8246a901d37f7",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-05T18:46:50Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T18:59:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-596-release-v0-2-78"
 }
