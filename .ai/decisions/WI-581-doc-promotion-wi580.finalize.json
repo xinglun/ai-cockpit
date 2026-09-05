@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "hosted-review-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "604541fff21981660edc5461b72839aabb892dec",
+    "name": "codex/wi-581-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:faee40827e83598358121ecf6e65d2f51879b0d0cec00f5d144f2e2eb252e54e",
+  "operationId": "operation-WI-581-doc-promotion-wi580-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "436986f40e93cee48c1f1ddb8b40f75da5aefc62",
+    "headRevision": "604541fff21981660edc5461b72839aabb892dec",
+    "number": 563,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/563"
+  },
+  "reason": "PR #563 is open and awaiting hosted review; retain the exact branch and worktree until merge and cleanup are observed.",
+  "receiptId": "ai-cockpit-WI-581-doc-promotion-wi580-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-581-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/563",
+    "worktree": "/private/tmp/ai-cockpit-wi581-doc-promotion"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
+  "runtimeVersion": "0.2.75",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T03:00:00Z",
+  "workItemId": "WI-581-doc-promotion-wi580",
+  "worktree": {
+    "branch": "codex/wi-581-doc-promotion",
+    "headRevision": "604541fff21981660edc5461b72839aabb892dec",
+    "path": "/private/tmp/ai-cockpit-wi581-doc-promotion",
+    "worktreeId": "WI-581-doc-promotion-wi580"
+  }
+}
