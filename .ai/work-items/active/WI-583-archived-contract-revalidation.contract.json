@@ -1,0 +1,80 @@
+{
+  "acceptanceCriteria": [
+    "Historical archive, Contract, verification evidence, and recovery bytes remain immutable.",
+    "A supported command creates a successor revalidation record while the predecessor remains pending close.",
+    "Current Contract revalidation evidence is bound to the current Contract and archive manifest, while old evidence remains independently auditable.",
+    "The successor can complete start, preflight, checkpoint, verify, finish, archive, provider finalization, and close with explicit human authorization.",
+    "After successor closure, predecessor closure records historical revalidation, old evidence identity, current Contract identity, and human authorization.",
+    "Missing, malformed, foreign, stale, symlinked, or contradictory evidence fails closed without repository writes.",
+    "Three-language documentation describes the command, immutable-history boundary, and historical versus current evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "40c12ad6e15241a2923e707a53c7ba4242da2b54",
+  "createdAt": "2026-09-05T06:03:18Z",
+  "goal": "Preserve immutable historical archive/evidence, bind current Contract revalidation to a successor, and permit auditable terminal closure without false evidence.",
+  "intent": "Provide an append-only recovery path for archived Work Items whose Contract was legitimately amended after historical verification.",
+  "mode": "implementation",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator and all object repositories",
+    "Release publication",
+    " Homebrew",
+    " CI policy redesign",
+    " and reference-source copy"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e7fe44d58e1ed84ce7a3c7518a43752f4e0d709255589c2618e4ba59f35acfec",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-583-archived-revalidation",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi583-archived-revalidation"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/recovery_receipt.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_revalidation.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-583-archived-contract-revalidation.md",
+    "docs/work-items/WI-583-archived-contract-revalidation.zh-CN.md",
+    "docs/work-items/WI-583-archived-contract-revalidation.ja.md"
+  ],
+  "sources": [
+    "Object-repository report: archived Contract amendment leaves predecessor verification stale and recovery blocked (2026-09-05)",
+    "crates/cockpit-repository/src/lib.rs: recovery decision validation, archived evidence, successor scaffold, and close gates",
+    "crates/cockpit-protocol/src/lib.rs: RecoveryDecisionReceipt and Contract lineage schema",
+    "docs/reference/agent-workflow.md: append-only recovery and immutable evidence boundary"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-protocol --all-targets --all-features",
+    "cargo test --locked -p cockpit-repository --all-targets --all-features -- --test-threads=1",
+    "cargo test --locked -p cockpit-cli --all-targets --all-features",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-583-archived-contract-revalidation"
+}
