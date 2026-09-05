@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "Generate all three WI-581 documentation projections from immutable closed evidence.",
+    "Update parity ledgers without changing governance facts.",
+    "promote_closed_work_item.py --check-all passes after close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1cfe850f6a5a4f1102d1bd3f58f36b76ee6efb19",
+  "createdAt": "2026-09-05T03:27:15Z",
+  "goal": "Keep the documentation route complete and auditable after WI-581 close.",
+  "intent": "Promote the closed WI-581 terminal governance records into the three-language Work Item documentation projections.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime behavior",
+    " source code",
+    " CI",
+    " release artifacts",
+    " object repositories",
+    " and governance facts."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b81acdbd067956bb1749fa37b1e6271c6ee4097a7f28d1a46f33eff3049fdd08",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-582-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/564",
+    "worktree": "/private/tmp/ai-cockpit-wi582-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-582-doc-promotion-wi581.md",
+    "docs/work-items/WI-582-doc-promotion-wi581.zh-CN.md",
+    "docs/work-items/WI-582-doc-promotion-wi581.ja.md",
+    "docs/work-items/WI-581-doc-promotion-wi580.md",
+    "docs/work-items/WI-581-doc-promotion-wi580.zh-CN.md",
+    "docs/work-items/WI-581-doc-promotion-wi580.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-582-doc-promotion-wi581"
+}

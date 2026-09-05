@@ -1,38 +1,6 @@
 {
   "entries": [
-    {
-      "baseRevision": "436986f40e93cee48c1f1ddb8b40f75da5aefc62",
-      "createdAt": "2026-09-05T03:01:00Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-581-doc-promotion-wi580.contract.json",
-        "finalize": ".ai/decisions/WI-581-doc-promotion-wi580.finalize.json",
-        "verification": ".ai/evidence/WI-581-doc-promotion-wi580.verification.json"
-      },
-      "headRevision": "604541fff21981660edc5461b72839aabb892dec",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-581 — documentation promotion for WI-580 | In progress | [Work Item](../work-items/WI-581-doc-promotion-wi580.md); archive `.ai/work-items/archive/WI-581-doc-promotion-wi580.archive.json`; verification `.ai/evidence/WI-581-doc-promotion-wi580.verification.json`; finalization `.ai/decisions/WI-581-doc-promotion-wi580.finalize.json`; close `.ai/decisions/WI-581-doc-promotion-wi580.close.json`. |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-581 —— WI-580 文档晋级 | 进行中 | [Work Item](../work-items/WI-581-doc-promotion-wi580.zh-CN.md)；archive `.ai/work-items/archive/WI-581-doc-promotion-wi580.archive.json`；verification `.ai/evidence/WI-581-doc-promotion-wi580.verification.json`；finalization `.ai/decisions/WI-581-doc-promotion-wi580.finalize.json`；close `.ai/decisions/WI-581-doc-promotion-wi580.close.json`。 |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-581 — WI-580 documentation promotion | In progress | [Work Item](../work-items/WI-581-doc-promotion-wi580.ja.md)；archive `.ai/work-items/archive/WI-581-doc-promotion-wi580.archive.json`；verification `.ai/evidence/WI-581-doc-promotion-wi580.verification.json`；finalization `.ai/decisions/WI-581-doc-promotion-wi580.finalize.json`；close `.ai/decisions/WI-581-doc-promotion-wi580.close.json`. |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 563,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/563"
-      },
-      "registryBaseRevision": "2ac3d26124b38162d5adc37273175013e114a5b6",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-581-doc-promotion-wi580"
-    }
+
   ],
   "schemaVersion": 1
 }
