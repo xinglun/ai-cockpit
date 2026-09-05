@@ -11794,6 +11794,62 @@ fn closed_finalization_projection_kind(
     {
         return None;
     }
+    if let Some(historical) = close.get("historicalRevalidation")
+        && historical.get("state").and_then(serde_json::Value::as_str)
+            == Some("current_successor_revalidated")
+        && let Ok(Some(recovery)) = load_recovery_decision(root, work_item_id, None)
+        && recovery.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation")
+        && recovery.successor_work_item_id.as_deref()
+            == historical
+                .get("successorWorkItemId")
+                .and_then(serde_json::Value::as_str)
+        && recovery.predecessor_finalization_contract_digest.as_ref()
+            == receipt.contract_digest.as_ref()
+        && historical
+            .get("assurance")
+            .and_then(serde_json::Value::as_str)
+            == Some("historical_low")
+        && historical
+            .get("originalEvidencePreserved")
+            .and_then(serde_json::Value::as_bool)
+            == Some(true)
+        && historical_digest_matches(
+            historical,
+            "historicalContractDigest",
+            &recovery.predecessor_contract_digest,
+        )
+        && recovery
+            .current_contract_digest
+            .as_ref()
+            .is_some_and(|digest| {
+                historical_digest_matches(historical, "currentContractDigest", digest)
+            })
+        && recovery
+            .predecessor_verification_evidence_digest
+            .as_ref()
+            .is_some_and(|digest| {
+                historical_digest_matches(
+                    historical,
+                    "historicalVerificationEvidenceDigest",
+                    digest,
+                )
+            })
+        && recovery
+            .predecessor_archive_manifest_digest
+            .as_ref()
+            .is_some_and(|digest| {
+                historical_digest_matches(historical, "archiveManifestDigest", digest)
+            })
+        && recovery_successor_resolves_pending_close(root, work_item_id, repository_id)
+    {
+        return Some("contract_amendment_revalidation");
+    }
+    if close.get("historicalRevalidation").is_some() {
+        // A close record that declares this projection must satisfy the full
+        // lineage binding above. Do not downgrade an invalid declaration to
+        // the generic shared-worktree compatibility lane.
+        return None;
+    }
     if matches!(
         receipt.result.disposition,
         ResourceFinalizationDisposition::Retained
@@ -11804,6 +11860,18 @@ fn closed_finalization_projection_kind(
     } else {
         Some("legacy_runtime")
     }
+}
+
+fn historical_digest_matches(
+    historical: &serde_json::Value,
+    field: &str,
+    expected: &Digest,
+) -> bool {
+    historical
+        .get(field)
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok())
+        .is_some_and(|actual| actual == *expected)
 }
 
 fn ensure_resource_finalization_base_binding(
@@ -12869,6 +12937,16 @@ fn verify_resource_finalization_internal(
                     )
         })
         .is_some();
+    // A Contract-amendment successor is an explicit current revalidation of
+    // the amended Contract. Once that successor has completed its own
+    // verified close, the predecessor's provider finalization remains valid
+    // historical evidence even when it was emitted by an older Runtime. This
+    // projection is deliberately narrower than a general Runtime upgrade:
+    // the recovery decision, current archive, historical evidence, successor,
+    // and finalization head must all bind before the old Runtime identity is
+    // tolerated.
+    let contract_amendment_revalidation_resolved = contract_amendment_revalidation
+        && recovery_successor_resolves_pending_close(&root, work_item_id, &contract.repository_id);
     let mut receipt_for_context_validation = receipt.clone();
     if sequence > 0
         && matches!(
@@ -12926,6 +13004,24 @@ fn verify_resource_finalization_internal(
                 sequence,
                 &contract.repository_id,
             )
+            .or_else(|| {
+                if fs::symlink_metadata(
+                    root.join(".ai/decisions")
+                        .join(format!("{work_item_id}.close.json")),
+                )
+                .is_ok()
+                {
+                    // Once a close record exists, its historical projection
+                    // must be validated by `closed_finalization_projection_kind`.
+                    // Do not fall back to the pre-close successor proof when
+                    // the close binding itself is missing, malformed, or
+                    // tampered.
+                    None
+                } else {
+                    contract_amendment_revalidation_resolved
+                        .then_some("contract_amendment_revalidation")
+                }
+            })
             .or_else(|| inferred_legacy_shared_worktree.then_some("shared_worktree_retained"));
             if kind.is_none()
                 && let Err(error) = ensure_resource_runtime_identity(&receipt, runtime, &path)
@@ -13409,7 +13505,8 @@ fn require_resource_finalization_for_close(
     let historical_retained = disposition == "retained"
         && (historical_kind == Some("shared_worktree_retained")
             || recovered_historical_kind == Some("shared_worktree_retained")
-            || historical_kind == Some("direct_merge_no_pr"));
+            || historical_kind == Some("direct_merge_no_pr")
+            || recovered_historical_kind == Some("contract_amendment_revalidation"));
     if disposition != "deleted" && !historical_retained {
         return Err(ObserverError::State {
             path: resource_finalization_decision_path(root, work_item_id),
