@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "pre-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1d5725fed1905442238fe31f198a6bba22d09d71",
+    "name": "codex/wi-595-release-registry-cleanup",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ecc9017cf446a25048f3e14985bb0e6d6a461e61d9b4400468fd1f37af2feee9",
+  "operationId": "operation-WI-595-release-registry-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e3e0ff667d917531bdc21e19934326318eca1c9c",
+    "headRevision": "1d5725fed1905442238fe31f198a6bba22d09d71",
+    "number": 582,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/582"
+  },
+  "reason": "PR #582 is open and unmerged; preserve the exact reviewed branch and worktree until hosted checks pass and the reviewed pull request is merged.",
+  "receiptId": "ai-cockpit-WI-595-release-registry-cleanup-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-595-release-registry-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/582",
+    "worktree": "/private/tmp/ai-cockpit-wi595-release-registry-cleanup"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T03:30:00Z",
+  "workItemId": "WI-595-release-registry-cleanup",
+  "worktree": {
+    "branch": "codex/wi-595-release-registry-cleanup",
+    "headRevision": "1d5725fed1905442238fe31f198a6bba22d09d71",
+    "path": "/private/tmp/ai-cockpit-wi595-release-registry-cleanup",
+    "worktreeId": "WI-595-release-registry-cleanup"
+  }
+}
