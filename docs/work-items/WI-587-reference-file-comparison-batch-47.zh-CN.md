@@ -7,6 +7,10 @@ status: implemented
 authority: canonical
 workItemId: WI-587-reference-file-comparison-batch-47
 lastVerifiedBy: WI-587-reference-file-comparison-batch-47
+terminalArchive: .ai/work-items/archive/WI-587-reference-file-comparison-batch-47.contract.json
+terminalVerification: .ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json
+terminalFinalization: .ai/decisions/WI-587-reference-file-comparison-batch-47.finalize.77d894a5f84cb71e7a2270802132f00a78b05cc2a8aa2b6e51131daeec4a3782.json
+terminalDecision: .ai/decisions/WI-587-reference-file-comparison-batch-47.close.json
 ---
 
 [English](WI-587-reference-file-comparison-batch-47.md) · [日本語](WI-587-reference-file-comparison-batch-47.ja.md)
