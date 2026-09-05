@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "WI-589 three-language pages become terminal implemented projections bound to archive, verification, finalization, and close evidence.",
+    "WI-589 English, Chinese, and Japanese parity rows become terminal implemented projections without changing semantic content.",
+    "WI-590 owns its six documentation projection paths and check-all may treat only its own pre-close projection as self-terminal.",
+    "No generated evidence, Contract, archive, or decision bytes are hand-edited."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f96d2a56282e9a43440936f3e900dc3c0d213836",
+  "createdAt": "2026-09-05T12:29:43Z",
+  "goal": "Keep three-language WI-589 documentation and reference parity synchronized with its closed lifecycle, while registering WI-590 self-projection so check-all remains deterministic.",
+  "intent": "Promote the closed WI-589 documentation projections from in_progress to terminal implemented state using immutable Runtime evidence.",
+  "mode": "documentation",
+  "outOfScope": [
+    "crates",
+    "tests",
+    ".github",
+    "object-repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8ed6f558973931a37c747afbb5885e4a14c3f53da132c4f29146d8afcea3ac44",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-590-wi589-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/575",
+    "worktree": "/private/tmp/ai-cockpit-wi590-wi589-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-589-predecessor-close-revalidation.md",
+    "docs/work-items/WI-589-predecessor-close-revalidation.zh-CN.md",
+    "docs/work-items/WI-589-predecessor-close-revalidation.ja.md",
+    "docs/work-items/WI-590-wi589-doc-promotion.md",
+    "docs/work-items/WI-590-wi589-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-590-wi589-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-590-wi589-doc-promotion"
+}

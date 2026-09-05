@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-590-wi589-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-590-wi589-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T12:31:46Z",
+  "checkpointContractDigest": "sha256:047bec8c99925781e337b1b9a716539d2dc569bc32deb5327e38f8468d51fa73",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3ed7a45271a1c2f8a71dbce5f232540b00483524456eaaab2499b4b05c65d2a5",
+      "recorded": true,
+      "recordedAt": "2026-09-05T12:31:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:614a2334274480b4cfe5ddff9939d65adf6a2b3bedffce5bfa08b70f77a6c90f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-590-wi589-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:52eda597a1a9f12c81011405694fa6f5e73c7aa0c708484ae6f94910d0294174",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3ed7a45271a1c2f8a71dbce5f232540b00483524456eaaab2499b4b05c65d2a5",
+      "previousContractHash": "sha256:3ed7a45271a1c2f8a71dbce5f232540b00483524456eaaab2499b4b05c65d2a5",
+      "reason": "Correct the human-owned required evidence class from documentation to verification so the existing Runtime verification receipt satisfies the finish gate.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T12:33:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:614a2334274480b4cfe5ddff9939d65adf6a2b3bedffce5bfa08b70f77a6c90f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-590-wi589-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:047bec8c99925781e337b1b9a716539d2dc569bc32deb5327e38f8468d51fa73",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3ed7a45271a1c2f8a71dbce5f232540b00483524456eaaab2499b4b05c65d2a5",
+      "previousContractHash": "sha256:52eda597a1a9f12c81011405694fa6f5e73c7aa0c708484ae6f94910d0294174",
+      "reason": "Bind the reviewed PR #575 resource context before final verification; this changes only the human-owned delivery context and invalidates the prior receipt for revalidation.",
+      "recorded": true,
+      "recordedAt": "2026-09-05T12:35:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:614a2334274480b4cfe5ddff9939d65adf6a2b3bedffce5bfa08b70f77a6c90f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-590-wi589-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:614a2334274480b4cfe5ddff9939d65adf6a2b3bedffce5bfa08b70f77a6c90f",
+  "createdAt": "2026-09-05T12:29:43Z",
+  "mode": "documentation",
+  "preflightAt": "2026-09-05T12:36:06Z",
+  "preflightContractDigest": "sha256:047bec8c99925781e337b1b9a716539d2dc569bc32deb5327e38f8468d51fa73",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:614a2334274480b4cfe5ddff9939d65adf6a2b3bedffce5bfa08b70f77a6c90f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T12:36:10Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-590-wi589-doc-promotion"
+}
