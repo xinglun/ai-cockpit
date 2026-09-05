@@ -24,11 +24,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-577-reference-metadata-sync",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/558",
     "worktree": "/private/tmp/ai-cockpit-wi577-reference-metadata-sync"
   },
   "risk": "low",

@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "A1: 六个目标页面的 lastVerifiedBy、Rust baseline 与 Runtime identity 与当前已发布主线/固定参考提交一致",
+    "A2: 三种语言页面的固定参考提交、基线提交、Runtime 版本与 digest 一致且语义不变",
+    "A3: 新增或扩展的检查能在旧元数据回归时 fail closed，并通过当前页面检查",
+    "A4: 元数据单一事实源、三语页面和可执行检查必须保持一致；历史批次文字保持 append-only，不因当前快照重写",
+    "A5: 不修改任何 Runtime 代码、对象工程、全局配置或历史生成证据"
+  ],
+  "createdAt": "2026-09-05T01:01:11Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dd735014323a4aab58cfe12f06e4ffee3e2349613c51bbd40ba4333d8dc7678b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-577-reference-metadata-sync.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-577-reference-metadata-sync.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-577-reference-metadata-sync.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:621fd1f32cd3dd10175b91933ce3c45c30542d6e207e314c1e238fdc0b6f59a6",
+      "workItemId": "WI-577-reference-metadata-sync"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-577-reference-metadata-sync.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-577-reference-metadata-sync.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-577-reference-metadata-sync.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-577-reference-metadata-sync.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-577-reference-metadata-sync.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-577-reference-metadata-sync.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-577-reference-metadata-sync.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-577-reference-metadata-sync.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-577-reference-metadata-sync.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-577-reference-metadata-sync.contract.json"
+          ],
+          "inference": false,
+          "text": "同步三语 reference-file-comparison 与 reference-parity 页的验证元数据，并增加可执行检查，防止比较批次或发布后再次出现旧基线信息。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-577-reference-metadata-sync.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-577-reference-metadata-sync"
+  },
+  "taskReportDigest": "sha256:c936ba5d080547723f6dd4c3fb4bec9764739f9965f15211523a6b4c6e159b6a",
+  "taskReportMarkdownDigest": "sha256:d1570cb735d7f1e3be239d99645f517ba92701ea920c51349cfbfade334b4a8b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-577-reference-metadata-sync.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-577-reference-metadata-sync"
+}

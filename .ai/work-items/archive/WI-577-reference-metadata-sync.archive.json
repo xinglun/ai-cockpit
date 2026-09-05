@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-05T01:01:16Z",
+  "files": {
+    "approachDigest": "sha256:b149a87ff4a3f61af64dd4f2cfaa9adfc9813477fd965ae0343155e4addb0f06",
+    "approachPath": ".ai/work-items/archive/WI-577-reference-metadata-sync.approach.json",
+    "contractDigest": "sha256:4eed9a2b3b17e0ad1fe106053afd31e9715e656f3dffe03d6397e6c47697c940",
+    "contractPath": ".ai/work-items/archive/WI-577-reference-metadata-sync.contract.json",
+    "eventsDigest": "sha256:d2b56ddf73671d60f93ced60c7abd97bac54438af79ffe166fc1fc7265388af0",
+    "eventsPath": ".ai/work-items/archive/WI-577-reference-metadata-sync.events.jsonl",
+    "outcomeDigest": "sha256:db7f162b2671d305f2ffc8f3ef12cdb95e118ef98d6d704fee644e898f19f474",
+    "outcomePath": ".ai/work-items/archive/WI-577-reference-metadata-sync.outcome.json",
+    "summaryDigest": "sha256:d644f1a5658b4baabdfde69821ab286d440149246b86aabe6565f644a4b770a8",
+    "summaryPath": ".ai/work-items/archive/WI-577-reference-metadata-sync.summary.json",
+    "taskReportDigest": "sha256:c936ba5d080547723f6dd4c3fb4bec9764739f9965f15211523a6b4c6e159b6a",
+    "taskReportMarkdownDigest": "sha256:d1570cb735d7f1e3be239d99645f517ba92701ea920c51349cfbfade334b4a8b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-577-reference-metadata-sync.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-577-reference-metadata-sync.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-577-reference-metadata-sync"
+}

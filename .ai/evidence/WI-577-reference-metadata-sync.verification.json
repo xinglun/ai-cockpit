@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:1d25fd903c8cf664321fdf633bf4a1c28764be046f2d476ab0fc4c63c3202563",
-  "createdAt": "2026-09-05T00:59:16Z",
+  "contractDigest": "sha256:c7053521d8b9a744795c7254c6d71f3ed7c522e7837fdd636ed420a77b5234a2",
+  "createdAt": "2026-09-05T01:01:06Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 404,
-      "executionElapsedMs": 83,
+      "elapsedMs": 396,
+      "executionElapsedMs": 104,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 404,
-    "executionElapsedMs": 83,
-    "filesHashed": 29,
-    "filesRead": 29,
+    "elapsedMs": 396,
+    "executionElapsedMs": 104,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,20 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-comparison-metadata.json",
-        "docs/reference/reference-file-comparison.ja.md",
-        "docs/reference/reference-file-comparison.md",
-        "docs/reference/reference-file-comparison.zh-CN.md",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-577-reference-metadata-sync.ja.md",
-        "docs/work-items/WI-577-reference-metadata-sync.md",
-        "docs/work-items/WI-577-reference-metadata-sync.zh-CN.md",
-        "tests/docs/documentation_acceptance.sh",
-        "tests/docs/reference_comparison_metadata_test.py"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "07a7b1e268477f973766c735754a5594ecee11e7",
       "dependencyConfidence": "unknown",
@@ -57,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 83,
+      "executionElapsedMs": 104,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -105,7 +92,7 @@
     "runtimeVersion": "0.2.75",
     "workItemId": "WI-577-reference-metadata-sync"
   },
-  "receiptDigest": "sha256:7eac69f1fe56fd1ba58b28fa5be0bae4094e00f9d72c17a26540081328d39fd6",
+  "receiptDigest": "sha256:bf3f23712749fc679b1e547302afc166f77abe442a2977a2b642fd42b6870b97",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:621fd1f32cd3dd10175b91933ce3c45c30542d6e207e314c1e238fdc0b6f59a6",
   "runtimeDigest": "sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6",
