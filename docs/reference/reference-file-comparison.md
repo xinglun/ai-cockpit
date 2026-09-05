@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-579-reference-template-parity-batch-46
+lastVerifiedBy: WI-587-reference-file-comparison-batch-47
 capabilityClaims:
   - reference_parity
 ---
@@ -30,8 +30,8 @@ check is executable and fails closed when any translated page drifts.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `3b49e8777c1e0087ea945a9327f2d77f650039e8`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.75` binary, SHA256 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `aa721c6172d4f6bc41d7d5205eaa34757441efa8`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.76` binary, SHA256 `sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=442 implemented-equivalent=1 not-applicable=7 reference-only=121 deferred-next-batch=198 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=454 implemented-equivalent=1 not-applicable=7 reference-only=129 deferred-next-batch=178 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -275,11 +275,11 @@ changed current paths, and the capability/profile slice has no remaining
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 442 |
+| `implemented-different-by-design` | 454 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 121 |
-| `deferred-next-batch` | 198 |
+| `reference-only` | 129 |
+| `deferred-next-batch` | 178 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2102,6 +2102,30 @@ append-only historical batch paragraphs. The sidecar
 the single source for the current reference commit, reviewed Rust baseline,
 Runtime identity, and current ledger counts; the tri-language metadata test
 fails closed if any page diverges.
+
+## WI-587 — reference test and fixture comparison batch 47
+
+WI-587 re-read the next twenty maintained test and fixture paths at the pinned
+local reference commit. Twelve paths have portable responsibilities already
+represented differently by the Rust Runtime and native tests; eight are
+source-owned fixtures or wizard snapshots and remain `reference-only`. No
+portable implementation omission or `migrate-gap` was found. See the
+[WI-587 Work Item record](../work-items/WI-587-reference-file-comparison-batch-47.md)
+for the complete path-by-path ledger and bounded decisions.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `tests/repository_fixture.py` | implemented-different-by-design | Typed Git/repository-context tests and release isolation manifests; source helper is not Runtime protocol. |
+| `tests/test_absurd_capability_truth.py` | implemented-different-by-design | Rust adversarial tests and manifest preserve unexecuted input and fail-closed claims. |
+| `tests/test_adoption_e2e.py`, `tests/test_adoption_evidence.py`, `tests/test_adoption_ready.py` | implemented-different-by-design | Immutable public/N-1 adopter harnesses, release receipts, isolation, and Agent doctor boundaries. |
+| `tests/test_ai_archive_work_item.py`, `tests/test_ai_check_serial_order.py`, `tests/test_ai_check_summary.py`, `tests/test_ai_check_work_item.py` | implemented-different-by-design | Typed archive, lifecycle, Contract, Summary, Outcome, and preflight tests. |
+| `tests/test_ai_external_handoff.py`, `tests/test_ai_onboard.py`, `tests/test_ai_post_archive_recovery.py` | implemented-different-by-design | Typed handoff, attach/adapter onboarding, and append-only recovery tests. |
+| `tests/conftest.py`, Japanese corpus, wizard fixtures, Kotlin/mixed/Swift snapshots | reference-only | Source-specific environment, study, stack-toolchain, and wizard presentation inputs remain adopter/reference data. |
+
+The current 4,450-path set now contains 3,681 `generated-history`, 454
+`implemented-different-by-design`, one `implemented-equivalent`, 7
+`not-applicable`, 129 `reference-only`, and 178 `deferred-next-batch` records;
+`migrate-gap` remains zero and 669 retired records remain append-only.
 
 ## WI-579 — reference template parity batch 46
 

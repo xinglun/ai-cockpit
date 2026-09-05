@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-05T09:54:28Z",
+  "checkpointContractDigest": "sha256:97ac5db9d57d0f08242e1830f4ce8d6da076e6d6872e0039c64c1294a81660c1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7ab787e3699e3cc8c3c84391b02911cddc405c4a152a22ee0f60ffc30d961147",
+  "createdAt": "2026-09-05T09:43:23Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-05T10:28:26Z",
+  "preflightContractDigest": "sha256:97ac5db9d57d0f08242e1830f4ce8d6da076e6d6872e0039c64c1294a81660c1",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:7ab787e3699e3cc8c3c84391b02911cddc405c4a152a22ee0f60ffc30d961147",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T10:28:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-587-reference-file-comparison-batch-47"
+}

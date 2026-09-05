@@ -139,13 +139,30 @@ def main() -> None:
         if f"`{metadata['referenceCommit']}`" not in text:
             fail(f"{path}: current reference commit is missing")
     comparison_text = COMPARISON_DOCS[0].read_text(encoding="utf-8")
+    inventory_marker = (
+        "reference-inventory-counts: "
+        f"total={metadata['currentPathCount']} "
+        f"generated-history={classifications.get('generated-history', 0)} "
+        "implemented-different-by-design="
+        f"{classifications.get('implemented-different-by-design', 0)} "
+        "implemented-equivalent="
+        f"{classifications.get('implemented-equivalent', 0)} "
+        "not-applicable="
+        f"{classifications.get('not-applicable', 0)} "
+        "reference-only="
+        f"{classifications.get('reference-only', 0)} "
+        "deferred-next-batch="
+        f"{classifications.get('deferred-next-batch', 0)} "
+        "migrate-gap="
+        f"{classifications.get('migrate-gap', 0)}"
+    )
     for path in COMPARISON_DOCS:
         text = path.read_text(encoding="utf-8")
         for marker in (
             metadata["rustBaselineCommit"],
             metadata["runtimeVersion"],
             metadata["runtimeBinaryDigest"],
-            "reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=442 implemented-equivalent=1 not-applicable=7 reference-only=121 deferred-next-batch=198 migrate-gap=0",
+            inventory_marker,
         ):
             if marker not in text:
                 fail(f"{path}: current comparison marker missing: {marker}")

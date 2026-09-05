@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-579-reference-template-parity-batch-46
+lastVerifiedBy: WI-587-reference-file-comparison-batch-47
 capabilityClaims:
   - reference_parity
 ---
@@ -25,8 +25,8 @@ capabilityClaims:
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `3b49e8777c1e0087ea945a9327f2d77f650039e8`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.75`，binary SHA256 为 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `aa721c6172d4f6bc41d7d5205eaa34757441efa8`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.76`，binary SHA256 为 `sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -307,7 +307,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=442 implemented-equivalent=1 not-applicable=7 reference-only=121 deferred-next-batch=198 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=454 implemented-equivalent=1 not-applicable=7 reference-only=129 deferred-next-batch=178 migrate-gap=0 -->
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -318,11 +318,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 442 |
+| `implemented-different-by-design` | 454 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 121 |
-| `deferred-next-batch` | 198 |
+| `reference-only` | 129 |
+| `deferred-next-batch` | 178 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1577,6 +1577,28 @@ WI-572 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 ## WI-577：当前比对元数据同步
 
 WI-577 在 v0.2.75 发布后同步当前表头和基线展示，不增加语义分类，也不重写追加式的历史批次段落。[`reference-comparison-metadata.json`](reference-comparison-metadata.json) 旁车文件是当前参考提交、经过评审的 Rust 基线、Runtime identity 和当前台账计数的单一事实源；三语元数据测试会在任一页面漂移时 fail-closed。
+
+## WI-587——参考源测试与夹具对比第 47 批
+
+WI-587 在固定参考源提交上逐个复核下一批 20 个测试和夹具路径。12 个路径的
+可迁移责任已经由 Rust Runtime 和原生测试以不同设计承载，8 个是参考源专属
+夹具/向导快照，保持 `reference-only`。没有发现 `migrate-gap`。完整对应和理由
+见 [WI-587 Work Item](../work-items/WI-587-reference-file-comparison-batch-47.zh-CN.md)
+及机器可读 inventory。
+
+| 参考路径 | 分类 | Rust 对应/边界 |
+| --- | --- | --- |
+| `tests/repository_fixture.py` | implemented-different-by-design | 类型化 Git/仓库上下文测试和发布隔离清单；不复制源 helper。 |
+| `tests/test_absurd_capability_truth.py` | implemented-different-by-design | Rust 荒诞输入测试和 manifest 保持不执行输入、fail-closed 声明。 |
+| `tests/test_adoption_e2e.py`、`tests/test_adoption_evidence.py`、`tests/test_adoption_ready.py` | implemented-different-by-design | 不可变 public/N-1 adopter 验收、发布 receipt、隔离与 Agent doctor。 |
+| `tests/test_ai_archive_work_item.py`、`tests/test_ai_check_serial_order.py`、`tests/test_ai_check_summary.py`、`tests/test_ai_check_work_item.py` | implemented-different-by-design | 类型化 archive、生命周期、Contract、Summary、Outcome 和 preflight 测试。 |
+| `tests/test_ai_external_handoff.py`、`tests/test_ai_onboard.py`、`tests/test_ai_post_archive_recovery.py` | implemented-different-by-design | 类型化 handoff、attach/adapter onboarding 和 append-only recovery。 |
+| `tests/conftest.py`、日语语料、wizard fixtures、Kotlin/mixed/Swift 快照 | reference-only | 源专属环境、研究语料、栈工具链和向导展示输入；由 adopter 负责。 |
+
+当前 4,450 条路径为 3,681 `generated-history`、454 条
+`implemented-different-by-design`、1 条 `implemented-equivalent`、7 条
+`not-applicable`、129 条 `reference-only`、178 条 `deferred-next-batch`；
+`migrate-gap` 为零，669 条退休记录保持 append-only。
 
 ## WI-579——参考模板对等批次 46
 

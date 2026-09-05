@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-579-reference-template-parity-batch-46
+lastVerifiedBy: WI-587-reference-file-comparison-batch-47
 capabilityClaims:
   - reference_parity
 ---
@@ -561,6 +561,7 @@ record for each boundary.
 | WI-584 — v0.2.76 release and object-adopter recovery handoff | Implemented | [Work Item](../work-items/WI-584-release-v0-2-76.md); terminal lifecycle: archive `.ai/work-items/archive/WI-584-release-v0-2-76.contract.json`; verification `.ai/evidence/WI-584-release-v0-2-76.verification.json`; finalization `.ai/decisions/WI-584-release-v0-2-76.finalize.json`; close `.ai/decisions/WI-584-release-v0-2-76.close.json`. |
 | WI-585 — WI-584 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-585-wi584-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-585-wi584-doc-promotion.contract.json`; verification `.ai/evidence/WI-585-wi584-doc-promotion.verification.json`; finalization `.ai/decisions/WI-585-wi584-doc-promotion.finalize.json`; close `.ai/decisions/WI-585-wi584-doc-promotion.close.json`. |
 | WI-586 — WI-585 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-586-wi585-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-586-wi585-doc-promotion.contract.json`; verification `.ai/evidence/WI-586-wi585-doc-promotion.verification.json`; finalization `.ai/decisions/WI-586-wi585-doc-promotion.finalize.json`; close `.ai/decisions/WI-586-wi585-doc-promotion.close.json`. |
+| WI-587 — reference test and fixture comparison batch 47 | In progress → Implemented after verified close | [Work Item](../work-items/WI-587-reference-file-comparison-batch-47.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-587-reference-file-comparison-batch-47.contract.json`; verification `.ai/evidence/WI-587-reference-file-comparison-batch-47.verification.json`; finalization `.ai/decisions/WI-587-reference-file-comparison-batch-47.finalize.json`; close `.ai/decisions/WI-587-reference-file-comparison-batch-47.close.json`. |
 | WI-544 — WI-543 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-544-wi543-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-544-wi543-doc-promotion.contract.json`; verification `.ai/evidence/WI-544-wi543-doc-promotion.verification.json`; finalization `.ai/decisions/WI-544-wi543-doc-promotion.finalize.json`; close `.ai/decisions/WI-544-wi543-doc-promotion.close.json`. |
 | WI-545 — v0.2.68 release and public-artifact acceptance | Implemented | [Work Item](../work-items/WI-545-release-v0-2-68.md); terminal lifecycle: archive `.ai/work-items/archive/WI-545-release-v0-2-68.contract.json`; verification `.ai/evidence/WI-545-release-v0-2-68.verification.json`; finalization `.ai/decisions/WI-545-release-v0-2-68.finalize.json`; close `.ai/decisions/WI-545-release-v0-2-68.close.json`. |
 | WI-546 — WI-545 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-546-wi545-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-546-wi545-doc-promotion.contract.json`; verification `.ai/evidence/WI-546-wi545-doc-promotion.verification.json`; finalization `.ai/decisions/WI-546-wi545-doc-promotion.finalize.json`; close `.ai/decisions/WI-546-wi545-doc-promotion.close.json`. |
@@ -689,6 +690,18 @@ object/adopter repositories inherit the shared Runtime, explicit repository
 context, isolated governance records, dynamic verification boundary, and human
 Outcome handoff, not source Python/Make/stack implementations or wire formats.
 See the [file-level WI-579 record](reference-file-comparison.md#wi-579--reference-template-parity-batch-46).
+
+## WI-587 — reference test and fixture comparison batch 47
+
+WI-587 completes the next twenty maintained source test/fixture comparisons.
+Twelve portable responsibilities are implemented differently by design in the
+Rust Runtime and native tests; eight source-specific environment, study,
+wizard, and stack snapshot inputs remain `reference-only`. No portable
+implementation omission or `migrate-gap` was found. The attached object and
+adopter route inherits the shared Runtime, explicit repository context,
+isolated governance records, fail-closed lifecycle, and human Outcome boundary;
+it does not inherit source pytest fixtures, Python evaluators, toolchain
+presets, or source wire data. See the [file-level WI-587 record](reference-file-comparison.md#wi-587--reference-test-and-fixture-comparison-batch-47).
 
 ## WI-584 — v0.2.76 release and object-adopter recovery handoff
 

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-579-reference-template-parity-batch-46
+lastVerifiedBy: WI-587-reference-file-comparison-batch-47
 capabilityClaims:
   - reference_parity
 ---
@@ -26,8 +26,8 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `3b49e8777c1e0087ea945a9327f2d77f650039e8`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.75`、binary SHA256 `sha256:e301e507fb10eb39cc2eab32fa3f37504e33948ef1c5a80a9ed4c4a7acdd69c6`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `aa721c6172d4f6bc41d7d5205eaa34757441efa8`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.76`、binary SHA256 `sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -324,7 +324,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=442 implemented-equivalent=1 not-applicable=7 reference-only=121 deferred-next-batch=198 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=454 implemented-equivalent=1 not-applicable=7 reference-only=129 deferred-next-batch=178 migrate-gap=0 -->
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -336,11 +336,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 442 |
+| `implemented-different-by-design` | 454 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 121 |
-| `deferred-next-batch` | 198 |
+| `reference-only` | 129 |
+| `deferred-next-batch` | 178 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1627,6 +1627,29 @@ WI-572 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 ## WI-577 — current comparison metadata synchronization
 
 WI-577 は v0.2.75 release 後の live frontmatter と baseline 表示を同期します。semantic classification は追加せず、append-only の過去 batch paragraph も書き換えません。[`reference-comparison-metadata.json`](reference-comparison-metadata.json) sidecar が current reference commit、review 済み Rust baseline、Runtime identity、current ledger count の single source であり、tri-language metadata test が page drift を fail-closed で検出します。
+
+## WI-587 — reference test/fixture 比較 batch 47
+
+WI-587 は固定した reference commit の次の maintained test/fixture path 20 件を
+一つずつ再読した。12 件は typed Rust Runtime/native test が portable な責務を
+異なる設計で担い、8 件は source 固有 fixture/wizard snapshot のため
+`reference-only` とした。`migrate-gap` は見つからない。完全な mapping と reason は
+[WI-587 Work Item](../work-items/WI-587-reference-file-comparison-batch-47.ja.md)
+と machine-readable inventory に記録する。
+
+| Reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `tests/repository_fixture.py` | implemented-different-by-design | Typed Git/repository-context test と release isolation manifest。source helper は copy しない。 |
+| `tests/test_absurd_capability_truth.py` | implemented-different-by-design | Rust adversarial test/manifest が unexecuted input と fail-closed claim を保持。 |
+| `tests/test_adoption_e2e.py`、`tests/test_adoption_evidence.py`、`tests/test_adoption_ready.py` | implemented-different-by-design | Immutable public/N-1 adopter harness、release receipt、isolation、Agent doctor。 |
+| `tests/test_ai_archive_work_item.py`、`tests/test_ai_check_serial_order.py`、`tests/test_ai_check_summary.py`、`tests/test_ai_check_work_item.py` | implemented-different-by-design | Typed archive/lifecycle/Contract/Summary/Outcome/preflight regression。 |
+| `tests/test_ai_external_handoff.py`、`tests/test_ai_onboard.py`、`tests/test_ai_post_archive_recovery.py` | implemented-different-by-design | Typed handoff、attach/adapter onboarding、append-only recovery。 |
+| `tests/conftest.py`、Japanese corpus、wizard fixtures、Kotlin/mixed/Swift snapshots | reference-only | Source 固有 environment、study data、stack/toolchain、wizard presentation input。 |
+
+現在の 4,450 path は 3,681 `generated-history`、454
+`implemented-different-by-design`、1 `implemented-equivalent`、7
+`not-applicable`、129 `reference-only`、178 `deferred-next-batch`。`migrate-gap` は
+zero、669 retired record は append-only である。
 
 ## WI-579 — reference template parity batch 46
 

@@ -61,10 +61,10 @@ done
 # Bounded rebaseline batches resolve changed source records; WI-521 resolves
 # one of the previously changed deferred records. Keep this regression count
 # tied to the current pinned source ledger.
-# The pinned source inventory currently leaves 44 changed records explicitly
+# The pinned source inventory currently leaves 39 changed records explicitly
 # deferred. Keep this count tied to the committed ledger so a batch cannot
 # silently change the historical rebaseline boundary.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 44
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 39
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -769,6 +769,42 @@ test "$(jq '[.records[] | select(.batch == "WI-579-reference-template-parity-bat
 grep -q "WI-579" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-579" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-579" "$root/docs/reference/reference-file-comparison.ja.md"
+
+# WI-587 resolves the next twenty maintained source test/fixture paths. Keep
+# the exact set and bounded classifications explicit so a future rebaseline
+# cannot silently return these records to deferred.
+for wi587_path in \
+  tests/conftest.py \
+  tests/fixtures/japanese-capability-corpus.json \
+  tests/fixtures/wizard/android.json \
+  tests/fixtures/wizard/ios.json \
+  tests/fixtures/wizard/monorepo.json \
+  tests/repository_fixture.py \
+  tests/snapshots/wizard/kotlin.json \
+  tests/snapshots/wizard/mixed.json \
+  tests/snapshots/wizard/swift.json \
+  tests/test_absurd_capability_truth.py \
+  tests/test_adoption_e2e.py \
+  tests/test_adoption_evidence.py \
+  tests/test_adoption_ready.py \
+  tests/test_ai_archive_work_item.py \
+  tests/test_ai_check_serial_order.py \
+  tests/test_ai_check_summary.py \
+  tests/test_ai_check_work_item.py \
+  tests/test_ai_external_handoff.py \
+  tests/test_ai_onboard.py \
+  tests/test_ai_post_archive_recovery.py; do
+  test "$(jq --arg path "$wi587_path" '[.records[] | select(.referencePath == $path and .batch == "WI-587-reference-file-comparison-batch-47" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-587-reference-file-comparison-batch-47")] | length' "$current_manifest")" -eq 20
+test "$(jq '[.records[] | select(.batch == "WI-587-reference-file-comparison-batch-47" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-587-reference-file-comparison-batch-47" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 12
+test "$(jq '[.records[] | select(.batch == "WI-587-reference-file-comparison-batch-47" and .classification == "reference-only")] | length' "$current_manifest")" -eq 8
+for wi587_doc in \
+  reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
+  reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
+  grep -q "WI-587" "$root/docs/reference/$wi587_doc"
+done
 
 reference_fixture="$tmp/reference"
 target_fixture="$tmp/target"
