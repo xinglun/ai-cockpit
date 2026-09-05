@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "a502d0e2652cd88c8c7ef646cb69f88d81c342c0",
+  "predecessorReceiptDigest": "sha256:7d087615d97e0ccff1e2e1be9273e48abf2abc3b0a37f0cebac9f648ab7daa38",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "explicit-user-authorized-merge",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "a502d0e2652cd88c8c7ef646cb69f88d81c342c0",
+      "name": "codex/wi-576-wi575-doc-promotion-retry",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:aaf8eb1b67d0f317d808a09ea37dd7aca657dec71d7885026580bc211b4b35ed",
+    "operationId": "wi-576-merge-observed",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "5f661274b72c90dd6e897f8d1437952c36c4d35e",
+      "headRevision": "a502d0e2652cd88c8c7ef646cb69f88d81c342c0",
+      "mergeCommit": "307dd326f2acb6738718f66bd00d3dc6caee1da5",
+      "number": 557,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/557"
+    },
+    "reason": "Reviewed PR #557 passed all hosted checks and merged as 307dd326.",
+    "receiptId": "wi-576-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-576-wi575-doc-promotion-retry",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/557",
+      "worktree": "/private/tmp/ai-cockpit-wi576-wi575-doc-promotion-retry"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:6ffcc2b697c6849dfab2e6d89d801377ffba45a9bc5d56add2e82bf1eb5e8a52",
+    "runtimeVersion": "0.2.74",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-05T09:00:00+09:00",
+    "workItemId": "WI-576-wi575-doc-promotion-retry",
+    "worktree": {
+      "branch": "codex/wi-576-wi575-doc-promotion-retry",
+      "headRevision": "a502d0e2652cd88c8c7ef646cb69f88d81c342c0",
+      "path": "/private/tmp/ai-cockpit-wi576-wi575-doc-promotion-retry",
+      "worktreeId": "WI-576-wi575-doc-promotion-retry"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "wi-576-merge-observation"
+}
