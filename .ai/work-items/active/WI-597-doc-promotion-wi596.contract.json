@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "All six WI-596 documentation projections are promoted from immutable closed evidence.",
+    "No governance facts or release bytes are changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "6b232c27f1bf6de0e3bf7a0aea03b58f631bd826",
+  "createdAt": "2026-09-05T19:11:51Z",
+  "goal": "Keep published release and parity documentation synchronized with immutable WI-596 archive, verification, finalization, and close evidence.",
+  "intent": "Promote the already closed WI-596 release facts into the tri-language documentation projections.",
+  "mode": "docs",
+  "outOfScope": [
+    "crates",
+    "tests",
+    "Cargo.toml",
+    "Cargo.lock",
+    "object-repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a8430e57f090f1d02f424ce2ebf359e4e3514e2d4d3cd4315b58d965163bd8fd",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-597-doc-promotion-wi596",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi597-doc-promotion-wi596"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-596-release-v0-2-78.md",
+    "docs/work-items/WI-596-release-v0-2-78.zh-CN.md",
+    "docs/work-items/WI-596-release-v0-2-78.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-597-doc-promotion-wi596"
+}
