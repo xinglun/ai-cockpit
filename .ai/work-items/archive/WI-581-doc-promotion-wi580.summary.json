@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-581-doc-promotion-wi580.contract.json",
+    ".ai/work-items/archive/WI-581-doc-promotion-wi580.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T02:57:51Z",
+  "checkpointContractDigest": "sha256:e9dd159db2d6f06850437b749fe1a65c1cf1525ad9c210db7ea98f4278962472",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:585470d9bf8c43cc3c1f4ece1932ca85dfc5498904c23266ae0266c9970e9f44",
+  "createdAt": "2026-09-05T02:55:43Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-05T02:58:47Z",
+  "preflightContractDigest": "sha256:e9dd159db2d6f06850437b749fe1a65c1cf1525ad9c210db7ea98f4278962472",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:585470d9bf8c43cc3c1f4ece1932ca85dfc5498904c23266ae0266c9970e9f44",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T02:58:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-581-doc-promotion-wi580"
+}

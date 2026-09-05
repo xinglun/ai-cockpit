@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-580——参考模板对等批次 46"
 description: "逐个重读剩余 16 个参考模板路径，记录有边界的 Rust 语义决定，不复制源实现。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-580-reference-template-parity-batch-46-recovery
 lastVerifiedBy: WI-580-reference-template-parity-batch-46-recovery
+terminalArchive: .ai/work-items/archive/WI-580-reference-template-parity-batch-46-recovery.contract.json
+terminalVerification: .ai/evidence/WI-580-reference-template-parity-batch-46-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-580-reference-template-parity-batch-46-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-580-reference-template-parity-batch-46-recovery.close.json
 ---
 
 
