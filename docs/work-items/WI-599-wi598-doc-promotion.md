@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-599 — WI-598 terminal documentation promotion"
 description: "Promote the verified WI-598 documentation projections with pre-registered tri-language parity evidence."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-599-wi598-doc-promotion
 lastVerifiedBy: WI-599-wi598-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-599-wi598-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-599-wi598-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-599-wi598-doc-promotion.finalize.eacd2ab5f9639f57f01f2caabefc3f22aaaf2e7842260629b1a8d8d538903a67.json
+terminalDecision: .ai/decisions/WI-599-wi598-doc-promotion.close.json
 ---
 
 [简体中文](WI-599-wi598-doc-promotion.zh-CN.md) · [日本語](WI-599-wi598-doc-promotion.ja.md)

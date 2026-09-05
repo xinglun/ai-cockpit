@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-599 — WI-598 終端ドキュメント昇格"
 description: "三言語の parity evidence を先に登録し、検証済み WI-598 のドキュメント投影を昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-599-wi598-doc-promotion
 lastVerifiedBy: WI-599-wi598-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-599-wi598-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-599-wi598-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-599-wi598-doc-promotion.finalize.eacd2ab5f9639f57f01f2caabefc3f22aaaf2e7842260629b1a8d8d538903a67.json
+terminalDecision: .ai/decisions/WI-599-wi598-doc-promotion.close.json
 ---
 
 [English](WI-599-wi598-doc-promotion.md) · [简体中文](WI-599-wi598-doc-promotion.zh-CN.md)

@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-599——WI-598 终态文档晋级"
 description: "在预先登记三语 parity 证据后晋级已验证的 WI-598 文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-599-wi598-doc-promotion
 lastVerifiedBy: WI-599-wi598-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-599-wi598-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-599-wi598-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-599-wi598-doc-promotion.finalize.eacd2ab5f9639f57f01f2caabefc3f22aaaf2e7842260629b1a8d8d538903a67.json
+terminalDecision: .ai/decisions/WI-599-wi598-doc-promotion.close.json
 ---
 
 [English](WI-599-wi598-doc-promotion.md) · [日本語](WI-599-wi598-doc-promotion.ja.md)
