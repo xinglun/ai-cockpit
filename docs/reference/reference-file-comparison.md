@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-619-reference-script-semantic-batch
+lastVerifiedBy: WI-620-reference-release-governance-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -109,8 +109,8 @@ The target and every adopter inherit the shared external Runtime, isolated
 repository context, Contract/evidence/knowledge records, and human Outcome
 boundary. They do not inherit source-specific installers, Make targets,
 provider decisions, or generated history. The current ledger contains 4,262
-`generated-history`, 340 `implemented-different-by-design`, 1
-`implemented-equivalent`, 4 `not-applicable`, 90 `reference-only`, and 439
+`generated-history`, 546 `implemented-different-by-design`, 1
+`implemented-equivalent`, 8 `not-applicable`, 140 `reference-only`, and 74
 `deferred-next-batch` records; `migrate-gap` remains zero.
 
 ## First batch: governance entrypoints
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=546 implemented-equivalent=1 not-applicable=8 reference-only=140 deferred-next-batch=74 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -280,11 +280,11 @@ The reviewed Runtime is v0.2.83 with binary digest
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 525 |
+| `implemented-different-by-design` | 546 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 139 |
-| `deferred-next-batch` | 96 |
+| `reference-only` | 140 |
+| `deferred-next-batch` | 74 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2327,3 +2327,46 @@ Python tests, Make targets, fixture stacks, provider policy values, or source
 wire formats. See the [WI-619 Work Item](../work-items/WI-619-reference-script-semantic-batch.md).
 
 reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0
+
+## WI-620 — reference installer, release, quality, and lifecycle test parity
+
+WI-620 re-read every one of the 22 remaining source-changed test paths at the
+pinned local reference commit. Twenty-one responsibilities are already covered
+by Rust-native Runtime services, repository tests, CI/release manifests,
+adopter harnesses, or reader-facing documentation with an intentional design
+difference. The installer wizard test is reference-only: the Rust Runtime uses
+explicit `attach --repo` and does not reproduce the source's interactive
+provider/stack wizard. No `migrate-gap` remains in this batch.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `tests/test_install_plan.py` | reference-only | Source interactive install-plan wizard; Rust uses explicit release artifact installation and `attach --repo`. |
+| `tests/test_installed_runtime_parity.py` | implemented-different-by-design | Installed Runtime identity, agent doctor, attach, lifecycle, and adopter acceptance checks. |
+| `tests/test_installer.py` | implemented-different-by-design | Release archive/manifest validation, attach scaffolding, and upgrade/recovery documentation. |
+| `tests/test_makefile.py` | implemented-different-by-design | Native CI gate, repository gate manifest, and workflow policy; no source Makefile contract. |
+| `tests/test_pr_aggregate.py` | implemented-different-by-design | Typed PR/finalization lifecycle, merge binding, recovery, and CI gate evidence. |
+| `tests/test_project_governance.py` | implemented-different-by-design | Typed project profile, governance controls, doctor, and profile proposal/validation. |
+| `tests/test_project_governance_journey.py` | implemented-different-by-design | Project-profile lifecycle, proposal calibration, and repository-local governance docs. |
+| `tests/test_quality_gate_architecture.py` | implemented-different-by-design | Dynamic quality route, gate manifest, workflow policy, and native CI gate tests. |
+| `tests/test_quality_measurements.py` | implemented-different-by-design | Runtime verification-cost/performance measurements and bounded CI gate evidence. |
+| `tests/test_quality_test_manifest.py` | implemented-different-by-design | Repository gate manifest, affected verification, dependency graph, execution, and route convergence. |
+| `tests/test_reference_impact.py` | implemented-different-by-design | Operation-time policy, governance signals, input trust, and adversarial reference-impact boundaries. |
+| `tests/test_release_distribution.py` | implemented-different-by-design | Typed release archive/manifest/SBOM checks and distribution documentation. |
+| `tests/test_release_preflight.py` | implemented-different-by-design | Release manifest/SBOM checks, repository gate, and security-release verification docs. |
+| `tests/test_release_state_consistency.py` | implemented-different-by-design | Release manifest consistency, resource-finalization protocol, and distribution checks. |
+| `tests/test_release_workflow.py` | implemented-different-by-design | Hosted release workflow, immutable adopter/upgrade acceptance, and release handoff tests. |
+| `tests/test_start_and_archive.py` | implemented-different-by-design | Lifecycle entry/order, archive integrity, resource finalization, and worktree-entry checks. |
+| `tests/test_supply_chain.py` | implemented-different-by-design | Release SBOM/archive/manifest, source-archive policy, and CI/release evidence checks. |
+| `tests/test_sync_published_release_projection.py` | implemented-different-by-design | Published release projection, manifest binding, and distribution handoff checks. |
+| `tests/test_verification_policy.py` | implemented-different-by-design | Verification planner/route/affected graph, project governance, and profile policy docs. |
+| `tests/test_work_item_intelligence.py` | implemented-different-by-design | Repository intelligence, knowledge query/cache, evidence projection, and CLI intelligence. |
+| `tests/test_work_item_lifecycle_closure.py` | implemented-different-by-design | Lifecycle/resource-finalization/archive tests, closure docs, and worktree/CLI boundaries. |
+| `tests/test_workflows.py` | implemented-different-by-design | CI/release workflow policy, gate manifest, action policy, and CLI gate documentation. |
+
+The shared Runtime and explicit repository context are what attached object and
+adopter projects inherit. They inherit the same dynamic verification,
+fail-closed evidence/lifecycle rules, release identity, and visible human
+Outcome boundary; they do not inherit source Python tests, Make targets,
+interactive stack installers, provider policy values, or source JSON wire
+formats. This is semantic parity, not source implementation or wire parity.
+See the [WI-620 Work Item](../work-items/WI-620-reference-release-governance-batch.md).

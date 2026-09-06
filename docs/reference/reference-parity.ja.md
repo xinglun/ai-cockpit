@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-619-reference-script-semantic-batch
+lastVerifiedBy: WI-620-reference-release-governance-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -674,6 +674,7 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 | WI-617 — reference Outcome、event、人間向け handoff parity | Implemented | [Work Item](../work-items/WI-617-reference-outcome-parity.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-617-reference-outcome-parity.contract.json`; verification `.ai/evidence/WI-617-reference-outcome-parity.verification.json`; finalization `.ai/decisions/WI-617-reference-outcome-parity.finalize.json`; close `.ai/decisions/WI-617-reference-outcome-parity.close.json`. |
 | WI-618 — WI-617 終端ドキュメント昇格 | Implemented | [Work Item](../work-items/WI-618-doc-promotion-wi617.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json`; verification `.ai/evidence/WI-618-doc-promotion-wi617.verification.json`; finalization `.ai/decisions/WI-618-doc-promotion-wi617.finalize.json`; close `.ai/decisions/WI-618-doc-promotion-wi617.close.json`. |
 | WI-619 — reference adoption、enterprise、lifecycle、trust test parity | Implemented | [Work Item](../work-items/WI-619-reference-script-semantic-batch.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json`; verification `.ai/evidence/WI-619-reference-script-semantic-batch.verification.json`; finalization `.ai/decisions/WI-619-reference-script-semantic-batch.finalize.json`; close `.ai/decisions/WI-619-reference-script-semantic-batch.close.json`. |
+| WI-620 — reference installer、release、quality、lifecycle parity | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-620-reference-release-governance-batch.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-620-reference-release-governance-batch.contract.json`; verification `.ai/evidence/WI-620-reference-release-governance-batch.verification.json`; finalization `.ai/decisions/WI-620-reference-release-governance-batch.finalize.json`; close `.ai/decisions/WI-620-reference-release-governance-batch.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 
@@ -698,3 +699,14 @@ source wire format は継承しません。
 ## WI-617 — reference Outcome、event、人間向け handoff parity
 
 WI-617 は maintained source test 11 件を一件ずつ再読しました。10 件の portable responsibility は Rust Runtime、native test、documentation が異なる設計で担い、provider/adapter PR summary projection は `not-applicable` です。portable omission と `migrate-gap` はありません。詳細は [WI-617 file-level ledger](reference-file-comparison.ja.md#wi-617--reference-outcome-event-and-human-handoff-parity) を参照してください。attached adopter は shared Runtime、repository isolation、typed evidence/event validation、fail-closed Outcome、人間向け handoff を継承し、source Python/Make test と source wire format は継承しません。
+
+## WI-620 — reference installer, release, quality, and lifecycle parity
+
+WI-620 は pinned local reference の残り 22 changed test path を一件ずつ再読しました。
+21 件の portable responsibility は Rust-native Runtime、repository test、CI/release manifest、
+adopter harness、documentation が意図した別実装で担い、interactive install-plan wizard は
+`reference-only` のままです。`migrate-gap` はありません。詳細は [WI-620 file-level
+ledger](reference-file-comparison.ja.md#wi-620--reference-installer-release-quality-and-lifecycle-test-parity) を参照してください。
+Attached object/adopter は shared Runtime、explicit repository context、dynamic verification、
+fail-closed evidence/lifecycle、release identity、人間向け Outcome を継承しますが、source
+Python/Make implementation、interactive stack installer、provider policy value、source wire format は継承しません。

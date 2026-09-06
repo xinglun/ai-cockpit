@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-619-reference-script-semantic-batch
+lastVerifiedBy: WI-620-reference-release-governance-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -80,7 +80,7 @@ WI-512 在固定的本地参考提交上逐个重读以下 12 个源路径。其
 | `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design（WI-504，重新核对） | 三语 closure、finalize/recovery 与 ready-on-base 检查；源 Make/Python recovery orchestration 不是 Rust 命令。 |
 | `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | 日文 closure 与历史 recovery 边界；provider 专用路线仍是外部责任。 |
 
-目标工程及每个对象工程继承 shared external Runtime、隔离的 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源专用 installer、Make target、provider 决定或 generated history。当前台账为 4,262 个 `generated-history`、340 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、4 个 `not-applicable`、90 个 `reference-only`、439 个 `deferred-next-batch`；`migrate-gap` 仍为 0。
+目标工程及每个对象工程继承 shared external Runtime、隔离的 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源专用 installer、Make target、provider 决定或 generated history。当前台账为 4,262 个 `generated-history`、546 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、8 个 `not-applicable`、140 个 `reference-only`、74 个 `deferred-next-batch`；`migrate-gap` 仍为 0。
 
 ## 首批：治理入口
 
@@ -307,7 +307,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=546 implemented-equivalent=1 not-applicable=8 reference-only=140 deferred-next-batch=74 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.83，二进制摘要为
@@ -322,11 +322,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 525 |
+| `implemented-different-by-design` | 546 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 139 |
-| `deferred-next-batch` | 96 |
+| `reference-only` | 140 |
+| `deferred-next-batch` | 74 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1726,3 +1726,42 @@ WI-619 在固定参考提交上逐一复核下一批 21 条维护中的测试路
 对象工程继承共享 Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态验证、fail-closed 生命周期和人类 Outcome 边界；不继承源 Python 测试、Make target、fixture 栈、供应商 policy 值或 source wire。参见 [WI-619 Work Item](../work-items/WI-619-reference-script-semantic-batch.zh-CN.md)。
 
 reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0
+
+## WI-620：参考安装、发布、质量与生命周期测试对比
+
+WI-620 在固定的本地参考提交上，逐一重新阅读剩余 22 个源内容已变化的测试文件。
+其中 21 个责任已经由 Rust-native Runtime 服务、仓库测试、CI/release 清单、adopter
+harness 或面向读者的文档以有意不同的方式覆盖。安装计划测试保持 `reference-only`：
+Rust Runtime 使用显式 `attach --repo` 和公开 Release 产物安装，不复制源交互式
+provider/技术栈向导。本批没有 `migrate-gap`。
+
+| 固定参考路径 | 分类 | Rust 对应或边界决定 |
+| --- | --- | --- |
+| `tests/test_install_plan.py` | reference-only | 源交互式安装计划向导；Rust 使用公开产物安装与 `attach --repo`。 |
+| `tests/test_installed_runtime_parity.py` | implemented-different-by-design | 已安装 Runtime 身份、agent doctor、attach、生命周期和 adopter acceptance 检查。 |
+| `tests/test_installer.py` | implemented-different-by-design | Release archive/manifest 校验、attach 脚手架和升级/恢复文档。 |
+| `tests/test_makefile.py` | implemented-different-by-design | 原生 CI gate、仓库 gate manifest 和 workflow policy；不建立源 Makefile 合同。 |
+| `tests/test_pr_aggregate.py` | implemented-different-by-design | 类型化 PR/finalization 生命周期、merge 绑定、恢复和 CI gate evidence。 |
+| `tests/test_project_governance.py` | implemented-different-by-design | 类型化 project profile、治理控制、doctor、profile propose/validate。 |
+| `tests/test_project_governance_journey.py` | implemented-different-by-design | Project profile 生命周期、proposal 校准和仓库本地治理文档。 |
+| `tests/test_quality_gate_architecture.py` | implemented-different-by-design | 动态质量路由、gate manifest、workflow policy 和原生 CI gate 测试。 |
+| `tests/test_quality_measurements.py` | implemented-different-by-design | Runtime 验证成本/性能测量和有界 CI gate evidence。 |
+| `tests/test_quality_test_manifest.py` | implemented-different-by-design | 仓库 gate manifest、affected verification、依赖图、执行和路由收敛。 |
+| `tests/test_reference_impact.py` | implemented-different-by-design | 操作时 policy、治理信号、输入信任和 adversarial reference-impact 边界。 |
+| `tests/test_release_distribution.py` | implemented-different-by-design | 类型化 Release archive/manifest/SBOM 检查和 distribution 文档。 |
+| `tests/test_release_preflight.py` | implemented-different-by-design | Release manifest/SBOM、仓库 gate 和 security-release-verification 文档。 |
+| `tests/test_release_state_consistency.py` | implemented-different-by-design | Release manifest 一致性、resource-finalization protocol 和 distribution 检查。 |
+| `tests/test_release_workflow.py` | implemented-different-by-design | Hosted release workflow、不可变 adopter/upgrade acceptance 和 release handoff 测试。 |
+| `tests/test_start_and_archive.py` | implemented-different-by-design | 生命周期入口/顺序、archive integrity、resource finalization 和 worktree-entry 检查。 |
+| `tests/test_supply_chain.py` | implemented-different-by-design | Release SBOM/archive/manifest、source-archive policy 和 CI/release evidence 检查。 |
+| `tests/test_sync_published_release_projection.py` | implemented-different-by-design | Published release projection、manifest 绑定和 distribution handoff 检查。 |
+| `tests/test_verification_policy.py` | implemented-different-by-design | Verification planner/route/affected graph、project governance 和 profile policy 文档。 |
+| `tests/test_work_item_intelligence.py` | implemented-different-by-design | Repository intelligence、knowledge query/cache、evidence projection 和 CLI intelligence。 |
+| `tests/test_work_item_lifecycle_closure.py` | implemented-different-by-design | Lifecycle/resource-finalization/archive 测试、closure 文档及 worktree/CLI 边界。 |
+| `tests/test_workflows.py` | implemented-different-by-design | CI/release workflow policy、gate manifest、action policy 和 CLI gate 文档。 |
+
+对象工程和 adopter 工程继承的是 shared Runtime 与显式 repository context；同时继承动态
+验证、fail-closed evidence/lifecycle 规则、release identity 和可见的 human Outcome 边界。
+它们不会继承源 Python 测试、Make target、交互式技术栈安装器、供应商 policy 值或源
+JSON wire 格式。这是语义对等，不是源实现或 wire 对等。参见
+[WI-620 Work Item](../work-items/WI-620-reference-release-governance-batch.zh-CN.md)。
