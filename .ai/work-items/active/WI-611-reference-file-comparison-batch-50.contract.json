@@ -1,0 +1,85 @@
+{
+  "acceptanceCriteria": [
+    "Every in-scope reference path has one explicit semantic classification and Rust counterpart or an evidence-backed reference-only decision.",
+    "Portable governance responsibilities found in the batch are implemented or repaired in Rust and covered by native regression tests.",
+    "No source Python implementation or source wire format is copied into the Runtime or adopter repositories.",
+    "Reference ledger and parity documentation are synchronized in English Chinese and Japanese.",
+    "Object and adopter repositories inherit the resulting shared Runtime capability and isolation boundary."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9a9a86da018876fc380706be141773a92c52757c",
+  "createdAt": "2026-09-06T09:18:33Z",
+  "goal": "完成参考源测试批次 50 的文件级语义比较并修复本批发现的可移植遗漏；不复制 Python 测试实现或源 wire。",
+  "intent": "逐个审阅固定本地参考源中下一批维护测试文件，发现可迁移的治理责任时在本批内补齐 Rust Runtime；对象工程必须继承同一能力边界。",
+  "mode": "code",
+  "outOfScope": [
+    "source Python files and Make targets",
+    "reference generated history and target artifacts",
+    "installer implementation redesign",
+    "performance architecture and release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:37dbf4b3dfb09181449228b317a49b1edd51ed1b6b0337fbb18a71781b429d9f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "sources": [
+    "tests/conformance/reference-source.lock (pinned commit fde3380f81fea5fd2e288f7a8849f737dc074060)",
+    "docs/reference/reference-comparison-metadata.json",
+    "tests/docs/reference_comparison_metadata_test.py"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-611-reference-file-comparison-batch-50",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-611-reference-file-comparison-batch-50"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/test_derived_artifacts.py",
+    "tests/test_detached_uninstaller.py",
+    "tests/test_dev_tool_versions.py",
+    "tests/test_diff_ownership.py",
+    "tests/test_disable_enable.py",
+    "tests/test_docs_metadata.py",
+    "tests/test_doctor.py",
+    "tests/test_documentation_authority.py",
+    "tests/test_documentation_comprehension_results.py",
+    "tests/test_documentation_comprehension_validation.py",
+    "tests/test_documentation_homes.py",
+    "tests/test_documentation_journey.py",
+    "tests/test_documentation_p0_adoption_security.py",
+    "tests/test_documentation_p0_chinese_plain_language.py",
+    "tests/test_documentation_p0_comprehension_validation.py",
+    "tests/test_documentation_p0_core.py",
+    "tests/test_documentation_p0_decisions_lifecycle_recovery.py",
+    "tests/test_documentation_p0_japanese_plain_language.py",
+    "tests/test_documentation_p0_workflow_instructions.py",
+    "tests/test_domain_model.py",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests",
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/docs/reference_comparison_metadata_test.py",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-611-reference-file-comparison-batch-50"
+}

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-601-reference-test-parity-batch-49
+lastVerifiedBy: WI-611-reference-file-comparison-batch-50
 capabilityClaims:
   - reference_parity
 ---
@@ -25,8 +25,8 @@ capabilityClaims:
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `8c619299c3d2d672ece1497392006812cc874ee5`。
-- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.78`，binary SHA256 为 `sha256:cebab206b1609660d548c889cf79cd07e60ba3ab78953b180dd34d3c7b4c4869`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `9a9a86da018876fc380706be141773a92c52757c`。
+- 比较时使用已发布的 Runtime：`ai-cockpit 0.2.82`，binary SHA256 为 `sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -307,13 +307,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=479 implemented-equivalent=1 not-applicable=7 reference-only=134 deferred-next-batch=148 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=494 implemented-equivalent=1 not-applicable=7 reference-only=139 deferred-next-batch=128 migrate-gap=0 -->
 
-本次比较以 Rust 基线提交
-`d64445bff646e477071c220410957c6756a4fc87` 完成审查；清单中的历史 target
-提交仍单独记录。
-审查使用的 Runtime 为 v0.2.79，二进制摘要为
-`sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63`。
+本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
+审查使用的 Runtime 为 v0.2.82，二进制摘要为
+`sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662`。
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -324,11 +322,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 479 |
+| `implemented-different-by-design` | 494 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 134 |
-| `deferred-next-batch` | 148 |
+| `reference-only` | 139 |
+| `deferred-next-batch` | 128 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1647,3 +1645,32 @@ WI-601 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 | `tests/test_dependabot_intake.py`、`tests/test_deprecated_assets.py` | reference-only | GitHub Dependabot 解析以及源 deprecated-asset 注册表/词法清理扫描保持供应商或源工具边界。 |
 
 对象/adopter 工程继承相同的 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态质量、fail-closed 生命周期和 human Outcome handoff；不会继承源 Python 模块、provider policy 值、技术栈矩阵或 source wire。当前 4,450 个路径包含 3,681 个 `generated-history`、479 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、134 个 `reference-only` 和 148 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。详见 [WI-601 Work Item](../work-items/WI-601-reference-test-parity-batch-49.zh-CN.md)。
+
+## WI-611——参考源测试对等批次 50
+
+WI-611 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读下一批 20 个维护中的测试路径。15 项可移植的 reader 或治理责任由 Rust Runtime、原生测试或文档以不同设计承载；5 项因验证源模板安装状态或修订绑定的参与者研究而保持 `reference-only`。本批未发现可移植实现遗漏或 `migrate-gap`。同时，比较元数据测试现在会在 Runtime 版本落后于 Cargo workspace 单一版本时 fail-closed，防止发布后遗留过期比对身份。
+
+| 固定参考路径 | 分类 | Rust 对应 / 有界决定 |
+| --- | --- | --- |
+| `tests/test_derived_artifacts.py` | implemented-different-by-design | `docs/reference/derived-artifacts.md`、仓库 Knowledge 与原生投影测试保持事实与派生视图边界；不复制源 registry JSON。 |
+| `tests/test_detached_uninstaller.py` | reference-only | 安装/升级文档记录提案、所有权、有界删除和证据保留；Rust 没有 detached Runtime 卸载器。 |
+| `tests/test_dev_tool_versions.py` | implemented-different-by-design | Cargo.lock、固定 Rust toolchain、locked 命令和 CI action pin 提供可复现性；Python 包 pin 解析仍属 provider/toolchain。 |
+| `tests/test_diff_ownership.py` | implemented-different-by-design | 类型化 Contract scope/out-of-scope、snapshot、archive 不可变、派生产物和生命周期检查替代源跨 WI 预览/所有权报告。 |
+| `tests/test_disable_enable.py` | reference-only | Rust 没有全局安装状态开关；request-scoped Runtime、attach/detach、adapter 所有权和显式 recovery 保留安全边界。 |
+| `tests/test_docs_metadata.py` | implemented-different-by-design | `tests/docs/documentation_acceptance.sh`、元数据 sidecar 和 Runtime 版本回归保护三语路由、权威性和 unsupported-claim 边界。 |
+| `tests/test_doctor.py` | implemented-different-by-design | CLI/Agent doctor 与仓库诊断绑定 Runtime/protocol identity、兼容性、隔离和 fail-closed 事实；provider toolchain 仍在外部。 |
+| `tests/test_documentation_authority.py` | implemented-different-by-design | `.ai` 当前读取集、authority boundary/registry、frontmatter 和文档门提供单一当前指令路线；不复制第二套 authority CLI。 |
+| `tests/test_documentation_comprehension_results.py` | reference-only | 修订绑定的参与者研究仍是历史参考证据，不能授权目标理解度、发布、安全或企业声明。 |
+| `tests/test_documentation_comprehension_validation.py` | reference-only | 六问题参与者协议与响应 schema 保持源研究材料，与 Runtime 治理证据分离。 |
+| `tests/test_documentation_homes.py` | implemented-different-by-design | 根入口与本地化入口以及文档验收保持同语言导航和阅读顺序，不复制源 home code。 |
+| `tests/test_documentation_journey.py` | implemented-different-by-design | 目标 authority registry、current/getting-started/reference 路由、frontmatter 与验收检查保持关键性和下一主题导航。 |
+| `tests/test_documentation_p0_adoption_security.py` | implemented-different-by-design | 三语安装、校准、首个 WI、injection-boundary 页面和路由检查保持 P0 adoption/security 边界。 |
+| `tests/test_documentation_p0_chinese_plain_language.py` | implemented-different-by-design | 中文入口与 onboarding 检查完整同语言路由，不允许独立英文 fallback。 |
+| `tests/test_documentation_p0_comprehension_validation.py` | reference-only | 源 P0 研究评分不是目标证据；目标读者路由与历史 WI-332/WI-333 记录保持分离。 |
+| `tests/test_documentation_p0_core.py` | implemented-different-by-design | 三语 purpose、哲学、架构、能力页面和文档门强制有序 reader contract。 |
+| `tests/test_documentation_p0_decisions_lifecycle_recovery.py` | implemented-different-by-design | 三语 decision/status/lifecycle/recovery 页面与 typed stop/unknown 边界保持人工审查路线。 |
+| `tests/test_documentation_p0_japanese_plain_language.py` | implemented-different-by-design | 日文入口与 onboarding 检查完整同语言导航，不允许独立英文 fallback。 |
+| `tests/test_documentation_p0_workflow_instructions.py` | implemented-different-by-design | 首个 WI 页面使用已安装 Rust CLI 记录 checkpoint、archive-before-PR、reviewed merge 与 close 顺序。 |
+| `tests/test_domain_model.py` | implemented-different-by-design | Typed Core/Protocol domain records 与仓库生命周期测试负责词汇、规范转换、证据可信度和 fail-closed 决策。 |
+
+对象/adopter 工程继承相同的 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、文档边界和 human Outcome handoff；不会继承源 Python 测试、安装开关、参与者记录、toolchain preset 或 source wire。当前快照为 3,681 个 `generated-history`、494 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、139 个 `reference-only` 和 128 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。详见 [WI-611 Work Item](../work-items/WI-611-reference-file-comparison-batch-50.zh-CN.md)。

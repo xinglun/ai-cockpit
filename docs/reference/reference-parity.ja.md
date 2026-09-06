@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-601-reference-test-parity-batch-49
+lastVerifiedBy: WI-611-reference-file-comparison-batch-50
 capabilityClaims:
   - reference_parity
 ---
@@ -674,3 +674,15 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 は machine-readable ledger に bind されたままです。
 
 WI-601 は pinned local reference test corpus の 10 path を file-level に比較します。7 件の portable responsibility は Rust Runtime、repository-native test、CI、documentation が異なる設計で担い、3 件（source の七 stack long-cycle fixture、Dependabot intake、deprecated-assets registry）は source/provider boundary のため `reference-only` です。portable Runtime omission ではありません。attached object/adopter repository は shared Runtime identity、repository isolation、dynamic quality、fail-closed lifecycle、人間向け Outcome boundary を継承しますが、source Python/Make module、stack matrix、provider policy value、wire format は継承しません。詳細は [WI-601 file-level ledger](reference-file-comparison.ja.md#wi-601--reference-test-parity-batch-49) を参照してください。
+
+## WI-611 — reference test parity batch 50
+
+WI-611 は pinned local reference corpus の次の 20 件を file-level に比較しました。
+15 件は `implemented-different-by-design`、5 件は `reference-only` で、portable
+omission と `migrate-gap` はありません。詳細な mapping は [WI-611 file-level
+ledger](reference-file-comparison.ja.md#wi-611--reference-test-parity-batch-50) に記録しています。
+attached object/adopter repository は同じ shared Runtime、repository isolation、
+dynamic quality、documentation、人間向け Outcome boundary を継承します。比較
+metadata は Runtime identity が workspace version より古い場合に fail-closed と
+なり、source Python test、installer toggle、participant study、toolchain preset、
+source wire format は継承しません。

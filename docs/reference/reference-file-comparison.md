@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-601-reference-test-parity-batch-49
+lastVerifiedBy: WI-611-reference-file-comparison-batch-50
 capabilityClaims:
   - reference_parity
 ---
@@ -30,8 +30,8 @@ check is executable and fails closed when any translated page drifts.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `8c619299c3d2d672ece1497392006812cc874ee5`.
-- Runtime used for the comparison work: the published `ai-cockpit 0.2.78` binary, SHA256 `sha256:cebab206b1609660d548c889cf79cd07e60ba3ab78953b180dd34d3c7b4c4869`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `9a9a86da018876fc380706be141773a92c52757c`.
+- Runtime used for the comparison work: the published `ai-cockpit 0.2.82` binary, SHA256 `sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=479 implemented-equivalent=1 not-applicable=7 reference-only=134 deferred-next-batch=148 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=494 implemented-equivalent=1 not-applicable=7 reference-only=139 deferred-next-batch=128 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -271,21 +271,20 @@ records remain scheduled work, not parity claims. The rebaseline records 160
 changed current paths, and the capability/profile slice has no remaining
 `migrate-gap` records:
 
-This comparison was reviewed against Rust baseline commit
-`d64445bff646e477071c220410957c6756a4fc87`; the ledger's historical target
-commit remains recorded separately in the machine inventory.
-The reviewed Runtime is v0.2.79 with binary digest
-`sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63`.
+This comparison uses the Rust baseline recorded above; the ledger's historical
+target commit remains recorded separately in the machine inventory.
+The reviewed Runtime is v0.2.82 with binary digest
+`sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662`.
 
 | Metric | Count |
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 479 |
+| `implemented-different-by-design` | 494 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 134 |
-| `deferred-next-batch` | 148 |
+| `reference-only` | 139 |
+| `deferred-next-batch` | 128 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2211,3 +2210,48 @@ The current 4,450-path set contains 3,681 `generated-history`, 479
 `not-applicable`, 134 `reference-only`, and 148 `deferred-next-batch` records;
 `migrate-gap` remains zero and 669 retired records remain append-only. See the
 [WI-601 Work Item](../work-items/WI-601-reference-test-parity-batch-49.md).
+
+## WI-611 — reference test parity batch 50
+
+WI-611 re-read the next twenty maintained source test paths at the pinned local
+reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`, one file at a time.
+Fifteen portable reader or governance responsibilities are implemented
+differently by the Rust Runtime, native tests, or documentation. Five files
+remain `reference-only` because they validate source-template installer state
+or a revision-bound participant study. No portable implementation omission or
+`migrate-gap` was found. The batch also makes comparison metadata fail when its
+Runtime version lags the single Cargo workspace version, preventing a release
+from silently leaving stale comparison identity behind.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `tests/test_derived_artifacts.py` | implemented-different-by-design | `docs/reference/derived-artifacts.md`, repository-local Knowledge and native projection tests preserve the fact-versus-derived-view boundary; source registry JSON is not copied. |
+| `tests/test_detached_uninstaller.py` | reference-only | Installed-lifecycle/upgrade documentation records proposal, ownership, bounded removal, and evidence retention; Rust has no detached Runtime uninstaller. |
+| `tests/test_dev_tool_versions.py` | implemented-different-by-design | Cargo.lock, pinned Rust toolchain, locked commands, and CI action pins provide reproducibility; Python package pin parsing remains provider/toolchain-specific. |
+| `tests/test_diff_ownership.py` | implemented-different-by-design | Typed Contract scope/out-of-scope, snapshot, archive immutability, generated-artifact, and lifecycle checks replace source cross-Work-Item preview/report ownership. |
+| `tests/test_disable_enable.py` | reference-only | Rust has no global installed-state toggle; request-scoped Runtime, attach/detach, adapter ownership, and explicit recovery preserve the source safety boundary. |
+| `tests/test_docs_metadata.py` | implemented-different-by-design | `tests/docs/documentation_acceptance.sh`, the metadata sidecar, and its Runtime-version regression protect tri-language routes, authority, and unsupported-claim boundaries. |
+| `tests/test_doctor.py` | implemented-different-by-design | CLI/Agent doctor tests and repository diagnostics bind Runtime/protocol identity, compatibility, isolation, and fail-closed facts; provider toolchains remain external. |
+| `tests/test_documentation_authority.py` | implemented-different-by-design | `.ai` current read set, authority boundary/registry, frontmatter, and documentation gates provide one current instruction route without copying a second authority CLI. |
+| `tests/test_documentation_comprehension_results.py` | reference-only | The revision-bound participant study remains historical reference evidence; it cannot authorize target comprehension, release, safety, or enterprise claims. |
+| `tests/test_documentation_comprehension_validation.py` | reference-only | The six-question participant protocol and response schema remain source-study material, separate from Runtime governance evidence. |
+| `tests/test_documentation_homes.py` | implemented-different-by-design | Root and localized homes plus documentation acceptance preserve same-language navigation and reader order without copying source home code. |
+| `tests/test_documentation_journey.py` | implemented-different-by-design | The target authority registry, current/getting-started/reference routes, frontmatter, and acceptance checks preserve criticality and next-topic navigation. |
+| `tests/test_documentation_p0_adoption_security.py` | implemented-different-by-design | Tri-language installation, calibration, first-Work-Item, injection-boundary pages, and route checks preserve P0 adoption/security boundaries. |
+| `tests/test_documentation_p0_chinese_plain_language.py` | implemented-different-by-design | Chinese homes and onboarding pages are checked for complete same-language routes and no standalone English fallback. |
+| `tests/test_documentation_p0_comprehension_validation.py` | reference-only | Source P0 study answer scoring is not target evidence; target reader routes and historical WI-332/WI-333 records remain distinct. |
+| `tests/test_documentation_p0_core.py` | implemented-different-by-design | Tri-language purpose, philosophy, architecture, capability pages and documentation gates enforce the ordered reader contract. |
+| `tests/test_documentation_p0_decisions_lifecycle_recovery.py` | implemented-different-by-design | Tri-language decision/status/lifecycle/recovery pages and typed stop/unknown boundaries preserve the human review route. |
+| `tests/test_documentation_p0_japanese_plain_language.py` | implemented-different-by-design | Japanese homes and onboarding pages are checked for complete same-language navigation and no standalone English fallback. |
+| `tests/test_documentation_p0_workflow_instructions.py` | implemented-different-by-design | First-Work-Item pages document checkpoint, archive-before-PR, reviewed merge, and close order using the installed Rust CLI. |
+| `tests/test_domain_model.py` | implemented-different-by-design | Typed Core/Protocol domain records and repository lifecycle tests own vocabulary, canonical transitions, evidence trust, and fail-closed decisions. |
+
+The attached object/adopter route inherits the same shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, documentation
+boundaries, and human Outcome handoff. It does not inherit source Python
+tests, installer toggles, participant records, toolchain presets, or source
+wire formats. The live snapshot is 3,681 `generated-history`, 494
+`implemented-different-by-design`, one `implemented-equivalent`, 7
+`not-applicable`, 139 `reference-only`, and 128 `deferred-next-batch` records;
+`migrate-gap` remains zero and 669 retired records remain append-only. See the
+[WI-611 Work Item](../work-items/WI-611-reference-file-comparison-batch-50.md).

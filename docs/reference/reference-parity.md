@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-601-reference-test-parity-batch-49
+lastVerifiedBy: WI-611-reference-file-comparison-batch-50
 capabilityClaims:
   - reference_parity
 ---
@@ -767,3 +767,16 @@ repository isolation, dynamic quality, fail-closed lifecycle, and human
 Outcome boundaries; source Python/Make modules, stack matrices, provider policy
 values, and wire formats remain outside the target. See the [WI-601 file-level
 ledger](reference-file-comparison.md#wi-601--reference-test-parity-batch-49).
+
+## WI-611 — reference test parity batch 50
+
+WI-611 completes the next twenty file-level comparisons from the pinned local
+reference corpus: fifteen are `implemented-different-by-design` and five are
+`reference-only`; no portable omission or `migrate-gap` was found. The detailed
+mapping is recorded in the [WI-611 file-level ledger](reference-file-comparison.md#wi-611--reference-test-parity-batch-50).
+The attached-adopter route inherits the same shared Runtime, repository
+isolation, dynamic quality, documentation, and human Outcome boundaries. The
+comparison metadata now also fails closed when its Runtime identity lags the
+workspace version, so object repositories receive the same release-bound
+comparison guard without inheriting source Python tests, installer toggles,
+participant studies, toolchain presets, or source wire formats.
