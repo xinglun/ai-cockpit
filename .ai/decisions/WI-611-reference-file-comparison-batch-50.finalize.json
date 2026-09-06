@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "hosted-review-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "8727f06f212f6b5bc06e7e06c27ad55a8c1fb58b",
+    "name": "codex/wi-611-reference-file-comparison-batch-50",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:20918fb01906157213ef538730c16d516dd3bb9d2dbb7d91116137788ec11900",
+  "operationId": "operation-WI-611-reference-file-comparison-batch-50-pre-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9a9a86da018876fc380706be141773a92c52757c",
+    "headRevision": "8727f06f212f6b5bc06e7e06c27ad55a8c1fb58b",
+    "number": 601,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/601"
+  },
+  "reason": "PR #601 is open and awaiting hosted review; retain the exact branch and worktree until merge and cleanup are observed.",
+  "receiptId": "ai-cockpit-WI-611-reference-file-comparison-batch-50-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-611-reference-file-comparison-batch-50",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/601",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-611-reference-file-comparison-batch-50"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662",
+  "runtimeVersion": "0.2.82",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T10:00:00Z",
+  "workItemId": "WI-611-reference-file-comparison-batch-50",
+  "worktree": {
+    "branch": "codex/wi-611-reference-file-comparison-batch-50",
+    "headRevision": "8727f06f212f6b5bc06e7e06c27ad55a8c1fb58b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-611-reference-file-comparison-batch-50",
+    "worktreeId": "WI-611-reference-file-comparison-batch-50"
+  }
+}
