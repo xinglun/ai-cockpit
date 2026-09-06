@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-617-reference-outcome-parity
+lastVerifiedBy: WI-619-reference-script-semantic-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -653,6 +653,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-616——v0.2.83 发布与对象验收 | 已实现 | [Work Item](../work-items/WI-616-release-v0-2-83.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-616-release-v0-2-83.contract.json`; verification `.ai/evidence/WI-616-release-v0-2-83.verification.json`; finalization `.ai/decisions/WI-616-release-v0-2-83.finalize.json`; close `.ai/decisions/WI-616-release-v0-2-83.close.json`. |
 | WI-617——参考 Outcome、事件与人类交接对等 | 已实现 | [Work Item](../work-items/WI-617-reference-outcome-parity.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-617-reference-outcome-parity.contract.json`; verification `.ai/evidence/WI-617-reference-outcome-parity.verification.json`; finalization `.ai/decisions/WI-617-reference-outcome-parity.finalize.json`; close `.ai/decisions/WI-617-reference-outcome-parity.close.json`. |
 | WI-618——WI-617 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-618-doc-promotion-wi617.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json`; verification `.ai/evidence/WI-618-doc-promotion-wi617.verification.json`; finalization `.ai/decisions/WI-618-doc-promotion-wi617.finalize.json`; close `.ai/decisions/WI-618-doc-promotion-wi617.close.json`. |
+| WI-619——参考源 adoption、企业、生命周期与信任测试对等 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-619-reference-script-semantic-batch.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json`; verification `.ai/evidence/WI-619-reference-script-semantic-batch.verification.json`; finalization `.ai/decisions/WI-619-reference-script-semantic-batch.finalize.json`; close `.ai/decisions/WI-619-reference-script-semantic-batch.close.json`. |
 
 ## WI-601——参考源测试对等批次 49
 
