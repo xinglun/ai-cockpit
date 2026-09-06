@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "每个批次50参考源路径都有明确分类、Rust counterpart或reference-only理由。",
+    "Rust、文档与测试承担可移植语义，不复制参考源Python/Make实现。",
+    "reference ledger与中/日/英parity文档一致，inventory gate的deferred变更数与当前manifest一致。",
+    "不编辑生成的状态、证据、receipt或archive bytes；对象工程可通过已安装Runtime继承同一能力。",
+    "本批次声明的conformance、docs与workspace验证命令可重复通过。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "9a9a86da018876fc380706be141773a92c52757c",
+  "createdAt": "2026-09-06T10:38:16Z",
+  "goal": "从最新main完成批次50的逐文件语义比对、三语parity与metadata更新、回归门修正，并产出可审计的发布前交付。",
+  "intent": "修正并重新交付参考源维护测试文件批次50；将上次CI暴露的inventory deferred-count regression纳入同一批；确保对象工程继承相同的Rust Runtime语义边界。",
+  "mode": "implementation",
+  "outOfScope": [
+    "参考源Python/Make实现复制",
+    "generated历史记录与旧归档重写",
+    "Runtime架构拆分、性能优化与并行调度",
+    "Release发布与adopter验收（由后续发布WI处理）"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:37dbf4b3dfb09181449228b317a49b1edd51ed1b6b0337fbb18a71781b429d9f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-612-reference-file-comparison-batch-50-ci-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/604",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-612-reference-file-comparison-batch-50-ci-repair"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-612-reference-file-comparison-batch-50-ci-repair.md",
+    "docs/work-items/WI-612-reference-file-comparison-batch-50-ci-repair.zh-CN.md",
+    "docs/work-items/WI-612-reference-file-comparison-batch-50-ci-repair.ja.md",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/reference_comparison_metadata_test.py"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+}
