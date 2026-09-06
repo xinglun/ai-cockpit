@@ -3,10 +3,14 @@ title: "WI-603——v0.2.80 发布与对象验收"
 description: "发布下一版 Rust Runtime，并验证不可变制品与对象工程验收边界。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-603-release-v0-2-80
 lastVerifiedBy: WI-603-release-v0-2-80
+terminalArchive: .ai/work-items/archive/WI-603-release-v0-2-80.contract.json
+terminalVerification: .ai/evidence/WI-603-release-v0-2-80.verification.json
+terminalFinalization: .ai/decisions/WI-603-release-v0-2-80.finalize.json
+terminalDecision: .ai/decisions/WI-603-release-v0-2-80.close.json
 ---
 
 [English](WI-603-release-v0-2-80.md) · [日本語](WI-603-release-v0-2-80.ja.md)
