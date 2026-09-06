@@ -93,13 +93,30 @@ cleanup_run_root() {
     return 1
   }
   cleanup_validated=true
-  if rm -rf -- "$run_root" && [[ ! -e "$run_root" && ! -L "$run_root" ]]; then
+  if remove_exact_tree "$run_root"; then
     cleanup_state=passed
     cleanup_removed=true
     cleanup_reason='validated run_root removed'
     return 0
   fi
   cleanup_reason='validated run_root removal failed'
+  return 1
+}
+
+# The acceptance roots are canonical absolute paths validated above. Avoid
+# `rm --` because BSD/macOS rm rejects that GNU-only option. Git may also
+# finish background maintenance immediately after a commit; retry only the
+# exact validated root for a bounded interval, then fail closed.
+remove_exact_tree() {
+  local path="$1"
+  local attempt
+  for attempt in 1 2 3 4 5; do
+    if rm -rf "$path" && [[ ! -e "$path" && ! -L "$path" ]]; then
+      return 0
+    fi
+    [[ "$attempt" -lt 5 ]] || break
+    sleep 0.2
+  done
   return 1
 }
 
@@ -418,6 +435,8 @@ env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_t
 printf 'target/\n' > "$adopter/.gitignore"; : > "$adopter/AGENTS.md"
 git -C "$adopter" init -q
 configure_git_identity "$adopter"
+git -C "$adopter" config gc.auto 0
+git -C "$adopter" config maintenance.auto false
 git -C "$adopter" add .; git -C "$adopter" commit -qm 'initial adopter'
 # Cargo/rustup may populate the intentionally isolated HOME while scaffolding
 # the fixture.  Capture the baseline after that setup and before any Runtime
@@ -501,7 +520,7 @@ old_control_root="$run_root/old-control"
 git clone -q "$adopter" "$old_control_root"
 configure_git_identity "$old_control_root"
 git -C "$old_control_root" switch -q -c release-adopter-old-control
-rm -rf -- "$old_worktree"
+remove_exact_tree "$old_worktree" || die 'old lifecycle worktree removal failed after bounded retries'
 git -C "$old_control_root" worktree prune
 git -C "$old_control_root" branch -D "$old_branch" >/dev/null
 [[ ! -e "$old_worktree" && ! -L "$old_worktree" ]] || die 'old lifecycle worktree was not removed before close'
@@ -643,7 +662,7 @@ new_control_root="$run_root/new-control"
 git clone -q "$adopter" "$new_control_root"
 configure_git_identity "$new_control_root"
 git -C "$new_control_root" switch -q -c release-adopter-new-control
-rm -rf -- "$new_worktree"
+remove_exact_tree "$new_worktree" || die 'new lifecycle worktree removal failed after bounded retries'
 git -C "$new_control_root" worktree prune
 git -C "$new_control_root" branch -D "$new_branch" >/dev/null
 [[ ! -e "$new_worktree" && ! -L "$new_worktree" ]] || die 'new lifecycle worktree was not removed before close'

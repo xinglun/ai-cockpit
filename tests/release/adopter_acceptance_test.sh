@@ -30,7 +30,9 @@ grep -q -- 'SHA256SUMS' "$script"
 grep -q -- 'cleanup_run_root' "$script"
 grep -q -- 'cleanupState' "$script"
 grep -q -- 'cleanup.json' "$script"
-grep -q -- 'rm -rf --' "$script"
+grep -q -- 'remove_exact_tree' "$script"
+grep -q -- 'git -C "$adopter_root" config gc.auto 0' "$script"
+grep -q -- 'git -C "$adopter_root" config maintenance.auto false' "$script"
 grep -q -- 'rustup show active-toolchain' "$script"
 grep -q -- 'RUSTUP_TOOLCHAIN' "$script"
 grep -q -- 'rustToolchain' "$script"
@@ -56,7 +58,7 @@ grep -q -- 'decisionState == "confirmed"' "$script"
 grep -q -- 'structuredDecision.evidenceRefs' "$script"
 grep -q -- 'structuredDecision.policyRefs' "$script"
 grep -q -- 'result:{disposition:"deleted"' "$script"
-grep -q -- 'rm -rf -- "$lifecycle_worktree"' "$script"
+grep -q -- 'remove_exact_tree "$lifecycle_worktree"' "$script"
 grep -q -- 'worktree prune' "$script"
 grep -q -- 'branch -D' "$script"
 if grep -q -- 'result:{disposition:"retained"' "$script"; then
@@ -209,6 +211,38 @@ jq -e '.state == "failed" and .removed == false and .validated == true' "$blocke
   exit 1
 }
 find "$blocked_tmp" -depth -mindepth 0 -delete
+
+# A one-shot removal race must be retried and then succeed. This models Git
+# maintenance creating a late .git entry between two rm directory scans.
+race_rm_bin="$regression_root/race-rm-bin"
+race_rm_state="$regression_root/race-rm-state"
+mkdir -p "$race_rm_bin"
+cat > "$race_rm_bin/rm" <<'RACE_RM'
+#!/bin/sh
+if [ ! -e "$RACE_RM_STATE" ]; then
+  : > "$RACE_RM_STATE"
+  exit 71
+fi
+exec /bin/rm "$@"
+RACE_RM
+chmod +x "$race_rm_bin/rm"
+race_tmp="$regression_root/race-tmp"
+race_output="$regression_root/race-output"
+mkdir -p "$race_tmp" "$race_output"
+set +e
+RACE_RM_STATE="$race_rm_state" PATH="$race_rm_bin:$fake_bin:$PATH" TMPDIR="$race_tmp" "$script" \
+  --repository xinglun/ai-cockpit --tag v0.2.6 --target x86_64-unknown-linux-gnu \
+  --output "$race_output" --source-repo "$repo" >/dev/null 2>&1
+race_exit=$?
+set -e
+[[ "$race_exit" -eq 1 ]] || { printf 'transient cleanup race must preserve the acceptance failure result\n' >&2; exit 1; }
+[[ -z "$(find "$race_tmp" -mindepth 1 -maxdepth 1 -type d -name 'ai-cockpit-adopter-acceptance.*' -print -quit)" ]] || {
+  printf 'transient cleanup race left a run_root behind\n' >&2
+  exit 1
+}
+jq -e '.adopterAcceptance == "failed" and .cleanupState == "passed" and .cleanupError == null' "$race_output/acceptance.json" >/dev/null
+jq -e '.state == "passed" and .removed == true and .validated == true' "$race_output/cleanup.json" >/dev/null
+(cd "$race_output" && shasum -a 256 -c SHA256SUMS >/dev/null)
 
 run_public=''
 if run_public="$(printenv AI_COCKPIT_RUN_PUBLIC_ACCEPTANCE)"; then :; fi
