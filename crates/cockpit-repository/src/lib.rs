@@ -12527,37 +12527,66 @@ pub fn historical_finalization_recovery_plan(
         result["knownFacts"]["pullRequest"]["baseBranch"] = context.base_branch.clone().into();
         result["knownFacts"]["pullRequest"]["baseRemote"] = context.base_remote.clone().into();
     }
-    result["humanInputRequired"] = serde_json::json!([
-        "receiptId",
-        "operationId",
-        "pullRequest.baseBranch",
-        "pullRequest.baseRemote",
-        "resourceContext",
-        "branch.name",
-        "branch.remote",
-        "worktree.worktreeId",
-        "worktree.path",
-        "worktree.branch",
-        "before",
-        "after",
-        "result.disposition",
-        "actor",
-        "authoritySource",
-        "reason",
-        "timestamp"
-    ]);
-    result["suggestedReceipt"] = serde_json::json!({
+    // The merge commit proves that the historical operation was merged, but
+    // it does not prove whether the old branch/worktree was later removed.
+    // Emit that distinction explicitly instead of asking the caller to
+    // reconstruct a partially typed receipt.  `retained` plus a stable
+    // unknown code is the conservative closeable projection for historical
+    // low-assurance records; a human may replace it with `deleted` only when
+    // fresh cleanup evidence proves the stronger claim.
+    let historical_url = format!("historical://direct-merge/{merge_commit}");
+    let context = archived_contract
+        .as_ref()
+        .and_then(|(contract, _)| contract.resource_context.as_ref())
+        .filter(|context| !context.is_provisional());
+    let mut human_input_required = vec![
+        "actor".to_owned(),
+        "authoritySource".to_owned(),
+        "reason".to_owned(),
+        "timestamp".to_owned(),
+    ];
+    let mut suggested_receipt = serde_json::json!({
         "schemaVersion": 1,
+        "receiptId": format!("historical-direct-merge-{work_item_id}-{merge_commit}"),
+        "operationId": format!("historical-direct-merge-operation-{merge_commit}"),
         "runtimeVersion": runtime.runtime_version,
         "runtimeDigest": runtime.runtime_digest,
         "pullRequest": {
             "number": 0,
-            "url": format!("historical://direct-merge/{merge_commit}"),
+            "url": historical_url,
             "headRevision": parents[2],
+            "baseBranch": "unknown",
+            "baseRemote": "unknown",
             "baseRevision": parents[1],
             "mergeCommit": merge_commit
         },
         "provider": "historical",
+        "branch": {
+            "name": "unknown",
+            "remote": "unknown",
+            "headRevision": parents[2]
+        },
+        "worktree": {
+            "worktreeId": "unknown",
+            "path": "unknown",
+            "branch": "unknown",
+            "headRevision": parents[2]
+        },
+        "before": {
+            "pullRequest": "merged",
+            "branch": "unknown",
+            "worktree": "unknown"
+        },
+        "after": {
+            "pullRequest": "merged",
+            "branch": "unknown",
+            "worktree": "unknown"
+        },
+        "result": {
+            "disposition": "retained",
+            "failureCodes": [],
+            "unknownCodes": ["historical_resource_state_unknown"]
+        },
         "historical": {
             "kind": "direct_merge_no_pr",
             "assurance": "historical_low",
@@ -12571,27 +12600,44 @@ pub fn historical_finalization_recovery_plan(
         "workItemId": work_item_id,
         "repositoryId": repository_id
     });
-    if let Some((_, digest)) = archived_contract.as_ref() {
-        result["suggestedReceipt"]["contractDigest"] = digest.to_string().into();
-    }
-    // Give the human/Agent an identity-consistent context to start from.  A
-    // legacy Contract may still carry its original local provider and PR URL;
-    // the suggested direct-merge receipt uses the explicit historical
-    // provider/URL while preserving the Contract's branch, worktree, and base
-    // bindings.  The original Contract context remains immutable and may also
-    // be supplied verbatim; the protocol accepts that form only for this
-    // narrow direct-merge compatibility path.
-    if let Some((contract, _)) = archived_contract.as_ref()
-        && let Some(context) = contract.resource_context.as_ref()
-    {
-        result["suggestedReceipt"]["resourceContext"] = serde_json::json!({
+    if let Some(context) = context {
+        suggested_receipt["pullRequest"]["baseBranch"] = context.base_branch.clone().into();
+        suggested_receipt["pullRequest"]["baseRemote"] = context.base_remote.clone().into();
+        suggested_receipt["branch"] = serde_json::json!({
+            "name": context.branch,
+            "remote": context.base_remote,
+            "headRevision": parents[2]
+        });
+        suggested_receipt["worktree"] = serde_json::json!({
+            "worktreeId": format!("historical-direct-merge-{merge_commit}"),
+            "path": context.worktree,
+            "branch": context.branch,
+            "headRevision": parents[2]
+        });
+        suggested_receipt["resourceContext"] = serde_json::json!({
             "branch": context.branch,
             "worktree": context.worktree,
             "baseBranch": context.base_branch,
             "baseRemote": context.base_remote,
             "provider": "historical",
-            "pullRequest": format!("historical://direct-merge/{merge_commit}"),
+            "pullRequest": historical_url,
         });
+    } else {
+        human_input_required.extend([
+            "pullRequest.baseBranch".to_owned(),
+            "pullRequest.baseRemote".to_owned(),
+            "resourceContext".to_owned(),
+            "branch.name".to_owned(),
+            "branch.remote".to_owned(),
+            "worktree.worktreeId".to_owned(),
+            "worktree.path".to_owned(),
+            "worktree.branch".to_owned(),
+        ]);
+    }
+    result["humanInputRequired"] = human_input_required.into();
+    result["suggestedReceipt"] = suggested_receipt;
+    if let Some((_, digest)) = archived_contract.as_ref() {
+        result["suggestedReceipt"]["contractDigest"] = digest.to_string().into();
     }
     Ok(result)
 }

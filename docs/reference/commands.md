@@ -185,14 +185,18 @@ review when the returned state is yellow, red, unknown, or not ready.
   predecessor, pass the real `--merge-commit <sha>`; the plan verifies its
   parents and emits the deterministic identity facts (`repositoryId`, current
   Runtime, merge commit, parents, base revision, and the zero-PR URL) plus a
-  partial `pullRequest.number=0`/`historical://direct-merge/<sha>` receipt
+  complete typed `pullRequest.number=0`/`historical://direct-merge/<sha>` receipt
   skeleton. `pullRequest.baseRevision` is the real merge first parent;
   `historical.contractBaseRevision` is the archived Contract base. Both are
-  deterministic facts and must be preserved. It also reports the archived
-  Contract digest and any provisional context; receipt IDs, branch/worktree
-  facts, disposition, authority, reason, and timestamp remain human-owned. It
-  never writes `.ai/decisions` and never invents a PR number, authority, or
-  human decision.
+  deterministic facts and must be preserved. When the archived Contract has a
+  non-provisional resource context, the plan also fills receipt/operation IDs,
+  branch/worktree identity, base branch/remote, merged before/after PR states,
+  and a conservative `retained` result with
+  `historical_resource_state_unknown`; it never asks an Agent to reconstruct
+  those protocol fields. Only `actor`, `authoritySource`, `reason`, and
+  `timestamp` remain human-owned (an incomplete context is listed explicitly
+  in `humanInputRequired`). It never writes `.ai/decisions` and never invents
+  a PR number, authority, or human decision.
 - `migrate plan --repo <path>` remains schema-compatible when the repository is
   current, but now also reports `historicalFinalization`. A stale receipt with
   a valid bound close is `historical_verified`/`historical_low`; a pending or

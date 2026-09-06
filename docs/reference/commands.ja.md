@@ -138,12 +138,16 @@ Agent は次の順序で capability を発見します。repository-bound の st
   の disposition、未入力の human fields を返します。canonical predecessor がない場合は実際の
   `--merge-commit <sha>` を渡すと parents を検証し、repositoryId、current Runtime、merge commit、
   parents、base revision、zero-PR URL など決定的な identity facts と、`pullRequest.number=0`、
-  `historical://direct-merge/<sha>` を含む部分 receipt skeleton を出力します。
+  `historical://direct-merge/<sha>` を含む完全な型付き receipt skeleton を出力します。
   `pullRequest.baseRevision` は実際の merge 第一 parent、`historical.contractBaseRevision` は
   archived Contract base であり、どちらも保持する決定論的な事実です。archived Contract の
-  digest/base と provisional context も示します。receipt ID、branch/worktree facts、disposition、
-  authority、reason、timestamp は人間が入力します。`.ai/decisions` は変更せず、PR number・authority・
-  human decision を捏造しません。
+  digest/base と provisional context も示します。archived Contract に non-provisional な resource
+  context がある場合、plan は receipt/operation ID、branch/worktree identity、base branch/remote、
+  merged の before/after PR state、および `historical_resource_state_unknown` を含む保守的な
+  `retained` result も埋めます。Agent が protocol field を再構成する必要はありません。人間が入力する
+  のは `actor`、`authoritySource`、`reason`、`timestamp` だけです。context が不完全な場合は
+  `humanInputRequired` に明示します。`.ai/decisions` は変更せず、PR number・authority・human decision を
+  捏造しません。
 - `migrate plan --repo <path>` は schema が compatible でも `historicalFinalization` を追加で
   報告します。有効な close binding を持つ旧 receipt は `historical_verified`/
   `historical_low`、pending または読めない receipt は `recovery_required`/`invalid` と safe

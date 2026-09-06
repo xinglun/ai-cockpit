@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-09-06T12:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:6f704bbd2be92542cbbc656ad8d58b865325538924f3e0690e4eb08cde7cb84b",
+  "predecessorEventsDigest": "sha256:413c039696e54523b57c6040f6ddea7b9d3b42610344238a3a12f956c8f1a658",
+  "predecessorOutcomeDigest": "sha256:6cd2b46fac2c088bece09203ac274890c99a0483035fbfc7b7ab0221d7825db4",
+  "predecessorSummaryDigest": "sha256:7d847dd87edd0e50c3e23a5e3c9ecd88858b8e2e0244d7da76ba385dc2440a3c",
+  "predecessorWorkItemId": "WI-614-direct-merge-no-pr-apply",
+  "reason": "Retry after correcting the active Contract evidence class declaration; preserve the failed attempt as immutable evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification against the current Contract, refresh preflight, and retry finish.",
+  "runtimeDigest": "sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662",
+  "runtimeVersion": "0.2.82",
+  "schemaVersion": 1,
+  "workItemId": "WI-614-direct-merge-no-pr-apply"
+}

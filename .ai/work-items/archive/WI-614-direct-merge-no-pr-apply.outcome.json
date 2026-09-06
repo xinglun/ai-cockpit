@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "finalize-recovery-plan 输出的 direct_merge_no_pr 建议收据包含所有可由 merge commit、Contract 与 repository observer 确定性推导的字段，并明确仅需补充人类授权字段。",
+    "使用建议收据并补充合法的人类字段后，首次 finalize 与 finalize-recovery 均可成功记录，不再出现 direct-merge history requires a merged no-PR identity 或 resourceContext identity mismatch。",
+    "Git merge commit、完整 parents、真实 baseRevision、repositoryId、Contract digest 与 runtime identity 全部绑定；历史事实不可被覆盖或重分类为 PR。",
+    "缺失/错误 merge parents、foreign repository、错误 Work Item、非法状态、伪造 PR 或不一致 resourceContext 继续 fail closed。",
+    "新增回归测试覆盖 plan→apply 首次路径与 suggestedReceipt round-trip，三语命令文档说明完整输入与人类决定边界。"
+  ],
+  "createdAt": "2026-09-06T11:57:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d77ef85a63bb2063673a47b6635e346c8ed9a7db496c6d62752d739927f5e892",
+  "evidenceRefs": [
+    ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5fd6216f4b3a99a839c3728dadbc959f5d999653379a909e6f5f5886de7e5711",
+      "workItemId": "WI-614-direct-merge-no-pr-apply"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-614-direct-merge-no-pr-apply.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json"
+          ],
+          "inference": false,
+          "text": "让无 PR 的真实 direct merge 可以通过可审计、不可伪造的首次 finalization 记录完成后续验证与 close。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-614-direct-merge-no-pr-apply"
+  },
+  "taskReportDigest": "sha256:65b8d90f661a7a2f5fc322628dca9842bf454d78648d6ed48ac163835ee7924e",
+  "taskReportMarkdownDigest": "sha256:5c020b7142697f3187c8bfe5b2ee204ba2a0cd99b1307b4814bbe7c3c1708925",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-614-direct-merge-no-pr-apply"
+}
