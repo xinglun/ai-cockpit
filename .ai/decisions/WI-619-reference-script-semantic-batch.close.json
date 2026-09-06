@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:be767f73da80123d3f4ea3a03358356f68ec425d353a480f43a2ff3741c2fa2d",
+      "workItemId": "WI-619-reference-script-semantic-batch"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json",
+            ".ai/decisions/WI-619-reference-script-semantic-batch.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/pull/614"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-cleanup at 2026-09-07T00:05:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "Compare the next bounded set of current reference test responsibilities file by file and register only evidence-backed Rust semantic parity."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-619-reference-script-semantic-batch"
+  },
+  "finalReportDigest": "sha256:264b332aead4ec8039eab4e727e3a62a4ae25c8829ee3b2a8d3872d8af2a1248",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1b4876353dce6b395ee70c7981235da878b083af45b2ee793b014ccb22aa1655",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-619-reference-script-semantic-batch.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "decidedAt": "2026-09-07T00:05:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json",
+      ".ai/decisions/WI-619-reference-script-semantic-batch.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/614"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "Reviewed PR #614 passed all hosted checks, merged to main, finalization verified, and the exact branch/worktree were removed. The reference semantic batch is closed with its inventory and tri-language projections bound to the verified evidence.",
+    "resumeCondition": "If a later pinned reference change invalidates these decisions, open a bounded rebaseline Work Item with fresh evidence."
+  },
+  "timestamp": "2026-09-06T17:03:42Z",
+  "workItemId": "WI-619-reference-script-semantic-batch"
+}
