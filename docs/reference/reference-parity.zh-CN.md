@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
+lastVerifiedBy: WI-627-reference-rebaseline
 capabilityClaims:
   - reference_parity
 ---
@@ -26,9 +26,19 @@ capabilityClaims:
 计数；三语页面会一起检查，避免发布或比对更新后只留下过期的页面表头。
 
 维护中的语义参考源是由 `AI_COCKPIT_REFERENCE_ROOT` 选择的本地 checkout，当前固定在提交
-`fde3380f81fea5fd2e288f7a8849f737dc074060`。逐文件台账记录该提交、旧公开参考源台账的历史元数据、
+`a9224aed77b5c317b53c4551a9eec306d91ee330`。逐文件台账记录该提交、旧公开参考源台账的历史元数据、
 等待复核的变化路径和已退休路径。对齐检查不依赖网络参考源，也不复制源内容；重新基线的 receipt 和
 流程见[参考源逐文件比较](reference-file-comparison.zh-CN.md)。
+
+### 当前台账快照（WI-627）
+
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
+
+当前快照使用 Rust 基线 `98f12b18b978db509fc884a8a6225afeb7f10df5`，以及经审查的
+`ai-cockpit v0.2.85` Runtime（二进制摘要
+`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）。
+当前参考源有 5,175 条路径，其中 354 条 deferred；deferred 只表示下一语义比较批次，
+不构成对等声明。
 
 ## 真实性状态
 
@@ -660,6 +670,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-624——WI-622 文档晋级恢复 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-624-wi622-doc-promotion-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.contract.json`; verification `.ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json`; finalization `.ai/decisions/WI-624-wi622-doc-promotion-recovery.finalize.json`; close `.ai/decisions/WI-624-wi622-doc-promotion-recovery.close.json`。 |
 | WI-625——v0.2.84 发布与对象验收 | 已恢复 | [Work Item](../work-items/WI-625-release-v0-2-84.zh-CN.md); 不可变的失败发布历史保留；预留的 `v0.2.84` 标签不是公开 Release，发布边界由 WI-626 继续。 |
 | WI-626——v0.2.85 发布与对象验收 | 已实现 | [Work Item](../work-items/WI-626-release-v0-2-85.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-626-release-v0-2-85.contract.json`; verification `.ai/evidence/WI-626-release-v0-2-85.verification.json`; finalization `.ai/decisions/WI-626-release-v0-2-85.finalize.json`; close `.ai/decisions/WI-626-release-v0-2-85.close.json`. |
+| WI-627——参考源逐文件台账重新基线 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-627-reference-rebaseline.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-627-reference-rebaseline.contract.json`; verification `.ai/evidence/WI-627-reference-rebaseline.verification.json`; finalization `.ai/decisions/WI-627-reference-rebaseline.finalize.json`; close `.ai/decisions/WI-627-reference-rebaseline.close.json`. |
 
 ## WI-601——参考源测试对等批次 49
 
