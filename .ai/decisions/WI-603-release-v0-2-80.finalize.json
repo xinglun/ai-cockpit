@@ -1,0 +1,58 @@
+{
+  "actor": "human:release",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7ed1e42d3a58a1ae9fba169f3701d9443f9c606e",
+    "name": "codex/wi-603-release-v0-2-80-v3",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:0f1940202cffde75a9222674f837508534ad7dfe6883784b285c8112e88ddccb",
+  "operationId": "WI-603-release-v0-2-80-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "96743aab2410a6700bcca64aa9930e6ec624ee91",
+    "headRevision": "7ed1e42d3a58a1ae9fba169f3701d9443f9c606e",
+    "mergeCommit": "a7d9bbff7b0e39fd5a87d4f28f3944f4bc33da49",
+    "number": 592,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/592"
+  },
+  "reason": "record reviewed PR merge and exact branch/worktree cleanup for v0.2.80",
+  "receiptId": "WI-603-release-v0-2-80-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-603-release-v0-2-80-v3",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/592",
+    "worktree": "/private/tmp/ai-cockpit-wi603-release-v0-2-80-v3"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",
+  "runtimeVersion": "0.2.79",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T02:55:00Z",
+  "workItemId": "WI-603-release-v0-2-80",
+  "worktree": {
+    "branch": "codex/wi-603-release-v0-2-80-v3",
+    "headRevision": "7ed1e42d3a58a1ae9fba169f3701d9443f9c606e",
+    "path": "/private/tmp/ai-cockpit-wi603-release-v0-2-80-v3",
+    "worktreeId": "WI-603-release-v0-2-80-v3"
+  }
+}
