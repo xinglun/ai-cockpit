@@ -4,9 +4,13 @@ title: "WI-619——参考源 adoption、企业、生命周期与信任测试对
 description: "逐文件比较下一批维护中的参考源测试，并记录 Rust 语义对应。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-619-reference-script-semantic-batch
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-619-reference-script-semantic-batch
+terminalArchive: .ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json
+terminalVerification: .ai/evidence/WI-619-reference-script-semantic-batch.verification.json
+terminalFinalization: .ai/decisions/WI-619-reference-script-semantic-batch.finalize.json
+terminalDecision: .ai/decisions/WI-619-reference-script-semantic-batch.close.json
 ---
 
 # WI-619——参考源 adoption、企业、生命周期与信任测试对等

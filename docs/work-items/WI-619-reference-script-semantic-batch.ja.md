@@ -4,9 +4,13 @@ title: "WI-619 — reference adoption、enterprise、lifecycle、trust test pari
 description: "Maintained reference の次の test batch を file 単位で比較し、Rust semantic counterpart を記録します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-619-reference-script-semantic-batch
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-619-reference-script-semantic-batch
+terminalArchive: .ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json
+terminalVerification: .ai/evidence/WI-619-reference-script-semantic-batch.verification.json
+terminalFinalization: .ai/decisions/WI-619-reference-script-semantic-batch.finalize.json
+terminalDecision: .ai/decisions/WI-619-reference-script-semantic-batch.close.json
 ---
 
 # WI-619 — reference adoption、enterprise、lifecycle、trust test parity

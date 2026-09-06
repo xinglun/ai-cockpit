@@ -4,9 +4,13 @@ title: "WI-619 — Reference adoption, enterprise, lifecycle, and trust test par
 description: "File-level semantic comparison of the next maintained reference test batch."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-619-reference-script-semantic-batch
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-619-reference-script-semantic-batch
+terminalArchive: .ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json
+terminalVerification: .ai/evidence/WI-619-reference-script-semantic-batch.verification.json
+terminalFinalization: .ai/decisions/WI-619-reference-script-semantic-batch.finalize.json
+terminalDecision: .ai/decisions/WI-619-reference-script-semantic-batch.close.json
 ---
 
 # WI-619 — Reference adoption, enterprise, lifecycle, and trust test parity
