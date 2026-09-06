@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "在固定参考提交 fde3380f81fea5fd2e288f7a8849f737dc074060 逐项读取本批 11 个 Outcome、事件日志、人工交接和不支持声明测试文件，并为每个路径记录唯一分类、Rust counterpart 与不迁移原因。",
+    "对每个源测试断言检查当前 Rust Protocol、Repository、CLI/MCP tests 与三语文档；发现属于本批边界的可移植遗漏时在当前 Work Item 内补齐并加入回归测试，不能以新 Work Item 隐藏。",
+    "保持 Rust semantic parity 边界：不复制 Python 模块、Make 目标、源 JSON wire 或 provider/global 配置；Contract 原文、外部 evidence 与人类决定保持不可臆造。",
+    "更新三语 reference-file-comparison/reference-parity 与机器清单，使每个本批路径均为经过证据支持的分类；conformance、文档、格式和工作区测试全部通过。",
+    "完成后输出未折叠的中文 Outcome，包含问题数、已解决问题、未知、证据、人工决定、验证、影响和下一步。"
+  ],
+  "createdAt": "2026-09-06T15:04:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c70e41bd21f628131bf258fbc10cf31423dff966b4344a413e31ee9e01f90b44",
+  "evidenceRefs": [
+    ".ai/evidence/WI-617-reference-outcome-parity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-617-reference-outcome-parity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-617-reference-outcome-parity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c23353af8acd0ae02ae4cbe4e533f2ac20e586f92ef0e0a47876333a0c773a4f",
+      "workItemId": "WI-617-reference-outcome-parity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-617-reference-outcome-parity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-617-reference-outcome-parity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-617-reference-outcome-parity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-617-reference-outcome-parity.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-617-reference-outcome-parity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-617-reference-outcome-parity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-617-reference-outcome-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-617-reference-outcome-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-617-reference-outcome-parity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-617-reference-outcome-parity.contract.json"
+          ],
+          "inference": false,
+          "text": "完成参考源 Outcome 与事件治理语义的逐文件比较，并补齐当前 Rust 工程中真实存在的边界遗漏。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-617-reference-outcome-parity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-617-reference-outcome-parity"
+  },
+  "taskReportDigest": "sha256:8a27d3aaf5db96cc4320345429430cdd9ad6f2b28d6016d8bc21b9365358cc60",
+  "taskReportMarkdownDigest": "sha256:97f114ca0598b4dbc47a50e2980ffed70359155d82619124db848149b7b9728f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-617-reference-outcome-parity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-617-reference-outcome-parity"
+}

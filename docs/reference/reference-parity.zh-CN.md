@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
+lastVerifiedBy: WI-617-reference-outcome-parity
 capabilityClaims:
   - reference_parity
 ---
@@ -651,6 +651,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-614——首次 direct merge 恢复往返 | 已实现 | [Work Item](../work-items/WI-614-direct-merge-no-pr-apply.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json`; verification `.ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json`; finalization `.ai/decisions/WI-614-direct-merge-no-pr-apply.finalize.json`; close `.ai/decisions/WI-614-direct-merge-no-pr-apply.close.json`. |
 | WI-615——WI-614 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-615-wi614-doc-promotion.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-615-wi614-doc-promotion.contract.json`; verification `.ai/evidence/WI-615-wi614-doc-promotion.verification.json`; finalization `.ai/decisions/WI-615-wi614-doc-promotion.finalize.json`; close `.ai/decisions/WI-615-wi614-doc-promotion.close.json`. |
 | WI-616——v0.2.83 发布与对象验收 | 已实现 | [Work Item](../work-items/WI-616-release-v0-2-83.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-616-release-v0-2-83.contract.json`; verification `.ai/evidence/WI-616-release-v0-2-83.verification.json`; finalization `.ai/decisions/WI-616-release-v0-2-83.finalize.json`; close `.ai/decisions/WI-616-release-v0-2-83.close.json`. |
+| WI-617——参考 Outcome、事件与人类交接对等 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-617-reference-outcome-parity.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-617-reference-outcome-parity.contract.json`; verification `.ai/evidence/WI-617-reference-outcome-parity.verification.json`; finalization `.ai/decisions/WI-617-reference-outcome-parity.finalize.json`; close `.ai/decisions/WI-617-reference-outcome-parity.close.json`. |
 
 ## WI-601——参考源测试对等批次 49
 
@@ -668,3 +669,7 @@ WI-612 完成固定本地参考语料下一批 20 项逐文件比较：15 项为
 边界。比较元数据现在还会在 Runtime identity 落后于 workspace 版本时 fail-closed，
 因此对象工程获得同一发布绑定的比对保护，但不继承源 Python 测试、安装开关、参与者
 研究、toolchain preset 或 source wire。
+
+## WI-617——参考 Outcome、事件与人类交接对等
+
+WI-617 逐文件重读 11 个维护中的源测试。10 项可移植责任由 Rust Runtime、原生测试或文档以不同设计承载；供应商/适配器 PR summary 投影标记为 `not-applicable`。未发现可移植遗漏或 `migrate-gap`。完整映射见 [WI-617 逐文件台账](reference-file-comparison.zh-CN.md#wi-617参考-outcome事件与人类交接对等)。对象工程继承 shared Runtime、仓库隔离、类型化证据/事件校验、fail-closed Outcome 和人类交接；源 Python/Make 测试与 source wire 不进入目标。

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
+lastVerifiedBy: WI-617-reference-outcome-parity
 capabilityClaims:
   - reference_parity
 ---
@@ -671,6 +671,7 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 | WI-614 — 初回 direct merge recovery の round-trip | Implemented | [Work Item](../work-items/WI-614-direct-merge-no-pr-apply.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json`; verification `.ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json`; finalization `.ai/decisions/WI-614-direct-merge-no-pr-apply.finalize.json`; close `.ai/decisions/WI-614-direct-merge-no-pr-apply.close.json`. |
 | WI-615 — WI-614 終端ドキュメント昇格 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-615-wi614-doc-promotion.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-615-wi614-doc-promotion.contract.json`; verification `.ai/evidence/WI-615-wi614-doc-promotion.verification.json`; finalization `.ai/decisions/WI-615-wi614-doc-promotion.finalize.json`; close `.ai/decisions/WI-615-wi614-doc-promotion.close.json`. |
 | WI-616 — v0.2.83 release と adopter acceptance | Implemented | [Work Item](../work-items/WI-616-release-v0-2-83.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-616-release-v0-2-83.contract.json`; verification `.ai/evidence/WI-616-release-v0-2-83.verification.json`; finalization `.ai/decisions/WI-616-release-v0-2-83.finalize.json`; close `.ai/decisions/WI-616-release-v0-2-83.close.json`. |
+| WI-617 — reference Outcome、event、人間向け handoff parity | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-617-reference-outcome-parity.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-617-reference-outcome-parity.contract.json`; verification `.ai/evidence/WI-617-reference-outcome-parity.verification.json`; finalization `.ai/decisions/WI-617-reference-outcome-parity.finalize.json`; close `.ai/decisions/WI-617-reference-outcome-parity.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 
@@ -691,3 +692,7 @@ dynamic quality、documentation、人間向け Outcome boundary を継承しま�
 metadata は Runtime identity が workspace version より古い場合に fail-closed と
 なり、source Python test、installer toggle、participant study、toolchain preset、
 source wire format は継承しません。
+
+## WI-617 — reference Outcome、event、人間向け handoff parity
+
+WI-617 は maintained source test 11 件を一件ずつ再読しました。10 件の portable responsibility は Rust Runtime、native test、documentation が異なる設計で担い、provider/adapter PR summary projection は `not-applicable` です。portable omission と `migrate-gap` はありません。詳細は [WI-617 file-level ledger](reference-file-comparison.ja.md#wi-617--reference-outcome-event-and-human-handoff-parity) を参照してください。attached adopter は shared Runtime、repository isolation、typed evidence/event validation、fail-closed Outcome、人間向け handoff を継承し、source Python/Make test と source wire format は継承しません。

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T15:06:24Z",
+  "files": {
+    "contractDigest": "sha256:c435bf31a05029656c034e8f9d47072e05b4d647e42252c13ddca953f798d37f",
+    "contractPath": ".ai/work-items/archive/WI-617-reference-outcome-parity.contract.json",
+    "eventsDigest": "sha256:2c79e1e6fb5021eada940ab28c81faaf499480c1d3369638320650e4de94ad80",
+    "eventsPath": ".ai/work-items/archive/WI-617-reference-outcome-parity.events.jsonl",
+    "outcomeDigest": "sha256:6b42ff429d4ac70e3c22496d803842295e7b8ea34cac14fc4e6f77fc745cd1a2",
+    "outcomePath": ".ai/work-items/archive/WI-617-reference-outcome-parity.outcome.json",
+    "summaryDigest": "sha256:4cda601217f672509f0380af9736790ce752d46356275001c8f0d92fbc5bd443",
+    "summaryPath": ".ai/work-items/archive/WI-617-reference-outcome-parity.summary.json",
+    "taskReportDigest": "sha256:8a27d3aaf5db96cc4320345429430cdd9ad6f2b28d6016d8bc21b9365358cc60",
+    "taskReportMarkdownDigest": "sha256:97f114ca0598b4dbc47a50e2980ffed70359155d82619124db848149b7b9728f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-617-reference-outcome-parity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-617-reference-outcome-parity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-617-reference-outcome-parity"
+}

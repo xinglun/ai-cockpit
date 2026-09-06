@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
+lastVerifiedBy: WI-617-reference-outcome-parity
 capabilityClaims:
   - reference_parity
 ---
@@ -755,6 +755,7 @@ are rewritten here.
 | WI-614 — first-record direct-merge recovery round-trip | Implemented | [Work Item](../work-items/WI-614-direct-merge-no-pr-apply.md); terminal lifecycle: archive `.ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json`; verification `.ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json`; finalization `.ai/decisions/WI-614-direct-merge-no-pr-apply.finalize.json`; close `.ai/decisions/WI-614-direct-merge-no-pr-apply.close.json`. |
 | WI-615 — WI-614 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-615-wi614-doc-promotion.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-615-wi614-doc-promotion.contract.json`; verification `.ai/evidence/WI-615-wi614-doc-promotion.verification.json`; finalization `.ai/decisions/WI-615-wi614-doc-promotion.finalize.json`; close `.ai/decisions/WI-615-wi614-doc-promotion.close.json`. |
 | WI-616 — v0.2.83 release and adopter acceptance | Implemented | [Work Item](../work-items/WI-616-release-v0-2-83.md); terminal lifecycle: archive `.ai/work-items/archive/WI-616-release-v0-2-83.contract.json`; verification `.ai/evidence/WI-616-release-v0-2-83.verification.json`; finalization `.ai/decisions/WI-616-release-v0-2-83.finalize.json`; close `.ai/decisions/WI-616-release-v0-2-83.close.json`. |
+| WI-617 — reference Outcome, event, and human-handoff parity | In progress → Implemented after verified close | [Work Item](../work-items/WI-617-reference-outcome-parity.md); terminal lifecycle: archive `.ai/work-items/archive/WI-617-reference-outcome-parity.contract.json`; verification `.ai/evidence/WI-617-reference-outcome-parity.verification.json`; finalization `.ai/decisions/WI-617-reference-outcome-parity.finalize.json`; close `.ai/decisions/WI-617-reference-outcome-parity.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 
@@ -785,3 +786,14 @@ comparison metadata now also fails closed when its Runtime identity lags the
 workspace version, so object repositories receive the same release-bound
 comparison guard without inheriting source Python tests, installer toggles,
 participant studies, toolchain presets, or source wire formats.
+
+## WI-617 — reference Outcome, event, and human handoff parity
+
+WI-617 re-read eleven maintained source tests one file at a time. Ten portable
+responsibilities are implemented differently by the Rust Runtime, native tests,
+or documentation; the provider/adapter PR-summary projection is
+`not-applicable`. No portable omission or `migrate-gap` was found. The detailed
+mapping is recorded in the [WI-617 file-level ledger](reference-file-comparison.md#wi-617--reference-outcome-event-and-human-handoff-parity).
+The attached-adopter route inherits the shared Runtime, repository isolation,
+typed evidence/event validation, fail-closed Outcome, and human handoff; source
+Python/Make tests and source wire formats remain outside the target.

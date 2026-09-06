@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
+lastVerifiedBy: WI-617-reference-outcome-parity
 capabilityClaims:
   - reference_parity
 ---
@@ -324,7 +324,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=494 implemented-equivalent=1 not-applicable=7 reference-only=139 deferred-next-batch=128 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
@@ -341,11 +341,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 494 |
+| `implemented-different-by-design` | 504 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 7 |
+| `not-applicable` | 8 |
 | `reference-only` | 139 |
-| `deferred-next-batch` | 128 |
+| `deferred-next-batch` | 117 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1726,3 +1726,25 @@ WI-612 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 | `tests/test_domain_model.py` | implemented-different-by-design | typed Core/Protocol domain record と repository lifecycle test が vocabulary、canonical transition、evidence trust、fail-closed decision を所有。 |
 
 attached object/adopter repository は同じ shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、documentation boundary、人間向け Outcome handoff を継承しますが、source Python test、installer toggle、participant record、toolchain preset、source wire format は継承しません。現在の snapshot は 3,681 `generated-history`、494 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、139 `reference-only`、128 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only です。[WI-612 Work Item](../work-items/WI-612-reference-file-comparison-batch-50-ci-repair.ja.md) を参照してください。
+
+## WI-617 — reference Outcome、event、人間向け handoff parity
+
+WI-617 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の maintained test path 11 件を一件ずつ再読しました。10 件の portable responsibility は Rust Runtime、native test、documentation が異なる設計で担います。source の PR summary projection は adapter/provider presentation であり Runtime governance authority ではないため `not-applicable` としました。portable omission と `migrate-gap` はありません。本 batch は semantic parity であり source wire compatibility ではありません。Python、Make、source JSON schema、provider-specific output は copy しません。
+
+| 固定 reference path | 分類 | Rust counterpart / 限定判断 |
+| --- | --- | --- |
+| `tests/test_human_benefit_report.py` | implemented-different-by-design | typed Outcome と visible handoff が issue、risk、decision、evidence、impact、next-action を repository fact に bind。 |
+| `tests/test_multilingual_semantic_parity.py` | implemented-different-by-design | presentation の locale だけが変わり、machine field、path、evidence、Contract text は安定。 |
+| `tests/test_unsupported_claim_regression.py` | implemented-different-by-design | unsupported completion/provider claim は blocker または human-review unknown とし、source claim gate は copy しない。 |
+| `tests/test_task_event_log.py` | implemented-different-by-design | strict typed append-only event が identity、ordering、correction link、fingerprint、safe detail、secret rejection を検査。 |
+| `tests/test_task_outcome_ai_finish_integration.py` | implemented-different-by-design | finish が repository-bound Outcome/report/event projection を検証・archive し、blocked/recovery evidence を保持。 |
+| `tests/test_task_outcome_generator.py` | implemented-different-by-design | deterministic report が finding、warning、stop、resolution、provenance、recurrence prevention、unknown を表示。 |
+| `tests/test_task_outcome_markdown_renderer.py` | implemented-different-by-design | deterministic task-report Markdown と human handoff が empty section と blocked diagnostic を保持し、fact を mutate しない。 |
+| `tests/test_task_outcome_multilingual.py` | implemented-different-by-design | CLI/MCP は明示的な en/zh/ja presentation を使い、Contract acceptance は原言語の監査テキストとして保持。 |
+| `tests/test_task_outcome_pr_summary.py` | not-applicable | provider/adapter PR summary は第二の Runtime authority ではない。canonical human Outcome と machine OutcomeV2 が target boundary。 |
+| `tests/test_task_outcome_schema.py` | implemented-different-by-design | strict typed Rust Protocol と digest binding が source standalone schema bytes を置換し、wire compatibility は主張しない。 |
+| `tests/test_task_outcome_validator.py` | implemented-different-by-design | Runtime が identity、provenance、evidence、decision color、historical/symlink/tamper boundary、structured human decision を検証。 |
+
+attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、fail-closed Outcome、人間向け handoff boundary を継承します。source Python test、Make target、provider PR format、source wire format は継承しません。[WI-617 Work Item](../work-items/WI-617-reference-outcome-parity.ja.md) を参照してください。
+
+reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0

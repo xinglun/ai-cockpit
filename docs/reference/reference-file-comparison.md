@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
+lastVerifiedBy: WI-617-reference-outcome-parity
 capabilityClaims:
   - reference_parity
 ---
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=494 implemented-equivalent=1 not-applicable=7 reference-only=139 deferred-next-batch=128 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -280,11 +280,11 @@ The reviewed Runtime is v0.2.83 with binary digest
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 494 |
+| `implemented-different-by-design` | 504 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 7 |
+| `not-applicable` | 8 |
 | `reference-only` | 139 |
-| `deferred-next-batch` | 128 |
+| `deferred-next-batch` | 117 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2255,3 +2255,36 @@ wire formats. The live snapshot is 3,681 `generated-history`, 494
 `not-applicable`, 139 `reference-only`, and 128 `deferred-next-batch` records;
 `migrate-gap` remains zero and 669 retired records remain append-only. See the
 [WI-612 Work Item](../work-items/WI-612-reference-file-comparison-batch-50-ci-repair.md).
+
+## WI-617 — reference Outcome, event, and human-handoff parity
+
+WI-617 re-read eleven maintained source test paths at the pinned local
+reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`, one file at a time.
+Ten portable responsibilities are implemented differently by the Rust Runtime,
+native tests, or documentation. The source pull-request summary projection is
+`not-applicable`: it is an adapter/provider presentation surface, not Runtime
+governance authority. No portable implementation omission or `migrate-gap` was
+found. The mapping is semantic, not source-wire compatibility: Python, Make,
+source JSON schemas, and provider-specific output are not copied.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `tests/test_human_benefit_report.py` | implemented-different-by-design | Typed Outcome and visible handoff keep issue, risk, decision, evidence, impact, and next-action facts bounded by the repository. |
+| `tests/test_multilingual_semantic_parity.py` | implemented-different-by-design | Locale presentation changes while machine fields, paths, evidence, and Contract-language text remain stable. |
+| `tests/test_unsupported_claim_regression.py` | implemented-different-by-design | Unsupported completion/provider claims remain blockers or human-review unknowns; Rust controls replace the source claim-gate script. |
+| `tests/test_task_event_log.py` | implemented-different-by-design | Strict typed append-only events enforce identity, ordering, correction links, fingerprints, safe details, and secret rejection. |
+| `tests/test_task_outcome_ai_finish_integration.py` | implemented-different-by-design | finish validates and archives repository-bound Outcome/report/event projections and preserves blocked/recovery evidence. |
+| `tests/test_task_outcome_generator.py` | implemented-different-by-design | Deterministic reports expose findings, warnings, stops, resolutions, provenance, recurrence prevention, and explicit unknowns. |
+| `tests/test_task_outcome_markdown_renderer.py` | implemented-different-by-design | Deterministic task-report Markdown and the separate human handoff preserve empty sections and blocked diagnostics without mutating facts. |
+| `tests/test_task_outcome_multilingual.py` | implemented-different-by-design | CLI/MCP use explicit en/zh/ja presentation; Contract acceptance remains original-language audit text. |
+| `tests/test_task_outcome_pr_summary.py` | not-applicable | Provider/adapter PR-summary projection is not a second Runtime authority; canonical human Outcome and machine OutcomeV2 are the target boundary. |
+| `tests/test_task_outcome_schema.py` | implemented-different-by-design | Strict typed Rust Protocol structs and digest bindings replace source standalone schema bytes; wire compatibility is not claimed. |
+| `tests/test_task_outcome_validator.py` | implemented-different-by-design | Runtime checks identity, provenance, evidence, decision colors, historical/symlink/tamper boundaries, and structured human decisions. |
+
+The attached object/adopter route inherits the same shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, fail-closed Outcome,
+and human handoff boundaries. It does not inherit source Python tests, Make
+targets, provider PR formatting, or source wire formats. See the [WI-617 Work
+Item record](../work-items/WI-617-reference-outcome-parity.md).
+
+reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0
