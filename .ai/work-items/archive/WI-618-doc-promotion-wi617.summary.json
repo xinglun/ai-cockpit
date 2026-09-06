@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json",
+    ".ai/work-items/archive/WI-618-doc-promotion-wi617.summary.json"
+  ],
+  "checkpointAt": "2026-09-06T15:17:01Z",
+  "checkpointContractDigest": "sha256:1511bf8e84e3be7001d58ecb72cb3bbb58aab63a8b30d1c867518ecffc887ac5",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:1f693ceec57f991f494b12158885d557b7fce61244fcf2eb3bdffe36fcc5e471",
+      "recorded": true,
+      "recordedAt": "2026-09-06T15:17:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:28a250cdc4f6ac4a8af8832f5dc08d01f727a8eff0a99069f7d9f26d360acd04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-618-doc-promotion-wi617"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:28e64156d388514d4cc818123f81378d5359a94a3dee139669fc0199c17d0467",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1f693ceec57f991f494b12158885d557b7fce61244fcf2eb3bdffe36fcc5e471",
+      "previousContractHash": "sha256:1f693ceec57f991f494b12158885d557b7fce61244fcf2eb3bdffe36fcc5e471",
+      "reason": "Include the required self-terminal three-language Work Item projection and explicit documentation/inventory checks before verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T15:26:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:28a250cdc4f6ac4a8af8832f5dc08d01f727a8eff0a99069f7d9f26d360acd04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-618-doc-promotion-wi617"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:1511bf8e84e3be7001d58ecb72cb3bbb58aab63a8b30d1c867518ecffc887ac5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1f693ceec57f991f494b12158885d557b7fce61244fcf2eb3bdffe36fcc5e471",
+      "previousContractHash": "sha256:28e64156d388514d4cc818123f81378d5359a94a3dee139669fc0199c17d0467",
+      "reason": "Bind the reviewed PR #613 resource context before terminal verification; no new files or authority are added.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T15:37:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0afc1a7a20e639633fc64a471bdce4c33817510252fb999f3a67918181de3f6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-618-doc-promotion-wi617"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a0afc1a7a20e639633fc64a471bdce4c33817510252fb999f3a67918181de3f6",
+  "createdAt": "2026-09-06T15:16:33Z",
+  "mode": "code",
+  "preflightAt": "2026-09-06T15:40:10Z",
+  "preflightContractDigest": "sha256:1511bf8e84e3be7001d58ecb72cb3bbb58aab63a8b30d1c867518ecffc887ac5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a0afc1a7a20e639633fc64a471bdce4c33817510252fb999f3a67918181de3f6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T15:40:10Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-618-doc-promotion-wi617"
+}
