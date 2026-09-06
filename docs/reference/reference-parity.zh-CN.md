@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-598-reference-test-parity-batch-48
+lastVerifiedBy: WI-601-reference-test-parity-batch-49
 capabilityClaims:
   - reference_parity
 ---
@@ -636,3 +636,10 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-598——参考源测试对等批次 48 | 已实现 | [Work Item](../work-items/WI-598-reference-test-parity-batch-48.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-598-reference-test-parity-batch-48.contract.json`; verification `.ai/evidence/WI-598-reference-test-parity-batch-48.verification.json`; finalization `.ai/decisions/WI-598-reference-test-parity-batch-48.finalize.json`; close `.ai/decisions/WI-598-reference-test-parity-batch-48.close.json`. |
 | WI-599——WI-598 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-599-wi598-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-599-wi598-doc-promotion.contract.json`; verification `.ai/evidence/WI-599-wi598-doc-promotion.verification.json`; finalization `.ai/decisions/WI-599-wi598-doc-promotion.finalize.eacd2ab5f9639f57f01f2caabefc3f22aaaf2e7842260629b1a8d8d538903a67.json`; close `.ai/decisions/WI-599-wi598-doc-promotion.close.json`. |
 | WI-600——v0.2.79 发布与对象验收 | 已实现 | [Work Item](../work-items/WI-600-release-v0-2-79.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-600-release-v0-2-79.contract.json`; verification `.ai/evidence/WI-600-release-v0-2-79.verification.json`; finalization `.ai/decisions/WI-600-release-v0-2-79.finalize.json`; close `.ai/decisions/WI-600-release-v0-2-79.close.json`. |
+
+## WI-601——参考源测试对等批次 49
+
+本次对等审查使用 Rust 基线提交
+`d64445bff646e477071c220410957c6756a4fc87`；历史 inventory target 仍绑定在机器清单中。
+
+WI-601 在固定本地参考源测试语料中增加十项逐文件比较。7 项可移植责任由 Rust Runtime、仓库原生测试、CI 或文档以不同设计承载；3 项为 `reference-only`：源七技术栈长周期夹具、Dependabot 接入和 deprecated-assets 注册表属于源/供应商边界，不是 Runtime 遗漏。对象工程继承 shared Runtime 身份、仓库隔离、动态质量、fail-closed 生命周期和 human Outcome 边界；源 Python/Make 模块、技术栈矩阵、provider policy 值及 wire 格式不进入目标。详见[WI-601 逐文件台账](reference-file-comparison.zh-CN.md#wi-601参考源测试对等批次-49)。

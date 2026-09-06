@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-598-reference-test-parity-batch-48
+lastVerifiedBy: WI-601-reference-test-parity-batch-49
 capabilityClaims:
   - reference_parity
 ---
@@ -307,7 +307,13 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=472 implemented-equivalent=1 not-applicable=7 reference-only=131 deferred-next-batch=158 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=479 implemented-equivalent=1 not-applicable=7 reference-only=134 deferred-next-batch=148 migrate-gap=0 -->
+
+本次比较以 Rust 基线提交
+`d64445bff646e477071c220410957c6756a4fc87` 完成审查；清单中的历史 target
+提交仍单独记录。
+审查使用的 Runtime 为 v0.2.79，二进制摘要为
+`sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63`。
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -318,11 +324,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 472 |
+| `implemented-different-by-design` | 479 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 131 |
-| `deferred-next-batch` | 158 |
+| `reference-only` | 134 |
+| `deferred-next-batch` | 148 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1626,3 +1632,18 @@ WI-598 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 | `tests/test_capability_claims.py`、`tests/test_capability_freshness.py`、`tests/test_capability_truth_matrix.py`、`tests/test_changed_critical_coverage.py`、`tests/test_ci_quality_orchestration.py`、`tests/test_ci_release_evidence.sh` | 有意采用不同实现 | 类型化 capability/evidence freshness、reviewed CI gate manifest、分阶段质量路由、release evidence、SBOM/provenance 与原生回归。 |
 
 本批没有发现可移植实现遗漏。对象/adopter 工程继承 shared Runtime、仓库隔离、evidence、动态质量和 human Outcome 边界；不会继承 Python 测试、工具链 validator、Bandit 数据或源 wire。当前快照为 3,681 个 `generated-history`、472 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、131 个 `reference-only` 和 158 个 `deferred-next-batch`；`migrate-gap` 仍为 0，669 个 retired 记录保持追加式不变。详见 [WI-598 Work Item](../work-items/WI-598-reference-test-parity-batch-48.zh-CN.md)。
+
+## WI-601——参考源测试对等批次 49
+
+WI-601 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重读下一批十个维护中的测试路径。7 项可移植治理责任由 Rust Runtime、仓库原生测试、CI 或文档以不同设计承载。3 项为 `reference-only`：源七技术栈长周期夹具、Dependabot 接入和 deprecated-assets 注册表属于源/供应商边界。本批没有发现可移植实现遗漏或 `migrate-gap`；不复制源 Python、Make、夹具或 wire 格式。
+
+| 源路径组 | 分类 | Rust 对应/边界 |
+| --- | --- | --- |
+| `tests/test_configuration_gate.py`、`tests/test_contract_examples.py` | implemented-different-by-design | 显式 attach/profile 校准、readiness/reuse 检查、严格 Contract v2、scenario/checkpoint/Agent-risk 校验和面向读者的示例。 |
+| `tests/test_core_gates.py` | implemented-different-by-design | Rust lifecycle/status/Outcome/repository-bound verification 回归与动态 CI gate manifest；不复制源 Make/Python 编排。 |
+| `tests/test_critical_coverage.py`、`tests/test_critical_domain_guards.py` | implemented-different-by-design | workspace coverage gate、类型化 governance signal、adversarial 拒绝测试和安全文档。 |
+| `tests/test_cross_stack_long_cycle.py` | reference-only | 源七技术栈 fixture 聚合是模板专属；不可变 public/N-1 adopter acceptance 覆盖可移植安装、生命周期、隔离和清理。 |
+| `tests/test_decision_protocol.py`、`tests/test_delusion_scenarios.py` | implemented-different-by-design | 类型化 preflight 人工审查 receipt、当前选项绑定、trust/adversarial signal 和 fail-closed unknown。 |
+| `tests/test_dependabot_intake.py`、`tests/test_deprecated_assets.py` | reference-only | GitHub Dependabot 解析以及源 deprecated-asset 注册表/词法清理扫描保持供应商或源工具边界。 |
+
+对象/adopter 工程继承相同的 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态质量、fail-closed 生命周期和 human Outcome handoff；不会继承源 Python 模块、provider policy 值、技术栈矩阵或 source wire。当前 4,450 个路径包含 3,681 个 `generated-history`、479 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、134 个 `reference-only` 和 148 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。详见 [WI-601 Work Item](../work-items/WI-601-reference-test-parity-batch-49.zh-CN.md)。

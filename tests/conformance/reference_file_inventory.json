@@ -38981,10 +38981,16 @@
     },
     {
       "referencePath": "tests/test_configuration_gate.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        "docs/getting-started/first-calibration.md"
+      ],
+      "reason": "The source adoption-runtime artifact gate is represented by explicit attach/profile calibration, request-scoped readiness, and fail-closed verification-reuse checks. Rust does not copy the source adoption-runtime JSON or make configuration exception; adopters review and confirm their own profile before normal governed work.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_contract_and_policy.py",
@@ -38998,17 +39004,34 @@
     },
     {
       "referencePath": "tests/test_contract_examples.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/tests/contract_v2.rs",
+        "crates/cockpit-repository/tests/contract_schema.rs",
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+        "docs/reference/contract-fields.md",
+        "docs/getting-started/examples"
+      ],
+      "reason": "Strict Contract v2, scenario/checkpoint/Agent-risk validation, and reader-facing examples preserve the source example responsibilities. Rust intentionally has no source template directory or Python default/wire shape; example decisions never become governance authority.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_core_gates.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "The large source gate corpus is covered by Rust lifecycle, status, Outcome, repository-bound verification, output redaction, branch/base, archive, and dynamic CI gate regressions. Source Make/Python orchestration and generated status bytes are not copied; provider checks remain delegated at their owning boundary.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39016,52 +39039,91 @@
     },
     {
       "referencePath": "tests/test_critical_coverage.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/workspace_package_coverage_test.sh",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        ".github/workflows/ci.yml",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "Coverage floors and missing/regressed-report fail-closed behaviour are supplied by the Rust workspace package coverage route and reviewed CI gate manifest. The source pytest/Coverage.py report format and Python module are not a Runtime contract.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_critical_domain_guards.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-core/tests/adversarial_v2.rs",
+        "docs/security/adversarial-validation.md"
+      ],
+      "reason": "Critical-domain, bypass, production-operation, and evidence-forgery refusal semantics are enforced by typed governance signals and adversarial Rust tests with safe alternatives. Source lexical helper names and fixed Python case data are not copied as Runtime policy.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_cross_stack_long_cycle.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/release/distribution.md"
+      ],
+      "reason": "The seven-stack in-process fixture bundle and its local-bare-provider assumptions are reference-template test data. Rust's immutable public/N-1 adopter acceptance proves portable installation, lifecycle, isolation, and cleanup without claiming the source stack matrix or provider simulation.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_decision_protocol.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/preflight_review.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-core/tests/governance_semantics.rs",
+        "crates/cockpit-protocol/tests/preflight_review.rs"
+      ],
+      "reason": "Stable request identity, current-option binding, persisted human review, and stale-option rejection are represented by typed preflight decision receipts bound to Contract and snapshot. The source Python request JSON is not a wire-compatible target schema.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_delusion_scenarios.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/tests/adversarial_v2.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "docs/security/adversarial-validation.md"
+      ],
+      "reason": "Rocket, underspecified, bypass, universal-success, and safe-positive scenarios are covered by Rust trust/adversarial signals, explicit unknowns, and fail-closed governance. Source multilingual Python fixtures are test corpus evidence, not copied Runtime logic.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_dependabot_intake.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/provider-reconciliation-boundary.md",
+        "docs/reference/ci-quality-gates.md",
+        "docs/security/enterprise-governance.md"
+      ],
+      "reason": "Dependabot author/event parsing and successor eligibility are GitHub-provider-specific intake policy. Rust accepts delegated provider evidence at the documented boundary but does not ship a Dependabot bot parser or automatic-merge authority.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_deprecated_assets.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-601-reference-test-parity-batch-49",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/conformance/reference_source_policy.py",
+        "docs/reference/governance-integrity-gate.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "The source deprecated-assets registry and prohibited-command lexical scan govern template-specific cleanup history. Rust uses immutable Work Item/archive records, explicit resource finalization, governance-integrity checks, and source-policy boundaries; it does not install a generic deletion authority or copy the source registry.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",

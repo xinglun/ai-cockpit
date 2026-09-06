@@ -64,7 +64,9 @@ done
 # The pinned source inventory currently leaves 38 changed records explicitly
 # deferred. Keep this count tied to the committed ledger so a batch cannot
 # silently change the historical rebaseline boundary.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 38
+# WI-601 resolves two of the previously changed deferred records while the
+# remaining source-changed backlog is kept explicit in the ledger.
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 36
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -840,6 +842,32 @@ for wi598_doc in \
   reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
   reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
   grep -q "WI-598" "$root/docs/reference/$wi598_doc"
+done
+
+# WI-601 resolves the next ten maintained source tests. Keep the bounded set
+# and the 7/3 semantic-versus-reference-only split explicit so this batch
+# cannot silently return to deferred without a reviewed decision.
+for wi601_path in \
+  tests/test_configuration_gate.py \
+  tests/test_contract_examples.py \
+  tests/test_core_gates.py \
+  tests/test_critical_coverage.py \
+  tests/test_critical_domain_guards.py \
+  tests/test_cross_stack_long_cycle.py \
+  tests/test_decision_protocol.py \
+  tests/test_delusion_scenarios.py \
+  tests/test_dependabot_intake.py \
+  tests/test_deprecated_assets.py; do
+  test "$(jq --arg path "$wi601_path" '[.records[] | select(.referencePath == $path and .batch == "WI-601-reference-test-parity-batch-49" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-601-reference-test-parity-batch-49")] | length' "$current_manifest")" -eq 10
+test "$(jq '[.records[] | select(.batch == "WI-601-reference-test-parity-batch-49" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-601-reference-test-parity-batch-49" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 7
+test "$(jq '[.records[] | select(.batch == "WI-601-reference-test-parity-batch-49" and .classification == "reference-only")] | length' "$current_manifest")" -eq 3
+for wi601_doc in \
+  reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
+  reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
+  grep -q "WI-601" "$root/docs/reference/$wi601_doc"
 done
 
 reference_fixture="$tmp/reference"
