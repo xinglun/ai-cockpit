@@ -4,9 +4,13 @@ title: "WI-620 — Reference installer, release, quality, and lifecycle parity"
 description: "File-level semantic comparison of the remaining source-changed reference tests."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-620-reference-release-governance-batch
-status: in-progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-620-reference-release-governance-batch
+terminalArchive: .ai/work-items/archive/WI-620-reference-release-governance-batch.contract.json
+terminalVerification: .ai/evidence/WI-620-reference-release-governance-batch.verification.json
+terminalFinalization: .ai/decisions/WI-620-reference-release-governance-batch.finalize.json
+terminalDecision: .ai/decisions/WI-620-reference-release-governance-batch.close.json
 ---
 
 # WI-620 — Reference installer, release, quality, and lifecycle parity

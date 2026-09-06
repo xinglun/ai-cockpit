@@ -4,9 +4,13 @@ title: "WI-620：参考安装、发布、质量与生命周期对等"
 description: "逐文件比较剩余源内容变化的参考测试，并记录 Rust 对应。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-620-reference-release-governance-batch
-status: in-progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-620-reference-release-governance-batch
+terminalArchive: .ai/work-items/archive/WI-620-reference-release-governance-batch.contract.json
+terminalVerification: .ai/evidence/WI-620-reference-release-governance-batch.verification.json
+terminalFinalization: .ai/decisions/WI-620-reference-release-governance-batch.finalize.json
+terminalDecision: .ai/decisions/WI-620-reference-release-governance-batch.close.json
 ---
 
 # WI-620：参考安装、发布、质量与生命周期对等
