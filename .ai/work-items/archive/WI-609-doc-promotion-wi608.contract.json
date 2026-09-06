@@ -22,11 +22,11 @@
   "repositorySnapshotDigest": "sha256:53c5ae76bb31bac8cf17d29d0b73e4693e96ba1a209d15a2f0bc02b4151d50e6",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-609-doc-promotion-wi608",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/599",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-609-doc-promotion-wi608"
   },
   "risk": "low",
