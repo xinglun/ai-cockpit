@@ -1,0 +1,138 @@
+{
+  "acceptanceResults": [
+    "十个固定参考源测试路径各有且仅有一个有边界的分类、对应物集合、来源提交和不夸大的理由",
+    "可迁移治理语义映射到现有 Rust-native 或仓库原生责任；源专属 fixture、provider、toolchain 行为保留为 reference-only",
+    "本 WI 内发现的真实可迁移遗漏必须在本 WI 内修复；不得静默延后或另开替代任务",
+    "inventory、三语比对/Parity 页面、元数据、回归脚本和本 WI 文档保持一致",
+    "不得修改历史 evidence/archive、全局配置或未经授权的治理决定",
+    "声明的 conformance、documentation、governance-integrity 与 locked workspace 检查全部通过"
+  ],
+  "createdAt": "2026-09-06T01:40:25Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:217d8541ef777046b22cb17fa19aaad7f67be7a228d248f14697a1c39ecf5f71",
+  "evidenceRefs": [
+    ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9f0fe282a79dd8d316e48cdddb4072f5d229a98d4008466f85444fdbd96ebcfa",
+      "workItemId": "WI-601-reference-test-parity-batch-49"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.contract.json"
+          ],
+          "inference": false,
+          "text": "完成参考源第49批十个测试路径的证据化语义分类，修复本 WI 内确认的可迁移遗漏，更新三语比对台账，并留下可发布运行时可重复验证的干净基线。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-601-reference-test-parity-batch-49"
+  },
+  "taskReportDigest": "sha256:993bb1ab00797216c9d36d964e13f59c11760c306937f6f2a1000e22e93a90f9",
+  "taskReportMarkdownDigest": "sha256:bd23644fea62989604d33b1517546688b6c2ac335cc704198c69ac4f21e1cbcb",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-601-reference-test-parity-batch-49.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-601-reference-test-parity-batch-49"
+}

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T01:40:30Z",
+  "files": {
+    "contractDigest": "sha256:3c96020f4b813a40fdeac6c302a1f9106e55744d7f1a6f124f577c3c8d9ae11e",
+    "contractPath": ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.contract.json",
+    "eventsDigest": "sha256:74073eadda4fceb16b0b1576afbfff2290a828f35a9c07f07958bcd390f5f08a",
+    "eventsPath": ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.events.jsonl",
+    "outcomeDigest": "sha256:8f8af332f3db00b9ee39569c5b5271ebf0b2bc05d7a4be03048c1387592b0108",
+    "outcomePath": ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.outcome.json",
+    "summaryDigest": "sha256:caf5327f1267a8229f4d03d4c53c9f0bc15fefb977e626d4e099801f1a8c0e1c",
+    "summaryPath": ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.summary.json",
+    "taskReportDigest": "sha256:993bb1ab00797216c9d36d964e13f59c11760c306937f6f2a1000e22e93a90f9",
+    "taskReportMarkdownDigest": "sha256:bd23644fea62989604d33b1517546688b6c2ac335cc704198c69ac4f21e1cbcb",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-601-reference-test-parity-batch-49.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-601-reference-test-parity-batch-49"
+}

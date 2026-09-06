@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "十个固定参考源测试路径各有且仅有一个有边界的分类、对应物集合、来源提交和不夸大的理由",
+    "可迁移治理语义映射到现有 Rust-native 或仓库原生责任；源专属 fixture、provider、toolchain 行为保留为 reference-only",
+    "本 WI 内发现的真实可迁移遗漏必须在本 WI 内修复；不得静默延后或另开替代任务",
+    "inventory、三语比对/Parity 页面、元数据、回归脚本和本 WI 文档保持一致",
+    "不得修改历史 evidence/archive、全局配置或未经授权的治理决定",
+    "声明的 conformance、documentation、governance-integrity 与 locked workspace 检查全部通过"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d64445bff646e477071c220410957c6756a4fc87",
+  "createdAt": "2026-09-06T01:08:19Z",
+  "goal": "完成参考源第49批十个测试路径的证据化语义分类，修复本 WI 内确认的可迁移遗漏，更新三语比对台账，并留下可发布运行时可重复验证的干净基线。",
+  "intent": "逐文件复核本地参考源中下一批十个未决测试文件，确认 Rust Runtime、仓库原生文档或外部 adopter 边界是否已经承载可迁移语义；只迁移有证据的治理语义，不复制 Python/Make 实现或源 wire 格式。",
+  "mode": "implementation",
+  "outOfScope": [
+    "参考源代码写入",
+    "源 Python/Make 测试复制",
+    "源 JSON wire 兼容",
+    "对象工程及其 .ai 记录",
+    "全局 Agent/MCP 配置",
+    "发布脚本与 Release 流程",
+    "未来比对批次"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4de3f6ea0c3ab7effeb9f15e0c4cffaf060246b6a2cc6217d96cce00c028a622",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-601-reference-test-parity-batch-49",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/590",
+    "worktree": "/private/tmp/ai-cockpit-wi601-reference-test-parity-batch-49"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/work-items/WI-601-reference-test-parity-batch-49.md",
+    "docs/work-items/WI-601-reference-test-parity-batch-49.zh-CN.md",
+    "docs/work-items/WI-601-reference-test-parity-batch-49.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-601-reference-test-parity-batch-49"
+}
