@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "Promote the closed WI-622 Work Item document and its English, Chinese, and Japanese reference-parity entries from in_progress to implemented without changing historical evidence bytes.",
+    "Run the closed-Work-Item promotion check and documentation acceptance checks successfully.",
+    "Keep the promotion limited to the six documented projection files and preserve language links and evidence references."
+  ],
+  "authority": "authorized",
+  "baseRevision": "32184d326b588022f288f2617a9dd5eba0a24886",
+  "createdAt": "2026-09-06T20:32:54Z",
+  "goal": "Synchronize the documented status projections for the already closed WI-622 Work Item.",
+  "intent": "Promote WI-622 documentation projections after its reviewed PR, finalization, cleanup, and close are complete.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust implementation or test changes",
+    "Release publication or adopter acceptance",
+    "Object repositories and global Agent/MCP configuration",
+    "Historical archive, evidence, receipt, and decision bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:968818c765342bcfc663410045cc3759be12f314e4a69491225ab1d22e7954fe",
+  "requiredEvidenceClasses": ["verification"],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-623-doc-promotion",
+    "provider": "github",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi623-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-622-direct-merge-cli-contract.md",
+    "docs/work-items/WI-622-direct-merge-cli-contract.zh-CN.md",
+    "docs/work-items/WI-622-direct-merge-cli-contract.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo /private/tmp/ai-cockpit-wi623-doc-promotion --work-item WI-622-direct-merge-cli-contract --check",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-623-wi622-doc-promotion"
+}
