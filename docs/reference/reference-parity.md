@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-620-reference-release-governance-batch
+lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -759,6 +759,7 @@ are rewritten here.
 | WI-618 — WI-617 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-618-doc-promotion-wi617.md); terminal lifecycle: archive `.ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json`; verification `.ai/evidence/WI-618-doc-promotion-wi617.verification.json`; finalization `.ai/decisions/WI-618-doc-promotion-wi617.finalize.json`; close `.ai/decisions/WI-618-doc-promotion-wi617.close.json`. |
 | WI-619 — reference adoption, enterprise, lifecycle, and trust test parity | Implemented | [Work Item](../work-items/WI-619-reference-script-semantic-batch.md); terminal lifecycle: archive `.ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json`; verification `.ai/evidence/WI-619-reference-script-semantic-batch.verification.json`; finalization `.ai/decisions/WI-619-reference-script-semantic-batch.finalize.json`; close `.ai/decisions/WI-619-reference-script-semantic-batch.close.json`. |
 | WI-620 — reference installer, release, quality, and lifecycle parity | Implemented | [Work Item](../work-items/WI-620-reference-release-governance-batch.md); terminal lifecycle: archive `.ai/work-items/archive/WI-620-reference-release-governance-batch.contract.json`; verification `.ai/evidence/WI-620-reference-release-governance-batch.verification.json`; finalization `.ai/decisions/WI-620-reference-release-governance-batch.finalize.json`; close `.ai/decisions/WI-620-reference-release-governance-batch.close.json`. |
+| WI-621 — reference installer and lifecycle safety parity | Implemented | [Work Item](../work-items/WI-621-reference-installer-lifecycle-batch.md); terminal lifecycle: archive `.ai/work-items/archive/WI-621-reference-installer-lifecycle-batch.contract.json`; verification `.ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json`; finalization `.ai/decisions/WI-621-reference-installer-lifecycle-batch.finalize.json`; close `.ai/decisions/WI-621-reference-installer-lifecycle-batch.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 
@@ -813,3 +814,12 @@ Attached object/adopter projects inherit the shared Runtime, explicit repository
 context, dynamic verification, fail-closed evidence/lifecycle, release identity,
 and visible human Outcome. They do not inherit source Python/Make implementation,
 interactive stack installers, provider policy values, or source wire formats.
+
+## WI-621 — reference installer and lifecycle safety parity
+
+WI-621 re-read eighteen current deferred installer, adoption, and lifecycle
+safety tests one file at a time. Seventeen portable responsibilities are
+implemented differently by the Rust Runtime, repository-native tests,
+release/adopter harnesses, or documentation. The source interactive wizard is
+`reference-only`; explicit immutable artifact installation and `attach --repo`
+are the Rust boundary. No `migrate-gap` was found. See the [WI-621 ledger](reference-file-comparison.md#wi-621--reference-installer-and-lifecycle-safety-parity).

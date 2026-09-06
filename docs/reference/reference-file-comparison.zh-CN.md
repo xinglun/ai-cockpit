@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-620-reference-release-governance-batch
+lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -25,7 +25,7 @@ capabilityClaims:
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `2536e4db399a7c20479e09693c8eab968c635ac9`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `8adac3379d8cb3e7a3dc59c70d6fb0b26176b990`。
 - 比较时使用审查中的 Runtime：`ai-cockpit 0.2.83`，binary SHA256 为 `sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
@@ -48,7 +48,7 @@ inventory 台账现在已显式重新绑定到本地 checkout。此前的
 
 ## 台账安全命令
 
-`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd` 是只读操作。`--check` 会在加载或写入清单前拒绝 `--reference`、`--target`、`--rebaseline-from` 以及所有 `--apply-*` 选项；这些选项只能用于显式生成或更新。conformance wrapper 会验证拒绝行为和清单字节不变。
+`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit "$(jq -r '.targetCommit' tests/conformance/reference_file_inventory.json)"` 是只读操作。`--check` 会在加载或写入清单前拒绝 `--reference`、`--target`、`--rebaseline-from` 以及所有 `--apply-*` 选项；这些选项只能用于显式生成或更新。conformance wrapper 会验证拒绝行为和清单字节不变。
 
 ## 分类规则
 
@@ -81,6 +81,33 @@ WI-512 在固定的本地参考提交上逐个重读以下 12 个源路径。其
 | `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | 日文 closure 与历史 recovery 边界；provider 专用路线仍是外部责任。 |
 
 目标工程及每个对象工程继承 shared external Runtime、隔离的 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源专用 installer、Make target、provider 决定或 generated history。当前台账为 4,262 个 `generated-history`、546 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、8 个 `not-applicable`、140 个 `reference-only`、74 个 `deferred-next-batch`；`migrate-gap` 仍为 0。
+
+## WI-621：参考安装与生命周期安全对等
+
+WI-621 在固定本地参考提交上逐一重读下一批 18 个当前、此前 deferred 的测试路径。17 项可移植责任由 Rust Runtime、仓库原生测试、release/adopter harness 或文档以不同设计承载；源交互式安装器向导保持 `reference-only`，因为 Rust 使用不可变的公开产物和显式 `attach --repo`，这不是 Rust 遗漏。未发现 `migrate-gap`。
+
+| 固定参考路径 | 分类 | Rust 对应或有界决定 |
+| --- | --- | --- |
+| `tests/test_install_entrypoint.py` | implemented-different-by-design | 显式 Release 安装、`attach --repo`、inspect/doctor 与非交互 fail-closed 测试。 |
+| `tests/test_install_facts.py` | implemented-different-by-design | 类型化 Release manifest/archive/SBOM 身份与规范化事实测试。 |
+| `tests/test_install_script.py` | implemented-different-by-design | 发布 archive、SHA-256、source-archive policy 与 distribution 检查。 |
+| `tests/test_install_sh.py` | implemented-different-by-design | 安装文档、release CLI 测试与 workflow policy；不复制源 quick-install 脚本。 |
+| `tests/test_install_status.py` | implemented-different-by-design | Release manifest 身份，以及 `doctor` 与 installed-lifecycle 投影。 |
+| `tests/test_install_wizard.py` | reference-only | 源交互式 provider/技术栈向导；Rust 明确采用产物安装和 repository binding。 |
+| `tests/test_installed_lifecycle_e2e.py` | implemented-different-by-design | Public/N-1 adopter acceptance 与类型化生命周期证据。 |
+| `tests/test_installer_boundaries.sh` | implemented-different-by-design | Agent/repository ownership 与显式 context 隔离测试。 |
+| `tests/test_installer_conflict_matrix.py` | implemented-different-by-design | Attach/Agent ownership、安全路径、symlink、traversal 与 trust boundary 检查。 |
+| `tests/test_installer_detection.py` | implemented-different-by-design | 显式 compatibility、migration proposal、repository identity 与 active Work Item 投影。 |
+| `tests/test_installer_domains.py` | implemented-different-by-design | 只读 inspect/doctor/plan 与显式 attach/migrate 写入边界。 |
+| `tests/test_installer_evidence.py` | implemented-different-by-design | 类型化 release handoff、manifest 与 delegated evidence/assurance 记录。 |
+| `tests/test_installer_repository.py` | implemented-different-by-design | Git/Observer snapshot 与 request-scoped identity 的仓库事实。 |
+| `tests/test_installer_transaction.py` | implemented-different-by-design | 不可变 archive 校验、原子 repository 写入/锁、migration receipt 与 Agent 隔离。 |
+| `tests/test_issue_log.py` | implemented-different-by-design | 不可变 Work Item evidence、结构化 decision、unknown 与 recovery lineage 替代源 issue-log 数据库。 |
+| `tests/test_lifecycle_facts.py` | implemented-different-by-design | 确定性的 request-scoped status/observe/doctor 投影。 |
+| `tests/test_lifecycle_safety_gate.py` | implemented-different-by-design | 类型化 governance controls、preflight review 与操作时 fail-closed policy。 |
+| `tests/test_negative_scenarios.py` | implemented-different-by-design | Rust adversarial 与 input-trust 套件保留不安全拒绝和安全替代路径边界。 |
+
+对象工程继承 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、不可变 Release identity、fail-closed 生命周期和可见 human Outcome；不会继承源向导、技术栈 preset、issue-log 存储、Python 模块、Make target 或 source wire 格式。详见 [WI-621 Work Item](../work-items/WI-621-reference-installer-lifecycle-batch.zh-CN.md)。
 
 ## 首批：治理入口
 
@@ -307,7 +334,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=546 implemented-equivalent=1 not-applicable=8 reference-only=140 deferred-next-batch=74 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=563 implemented-equivalent=1 not-applicable=8 reference-only=141 deferred-next-batch=56 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.83，二进制摘要为
@@ -322,11 +349,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 546 |
+| `implemented-different-by-design` | 563 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 140 |
-| `deferred-next-batch` | 74 |
+| `reference-only` | 141 |
+| `deferred-next-batch` | 56 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |

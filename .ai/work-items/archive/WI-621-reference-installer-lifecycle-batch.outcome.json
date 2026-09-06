@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "selected current deferred reference paths are each compared one by one and receive an evidence-backed classification with non-empty Rust counterpart or explicit no-copy rationale",
+    "inventory preserves retired history, removes selected paths from deferred-next-batch, and reports no migrate-gap",
+    "Chinese, English, and Japanese comparison/parity documentation agree with the machine ledger and describe adopter inheritance without source implementation copying",
+    "all declared verification checks pass and the final visible Outcome is human-readable with marker, status, unknowns, evidence, decision, and next action"
+  ],
+  "createdAt": "2026-09-06T19:31:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:86d2fa383e8bbd34e643403d4b01324c305ab4e21810a596eb1317679b40eda2",
+  "evidenceRefs": [
+    ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:091c011636609e3ee1cc0d274f8ff28510ff58faebeaf23a7ae1c1717953a9df",
+      "workItemId": "WI-621-reference-installer-lifecycle-batch"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-621-reference-installer-lifecycle-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-621-reference-installer-lifecycle-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "完成一批安装与生命周期参考文件的证据绑定语义比对，更新机器台账、三语比较文档、奇偶性状态与可重复验证记录。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-621-reference-installer-lifecycle-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-621-reference-installer-lifecycle-batch"
+  },
+  "taskReportDigest": "sha256:f81d25a85a488413088fe22c8716dfa7e586bc7ea6afdffedac7b54934478e7c",
+  "taskReportMarkdownDigest": "sha256:3b7e48047061a8b64b6d9756ac8fbd5f91a11b2dea798e27a5c85c4e10684246",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-621-reference-installer-lifecycle-batch"
+}

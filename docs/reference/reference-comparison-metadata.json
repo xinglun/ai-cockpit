@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "lastVerifiedBy": "WI-620-reference-release-governance-batch",
+  "lastVerifiedBy": "WI-621-reference-installer-lifecycle-batch",
   "referenceCommit": "fde3380f81fea5fd2e288f7a8849f737dc074060",
-  "rustBaselineCommit": "2536e4db399a7c20479e09693c8eab968c635ac9",
+  "rustBaselineCommit": "8adac3379d8cb3e7a3dc59c70d6fb0b26176b990",
   "runtimeVersion": "0.2.83",
   "runtimeBinaryDigest": "sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130",
   "currentPathCount": 4450,
-  "classifiedPathCount": 4376,
-  "semanticDecisionCount": 695,
-  "deferredPathCount": 74,
+  "classifiedPathCount": 4394,
+  "semanticDecisionCount": 713,
+  "deferredPathCount": 56,
   "retiredPathCount": 669,
   "migrateGapCount": 0
 }

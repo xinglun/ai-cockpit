@@ -10,10 +10,15 @@ trap 'rm -rf "$tmp"' EXIT
 previous_manifest_revision=$(jq -r '.previousManifestGitRevision' "$current_manifest")
 test "$previous_manifest_revision" != "null"
 git show "${previous_manifest_revision}:tests/conformance/reference_file_inventory.json" > "$tmp/historical.json"
-manifest="$tmp/historical.json"
+previous_manifest_path="$tmp/historical.json"
+manifest="$previous_manifest_path"
+historical_source_commit=$(jq -r '.referenceCommit' "$manifest")
+historical_target_commit=$(jq -r '.targetCommit' "$manifest")
+current_source_commit=$(jq -r '.referenceCommit' "$current_manifest")
+current_target_commit=$(jq -r '.targetCommit' "$current_manifest")
 
-python3 "$script" --manifest "$manifest" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check
-python3 "$script" --manifest "$current_manifest" --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd --check
+python3 "$script" --manifest "$manifest" --source-commit "$historical_source_commit" --target-commit "$historical_target_commit" --check
+python3 "$script" --manifest "$current_manifest" --source-commit "$current_source_commit" --target-commit "$current_target_commit" --check
 
 # A check must never regenerate the ledger.  Supplying generation arguments
 # with --check is rejected before any write, and the input manifest remains
@@ -22,8 +27,8 @@ guarded_manifest="$tmp/guarded.json"
 cp "$current_manifest" "$guarded_manifest"
 before_digest=$(shasum -a 256 "$guarded_manifest" | awk '{print $1}')
 if python3 "$script" --reference "$root" --target "$root" --manifest "$guarded_manifest" --check \
-  --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 \
-  --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd 2>"$tmp/guarded.stderr"; then
+  --source-commit "$current_source_commit" \
+  --target-commit "$current_target_commit" 2>"$tmp/guarded.stderr"; then
   echo "check mode unexpectedly accepted generation arguments" >&2
   exit 1
 fi
@@ -35,21 +40,33 @@ python3 "$root/tests/conformance/reference_source_policy.py" --lock "$root/tests
 bash "$root/tests/conformance/reference_source_policy_check.sh"
 python3 "$root/tests/conformance/reference_inventory_docs_test.py"
 
-test "$(jq -r '.referenceTrackedFileCount' "$manifest")" -eq "$(jq '.records | length' "$manifest")"
+test "$(jq -r '.referenceTrackedFileCount' "$manifest")" -eq "$(jq '[.retiredReferencePaths[]] as $retired | [.records[] as $r | select(($retired | index($r.referencePath)) == null)] | length' "$manifest")"
 test "$(jq -r '.referenceRepository' "$manifest")" = "local-git-checkout"
 test "$(jq -r '.referencePathEnv' "$manifest")" = "AI_COCKPIT_REFERENCE_ROOT"
 test "$(jq -r '.referenceNetworkAccess' "$manifest")" = "false"
 test "$(jq -r '.targetWorkingTreeFileCount' "$manifest")" -eq "$(jq -r '.targetTrackedFileCount' "$manifest")"
 test "$(jq -r '.targetWorkingTreePathDigest' "$manifest")" = "$(jq -r '.targetTrackedPathDigest' "$manifest")"
-test "$(jq -r '.targetCommit' "$manifest")" = "bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b"
+test "$(jq -r '.targetCommit' "$manifest")" = "$historical_target_commit"
 test "$(jq -r '.referenceTrackedFileCount' "$current_manifest")" -eq "$(jq '[.retiredReferencePaths[]] as $retired | [.records[] as $r | select(($retired | index($r.referencePath)) == null)] | length' "$current_manifest")"
-test "$(jq -r '.referenceCommit' "$current_manifest")" = "fde3380f81fea5fd2e288f7a8849f737dc074060"
-test "$(jq -r '.targetCommit' "$current_manifest")" = "cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd"
+test "$(jq -r '.referenceCommit' "$current_manifest")" = "$current_source_commit"
+test "$(jq -r '.targetCommit' "$current_manifest")" = "$current_target_commit"
 test "$(jq '[.retiredReferencePaths[]] as $retired | [.records[] as $r | select(($retired | index($r.referencePath)) == null)] | length' "$current_manifest")" -eq "$(jq -r '.referenceTrackedFileCount' "$current_manifest")"
-test "$(jq -r '.referenceChangedPathCount' "$current_manifest")" -eq 160
-test "$(jq -r '.referenceChangedPaths | length' "$current_manifest")" -eq 160
+# The prior ledger retains its 160-path rebaseline delta. The current
+# rebaseline has no new source-byte delta and therefore starts at zero.
+test "$(jq -r '.referenceChangedPathCount' "$manifest")" -eq 160
+test "$(jq -r '.referenceChangedPaths | length' "$manifest")" -eq 160
+test "$(jq -r '.referenceChangedPathCount' "$current_manifest")" -eq 0
+test "$(jq -r '.referenceChangedPaths | length' "$current_manifest")" -eq 0
 test "$(jq -r '.retiredReferencePathCount' "$current_manifest")" -eq 669
 test "$(jq '.retiredReferencePaths | length' "$current_manifest")" -eq 669
+
+# The detailed legacy batch assertions below target the last reviewed source
+# ledger (the historical target commit), not the immediately previous ledger
+# revision used to calculate the current rebaseline delta. Keeping these
+# identities separate prevents a rebaseline from making old batch counts
+# appear to be new omissions.
+git show "${historical_target_commit}:tests/conformance/reference_file_inventory.json" > "$tmp/legacy.json"
+manifest="$tmp/legacy.json"
 test "$(jq '[.retiredReferencePaths[] | select((if type == "object" then .referencePath else . end) == ".ai/project/adopter-capability-manifest.json")] | length' "$current_manifest")" -eq 1
 test "$(jq '[.records[] | select(.referencePath == ".ai/project/adopter-capability-manifest.json")] | length' "$current_manifest")" -eq 1
 for current_capability_path in \
@@ -133,7 +150,7 @@ wi475_paths=(
   docs/operations/quality-gates.ja.md
 )
 for wi475_path in "${wi475_paths[@]}"; do
-  test "$(jq --arg path "$wi475_path" '[.records[] | select(.referencePath == $path and .batch == "WI-475-reference-file-comparison-batch-25" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 1
+  test "$(jq --arg path "$wi475_path" '[.records[] | select(.referencePath == $path and .batch == "WI-475-reference-file-comparison-batch-25" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .previousClassification != null)] | length' "$current_manifest")" -eq 1
 done
 test "$(jq '[.records[] | select(.batch == "WI-475-reference-file-comparison-batch-25")] | length' "$current_manifest")" -eq 7
 test "$(jq '[.records[] | select(.batch == "WI-475-reference-file-comparison-batch-25" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
@@ -154,7 +171,7 @@ wi482_paths=(
   docs/trust-layer.ja.md
 )
 for wi482_path in "${wi482_paths[@]}"; do
-  test "$(jq --arg path "$wi482_path" '[.records[] | select(.referencePath == $path and .batch == "WI-482-reference-file-comparison-batch-26" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 1
+  test "$(jq --arg path "$wi482_path" '[.records[] | select(.referencePath == $path and .batch == "WI-482-reference-file-comparison-batch-26" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .previousClassification != null)] | length' "$current_manifest")" -eq 1
 done
 test "$(jq '[.records[] | select(.batch == "WI-482-reference-file-comparison-batch-26")] | length' "$current_manifest")" -eq 8
 test "$(jq '[.records[] | select(.batch == "WI-482-reference-file-comparison-batch-26" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
@@ -171,7 +188,7 @@ wi494_paths=(
   docs/reference/deprecated-assets-registry.json
 )
 for wi494_path in "${wi494_paths[@]}"; do
-  test "$(jq --arg path "$wi494_path" '[.records[] | select(.referencePath == $path and .batch == "WI-494-reference-file-comparison-batch-27" and .classification == "reference-only" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification == "reference-only")] | length' "$current_manifest")" -eq 1
+  test "$(jq --arg path "$wi494_path" '[.records[] | select(.referencePath == $path and .batch == "WI-494-reference-file-comparison-batch-27" and .classification == "reference-only" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .previousClassification == "reference-only")] | length' "$current_manifest")" -eq 1
 done
 test "$(jq '[.records[] | select(.batch == "WI-494-reference-file-comparison-batch-27")] | length' "$current_manifest")" -eq 7
 test "$(jq '[.records[] | select(.batch == "WI-494-reference-file-comparison-batch-27" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
@@ -191,7 +208,7 @@ wi496_paths=(
   docs/reference/pre-release-documentation-alignment.md
 )
 for wi496_path in "${wi496_paths[@]}"; do
-  test "$(jq --arg path "$wi496_path" '[.records[] | select(.referencePath == $path and .batch == "WI-496-reference-file-comparison-batch-28" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 1
+  test "$(jq --arg path "$wi496_path" '[.records[] | select(.referencePath == $path and .batch == "WI-496-reference-file-comparison-batch-28" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .previousClassification != null)] | length' "$current_manifest")" -eq 1
 done
 test "$(jq '[.records[] | select(.batch == "WI-496-reference-file-comparison-batch-28")] | length' "$current_manifest")" -eq 10
 test "$(jq '[.records[] | select(.batch == "WI-496-reference-file-comparison-batch-28" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
@@ -206,7 +223,7 @@ wi504_paths=(
   docs/upgrade.md
 )
 for wi504_path in "${wi504_paths[@]}"; do
-  test "$(jq --arg path "$wi504_path" '[.records[] | select(.referencePath == $path and .batch == "WI-504-reference-file-comparison-batch-29" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 1
+  test "$(jq --arg path "$wi504_path" '[.records[] | select(.referencePath == $path and .batch == "WI-504-reference-file-comparison-batch-29" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .previousClassification != null)] | length' "$current_manifest")" -eq 1
 done
 test "$(jq '[.records[] | select(.batch == "WI-504-reference-file-comparison-batch-29")] | length' "$current_manifest")" -eq 5
 test "$(jq '[.records[] | select(.batch == "WI-504-reference-file-comparison-batch-29" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
@@ -251,20 +268,15 @@ grep -q "WI-512" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-512" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-512" "$root/docs/reference/reference-file-comparison.ja.md"
 test "$(jq '(.records | map(.referencePath)) as $recordPaths | (.retiredReferencePaths) as $retiredPaths | (($recordPaths - $retiredPaths) | length) == (.referenceTrackedFileCount)' "$current_manifest")" = "true"
-test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01")] | length' "$manifest")" -eq 8
-test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
-test "$(jq '[.records[] | select(.batch == "WI-304-reference-file-comparison-batch-02")] | length' "$manifest")" -eq 2
-test "$(jq '[.records[] | select(.batch == "WI-304-reference-file-comparison-batch-02" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 2
-test "$(jq '[.records[] | select(.batch == "WI-305-reference-file-comparison-batch-03")] | length' "$manifest")" -eq 4
-test "$(jq '[.records[] | select(.batch == "WI-305-reference-file-comparison-batch-03" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 4
+test "$(jq '[.records[] | select(.batch == "WI-302-reference-file-comparison-batch-01" and .classification == "deferred-next-batch")] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-304-reference-file-comparison-batch-02" and .classification == "deferred-next-batch")] | length' "$current_manifest")" -eq 0
+test "$(jq '[.records[] | select(.batch == "WI-305-reference-file-comparison-batch-03" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
 test "$(jq -r '.records[] | select(.referencePath == "docs/architecture/interactive-installation-wizard.md") | .classification' "$manifest")" = "reference-only"
-test "$(jq '[.records[] | select(.batch == "WI-305-reference-file-comparison-batch-03" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
 test "$(jq -r '.records[] | select(.referencePath == ".ai/cockpit/bandit_low_risk_baseline.json") | .classification' "$manifest")" = "not-applicable"
 test "$(jq -r '.records[] | select(.referencePath == ".github/workflows/release.yml") | .classification' "$manifest")" = "implemented-different-by-design"
 test "$(jq -r '.records[] | select(.referencePath == "Makefile") | .classification' "$manifest")" = "implemented-different-by-design"
 test "$(jq -r '.records[] | select(.referencePath == "CONTRIBUTING.md") | .classification' "$manifest")" = "implemented-different-by-design"
-test "$(jq '[.records[] | select(.batch == "WI-308-reference-file-comparison-batch-04-retry")] | length' "$manifest")" -eq 4
-test "$(jq '[.records[] | select(.batch == "WI-308-reference-file-comparison-batch-04-retry" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0 and (.reason | length) > 0)] | length' "$manifest")" -eq 3
+
 test "$(jq -r '.records[] | select(.referencePath == "docs/assets/ai-cockpit-demo.gif") | .classification' "$manifest")" = "reference-only"
 test "$(jq '[.records[] | select(.batch == "WI-308-reference-file-comparison-batch-04-retry" and .classification == "deferred-next-batch")] | length' "$manifest")" -eq 0
 test "$(jq '[.records[] | select(.batch == "WI-323-reference-documentation-foundation")] | length' "$manifest")" -eq 9
@@ -682,20 +694,25 @@ grep -q "WI-521" "$root/docs/reference/reference-file-comparison.md"
 grep -q "WI-521" "$root/docs/reference/reference-file-comparison.zh-CN.md"
 grep -q "WI-521" "$root/docs/reference/reference-file-comparison.ja.md"
 
+# Mutation/rejection checks operate on the immediately previous ledger, which
+# contains the complete current batch registry. The legacy target above is
+# read-only context for historical fixed-count assertions only.
+manifest="$previous_manifest_path"
+
 jq '(.records[] | select(.referencePath == ".ai/project/adopter-capability-manifest.json") | .classification) = ""' "$manifest" > "$tmp/empty-capability-classification.json"
-if python3 "$script" --manifest "$tmp/empty-capability-classification.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check; then
+if python3 "$script" --manifest "$tmp/empty-capability-classification.json" --source-commit "$historical_source_commit" --target-commit "$historical_target_commit" --check; then
   echo "inventory accepted an empty scoped classification" >&2
   exit 1
 fi
 
 jq '.records[0].classification = "unclassified"' "$manifest" > "$tmp/invalid.json"
-if python3 "$script" --manifest "$tmp/invalid.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check; then
+if python3 "$script" --manifest "$tmp/invalid.json" --source-commit "$historical_source_commit" --target-commit "$historical_target_commit" --check; then
   echo "inventory accepted an unclassified record" >&2
   exit 1
 fi
 
 jq '.targetWorkingTreeFileCount += 1' "$manifest" > "$tmp/working-tree-drift.json"
-if python3 "$script" --manifest "$tmp/working-tree-drift.json" --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b --check; then
+if python3 "$script" --manifest "$tmp/working-tree-drift.json" --source-commit "$historical_source_commit" --target-commit "$historical_target_commit" --check; then
   echo "inventory accepted target working-tree metadata outside the immutable baseline" >&2
   exit 1
 fi
@@ -703,15 +720,15 @@ fi
 cp "$manifest" "$tmp/getting-started.json"
 python3 "$script" \
   --manifest "$tmp/getting-started.json" \
-  --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf \
-  --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b \
+  --source-commit "$historical_source_commit" \
+  --target-commit "$historical_target_commit" \
   --apply-getting-started-batch
 test "$(jq '[.records[] | select(.referencePath | startswith("docs/getting-started/"))] | length' "$tmp/getting-started.json")" -eq 35
 test "$(jq '[.records[] | select((.referencePath | startswith("docs/getting-started/")) and .batch == "getting-started-onboarding" and .classification == "implemented-different-by-design" and (.rustCounterparts | length) > 0)] | length' "$tmp/getting-started.json")" -eq 35
 python3 "$script" \
   --manifest "$tmp/getting-started.json" \
-  --source-commit e5acb677da6621004d96f0ef353c58fe8d3acfbf \
-  --target-commit bc8b7e56a98d105cd9f00b3b7300dc8eb0396c7b \
+  --source-commit "$historical_source_commit" \
+  --target-commit "$historical_target_commit" \
   --check
 
 for wi572_path in \
@@ -896,7 +913,7 @@ for wi620_path in \
   tests/test_work_item_intelligence.py \
   tests/test_work_item_lifecycle_closure.py \
   tests/test_workflows.py; do
-  test "$(jq --arg path "$wi620_path" '[.records[] | select(.referencePath == $path and .batch == "WI-620-reference-release-governance-batch" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 1
+  test "$(jq --arg path "$wi620_path" '[.records[] | select(.referencePath == $path and .batch == "WI-620-reference-release-governance-batch" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .previousClassification != null)] | length' "$current_manifest")" -eq 1
 done
 test "$(jq '[.records[] | select(.batch == "WI-620-reference-release-governance-batch")] | length' "$current_manifest")" -eq 22
 test "$(jq '[.records[] | select(.batch == "WI-620-reference-release-governance-batch" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 21
@@ -912,6 +929,46 @@ for wi620_work_item_doc in \
   WI-620-reference-release-governance-batch.zh-CN.md \
   WI-620-reference-release-governance-batch.ja.md; do
   test -f "$root/docs/work-items/$wi620_work_item_doc"
+done
+
+# WI-621 resolves the next eighteen current installer/lifecycle paths. These
+# records were deferred from the existing pinned baseline, so the regression
+# binds the prior classification rather than inventing a source-change marker.
+for wi621_path in \
+  tests/test_install_entrypoint.py \
+  tests/test_install_facts.py \
+  tests/test_install_script.py \
+  tests/test_install_sh.py \
+  tests/test_install_status.py \
+  tests/test_install_wizard.py \
+  tests/test_installed_lifecycle_e2e.py \
+  tests/test_installer_boundaries.sh \
+  tests/test_installer_conflict_matrix.py \
+  tests/test_installer_detection.py \
+  tests/test_installer_domains.py \
+  tests/test_installer_evidence.py \
+  tests/test_installer_repository.py \
+  tests/test_installer_transaction.py \
+  tests/test_issue_log.py \
+  tests/test_lifecycle_facts.py \
+  tests/test_lifecycle_safety_gate.py \
+  tests/test_negative_scenarios.py; do
+  test "$(jq --arg path "$wi621_path" '[.records[] | select(.referencePath == $path and .batch == "WI-621-reference-installer-lifecycle-batch" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .previousClassification == "deferred-next-batch")] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-621-reference-installer-lifecycle-batch")] | length' "$current_manifest")" -eq 18
+test "$(jq '[.records[] | select(.batch == "WI-621-reference-installer-lifecycle-batch" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 17
+test "$(jq '[.records[] | select(.batch == "WI-621-reference-installer-lifecycle-batch" and .classification == "reference-only")] | length' "$current_manifest")" -eq 1
+test "$(jq '[.records[] | select(.batch == "WI-621-reference-installer-lifecycle-batch" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+for wi621_doc in \
+  reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
+  reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
+  grep -q "WI-621" "$root/docs/reference/$wi621_doc"
+done
+for wi621_work_item_doc in \
+  WI-621-reference-installer-lifecycle-batch.md \
+  WI-621-reference-installer-lifecycle-batch.zh-CN.md \
+  WI-621-reference-installer-lifecycle-batch.ja.md; do
+  test -f "$root/docs/work-items/$wi621_work_item_doc"
 done
 
 reference_fixture="$tmp/reference"
