@@ -3,9 +3,13 @@ title: "WI-609 — WI-608 終端ドキュメント昇格"
 description: "終了した adopter cleanup の結果を reader documentation と parity ledger に昇格する。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-609-doc-promotion-wi608
+terminalArchive: .ai/work-items/archive/WI-609-doc-promotion-wi608.contract.json
+terminalVerification: .ai/evidence/WI-609-doc-promotion-wi608.verification.json
+terminalFinalization: .ai/decisions/WI-609-doc-promotion-wi608.finalize.json
+terminalDecision: .ai/decisions/WI-609-doc-promotion-wi608.close.json
 workItemId: WI-609-doc-promotion-wi608
 predecessorWorkItemId: WI-608-adopter-removal-race
 ---

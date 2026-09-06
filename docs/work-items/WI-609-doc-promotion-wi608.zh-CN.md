@@ -3,9 +3,13 @@ title: "WI-609 —— WI-608 终态文档晋级"
 description: "将已关闭的 adopter 清理结果晋级到面向读者的文档和对等台账。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-609-doc-promotion-wi608
+terminalArchive: .ai/work-items/archive/WI-609-doc-promotion-wi608.contract.json
+terminalVerification: .ai/evidence/WI-609-doc-promotion-wi608.verification.json
+terminalFinalization: .ai/decisions/WI-609-doc-promotion-wi608.finalize.json
+terminalDecision: .ai/decisions/WI-609-doc-promotion-wi608.close.json
 workItemId: WI-609-doc-promotion-wi608
 predecessorWorkItemId: WI-608-adopter-removal-race
 ---
