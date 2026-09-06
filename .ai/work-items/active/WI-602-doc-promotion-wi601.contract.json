@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "The English, Chinese, and Japanese parity tables each contain exactly one WI-601 terminal row with the immutable archive, verification, finalization, and close evidence paths.",
+    "The three WI-602 Work Item pages are registered with pre-terminal metadata and preserve the original Contract language.",
+    "Documentation acceptance, reference metadata, and closed-work-item promotion checks pass without changing generated governance facts.",
+    "The change remains documentation-only and does not copy the reference source scaffold or alter object repositories."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "56c3b1b4e4e5c565eb6c34afaf2350723415f033",
+  "createdAt": "2026-09-06T01:49:40Z",
+  "goal": "Complete the tri-language parity projection for closed WI-601 and register this documentation promotion Work Item.",
+  "intent": "Promote the missing WI-601 terminal parity rows so closed-work-item documentation checks are auditable without changing governance facts.",
+  "mode": "documentation",
+  "outOfScope": [
+    "Rust Runtime behavior",
+    "reference-source scaffold or wire-format copying",
+    "object/adopter repositories",
+    "global Agent or MCP configuration",
+    "generated evidence",
+    " archive",
+    " finalization",
+    " and close records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9f0fe282a79dd8d316e48cdddb4072f5d229a98d4008466f85444fdbd96ebcfa",
+  "requiredEvidenceClasses": [
+    "docs",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-602-doc-promotion-wi601",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi602-doc-promotion-wi601"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-602-doc-promotion-wi601.md",
+    "docs/work-items/WI-602-doc-promotion-wi601.zh-CN.md",
+    "docs/work-items/WI-602-doc-promotion-wi601.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-602-doc-promotion-wi601"
+}
