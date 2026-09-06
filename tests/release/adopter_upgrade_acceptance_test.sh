@@ -41,7 +41,9 @@ grep -q -- 'SHA256SUMS' "$script"
 grep -q -- 'cleanup_run_root' "$script"
 grep -q -- 'cleanupState' "$script"
 grep -q -- 'cleanup.json' "$script"
-grep -q -- 'rm -rf --' "$script"
+grep -q -- 'remove_exact_tree' "$script"
+grep -q -- 'git -C "$adopter" config gc.auto 0' "$script"
+grep -q -- 'git -C "$adopter" config maintenance.auto false' "$script"
 grep -q -- 'rustup show active-toolchain' "$script"
 grep -q -- 'RUSTUP_TOOLCHAIN' "$script"
 grep -q -- 'rustToolchain' "$script"
@@ -81,8 +83,8 @@ new_identity_line=$(grep -n -- 'configure_git_identity "\$new_control_root"' "$s
   printf 'every cloned acceptance repository must receive a local Git identity before use\n' >&2
   exit 1
 }
-grep -q -- 'rm -rf -- "$old_worktree"' "$script"
-grep -q -- 'rm -rf -- "$new_worktree"' "$script"
+grep -q -- 'remove_exact_tree "$old_worktree"' "$script"
+grep -q -- 'remove_exact_tree "$new_worktree"' "$script"
 grep -q -- 'worktree prune' "$script"
 grep -q -- 'branch -D' "$script"
 if grep -q -- 'result:{disposition:"retained"' "$script"; then
