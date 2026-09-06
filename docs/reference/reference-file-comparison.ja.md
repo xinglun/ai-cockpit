@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-620-reference-release-governance-batch
+lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -26,7 +26,7 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `2536e4db399a7c20479e09693c8eab968c635ac9`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `8adac3379d8cb3e7a3dc59c70d6fb0b26176b990`。
 - 比較に使う reviewed Runtime: `ai-cockpit 0.2.83`、binary SHA256 `sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
@@ -51,7 +51,7 @@ ledger の `targetCommit` は historical rebaseline anchor であり、上記の
 
 ## Safe ledger command
 
-`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd` は read-only です。`--check` は manifest の load/write 前に `--reference`、`--target`、`--rebaseline-from`、すべての `--apply-*` option を拒否します。これらは明示的な generate/update の場合だけ使います。Conformance wrapper は拒否と manifest byte identity を検証します。
+`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit "$(jq -r '.targetCommit' tests/conformance/reference_file_inventory.json)"` は read-only です。`--check` は manifest の load/write 前に `--reference`、`--target`、`--rebaseline-from`、すべての `--apply-*` option を拒否します。これらは明示的な generate/update の場合だけ使います。Conformance wrapper は拒否と manifest byte identity を検証します。
 
 ## Classification
 
@@ -88,6 +88,33 @@ source checkout に翻訳がない場合も、target の tri-language page を c
 | `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | Japanese closure と historical recovery boundary。provider-specific route は外部責任です。 |
 
 Target と各 adopter は shared external Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承します。source-specific installer、Make target、provider decision、generated history は継承しません。現在の ledger は 4,262 `generated-history`、546 `implemented-different-by-design`、1 `implemented-equivalent`、8 `not-applicable`、140 `reference-only`、74 `deferred-next-batch` で、`migrate-gap` は zero です。
+
+## WI-621 — reference installer / lifecycle safety parity
+
+WI-621 は pinned local reference の次の 18 current / deferred test path を一件ずつ再読しました。17 件の portable responsibility は Rust Runtime、repository-native test、release/adopter harness、documentation が意図した別設計で担います。interactive source installer wizard は `reference-only` です。Rust は immutable published artifact と explicit `attach --repo` を使うため、これは Rust の omission ではありません。`migrate-gap` はありません。
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `tests/test_install_entrypoint.py` | implemented-different-by-design | Explicit release install、`attach --repo`、inspect/doctor、non-interactive fail-closed test。 |
+| `tests/test_install_facts.py` | implemented-different-by-design | Typed release manifest/archive/SBOM identity と canonical fact test。 |
+| `tests/test_install_script.py` | implemented-different-by-design | Published archive、SHA-256、source-archive policy、distribution check。 |
+| `tests/test_install_sh.py` | implemented-different-by-design | Installation docs、release CLI test、workflow policy；source quick-install script は copy しない。 |
+| `tests/test_install_status.py` | implemented-different-by-design | Release manifest identity と `doctor`/installed-lifecycle projection。 |
+| `tests/test_install_wizard.py` | reference-only | Source interactive provider/stack wizard。Rust は explicit artifact install と repository binding を使う。 |
+| `tests/test_installed_lifecycle_e2e.py` | implemented-different-by-design | Public/N-1 adopter acceptance と typed lifecycle evidence。 |
+| `tests/test_installer_boundaries.sh` | implemented-different-by-design | Agent/repository ownership と explicit context isolation test。 |
+| `tests/test_installer_conflict_matrix.py` | implemented-different-by-design | Attach/Agent ownership、safe path、symlink、traversal、trust boundary check。 |
+| `tests/test_installer_detection.py` | implemented-different-by-design | Explicit compatibility、migration proposal、repository identity、active Work Item projection。 |
+| `tests/test_installer_domains.py` | implemented-different-by-design | Read-only inspect/doctor/plan と explicit attach/migrate write boundary。 |
+| `tests/test_installer_evidence.py` | implemented-different-by-design | Typed release handoff、manifest、delegated evidence/assurance record。 |
+| `tests/test_installer_repository.py` | implemented-different-by-design | Git/Observer snapshot と request-scoped identity。 |
+| `tests/test_installer_transaction.py` | implemented-different-by-design | Immutable archive validation、atomic repository write/lock、migration receipt、Agent isolation。 |
+| `tests/test_issue_log.py` | implemented-different-by-design | Immutable Work Item evidence、structured decision、unknown、recovery lineage が source issue-log DB に代わる。 |
+| `tests/test_lifecycle_facts.py` | implemented-different-by-design | Deterministic request-scoped status/observe/doctor projection。 |
+| `tests/test_lifecycle_safety_gate.py` | implemented-different-by-design | Typed governance control、preflight review、operation-time fail-closed policy。 |
+| `tests/test_negative_scenarios.py` | implemented-different-by-design | Rust adversarial/input-trust suite が unsafe refusal と safe alternative boundary を維持。 |
+
+Attached object/adopter は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、immutable release identity、fail-closed lifecycle、人間向け Outcome を継承します。Source wizard、stack preset、issue-log storage、Python module、Make target、source wire format は継承しません。[WI-621 Work Item](../work-items/WI-621-reference-installer-lifecycle-batch.ja.md) を参照してください。
 
 ## First batch: governance entrypoints
 
@@ -324,7 +351,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=546 implemented-equivalent=1 not-applicable=8 reference-only=140 deferred-next-batch=74 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=563 implemented-equivalent=1 not-applicable=8 reference-only=141 deferred-next-batch=56 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
@@ -341,11 +368,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 546 |
+| `implemented-different-by-design` | 563 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 140 |
-| `deferred-next-batch` | 74 |
+| `reference-only` | 141 |
+| `deferred-next-batch` | 56 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |

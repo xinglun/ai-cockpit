@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "selected current deferred reference paths are each compared one by one and receive an evidence-backed classification with non-empty Rust counterpart or explicit no-copy rationale",
+    "inventory preserves retired history, removes selected paths from deferred-next-batch, and reports no migrate-gap",
+    "Chinese, English, and Japanese comparison/parity documentation agree with the machine ledger and describe adopter inheritance without source implementation copying",
+    "all declared verification checks pass and the final visible Outcome is human-readable with marker, status, unknowns, evidence, decision, and next action"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8adac3379d8cb3e7a3dc59c70d6fb0b26176b990",
+  "createdAt": "2026-09-06T18:24:58Z",
+  "goal": "完成一批安装与生命周期参考文件的证据绑定语义比对，更新机器台账、三语比较文档、奇偶性状态与可重复验证记录。",
+  "intent": "逐文件复核参考源当前仍未处理的安装、安装事务、生命周期事实与负向安全测试，并把每个文件映射到 Rust Runtime/对象工程继承能力或明确 reference-only 边界，避免遗漏或照抄源实现。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "scripts/**",
+    ".github/**",
+    "source Python/Make implementation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8bd811c00ff2c9d1a8cb690b2fe68b82272f8a22be50236c9a75336d930ee704",
+  "requiredEvidenceClasses": [
+    "verification",
+    "archive"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-621-reference-installer-lifecycle-batch",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi621-reference-installer-lifecycle-batch"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/work-items/WI-621-reference-installer-lifecycle-batch.md",
+    "docs/work-items/WI-621-reference-installer-lifecycle-batch.zh-CN.md",
+    "docs/work-items/WI-621-reference-installer-lifecycle-batch.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-621-reference-installer-lifecycle-batch"
+}

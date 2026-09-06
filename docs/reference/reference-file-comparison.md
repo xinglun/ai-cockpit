@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-620-reference-release-governance-batch
+lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -30,7 +30,7 @@ check is executable and fails closed when any translated page drifts.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `2536e4db399a7c20479e09693c8eab968c635ac9`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `8adac3379d8cb3e7a3dc59c70d6fb0b26176b990`.
 - Runtime used for the comparison work: the reviewed `ai-cockpit 0.2.83` binary, SHA256 `sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
@@ -60,7 +60,7 @@ Runtime baseline above is the reviewed `origin/main` tip used for this batch.
 
 ## Safe ledger commands
 
-`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd` is read-only. `--check` rejects `--reference`, `--target`, `--rebaseline-from`, and every `--apply-*` option before loading or writing a manifest; use those options only for an explicit generation or update operation. The conformance wrapper proves the rejection and byte identity of the checked ledger.
+`python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit "$(jq -r '.targetCommit' tests/conformance/reference_file_inventory.json)"` is read-only. `--check` rejects `--reference`, `--target`, `--rebaseline-from`, and every `--apply-*` option before loading or writing a manifest; use those options only for an explicit generation or update operation. The conformance wrapper proves the rejection and byte identity of the checked ledger.
 
 ## Classification rules
 
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=546 implemented-equivalent=1 not-applicable=8 reference-only=140 deferred-next-batch=74 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=563 implemented-equivalent=1 not-applicable=8 reference-only=141 deferred-next-batch=56 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -280,11 +280,11 @@ The reviewed Runtime is v0.2.83 with binary digest
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 546 |
+| `implemented-different-by-design` | 563 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 140 |
-| `deferred-next-batch` | 74 |
+| `reference-only` | 141 |
+| `deferred-next-batch` | 56 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2370,3 +2370,40 @@ Outcome boundary; they do not inherit source Python tests, Make targets,
 interactive stack installers, provider policy values, or source JSON wire
 formats. This is semantic parity, not source implementation or wire parity.
 See the [WI-620 Work Item](../work-items/WI-620-reference-release-governance-batch.md).
+
+## WI-621 — reference installer and lifecycle safety parity
+
+WI-621 re-read the next eighteen current, previously deferred reference test
+paths one file at a time. Seventeen portable responsibilities are implemented
+differently by the Rust Runtime, repository-native tests, release/adopter
+harnesses, or documentation. The source interactive installer wizard remains
+`reference-only`; it is not a missing Rust feature because installation uses
+immutable published artifacts and explicit `attach --repo`. No
+`migrate-gap` was found.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `tests/test_install_entrypoint.py` | implemented-different-by-design | Explicit release installation, `attach --repo`, inspect/doctor, and non-interactive fail-closed tests. |
+| `tests/test_install_facts.py` | implemented-different-by-design | Typed release manifest/archive/SBOM identity and canonical fact tests. |
+| `tests/test_install_script.py` | implemented-different-by-design | Published archive, SHA-256, source-archive policy, and distribution checks. |
+| `tests/test_install_sh.py` | implemented-different-by-design | Installation documentation, release CLI tests, and workflow policy; no source quick-install script. |
+| `tests/test_install_status.py` | implemented-different-by-design | Release manifest identity plus `doctor` and installed-lifecycle projections. |
+| `tests/test_install_wizard.py` | reference-only | Source interactive provider/stack wizard; Rust intentionally uses explicit artifact installation and repository binding. |
+| `tests/test_installed_lifecycle_e2e.py` | implemented-different-by-design | Public/N-1 adopter acceptance and typed lifecycle evidence. |
+| `tests/test_installer_boundaries.sh` | implemented-different-by-design | Agent/repository ownership and explicit context isolation tests. |
+| `tests/test_installer_conflict_matrix.py` | implemented-different-by-design | Attach/Agent ownership, safe paths, symlink, traversal, and trust-boundary checks. |
+| `tests/test_installer_detection.py` | implemented-different-by-design | Explicit compatibility, migration proposal, repository identity, and active-Work-Item projections. |
+| `tests/test_installer_domains.py` | implemented-different-by-design | Read-only inspect/doctor/planning versus explicit attach/migrate write boundaries. |
+| `tests/test_installer_evidence.py` | implemented-different-by-design | Typed release handoff, manifest, and delegated evidence/assurance records. |
+| `tests/test_installer_repository.py` | implemented-different-by-design | Git/Observer snapshots and repository facts with request-scoped identity. |
+| `tests/test_installer_transaction.py` | implemented-different-by-design | Immutable archive validation, atomic repository writes/locks, migration receipts, and Agent isolation. |
+| `tests/test_issue_log.py` | implemented-different-by-design | Immutable Work Item evidence, structured decisions, unknowns, and recovery lineage replace a source issue-log database. |
+| `tests/test_lifecycle_facts.py` | implemented-different-by-design | Deterministic request-scoped status/observe/doctor projections. |
+| `tests/test_lifecycle_safety_gate.py` | implemented-different-by-design | Typed governance controls, preflight review, and operation-time fail-closed policy. |
+| `tests/test_negative_scenarios.py` | implemented-different-by-design | Rust adversarial and input-trust suites preserve unsafe refusal and safe-alternative boundaries. |
+
+Attached object/adopter repositories inherit the shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, immutable release
+identity, fail-closed lifecycle, and visible human Outcome. They do not inherit
+the source wizard, stack presets, issue-log storage, Python modules, Make
+targets, or source wire formats. See the [WI-621 Work Item](../work-items/WI-621-reference-installer-lifecycle-batch.md).

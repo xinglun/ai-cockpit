@@ -33,7 +33,11 @@ ALLOWED_CLASSIFICATIONS = {
 FIRST_BATCH = "governance-entrypoints"
 GETTING_STARTED_BATCH = "getting-started-onboarding"
 EXPECTED_REFERENCE_COMMIT = "fde3380f81fea5fd2e288f7a8849f737dc074060"
-EXPECTED_TARGET_COMMIT = "cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd"
+# Keep the fallback aligned with the reviewed default-branch checkout used by
+# the current ledger. The conformance wrapper passes explicit values read
+# from each historical/current manifest so a rebaseline cannot strand old
+# records behind a stale hard-coded target.
+EXPECTED_TARGET_COMMIT = "8adac3379d8cb3e7a3dc59c70d6fb0b26176b990"
 HISTORICAL_REFERENCE_COMMIT = "e5acb677da6621004d96f0ef353c58fe8d3acfbf"
 CAPABILITY_STATUS_BATCH = "capability-status-projection"
 WI270_BATCH = "WI-270-reference-contract-batch"
@@ -87,6 +91,7 @@ WI587_BATCH = "WI-587-reference-file-comparison-batch-47"
 WI598_BATCH = "WI-598-reference-test-parity-batch-48"
 WI601_BATCH = "WI-601-reference-test-parity-batch-49"
 WI620_BATCH = "WI-620-reference-release-governance-batch"
+WI621_BATCH = "WI-621-reference-installer-lifecycle-batch"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -2903,6 +2908,191 @@ WI620_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
     ),
 }
 
+# WI-621 compares the next bounded installer, adoption, and lifecycle safety
+# corpus.  The source tests are read one by one, but their Python installer,
+# wizard, and issue-log implementations are not copied into the Rust Runtime.
+# Each record below names the maintained Rust boundary or explicitly records
+# why the source-specific surface remains reference-only.
+WI621_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "tests/test_install_entrypoint.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-cli/tests/attach.rs",
+            "crates/cockpit-cli/tests/doctor.rs",
+            "docs/getting-started/installation.md",
+            "docs/reference/commands.md",
+        ],
+        "The source entrypoint tests protect non-interactive failure and wizard routing. Rust exposes explicit release installation and attach --repo with read-only inspect/doctor; it does not add a provider/TTY wizard or write a target when required context is absent.",
+    ),
+    "tests/test_install_facts.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/manifest.rs",
+            "crates/cockpit-release/tests/manifest.rs",
+            "crates/cockpit-release/tests/archive.rs",
+            "docs/getting-started/security-release-verification.md",
+        ],
+        "The source fact bundle binds release tags, assets, ownership, canonical bytes, and project-drift checks. Rust binds immutable Release manifests, archive/SBOM digests, and installed Runtime identity with typed tests; source fact-file names and install lock files are not a target protocol.",
+    ),
+    "tests/test_install_script.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/archive.rs",
+            "crates/cockpit-release/tests/archive.rs",
+            "tests/release/source_archive_policy_test.sh",
+            "docs/release/distribution.md",
+        ],
+        "The source shell installer validates a fixed Release ref and SHA-256 before extraction. Rust's published archive/manifest and installer policy provide the same immutable-artifact boundary; the source shell transport and fallback ref behavior remain outside the Runtime.",
+    ),
+    "tests/test_install_sh.py": (
+        "implemented-different-by-design",
+        [
+            "tests/release/workflow_policy.sh",
+            "crates/cockpit-release/tests/cli.rs",
+            "docs/getting-started/installation.md",
+        ],
+        "The source install.sh URL/ref helper is provider-shell UX. Rust documents and tests explicit published artifact installation and checksum verification; it does not copy the source quick-install script or its candidate-tag resolution.",
+    ),
+    "tests/test_install_status.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/manifest.rs",
+            "crates/cockpit-release/tests/manifest.rs",
+            "crates/cockpit-cli/tests/doctor.rs",
+            "docs/reference/installed-lifecycle.md",
+        ],
+        "The source status tests fail closed for missing/foreign release evidence and verify installed tag/commit identity. Rust's manifest, doctor, and installed-lifecycle routes expose the same identity checks without importing source status JSON or update polling.",
+    ),
+    "tests/test_install_wizard.py": (
+        "reference-only",
+        [
+            "docs/getting-started/installation.md",
+            "docs/getting-started/adopter-configuration.md",
+        ],
+        "The source interactive wizard owns prompts, dry-run/cancel/locale behavior, and installer delegation. The Rust Runtime intentionally has no interactive provider/stack wizard; explicit install, attach --repo, and Agent adapter installation are the supported boundaries.",
+    ),
+    "tests/test_installed_lifecycle_e2e.py": (
+        "implemented-different-by-design",
+        [
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+            "docs/reference/installed-lifecycle.md",
+        ],
+        "The source E2E fixture proves real, unavailable, simulated, and traceable phase evidence after install. Rust uses immutable public/N-1 adopter acceptance plus typed lifecycle evidence; source Python fixture/toolchain discovery is adopter-owned and not copied.",
+    ),
+    "tests/test_installer_boundaries.sh": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-agent/tests/isolation.rs",
+            "crates/cockpit-cli/tests/attach.rs",
+            "crates/cockpit-repository/tests/repository_context.rs",
+            "docs/getting-started/adopter-configuration.md",
+        ],
+        "The source boundary smoke test checks catalog/runtime ownership and Git argument isolation. Rust enforces repository-local Protocol/Agent ownership and explicit context with native isolation tests; the source catalog and Python helper names are not copied.",
+    ),
+    "tests/test_installer_conflict_matrix.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-cli/tests/attach.rs",
+            "crates/cockpit-agent/tests/isolation.rs",
+            "crates/cockpit-repository/tests/input_trust.rs",
+            "docs/getting-started/adopter-configuration.md",
+        ],
+        "The source matrix rejects managed-file conflicts, symlinks, submodules, traversal, and modified project files before installation. Rust's attach/Agent ownership and input-trust checks preserve the same fail-closed write boundary without source managed-file lists.",
+    ),
+    "tests/test_installer_detection.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-cli/tests/attach.rs",
+            "crates/cockpit-repository/tests/evolution.rs",
+            "crates/cockpit-repository/tests/repository_context.rs",
+            "docs/reference/commands.md",
+        ],
+        "The source detects new adoption versus upgrade, active Work Items, symlinks, missing tools, and deterministic operator plans. Rust resolves repository identity and compatibility through explicit attach/doctor/status and migration proposals; source detection dataclasses are not wire-compatible.",
+    ),
+    "tests/test_installer_domains.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-cli/tests/attach.rs",
+            "crates/cockpit-cli/tests/doctor.rs",
+            "crates/cockpit-repository/tests/evolution.rs",
+            "docs/reference/commands.md",
+        ],
+        "The source domain tests require read-only planning, confirmation before writes, and public review objects. Rust separates inspect/compatibility/doctor from explicit attach/migrate writes and exposes typed review records; its domain enums do not copy source installer modules.",
+    ),
+    "tests/test_installer_evidence.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/tests/handoff.rs",
+            "crates/cockpit-release/tests/manifest.rs",
+            "crates/cockpit-repository/tests/evidence_assurance.rs",
+            "docs/security/enterprise-governance.md",
+        ],
+        "The source summarizes add/modify/skip actions and flags unknown product paths. Rust binds installation/release actions to typed evidence and delegated assurance, preserving unknowns without adopting source action-summary JSON.",
+    ),
+    "tests/test_installer_repository.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-git/src/lib.rs",
+            "crates/cockpit-git/tests/repository.rs",
+            "crates/cockpit-repository/tests/observer.rs",
+            "docs/reference/repository-observer.md",
+        ],
+        "The source reads repository facts and adoption signals without writes. Rust's Git/Observer services produce request-scoped snapshots and identities with the same read-only boundary; source Python fact objects are not copied.",
+    ),
+    "tests/test_installer_transaction.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/lib.rs",
+            "crates/cockpit-release/tests/archive.rs",
+            "crates/cockpit-agent/tests/isolation.rs",
+            "crates/cockpit-repository/tests/evolution.rs",
+        ],
+        "The source transaction tests classify archive/checkouts, reject dirty or unsafe paths, deduplicate writes, and enforce an exclusive lock. Rust uses immutable Release/archive validation, repository-local atomic writes and locks, Agent isolation, and explicit migration receipts; source transaction classes and Python executor are not copied.",
+    ),
+    "tests/test_issue_log.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/src/lib.rs",
+            "crates/cockpit-repository/tests/recovery_decision.rs",
+            "crates/cockpit-repository/tests/evidence_assurance.rs",
+            "docs/reference/recovery.md",
+        ],
+        "The source issue log validates identifiers, evidence, secrets, and one-way resolution. Rust records immutable Work Item evidence, structured decisions, unknowns, and recovery lineage instead of shipping a source issue-log database or reopening semantics.",
+    ),
+    "tests/test_lifecycle_facts.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/tests/status_projection.rs",
+            "crates/cockpit-cli/tests/observe.rs",
+            "crates/cockpit-cli/tests/intelligence.rs",
+            "docs/reference/commands.md",
+        ],
+        "The source lifecycle facts projection distinguishes bootstrap, calibration, governed, and no-active states with deterministic JSON. Rust's request-scoped status/observe/doctor projections provide equivalent facts without persisting a source status file.",
+    ),
+    "tests/test_lifecycle_safety_gate.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/tests/governance_controls.rs",
+            "crates/cockpit-repository/tests/preflight_review.rs",
+            "crates/cockpit-core/tests/governance_semantics.rs",
+            "docs/reference/governance-integrity-gate.md",
+        ],
+        "The source gate rejects dangerous/unverified cases and permits only safe boundaries. Rust governance controls, preflight review, and operation-time policy preserve fail-closed unknown/unsafe handling with typed evidence.",
+    ),
+    "tests/test_negative_scenarios.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/tests/adversarial_v2.rs",
+            "crates/cockpit-repository/tests/input_trust.rs",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+            "docs/security/adversarial-validation.md",
+        ],
+        "The source negative corpus covers ten unsafe inputs and requires a safe local alternative for critical operations. Rust's adversarial/input-trust suites preserve the same non-promotion and safe-alternative boundary without copying source scenario fixtures.",
+    ),
+}
+
 for _stack_name in (
     "android",
     "csharp",
@@ -5450,6 +5640,19 @@ def generate(reference: Path, target: Path, source_commit: str, target_commit: s
                 }
             )
             continue
+        wi621 = WI621_REFERENCE_FILES.get(path)
+        if wi621 is not None:
+            classification, counterparts, reason = wi621
+            records.append(
+                {
+                    "referencePath": path,
+                    "batch": WI621_BATCH,
+                    "classification": classification,
+                    "rustCounterparts": counterparts,
+                    "reason": reason,
+                }
+            )
+            continue
         if is_generated_history(path):
             records.append(
                 {
@@ -7324,6 +7527,45 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(
                     f"{record.get('referencePath')}: WI-620 cannot leave deferred or migrate-gap"
                 )
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI621_BATCH
+        for record in records
+    ):
+        wi621_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI621_BATCH
+            and record.get("referencePath") in WI621_REFERENCE_FILES
+        ]
+        expected_wi621_paths = set(WI621_REFERENCE_FILES) & current_reference_paths
+        actual_wi621_paths = {record.get("referencePath") for record in wi621_records}
+        if actual_wi621_paths != expected_wi621_paths:
+            errors.append(
+                "WI-621 installer/lifecycle batch paths do not match the bounded eighteen-file set: "
+                f"expected {sorted(expected_wi621_paths)!r}, got {sorted(actual_wi621_paths)!r}"
+            )
+        if len(wi621_records) != len(expected_wi621_paths):
+            errors.append(
+                f"WI-621 batch must contain {len(expected_wi621_paths)} records, found {len(wi621_records)}"
+            )
+        expected_wi621_classifications = Counter(
+            WI621_REFERENCE_FILES[path][0] for path in expected_wi621_paths
+        )
+        wi621_classifications = [record.get("classification") for record in wi621_records]
+        if Counter(wi621_classifications) != expected_wi621_classifications:
+            errors.append(
+                "WI-621 classifications do not match the bounded installer/lifecycle decisions"
+            )
+        for record in wi621_records:
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(
+                    f"{record.get('referencePath')}: WI-621 result needs counterparts and reason"
+                )
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(
+                    f"{record.get('referencePath')}: WI-621 cannot leave deferred or migrate-gap"
+                )
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -8104,6 +8346,34 @@ def apply_wi620_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi621_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI621_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI621_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": record.get("classification"),
+            }
+        )
+        updated += 1
+    if updated != len(WI621_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI621_REFERENCE_FILES)} WI-621 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -8146,6 +8416,7 @@ def main() -> int:
     parser.add_argument("--apply-wi598-batch", action="store_true")
     parser.add_argument("--apply-wi601-batch", action="store_true")
     parser.add_argument("--apply-wi620-batch", action="store_true")
+    parser.add_argument("--apply-wi621-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -8182,6 +8453,7 @@ def main() -> int:
         args.apply_wi598_batch,
         args.apply_wi601_batch,
         args.apply_wi620_batch,
+        args.apply_wi621_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -8399,6 +8671,13 @@ def main() -> int:
     if args.apply_wi620_batch:
         try:
             apply_wi620_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi621_batch:
+        try:
+            apply_wi621_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

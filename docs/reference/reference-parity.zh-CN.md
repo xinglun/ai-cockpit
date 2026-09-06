@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-620-reference-release-governance-batch
+lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -655,6 +655,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-618——WI-617 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-618-doc-promotion-wi617.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json`; verification `.ai/evidence/WI-618-doc-promotion-wi617.verification.json`; finalization `.ai/decisions/WI-618-doc-promotion-wi617.finalize.json`; close `.ai/decisions/WI-618-doc-promotion-wi617.close.json`. |
 | WI-619——参考源 adoption、企业、生命周期与信任测试对等 | 已实现 | [Work Item](../work-items/WI-619-reference-script-semantic-batch.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json`; verification `.ai/evidence/WI-619-reference-script-semantic-batch.verification.json`; finalization `.ai/decisions/WI-619-reference-script-semantic-batch.finalize.json`; close `.ai/decisions/WI-619-reference-script-semantic-batch.close.json`. |
 | WI-620——参考安装、发布、质量与生命周期对等 | 已实现 | [Work Item](../work-items/WI-620-reference-release-governance-batch.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-620-reference-release-governance-batch.contract.json`; verification `.ai/evidence/WI-620-reference-release-governance-batch.verification.json`; finalization `.ai/decisions/WI-620-reference-release-governance-batch.finalize.json`; close `.ai/decisions/WI-620-reference-release-governance-batch.close.json`. |
+| WI-621——参考安装与生命周期安全对等 | 已实现 | [Work Item](../work-items/WI-621-reference-installer-lifecycle-batch.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-621-reference-installer-lifecycle-batch.contract.json`; verification `.ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json`; finalization `.ai/decisions/WI-621-reference-installer-lifecycle-batch.finalize.json`; close `.ai/decisions/WI-621-reference-installer-lifecycle-batch.close.json`. |
 
 ## WI-601——参考源测试对等批次 49
 
@@ -686,3 +687,7 @@ WI-620 在固定本地参考提交上逐一重读剩余 22 个源内容已变化
 对象工程继承 shared Runtime、显式 repository context、动态验证、fail-closed
 evidence/lifecycle、release identity 和可见的 human Outcome；不继承源 Python/Make
 实现、交互式技术栈安装器、供应商 policy 值或 source wire 格式。
+
+## WI-621：参考安装与生命周期安全对等
+
+WI-621 逐一重读 18 个当前 deferred 的安装、对象接入和生命周期安全测试。17 项可移植责任由 Rust Runtime、仓库原生测试、release/adopter harness 或文档以不同设计承载；源交互式向导为 `reference-only`，Rust 的边界是不可变产物安装与显式 `attach --repo`。未发现 `migrate-gap`。详见 [WI-621 台账](reference-file-comparison.zh-CN.md#wi-621参考安装与生命周期安全对等)。

@@ -4,174 +4,13 @@
   "referencePathEnv": "AI_COCKPIT_REFERENCE_ROOT",
   "referenceNetworkAccess": false,
   "referenceCommit": "fde3380f81fea5fd2e288f7a8849f737dc074060",
-  "previousReferenceCommit": "e5acb677da6621004d96f0ef353c58fe8d3acfbf",
-  "previousManifestGitRevision": "cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd",
-  "previousManifestDigest": "sha256:95e2357b146114f22601f4895f807c98429df58a8d72d152792ea0bb5f0fcbd0",
+  "previousReferenceCommit": "fde3380f81fea5fd2e288f7a8849f737dc074060",
+  "previousManifestGitRevision": "8adac3379d8cb3e7a3dc59c70d6fb0b26176b990",
+  "previousManifestDigest": "sha256:3515c3f556bb24e298fb7ef88dd1aa909f38b58187f9b16c90fae30021f6c7c3",
   "referenceTrackedFileCount": 4450,
   "recordsIncludeRetiredHistory": true,
-  "referenceChangedPathCount": 160,
-  "referenceChangedPaths": [
-    ".ai/cockpit/README.ja.md",
-    ".ai/cockpit/README.md",
-    ".ai/cockpit/adoption.ja.md",
-    ".ai/cockpit/current_status.md",
-    ".ai/cockpit/provenance.json",
-    ".ai/cockpit/release-digests.json",
-    ".ai/cockpit/release-freeze.json",
-    ".ai/cockpit/sbom.json",
-    ".ai/cockpit/task_report.json",
-    ".ai/cockpit/task_report.md",
-    ".ai/cockpit/version.json",
-    ".ai/guards/changed_critical_coverage_policy.json",
-    ".ai/guards/coverage_policy.yaml",
-    ".ai/quality/governance-routing.yaml",
-    ".ai/schemas/task_outcome.schema.json",
-    ".ai/work-items/active/task-event-log.events.jsonl",
-    ".ai/work-items/archive/index.json",
-    ".github/workflows/compatibility.yml",
-    ".github/workflows/release.yml",
-    ".github/workflows/smoke.yml",
-    "AGENTS.md",
-    "GEMINI.md",
-    "Makefile",
-    "docs/README.ja.md",
-    "docs/README.md",
-    "docs/README.zh-CN.md",
-    "docs/capabilities.ja.md",
-    "docs/capabilities.md",
-    "docs/capabilities.zh-CN.md",
-    "docs/features/human-benefit-report.ja.md",
-    "docs/features/human-benefit-report.md",
-    "docs/features/human-benefit-report.zh-CN.md",
-    "docs/features/task-outcome-report.md",
-    "docs/getting-started/first-work-item.ja.md",
-    "docs/getting-started/first-work-item.md",
-    "docs/getting-started/first-work-item.zh-CN.md",
-    "docs/getting-started/security-release-verification.ja.md",
-    "docs/getting-started/security-release-verification.md",
-    "docs/getting-started/security-release-verification.zh-CN.md",
-    "docs/getting-started/standard-adoption-guide.ja.md",
-    "docs/getting-started/standard-adoption-guide.md",
-    "docs/getting-started/standard-adoption-guide.zh-CN.md",
-    "docs/maintainers/task-outcome-events.md",
-    "docs/operations/quality-gates.ja.md",
-    "docs/operations/quality-gates.md",
-    "docs/operations/quality-gates.zh-CN.md",
-    "docs/operations/work-item-lifecycle.ja.md",
-    "docs/operations/work-item-lifecycle.md",
-    "docs/operations/work-item-lifecycle.zh-CN.md",
-    "docs/reference/agent-parallel-work-items.md",
-    "docs/reference/ai-cockpit-work-item-lifecycle.md",
-    "docs/reference/capability-truth-matrix.json",
-    "docs/reference/comprehension-validation-responses/peter_01.en.json",
-    "docs/reference/comprehension-validation-responses/tanaka_01.ja.json",
-    "docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json",
-    "docs/reference/comprehension-validation-results.json",
-    "docs/reference/comprehension-validation-results.md",
-    "docs/reference/deprecated-assets-registry.json",
-    "docs/reference/distribution.ja.md",
-    "docs/reference/distribution.md",
-    "docs/reference/documentation-context-registry.json",
-    "docs/reference/governance-profiles.ja.md",
-    "docs/reference/governance-profiles.md",
-    "docs/reference/governance-profiles.zh-CN.md",
-    "docs/reference/japanese-capability-assessment.json",
-    "docs/reference/japanese-capability-assessment.md",
-    "docs/reference/pre-release-documentation-alignment.json",
-    "docs/reference/pre-release-documentation-alignment.md",
-    "docs/reference/repository-workflow.ja.md",
-    "docs/reference/troubleshooting.md",
-    "docs/reference/verification-evidence-reuse.md",
-    "docs/reference/work-item-lifecycle-closure.md",
-    "docs/trust-layer.ja.md",
-    "docs/trust-layer.md",
-    "docs/trust-layer.zh-CN.md",
-    "docs/upgrade.md",
-    "install.sh",
-    "next-release.json",
-    "pyproject.toml",
-    "release-state.json",
-    "release.json",
-    "scripts/ai_archive_work_item.py",
-    "scripts/ai_check_backtrack.py",
-    "scripts/ai_check_pr.py",
-    "scripts/ai_check_reference_impact.py",
-    "scripts/ai_check_status_consistency.py",
-    "scripts/ai_check_summary.py",
-    "scripts/ai_check_task_outcome.py",
-    "scripts/ai_close_work_item.py",
-    "scripts/ai_evidence_dependencies.py",
-    "scripts/ai_finish.py",
-    "scripts/ai_generate_human_report.py",
-    "scripts/ai_generate_status.py",
-    "scripts/ai_generate_task_outcome.py",
-    "scripts/ai_install_plan.py",
-    "scripts/ai_installer_catalog.json",
-    "scripts/ai_onboard.py",
-    "scripts/ai_post_archive_recovery.py",
-    "scripts/ai_render_task_outcome.py",
-    "scripts/ai_render_task_outcome_multilingual.py",
-    "scripts/ai_start.py",
-    "scripts/ai_verification_policy.py",
-    "scripts/ai_verify.py",
-    "scripts/check_changed_critical_coverage.py",
-    "scripts/check_governance_complexity.py",
-    "scripts/check_release_distribution.py",
-    "scripts/check_supply_chain.py",
-    "scripts/determine_governance_profile.py",
-    "scripts/end_to_end_adoption_validation.py",
-    "scripts/installer/legacy.py",
-    "scripts/quality_measurements.py",
-    "scripts/quality_test_manifest.py",
-    "scripts/release_archive.py",
-    "scripts/sync_published_release_projection.py",
-    "templates/agents/AI_COCKPIT_RULES.md",
-    "templates/make/Makefile.ai",
-    "tests/test_adoption_e2e.py",
-    "tests/test_ai_archive_work_item.py",
-    "tests/test_ai_check_summary.py",
-    "tests/test_ai_onboard.py",
-    "tests/test_ai_post_archive_recovery.py",
-    "tests/test_changed_critical_coverage.py",
-    "tests/test_core_gates.py",
-    "tests/test_deprecated_assets.py",
-    "tests/test_documentation_comprehension_results.py",
-    "tests/test_documentation_journey.py",
-    "tests/test_end_to_end_adoption_validation.py",
-    "tests/test_finish_e2e.py",
-    "tests/test_governance_complexity.py",
-    "tests/test_governance_profile.py",
-    "tests/test_human_benefit_report.py",
-    "tests/test_install_plan.py",
-    "tests/test_installed_runtime_parity.py",
-    "tests/test_installer.py",
-    "tests/test_makefile.py",
-    "tests/test_multilingual_semantic_parity.py",
-    "tests/test_pr_aggregate.py",
-    "tests/test_project_governance.py",
-    "tests/test_project_governance_journey.py",
-    "tests/test_quality_gate_architecture.py",
-    "tests/test_quality_measurements.py",
-    "tests/test_quality_test_manifest.py",
-    "tests/test_reference_impact.py",
-    "tests/test_release_distribution.py",
-    "tests/test_release_preflight.py",
-    "tests/test_release_state_consistency.py",
-    "tests/test_release_workflow.py",
-    "tests/test_start_and_archive.py",
-    "tests/test_supply_chain.py",
-    "tests/test_sync_published_release_projection.py",
-    "tests/test_task_outcome_ai_finish_integration.py",
-    "tests/test_task_outcome_generator.py",
-    "tests/test_task_outcome_markdown_renderer.py",
-    "tests/test_task_outcome_multilingual.py",
-    "tests/test_task_outcome_schema.py",
-    "tests/test_task_outcome_validator.py",
-    "tests/test_verification_policy.py",
-    "tests/test_work_item_intelligence.py",
-    "tests/test_work_item_lifecycle_closure.py",
-    "tests/test_workflows.py"
-  ],
+  "referenceChangedPathCount": 0,
+  "referenceChangedPaths": [],
   "retiredReferencePathCount": 669,
   "retiredReferencePaths": [
     ".ai/cockpit/work-items/index.json",
@@ -844,13 +683,13 @@
     "tests/test_parallel_lifecycle_contract.py",
     "tests/test_quality_shard_workspace.py"
   ],
-  "retiredReferenceCommit": "e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+  "retiredReferenceCommit": "fde3380f81fea5fd2e288f7a8849f737dc074060",
   "targetRepository": "https://github.com/xinglun/ai-cockpit",
-  "targetCommit": "cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd",
-  "targetTrackedFileCount": 6686,
-  "targetTrackedPathDigest": "sha256:da8e171ccff5c82dea78b4f98ef162cea2044244fba08cae36778064e8fd1cd5",
-  "targetWorkingTreeFileCount": 6686,
-  "targetWorkingTreePathDigest": "sha256:da8e171ccff5c82dea78b4f98ef162cea2044244fba08cae36778064e8fd1cd5",
+  "targetCommit": "8adac3379d8cb3e7a3dc59c70d6fb0b26176b990",
+  "targetTrackedFileCount": 9284,
+  "targetTrackedPathDigest": "sha256:fb1b54def0b23cd55819960964f803da78ba8a343586b1e14de271653e48df55",
+  "targetWorkingTreeFileCount": 9284,
+  "targetWorkingTreePathDigest": "sha256:fb1b54def0b23cd55819960964f803da78ba8a343586b1e14de271653e48df55",
   "allowedClassifications": [
     "deferred-next-batch",
     "generated-history",
@@ -888,7 +727,6 @@
         "docs/reference/agent-workflow.ja.md"
       ],
       "reason": "The local reference no longer carries a source-only REPORT_LANGUAGE Make argument. The Rust target uses Runtime-owned language selection and repository-scoped context; no source Make command or byte-compatible Japanese cockpit file is required.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -903,7 +741,6 @@
         "docs/reference/outcome-report.md"
       ],
       "reason": "The local reference no longer carries a Python-template Implementation Approach section and documents its current diagnostics route. Rust keeps the evidence-bound approach and Outcome projection in typed Runtime surfaces, so source prose changes do not remove a Rust capability or justify copying the template file.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -917,7 +754,6 @@
         "docs/getting-started/adopter-configuration.ja.md"
       ],
       "reason": "The local reference no longer carries a source Make REPORT_LANGUAGE argument. Rust onboarding uses the installed shared Runtime and localized presentation boundary, with no template-local Make command to migrate.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -954,8 +790,7 @@
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/cockpit/derived_artifacts.json",
@@ -969,32 +804,28 @@
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/cockpit/release-digests.json",
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/cockpit/release-freeze.json",
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/cockpit/sbom.json",
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/cockpit/system_invariants.json",
@@ -1008,24 +839,21 @@
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/cockpit/task_report.md",
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/cockpit/version.json",
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/cockpit/work-items/index.json",
@@ -2154,7 +1982,6 @@
         "crates/cockpit-repository/src/governance_controls.rs"
       ],
       "reason": "The source guard no longer lists Python-only coverage surfaces. Rust keeps coverage and governance integrity in native tests and typed Runtime controls; the source guard JSON is not a target configuration file.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -2179,7 +2006,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "The source guard no longer lists obsolete Python implementation-knowledge, onboarding, status, and outcome associations. Rust coverage ownership is expressed through native tests, CI gate manifests, and Runtime controls rather than a copied YAML association registry.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -2575,7 +2401,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "The local reference no longer carries duplicated per-profile depth/evidence fields and keeps routing selection separate from gate execution. Rust preserves that separation through the dynamic route and versioned gate manifest; source YAML fields are not wire requirements.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -2731,7 +2556,6 @@
         "docs/reference/outcome-report.md"
       ],
       "reason": "The local reference simplifies its Python Task Outcome schema without template-specific handoff fields. Rust OutcomeV2 and humanHandoff are a separate typed Protocol/presentation contract required by this Runtime; the source schema is not copied and does not authorize removal of the Rust projection.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -2862,8 +2686,7 @@
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/work-items/archive/.gitkeep",
@@ -25298,8 +25121,7 @@
       "batch": "history-boundary",
       "classification": "generated-history",
       "rustCounterparts": [],
-      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository.",
-      "sourceChangedSincePrevious": true
+      "reason": "Immutable reference history or generated projection is not copied into the Rust Runtime repository."
     },
     {
       "referencePath": ".ai/work-items/conflict-successor-receipts/wi-08-content-bound-reuse-collision-source.json",
@@ -30299,7 +30121,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The current source changes its ShellCheck installation and Rust action pin inside a Python/multi-stack compatibility matrix. Rust keeps a pinned-action policy, dynamic quality route, Rust workspace/platform gates, and immutable public adopter acceptance; source install.sh, Python lanes, and multi-stack matrix behavior remain adopter/provider boundaries rather than copied workflow bytes.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-304-reference-file-comparison-batch-02",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30317,7 +30138,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The current source binds a source-side release-digests projection into its Python archive and removes the obsolete release.json dual-asset check. Rust expresses the same immutable tag, archive, checksum, SBOM/provenance, platform smoke, and adopter-isolation responsibilities through release-manifest/SHA256SUMS and Rust-native release tools; source release.json/release-digests bytes are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-302-reference-file-comparison-batch-01",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30336,7 +30156,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The current source removes a REPORT_LANGUAGE Make argument from its Python smoke route. Rust has no source smoke.yml or Make bridge; CI, release, gate-manifest, and immutable adopter harnesses provide the corresponding repository-bound checks with language-aware human projection and explicit --repo context.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-304-reference-file-comparison-batch-02",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30362,7 +30181,6 @@
         "crates/cockpit-agent/src/lib.rs"
       ],
       "reason": "The current source keeps one Work Item/branch/PR, latest-base discovery, explicit closure, and human-controlled boundaries. The Rust target enforces those semantics through AGENTS.md, the repository route, typed lifecycle services, and generated adapters; source make commands and the source hosted-snapshot exception are not target requirements.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30397,7 +30215,6 @@
         "docs/reference/agent-workflow.md"
       ],
       "reason": "The source Gemini rules are provider-facing Contract-first, Summary, checkpoint, and fail-closed guidance. The target does not commit a provider-specific GEMINI.md; explicit agent install can generate an owned Gemini adapter from the shared repository route, so absence from this repository is not an omitted global configuration.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30424,7 +30241,6 @@
         "Cargo.toml"
       ],
       "reason": "The current source removes Python/Make shard, knowledge, and REPORT_LANGUAGE helpers. The Rust target intentionally has no Makefile; Cargo, the Rust CLI, the canonical gate manifest, and explicit repository-bound commands provide the maintained interface, while source Python orchestration and generated knowledge helpers remain source-only.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-302-reference-file-comparison-batch-01",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30476,7 +30292,6 @@
         "docs/reference/README.ja.md"
       ],
       "reason": "The Japanese reader route preserves the source's four-question and goal-first intent through the target's explicit current, getting-started, operations, and reference pages; source-specific page bytes are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30492,7 +30307,6 @@
         "docs/reference/README.md"
       ],
       "reason": "The current source provides a short reader-first North Star and goal route. The target preserves that route with a richer Rust-specific current/getting-started/operations/reference map, explicit Runtime/repository boundaries, and tri-language links; source page structure and claims are not copied byte-for-byte.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30508,7 +30322,6 @@
         "docs/reference/README.zh-CN.md"
       ],
       "reason": "The Chinese reader route preserves the source's four-question and goal-first intent through the target's explicit current, getting-started, operations, and reference pages, with Rust Runtime and adopter boundaries kept visible.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30772,7 +30585,6 @@
         "docs/reference/commands.ja.md"
       ],
       "reason": "The Japanese target page preserves the source capability and external-responsibility boundary while documenting the repository-bound Rust Runtime and adopter inheritance path in Japanese; source status bytes are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30787,7 +30599,6 @@
         "docs/reference/commands.md"
       ],
       "reason": "The current source capability page defines the Repository Governance Layer and its external non-claims. The target keeps those boundaries and adds concrete Rust CLI/MCP, scaffold, profile, knowledge, Outcome, and isolation paths without converting source manifest statuses into Runtime authority.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -30802,7 +30613,6 @@
         "docs/reference/commands.zh-CN.md"
       ],
       "reason": "The Chinese target page preserves the source capability and external-responsibility boundary while documenting the repository-bound Rust Runtime and adopter inheritance path in Chinese; it is not a source wire or status manifest copy.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31019,7 +30829,6 @@
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
       "reason": "source の deterministic な human projection、evidence count、archive ownership、non-claim 境界を Rust の OutcomeV2/humanHandoff、Task Outcome reference、CLI/MCP regression で表します。source の ai-finish/check-ai-pr report と Python/Make path は source/provider boundary であり、target file として copy しません。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-323-reference-documentation-foundation",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31037,7 +30846,6 @@
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
       "reason": "The source report's deterministic human projection, evidence-count semantics, archive ownership, and explicit non-claims are represented by Rust OutcomeV2/humanHandoff, task-outcome references, and CLI/MCP regressions. Source ai-finish/check-ai-pr reports and Python/Make paths remain source/provider surfaces rather than copied target files.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-323-reference-documentation-foundation",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31055,7 +30863,6 @@
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
       "reason": "中文页面保留 source 的确定性人类投影、evidence 计数语义、归档归属和非声明边界；Rust 通过 OutcomeV2/humanHandoff、Task Outcome 参考和 CLI/MCP 回归承载。源 ai-finish/check-ai-pr 报告及 Python/Make 路径是 source/provider 边界，不复制为目标文件。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-323-reference-documentation-foundation",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31093,7 +30900,6 @@
         "crates/cockpit-mcp/src/lib.rs"
       ],
       "reason": "The source Task Outcome page defines an evidence-backed report separate from status and PR presentation. The target preserves that separation through OutcomeV2, CLI/MCP human handoff, immutable evidence, and repository-bound lifecycle validation; source report wire shape and make commands are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31359,7 +31165,6 @@
         "docs/reference/outcome-report.ja.md"
       ],
       "reason": "現行 source は obsolete な REPORT_LANGUAGE Make argument を削除しました。Rust 日本語ページは start から close までの lifecycle、visible human Outcome、明示的な repository binding、review 停止境界を native CLI で保持し、source の Make syntax と bytes はコピーしません。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31374,7 +31179,6 @@
         "docs/reference/outcome-report.md"
       ],
       "reason": "The current source removes its obsolete REPORT_LANGUAGE Make argument. The Rust page preserves the complete start-to-close lifecycle, visible human Outcome, explicit repository binding, and review stop boundary with native CLI commands; source Make syntax and bytes are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31389,7 +31193,6 @@
         "docs/reference/outcome-report.zh-CN.md"
       ],
       "reason": "源文件仅移除了过时的 REPORT_LANGUAGE Make 参数。Rust 中文页面保留完整的 start 到 close 生命周期、可见的人类 Outcome、显式仓库绑定和人工 review 停止边界，并使用 Rust CLI；不复制源 Make 语法或文件字节。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31458,7 +31261,6 @@
         "docs/getting-started/installation-security.ja.md"
       ],
       "reason": "現行 source は release route を release-digests.json に絞り、obsolete な release.json dual-asset 説明を削除しました。Rust 日本語文書は release manifest/SHA256SUMS route で digest、tag、SBOM、provenance、provider responsibility、adopter isolation の境界を示し、source projection file はコピーしません。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31473,7 +31275,6 @@
         "docs/getting-started/installation-security.md"
       ],
       "reason": "The current source narrows the release route to release-digests.json and removes the obsolete release.json dual-asset paragraph. The Rust pages express the same digest, tag, SBOM, provenance, provider-responsibility, and adopter-isolation boundaries through its release manifest/SHA256SUMS route; source release projections are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31488,7 +31289,6 @@
         "docs/getting-started/installation-security.zh-CN.md"
       ],
       "reason": "源文件将发布路径收窄为 release-digests.json，并删除旧的 release.json 双资产说明。Rust 中文文档通过 release manifest/SHA256SUMS 路径表达相同的 digest、tag、SBOM、provenance、provider 责任和 adopter 隔离边界；不复制源投影文件。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31503,7 +31303,6 @@
         "docs/getting-started/first-work-item.ja.md"
       ],
       "reason": "現行 source は obsolete な REPORT_LANGUAGE Make argument を削除しました。Rust 日本語 guide は reader-first の install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup、close route を shared repository-bound Runtime で保持し、source Make workflow bytes はコピーしません。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31518,7 +31317,6 @@
         "docs/getting-started/first-work-item.md"
       ],
       "reason": "The current source removes its obsolete REPORT_LANGUAGE Make argument. The Rust guide keeps the reader-first install, attach, calibration, adapter, Work Item, Outcome, merge, cleanup, and close route while using the shared repository-bound Runtime rather than source Make workflow bytes.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31533,7 +31331,6 @@
         "docs/getting-started/first-work-item.zh-CN.md"
       ],
       "reason": "源文件仅移除了过时的 REPORT_LANGUAGE Make 参数。Rust 中文指南保留面向读者的 install、attach、calibration、adapter、Work Item、Outcome、merge、cleanup 和 close 路径，并使用共享的仓库绑定 Runtime；不复制源 Make 工作流字节。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31613,7 +31410,6 @@
         "crates/cockpit-cli/tests/outcome_handoff.rs"
       ],
       "reason": "The source append-only event, correction, fingerprint, relationship, privacy, and provider-evidence responsibilities are implemented by the strict Rust event stream and tri-language references. Source generator/validator/renderer scripts remain semantic material; no Python schema or Make target is copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-325-reference-file-comparison-batch-05",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31642,7 +31438,6 @@
         "docs/release/distribution.ja.md"
       ],
       "reason": "source の quality hierarchy、dynamic route、shadow 比較、shard ownership、timing/JUnit/coverage evidence、timeout、performance sample、traceability を Rust Contract gate、reviewed gate manifest、CI/release reference で表します。source の make quality、Makefile.ai.stack、Python runner bytes は adopter/provider boundary として copy しません。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-326-reference-file-comparison-batch-06",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31660,7 +31455,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source quality hierarchy, dynamic routing, shadow comparison, shard ownership, timing/JUnit/coverage evidence, timeout, performance-sample, and traceability responsibilities are represented by Rust Contract gates plus the reviewed gate manifest and CI/release surfaces. Source make quality, Makefile.ai.stack, and Python runner bytes remain adopter/provider boundaries and are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-326-reference-file-comparison-batch-06",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31678,7 +31472,6 @@
         "docs/release/distribution.zh-CN.md"
       ],
       "reason": "中文责任由 Rust Contract gate、审核过的 gate manifest、CI/release 页面承载：保留 source 的质量层级、动态路由、shadow 对照、分片责任、计时/JUnit/coverage、超时、性能样本和可追溯性。源 make quality、Makefile.ai.stack 和 Python runner bytes 属于 adopter/provider 边界，不复制。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-326-reference-file-comparison-batch-06",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31723,7 +31516,6 @@
         "docs/reference/reference-file-comparison.ja.md"
       ],
       "reason": "現行 source の operations page は標準の serial lifecycle に絞り、parallel の説明を別 route に移しました。Rust の reader route は Runtime-native な文書で同じ lifecycle、human pause、正確な cleanup、独立した parallel 境界を保持し、source bytes と Make command はコピーしません。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31738,7 +31530,6 @@
         "docs/reference/reference-file-comparison.md"
       ],
       "reason": "The maintained source shortens this operations page to the canonical serial lifecycle and moves parallel guidance elsewhere. The Rust reader route keeps the same lifecycle, human pause, exact cleanup, and separate parallel/reference boundaries in its Runtime-native documentation; source page bytes and make commands are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31753,7 +31544,6 @@
         "docs/reference/reference-file-comparison.zh-CN.md"
       ],
       "reason": "源中文 operations 页面收敛为标准串行生命周期，并把并行说明移到其他路线。Rust 中文读者路线在 Runtime 原生文档中保留相同生命周期、人工暂停、精确清理和独立并行边界；不复制源文件字节或 Make 命令。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31897,7 +31687,6 @@
         ".ai/README.md"
       ],
       "reason": "The source removes its conversation-handoff appendix because that boundary is owned by the Agent/host route. Rust keeps bounded parallel planning, serialized projections, one-Work-Item identity, and the mandatory visible Outcome handoff in repository rules and dedicated references; the source document is not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -31913,7 +31702,6 @@
         "crates/cockpit-repository/src/lib.rs"
       ],
       "reason": "The source no longer includes its template-internal quality-shard worktree section or duplicate retry-repair section, and drops REPORT_LANGUAGE from the finish example. Rust retains the applicable lifecycle, quality routing, retry boundary, and localized presentation through its installed Runtime and typed references; template Make/Python helper behavior is explicitly not an adopter requirement.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -32090,7 +31878,6 @@
         "docs/reference/reference-parity.md"
       ],
       "reason": "This source-owned capability claim matrix records the template's implementation status, freshness, and evidence claims. Rust exposes request-scoped, repository-bound capability truth through typed Runtime projections; source capability claims and adopter/provider status are not copied into the target ledger or protocol.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-328-reference-file-comparison-batch-08",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -32242,7 +32029,6 @@
         "docs/reference/reference-file-comparison.md"
       ],
       "reason": "This is an anonymized, source-bound English participant response for a comprehension study at one document revision. It is preserved as reference evidence only; Rust does not import participant responses or claim that this study proves adopter, release, safety, or enterprise readiness.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -32268,7 +32054,6 @@
         "docs/reference/reference-file-comparison.ja.md"
       ],
       "reason": "これは特定の document revision に対する source-bound な日本語 participant response です。Rust は participant data や comprehension claim を取り込まず、reader-facing documentation と Outcome の境界だけを Rust-native に保持します。adopter、release、safety、enterprise readiness の証明ではありません。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -32294,7 +32079,6 @@
         "docs/reference/reference-file-comparison.zh-CN.md"
       ],
       "reason": "这是绑定到特定文档修订版的中文匿名参与者研究记录。Rust 不导入参与者数据或理解度声明，只在自己的读者文档与 Outcome 路线上保留相应边界；它不证明 adopter、发布、安全或企业准备度。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -32321,7 +32105,6 @@
         "docs/reference/reference-file-comparison.md"
       ],
       "reason": "This source result is a narrow, revision-bound comprehension receipt with one reader per required locale. It is reference-study evidence only and cannot be transferred to the Rust Runtime as a product, release, safety, security, or enterprise claim.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -32336,7 +32119,6 @@
         "docs/reference/reference-file-comparison.md"
       ],
       "reason": "The maintained source report explains a revision-bound comprehension result and its limitations. Rust keeps the reader-facing Outcome and human-benefit boundaries in its own documentation; it does not copy the source study report or inherit its claim.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-333-reference-file-comparison-batch-11",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -32385,7 +32167,6 @@
         "crates/cockpit-repository/src/lib.rs"
       ],
       "reason": "This source cleanup registry identifies source-specific deprecated assets and prohibited command chains. Rust uses immutable Work Item history, explicit resource finalization, and reviewed cleanup receipts; the source scanner/registry is not a Runtime deletion authority and is not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-343-reference-inventory-foundation-reconciliation",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -32438,7 +32219,6 @@
         "tests/release/adopter_upgrade_acceptance.sh"
       ],
       "reason": "Source distribution guidance is projected into the Rust release, installation, checksum/SBOM/provenance, and adopter-acceptance surfaces with explicit repository/runtime boundaries. Source Make/Python runner bytes, source venv provisioning, and provider release state are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-342-reference-documentation-batch-13",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -32455,7 +32235,6 @@
         "tests/release/adopter_upgrade_acceptance.sh"
       ],
       "reason": "The source distribution contract is preserved through the Rust-native immutable release/archive, checksum, SBOM, provenance, installer, and adopter-acceptance routes. Source Make/Python orchestration, worktree-local venvs, and provider-owned release decisions are deliberately not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-342-reference-documentation-batch-13",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -32528,7 +32307,6 @@
         "tests/docs/documentation_acceptance.sh"
       ],
       "reason": "This registry is source-maintenance context metadata for plan/report paths, mutability, and historical instructions; it is not a portable Runtime or adopter protocol. Rust keeps explicit current-instruction, historical-reference, and documentation-authority boundaries without copying source planning records.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-342-reference-documentation-batch-13",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -32723,7 +32501,6 @@
         "crates/cockpit-repository/src/governance_controls.rs"
       ],
       "reason": "Source profile guidance is implemented through the Rust typed dynamic quality route and repository-bound gate manifest. Verification tier and evidence assurance remain orthogonal, and source YAML/Make profile bytes are not copied into adopters.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-346-reference-governance-profiles-status",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -32740,7 +32517,6 @@
         "crates/cockpit-repository/src/governance_controls.rs"
       ],
       "reason": "The source light/standard/strict profile semantics are projected into the Rust dynamic route, reviewed gate manifest, and typed governance controls. VerificationTier and EvidenceAssurance are separate dimensions; source YAML/Make configuration and provider execution remain outside the target protocol.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-346-reference-governance-profiles-status",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -32757,7 +32533,6 @@
         "crates/cockpit-repository/src/governance_controls.rs"
       ],
       "reason": "源端 light/standard/strict profile 语义由 Rust 动态路由、审核过的 gate manifest 和类型化治理控制承载。VerificationTier 与 EvidenceAssurance 保持正交；源 YAML/Make 配置及 provider 执行责任不复制到目标协议。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-346-reference-governance-profiles-status",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -32911,7 +32686,6 @@
         "crates/cockpit-cli/tests/intelligence.rs"
       ],
       "reason": "The source JSON is a revision-bound 58-file Japanese assessment and receipt for the reference repository. Its participant/source digests and release result cannot become Rust or adopter proof; the target maintains its own bounded multilingual documentation and executable evidence instead.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-347-reference-knowledge-trust-lifecycle-assessment",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -32928,7 +32702,6 @@
         "tests/docs/documentation_acceptance.sh"
       ],
       "reason": "The source assessment explanation is retained as an evidence-bound multilingual boundary in the Rust tri-language reader route. The target does not inherit the source corpus/assessment digest or claim general fluency, provider behavior, or translated Contract facts.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-348-reference-verification-operation-policy",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -33046,7 +32819,6 @@
         "docs/reference/japanese-capability-assessment.md"
       ],
       "reason": "This source JSON is a revision/work-item-bound pre-release audit receipt for the template's documentation surfaces. Rust performs its own fresh documentation, governance, parity, and multilingual checks; the source receipt and its status are not portable evidence.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-348-reference-verification-operation-policy",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -33063,7 +32835,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "The source report summarizes a revision-bound pre-release alignment audit. Target documentation and gates provide analogous responsibilities with new Runtime evidence; the source report, source Work Item, and source release claim are not copied or inherited.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-368-reference-file-comparison-batch-16",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -33207,7 +32978,6 @@
         ".ai/README.md"
       ],
       "reason": "The source change removes a provider-specific REPORT_LANGUAGE argument. The Rust Japanese workflow already uses localized Runtime presentation without that argument and keeps explicit repository-scoped lifecycle, evidence, review, and cleanup boundaries; source Make commands are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-378-reference-documentation-batch-17",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -33322,7 +33092,6 @@
         "docs/reference/commands.md"
       ],
       "reason": "The source removes a provider-specific external-handoff troubleshooting note. Rust keeps the general stop/recovery contract, explicit --repo binding, and evidence-preservation rules in its tri-language route; provider handoff records remain external and are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-378-reference-documentation-batch-17",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -33381,7 +33150,6 @@
         "crates/cockpit-verification/src/lib.rs"
       ],
       "reason": "The source makes a no-change decision for its Python/Make reuse proposal. Rust independently provides bounded, identity-bound, fail-closed reuse under a separate authorized Runtime boundary; this is not source wire or implementation parity and source receipts are not imported.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-379-reference-documentation-batch-18",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -33487,7 +33255,6 @@
         "docs/reference/governance-integrity-gate.md"
       ],
       "reason": "The source removes a provider-specific hosted-governance recovery section and a REPORT_LANGUAGE argument. Rust retains the portable closure, exact cleanup, recovery, and evidence rules across linked Rust-native routes; source Make/Python/provider recovery commands are not Runtime requirements.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-379-reference-documentation-batch-18",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -34676,7 +34443,6 @@
         "docs/capabilities.ja.md"
       ],
       "reason": "source の Trust Layer は Python/Make の説明を一つの page に集約します。Rust は設計上、design philosophy、architecture、capability truth、enterprise governance に Why/What/How、evidence、human decision、non-claim を分けて投影し、同じ path の page や source Make command は要求しません。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -34692,7 +34458,6 @@
         "docs/capabilities.md"
       ],
       "reason": "The source Trust Layer page is a consolidated Python/Make-oriented explanation. Rust deliberately projects its Why/What/How, evidence, human decision, enterprise boundary, and non-claims across philosophy, architecture, capability, and enterprise-governance pages; no same-path Trust Layer or source Make command is required.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -34708,7 +34473,6 @@
         "docs/capabilities.zh-CN.md"
       ],
       "reason": "源中文 Trust Layer 将 Python/Make 说明集中在单页；Rust 中文文档按设计拆分到设计思想、架构、能力真值和企业治理边界，保留 Why/What/How、证据、人类决定和非声明语义，不要求同路径页面或源 Make 命令。",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -34733,7 +34497,6 @@
         "docs/reference/upgrade.ja.md"
       ],
       "reason": "The source file is a compatibility reader entry. Rust restores the same navigation role with a minimal root pointer to the canonical tri-language reference upgrade route, while keeping shared Runtime installation, repository migration, and provider configuration as separate boundaries.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35347,7 +35110,6 @@
         "tests/release/adopter_upgrade_acceptance.sh"
       ],
       "reason": "The source install.sh is a Python-template installer entrypoint: it selects a tagged source, verifies release metadata, enforces a TTY boundary, delegates stack-specific writes, and cleans a disposable clone. Rust deliberately uses an immutable public binary Release plus SHA256/SBOM/provenance checks, then explicit repository-bound inspect/attach/agent actions and isolated adopter acceptance; source Shell/Python installer bytes and implicit target writes are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -35396,7 +35158,6 @@
         "tests/release/version_consistency.sh"
       ],
       "reason": "The source candidate projection records a provider-owned release state and supply-chain claims. Rust binds candidate/public release truth to immutable release manifests, checksums, SBOM/provenance, and published-artifact acceptance; source JSON bytes are not a Runtime protocol.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35412,7 +35173,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "The source file configures Python lint, typing, coverage, and pytest tooling. Rust uses Cargo-native metadata and the reviewed dynamic gate manifest; Python tool configuration is not an adopter or Runtime requirement.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35428,7 +35188,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source canonical/projection state machine is provider release bookkeeping. Rust keeps immutable tag, archive, digest, SBOM/provenance, and post-release acceptance bindings in its own release manifest and evidence chain; no source state file is copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35443,7 +35202,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source published-release projection is authoritative only for that Python template's assets. Rust release manifests and downloaded artifact receipts carry equivalent identity and digest checks for this repository; source URLs, schema, and claims are not portable.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35513,7 +35271,6 @@
         "docs/reference/work-item-lifecycle-closure.md"
       ],
       "reason": "The source Python archive transaction and projection leases map to Rust-native archive, manifest, evidence binding, recovery, and close services. Provider-specific helpers and path-rewrite implementation are not duplicated; immutable history and fail-closed cleanup are preserved.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35679,7 +35436,6 @@
         "docs/reference/test-weakening-guard.md"
       ],
       "reason": "Rust derives fail-closed test/coverage weakening and input-trust signals from the repository snapshot. The source report-only snapshot/work-item deletion warnings remain a source maintenance projection; no Python report or policy file is copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -35792,7 +35548,6 @@
         "docs/reference/commands.md"
       ],
       "reason": "The source aggregate checker audits archive ownership, Summary validity, recovery chains, and a committed PR boundary. Rust distributes those responsibilities across the typed gate, immutable archive/finalization services, and reviewed provider PR boundary; GitHub PR identity and hosted checks remain external evidence, and source Python orchestration is not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35808,7 +35563,6 @@
         "docs/reference/commands.md"
       ],
       "reason": "The source performs language-specific static text/AST and build-reference scanning before delete/rename/deprecate operations. Shared Rust Runtime does not infer callers, dynamic references, external consumers, or monitoring; those facts stay adopter/provider or human-declared evidence and unknowns remain fail-closed. This source checker is reference material, not an omitted Runtime command.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -35899,7 +35653,6 @@
         "docs/reference/how-to-read-cockpit-status.md"
       ],
       "reason": "The source reconciles active Contract/Summary ownership and a generated status file, with an optional repair command. Rust computes read-only repository-scoped status from current active/archive records, rejects orphaned or ambiguous state at lifecycle boundaries, and has no silent status-file repair authority.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35916,7 +35669,6 @@
         "docs/reference/outcome-report.md"
       ],
       "reason": "The source validates a broad Python Summary schema, changed-file ownership, documentation alignment, review readiness, and hosted-performance claims. Rust keeps strict typed Contract/evidence/archive/Outcome bindings and explicit partial fields; it does not claim byte-compatible Summary JSON or infer missing human claims.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35933,7 +35685,6 @@
         "crates/cockpit-cli/tests/outcome_handoff.rs"
       ],
       "reason": "The source validates a task-outcome JSON/Markdown projection, bindings, claims, events, and human status. Rust provides typed OutcomeV2/TaskOutcomeReport, append-only events, localized human handoff, and archive bindings; source JSON wire shape and lexical report policy are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -35996,7 +35747,6 @@
         "docs/reference/work-item-lifecycle-closure.md"
       ],
       "reason": "The source Python close workflow validates archived evidence, PR/base synchronization, worktree/branch cleanup, and closure receipts. Rust owns these lifecycle/finalization/ready-on-base invariants with typed receipts; provider PR operations and source runner orchestration remain external.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36204,7 +35954,6 @@
         "crates/cockpit-repository/tests/verification_service.rs"
       ],
       "reason": "The source dependency matrix binds changed paths and generated evidence to declared capabilities and source inputs. Rust binds verification receipts to Work Item, repository, snapshot, Contract, profile, policy, command, stage, runner, and Runtime identity; source matrix files and provider-specific generated-artifact rules are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36258,7 +36007,6 @@
         "docs/reference/work-item-lifecycle-closure.md"
       ],
       "reason": "The source finish workflow combines mutex, branch/base, evidence, checkpoint, recovery, and human-report orchestration. Rust owns those lifecycle and evidence invariants through typed repository services and visible Outcome projections; source Python process/provider orchestration and report wire formats are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36273,7 +36021,6 @@
         "docs/reference/outcome-report.md"
       ],
       "reason": "Typed OutcomeV2 and TaskOutcomeReport preserve report phases, findings, risks, closure facts, and evidence bindings. The source report schema and Python generator are not a Rust wire contract.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36295,7 +36042,6 @@
         "docs/reference/commands.md"
       ],
       "reason": "Repository-bound Rust status derives lifecycle, readiness, blockers, and Outcome facts from typed records. It intentionally does not create a generated current_status.md authority or copy source status JSON.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36310,7 +36056,6 @@
         "docs/reference/outcome-report.md"
       ],
       "reason": "Typed TaskOutcomeReport and append-only TaskOutcomeEvent records provide deterministic findings, risks, interventions, evidence, and next actions. Source task-report JSON and lexical policy remain source-specific.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36390,7 +36135,6 @@
         "docs/reference/commands.md"
       ],
       "reason": "The source read-only wizard plan is represented by explicit Rust command boundaries and repository-bound migration/adapter plans. The target does not add an interactive installer wizard or provider-specific plan wire format.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36447,7 +36191,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source catalog is a provider/script inventory for its installer. Runtime command discovery is defined by the strict agent-interface manifest and CLI/MCP schemas; copying the source catalog would overclaim supported providers and commands.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -36662,7 +36405,6 @@
         "docs/reference/commands.md"
       ],
       "reason": "The source three-phase onboarding wizard is represented by explicit shared-Runtime attach, inspect, status, doctor, and profile commands. Rust keeps calibration and approval human-owned and does not copy source Make targets or auto-confirm project policy.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36728,7 +36470,6 @@
         "docs/reference/work-item-lifecycle-closure.md"
       ],
       "reason": "Recovery and post-archive finalization are typed, immutable, identity-bound Rust paths. Hosted/provider failure parsing and source Python orchestration remain external boundaries rather than copied Runtime behavior.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36868,7 +36609,6 @@
         "docs/reference/outcome-report.md"
       ],
       "reason": "The Rust Outcome renderer provides a deterministic human handoff with status markers, evidence, unknowns, decisions, and next action. Source Markdown renderer code and its wire shape are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -36883,7 +36623,6 @@
         "docs/reference/outcome-report.md"
       ],
       "reason": "The Rust renderer localizes fixed Runtime chrome for English, Simplified Chinese, and Japanese while preserving original Contract text. MCP and CLI expose the same human handoff boundary without importing source locale tables.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37012,7 +36751,6 @@
         "docs/reference/repository-workflow.md"
       ],
       "reason": "The source start checks map to explicit repository-bound scaffolding, duplicate reservation, base/branch/worktree identity, concurrency gates, and preflight. Rust uses its own Contract protocol and does not emit a source Start Receipt wire format.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37188,7 +36926,6 @@
         "docs/reference/governance-profiles.md"
       ],
       "reason": "The source tier policy, stage floors, escalation, DAG, cache key, and receipt binding map to Rust dynamic verification planning, orthogonal Tier/Assurance, dependency graph, reuse, and evidence contexts. Source policy JSON and profile names are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37211,7 +36948,6 @@
         "docs/reference/verification-route.md"
       ],
       "reason": "The source task/PR/release verification orchestration maps to Rust verify routes, checker registry, dynamic planner, Contract gates, and delegated release/adopter evidence. Rust preserves the provider boundary and does not copy source command modes or report wire.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37351,7 +37087,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "Changed-critical coverage selection, policy binding, candidate snapshots, and fail-closed gate routing are represented by the reviewed CI gate manifest and Runtime Contract/verification controls. Rust does not run the source pytest predictor or copy its candidate-report wire.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37430,7 +37165,6 @@
         "crates/cockpit-repository/src/lib.rs"
       ],
       "reason": "Complexity budgets, archive integrity, repository shape, repayment findings, and governance-integrity evidence are retained at the CI/documentation boundary and bound to Rust lifecycle records. The source Python metric implementation is not a Core authority and cannot rewrite history.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37484,7 +37218,6 @@
         "docs/getting-started/installation.md"
       ],
       "reason": "Release discovery, immutable tag/archive identity, installer behavior, checksum/SBOM/provenance, public asset validation, and adopter isolation are implemented by Rust release workflows and post-release harnesses. Provider APIs and the source Python distribution checker are not copied or used as Runtime authority.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37528,7 +37261,6 @@
         "docs/getting-started/security-release-verification.md"
       ],
       "reason": "Supply-chain inventory, archive/binary digests, SPDX binding, provenance and immutable release assets are implemented by the typed Rust release boundary and public/staged adopter acceptance. External signing and provider attestation remain delegated evidence; the source Python checker is not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37585,7 +37317,6 @@
         "docs/reference/governance-profile-cost-separation.md"
       ],
       "reason": "Changed-path classification, light/standard/strict routing, release escalation, and bounded human override are represented by Rust policy planning and the CI route during the documented shadow-comparison phase. Source YAML profile bytes and source report schema are not copied, and verification tier remains orthogonal to evidence assurance.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37614,7 +37345,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source seven-project installer matrix is specific to the reference template and its in-process Python Installer. Target release acceptance covers immutable public artifacts, repository attachment, lifecycle, isolation, upgrade and rollback, while adopter stack/toolchain behavior remains adopter-owned and is not silently claimed equivalent.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta"
@@ -37802,7 +37532,6 @@
         "docs/getting-started/installation.md"
       ],
       "reason": "The source legacy installer owns template-local Python/Make migration, ownership, rollback, and provider files. Rust intentionally uses one shared published binary plus explicit attach and Agent adapters; repository state remains local and no source installer is bundled.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37890,7 +37619,6 @@
         "docs/reference/verification-cost.md"
       ],
       "reason": "Identity-bound performance samples, budgets, baseline comparison, and p50/p95 cost observations are Rust verification evidence. Source hosted Python measurement receipt and runner fields remain provider evidence, not target wire compatibility.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37925,7 +37653,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "The target gate manifest and typed verification receipts bind commands, stages, identity, evidence, and required checks. Source pytest/JUnit/shard manifest fields remain adopter/CI-provider facts and are not copied wholesale.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -37952,7 +37679,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "Rust release archive packaging is deterministic, platform-aware, and member-safe with checksum/SBOM/provenance bindings. The source Git-selected Python source archive is a different distribution boundary and is not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -38005,7 +37731,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "Published release identity and version projection are bound by typed ReleaseManifest/Handoff, immutable tags, archive digests, and the reviewed workflow. Source candidate/state files and Python atomic projection are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -38127,7 +37852,6 @@
         "docs/reference/agent-workflow.ja.md"
       ],
       "reason": "The source Agent rules are preserved as repository-local Rust Runtime and Agent workflow boundaries: explicit repository context, Contract-first review, pause rules, evidence, Outcome, and exact cleanup. The template Markdown surface and its Make commands are not copied into the Runtime.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-272-reference-agent-rule-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -38156,7 +37880,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "The source Make entrypoint's lifecycle, quality, and evidence responsibilities are provided by explicit Rust CLI/Runtime commands and the reviewed gate manifest. Make/Python target names, shell defaults, and source wire formats remain provider or adopter integration choices and are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -38457,7 +38180,6 @@
         "tests/release/isolation_manifest.sh"
       ],
       "reason": "The source adoption E2E suite exercises Python/Make installation and provider workflows. Rust uses immutable public-artifact adopter and N-1 acceptance harnesses with isolated repository/runtime roots; source installer commands are not target behavior.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -38504,7 +38226,6 @@
         "crates/cockpit-repository/tests/recovery_revalidation.rs"
       ],
       "reason": "Archive transactionality, append-only history, manifest binding, supersede/recovery, rollback, and traceability are covered by typed Rust repository tests. The source Python archive implementation and generated-file protocol are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -38573,7 +38294,6 @@
         "crates/cockpit-protocol/tests/verification_semantics.rs"
       ],
       "reason": "The source summary gate validates acceptance evidence, intent/scenario, hosted facts, legacy records, receipts, and unknowns. Rust derives typed Summary/Outcome/verification projections and fail-closed bindings; the source summary JSON is not a wire contract.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -38674,7 +38394,6 @@
         "docs/getting-started/installation.md"
       ],
       "reason": "The source onboarding tests cover helper-driven profile/bootstrap/calibration phases and Make entrypoint selection. Rust attach/scaffold, adapter install/doctor, profile, and explicit Runtime commands preserve the review boundary without source wizard or Make behavior.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -38707,7 +38426,6 @@
         "docs/reference/recovery.md"
       ],
       "reason": "The source post-archive recovery tests cover append-only provider/CI/functional recovery, exact facts, stale heads, and receipt tampering. Rust owns these identity-bound recovery and revalidation semantics with typed receipts; provider parser details and source Python orchestration remain external.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta"
@@ -38938,7 +38656,6 @@
         "crates/cockpit-repository/tests/ci_quality_gate.rs"
       ],
       "reason": "Changed-critical selection, declared test mapping, floor integrity, candidate snapshots, and not-applicable evidence are represented by the reviewed gate manifest and Runtime Contract controls. Source pytest predictor output is not authority.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39032,7 +38749,6 @@
         "docs/reference/repository-workflow.md"
       ],
       "reason": "The large source gate corpus is covered by Rust lifecycle, status, Outcome, repository-bound verification, output redaction, branch/base, archive, and dynamic CI gate regressions. Source Make/Python orchestration and generated status bytes are not copied; provider checks remain delegated at their owning boundary.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39124,7 +38840,6 @@
         "docs/reference/reference-file-comparison.md"
       ],
       "reason": "The source deprecated-assets registry and prohibited-command lexical scan govern template-specific cleanup history. Rust uses immutable Work Item/archive records, explicit resource finalization, governance-integrity checks, and source-policy boundaries; it does not install a generic deletion authority or copy the source registry.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39237,7 +38952,6 @@
         "docs/work-items/WI-333-comprehension-validation.md"
       ],
       "reason": "This source test validates a revision-bound participant study and its response schema. The target preserves the study as reference/history and keeps its own reader-facing documentation and evidence boundaries; no participant receipt is transferred into Runtime or used to claim target comprehension, release, safety, or enterprise readiness.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39278,7 +38992,6 @@
         "docs/getting-started/README.md"
       ],
       "reason": "The source journey validator protects criticality, localized paths, fallback labels, and next-topic links. Rust expresses the maintained current/getting-started/reference journey through a repository-owned registry, tri-language links, frontmatter, and documentation gates; source registry fields and Python commands are not Runtime protocol.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39396,7 +39109,6 @@
         "crates/cockpit-agent/tests/isolation.rs"
       ],
       "reason": "The adopter boundary is implemented by immutable public-release and N-1 harnesses plus typed isolation tests; source seven-stack fixture matrices remain adopter-owned and are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39494,7 +39206,6 @@
         "tests/workflow/resource_finalization_policy_test.sh"
       ],
       "reason": "Typed lifecycle, resource finalization, retry, archive, and cleanup checks replace the source mutex/report implementation while preserving fail-closed sequencing.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39539,7 +39250,6 @@
         "tests/performance/regression_gate_test.sh"
       ],
       "reason": "Typed diagnostics, provenance-bound baselines, and performance gates preserve the cost/complexity responsibility without importing Python line-count reports.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39567,7 +39277,6 @@
         "docs/reference/governance-profiles.md"
       ],
       "reason": "Typed verification tiers, assurance, route precedence, and profile diagnostics replace source YAML parsing while keeping policy explicit and evidence-bound.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39630,7 +39339,6 @@
         "crates/cockpit-cli/tests/outcome_handoff.rs"
       ],
       "reason": "Rust emits a repository-bound typed Outcome and visible human handoff with issue, risk, decision, evidence, impact, and next-action sections; the source Python report generator and its provider closure facts are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39679,17 +39387,29 @@
     },
     {
       "referencePath": "tests/test_install_entrypoint.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-cli/tests/doctor.rs",
+        "docs/getting-started/installation.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source entrypoint tests protect non-interactive failure and wizard routing. Rust exposes explicit release installation and attach --repo with read-only inspect/doctor; it does not add a provider/TTY wizard or write a target when required context is absent.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_install_facts.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/manifest.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "crates/cockpit-release/tests/archive.rs",
+        "docs/getting-started/security-release-verification.md"
+      ],
+      "reason": "The source fact bundle binds release tags, assets, ownership, canonical bytes, and project-drift checks. Rust binds immutable Release manifests, archive/SBOM digests, and installed Runtime identity with typed tests; source fact-file names and install lock files are not a target protocol.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_install_plan.py",
@@ -39701,45 +39421,71 @@
         "crates/cockpit-cli/src/main.rs"
       ],
       "reason": "The source test locks the ten-stage interactive installer wizard and its operator prompt fields. Rust deliberately has no wizard: the shared Runtime exposes explicit attach, scaffold, inspect, and repository-bound commands; this source presentation/session contract is retained as reference-only.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_install_script.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/archive.rs",
+        "crates/cockpit-release/tests/archive.rs",
+        "tests/release/source_archive_policy_test.sh",
+        "docs/release/distribution.md"
+      ],
+      "reason": "The source shell installer validates a fixed Release ref and SHA-256 before extraction. Rust's published archive/manifest and installer policy provide the same immutable-artifact boundary; the source shell transport and fallback ref behavior remain outside the Runtime.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_install_sh.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/workflow_policy.sh",
+        "crates/cockpit-release/tests/cli.rs",
+        "docs/getting-started/installation.md"
+      ],
+      "reason": "The source install.sh URL/ref helper is provider-shell UX. Rust documents and tests explicit published artifact installation and checksum verification; it does not copy the source quick-install script or its candidate-tag resolution.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_install_status.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/manifest.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "crates/cockpit-cli/tests/doctor.rs",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "The source status tests fail closed for missing/foreign release evidence and verify installed tag/commit identity. Rust's manifest, doctor, and installed-lifecycle routes expose the same identity checks without importing source status JSON or update polling.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_install_wizard.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/getting-started/adopter-configuration.md"
+      ],
+      "reason": "The source interactive wizard owns prompts, dry-run/cancel/locale behavior, and installer delegation. The Rust Runtime intentionally has no interactive provider/stack wizard; explicit install, attach --repo, and Agent adapter installation are the supported boundaries.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_installed_lifecycle_e2e.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "The source E2E fixture proves real, unavailable, simulated, and traceable phase evidence after install. Rust uses immutable public/N-1 adopter acceptance plus typed lifecycle evidence; source Python fixture/toolchain discovery is adopter-owned and not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_installed_runtime_parity.py",
@@ -39753,7 +39499,6 @@
         "docs/reference/installed-lifecycle.md"
       ],
       "reason": "The source verifies that an installer copies a Python Runtime surface into an adopter. Rust installs one shared external binary and attaches a repository-local Protocol scaffold; release/adopter checks prove artifact identity, isolation, and capability boundaries without copying source scripts or quick-install/calibration claims.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39771,59 +39516,100 @@
         "docs/reference/installed-lifecycle.md"
       ],
       "reason": "Source install/upgrade tests cover isolation, managed-file ownership, rollback, drift, and project preservation. Rust represents those boundaries with an immutable published binary, explicit attach and migration, repository-local Agent adapters, and release acceptance; source Python installer files, Make integration, and provider UX are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_installer_boundaries.sh",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "docs/getting-started/adopter-configuration.md"
+      ],
+      "reason": "The source boundary smoke test checks catalog/runtime ownership and Git argument isolation. Rust enforces repository-local Protocol/Agent ownership and explicit context with native isolation tests; the source catalog and Python helper names are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_installer_conflict_matrix.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "docs/getting-started/adopter-configuration.md"
+      ],
+      "reason": "The source matrix rejects managed-file conflicts, symlinks, submodules, traversal, and modified project files before installation. Rust's attach/Agent ownership and input-trust checks preserve the same fail-closed write boundary without source managed-file lists.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_installer_detection.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-repository/tests/evolution.rs",
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source detects new adoption versus upgrade, active Work Items, symlinks, missing tools, and deterministic operator plans. Rust resolves repository identity and compatibility through explicit attach/doctor/status and migration proposals; source detection dataclasses are not wire-compatible.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_installer_domains.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-cli/tests/doctor.rs",
+        "crates/cockpit-repository/tests/evolution.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source domain tests require read-only planning, confirmation before writes, and public review objects. Rust separates inspect/compatibility/doctor from explicit attach/migrate writes and exposes typed review records; its domain enums do not copy source installer modules.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_installer_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/tests/handoff.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "docs/security/enterprise-governance.md"
+      ],
+      "reason": "The source summarizes add/modify/skip actions and flags unknown product paths. Rust binds installation/release actions to typed evidence and delegated assurance, preserving unknowns without adopting source action-summary JSON.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_installer_repository.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/tests/observer.rs",
+        "docs/reference/repository-observer.md"
+      ],
+      "reason": "The source reads repository facts and adoption signals without writes. Rust's Git/Observer services produce request-scoped snapshots and identities with the same read-only boundary; source Python fact objects are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_installer_transaction.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/src/lib.rs",
+        "crates/cockpit-release/tests/archive.rs",
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-repository/tests/evolution.rs"
+      ],
+      "reason": "The source transaction tests classify archive/checkouts, reject dirty or unsafe paths, deduplicate writes, and enforce an exclusive lock. Rust uses immutable Release/archive validation, repository-local atomic writes and locks, Agent isolation, and explicit migration receipts; source transaction classes and Python executor are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_instruction_traceability.py",
@@ -39844,10 +39630,16 @@
     },
     {
       "referencePath": "tests/test_issue_log.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "docs/reference/recovery.md"
+      ],
+      "reason": "The source issue log validates identifiers, evidence, secrets, and one-way resolution. Rust records immutable Work Item evidence, structured decisions, unknowns, and recovery lineage instead of shipping a source issue-log database or reopening semantics.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_japanese_adopter_lifecycle.py",
@@ -39893,17 +39685,29 @@
     },
     {
       "referencePath": "tests/test_lifecycle_facts.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/tests/observe.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source lifecycle facts projection distinguishes bootstrap, calibration, governed, and no-active states with deterministic JSON. Rust's request-scoped status/observe/doctor projections provide equivalent facts without persisting a source status file.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_lifecycle_safety_gate.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/governance_controls.rs",
+        "crates/cockpit-repository/tests/preflight_review.rs",
+        "crates/cockpit-core/tests/governance_semantics.rs",
+        "docs/reference/governance-integrity-gate.md"
+      ],
+      "reason": "The source gate rejects dangerous/unverified cases and permits only safe boundaries. Rust governance controls, preflight review, and operation-time policy preserve fail-closed unknown/unsafe handling with typed evidence.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_lifecycle_truth_core_677.py",
@@ -39932,7 +39736,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "The source Make tests assert public entrypoints, ordering, lock/recovery forwarding, and quality ownership. Rust has no required Make entrypoint; the typed Runtime CLI, reviewed gate manifest, and CI route provide the same fail-closed ownership and ordering semantics without importing source Make targets.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -39948,17 +39751,22 @@
         "crates/cockpit-cli/tests/intelligence.rs"
       ],
       "reason": "Locale-specific presentation is checked while machine fields, paths, evidence and Contract text remain stable; Rust uses typed CLI/MCP presentation rather than the source Python projection helper.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_negative_scenarios.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-621-reference-installer-lifecycle-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/tests/adversarial_v2.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "docs/security/adversarial-validation.md"
+      ],
+      "reason": "The source negative corpus covers ten unsafe inputs and requires a safe local alternative for critical operations. Rust's adversarial/input-trust suites preserve the same non-promotion and safe-alternative boundary without copying source scenario fixtures.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_onboard_e2e.py",
@@ -40046,7 +39854,6 @@
         "docs/reference/work-item-lifecycle-closure.md"
       ],
       "reason": "The source aggregate validator combines provider PR ownership, archive/recovery chains, and one-Work-Item boundaries. Rust enforces those facts per Work Item through typed finalization/recovery receipts and the CI gate; provider aggregate API discovery and source Python report wiring remain external, not silently copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40081,7 +39888,6 @@
         "docs/reference/governance-profiles.md"
       ],
       "reason": "Observer facts, calibration proposals, strict profile validation, system invariants, and unknown/confirmation boundaries are represented by the Rust Project Governance service, profile/doctor commands, and repository-native tests. Source Python calibration modules and their JSON wire are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40098,7 +39904,6 @@
         "docs/reference/governance-profiles.md"
       ],
       "reason": "The source end-to-end governance journey and rollback are covered by Rust candidate profile/proposal, explicit confirmation, migration, and repository identity checks. The target does not reproduce the source Python subprocess journey or wizard session protocol.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40157,7 +39962,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "Quality entrypoint compatibility, proportional routing, lock ownership, phase separation, release ownership, cleanup, and diagnostics are expressed by the dynamic Rust/CI gate route. Source YAML/Make job topology and Node artifact implementation are provider workflow details, not Runtime wire requirements.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40173,7 +39977,6 @@
         "docs/reference/performance-diagnosis.md"
       ],
       "reason": "The source validates identity-bound samples, percentile calculations, shard evidence, and malformed-input rejection. Rust records deterministic request-scoped performance/cost observations and evidence bindings; source hosted runner/JUnit wire and statistical implementation are not copied or used to weaken governance.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40219,7 +40022,6 @@
         "crates/cockpit-verification/tests/route_convergence.rs"
       ],
       "reason": "Source manifest tests cover deterministic ownership, duration-balanced shards, aggregate coverage, artifact paths, and command collection. Rust uses typed affected-verification/dependency planning, bounded execution, and the reviewed repository gate manifest; source pytest/JUnit shard files are not Runtime authority.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40278,7 +40080,6 @@
         "docs/security/adversarial-validation.md"
       ],
       "reason": "The source statically scans Python/Maven/TypeScript/documentation references before destructive changes. Rust enforces operation-time scope, authority, trust, and unknown boundaries and accepts delegated impact facts; dynamic reference discovery and source language scanners remain adopter/provider boundaries.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40304,7 +40105,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source distribution tests cover provider release discovery, immutable source/tag identity, assets, installer metadata, and public projection. Rust owns typed target archives, checksums, SBOM/provenance and artifact handoff; provider API details and source Python distribution wire are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40322,7 +40122,6 @@
         "docs/getting-started/security-release-verification.md"
       ],
       "reason": "Release preflight identity, capability, archive, SBOM, source freshness, and fail-closed checks are represented by the Rust release manifest and repository gate services. Source capability assessment, Python packaging, and provider-specific preflight fixtures remain explicit non-claims.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40338,7 +40137,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source checks canonical published/candidate state, reserved-version monotonicity, digest drift, and projection non-authority. Rust binds release manifest, tag, artifact, and Runtime identities through typed release receipts; source JSON projection layout is not a target protocol.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40356,7 +40154,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source workflow tests enforce rehearsal-before-publication, exact source identity, release side-effect guards, artifact and smoke evidence, and timeout diagnostics. Rust preserves those release truth boundaries in its workflow and typed handoff/release tests without copying Python/Make orchestration or provider action implementation.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-293-ci-contract-aware-gates-recovery",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40412,7 +40209,6 @@
         "crates/cockpit-cli/tests/worktree_entry.rs"
       ],
       "reason": "The source start/archive corpus covers locks, scope, branch/worktree topology, resume/synchronize, atomic archive moves, traceability, and failure rollback. Rust enforces the same lifecycle truth through typed repository state, explicit worktree binding, append-only evidence, and native tests; source Make/Python helpers are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40431,7 +40227,6 @@
         "docs/reference/ci-release-evidence.md"
       ],
       "reason": "The source supply-chain tests cover secret scanning, dependency locks, workflow action identity, SBOM, provenance, artifact digests, and source/tag binding. Rust provides typed archive/SBOM/manifest evidence and fail-closed release gates; source pip tooling and provider scanners remain external.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40448,7 +40243,6 @@
         "docs/release/distribution.md"
       ],
       "reason": "The source synchronizes verified provider release metadata into canonical projections and advances the next candidate only after identity checks. Rust performs the same binding through typed release handoffs and manifests; provider API polling and source JSON field names are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40482,7 +40276,6 @@
         "crates/cockpit-cli/tests/intelligence.rs"
       ],
       "reason": "finish generates and validates repository-bound Outcome/report/event projections, preserves blocked evidence and recovery, and archives the bound artifacts; Rust lifecycle receipts replace source ai_finish orchestration.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40497,7 +40290,6 @@
         "crates/cockpit-repository/tests/outcome_report.rs"
       ],
       "reason": "Deterministic Rust report generation covers empty sections, findings, warnings, risks, stops, resolutions, recurrence prevention, evidence provenance and explicit unknowns without accepting arbitrary completion claims.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40512,7 +40304,6 @@
         "crates/cockpit-cli/tests/outcome_handoff.rs"
       ],
       "reason": "Rust writes deterministic typed task-report Markdown and separately renders the human handoff; empty sections, conditional language, provenance and blocked diagnostics remain visible without mutating source records.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40527,7 +40318,6 @@
         "crates/cockpit-cli/tests/outcome_handoff.rs"
       ],
       "reason": "CLI and MCP select en/zh/ja presentation through explicit Runtime language inputs while preserving Contract-language acceptance text and stable machine JSON; source profile-driven file generation is not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40552,7 +40342,6 @@
         "crates/cockpit-repository/tests/outcome_report.rs"
       ],
       "reason": "OutcomeV2 and TaskOutcomeReport are strict typed Rust Protocol structs with deny-unknown-fields, stable camelCase machine keys and digest bindings; source standalone JSON Schema bytes are not the Rust wire contract.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40568,7 +40357,6 @@
         "crates/cockpit-cli/tests/intelligence.rs"
       ],
       "reason": "Runtime validates report/event identity, evidence provenance, red/yellow/green decision mapping, historical boundaries, symlink/tamper failure and human-decision projection; source claim validator rules are expressed through typed Rust controls rather than a Python validator.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40702,7 +40490,6 @@
         "docs/reference/governance-profiles.md"
       ],
       "reason": "Light/standard/strict routing, monotonic escalation, cache identity, deterministic dependency graphs, and risk signals are represented by Rust VerificationTier/Policy Planner and repository profile controls. Verification strength remains separate from EvidenceAssurance; source Python policy module and report wire are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40741,7 +40528,6 @@
         "crates/cockpit-cli/tests/knowledge.rs"
       ],
       "reason": "Source intelligence tests cover append-only facts, deterministic indexes, leases, keyed dependencies, runtime/governance separation, completion invalidation, and concurrency. Rust provides repository-bound Knowledge/Intelligence projections and cache integrity with the same isolation boundary, not source Python index or wire compatibility.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40774,7 +40560,6 @@
         "docs/reference/work-item-lifecycle-closure.md"
       ],
       "reason": "The source closure corpus covers merged identity, exact cleanup, remote races, branch/worktree postconditions, stale evidence, and ready-on-base projection. Rust enforces those facts with typed finalization receipts, append-only recovery, and native lifecycle tests; provider APIs and source Make/Python closure helpers are not copied.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
@@ -40807,7 +40592,6 @@
         "docs/reference/ci-quality-gates.md"
       ],
       "reason": "Source workflow tests inspect compatibility matrices, smoke/release dispatch purpose, exact commit binding, action policy, timeout and diagnostics. Rust's CI/release workflows and typed gate tests preserve the repository-bound fail-closed policy while provider workflow syntax and source stack probes remain external.",
-      "sourceChangedSincePrevious": true,
       "previousBatch": "WI-293-ci-contract-aware-gates-recovery",
       "previousClassification": "deferred-next-batch",
       "rebaselineBatch": "rebaseline-delta"
