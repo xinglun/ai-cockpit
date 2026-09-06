@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5fd6216f4b3a99a839c3728dadbc959f5d999653379a909e6f5f5886de7e5711",
+      "workItemId": "WI-614-direct-merge-no-pr-apply"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-614-direct-merge-no-pr-apply.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json",
+            ".ai/decisions/WI-614-direct-merge-no-pr-apply.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-cleanup at 2026-09-06T12:16:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json"
+          ],
+          "inference": false,
+          "text": "让无 PR 的真实 direct merge 可以通过可审计、不可伪造的首次 finalization 记录完成后续验证与 close。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-614-direct-merge-no-pr-apply"
+  },
+  "finalReportDigest": "sha256:05166f1977bb126565b378c4da7e0d866559a78a6d4e339eff5f43af36a2e662",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:7170dd0711251f9aa7226af66a226ed022a8d7f247bb9aaf688119da7002cedd",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-614-direct-merge-no-pr-apply.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "decidedAt": "2026-09-06T12:16:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json",
+      ".ai/decisions/WI-614-direct-merge-no-pr-apply.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Reviewed PR #609 passed all hosted checks, merged to main, and exact branch/worktree cleanup was verified.",
+    "resumeCondition": "Reopen only through an explicit append-only recovery decision if new evidence is required."
+  },
+  "timestamp": "2026-09-06T12:15:59Z",
+  "workItemId": "WI-614-direct-merge-no-pr-apply"
+}

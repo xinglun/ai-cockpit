@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "4ce14bd3b8a591111b35749318829b424b5ac25f",
+    "name": "codex/wi-614-direct-merge-no-pr-apply",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:224c3a26cdc8fbc43f163458115b0b49a57f0b5e52dd4083821242031a003bb8",
+  "operationId": "github-pr-609-merge-cleanup-20260906",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "340881df6d21d9ab4b0c704c69ab7dcc32b838a0",
+    "headRevision": "4ce14bd3b8a591111b35749318829b424b5ac25f",
+    "mergeCommit": "d1c34a1d4154cf190909528abed9f782f0a5a1dc",
+    "number": 609,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #609 passed all hosted checks and was merged as d1c34a1d; the exact feature branch and linked worktree were removed after main synchronization.",
+  "receiptId": "local-wi614-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-614-direct-merge-no-pr-apply",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-614-direct-merge-no-pr-apply"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662",
+  "runtimeVersion": "0.2.82",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T12:14:00Z",
+  "workItemId": "WI-614-direct-merge-no-pr-apply",
+  "worktree": {
+    "branch": "codex/wi-614-direct-merge-no-pr-apply",
+    "headRevision": "4ce14bd3b8a591111b35749318829b424b5ac25f",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-614-direct-merge-no-pr-apply",
+    "worktreeId": "WI-614-direct-merge-no-pr-apply"
+  }
+}
