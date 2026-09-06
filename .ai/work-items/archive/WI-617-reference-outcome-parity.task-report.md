@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-617-reference-outcome-parity.contract.json
-- Changed path: .ai/work-items/active/WI-617-reference-outcome-parity.summary.json
+- Changed path: .ai/work-items/archive/WI-617-reference-outcome-parity.contract.json
+- Changed path: .ai/work-items/archive/WI-617-reference-outcome-parity.summary.json
 
 ## Findings
 

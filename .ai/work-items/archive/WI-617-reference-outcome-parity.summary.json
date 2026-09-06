@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-617-reference-outcome-parity.contract.json",
-    ".ai/work-items/active/WI-617-reference-outcome-parity.summary.json"
+    ".ai/work-items/archive/WI-617-reference-outcome-parity.contract.json",
+    ".ai/work-items/archive/WI-617-reference-outcome-parity.summary.json"
   ],
   "checkpointAt": "2026-09-06T14:11:41Z",
   "checkpointContractDigest": "sha256:5c1d1d32b7b7cfacb34bd68a03f3457645f397a0a2f9d97620910ce16a1fa9b5",

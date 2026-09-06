@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-617-reference-outcome-parity.summary.json"
+            ".ai/work-items/archive/WI-617-reference-outcome-parity.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-617-reference-outcome-parity.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-617-reference-outcome-parity.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-617-reference-outcome-parity.summary.json"
+            ".ai/work-items/archive/WI-617-reference-outcome-parity.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-617-reference-outcome-parity.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-617-reference-outcome-parity.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-617-reference-outcome-parity.contract.json"
+            ".ai/work-items/archive/WI-617-reference-outcome-parity.contract.json"
           ],
           "inference": false,
           "text": "完成参考源 Outcome 与事件治理语义的逐文件比较，并补齐当前 Rust 工程中真实存在的边界遗漏。"
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-617-reference-outcome-parity.contract.json"
+            ".ai/work-items/archive/WI-617-reference-outcome-parity.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-617-reference-outcome-parity"
   },
-  "taskReportDigest": "sha256:b0da91eed2650ed1277713b17d9eebab37ec43a6696d911952838a47e45f35f2",
-  "taskReportMarkdownDigest": "sha256:5109c3e30cee7bb254e923e694b4fe6e63bf2dd9ab619782832f92125d7cc086",
+  "taskReportDigest": "sha256:8a27d3aaf5db96cc4320345429430cdd9ad6f2b28d6016d8bc21b9365358cc60",
+  "taskReportMarkdownDigest": "sha256:97f114ca0598b4dbc47a50e2980ffed70359155d82619124db848149b7b9728f",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
