@@ -3,10 +3,14 @@ title: "WI-616——v0.2.83 发布与对象验收"
 description: "发布 direct-merge 恢复修复，并用对象与 N-1 验收验证不可变发布产物。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-616-release-v0-2-83
 lastVerifiedBy: WI-616-release-v0-2-83
+terminalArchive: .ai/work-items/archive/WI-616-release-v0-2-83.contract.json
+terminalVerification: .ai/evidence/WI-616-release-v0-2-83.verification.json
+terminalFinalization: .ai/decisions/WI-616-release-v0-2-83.finalize.json
+terminalDecision: .ai/decisions/WI-616-release-v0-2-83.close.json
 ---
 
 [English](WI-616-release-v0-2-83.md) · [日本語](WI-616-release-v0-2-83.ja.md)

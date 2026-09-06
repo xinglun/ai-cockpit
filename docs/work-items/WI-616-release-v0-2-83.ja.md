@@ -3,10 +3,14 @@ title: "WI-616 — v0.2.83 release と adopter acceptance"
 description: "direct-merge recovery 修正を公開し、immutable な Release artifact を adopter/N-1 acceptance で検証する。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-616-release-v0-2-83
 lastVerifiedBy: WI-616-release-v0-2-83
+terminalArchive: .ai/work-items/archive/WI-616-release-v0-2-83.contract.json
+terminalVerification: .ai/evidence/WI-616-release-v0-2-83.verification.json
+terminalFinalization: .ai/decisions/WI-616-release-v0-2-83.finalize.json
+terminalDecision: .ai/decisions/WI-616-release-v0-2-83.close.json
 ---
 
 [English](WI-616-release-v0-2-83.md) · [简体中文](WI-616-release-v0-2-83.zh-CN.md)
