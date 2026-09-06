@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-retry-after-finalization-plan-binding",
+  "decidedAt": "2026-09-06T12:27:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-615-wi614-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-615-wi614-doc-promotion.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:6780b467e8000adde25f929bc883b2ab4287214a17dc420771ed713a9527f0f2",
+  "predecessorEventsDigest": "sha256:78655ed9096cfa1a20e2304f9f1533c5a4af1fad4baa5e25de1d85f99c332907",
+  "predecessorOutcomeDigest": "sha256:3020aa970c653562a238594edf1a4c107221c42d4c548f16e338d3b186360657",
+  "predecessorSummaryDigest": "sha256:f6ae5c18152f77f52d965509e9001594d1fc6c8e2acaaba0e62431465fac32d5",
+  "predecessorWorkItemId": "WI-615-wi614-doc-promotion",
+  "reason": "The first verification was recorded before the non-provisional finalization plan and is now stale; preserve it and rerun fresh verification against the current Contract and repository snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification, then finish and archive.",
+  "runtimeDigest": "sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662",
+  "runtimeVersion": "0.2.82",
+  "schemaVersion": 1,
+  "workItemId": "WI-615-wi614-doc-promotion"
+}

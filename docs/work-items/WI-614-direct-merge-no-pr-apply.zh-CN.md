@@ -7,9 +7,13 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-614-direct-merge-no-pr-apply
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-614-direct-merge-no-pr-apply
+terminalArchive: .ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json
+terminalVerification: .ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json
+terminalFinalization: .ai/decisions/WI-614-direct-merge-no-pr-apply.finalize.json
+terminalDecision: .ai/decisions/WI-614-direct-merge-no-pr-apply.close.json
 ---
 
 # WI-614——首次 direct merge 恢复往返

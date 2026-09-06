@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Promote the six WI-614 documentation projections to implemented only from its verified terminal evidence; preserve the historical Contract, archive, verification, finalize, and close bytes.",
+    "Register this narrow documentation-promotion Work Item consistently in English, Simplified Chinese, and Japanese work-item docs and reference-parity ledgers.",
+    "All documentation acceptance, parity, reference metadata, governance integrity, conformance, and diff checks pass without modifying Runtime code or generated governance records outside this Work Item.",
+    "After reviewed merge and close, promote_closed_work_item.py --check-all reports no stale projections."
+  ],
+  "authority": "authorized",
+  "baseRevision": "45badea5ebd90af221a840ae768379af8e041ae2",
+  "createdAt": "2026-09-06T12:19:04Z",
+  "goal": "Synchronize the documentation projections for the closed WI-614 direct-merge recovery implementation and record this promotion with auditable, tri-language documentation.",
+  "intent": "Promote WI-614 documentation only after its verified close, keeping immutable governance evidence authoritative and preventing stale in-progress claims from misleading users or agents.",
+  "mode": "documentation",
+  "outOfScope": [
+    "Runtime or protocol implementation changes",
+    "Object repositories or global Agent/MCP configuration",
+    "Release packaging",
+    " version bump",
+    " or adopter acceptance",
+    "Rewriting or deleting WI-614 generated governance records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:007c26c3e122a8f9102d1169f0925417a19475110db4d154ec21a23eddd7cfae",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-615-wi614-doc-promotion",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-615-wi614-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-614-direct-merge-no-pr-apply.md",
+    "docs/work-items/WI-614-direct-merge-no-pr-apply.zh-CN.md",
+    "docs/work-items/WI-614-direct-merge-no-pr-apply.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-615-wi614-doc-promotion.md",
+    "docs/work-items/WI-615-wi614-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-615-wi614-doc-promotion.ja.md"
+  ],
+  "sources": [
+    "docs/work-items/WI-614-direct-merge-no-pr-apply.md",
+    ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json",
+    ".ai/evidence/WI-614-direct-merge-no-pr-apply.verification.json",
+    ".ai/decisions/WI-614-direct-merge-no-pr-apply.close.json",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-615-wi614-doc-promotion"
+}
