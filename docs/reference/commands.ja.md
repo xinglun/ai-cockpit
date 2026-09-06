@@ -148,6 +148,11 @@ Agent は次の順序で capability を発見します。repository-bound の st
   のは `actor`、`authoritySource`、`reason`、`timestamp` だけです。context が不完全な場合は
   `humanInputRequired` に明示します。`.ai/decisions` は変更せず、PR number・authority・human decision を
   捏造しません。
+- 最初の direct merge record では、出力された `suggestedReceipt` が完全な protocol input です。
+  `humanInputRequired` に列挙された項目だけを追加し、`work-item finalize-recovery`（明示的な歴史入口）または
+  `work-item finalize`（通常の記録入口）へそのまま渡します。両方の入口は同じ identity-bound bytes を受け付けなければ
+  なりません。Runtime 自身の plan 出力を拒否した場合は、失敗入力を `.ai/` の外に保持して Runtime defect として報告し、
+  receipt の再構成や PR の捏造をしないでください。
 - `migrate plan --repo <path>` は schema が compatible でも `historicalFinalization` を追加で
   報告します。有効な close binding を持つ旧 receipt は `historical_verified`/
   `historical_low`、pending または読めない receipt は `recovery_required`/`invalid` と safe

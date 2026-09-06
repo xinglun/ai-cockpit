@@ -47,6 +47,57 @@ fn assert_success(output: &std::process::Output, operation: &str) {
     );
 }
 
+fn git(repo: &Path, args: &[&str]) -> String {
+    let output = Command::new("git")
+        .args(args)
+        .current_dir(repo)
+        .output()
+        .expect("run git");
+    assert!(
+        output.status.success(),
+        "git {args:?} failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8(output.stdout)
+        .expect("git output")
+        .trim()
+        .to_owned()
+}
+
+fn direct_merge_repository_for_cli() -> (tempfile::TempDir, String) {
+    let repo = repository();
+    let root = repo.path();
+    git(root, &["config", "user.email", "tests@example.invalid"]);
+    git(root, &["config", "user.name", "AI Cockpit Tests"]);
+    git(root, &["branch", "-M", "main"]);
+    fs::write(root.join("README.md"), "direct merge CLI fixture\n").expect("write base");
+    git(root, &["add", "README.md"]);
+    git(root, &["commit", "-q", "-m", "base"]);
+    let base = git(root, &["rev-parse", "HEAD"]);
+    git(root, &["checkout", "-q", "-b", "feature/direct-merge-cli"]);
+    fs::write(root.join("direct-merge.txt"), "historical merge\n").expect("write feature");
+    git(root, &["add", "direct-merge.txt"]);
+    git(root, &["commit", "-q", "-m", "direct merge feature"]);
+    let feature_head = git(root, &["rev-parse", "HEAD"]);
+    git(root, &["checkout", "-q", "main"]);
+    git(
+        root,
+        &[
+            "merge",
+            "--no-ff",
+            "-q",
+            "feature/direct-merge-cli",
+            "-m",
+            "direct merge",
+        ],
+    );
+    let merge_commit = git(root, &["rev-parse", "HEAD"]);
+    git(root, &["reset", "--hard", "-q", &base]);
+    git(root, &["branch", "-D", "feature/direct-merge-cli"]);
+    assert!(!feature_head.is_empty());
+    (repo, merge_commit)
+}
+
 #[test]
 fn historical_recovery_commands_are_discoverable_in_work_item_help() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
@@ -74,6 +125,180 @@ fn finalize_recovery_help_describes_first_direct_merge_apply() {
         help.contains("complete direct-merge receipt"),
         "help: {help}"
     );
+}
+
+#[test]
+fn cli_direct_merge_plan_round_trips_through_recovery_and_finalize() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let (repo, merge_commit) = direct_merge_repository_for_cli();
+    let root = repo.path();
+    let id = "WI-DIRECT-MERGE-CLI";
+    assert_success(&run(binary, &["attach"], root), "attach");
+
+    let context_file = tempfile::NamedTempFile::new().expect("context file");
+    fs::write(
+        context_file.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "branch": "feature/direct-merge-cli",
+            "worktree": root.to_string_lossy(),
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "provider": "local",
+            "pullRequest": "https://github.com/example/project/pull/999"
+        }))
+        .expect("context JSON"),
+    )
+    .expect("write context");
+    let context_arg = context_file.path().to_string_lossy().into_owned();
+    assert_success(
+        &run(
+            binary,
+            &[
+                "start",
+                "--id",
+                id,
+                "--intent",
+                "record historical direct merge",
+                "--goal",
+                "preserve truthful no-PR history",
+                "--scope",
+                "**",
+                "--authority",
+                "authorized",
+            ],
+            root,
+        ),
+        "start",
+    );
+    let plan = run_json(
+        binary,
+        &[
+            "work-item",
+            "finalize-plan",
+            "--id",
+            id,
+            "--input",
+            context_arg.as_str(),
+        ],
+        root,
+    );
+    assert_eq!(plan["state"], "planned");
+    assert_success(
+        &run(
+            binary,
+            &[
+                "preflight",
+                "--contract",
+                &format!(".ai/work-items/active/{id}.contract.json"),
+            ],
+            root,
+        ),
+        "preflight",
+    );
+    assert_success(
+        &run(binary, &["checkpoint", "--id", id], root),
+        "checkpoint",
+    );
+    assert_success(
+        &run(
+            binary,
+            &["verify", "--work-item", id, "--command", "true"],
+            root,
+        ),
+        "verify",
+    );
+    assert_success(&run(binary, &["finish", "--id", id], root), "finish");
+    assert_success(&run(binary, &["archive", "--id", id], root), "archive");
+
+    let recovery_plan = run_json(
+        binary,
+        &[
+            "work-item",
+            "finalize-recovery-plan",
+            "--id",
+            id,
+            "--merge-commit",
+            merge_commit.as_str(),
+        ],
+        root,
+    );
+    assert_eq!(recovery_plan["state"], "direct_merge_candidate");
+    assert_eq!(recovery_plan["historicalKind"], "direct_merge_no_pr");
+    assert_eq!(
+        recovery_plan["suggestedReceipt"]["pullRequest"]["number"],
+        0
+    );
+    assert_eq!(
+        recovery_plan["suggestedReceipt"]["historical"]["mergeCommit"],
+        merge_commit
+    );
+    assert_eq!(
+        recovery_plan["suggestedReceipt"]["resourceContext"]["provider"],
+        "historical"
+    );
+    let mut receipt = recovery_plan["suggestedReceipt"].clone();
+    receipt["actor"] = "human:test".into();
+    receipt["authoritySource"] = "historical-test".into();
+    receipt["reason"] = "record a direct merge without inventing a pull request".into();
+    receipt["timestamp"] = "2026-09-07T00:00:00Z".into();
+    let receipt_file = tempfile::NamedTempFile::new().expect("receipt file");
+    fs::write(
+        receipt_file.path(),
+        serde_json::to_vec_pretty(&receipt).expect("receipt JSON"),
+    )
+    .expect("write receipt");
+    let receipt_arg = receipt_file.path().to_string_lossy().into_owned();
+    let recovered = run_json(
+        binary,
+        &[
+            "work-item",
+            "finalize-recovery",
+            "--id",
+            id,
+            "--input",
+            receipt_arg.as_str(),
+        ],
+        root,
+    );
+    assert_eq!(recovered["state"], "recorded");
+    let replay = run_json(
+        binary,
+        &[
+            "work-item",
+            "finalize",
+            "--id",
+            id,
+            "--input",
+            receipt_arg.as_str(),
+        ],
+        root,
+    );
+    assert_eq!(replay["state"], "idempotent");
+    let verified = run_json(binary, &["work-item", "finalize-verify", "--id", id], root);
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["historicalKind"], "direct_merge_no_pr");
+    let closed = run(
+        binary,
+        &[
+            "close",
+            "--id",
+            id,
+            "--human-decision",
+            "approved",
+            "--actor",
+            "human:test",
+            "--authority-source",
+            "historical-test",
+            "--reason",
+            "close verified historical direct merge",
+            "--evidence-ref",
+            &format!(".ai/decisions/{id}.finalize.json"),
+            "--decided-at",
+            "2026-09-07T00:01:00Z",
+        ],
+        root,
+    );
+    assert_success(&closed, "close");
 }
 
 #[test]

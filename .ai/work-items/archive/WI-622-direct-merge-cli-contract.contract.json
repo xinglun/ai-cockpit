@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "在临时 Git 仓库中创建真实双 parent merge commit，且 Work Item Contract 的 baseRevision 与 merge 第一 parent 可不同。",
+    "finalize-recovery-plan 输出的 suggestedReceipt 作为唯一协议输入，仅补 humanInputRequired 字段，不得手工重建协议字段。",
+    "该 receipt 通过 finalize-recovery 首次写入；同一 receipt 通过 finalize 的行为必须明确且不能出现自相矛盾的拒绝。",
+    "写入后 finalize-verify 与显式 human close 成功；repositoryId、Contract digest、真实 parents/base、Runtime identity 全部绑定。",
+    "malformed、foreign、错误 parents/base、错误 context、伪造 PR 仍 fail closed 且不产生半成品。",
+    "CLI help 明确首次 direct merge 的正式入口、字段来源和禁止伪造规则；中英日文档同步。",
+    "新增 CLI/Repository regression 覆盖 published-binary-like round trip，避免只由内部 library helper 证明。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "4aced24591027e79f82e3fee6a2e2ce4ddd1a84c",
+  "createdAt": "2026-09-06T19:46:09Z",
+  "goal": "使真实 merge commit 的无 PR 历史 Work Item 能在不伪造 PR、不手改 .ai/ 的前提下，通过 finalize-recovery-plan 生成完整 receipt，并由 finalize 与 finalize-recovery 至少一个正式入口成功写入、验证和关闭。",
+  "intent": "修复并验证首次 direct_merge_no_pr 历史收据的 Runtime 生成计划、CLI 应用与仓库绑定必须闭环，确保公开发布版不会让自身生成的合法 receipt 被自身拒绝。",
+  "mode": "code",
+  "outOfScope": [
+    "对象工程 /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Release adopter harness",
+    "参考源工程功能比对",
+    "Python、Makefile.ai、全局 Agent/MCP 配置"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:091c011636609e3ee1cc0d274f8ff28510ff58faebeaf23a7ae1c1717953a9df",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-622-direct-merge-cli-contract",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/617",
+    "worktree": "/private/tmp/ai-cockpit-wi622-direct-merge-cli-contract"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/resource_finalization.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/troubleshooting.md",
+    "docs/reference/troubleshooting.zh-CN.md",
+    "docs/reference/troubleshooting.ja.md",
+    "docs/work-items/WI-622-direct-merge-cli-contract.md",
+    "docs/work-items/WI-622-direct-merge-cli-contract.zh-CN.md",
+    "docs/work-items/WI-622-direct-merge-cli-contract.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-622-direct-merge-cli-contract"
+}

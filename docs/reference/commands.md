@@ -197,6 +197,13 @@ review when the returned state is yellow, red, unknown, or not ready.
   `timestamp` remain human-owned (an incomplete context is listed explicitly
   in `humanInputRequired`). It never writes `.ai/decisions` and never invents
   a PR number, authority, or human decision.
+- For a first-record direct merge, the emitted `suggestedReceipt` is complete
+  protocol input. After adding only the fields listed in `humanInputRequired`,
+  pass it unchanged to either `work-item finalize-recovery` (the explicit
+  historical entry point) or `work-item finalize` (the ordinary recorder).
+  Both entry points must accept the same identity-bound bytes. If a Runtime
+  rejects its own plan output, preserve the failed input outside `.ai/` and
+  report the Runtime defect; do not reconstruct the receipt or invent a PR.
 - `migrate plan --repo <path>` remains schema-compatible when the repository is
   current, but now also reports `historicalFinalization`. A stale receipt with
   a valid bound close is `historical_verified`/`historical_low`; a pending or
