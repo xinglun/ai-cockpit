@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:dc30aa773dcda31c950fe7d42e7a78589bdbac8bb13b04590dde9636e516546e",
-  "createdAt": "2026-09-06T09:43:52Z",
+  "contractDigest": "sha256:d774d9e065726159c34038b7b95bfd76082c2c096a9c0744ebd3813fef10638d",
+  "createdAt": "2026-09-06T09:49:24Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 228486,
-      "executionElapsedMs": 228071,
+      "elapsedMs": 156260,
+      "executionElapsedMs": 155985,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 228486,
-    "executionElapsedMs": 228071,
-    "filesHashed": 23,
-    "filesRead": 23,
+    "elapsedMs": 156260,
+    "executionElapsedMs": 155985,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,17 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-comparison-metadata.json",
-        "docs/reference/reference-file-comparison.ja.md",
-        "docs/reference/reference-file-comparison.md",
-        "docs/reference/reference-file-comparison.zh-CN.md",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "tests/conformance/reference_file_inventory.json",
-        "tests/docs/reference_comparison_metadata_test.py"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "9a9a86da018876fc380706be141773a92c52757c",
       "dependencyConfidence": "unknown",
@@ -54,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 228071,
+      "executionElapsedMs": 155985,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -86,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:d3ea53cdae151f6d9f5d8c2de9a35fd37f5d1371acd09f992c357a19d16019af",
+        "outputDigest": "sha256:b88887b5949291834e5bf6a6410a78bd011a4ed784f44eed2eb897edb1684af9",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -102,7 +92,7 @@
     "runtimeVersion": "0.2.82",
     "workItemId": "WI-611-reference-file-comparison-batch-50"
   },
-  "receiptDigest": "sha256:196b0454e153eeedc31c7d734f46ec64888c1cd0ffde0f456f5493fbc846b7d4",
+  "receiptDigest": "sha256:90e2d18eb78feae386940b98630f948e971a1f06f46d80cd5123e9844b84891c",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:4a6a6577dd46c093dd795fec847ad33b6c92e3032df1357eb1fb447ebadad027",
   "runtimeDigest": "sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662",

@@ -25,17 +25,12 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
-  "sources": [
-    "tests/conformance/reference-source.lock (pinned commit fde3380f81fea5fd2e288f7a8849f737dc074060)",
-    "docs/reference/reference-comparison-metadata.json",
-    "tests/docs/reference_comparison_metadata_test.py"
-  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-611-reference-file-comparison-batch-50",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/601",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-611-reference-file-comparison-batch-50"
   },
   "risk": "normal",
@@ -76,6 +71,11 @@
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md",
     "docs/work-items"
+  ],
+  "sources": [
+    "tests/conformance/reference-source.lock (pinned commit fde3380f81fea5fd2e288f7a8849f737dc074060)",
+    "docs/reference/reference-comparison-metadata.json",
+    "tests/docs/reference_comparison_metadata_test.py"
   ],
   "state": "implementation_active",
   "verification": [

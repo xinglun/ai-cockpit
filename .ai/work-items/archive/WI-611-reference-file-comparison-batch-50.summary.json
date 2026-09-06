@@ -1,32 +1,28 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-611-reference-file-comparison-batch-50.contract.json",
-    ".ai/work-items/active/WI-611-reference-file-comparison-batch-50.summary.json"
+    ".ai/work-items/archive/WI-611-reference-file-comparison-batch-50.contract.json",
+    ".ai/work-items/archive/WI-611-reference-file-comparison-batch-50.summary.json"
   ],
   "checkpointAt": "2026-09-06T09:39:47Z",
-  "checkpointContractDigest": "sha256:dc30aa773dcda31c950fe7d42e7a78589bdbac8bb13b04590dde9636e516546e",
+  "checkpointContractDigest": "sha256:d774d9e065726159c34038b7b95bfd76082c2c096a9c0744ebd3813fef10638d",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:4a6a6577dd46c093dd795fec847ad33b6c92e3032df1357eb1fb447ebadad027",
   "createdAt": "2026-09-06T09:18:33Z",
-  "failedGate": "finish.governance",
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-06T09:44:00Z",
-  "preflightContractDigest": "sha256:dc30aa773dcda31c950fe7d42e7a78589bdbac8bb13b04590dde9636e516546e",
+  "preflightAt": "2026-09-06T09:49:33Z",
+  "preflightContractDigest": "sha256:d774d9e065726159c34038b7b95bfd76082c2c096a9c0744ebd3813fef10638d",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:4a6a6577dd46c093dd795fec847ad33b6c92e3032df1357eb1fb447ebadad027",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-06T09:44:00Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T09:49:33Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:e7715f6c552c1abba96ac83bd1410f7d1a5105847354d0f095473935593f3496",
   "workItemId": "WI-611-reference-file-comparison-batch-50"
 }
