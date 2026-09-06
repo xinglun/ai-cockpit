@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-617-reference-outcome-parity.contract.json",
+    ".ai/work-items/active/WI-617-reference-outcome-parity.summary.json"
+  ],
+  "checkpointAt": "2026-09-06T14:11:41Z",
+  "checkpointContractDigest": "sha256:5c1d1d32b7b7cfacb34bd68a03f3457645f397a0a2f9d97620910ce16a1fa9b5",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:96eba628ba6f9a89fb19871b8c6b52aeab417561081fe29c2a7c928d5b090e4d",
+      "recorded": true,
+      "recordedAt": "2026-09-06T14:11:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1af0a8cebd90415247d60f6a70a862d42b6ec45dacd3daa8fef4de0ad9ef2163",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-617-reference-outcome-parity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c857aac514cd70083cddb12e9b845291a754b0ecaaa94081dc04c5fd594eda84",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:96eba628ba6f9a89fb19871b8c6b52aeab417561081fe29c2a7c928d5b090e4d",
+      "previousContractHash": "sha256:96eba628ba6f9a89fb19871b8c6b52aeab417561081fe29c2a7c928d5b090e4d",
+      "reason": "Bind the comparison metadata sidecar updated by this batch; no new authority or implementation scope is added.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T14:36:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1af0a8cebd90415247d60f6a70a862d42b6ec45dacd3daa8fef4de0ad9ef2163",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-617-reference-outcome-parity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:5c1d1d32b7b7cfacb34bd68a03f3457645f397a0a2f9d97620910ce16a1fa9b5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:96eba628ba6f9a89fb19871b8c6b52aeab417561081fe29c2a7c928d5b090e4d",
+      "previousContractHash": "sha256:c857aac514cd70083cddb12e9b845291a754b0ecaaa94081dc04c5fd594eda84",
+      "reason": "Amend the current batch to include its conformance count regression and verify the complete declared command set.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T15:00:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c23353af8acd0ae02ae4cbe4e533f2ac20e586f92ef0e0a47876333a0c773a4f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-617-reference-outcome-parity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c23353af8acd0ae02ae4cbe4e533f2ac20e586f92ef0e0a47876333a0c773a4f",
+  "createdAt": "2026-09-06T14:09:47Z",
+  "mode": "code",
+  "preflightAt": "2026-09-06T15:04:05Z",
+  "preflightContractDigest": "sha256:5c1d1d32b7b7cfacb34bd68a03f3457645f397a0a2f9d97620910ce16a1fa9b5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c23353af8acd0ae02ae4cbe4e533f2ac20e586f92ef0e0a47876333a0c773a4f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T15:04:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-617-reference-outcome-parity"
+}

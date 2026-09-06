@@ -27,11 +27,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-617-reference-outcome-parity",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/612",
     "worktree": "/private/tmp/ai-cockpit-wi617-reference-outcome-parity"
   },
   "risk": "normal",
