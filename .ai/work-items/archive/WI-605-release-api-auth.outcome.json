@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "GitHub API requests use an available workflow token without exposing it to artifact downloads.",
+    "Staged and public adopter acceptance workflows pass the token to the API-bound harness steps.",
+    "Unauthenticated local/public use remains supported when no token is configured.",
+    "Regression tests fail before the fix and pass after it.",
+    "Existing release, isolation, cleanup, and public-artifact checks remain unchanged and pass."
+  ],
+  "createdAt": "2026-09-06T05:19:02Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:6844ed89425373970e4c7c59c083e5329becc1321ec8dc3c776d73314b90630d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-605-release-api-auth.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-605-release-api-auth.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-605-release-api-auth.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6dffd29998c3eb278a1b828fa0807ba6d0d01513da08fdaa6e77f68e5d191d91",
+      "workItemId": "WI-605-release-api-auth"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-605-release-api-auth.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-605-release-api-auth.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-605-release-api-auth.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-605-release-api-auth.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-605-release-api-auth.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-605-release-api-auth.contract.json"
+          ],
+          "inference": false,
+          "text": "Make staged and public adopter acceptance deterministic under repeated Release API access without weakening public artifact or isolation checks."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-605-release-api-auth.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-605-release-api-auth"
+  },
+  "taskReportDigest": "sha256:e2da6cab5e881b3f93d8765f4c36e95d6e51cf00f691b4202ff6eede5b494bac",
+  "taskReportMarkdownDigest": "sha256:4a5a4e93532cd695f4be4dbff96373beaff6ef02234c3376dad9a9f69e56d30b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-605-release-api-auth.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-605-release-api-auth"
+}

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-recovery",
+  "decidedAt": "2026-09-06T05:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-605-release-api-auth.verification.json",
+    ".ai/work-items/active/WI-605-release-api-auth.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:a5ff36bc0508b037b9b28f24b4143249277eb7a69c5c54b6647017fe909582f6",
+  "predecessorEventsDigest": "sha256:181dacd09f2f300d31184c8597735ece13402e9b0559ace14b3151871ff1e9ac",
+  "predecessorOutcomeDigest": "sha256:4ac5cf3c895817011f9eed725bbda32c61127747d8b6d84d3c18b05831dcec76",
+  "predecessorSummaryDigest": "sha256:269b0edc07343f54c9afd0b73e273714f5a390a3d4f4ef0fcb9102006796b494",
+  "predecessorWorkItemId": "WI-605-release-api-auth",
+  "reason": "Retry after the actual reviewed PR resource context replaced the provisional planning context; preserve prior verification evidence and rerun fresh verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification with the actual reviewed PR context, then finish and archive.",
+  "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",
+  "runtimeVersion": "0.2.79",
+  "schemaVersion": 1,
+  "workItemId": "WI-605-release-api-auth"
+}
