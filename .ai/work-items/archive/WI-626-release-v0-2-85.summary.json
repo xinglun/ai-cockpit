@@ -1,0 +1,195 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "all workspace packages",
+          "path": "Cargo.toml",
+          "type": "workspace-version",
+          "verification": "source version consistency passed for 0.2.85"
+        },
+        {
+          "locator": "version consistency",
+          "path": "tests/release/version_consistency.sh",
+          "type": "release-gate",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "source-quality and immutable artifact workflow",
+          "path": ".github/workflows/release.yml",
+          "type": "release-policy",
+          "verification": "workflow policy passed; public publication remains post-merge"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "immutable artifact and isolation regression",
+          "path": "tests/release/adopter_acceptance_test.sh",
+          "type": "acceptance-test",
+          "verification": "passed; public artifact evidence is collected post-release"
+        },
+        {
+          "locator": "N-1 upgrade regression",
+          "path": "tests/release/adopter_upgrade_acceptance_test.sh",
+          "type": "acceptance-test",
+          "verification": "passed; public artifact evidence is collected post-release"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "v0.2.85 and v0.2.83 boundary",
+          "path": "docs/release/distribution.md",
+          "type": "documentation",
+          "verification": "tri-language release and versioning docs updated"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "failed v0.2.84 publication recovery",
+          "path": ".ai/decisions/WI-625-release-v0-2-84.recovery.json",
+          "type": "recovery-decision",
+          "verification": "immutable predecessor bytes remain bound to WI-626"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-626-release-v0-2-85.contract.json",
+    ".ai/work-items/archive/WI-626-release-v0-2-85.summary.json"
+  ],
+  "checkpointAt": "2026-09-06T21:58:45Z",
+  "checkpointContractDigest": "sha256:df18c2ca489984a77ff55c058bb1d06e75565e21c2a1e52be497c86297ccc532",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3217dd1785f7b548d48cadc75b9edca4bdb4215cd4eae106ef01a7721b3eb4ef",
+      "recorded": true,
+      "recordedAt": "2026-09-06T21:58:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f31590ba23283080ce6d5040fbd59b83990cc77c971032d2fac6c1c33073d186",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-626-release-v0-2-85"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d8eb5d94cbdd6f90af81a5217f276749a64fafd8fb9a2bef8b94bc1de647f46d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3217dd1785f7b548d48cadc75b9edca4bdb4215cd4eae106ef01a7721b3eb4ef",
+      "previousContractHash": "sha256:3217dd1785f7b548d48cadc75b9edca4bdb4215cd4eae106ef01a7721b3eb4ef",
+      "reason": "Bind the recovered v0.2.84 predecessor and classify post-release scenarios as not-applicable before public publication.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T22:04:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f31590ba23283080ce6d5040fbd59b83990cc77c971032d2fac6c1c33073d186",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-626-release-v0-2-85"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:df18c2ca489984a77ff55c058bb1d06e75565e21c2a1e52be497c86297ccc532",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3217dd1785f7b548d48cadc75b9edca4bdb4215cd4eae106ef01a7721b3eb4ef",
+      "previousContractHash": "sha256:d8eb5d94cbdd6f90af81a5217f276749a64fafd8fb9a2bef8b94bc1de647f46d",
+      "reason": "Record deterministic source scenario completion and keep public artifact scenarios explicitly not-applicable until post-release acceptance.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T22:07:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f31590ba23283080ce6d5040fbd59b83990cc77c971032d2fac6c1c33073d186",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-626-release-v0-2-85"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f31590ba23283080ce6d5040fbd59b83990cc77c971032d2fac6c1c33073d186",
+  "createdAt": "2026-09-06T21:43:03Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "tests/release/version_consistency.sh",
+      "tests/docs/parity_status_check.sh",
+      ".ai/decisions/WI-625-release-v0-2-84.recovery.json"
+    ],
+    "reason": "WI-626 is limited to the v0.2.85 release boundary, the failed v0.2.84 recovery projection, and immutable release acceptance interfaces.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-06T22:10:49Z",
+  "preflightContractDigest": "sha256:df18c2ca489984a77ff55c058bb1d06e75565e21c2a1e52be497c86297ccc532",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f31590ba23283080ce6d5040fbd59b83990cc77c971032d2fac6c1c33073d186",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh: passed",
+        "tests/release/workflow_policy.sh: passed",
+        "tests/release/action_runtime_policy.sh: passed",
+        "release binary digest: sha256:9002dd5465fd22b258b2d158c30d071090fb225feb936601f0b495a393f7dbce"
+      ],
+      "required": true,
+      "scenario": "v0.2.85 source and artifact identity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh: passed",
+        "tests/release/adopter_upgrade_acceptance_test.sh: passed"
+      ],
+      "reason": "The immutable public v0.2.85 artifact does not exist until the reviewed PR is merged and the tag is published; post-release evidence is collected by the public acceptance harness.",
+      "required": false,
+      "scenario": "public adopter and N-1 upgrade",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "reason": "The public v0.2.85 binary must be downloaded after publication for the immutable plan-to-apply round-trip; no source or workspace binary is used as a substitute.",
+      "required": false,
+      "scenario": "direct_merge_no_pr recovery availability",
+      "status": "not_applicable"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T22:11:08Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-626-release-v0-2-85"
+}

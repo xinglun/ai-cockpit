@@ -1,0 +1,100 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions and Cargo.lock resolve to 0.2.85.",
+    "Release CI publishes an annotated v0.2.85 tag with target archives, SBOM/provenance, Formula, checksums, and matching Runtime identity.",
+    "Public adopter and N-1 acceptance use only immutable v0.2.85 and the last public v0.2.83 artifact, proving repository isolation and temporary-run cleanup.",
+    "English, Chinese, and Japanese release/versioning/parity records identify v0.2.85 and its v0.2.83 N-1 boundary.",
+    "The terminal Outcome is human-visible and records status, unknowns, evidence, human decision, and next action."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c08f9f943f787e7528dff659f65ba8e30c987465",
+  "createdAt": "2026-09-06T21:43:03Z",
+  "goal": "Release v0.2.85 with reproducible supply-chain evidence and a human-auditable adopter acceptance boundary.",
+  "intent": "Publish the next immutable release after the failed v0.2.84 tag, with the release quality gate satisfied by a terminally closed predecessor and publicly verifiable artifacts.",
+  "mode": "release",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template",
+    "global Agent or MCP configuration",
+    "unrelated Runtime features"
+  ],
+  "predecessorContractDigest": "sha256:eadb75f3fbcab1b0cd075310584eab92ccbdd18024e1e39186e7c50e9e70868a",
+  "predecessorWorkItemId": "WI-625-release-v0-2-84",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-625-release-v0-2-84.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1cadba2204d2916c58478b3176b936f0ace62c9d093356ae41fe29470ef1436d",
+  "requiredEvidenceClasses": [
+    "release",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-626-release-v0-2-85",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi626-release-v0-2-85"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Workspace version, annotated tag, release manifest, archive, SBOM, checksums, and Runtime identity remain bound to one reviewed commit.",
+      "required": true,
+      "scenario": "v0.2.85 source and artifact identity",
+      "status": "verified",
+      "verificationPlan": "Run workspace package/version, release policy, manifest, and artifact identity checks."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Only immutable public v0.2.85 and v0.2.83 artifacts are used; adopter repositories are isolated and temporary run roots are cleaned.",
+      "required": false,
+      "reason": "The immutable public v0.2.85 artifact is created only after the reviewed PR is merged and the release tag is published; the public acceptance harness records this post-release evidence.",
+      "scenario": "public adopter and N-1 upgrade",
+      "status": "not_applicable",
+      "verificationPlan": "Run post-release adopter acceptance plus the v0.2.83 to v0.2.85 N-1 harness."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "The published Runtime emits a complete first-record direct_merge_no_pr receipt that its own finalize-recovery validator accepts without hand-editing generated evidence.",
+      "required": false,
+      "reason": "The direct-merge round-trip must be exercised with the downloaded public v0.2.85 binary after publication; no source or workspace binary is a substitute.",
+      "scenario": "direct_merge_no_pr recovery availability",
+      "status": "not_applicable",
+      "verificationPlan": "Run the plan-to-apply round-trip and validate the downloaded v0.2.85 binary after publication."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/cockpit-cli/Cargo.toml",
+    "crates/cockpit-core/Cargo.toml",
+    "crates/cockpit-protocol/Cargo.toml",
+    "crates/cockpit-repository/Cargo.toml",
+    "docs/**",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    ".github/workflows/release.yml",
+    "tests/release/**",
+    "tests/docs/**",
+    "tests/ci/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-626-release-v0-2-85"
+}
