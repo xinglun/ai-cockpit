@@ -10,6 +10,23 @@ die() { failure_reason="$*"; printf 'adopter upgrade acceptance failed: %s\n' "$
 need() { command -v "$1" >/dev/null 2>&1 || die "required command is unavailable: $1"; }
 source "$(cd "$(dirname "$0")" && pwd)/isolation_manifest.sh"
 
+# Prefer the workflow token for GitHub Release API metadata requests so
+# repeated staged/public acceptance runs do not exhaust anonymous limits.
+# Asset downloads remain unauthenticated and Release-URL-bound.
+github_api_get() {
+  local url=$1
+  local destination=$2
+  local token="${GH_TOKEN:-${GITHUB_TOKEN:-}}"
+  if [[ -n "$token" ]]; then
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+      -H 'Accept: application/vnd.github+json' -H "Authorization: Bearer $token" \
+      "$url" > "$destination"
+  else
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+      "$url" > "$destination"
+  fi
+}
+
 write_sums() {
   : > "$output/SHA256SUMS"
   find "$output" -type f ! -name SHA256SUMS -print | LC_ALL=C sort | while IFS= read -r path; do
@@ -336,7 +353,7 @@ download() {
     staged=true
     staged_candidate=true
   else
-    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "https://api.github.com/repos/$repository/releases/tags/$tag" > "$api" || die "$label Release API request failed"
+    github_api_get "https://api.github.com/repos/$repository/releases/tags/$tag" "$api" || die "$label Release API request failed"
     jq -e --arg tag "$tag" '.tag_name==$tag and (.draft==false) and (.prerelease==false)' "$api" >/dev/null || die "$label Release is not published"
     url="$(jq -er --arg name "$archive" '.assets[]|select(.name==$name)|.browser_download_url' "$api")"
     local manifest_url sums_url

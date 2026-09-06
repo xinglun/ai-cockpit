@@ -14,6 +14,18 @@ grep -q -- 'releasePublished' "$script"
 grep -q -- 'stagedCandidate' "$script"
 grep -q -- 'first-adopter-smoke' "$script"
 grep -q -- 'nodesReused' "$script"
+grep -q -- 'github_api_get' "$script"
+grep -q -- 'Authorization: Bearer' "$script"
+grep -q -- 'GITHUB_TOKEN' "$script"
+grep -q -- 'github_api_get "$api_url" "$release_api"' "$script"
+if grep -q -- 'auth_args' "$script"; then
+  printf 'adopter acceptance must not expand an empty auth array under set -u\n' >&2
+  exit 1
+fi
+if grep -n -- 'curl --fail.*api.github.com' "$script" >/dev/null; then
+  printf 'adopter acceptance must route GitHub API requests through the authenticated helper\n' >&2
+  exit 1
+fi
 grep -q -- 'SHA256SUMS' "$script"
 grep -q -- 'cleanup_run_root' "$script"
 grep -q -- 'cleanupState' "$script"

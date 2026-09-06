@@ -26,6 +26,24 @@ require_command() {
   command -v "$1" >/dev/null 2>&1 || die "required command is unavailable: $1"
 }
 
+# GitHub's Release API is rate-limited for anonymous callers.  Prefer the
+# workflow token when one is provided, while keeping local/public use working
+# without credentials.  This helper is intentionally limited to API metadata;
+# release assets remain fetched from the immutable public Release URLs below.
+github_api_get() {
+  local url=$1
+  local destination=$2
+  local token="${GH_TOKEN:-${GITHUB_TOKEN:-}}"
+  if [[ -n "$token" ]]; then
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+      -H 'Accept: application/vnd.github+json' -H "Authorization: Bearer $token" \
+      "$url" > "$destination"
+  else
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+      "$url" > "$destination"
+  fi
+}
+
 repository=''
 tag=''
 target=''
@@ -504,7 +522,7 @@ else
   release_url="https://github.com/$repository/releases/tag/$tag"
   api_url="https://api.github.com/repos/$repository/releases/tags/$tag"
   release_api="$output/release.json"
-  if ! curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$api_url" > "$release_api"; then
+  if ! github_api_get "$api_url" "$release_api"; then
     record_step release-fetch failed 'public Release API request failed'
     failure_reason='public Release API request failed'
     exit 1
