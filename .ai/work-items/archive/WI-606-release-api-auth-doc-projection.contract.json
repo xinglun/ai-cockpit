@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "All three parity indexes identify WI-605 and WI-606 with their evidence.",
+    "All three language records identify the same governed scope.",
+    "The documentation change passes the repository documentation gate."
+  ],
+  "authority": "authorized",
+  "baseRevision": "aab9abb8876cc88ecc524a81de7f652d2de61591",
+  "createdAt": "2026-09-06T05:59:04Z",
+  "goal": "Keep release remediation documentation discoverable and aligned without changing runtime behavior.",
+  "intent": "Record the tri-language parity projection required by the release quality gate.",
+  "mode": "code",
+  "outOfScope": [
+    "Rust runtime behavior",
+    "release harness behavior",
+    "object repositories"
+  ],
+  "predecessorContractDigest": "sha256:a5ff36bc0508b037b9b28f24b4143249277eb7a69c5c54b6647017fe909582f6",
+  "predecessorWorkItemId": "WI-605-release-api-auth",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-605-release-api-auth.recovery.99eca5bc90a13adff68b5d464112f8d59fbde09a2adea95b075abfb8a0f20df1.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1d60be00a5592cc107017d24926641a8daf21be71dc289526c2feabdd23e6f3e",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-606-release-api-auth-doc-projection",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/596",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-606-release-api-auth-doc-projection"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-605-release-api-auth.md",
+    "docs/work-items/WI-605-release-api-auth.zh-CN.md",
+    "docs/work-items/WI-605-release-api-auth.ja.md",
+    "docs/work-items/WI-606-release-api-auth-doc-projection.md",
+    "docs/work-items/WI-606-release-api-auth-doc-projection.zh-CN.md",
+    "docs/work-items/WI-606-release-api-auth-doc-projection.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-606-release-api-auth-doc-projection"
+}

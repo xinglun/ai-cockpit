@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T06:11:06Z",
+  "files": {
+    "contractDigest": "sha256:9782a37788d7a1d948375d757890bc33b8dd4735492eb3339038b7d5fc20f765",
+    "contractPath": ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.contract.json",
+    "eventsDigest": "sha256:cb03a790bb5386ac7869f2c85af7dd35a05e5bb48baea5dc2aeba0cc82c20cc5",
+    "eventsPath": ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.events.jsonl",
+    "outcomeDigest": "sha256:0c3e6994fb62ef00c7339edd4624b6efa504a8126ad93bb7cd629a1d8394f959",
+    "outcomePath": ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.outcome.json",
+    "summaryDigest": "sha256:39282e3972c39ad518bba261004bc0cd1bf0bc679486f0bb02105f57e265b792",
+    "summaryPath": ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.summary.json",
+    "taskReportDigest": "sha256:a243f1d427c19010acf5b78d6c0056fd16cb3975da78719ff6dfe4f187d2f4cc",
+    "taskReportMarkdownDigest": "sha256:793d0e8737753cde06cb2d5014a38826e0aced41493e5cec40dc9520726f62d7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-606-release-api-auth-doc-projection"
+}

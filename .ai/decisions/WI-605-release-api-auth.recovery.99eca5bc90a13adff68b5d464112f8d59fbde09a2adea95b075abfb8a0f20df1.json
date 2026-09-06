@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-recovery",
+  "decidedAt": "2026-09-06T05:50:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-605-release-api-auth.verification.json",
+    ".ai/work-items/archive/WI-605-release-api-auth.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "tests/docs/parity_status_check.sh"
+  ],
+  "predecessorContractDigest": "sha256:a5ff36bc0508b037b9b28f24b4143249277eb7a69c5c54b6647017fe909582f6",
+  "predecessorEventsDigest": "sha256:a5af94a7fe4a6e4eecd7c03e60378ad5fb2ff6349477249980645a0884aa0978",
+  "predecessorOutcomeDigest": "sha256:bd45a7c386101340c91f758c243cfd298e7ada63cf1150a52acb4be4862711b2",
+  "predecessorSummaryDigest": "sha256:c01b6ea228632fea1e75bcbf576c8fb6424e56bfd7b2eccc1d4bb5b3d6e95969",
+  "predecessorWorkItemId": "WI-605-release-api-auth",
+  "reason": "The release fix required a separate tri-language parity projection discovered by the hosted documentation gate. Preserve WI-605 immutable records and govern the documentation boundary independently.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the bounded documentation projection Work Item, then supersede and close WI-605 without rewriting its immutable archive.",
+  "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",
+  "runtimeVersion": "0.2.79",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-606-release-api-auth-doc-projection",
+  "workItemId": "WI-605-release-api-auth"
+}
