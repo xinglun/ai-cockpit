@@ -9,6 +9,7 @@ workItemId: WI-626-release-v0-2-85
 lastVerifiedBy: WI-626-release-v0-2-85
 terminalArchive: .ai/work-items/archive/WI-626-release-v0-2-85.contract.json
 terminalVerification: .ai/evidence/WI-626-release-v0-2-85.verification.json
+terminalFinalization: .ai/decisions/WI-626-release-v0-2-85.finalize.json
 terminalDecision: .ai/decisions/WI-626-release-v0-2-85.close.json
 ---
 

@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-626-release-v0-2-85.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f31590ba23283080ce6d5040fbd59b83990cc77c971032d2fac6c1c33073d186",
+      "workItemId": "WI-626-release-v0-2-85"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-626-release-v0-2-85.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-626-release-v0-2-85.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-626-release-v0-2-85.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-626-release-v0-2-85.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-626-release-v0-2-85.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-626-release-v0-2-85.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-626-release-v0-2-85.verification.json",
+            ".ai/decisions/WI-626-release-v0-2-85.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-07T02:35:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-626-release-v0-2-85.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-626-release-v0-2-85.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-626-release-v0-2-85.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-626-release-v0-2-85.contract.json"
+          ],
+          "inference": false,
+          "text": "Release v0.2.85 with reproducible supply-chain evidence and a human-auditable adopter acceptance boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-626-release-v0-2-85.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-626-release-v0-2-85"
+  },
+  "finalReportDigest": "sha256:47c114914f5ef263abc8232829143d7c9357c8f18f6cb8a81955a553247377ed",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1fd1a33b280c5404a4c02bdc3b0b7c71540e6e72cc75a7da300658b74eb710f8",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-626-release-v0-2-85.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T02:35:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-626-release-v0-2-85.verification.json",
+      ".ai/decisions/WI-626-release-v0-2-85.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "Reviewed PR #621 is merged, hosted checks passed, the synchronized main contains the v0.2.85 release boundary, and the exact Work Item branch/worktree finalization is verified.",
+    "resumeCondition": "Publish v0.2.85 from this synchronized main and run immutable public adopter acceptance."
+  },
+  "timestamp": "2026-09-06T22:21:42Z",
+  "workItemId": "WI-626-release-v0-2-85"
+}
