@@ -4,9 +4,13 @@ title: "WI-617——参考 Outcome、事件与人类交接对等"
 description: "逐文件比较维护中的参考源 Outcome、事件和人类交接测试，并记录 Rust 语义边界。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-617-reference-outcome-parity
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-617-reference-outcome-parity
+terminalArchive: .ai/work-items/archive/WI-617-reference-outcome-parity.contract.json
+terminalVerification: .ai/evidence/WI-617-reference-outcome-parity.verification.json
+terminalFinalization: .ai/decisions/WI-617-reference-outcome-parity.finalize.json
+terminalDecision: .ai/decisions/WI-617-reference-outcome-parity.close.json
 ---
 
 # WI-617——参考 Outcome、事件与人类交接对等
