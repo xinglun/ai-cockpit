@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "34c85337725d98f46e8038b18a88fc1f03684067",
+    "name": "codex/wi-617-reference-outcome-parity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c435bf31a05029656c034e8f9d47072e05b4d647e42252c13ddca953f798d37f",
+  "operationId": "github-pr-612-merge-cleanup-20260907",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "cf361147ede1f37fb8929eba26a78abffbd943b2",
+    "headRevision": "34c85337725d98f46e8038b18a88fc1f03684067",
+    "mergeCommit": "68f9f731e50c9c31d2eeb9a929ca77fd1e5f1271",
+    "number": 612,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/612"
+  },
+  "reason": "Reviewed PR #612 passed all hosted checks and was merged as 68f9f731; the exact feature branch and linked worktree were removed after main synchronization.",
+  "receiptId": "github-pr-612-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-617-reference-outcome-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/612",
+    "worktree": "/private/tmp/ai-cockpit-wi617-reference-outcome-parity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130",
+  "runtimeVersion": "0.2.83",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T00:14:00+09:00",
+  "workItemId": "WI-617-reference-outcome-parity",
+  "worktree": {
+    "branch": "codex/wi-617-reference-outcome-parity",
+    "headRevision": "34c85337725d98f46e8038b18a88fc1f03684067",
+    "path": "/private/tmp/ai-cockpit-wi617-reference-outcome-parity",
+    "worktreeId": "WI-617-reference-outcome-parity"
+  }
+}
