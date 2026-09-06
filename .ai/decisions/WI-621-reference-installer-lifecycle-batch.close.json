@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:091c011636609e3ee1cc0d274f8ff28510ff58faebeaf23a7ae1c1717953a9df",
+      "workItemId": "WI-621-reference-installer-lifecycle-batch"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json",
+            ".ai/decisions/WI-621-reference-installer-lifecycle-batch.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-06T19:41:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-621-reference-installer-lifecycle-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-621-reference-installer-lifecycle-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "完成一批安装与生命周期参考文件的证据绑定语义比对，更新机器台账、三语比较文档、奇偶性状态与可重复验证记录。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-621-reference-installer-lifecycle-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-621-reference-installer-lifecycle-batch"
+  },
+  "finalReportDigest": "sha256:bfb8933ff299c85203f0c556d95edf242dd92e4bc2427321b6cb31fb4891e3e7",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:227f699eaf5d05d7d5d2c66eb0843e5a7afbec64a4aa803bd58f392ba80d002a",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-621-reference-installer-lifecycle-batch.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-06T19:41:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-621-reference-installer-lifecycle-batch.verification.json",
+      ".ai/decisions/WI-621-reference-installer-lifecycle-batch.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md#canonical-delivery-order"
+    ],
+    "reason": "Approved after PR #616 hosted checks, synchronized main, verified provider finalization, and exact branch/worktree cleanup.",
+    "resumeCondition": "Proceed from synchronized origin/main for the next bounded reference comparison batch."
+  },
+  "timestamp": "2026-09-06T19:40:05Z",
+  "workItemId": "WI-621-reference-installer-lifecycle-batch"
+}
