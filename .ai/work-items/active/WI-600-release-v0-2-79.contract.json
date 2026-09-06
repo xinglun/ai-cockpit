@@ -24,8 +24,6 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:af44d27c2e4cc9603ffd18988dbb61846240b229dd55718f11731d5a89d6604c",
   "requiredEvidenceClasses": [
-    "release_policy",
-    "adopter_acceptance",
     "verification"
   ],
   "resourceContext": {

@@ -6,9 +6,9 @@
     "The object repositories remain untouched and receive a reproducible recovery handoff after publication.",
     "All current installation and architecture documentation uses v0.2.79 as the current baseline in all three languages."
   ],
-  "createdAt": "2026-09-05T23:30:55Z",
+  "createdAt": "2026-09-06T00:00:00Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:f32a79268b489341f1a18a0d50100245184be723842027a922eb32ab76aa94a5",
+  "evidenceDigest": "sha256:a92485859983be6e83eb9b967954178735d38662114182796d734465bc337010",
   "evidenceRefs": [
     ".ai/evidence/WI-600-release-v0-2-79.verification.json"
   ],
