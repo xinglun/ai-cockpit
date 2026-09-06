@@ -24,13 +24,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:091c011636609e3ee1cc0d274f8ff28510ff58faebeaf23a7ae1c1717953a9df",
-  "requiredEvidenceClasses": ["verification"],
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-622-direct-merge-cli-contract",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/617",
     "worktree": "/private/tmp/ai-cockpit-wi622-direct-merge-cli-contract"
   },
   "risk": "normal",

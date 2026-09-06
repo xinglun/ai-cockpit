@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-622-direct-merge-cli-contract.contract.json",
-    ".ai/work-items/active/WI-622-direct-merge-cli-contract.summary.json"
+    ".ai/work-items/archive/WI-622-direct-merge-cli-contract.contract.json",
+    ".ai/work-items/archive/WI-622-direct-merge-cli-contract.summary.json"
   ],
   "checkpointAt": "2026-09-06T19:59:50Z",
-  "checkpointContractDigest": "sha256:18cfd0bf44b26e305611077f6eb6253ed9c53722617391bc2edf870505c38783",
+  "checkpointContractDigest": "sha256:eae7518fdd418b4b121fac6bb55ed3b4a355f1fde68a8ad27c369bce0b3899e2",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,29 +40,45 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-622-direct-merge-cli-contract"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:eae7518fdd418b4b121fac6bb55ed3b4a355f1fde68a8ad27c369bce0b3899e2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:38a4c2f4492acbed443f64e72d2759116b169ae1f901f8dbbfa5cd99d1cc0dda",
+      "previousContractHash": "sha256:18cfd0bf44b26e305611077f6eb6253ed9c53722617391bc2edf870505c38783",
+      "reason": "Bind the reviewed Draft PR context before the final verification cycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T20:10:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c9719905d69ef4c6dfbf72b6f17c253e7a7d722165ed6b22b170488bdbd44aa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-622-direct-merge-cli-contract"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:1c9719905d69ef4c6dfbf72b6f17c253e7a7d722165ed6b22b170488bdbd44aa",
   "createdAt": "2026-09-06T19:46:09Z",
-  "failedGate": "finish.governance",
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-06T20:09:21Z",
-  "preflightContractDigest": "sha256:18cfd0bf44b26e305611077f6eb6253ed9c53722617391bc2edf870505c38783",
+  "preflightAt": "2026-09-06T20:14:11Z",
+  "preflightContractDigest": "sha256:eae7518fdd418b4b121fac6bb55ed3b4a355f1fde68a8ad27c369bce0b3899e2",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:1c9719905d69ef4c6dfbf72b6f17c253e7a7d722165ed6b22b170488bdbd44aa",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-06T20:09:21Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T20:14:11Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:bbf12636708b85ea0b918810ce6b93bff2043b2e515ed47fd912d4d55add0f9d",
   "workItemId": "WI-622-direct-merge-cli-contract"
 }
