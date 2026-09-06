@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-06T02:21:18Z",
+  "checkpointContractDigest": "sha256:e1cd490d45a6d212a7eb3207a79cc54dc42c44aa9627730f36c3bec90ed1a7ee",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c2fef3eb2f4aae3ea48225d065d92d3b7bb3261cba32929373b37d56bbab9bea",
+      "recorded": true,
+      "recordedAt": "2026-09-06T02:21:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:260ab2dd6a121e72ea6a2c9ed73aa835c30f3a39c7d63fae3de8d8b4bfd8f4b1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-603-release-v0-2-80"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:e1cd490d45a6d212a7eb3207a79cc54dc42c44aa9627730f36c3bec90ed1a7ee",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c2fef3eb2f4aae3ea48225d065d92d3b7bb3261cba32929373b37d56bbab9bea",
+      "previousContractHash": "sha256:c2fef3eb2f4aae3ea48225d065d92d3b7bb3261cba32929373b37d56bbab9bea",
+      "reason": "bind the reviewed PR resource context before the verification cycle",
+      "recorded": true,
+      "recordedAt": "2026-09-06T02:40:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d2dcdddd219a59712f8ab4a43c35fcdc3983dd0eeb4640346de934bf8d21cd2a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-603-release-v0-2-80"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d2dcdddd219a59712f8ab4a43c35fcdc3983dd0eeb4640346de934bf8d21cd2a",
+  "createdAt": "2026-09-06T02:19:01Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-06T02:43:36Z",
+  "preflightContractDigest": "sha256:e1cd490d45a6d212a7eb3207a79cc54dc42c44aa9627730f36c3bec90ed1a7ee",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d2dcdddd219a59712f8ab4a43c35fcdc3983dd0eeb4640346de934bf8d21cd2a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T02:43:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-603-release-v0-2-80"
+}
