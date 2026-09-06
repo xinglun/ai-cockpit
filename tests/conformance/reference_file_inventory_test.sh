@@ -62,7 +62,10 @@ done
 # source-changed backlog is kept explicit in the ledger. This regression count
 # is intentionally pinned so a batch cannot silently change the historical
 # rebaseline boundary.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 34
+# WI-617 revalidated eight source-changed Outcome/event records; the remaining
+# deferred source-change set is therefore 26. Keep this pinned so a later batch
+# cannot silently reintroduce an unreviewed rebaseline delta.
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 26
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md

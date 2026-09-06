@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
+lastVerifiedBy: WI-617-reference-outcome-parity
 capabilityClaims:
   - reference_parity
 ---
@@ -307,7 +307,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=494 implemented-equivalent=1 not-applicable=7 reference-only=139 deferred-next-batch=128 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.83，二进制摘要为
@@ -322,11 +322,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 494 |
+| `implemented-different-by-design` | 504 |
 | `implemented-equivalent` | 1 |
-| `not-applicable` | 7 |
+| `not-applicable` | 8 |
 | `reference-only` | 139 |
-| `deferred-next-batch` | 128 |
+| `deferred-next-batch` | 117 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1674,3 +1674,25 @@ WI-612 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 | `tests/test_domain_model.py` | implemented-different-by-design | Typed Core/Protocol domain records 与仓库生命周期测试负责词汇、规范转换、证据可信度和 fail-closed 决策。 |
 
 对象/adopter 工程继承相同的 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、文档边界和 human Outcome handoff；不会继承源 Python 测试、安装开关、参与者记录、toolchain preset 或 source wire。当前快照为 3,681 个 `generated-history`、494 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、7 个 `not-applicable`、139 个 `reference-only` 和 128 个 `deferred-next-batch`；`migrate-gap` 为零，669 个 retired 记录保持追加式不变。详见 [WI-612 Work Item](../work-items/WI-612-reference-file-comparison-batch-50-ci-repair.zh-CN.md)。
+
+## WI-617——参考 Outcome、事件与人类交接对等
+
+WI-617 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐文件重读 11 个维护中的测试路径。10 项可移植责任由 Rust Runtime、原生测试或文档以不同设计承载；源 PR summary 投影属于适配器/供应商展示面，不是 Runtime 治理权威，因此标记为 `not-applicable`。未发现可移植实现遗漏或 `migrate-gap`。本批是语义对等，不是源 wire 兼容：不复制 Python、Make、源 JSON schema 或供应商特定输出。
+
+| 固定参考路径 | 分类 | Rust 对应 / 边界决定 |
+| --- | --- | --- |
+| `tests/test_human_benefit_report.py` | implemented-different-by-design | 类型化 Outcome 与可见交接保留 issue、risk、decision、evidence、impact、next-action，并受仓库事实约束。 |
+| `tests/test_multilingual_semantic_parity.py` | implemented-different-by-design | 只切换语言展示；机器字段、路径、证据和 Contract 原文保持稳定。 |
+| `tests/test_unsupported_claim_regression.py` | implemented-different-by-design | 不支持的完成/供应商声明保持 blocker 或人工复核 unknown；由 Rust controls 替代源 claim gate。 |
+| `tests/test_task_event_log.py` | implemented-different-by-design | 严格类型化 append-only 事件校验身份、顺序、修正链接、指纹、安全细节和 secret 拒绝。 |
+| `tests/test_task_outcome_ai_finish_integration.py` | implemented-different-by-design | finish 校验并归档仓库绑定的 Outcome/report/event 投影，保留 blocked/recovery 证据。 |
+| `tests/test_task_outcome_generator.py` | implemented-different-by-design | 确定性报告暴露 findings、warnings、stops、resolutions、provenance、复发预防和显式 unknown。 |
+| `tests/test_task_outcome_markdown_renderer.py` | implemented-different-by-design | 确定性任务报告 Markdown 与独立人类交接保留空章节和 blocked 诊断，不改变事实。 |
+| `tests/test_task_outcome_multilingual.py` | implemented-different-by-design | CLI/MCP 使用显式中/日/英展示；Contract acceptance 保留原语言审计文本。 |
+| `tests/test_task_outcome_pr_summary.py` | not-applicable | 供应商/适配器 PR summary 不是第二个 Runtime 权威；目标边界是 canonical human Outcome 和 machine OutcomeV2。 |
+| `tests/test_task_outcome_schema.py` | implemented-different-by-design | 严格类型化 Rust Protocol 与 digest binding 替代源独立 schema 字节；不声称 wire 兼容。 |
+| `tests/test_task_outcome_validator.py` | implemented-different-by-design | Runtime 校验身份、来源、证据、决策颜色、历史/符号链接/篡改边界和结构化人工决定。 |
+
+对象/adopter 工程继承相同的 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、fail-closed Outcome 和人类交接边界；不会继承源 Python 测试、Make target、供应商 PR 格式或 source wire。详见 [WI-617 Work Item 记录](../work-items/WI-617-reference-outcome-parity.zh-CN.md)。
+
+reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0

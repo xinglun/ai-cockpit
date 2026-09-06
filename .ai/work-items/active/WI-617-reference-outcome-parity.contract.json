@@ -1,0 +1,75 @@
+{
+  "acceptanceCriteria": [
+    "在固定参考提交 fde3380f81fea5fd2e288f7a8849f737dc074060 逐项读取本批 11 个 Outcome、事件日志、人工交接和不支持声明测试文件，并为每个路径记录唯一分类、Rust counterpart 与不迁移原因。",
+    "对每个源测试断言检查当前 Rust Protocol、Repository、CLI/MCP tests 与三语文档；发现属于本批边界的可移植遗漏时在当前 Work Item 内补齐并加入回归测试，不能以新 Work Item 隐藏。",
+    "保持 Rust semantic parity 边界：不复制 Python 模块、Make 目标、源 JSON wire 或 provider/global 配置；Contract 原文、外部 evidence 与人类决定保持不可臆造。",
+    "更新三语 reference-file-comparison/reference-parity 与机器清单，使每个本批路径均为经过证据支持的分类；conformance、文档、格式和工作区测试全部通过。",
+    "完成后输出未折叠的中文 Outcome，包含问题数、已解决问题、未知、证据、人工决定、验证、影响和下一步。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cf361147ede1f37fb8929eba26a78abffbd943b2",
+  "createdAt": "2026-09-06T14:09:47Z",
+  "goal": "完成参考源 Outcome 与事件治理语义的逐文件比较，并补齐当前 Rust 工程中真实存在的边界遗漏。",
+  "intent": "逐项核对参考源 Outcome、事件日志、人类交接和不支持声明测试，确保 Rust Runtime 与对象工程继承能力无遗漏，并保持有意架构差异。",
+  "mode": "code",
+  "outOfScope": [
+    "对象工程 /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "参考源 Python/Make 实现、源 JSON wire 兼容、provider 或全局 Agent/MCP 配置",
+    "安装器、发布/升级、性能、并行调度、CI 质量路由和 Runtime 架构拆分",
+    "修改不可变历史 Work Item、archive、evidence、decision 或发布 tag",
+    "未列入本批的参考路径及与本批无关的业务功能"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:feecae0637930e886b112b8e6fe807676753f9da207398de1487e1d1fba70089",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-617-reference-outcome-parity",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi617-reference-outcome-parity"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-617-reference-outcome-parity.md",
+    "docs/work-items/WI-617-reference-outcome-parity.zh-CN.md",
+    "docs/work-items/WI-617-reference-outcome-parity.ja.md"
+  ],
+  "sources": [
+    "local reference checkout /Users/sei-rinn/dev/workspace_python/ai-cockpit-template at fde3380f81fea5fd2e288f7a8849f737dc074060",
+    "tests/test_human_benefit_report.py",
+    "tests/test_multilingual_semantic_parity.py",
+    "tests/test_unsupported_claim_regression.py",
+    "tests/test_task_event_log.py",
+    "tests/test_task_outcome_ai_finish_integration.py",
+    "tests/test_task_outcome_generator.py",
+    "tests/test_task_outcome_markdown_renderer.py",
+    "tests/test_task_outcome_multilingual.py",
+    "tests/test_task_outcome_pr_summary.py",
+    "tests/test_task_outcome_schema.py",
+    "tests/test_task_outcome_validator.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd",
+    "bash tests/conformance/reference_file_inventory_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-617-reference-outcome-parity"
+}
