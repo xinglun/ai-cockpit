@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-619-reference-script-semantic-batch
+lastVerifiedBy: WI-620-reference-release-governance-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -87,7 +87,7 @@ source checkout に翻訳がない場合も、target の tri-language page を c
 | `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design (WI-504, revalidated) | tri-language closure、finalize/recovery、ready-on-base check。source Make/Python recovery orchestration は Rust command ではありません。 |
 | `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | Japanese closure と historical recovery boundary。provider-specific route は外部責任です。 |
 
-Target と各 adopter は shared external Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承します。source-specific installer、Make target、provider decision、generated history は継承しません。現在の ledger は 4,262 `generated-history`、340 `implemented-different-by-design`、1 `implemented-equivalent`、4 `not-applicable`、90 `reference-only`、439 `deferred-next-batch` で、`migrate-gap` は zero です。
+Target と各 adopter は shared external Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承します。source-specific installer、Make target、provider decision、generated history は継承しません。現在の ledger は 4,262 `generated-history`、546 `implemented-different-by-design`、1 `implemented-equivalent`、8 `not-applicable`、140 `reference-only`、74 `deferred-next-batch` で、`migrate-gap` は zero です。
 
 ## First batch: governance entrypoints
 
@@ -324,7 +324,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=546 implemented-equivalent=1 not-applicable=8 reference-only=140 deferred-next-batch=74 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
@@ -341,11 +341,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 525 |
+| `implemented-different-by-design` | 546 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 139 |
-| `deferred-next-batch` | 96 |
+| `reference-only` | 140 |
+| `deferred-next-batch` | 74 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1778,3 +1778,43 @@ WI-619 は pinned local reference の次の maintained test 21 path を一件ず
 attached object/adopter は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、dynamic verification、fail-closed lifecycle、人間向け Outcome boundary を継承します。source Python test、Make target、fixture stack、provider policy value、source wire は継承しません。[WI-619 Work Item](../work-items/WI-619-reference-script-semantic-batch.ja.md) を参照してください。
 
 reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0
+
+## WI-620 — reference installer, release, quality, and lifecycle test parity
+
+WI-620 は pinned local reference の remaining 22 changed test path を一件ずつ再読しました。
+21 件の責任は Rust-native Runtime service、repository test、CI/release manifest、adopter
+harness または reader-facing documentation が意図した別実装で担っています。
+`tests/test_install_plan.py` は `reference-only` です。Rust Runtime は明示的な
+`attach --repo` と公開 Release artifact を使い、source の interactive provider/stack wizard
+を再現しません。この batch に `migrate-gap` はありません。
+
+| Pinned reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `tests/test_install_plan.py` | reference-only | Source interactive install-plan wizard。Rust は Release artifact install と `attach --repo` を使います。 |
+| `tests/test_installed_runtime_parity.py` | implemented-different-by-design | Installed Runtime identity、agent doctor、attach、lifecycle、adopter acceptance。 |
+| `tests/test_installer.py` | implemented-different-by-design | Release archive/manifest validation、attach scaffold、upgrade/recovery docs。 |
+| `tests/test_makefile.py` | implemented-different-by-design | Native CI gate、repository gate manifest、workflow policy。source Makefile contract は作りません。 |
+| `tests/test_pr_aggregate.py` | implemented-different-by-design | Typed PR/finalization lifecycle、merge binding、recovery、CI gate evidence。 |
+| `tests/test_project_governance.py` | implemented-different-by-design | Typed project profile、governance controls、doctor、profile propose/validate。 |
+| `tests/test_project_governance_journey.py` | implemented-different-by-design | Project-profile lifecycle、proposal calibration、repository-local governance docs。 |
+| `tests/test_quality_gate_architecture.py` | implemented-different-by-design | Dynamic quality route、gate manifest、workflow policy、native CI gate tests。 |
+| `tests/test_quality_measurements.py` | implemented-different-by-design | Runtime verification-cost/performance measurement と bounded CI gate evidence。 |
+| `tests/test_quality_test_manifest.py` | implemented-different-by-design | Repository gate manifest、affected verification、dependency graph、execution、route convergence。 |
+| `tests/test_reference_impact.py` | implemented-different-by-design | Operation-time policy、governance signals、input trust、adversarial reference-impact。 |
+| `tests/test_release_distribution.py` | implemented-different-by-design | Typed release archive/manifest/SBOM checks と distribution docs。 |
+| `tests/test_release_preflight.py` | implemented-different-by-design | Release manifest/SBOM、repository gate、security-release-verification docs。 |
+| `tests/test_release_state_consistency.py` | implemented-different-by-design | Release manifest consistency、resource-finalization protocol、distribution checks。 |
+| `tests/test_release_workflow.py` | implemented-different-by-design | Hosted release workflow、immutable adopter/upgrade acceptance、release handoff tests。 |
+| `tests/test_start_and_archive.py` | implemented-different-by-design | Lifecycle entry/order、archive integrity、resource finalization、worktree-entry checks。 |
+| `tests/test_supply_chain.py` | implemented-different-by-design | Release SBOM/archive/manifest、source-archive policy、CI/release evidence。 |
+| `tests/test_sync_published_release_projection.py` | implemented-different-by-design | Published release projection、manifest binding、distribution handoff。 |
+| `tests/test_verification_policy.py` | implemented-different-by-design | Verification planner/route/affected graph、project governance、profile policy docs。 |
+| `tests/test_work_item_intelligence.py` | implemented-different-by-design | Repository intelligence、knowledge query/cache、evidence projection、CLI intelligence。 |
+| `tests/test_work_item_lifecycle_closure.py` | implemented-different-by-design | Lifecycle/resource-finalization/archive tests、closure docs、worktree/CLI boundary。 |
+| `tests/test_workflows.py` | implemented-different-by-design | CI/release workflow policy、gate manifest、action policy、CLI gate docs。 |
+
+Attached object/adopter project は shared Runtime と explicit repository context を継承し、
+dynamic verification、fail-closed evidence/lifecycle、release identity、人間向け Outcome
+boundary も同じです。source Python test、Make target、interactive stack installer、provider
+policy value、source JSON wire format は継承しません。これは semantic parity であり、source
+implementation/wire parity ではありません。[WI-620 Work Item](../work-items/WI-620-reference-release-governance-batch.ja.md) を参照してください。

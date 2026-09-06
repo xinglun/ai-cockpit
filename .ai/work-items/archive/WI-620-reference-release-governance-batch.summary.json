@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-06T17:16:03Z",
+  "checkpointContractDigest": "sha256:939d01b33fe0d90608ed897435d92b5a099a0cf28f47c3e81c8c2f5f99f915bf",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9ff1bc8a63db47972e663bd95eb4c40588f26fec3b35d98fe05d77499f36c404",
+      "recorded": true,
+      "recordedAt": "2026-09-06T17:16:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:516558ccb634f26d47c0558e086339d486cfaeef9f221a4cc165b088a3bffcbc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-620-reference-release-governance-batch"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:c96fbb6e7b9d6cd6f800ca4bc7923ab4a4175635aebc2b79ca185ea3738eeaef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9ff1bc8a63db47972e663bd95eb4c40588f26fec3b35d98fe05d77499f36c404",
+      "previousContractHash": "sha256:9ff1bc8a63db47972e663bd95eb4c40588f26fec3b35d98fe05d77499f36c404",
+      "reason": "The file-level comparison required updating the inventory apply/check implementation and its metadata sidecar; these three governed files are now explicitly in scope and remain limited to semantic ledger/parity enforcement.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T17:42:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b4e65c583123124535c455454a880672f280ea8a9e7428cd6b5fb1cfb7e7c95c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-620-reference-release-governance-batch"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b4e65c583123124535c455454a880672f280ea8a9e7428cd6b5fb1cfb7e7c95c",
+  "createdAt": "2026-09-06T17:13:23Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-06T18:07:21Z",
+  "preflightContractDigest": "sha256:939d01b33fe0d90608ed897435d92b5a099a0cf28f47c3e81c8c2f5f99f915bf",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:b4e65c583123124535c455454a880672f280ea8a9e7428cd6b5fb1cfb7e7c95c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T18:07:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-620-reference-release-governance-batch"
+}

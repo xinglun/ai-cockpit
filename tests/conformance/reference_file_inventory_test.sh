@@ -62,11 +62,11 @@ done
 # source-changed backlog is kept explicit in the ledger. This regression count
 # is intentionally pinned so a batch cannot silently change the historical
 # rebaseline boundary.
-# WI-617 revalidated eight source-changed Outcome/event records and WI-619
-# revalidated four additional script/guard records; the remaining deferred
-# source-change set is therefore 22. Keep this pinned so a later batch cannot
-# silently reintroduce an unreviewed rebaseline delta.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 22
+# WI-617 revalidated eight source-changed Outcome/event records, WI-619
+# revalidated four additional script/guard records, and WI-620 resolves the
+# remaining 22 changed test paths. Keep this pinned so a later rebaseline
+# cannot silently reintroduce an unreviewed delta.
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 0
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md
@@ -868,6 +868,50 @@ for wi601_doc in \
   reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
   reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
   grep -q "WI-601" "$root/docs/reference/$wi601_doc"
+done
+
+# WI-620 resolves the final 22 source-changed test paths in this comparison
+# baseline. Keep the exact set, classifications, counterparts, and reasons
+# explicit so a future rebaseline cannot silently return them to deferred.
+for wi620_path in \
+  tests/test_install_plan.py \
+  tests/test_installed_runtime_parity.py \
+  tests/test_installer.py \
+  tests/test_makefile.py \
+  tests/test_pr_aggregate.py \
+  tests/test_project_governance.py \
+  tests/test_project_governance_journey.py \
+  tests/test_quality_gate_architecture.py \
+  tests/test_quality_measurements.py \
+  tests/test_quality_test_manifest.py \
+  tests/test_reference_impact.py \
+  tests/test_release_distribution.py \
+  tests/test_release_preflight.py \
+  tests/test_release_state_consistency.py \
+  tests/test_release_workflow.py \
+  tests/test_start_and_archive.py \
+  tests/test_supply_chain.py \
+  tests/test_sync_published_release_projection.py \
+  tests/test_verification_policy.py \
+  tests/test_work_item_intelligence.py \
+  tests/test_work_item_lifecycle_closure.py \
+  tests/test_workflows.py; do
+  test "$(jq --arg path "$wi620_path" '[.records[] | select(.referencePath == $path and .batch == "WI-620-reference-release-governance-batch" and (.classification == "implemented-different-by-design" or .classification == "reference-only") and (.rustCounterparts | length) > 0 and (.reason | length) > 0 and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 1
+done
+test "$(jq '[.records[] | select(.batch == "WI-620-reference-release-governance-batch")] | length' "$current_manifest")" -eq 22
+test "$(jq '[.records[] | select(.batch == "WI-620-reference-release-governance-batch" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 21
+test "$(jq '[.records[] | select(.batch == "WI-620-reference-release-governance-batch" and .classification == "reference-only")] | length' "$current_manifest")" -eq 1
+test "$(jq '[.records[] | select(.batch == "WI-620-reference-release-governance-batch" and (.classification == "deferred-next-batch" or .classification == "migrate-gap"))] | length' "$current_manifest")" -eq 0
+for wi620_doc in \
+  reference-file-comparison.md reference-file-comparison.zh-CN.md reference-file-comparison.ja.md \
+  reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md; do
+  grep -q "WI-620" "$root/docs/reference/$wi620_doc"
+done
+for wi620_work_item_doc in \
+  WI-620-reference-release-governance-batch.md \
+  WI-620-reference-release-governance-batch.zh-CN.md \
+  WI-620-reference-release-governance-batch.ja.md; do
+  test -f "$root/docs/work-items/$wi620_work_item_doc"
 done
 
 reference_fixture="$tmp/reference"

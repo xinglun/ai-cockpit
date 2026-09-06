@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-09-07T03:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-620-reference-release-governance-batch.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#canonical-delivery-order"
+  ],
+  "predecessorContractDigest": "sha256:939d01b33fe0d90608ed897435d92b5a099a0cf28f47c3e81c8c2f5f99f915bf",
+  "predecessorEventsDigest": "sha256:7a1f4625a7a70ea724724d16a878066604e017c769c41b51f1513e3f966e6973",
+  "predecessorOutcomeDigest": "sha256:c8c0607d2d0976e76fc4d7a045e12336b4faac609aa2bfc7d2f9e42cc0f76b85",
+  "predecessorSummaryDigest": "sha256:07c91cc069f00334c3cfa9da990815585c4a6a3b8f7f8b3e3d171e87b3afed4f",
+  "predecessorWorkItemId": "WI-620-reference-release-governance-batch",
+  "reason": "Retry after finalize-plan invalidated the earlier verification; preserve prior evidence append-only and rerun current verification before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and verification after the reviewed finalize-plan, then finish and archive.",
+  "runtimeDigest": "sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130",
+  "runtimeVersion": "0.2.83",
+  "schemaVersion": 1,
+  "workItemId": "WI-620-reference-release-governance-batch"
+}

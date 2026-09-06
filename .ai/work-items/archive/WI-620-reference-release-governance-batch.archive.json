@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T18:07:37Z",
+  "files": {
+    "contractDigest": "sha256:da0f73c81dd97664cecfccd4e834e41c75bd7f1a046b34fac5374a5ebf376d8b",
+    "contractPath": ".ai/work-items/archive/WI-620-reference-release-governance-batch.contract.json",
+    "eventsDigest": "sha256:2ff5d81a1e19ed8a6ef8629f016619c2c67feb5ff7ec65b40c0473b69f2fb4f4",
+    "eventsPath": ".ai/work-items/archive/WI-620-reference-release-governance-batch.events.jsonl",
+    "outcomeDigest": "sha256:6347d0bde26b5293efa7cac6707cdb488e941173f76d19d2d7cdf55bd43f8b57",
+    "outcomePath": ".ai/work-items/archive/WI-620-reference-release-governance-batch.outcome.json",
+    "summaryDigest": "sha256:e79c2ee56899b5a1346c9ab68785795d46cfd51a817c965ad2a52fdf41c8891e",
+    "summaryPath": ".ai/work-items/archive/WI-620-reference-release-governance-batch.summary.json",
+    "taskReportDigest": "sha256:9acc65418dc07652b8faa055794dd2ed73f8decc96f65675ef57b94b6241ce80",
+    "taskReportMarkdownDigest": "sha256:4aefcd9bc06169b252d3fd239ab5bf019c86c4b60273070fc77657ca2f3e2700",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-620-reference-release-governance-batch.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-620-reference-release-governance-batch.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-620-reference-release-governance-batch"
+}

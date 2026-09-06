@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-619-reference-script-semantic-batch
+lastVerifiedBy: WI-620-reference-release-governance-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -758,6 +758,7 @@ are rewritten here.
 | WI-617 — reference Outcome, event, and human-handoff parity | Implemented | [Work Item](../work-items/WI-617-reference-outcome-parity.md); terminal lifecycle: archive `.ai/work-items/archive/WI-617-reference-outcome-parity.contract.json`; verification `.ai/evidence/WI-617-reference-outcome-parity.verification.json`; finalization `.ai/decisions/WI-617-reference-outcome-parity.finalize.json`; close `.ai/decisions/WI-617-reference-outcome-parity.close.json`. |
 | WI-618 — WI-617 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-618-doc-promotion-wi617.md); terminal lifecycle: archive `.ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json`; verification `.ai/evidence/WI-618-doc-promotion-wi617.verification.json`; finalization `.ai/decisions/WI-618-doc-promotion-wi617.finalize.json`; close `.ai/decisions/WI-618-doc-promotion-wi617.close.json`. |
 | WI-619 — reference adoption, enterprise, lifecycle, and trust test parity | Implemented | [Work Item](../work-items/WI-619-reference-script-semantic-batch.md); terminal lifecycle: archive `.ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json`; verification `.ai/evidence/WI-619-reference-script-semantic-batch.verification.json`; finalization `.ai/decisions/WI-619-reference-script-semantic-batch.finalize.json`; close `.ai/decisions/WI-619-reference-script-semantic-batch.close.json`. |
+| WI-620 — reference installer, release, quality, and lifecycle parity | In progress → Implemented after verified close | [Work Item](../work-items/WI-620-reference-release-governance-batch.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-620-reference-release-governance-batch.contract.json`; verification `.ai/evidence/WI-620-reference-release-governance-batch.verification.json`; finalization `.ai/decisions/WI-620-reference-release-governance-batch.finalize.json`; close `.ai/decisions/WI-620-reference-release-governance-batch.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 
@@ -799,3 +800,16 @@ mapping is recorded in the [WI-617 file-level ledger](reference-file-comparison.
 The attached-adopter route inherits the shared Runtime, repository isolation,
 typed evidence/event validation, fail-closed Outcome, and human handoff; source
 Python/Make tests and source wire formats remain outside the target.
+
+## WI-620 — reference installer, release, quality, and lifecycle parity
+
+WI-620 re-read all 22 remaining source-changed test paths at the pinned local
+reference commit. Twenty-one portable responsibilities are implemented
+differently by Rust-native Runtime services, repository tests, CI/release
+manifests, adopter harnesses, or documentation; the interactive install-plan
+wizard remains `reference-only`. No `migrate-gap` was found. The detailed
+file-level mapping is recorded in the [WI-620 ledger](reference-file-comparison.md#wi-620--reference-installer-release-quality-and-lifecycle-test-parity).
+Attached object/adopter projects inherit the shared Runtime, explicit repository
+context, dynamic verification, fail-closed evidence/lifecycle, release identity,
+and visible human Outcome. They do not inherit source Python/Make implementation,
+interactive stack installers, provider policy values, or source wire formats.

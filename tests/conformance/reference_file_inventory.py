@@ -86,6 +86,7 @@ WI579_BATCH = "WI-579-reference-template-parity-batch-46"
 WI587_BATCH = "WI-587-reference-file-comparison-batch-47"
 WI598_BATCH = "WI-598-reference-test-parity-batch-48"
 WI601_BATCH = "WI-601-reference-test-parity-batch-49"
+WI620_BATCH = "WI-620-reference-release-governance-batch"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -2634,6 +2635,271 @@ WI601_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
             "docs/reference/reference-file-comparison.md",
         ],
         "The source deprecated-assets registry and prohibited-command lexical scan govern template-specific cleanup history. Rust uses immutable Work Item/archive records, explicit resource finalization, governance-integrity checks, and source-policy boundaries; it does not install a generic deletion authority or copy the source registry.",
+    ),
+}
+
+# WI-620 compares the remaining source-changed installer, release, quality,
+# workflow, and lifecycle tests.  These tests are a behavioural corpus, not a
+# request to copy Python/Make implementation.  Portable governance semantics
+# map to the Rust Runtime, repository-native tests, and release/CI evidence;
+# interactive installer and provider workflow details remain explicit
+# reference boundaries.
+WI620_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "tests/test_install_plan.py": (
+        "reference-only",
+        [
+            "docs/getting-started/installation.md",
+            "docs/reference/commands.md",
+            "crates/cockpit-cli/src/main.rs",
+        ],
+        "The source test locks the ten-stage interactive installer wizard and its operator prompt fields. Rust deliberately has no wizard: the shared Runtime exposes explicit attach, scaffold, inspect, and repository-bound commands; this source presentation/session contract is retained as reference-only.",
+    ),
+    "tests/test_installed_runtime_parity.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/lib.rs",
+            "crates/cockpit-agent/src/lib.rs",
+            "crates/cockpit-cli/tests/attach.rs",
+            "tests/release/adopter_acceptance.sh",
+            "docs/reference/installed-lifecycle.md",
+        ],
+        "The source verifies that an installer copies a Python Runtime surface into an adopter. Rust installs one shared external binary and attaches a repository-local Protocol scaffold; release/adopter checks prove artifact identity, isolation, and capability boundaries without copying source scripts or quick-install/calibration claims.",
+    ),
+    "tests/test_installer.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/lib.rs",
+            "crates/cockpit-agent/src/lib.rs",
+            "crates/cockpit-cli/tests/attach.rs",
+            "crates/cockpit-repository/tests/evolution.rs",
+            "tests/release/adopter_acceptance.sh",
+            "docs/reference/installed-lifecycle.md",
+        ],
+        "Source install/upgrade tests cover isolation, managed-file ownership, rollback, drift, and project preservation. Rust represents those boundaries with an immutable published binary, explicit attach and migration, repository-local Agent adapters, and release acceptance; source Python installer files, Make integration, and provider UX are not copied.",
+    ),
+    "tests/test_makefile.py": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/ci.yml",
+            "tests/ci/quality_route.py",
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/repository_gate_manifest_test.py",
+            "crates/cockpit-repository/tests/ci_quality_gate.rs",
+            "docs/reference/ci-quality-gates.md",
+        ],
+        "The source Make tests assert public entrypoints, ordering, lock/recovery forwarding, and quality ownership. Rust has no required Make entrypoint; the typed Runtime CLI, reviewed gate manifest, and CI route provide the same fail-closed ownership and ordering semantics without importing source Make targets.",
+    ),
+    "tests/test_pr_aggregate.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/lib.rs",
+            "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+            "crates/cockpit-repository/tests/recovery_decision.rs",
+            "crates/cockpit-repository/tests/ci_quality_gate.rs",
+            "tests/ci/repository_gate_manifest_test.py",
+            "docs/reference/work-item-lifecycle-closure.md",
+        ],
+        "The source aggregate validator combines provider PR ownership, archive/recovery chains, and one-Work-Item boundaries. Rust enforces those facts per Work Item through typed finalization/recovery receipts and the CI gate; provider aggregate API discovery and source Python report wiring remain external, not silently copied.",
+    ),
+    "tests/test_project_governance.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/project_governance.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
+            "crates/cockpit-cli/tests/doctor.rs",
+            "crates/cockpit-cli/tests/profile.rs",
+            "crates/cockpit-cli/tests/profile_propose.rs",
+            "docs/reference/governance-profiles.md",
+        ],
+        "Observer facts, calibration proposals, strict profile validation, system invariants, and unknown/confirmation boundaries are represented by the Rust Project Governance service, profile/doctor commands, and repository-native tests. Source Python calibration modules and their JSON wire are not copied.",
+    ),
+    "tests/test_project_governance_journey.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/tests/project_governance.rs",
+            "crates/cockpit-cli/tests/profile.rs",
+            "crates/cockpit-cli/tests/profile_propose.rs",
+            "docs/getting-started/calibration.md",
+            "docs/reference/governance-profiles.md",
+        ],
+        "The source end-to-end governance journey and rollback are covered by Rust candidate profile/proposal, explicit confirmation, migration, and repository identity checks. The target does not reproduce the source Python subprocess journey or wizard session protocol.",
+    ),
+    "tests/test_quality_gate_architecture.py": (
+        "implemented-different-by-design",
+        [
+            "tests/ci/quality_route.py",
+            "tests/ci/repository_gate_manifest.json",
+            ".github/workflows/ci.yml",
+            "crates/cockpit-repository/tests/ci_quality_gate.rs",
+            "docs/reference/ci-quality-gates.md",
+        ],
+        "Quality entrypoint compatibility, proportional routing, lock ownership, phase separation, release ownership, cleanup, and diagnostics are expressed by the dynamic Rust/CI gate route. Source YAML/Make job topology and Node artifact implementation are provider workflow details, not Runtime wire requirements.",
+    ),
+    "tests/test_quality_measurements.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-verification/tests/cost_observation.rs",
+            "crates/cockpit-cli/tests/performance.rs",
+            "crates/cockpit-repository/tests/ci_quality_gate.rs",
+            "docs/reference/performance-diagnosis.md",
+        ],
+        "The source validates identity-bound samples, percentile calculations, shard evidence, and malformed-input rejection. Rust records deterministic request-scoped performance/cost observations and evidence bindings; source hosted runner/JUnit wire and statistical implementation are not copied or used to weaken governance.",
+    ),
+    "tests/test_quality_test_manifest.py": (
+        "implemented-different-by-design",
+        [
+            "tests/ci/repository_gate_manifest.json",
+            "tests/ci/repository_gate_manifest_test.py",
+            "crates/cockpit-verification/tests/affected_verification.rs",
+            "crates/cockpit-verification/tests/graph.rs",
+            "crates/cockpit-verification/tests/execution.rs",
+            "crates/cockpit-verification/tests/route_convergence.rs",
+        ],
+        "Source manifest tests cover deterministic ownership, duration-balanced shards, aggregate coverage, artifact paths, and command collection. Rust uses typed affected-verification/dependency planning, bounded execution, and the reviewed repository gate manifest; source pytest/JUnit shard files are not Runtime authority.",
+    ),
+    "tests/test_reference_impact.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/tests/operation_time_policy.rs",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+            "crates/cockpit-repository/tests/input_trust.rs",
+            "docs/reference/operation-time-policy-reevaluation.md",
+            "docs/security/adversarial-validation.md",
+        ],
+        "The source statically scans Python/Maven/TypeScript/documentation references before destructive changes. Rust enforces operation-time scope, authority, trust, and unknown boundaries and accepts delegated impact facts; dynamic reference discovery and source language scanners remain adopter/provider boundaries.",
+    ),
+    "tests/test_release_distribution.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/lib.rs",
+            "crates/cockpit-release/src/archive.rs",
+            "crates/cockpit-release/src/manifest.rs",
+            "crates/cockpit-release/tests/cli.rs",
+            "crates/cockpit-release/tests/manifest.rs",
+            "tests/release/version_consistency.sh",
+            "docs/release/distribution.md",
+        ],
+        "The source distribution tests cover provider release discovery, immutable source/tag identity, assets, installer metadata, and public projection. Rust owns typed target archives, checksums, SBOM/provenance and artifact handoff; provider API details and source Python distribution wire are not copied.",
+    ),
+    "tests/test_release_preflight.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/lib.rs",
+            "crates/cockpit-release/src/manifest.rs",
+            "crates/cockpit-release/tests/manifest.rs",
+            "crates/cockpit-release/tests/sbom.rs",
+            "crates/cockpit-repository/tests/ci_quality_gate.rs",
+            "docs/getting-started/security-release-verification.md",
+        ],
+        "Release preflight identity, capability, archive, SBOM, source freshness, and fail-closed checks are represented by the Rust release manifest and repository gate services. Source capability assessment, Python packaging, and provider-specific preflight fixtures remain explicit non-claims.",
+    ),
+    "tests/test_release_state_consistency.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/manifest.rs",
+            "crates/cockpit-release/tests/manifest.rs",
+            "crates/cockpit-protocol/tests/resource_finalization.rs",
+            "docs/release/distribution.md",
+        ],
+        "The source checks canonical published/candidate state, reserved-version monotonicity, digest drift, and projection non-authority. Rust binds release manifest, tag, artifact, and Runtime identities through typed release receipts; source JSON projection layout is not a target protocol.",
+    ),
+    "tests/test_release_workflow.py": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/release.yml",
+            "tests/release/workflow_policy.sh",
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "crates/cockpit-release/tests/handoff.rs",
+            "docs/release/distribution.md",
+        ],
+        "The source workflow tests enforce rehearsal-before-publication, exact source identity, release side-effect guards, artifact and smoke evidence, and timeout diagnostics. Rust preserves those release truth boundaries in its workflow and typed handoff/release tests without copying Python/Make orchestration or provider action implementation.",
+    ),
+    "tests/test_start_and_archive.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/tests/lifecycle_entry.rs",
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+            "crates/cockpit-repository/tests/archive_integrity.rs",
+            "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+            "crates/cockpit-cli/tests/lifecycle.rs",
+            "crates/cockpit-cli/tests/worktree_entry.rs",
+        ],
+        "The source start/archive corpus covers locks, scope, branch/worktree topology, resume/synchronize, atomic archive moves, traceability, and failure rollback. Rust enforces the same lifecycle truth through typed repository state, explicit worktree binding, append-only evidence, and native tests; source Make/Python helpers are not copied.",
+    ),
+    "tests/test_supply_chain.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/sbom.rs",
+            "crates/cockpit-release/src/archive.rs",
+            "crates/cockpit-release/tests/sbom.rs",
+            "crates/cockpit-release/tests/archive.rs",
+            "crates/cockpit-release/tests/manifest.rs",
+            "tests/release/source_archive_policy_test.sh",
+            "docs/reference/ci-release-evidence.md",
+        ],
+        "The source supply-chain tests cover secret scanning, dependency locks, workflow action identity, SBOM, provenance, artifact digests, and source/tag binding. Rust provides typed archive/SBOM/manifest evidence and fail-closed release gates; source pip tooling and provider scanners remain external.",
+    ),
+    "tests/test_sync_published_release_projection.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-release/src/manifest.rs",
+            "crates/cockpit-release/src/handoff.rs",
+            "crates/cockpit-release/tests/handoff.rs",
+            "crates/cockpit-release/tests/manifest.rs",
+            "docs/release/distribution.md",
+        ],
+        "The source synchronizes verified provider release metadata into canonical projections and advances the next candidate only after identity checks. Rust performs the same binding through typed release handoffs and manifests; provider API polling and source JSON field names are not copied.",
+    ),
+    "tests/test_verification_policy.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-verification/tests/policy_planner.rs",
+            "crates/cockpit-verification/tests/route_convergence.rs",
+            "crates/cockpit-verification/tests/affected_verification.rs",
+            "crates/cockpit-verification/tests/graph.rs",
+            "crates/cockpit-repository/tests/project_governance.rs",
+            "docs/reference/governance-profiles.md",
+        ],
+        "Light/standard/strict routing, monotonic escalation, cache identity, deterministic dependency graphs, and risk signals are represented by Rust VerificationTier/Policy Planner and repository profile controls. Verification strength remains separate from EvidenceAssurance; source Python policy module and report wire are not copied.",
+    ),
+    "tests/test_work_item_intelligence.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-knowledge/src/lib.rs",
+            "crates/cockpit-knowledge/tests/query.rs",
+            "crates/cockpit-repository/tests/intelligence.rs",
+            "crates/cockpit-repository/tests/knowledge_cache.rs",
+            "crates/cockpit-cli/tests/intelligence.rs",
+            "crates/cockpit-cli/tests/knowledge.rs",
+        ],
+        "Source intelligence tests cover append-only facts, deterministic indexes, leases, keyed dependencies, runtime/governance separation, completion invalidation, and concurrency. Rust provides repository-bound Knowledge/Intelligence projections and cache integrity with the same isolation boundary, not source Python index or wire compatibility.",
+    ),
+    "tests/test_work_item_lifecycle_closure.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+            "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+            "crates/cockpit-repository/tests/archive_integrity.rs",
+            "crates/cockpit-cli/tests/lifecycle.rs",
+            "crates/cockpit-cli/tests/resource_finalization.rs",
+            "crates/cockpit-cli/tests/worktree_entry.rs",
+            "docs/reference/work-item-lifecycle-closure.md",
+        ],
+        "The source closure corpus covers merged identity, exact cleanup, remote races, branch/worktree postconditions, stale evidence, and ready-on-base projection. Rust enforces those facts with typed finalization receipts, append-only recovery, and native lifecycle tests; provider APIs and source Make/Python closure helpers are not copied.",
+    ),
+    "tests/test_workflows.py": (
+        "implemented-different-by-design",
+        [
+            ".github/workflows/ci.yml",
+            ".github/workflows/release.yml",
+            "tests/ci/repository_gate_manifest_test.py",
+            "tests/release/workflow_policy.sh",
+            "tests/release/action_runtime_policy.sh",
+            "crates/cockpit-cli/tests/ci_gate.rs",
+            "docs/reference/ci-quality-gates.md",
+        ],
+        "Source workflow tests inspect compatibility matrices, smoke/release dispatch purpose, exact commit binding, action policy, timeout and diagnostics. Rust's CI/release workflows and typed gate tests preserve the repository-bound fail-closed policy while provider workflow syntax and source stack probes remain external.",
     ),
 }
 
@@ -7019,6 +7285,45 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(
                     f"{record.get('referencePath')}: WI-601 cannot leave deferred or migrate-gap"
                 )
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI620_BATCH
+        for record in records
+    ):
+        wi620_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI620_BATCH
+            and record.get("referencePath") in WI620_REFERENCE_FILES
+        ]
+        expected_wi620_paths = set(WI620_REFERENCE_FILES) & current_reference_paths
+        actual_wi620_paths = {record.get("referencePath") for record in wi620_records}
+        if actual_wi620_paths != expected_wi620_paths:
+            errors.append(
+                "WI-620 release/governance batch paths do not match the bounded twenty-two-file set: "
+                f"expected {sorted(expected_wi620_paths)!r}, got {sorted(actual_wi620_paths)!r}"
+            )
+        if len(wi620_records) != len(expected_wi620_paths):
+            errors.append(
+                f"WI-620 batch must contain {len(expected_wi620_paths)} records, found {len(wi620_records)}"
+            )
+        expected_wi620_classifications = Counter(
+            WI620_REFERENCE_FILES[path][0] for path in expected_wi620_paths
+        )
+        wi620_classifications = [record.get("classification") for record in wi620_records]
+        if Counter(wi620_classifications) != expected_wi620_classifications:
+            errors.append(
+                "WI-620 classifications do not match the bounded source/test decisions"
+            )
+        for record in wi620_records:
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(
+                    f"{record.get('referencePath')}: WI-620 result needs counterparts and reason"
+                )
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(
+                    f"{record.get('referencePath')}: WI-620 cannot leave deferred or migrate-gap"
+                )
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -7771,6 +8076,34 @@ def apply_wi601_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi620_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI620_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI620_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": record.get("classification"),
+            }
+        )
+        updated += 1
+    if updated != len(WI620_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI620_REFERENCE_FILES)} WI-620 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -7812,6 +8145,7 @@ def main() -> int:
     parser.add_argument("--apply-wi587-batch", action="store_true")
     parser.add_argument("--apply-wi598-batch", action="store_true")
     parser.add_argument("--apply-wi601-batch", action="store_true")
+    parser.add_argument("--apply-wi620-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -7847,6 +8181,7 @@ def main() -> int:
         args.apply_wi587_batch,
         args.apply_wi598_batch,
         args.apply_wi601_batch,
+        args.apply_wi620_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -8057,6 +8392,13 @@ def main() -> int:
     if args.apply_wi601_batch:
         try:
             apply_wi601_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi620_batch:
+        try:
+            apply_wi620_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

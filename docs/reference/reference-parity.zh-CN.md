@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-619-reference-script-semantic-batch
+lastVerifiedBy: WI-620-reference-release-governance-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -654,6 +654,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-617——参考 Outcome、事件与人类交接对等 | 已实现 | [Work Item](../work-items/WI-617-reference-outcome-parity.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-617-reference-outcome-parity.contract.json`; verification `.ai/evidence/WI-617-reference-outcome-parity.verification.json`; finalization `.ai/decisions/WI-617-reference-outcome-parity.finalize.json`; close `.ai/decisions/WI-617-reference-outcome-parity.close.json`. |
 | WI-618——WI-617 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-618-doc-promotion-wi617.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json`; verification `.ai/evidence/WI-618-doc-promotion-wi617.verification.json`; finalization `.ai/decisions/WI-618-doc-promotion-wi617.finalize.json`; close `.ai/decisions/WI-618-doc-promotion-wi617.close.json`. |
 | WI-619——参考源 adoption、企业、生命周期与信任测试对等 | 已实现 | [Work Item](../work-items/WI-619-reference-script-semantic-batch.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json`; verification `.ai/evidence/WI-619-reference-script-semantic-batch.verification.json`; finalization `.ai/decisions/WI-619-reference-script-semantic-batch.finalize.json`; close `.ai/decisions/WI-619-reference-script-semantic-batch.close.json`. |
+| WI-620——参考安装、发布、质量与生命周期对等 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-620-reference-release-governance-batch.zh-CN.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-620-reference-release-governance-batch.contract.json`; verification `.ai/evidence/WI-620-reference-release-governance-batch.verification.json`; finalization `.ai/decisions/WI-620-reference-release-governance-batch.finalize.json`; close `.ai/decisions/WI-620-reference-release-governance-batch.close.json`. |
 
 ## WI-601——参考源测试对等批次 49
 
@@ -675,3 +676,13 @@ WI-612 完成固定本地参考语料下一批 20 项逐文件比较：15 项为
 ## WI-617——参考 Outcome、事件与人类交接对等
 
 WI-617 逐文件重读 11 个维护中的源测试。10 项可移植责任由 Rust Runtime、原生测试或文档以不同设计承载；供应商/适配器 PR summary 投影标记为 `not-applicable`。未发现可移植遗漏或 `migrate-gap`。完整映射见 [WI-617 逐文件台账](reference-file-comparison.zh-CN.md#wi-617参考-outcome事件与人类交接对等)。对象工程继承 shared Runtime、仓库隔离、类型化证据/事件校验、fail-closed Outcome 和人类交接；源 Python/Make 测试与 source wire 不进入目标。
+
+## WI-620：参考安装、发布、质量与生命周期对等
+
+WI-620 在固定本地参考提交上逐一重读剩余 22 个源内容已变化的测试路径。其中 21 项
+可移植责任由 Rust-native Runtime、仓库测试、CI/release manifest、adopter harness 或
+文档以不同设计承载；交互式安装计划向导保留为 `reference-only`。未发现 `migrate-gap`。
+完整逐文件映射见 [WI-620 台账](reference-file-comparison.zh-CN.md#wi-620参考安装发布质量与生命周期测试对比)。
+对象工程继承 shared Runtime、显式 repository context、动态验证、fail-closed
+evidence/lifecycle、release identity 和可见的 human Outcome；不继承源 Python/Make
+实现、交互式技术栈安装器、供应商 policy 值或 source wire 格式。
