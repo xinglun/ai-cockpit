@@ -1,0 +1,155 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "source version consistency",
+          "path": "tests/release/version_consistency.sh",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "release artifact policy",
+          "path": ".github/workflows/release.yml",
+          "type": "policy",
+          "verification": "reviewed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "adopter acceptance static checks",
+          "path": "tests/release/adopter_acceptance_test.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "upgrade acceptance static checks",
+          "path": "tests/release/adopter_upgrade_acceptance_test.sh",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "release identity and N-1 boundary",
+          "path": "docs/release/distribution.md",
+          "type": "documentation",
+          "verification": "reviewed"
+        },
+        {
+          "locator": "三语发布记录",
+          "path": "docs/release/distribution.zh-CN.md",
+          "type": "documentation",
+          "verification": "reviewed"
+        },
+        {
+          "locator": "三語リリース記録",
+          "path": "docs/release/distribution.ja.md",
+          "type": "documentation",
+          "verification": "reviewed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Runtime verification evidence",
+          "path": ".ai/evidence/WI-616-release-v0-2-83.verification.json",
+          "type": "verification",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-616-release-v0-2-83.contract.json",
+    ".ai/work-items/archive/WI-616-release-v0-2-83.summary.json"
+  ],
+  "checkpointAt": "2026-09-06T12:47:54Z",
+  "checkpointContractDigest": "sha256:f0f6574d6790af24b0cd2591765fddab2b23ed76b59342ced46e188c18de3986",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:462f4f09563ecb4a3c1683e5f70b3feeb403d522c9ca39889fbddbbe6af03309",
+  "createdAt": "2026-09-06T12:42:51Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-616-release-v0-2-83.verification.json",
+      "tests/release/version_consistency.sh",
+      "tests/release/adopter_acceptance_test.sh"
+    ],
+    "sources": [
+      "docs/release/distribution.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-09-06T12:57:07Z",
+  "preflightContractDigest": "sha256:f0f6574d6790af24b0cd2591765fddab2b23ed76b59342ced46e188c18de3986",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:462f4f09563ecb4a3c1683e5f70b3feeb403d522c9ca39889fbddbbe6af03309",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "Workspace version, annotated tag, release manifest, archive, SBOM, checksums, and Runtime identity remain bound to one reviewed commit.",
+      "required": true,
+      "scenario": "v0.2.83 source and artifact identity",
+      "status": "verified",
+      "verificationPlan": "Run workspace package/version, release policy, manifest, and artifact identity checks."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "Only immutable public v0.2.83 and v0.2.82 artifacts are used; adopter repositories are isolated and temporary run roots are cleaned.",
+      "required": true,
+      "scenario": "public adopter and N-1 upgrade",
+      "status": "verified",
+      "verificationPlan": "Run staged and post-release adopter acceptance plus the v0.2.82 to v0.2.83 N-1 harness."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-repository/tests/resource_finalization_recovery.rs"
+      ],
+      "expected": "The published Runtime emits a complete first-record direct_merge_no_pr receipt that its own finalize-recovery validator accepts without hand-editing generated evidence.",
+      "required": true,
+      "scenario": "direct_merge_no_pr recovery availability",
+      "status": "verified",
+      "verificationPlan": "Run the WI-614 plan-to-apply round-trip and validate the downloaded v0.2.83 binary after publication."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T12:58:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-616-release-v0-2-83"
+}

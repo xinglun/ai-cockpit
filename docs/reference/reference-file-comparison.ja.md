@@ -27,7 +27,7 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
 - Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `9a9a86da018876fc380706be141773a92c52757c`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.82`、binary SHA256 `sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662`。
+- 比較に使う reviewed Runtime: `ai-cockpit 0.2.83`、binary SHA256 `sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -328,8 +328,8 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
-review に使用した Runtime は v0.2.82、binary digest は
-`sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662` です。
+review に使用した Runtime は v0.2.83、binary digest は
+`sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
