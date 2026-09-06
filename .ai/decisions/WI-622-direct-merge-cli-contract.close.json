@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c9719905d69ef4c6dfbf72b6f17c253e7a7d722165ed6b22b170488bdbd44aa",
+      "workItemId": "WI-622-direct-merge-cli-contract"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-622-direct-merge-cli-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-622-direct-merge-cli-contract.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-622-direct-merge-cli-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-622-direct-merge-cli-contract.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-07T00:05:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-622-direct-merge-cli-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "使真实 merge commit 的无 PR 历史 Work Item 能在不伪造 PR、不手改 .ai/ 的前提下，通过 finalize-recovery-plan 生成完整 receipt，并由 finalize 与 finalize-recovery 至少一个正式入口成功写入、验证和关闭。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-622-direct-merge-cli-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-622-direct-merge-cli-contract"
+  },
+  "finalReportDigest": "sha256:87639e308ecf677080663a1bc8561cc6656a9726712e2992d8c3ab93a060a76b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:beb46b2d1ec5d6bd4f42ae2f3cd2da00b642adbd5b09196d6e8b604b8a699e74",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-622-direct-merge-cli-contract.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T00:05:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+    ],
+    "policyRefs": [
+      "docs/release/release-policy.md"
+    ],
+    "reason": "Reviewed PR #617 passed hosted checks, merged into synchronized main, finalization was verified, and exact branch/worktree cleanup was proven.",
+    "resumeCondition": "Continue from synchronized main with the next bounded release Work Item."
+  },
+  "timestamp": "2026-09-06T20:31:48Z",
+  "workItemId": "WI-622-direct-merge-cli-contract"
+}
