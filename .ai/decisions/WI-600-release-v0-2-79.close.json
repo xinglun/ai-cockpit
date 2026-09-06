@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0de3d294a72ceb8e47d82fe5a7dcbd50dde640f087be91aa54fc193b7d9564f",
+      "workItemId": "WI-600-release-v0-2-79"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-06T00:03:53Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-600-release-v0-2-79.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-600-release-v0-2-79.contract.json"
+          ],
+          "inference": false,
+          "text": "Release the reviewed Runtime and verify that a fresh adopter can use only the published artifact."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-600-release-v0-2-79.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-600-release-v0-2-79"
+  },
+  "finalReportDigest": "sha256:a7da182c0a9172f03b0cc33878cd509333d7895a913ffde1619d3df1c0c241e3",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:40227685551b0fe389949b0715a9284fe43eb1990f266f07fdc07e5d5e4e8fbb",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-600-release-v0-2-79.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-06T00:03:53Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-600-release-v0-2-79.verification.json"
+    ],
+    "policyRefs": [
+      "docs/release/distribution.md"
+    ],
+    "reason": "Reviewed PR #589 merged on main; v0.2.79 release and post-release adopter acceptance baseline is authorized.",
+    "resumeCondition": "None; reopen only for a new reviewed Work Item."
+  },
+  "timestamp": "2026-09-06T00:03:59Z",
+  "workItemId": "WI-600-release-v0-2-79"
+}
