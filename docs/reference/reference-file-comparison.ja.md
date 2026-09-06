@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-601-reference-test-parity-batch-49
+lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
 capabilityClaims:
   - reference_parity
 ---
@@ -26,8 +26,8 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `8c619299c3d2d672ece1497392006812cc874ee5`。
-- 比較に使う published Runtime: `ai-cockpit 0.2.78`、binary SHA256 `sha256:cebab206b1609660d548c889cf79cd07e60ba3ab78953b180dd34d3c7b4c4869`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `9a9a86da018876fc380706be141773a92c52757c`。
+- 比較に使う published Runtime: `ai-cockpit 0.2.82`、binary SHA256 `sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -324,13 +324,12 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=479 implemented-equivalent=1 not-applicable=7 reference-only=134 deferred-next-batch=148 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=494 implemented-equivalent=1 not-applicable=7 reference-only=139 deferred-next-batch=128 migrate-gap=0 -->
 
-この比較は Rust baseline commit
-`d64445bff646e477071c220410957c6756a4fc87` に対して review しました。ledger
-の historical target commit は machine inventory に別途保持しています。
-review に使用した Runtime は v0.2.79、binary digest は
-`sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63` です。
+この比較は上記の Rust baseline を使用します。ledger の historical target commit は
+machine inventory に別途保持しています。
+review に使用した Runtime は v0.2.82、binary digest は
+`sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -342,11 +341,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 479 |
+| `implemented-different-by-design` | 494 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 134 |
-| `deferred-next-batch` | 148 |
+| `reference-only` | 139 |
+| `deferred-next-batch` | 128 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1698,3 +1697,32 @@ WI-601 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 | `tests/test_dependabot_intake.py`、`tests/test_deprecated_assets.py` | reference-only | GitHub Dependabot parser と source deprecated-asset registry/lexical cleanup scan は provider/source tooling boundary。 |
 
 attached object/adopter repository は同じ shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、dynamic quality、fail-closed lifecycle、人間向け Outcome handoff を継承しますが、source Python module、provider policy value、stack matrix、source wire format は継承しません。現在の 4,450 path set は 3,681 `generated-history`、479 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、134 `reference-only`、148 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only です。[WI-601 Work Item](../work-items/WI-601-reference-test-parity-batch-49.ja.md) を参照してください。
+
+## WI-612 — reference test parity batch 50
+
+WI-612 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の maintained test path 次の 20 件を一件ずつ再読しました。15 件の portable reader/governance responsibility は Rust Runtime、native test、documentation が異なる設計で実装し、5 件は source-template installer state または revision-bound participant study のため `reference-only` です。portable implementation omission と `migrate-gap` はありません。比較 metadata test は、Runtime version が Cargo workspace の単一 version より古い場合に fail-closed となり、release 後の古い比較 identity を防ぎます。
+
+| 固定 reference path | 分類 | Rust counterpart / 限定判断 |
+| --- | --- | --- |
+| `tests/test_derived_artifacts.py` | implemented-different-by-design | `docs/reference/derived-artifacts.md`、repository Knowledge、native projection test が fact と derived view の境界を保持。source registry JSON はコピーしない。 |
+| `tests/test_detached_uninstaller.py` | reference-only | installed-lifecycle/upgrade documentation が proposal、ownership、bounded removal、evidence retention を記録。Rust Runtime に detached uninstaller はない。 |
+| `tests/test_dev_tool_versions.py` | implemented-different-by-design | Cargo.lock、pinned Rust toolchain、locked command、CI action pin が再現性を提供。Python package pin parser は provider/toolchain boundary。 |
+| `tests/test_diff_ownership.py` | implemented-different-by-design | typed Contract scope/out-of-scope、snapshot、archive immutability、derived artifact、lifecycle check が source cross-WI preview/report を置換。 |
+| `tests/test_disable_enable.py` | reference-only | Rust に global installed-state toggle はない。request-scoped Runtime、attach/detach、adapter ownership、explicit recovery が safety boundary を保持。 |
+| `tests/test_docs_metadata.py` | implemented-different-by-design | `tests/docs/documentation_acceptance.sh`、metadata sidecar、Runtime-version regression が tri-language route、authority、unsupported-claim boundary を保護。 |
+| `tests/test_doctor.py` | implemented-different-by-design | CLI/Agent doctor と repository diagnostics が Runtime/protocol identity、compatibility、isolation、fail-closed fact を bind。provider toolchain は外部。 |
+| `tests/test_documentation_authority.py` | implemented-different-by-design | `.ai` current read set、authority boundary/registry、frontmatter、documentation gate が一つの current instruction route を提供。second authority CLI はコピーしない。 |
+| `tests/test_documentation_comprehension_results.py` | reference-only | revision-bound participant study は historical reference evidence であり、target comprehension/release/safety/enterprise claim を認可しない。 |
+| `tests/test_documentation_comprehension_validation.py` | reference-only | six-question participant protocol と response schema は source-study material として Runtime governance evidence から分離。 |
+| `tests/test_documentation_homes.py` | implemented-different-by-design | root/localized home と documentation acceptance が同言語 navigation と reader order を保持。source home code はコピーしない。 |
+| `tests/test_documentation_journey.py` | implemented-different-by-design | authority registry、current/getting-started/reference route、frontmatter、acceptance check が criticality と next-topic navigation を保持。 |
+| `tests/test_documentation_p0_adoption_security.py` | implemented-different-by-design | tri-language installation、calibration、first Work Item、injection-boundary page、route check が P0 adoption/security boundary を保持。 |
+| `tests/test_documentation_p0_chinese_plain_language.py` | implemented-different-by-design | Chinese home/onboarding が complete same-language route と standalone English fallback 禁止を検査。 |
+| `tests/test_documentation_p0_comprehension_validation.py` | reference-only | source P0 study scoring は target evidence ではない。target reader route と historical WI-332/WI-333 record は分離。 |
+| `tests/test_documentation_p0_core.py` | implemented-different-by-design | tri-language purpose、philosophy、architecture、capability page と documentation gate が ordered reader contract を強制。 |
+| `tests/test_documentation_p0_decisions_lifecycle_recovery.py` | implemented-different-by-design | tri-language decision/status/lifecycle/recovery page と typed stop/unknown boundary が human review route を保持。 |
+| `tests/test_documentation_p0_japanese_plain_language.py` | implemented-different-by-design | Japanese home/onboarding が complete same-language navigation と standalone English fallback 禁止を検査。 |
+| `tests/test_documentation_p0_workflow_instructions.py` | implemented-different-by-design | first Work Item page が installed Rust CLI で checkpoint、archive-before-PR、reviewed merge、close order を説明。 |
+| `tests/test_domain_model.py` | implemented-different-by-design | typed Core/Protocol domain record と repository lifecycle test が vocabulary、canonical transition、evidence trust、fail-closed decision を所有。 |
+
+attached object/adopter repository は同じ shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、documentation boundary、人間向け Outcome handoff を継承しますが、source Python test、installer toggle、participant record、toolchain preset、source wire format は継承しません。現在の snapshot は 3,681 `generated-history`、494 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、139 `reference-only`、128 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only です。[WI-612 Work Item](../work-items/WI-612-reference-file-comparison-batch-50-ci-repair.ja.md) を参照してください。

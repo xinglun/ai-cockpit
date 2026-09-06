@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-601-reference-test-parity-batch-49
+lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
 capabilityClaims:
   - reference_parity
 ---
@@ -646,6 +646,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-608 —— 抗竞态的 adopter 工作树清理 | 已实现 | [Work Item](../work-items/WI-608-adopter-removal-race.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-608-adopter-removal-race.contract.json`; verification `.ai/evidence/WI-608-adopter-removal-race.verification.json`; finalization `.ai/decisions/WI-608-adopter-removal-race.finalize.json`; close `.ai/decisions/WI-608-adopter-removal-race.close.json`. |
 | WI-609 —— WI-608 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-609-doc-promotion-wi608.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-609-doc-promotion-wi608.contract.json`; verification `.ai/evidence/WI-609-doc-promotion-wi608.verification.json`; finalization `.ai/decisions/WI-609-doc-promotion-wi608.finalize.json`; close `.ai/decisions/WI-609-doc-promotion-wi608.close.json`. |
 | WI-610 —— v0.2.82 发布与对象验收 | 已实现 | [Work Item](../work-items/WI-610-release-v0-2-82.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-610-release-v0-2-82.contract.json`; verification `.ai/evidence/WI-610-release-v0-2-82.verification.json`; finalization `.ai/decisions/WI-610-release-v0-2-82.finalize.json`; close `.ai/decisions/WI-610-release-v0-2-82.close.json`. |
+| WI-612——参考源测试对等批次 50 | 进行中 | [Work Item](../work-items/WI-612-reference-file-comparison-batch-50-ci-repair.zh-CN.md); archive `.ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.contract.json`; verification `.ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json`; finalization `.ai/decisions/WI-612-reference-file-comparison-batch-50-ci-repair.finalize.json`; 已记录逐文件台账与 metadata guard；评审合并后的 close 待完成。 |
 
 ## WI-601——参考源测试对等批次 49
 
@@ -653,3 +654,13 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 `d64445bff646e477071c220410957c6756a4fc87`；历史 inventory target 仍绑定在机器清单中。
 
 WI-601 在固定本地参考源测试语料中增加十项逐文件比较。7 项可移植责任由 Rust Runtime、仓库原生测试、CI 或文档以不同设计承载；3 项为 `reference-only`：源七技术栈长周期夹具、Dependabot 接入和 deprecated-assets 注册表属于源/供应商边界，不是 Runtime 遗漏。对象工程继承 shared Runtime 身份、仓库隔离、动态质量、fail-closed 生命周期和 human Outcome 边界；源 Python/Make 模块、技术栈矩阵、provider policy 值及 wire 格式不进入目标。详见[WI-601 逐文件台账](reference-file-comparison.zh-CN.md#wi-601参考源测试对等批次-49)。
+
+## WI-612——参考源测试对等批次 50
+
+WI-612 完成固定本地参考语料下一批 20 项逐文件比较：15 项为
+`implemented-different-by-design`，5 项为 `reference-only`；未发现可移植实现遗漏或
+`migrate-gap`。完整映射见 [WI-612 逐文件台账](reference-file-comparison.zh-CN.md#wi-612参考源测试对等批次-50)。
+对象工程继承相同的 shared Runtime、仓库隔离、动态质量、文档和 human Outcome
+边界。比较元数据现在还会在 Runtime identity 落后于 workspace 版本时 fail-closed，
+因此对象工程获得同一发布绑定的比对保护，但不继承源 Python 测试、安装开关、参与者
+研究、toolchain preset 或 source wire。

@@ -1,0 +1,26 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-06T10:28:23Z",
+  "checkpointContractDigest": "sha256:3d2b8d10a8d128da0933fe6cde12e4b43fd30aae582d40119ae669838aa07763",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:dfe8263d35dade1b41e9128f0ef0527424a6a3e1199ce020a18015ad11433bc5",
+  "createdAt": "2026-09-06T10:27:20Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-06T10:32:30Z",
+  "preflightContractDigest": "sha256:3d2b8d10a8d128da0933fe6cde12e4b43fd30aae582d40119ae669838aa07763",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:dfe8263d35dade1b41e9128f0ef0527424a6a3e1199ce020a18015ad11433bc5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-06T10:28:23Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:7b73574a46a77b06077d404590f4840325b5c8dd37217ff472cae2a0fddd9619",
+  "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+}

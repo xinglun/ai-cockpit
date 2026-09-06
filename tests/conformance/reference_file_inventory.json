@@ -39131,66 +39131,112 @@
     },
     {
       "referencePath": "tests/test_derived_artifacts.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/derived-artifacts.md",
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-repository/tests/knowledge_projection.rs",
+        "tests/ci/knowledge_projection_boundary_test.sh"
+      ],
+      "reason": "The source registry separates generated views from authoritative facts. Rust keeps the same boundary through repository-local derived Knowledge, typed Contract/evidence/archive/Outcome projections, and native authority tests; the source registry JSON and Python validator are not copied."
     },
     {
       "referencePath": "tests/test_detached_uninstaller.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/installed-lifecycle.md",
+        "docs/reference/upgrade.md",
+        "crates/cockpit-agent/src/lib.rs"
+      ],
+      "reason": "The detached uninstaller executes a source-template installation/provider removal protocol. Rust deliberately has no detached Runtime uninstaller; it preserves proposal-before-write, ownership, bounded removal, evidence retention, and fail-closed recovery as documented boundaries rather than a copied deletion authority."
     },
     {
       "referencePath": "tests/test_dev_tool_versions.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        ".github/workflows/ci.yml",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "The source checks exact Python development-tool pins. Rust expresses reproducibility through Cargo.lock, the pinned Rust toolchain, locked commands, and pinned CI actions; Python package parsing and source recovery commands remain provider/toolchain-specific."
     },
     {
       "referencePath": "tests/test_diff_ownership.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle.rs",
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "The source preview ranks cross-Work-Item path owners and generated-report pairs. Rust enforces the portable Contract scope/out-of-scope, repository snapshot, archive immutability, generated artifact, and fail-closed lifecycle boundaries in typed repository services and tests; source ownership preview and Python report wire are not copied."
     },
     {
       "referencePath": "tests/test_disable_enable.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/installed-lifecycle.md",
+        "docs/reference/configuration.md",
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "reason": "The source disable/enable state file is a template installer toggle. Rust has no global installed-state switch: the shared Runtime remains request-scoped, while attach, adapter ownership, detach, repository lifecycle, and recovery are explicit and preserve evidence."
     },
     {
       "referencePath": "tests/test_docs_metadata.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/reference_comparison_metadata_test.py",
+        "docs/reference/reference-comparison-metadata.json",
+        "docs/reference/documentation-authority-boundary.md"
+      ],
+      "reason": "The source metadata tests protect reader routes, frontmatter, authority boundaries, and unsupported claims. Rust uses tri-language documentation acceptance plus a runtime-version-bound comparison metadata sidecar; source Python metadata implementation and Make targets are not copied."
     },
     {
       "referencePath": "tests/test_doctor.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/doctor.rs",
+        "crates/cockpit-agent/tests/doctor.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/commands.md"
+      ],
+      "reason": "The source doctor aggregates Python/Make installation, POSIX, hosted-snapshot, and adopter facts. Rust provides repository-bound inspect/status/doctor and Agent doctor projections with Runtime/protocol identity, compatibility, isolation, and fail-closed diagnostics; provider toolchains and source Make facts remain external."
     },
     {
       "referencePath": "tests/test_documentation_authority.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/README.md",
+        ".ai/glossary.md",
+        "docs/reference/documentation-authority-boundary.md",
+        "docs/reference/documentation-authority-registry.json",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source registry validates canonical/reference/historical documentation routing and a pure query boundary. Rust keeps the repository-owned .ai read set, current/reference routes, frontmatter, and documentation acceptance; it does not copy a second generic authority CLI or expose archived instructions as current authority."
     },
     {
       "referencePath": "tests/test_documentation_comprehension_results.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/comprehension-validation-results.md",
+        "docs/reference/comprehension-validation-results.json",
+        "docs/work-items/WI-333-comprehension-validation.md"
+      ],
+      "reason": "This source test validates a revision-bound participant study and its response schema. The target preserves the study as reference/history and keeps its own reader-facing documentation and evidence boundaries; no participant receipt is transferred into Runtime or used to claim target comprehension, release, safety, or enterprise readiness.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39198,24 +39244,40 @@
     },
     {
       "referencePath": "tests/test_documentation_comprehension_validation.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/comprehension-validation-protocol.md",
+        "docs/reference/comprehension-validation-response.schema.json",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source test enforces a six-question human-reader study protocol and anonymous response schema. The protocol remains reference-study material; Rust preserves a reader-first route and privacy/evidence boundary without importing participant collection or treating study answers as Runtime governance authority."
     },
     {
       "referencePath": "tests/test_documentation_homes.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "README.md",
+        "README.zh-CN.md",
+        "README.ja.md",
+        "docs/README.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source home checks localized entrypoints, same-language navigation, and reader route order. Rust maintains linked English, Chinese, and Japanese homes with Runtime/adopter ownership and executable link/language checks; the source home implementation is not copied."
     },
     {
       "referencePath": "tests/test_documentation_journey.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/documentation-authority-registry.json",
+        "docs/reference/documentation-authority-boundary.md",
+        "tests/docs/documentation_acceptance.sh",
+        "docs/current/README.md",
+        "docs/getting-started/README.md"
+      ],
+      "reason": "The source journey validator protects criticality, localized paths, fallback labels, and next-topic links. Rust expresses the maintained current/getting-started/reference journey through a repository-owned registry, tri-language links, frontmatter, and documentation gates; source registry fields and Python commands are not Runtime protocol.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39223,59 +39285,105 @@
     },
     {
       "referencePath": "tests/test_documentation_p0_adoption_security.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/installation.md",
+        "docs/getting-started/first-calibration.md",
+        "docs/getting-started/first-work-item.md",
+        "docs/security/injection-boundary.md",
+        "tests/docs/getting_started_semantic.sh"
+      ],
+      "reason": "The source P0 adoption/security tests require complete localized onboarding routes, explicit external ownership, and no silent fallback. Rust provides the same reader and security boundaries through tri-language getting-started/security pages and executable route checks; provider sandbox authority remains external."
     },
     {
       "referencePath": "tests/test_documentation_p0_chinese_plain_language.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "README.zh-CN.md",
+        "docs/README.zh-CN.md",
+        "docs/purpose.zh-CN.md",
+        "docs/getting-started/first-calibration.zh-CN.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source test rejects standalone English explanations and incomplete Chinese navigation. Rust maintains a Chinese reader route, same-language links, explicit Runtime/adopter boundaries, and documentation acceptance without importing source prose or claims."
     },
     {
       "referencePath": "tests/test_documentation_p0_comprehension_validation.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/comprehension-validation-protocol.md",
+        "docs/work-items/WI-332-comprehension-review.md",
+        "docs/work-items/WI-333-comprehension-validation.md"
+      ],
+      "reason": "The source P0 test checks participant-study answers and a bounded comprehension claim. Target Work Items retain the protocol/review as historical reference and do not claim an independent target study; reader-facing documentation checks remain separate governance evidence."
     },
     {
       "referencePath": "tests/test_documentation_p0_core.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/purpose.md",
+        "docs/philosophy/design-philosophy.md",
+        "docs/architecture.md",
+        "docs/capabilities.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source P0 core test enforces ordered purpose/philosophy/architecture/capability sections and same-language links without silent fallback. Rust preserves this reader contract in its tri-language pages and acceptance gate; the source topic registry is not a Runtime protocol."
     },
     {
       "referencePath": "tests/test_documentation_p0_decisions_lifecycle_recovery.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/concepts/decision-states.md",
+        "docs/reference/how-to-read-cockpit-status.md",
+        "docs/operations/work-item-lifecycle.md",
+        "docs/operations/recovery.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source P0 decision journey test protects localized decision/status/lifecycle/recovery pages, human stop conditions, and unknown visibility. Rust carries these boundaries in tri-language documentation, typed lifecycle records, and fail-closed CLI/Runtime checks; source route fields are not copied as wire."
     },
     {
       "referencePath": "tests/test_documentation_p0_japanese_plain_language.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "README.ja.md",
+        "docs/README.ja.md",
+        "docs/purpose.ja.md",
+        "docs/getting-started/first-calibration.ja.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "The source test rejects standalone English explanations and incomplete Japanese navigation. Rust maintains a Japanese reader route, same-language links, explicit Runtime/adopter boundaries, and documentation acceptance without importing source prose or claims."
     },
     {
       "referencePath": "tests/test_documentation_p0_workflow_instructions.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/getting-started/first-work-item.md",
+        "docs/getting-started/first-work-item.zh-CN.md",
+        "docs/getting-started/first-work-item.ja.md",
+        "docs/reference/repository-workflow.md",
+        "tests/docs/getting_started_semantic.sh"
+      ],
+      "reason": "The source test checks that first-Work-Item instructions put archive before PR and preserve checkpoint/close ordering. Rust documents the installed Runtime CLI lifecycle and reviewed PR boundary in all three languages, with explicit repository binding rather than source Make targets."
     },
     {
       "referencePath": "tests/test_domain_model.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-core/tests/domain_types.rs",
+        "crates/cockpit-core/tests/governance_semantics.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs"
+      ],
+      "reason": "The source module centralizes lifecycle vocabulary, facts, receipts, decisions, and canonical transitions. Rust owns these semantics in typed Core/Protocol records and repository lifecycle services with stronger repository identity, snapshot, evidence, and Runtime bindings; source dataclasses and JSON shape are not copied."
     },
     {
       "referencePath": "tests/test_end_to_end_adoption_validation.py",
