@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-600——v0.2.79 发布与对象验收"
 description: "发布 WI-599 流程顺序修正后的版本，并验证不可变公开产物。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-600-release-v0-2-79
 lastVerifiedBy: WI-600-release-v0-2-79
+terminalArchive: .ai/work-items/archive/WI-600-release-v0-2-79.contract.json
+terminalVerification: .ai/evidence/WI-600-release-v0-2-79.verification.json
+terminalFinalization: .ai/decisions/WI-600-release-v0-2-79.finalize.json
+terminalDecision: .ai/decisions/WI-600-release-v0-2-79.close.json
 ---
 
 [English](WI-600-release-v0-2-79.md) · [日本語](WI-600-release-v0-2-79.ja.md)

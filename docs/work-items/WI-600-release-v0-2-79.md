@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-600 — v0.2.79 release and adopter acceptance"
 description: "Publish the post-WI-599 process-order release and validate its immutable public artifacts."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-600-release-v0-2-79
 lastVerifiedBy: WI-600-release-v0-2-79
+terminalArchive: .ai/work-items/archive/WI-600-release-v0-2-79.contract.json
+terminalVerification: .ai/evidence/WI-600-release-v0-2-79.verification.json
+terminalFinalization: .ai/decisions/WI-600-release-v0-2-79.finalize.json
+terminalDecision: .ai/decisions/WI-600-release-v0-2-79.close.json
 ---
 
 [简体中文](WI-600-release-v0-2-79.zh-CN.md) · [日本語](WI-600-release-v0-2-79.ja.md)
