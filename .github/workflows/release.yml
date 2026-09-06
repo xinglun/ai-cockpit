@@ -443,6 +443,8 @@ jobs:
           path: dist
       - name: Run staged candidate adopter acceptance
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           tag="$(jq -er '.tag' dist/release-manifest.json)"
@@ -513,6 +515,7 @@ jobs:
         if: steps.staged_release_pair.outputs.from_tag != ''
         shell: bash
         env:
+          GH_TOKEN: ${{ github.token }}
           FROM_TAG: ${{ steps.staged_release_pair.outputs.from_tag }}
           TO_TAG: ${{ steps.staged_release_pair.outputs.to_tag }}
         run: |
@@ -722,6 +725,8 @@ jobs:
           toolchain: 1.94.1
       - name: Run public Release adopter acceptance
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/release-adopter-acceptance"
@@ -804,6 +809,7 @@ jobs:
         if: steps.release_pair.outputs.from_tag != ''
         shell: bash
         env:
+          GH_TOKEN: ${{ github.token }}
           FROM_TAG: ${{ steps.release_pair.outputs.from_tag }}
           TO_TAG: ${{ steps.release_pair.outputs.to_tag }}
           TARGET: ${{ github.event.inputs.target || 'x86_64-unknown-linux-gnu' }}

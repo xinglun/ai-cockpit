@@ -2,7 +2,12 @@
 set -euo pipefail
 
 script="$(cd "$(dirname "$0")" && pwd)/adopter_upgrade_acceptance.sh"
+workflow="$(cd "$(dirname "$0")/../.." && pwd)/.github/workflows/release.yml"
 bash -n "$script"
+grep -F -A8 -- 'name: Run staged candidate adopter acceptance' "$workflow" | grep -q -- 'GH_TOKEN:'
+grep -F -A8 -- 'name: Run public-to-staged N-1 acceptance' "$workflow" | grep -q -- 'GH_TOKEN:'
+grep -F -A8 -- 'name: Run public Release adopter acceptance' "$workflow" | grep -q -- 'GH_TOKEN:'
+grep -F -A8 -- 'name: Run public-artifact N-1 upgrade acceptance' "$workflow" | grep -q -- 'GH_TOKEN:'
 grep -q -- '--from-tag' "$script"
 grep -q -- '--to-tag' "$script"
 grep -q -- '--to-candidate-dir' "$script"
@@ -11,6 +16,18 @@ grep -q -- 'stagedCandidate' "$script"
 grep -q -- 'platform' "$script"
 grep -q -- 'runtimeVersion' "$script"
 grep -q -- 'runtimeDigest' "$script"
+grep -q -- 'github_api_get' "$script"
+grep -q -- 'Authorization: Bearer' "$script"
+grep -q -- 'GITHUB_TOKEN' "$script"
+grep -q -- 'github_api_get "https://api.github.com/repos/$repository/releases/tags/$tag" "$api"' "$script"
+if grep -q -- 'auth_args' "$script"; then
+  printf 'adopter upgrade acceptance must not expand an empty auth array under set -u\n' >&2
+  exit 1
+fi
+if grep -n -- 'curl --fail.*api.github.com' "$script" >/dev/null; then
+  printf 'adopter upgrade acceptance must route GitHub API requests through the authenticated helper\n' >&2
+  exit 1
+fi
 grep -q -- 'historical Runtime predates verify identity fields' "$script"
 grep -q -- 'MIGRATION_REQUIRED' "$script"
 grep -q -- 'migrate plan' "$script"
