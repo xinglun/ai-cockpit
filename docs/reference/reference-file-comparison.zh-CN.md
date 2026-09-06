@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
+lastVerifiedBy: WI-627-reference-rebaseline
 capabilityClaims:
   - reference_parity
 ---
@@ -24,9 +24,9 @@ capabilityClaims:
 旁车文件维护。它统一记录当前参考提交、经过评审的 Rust 基线、已发布 Runtime
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
-- 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `8adac3379d8cb3e7a3dc59c70d6fb0b26176b990`。
-- 比较时使用审查中的 Runtime：`ai-cockpit v0.2.85`，binary SHA256 为 `sha256:9002dd5465fd22b258b2d158c30d071090fb225feb936601f0b495a393f7dbce`。
+- 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `a9224aed77b5c317b53c4551a9eec306d91ee330`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `98f12b18b978db509fc884a8a6225afeb7f10df5`。
+- 比较时使用审查中的 Runtime：`ai-cockpit v0.2.85`，binary SHA256 为 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -80,7 +80,7 @@ WI-512 在固定的本地参考提交上逐个重读以下 12 个源路径。其
 | `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design（WI-504，重新核对） | 三语 closure、finalize/recovery 与 ready-on-base 检查；源 Make/Python recovery orchestration 不是 Rust 命令。 |
 | `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | 日文 closure 与历史 recovery 边界；provider 专用路线仍是外部责任。 |
 
-目标工程及每个对象工程继承 shared external Runtime、隔离的 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源专用 installer、Make target、provider 决定或 generated history。当前台账为 4,262 个 `generated-history`、546 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、8 个 `not-applicable`、140 个 `reference-only`、74 个 `deferred-next-batch`；`migrate-gap` 仍为 0。
+目标工程及每个对象工程继承 shared external Runtime、隔离的 repository context、Contract/evidence/knowledge 记录和 human Outcome 边界；不会继承源专用 installer、Make target、provider 决定或 generated history。当前台账为 4,262 个 `generated-history`、426 个 `implemented-different-by-design`、1 个 `implemented-equivalent`、8 个 `not-applicable`、124 个 `reference-only`、354 个 `deferred-next-batch`；`migrate-gap` 仍为 0。
 
 ## WI-621：参考安装与生命周期安全对等
 
@@ -334,29 +334,29 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=563 implemented-equivalent=1 not-applicable=8 reference-only=141 deferred-next-batch=56 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.85，二进制摘要为
-`sha256:9002dd5465fd22b258b2d158c30d071090fb225feb936601f0b495a393f7dbce`。
+`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
-当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
-中已移除的 669 条路径。deferred 记录仍是待比较工作，不是 parity 声明。本次重绑定还记录了
-160 条当前源内容发生变化的路径，capability/profile slice 已没有 `migrate-gap`：
+当前参考源集合有 5,175 条路径，追加式台账当前也有 5,175 条记录；本次重绑定没有退休路径。
+deferred 记录仍是待比较工作，不是 parity 声明。本次重绑定记录了 890 条当前源内容发生变化的路径，
+capability/profile slice 已没有 `migrate-gap`：
 
 | 指标 | 数量 |
 | --- | ---: |
-| `current-tracked-paths` | 4,450 |
-| `generated-history` | 3,681 |
-| `implemented-different-by-design` | 563 |
+| `current-tracked-paths` | 5,175 |
+| `generated-history` | 4,262 |
+| `implemented-different-by-design` | 426 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 141 |
-| `deferred-next-batch` | 56 |
+| `reference-only` | 124 |
+| `deferred-next-batch` | 354 |
 | `migrate-gap` | 0 |
-| `retired-reference-paths` | 669 |
-| `append-only-ledger-records` | 5,119 |
+| `retired-reference-paths` | 0 |
+| `append-only-ledger-records` | 5,175 |
 
 1. `.ai/project/adopter-capability-manifest.json` 已从当前本地 checkout 移除；其旧决定保留在
    `retiredReferencePaths` 中，仍是 installer-surface 外部边界，而不是当前记录。

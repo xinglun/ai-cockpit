@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Rebaseline preserves every prior record and marks retired paths without destructive loss.",
+    "Changed and new paths are explicit deferred records until semantic review; no parity claim is inferred.",
+    "The validator accepts the rebaselined current source and still validates historical batch records.",
+    "The updated ledger and tri-language documentation report consistent current/deferred/retired counts.",
+    "Object/adopter inheritance remains shared Runtime and repository-bound; no source implementation is copied."
+  ],
+  "authority": "authorized",
+  "baseRevision": "98f12b18b978db509fc884a8a6225afeb7f10df5",
+  "createdAt": "2026-09-06T23:17:09Z",
+  "goal": "建立可审计的最新本地参考源基线，为后续批量逐文件语义比对提供不丢失、不误报的台账。",
+  "intent": "修复参考源逐文件比较台账的 rebaseline 校验，使参考提交更新时保留历史决定、显式标记变更/新增路径为 deferred，并允许在新快照上进行可重复自洽验证。",
+  "mode": "code",
+  "outOfScope": [
+    "crates",
+    "scripts",
+    ".github",
+    "source-Python",
+    "source-Make"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:def5782a069ffa55699216e9fda6fadc6e02859bf915a0bf13e40f6eef5c96e7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-627-reference-rebaseline",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi627-reference-rebaseline"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference-source.lock",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/work-items/WI-627-reference-rebaseline.md",
+    "docs/work-items/WI-627-reference-rebaseline.zh-CN.md",
+    "docs/work-items/WI-627-reference-rebaseline.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-627-reference-rebaseline"
+}
