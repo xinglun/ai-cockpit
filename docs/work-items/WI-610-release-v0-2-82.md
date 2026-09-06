@@ -3,10 +3,14 @@ title: "WI-610 — v0.2.82 release and adopter acceptance"
 description: "Publish the next Rust Runtime patch and verify its immutable artifact and adopter boundaries."
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-610-release-v0-2-82
 lastVerifiedBy: WI-610-release-v0-2-82
+terminalArchive: .ai/work-items/archive/WI-610-release-v0-2-82.contract.json
+terminalVerification: .ai/evidence/WI-610-release-v0-2-82.verification.json
+terminalFinalization: .ai/decisions/WI-610-release-v0-2-82.finalize.json
+terminalDecision: .ai/decisions/WI-610-release-v0-2-82.close.json
 ---
 
 [简体中文](WI-610-release-v0-2-82.zh-CN.md) · [日本語](WI-610-release-v0-2-82.ja.md)

@@ -3,10 +3,14 @@ title: "WI-610——v0.2.82 发布与对象验收"
 description: "发布下一版 Rust Runtime，并用不可变发布产物验证 adopter 边界。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-610-release-v0-2-82
 lastVerifiedBy: WI-610-release-v0-2-82
+terminalArchive: .ai/work-items/archive/WI-610-release-v0-2-82.contract.json
+terminalVerification: .ai/evidence/WI-610-release-v0-2-82.verification.json
+terminalFinalization: .ai/decisions/WI-610-release-v0-2-82.finalize.json
+terminalDecision: .ai/decisions/WI-610-release-v0-2-82.close.json
 ---
 
 [English](WI-610-release-v0-2-82.md) · [日本語](WI-610-release-v0-2-82.ja.md)
