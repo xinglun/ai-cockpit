@@ -3,9 +3,13 @@ title: "WI-618 — WI-617 terminal documentation promotion"
 description: "Promote WI-617's verified terminal documentation projections without changing immutable governance records."
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-618-doc-promotion-wi617
+terminalArchive: .ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json
+terminalVerification: .ai/evidence/WI-618-doc-promotion-wi617.verification.json
+terminalFinalization: .ai/decisions/WI-618-doc-promotion-wi617.finalize.json
+terminalDecision: .ai/decisions/WI-618-doc-promotion-wi617.close.json
 workItemId: WI-618-doc-promotion-wi617
 predecessorWorkItemId: WI-617-reference-outcome-parity
 ---

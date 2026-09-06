@@ -3,9 +3,13 @@ title: "WI-618 —— WI-617 终态文档晋级"
 description: "在不改变不可变治理记录的前提下，晋级 WI-617 的已验证终态文档投影。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-618-doc-promotion-wi617
+terminalArchive: .ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json
+terminalVerification: .ai/evidence/WI-618-doc-promotion-wi617.verification.json
+terminalFinalization: .ai/decisions/WI-618-doc-promotion-wi617.finalize.json
+terminalDecision: .ai/decisions/WI-618-doc-promotion-wi617.close.json
 workItemId: WI-618-doc-promotion-wi617
 predecessorWorkItemId: WI-617-reference-outcome-parity
 ---
