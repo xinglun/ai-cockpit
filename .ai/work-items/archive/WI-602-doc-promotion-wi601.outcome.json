@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "The English, Chinese, and Japanese parity tables each contain exactly one WI-601 terminal row with the immutable archive, verification, finalization, and close evidence paths.",
+    "The three WI-602 Work Item pages are registered with pre-terminal metadata and preserve the original Contract language.",
+    "Documentation acceptance, reference metadata, and closed-work-item promotion checks pass without changing generated governance facts.",
+    "The change remains documentation-only and does not copy the reference source scaffold or alter object repositories."
+  ],
+  "createdAt": "2026-09-06T01:58:12Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:837d880416829c09e59366bc11042fd422c15cef1392fa6f66128fa4d8280c59",
+  "evidenceRefs": [
+    ".ai/evidence/WI-602-doc-promotion-wi601.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-602-doc-promotion-wi601.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-602-doc-promotion-wi601.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6632d476f4ad59778e4f4fa155547f942f67dd877f2683f299edf63a2a177d2f",
+      "workItemId": "WI-602-doc-promotion-wi601"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-602-doc-promotion-wi601.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-602-doc-promotion-wi601.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-602-doc-promotion-wi601.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-602-doc-promotion-wi601.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-602-doc-promotion-wi601.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-602-doc-promotion-wi601.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-602-doc-promotion-wi601.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-602-doc-promotion-wi601.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-602-doc-promotion-wi601.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-602-doc-promotion-wi601.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the tri-language parity projection for closed WI-601 and register this documentation promotion Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-602-doc-promotion-wi601.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-602-doc-promotion-wi601"
+  },
+  "taskReportDigest": "sha256:f4ae456bcebca704d446ff3be1d2fa5d845e65a0c77a38710a83ccf50913b453",
+  "taskReportMarkdownDigest": "sha256:3c0e4ff549e04a54b67f0a2b99a8acfafe5e72f7f9a041b9839e14868071c10e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-602-doc-promotion-wi601.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-602-doc-promotion-wi601"
+}
