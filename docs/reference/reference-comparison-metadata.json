@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "lastVerifiedBy": "WI-617-reference-outcome-parity",
+  "lastVerifiedBy": "WI-619-reference-script-semantic-batch",
   "referenceCommit": "fde3380f81fea5fd2e288f7a8849f737dc074060",
-  "rustBaselineCommit": "9a9a86da018876fc380706be141773a92c52757c",
+  "rustBaselineCommit": "2536e4db399a7c20479e09693c8eab968c635ac9",
   "runtimeVersion": "0.2.83",
-  "runtimeBinaryDigest": "sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a",
+  "runtimeBinaryDigest": "sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130",
   "currentPathCount": 4450,
-  "classifiedPathCount": 4333,
-  "semanticDecisionCount": 652,
-  "deferredPathCount": 117,
+  "classifiedPathCount": 4354,
+  "semanticDecisionCount": 673,
+  "deferredPathCount": 96,
   "retiredPathCount": 669,
   "migrateGapCount": 0
 }

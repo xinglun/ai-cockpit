@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-617-reference-outcome-parity
+lastVerifiedBy: WI-619-reference-script-semantic-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -26,8 +26,8 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `9a9a86da018876fc380706be141773a92c52757c`。
-- 比較に使う reviewed Runtime: `ai-cockpit 0.2.83`、binary SHA256 `sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `2536e4db399a7c20479e09693c8eab968c635ac9`。
+- 比較に使う reviewed Runtime: `ai-cockpit 0.2.83`、binary SHA256 `sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -324,12 +324,12 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
 review に使用した Runtime は v0.2.83、binary digest は
-`sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a` です。
+`sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -341,11 +341,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 504 |
+| `implemented-different-by-design` | 525 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
 | `reference-only` | 139 |
-| `deferred-next-batch` | 117 |
+| `deferred-next-batch` | 96 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1747,4 +1747,34 @@ WI-617 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 
 attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、fail-closed Outcome、人間向け handoff boundary を継承します。source Python test、Make target、provider PR format、source wire format は継承しません。[WI-617 Work Item](../work-items/WI-617-reference-outcome-parity.ja.md) を参照してください。
 
-reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0
+## WI-619 — reference adoption、enterprise、lifecycle、trust test parity
+
+WI-619 は pinned local reference の次の maintained test 21 path を一件ずつ再読しました。21 件の portable responsibility は shared Rust Runtime、repository-native test、release/adopter harness、または documentation が異なる設計で担います。`migrate-gap` はありません。source fixture stack、Python/Make provisioning、provider identity、source JSON wire は target の外側です。
+
+| Pinned reference path | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `tests/test_end_to_end_adoption_validation.py` | implemented-different-by-design | Public-release/N-1 adopter harness と typed isolation test。source seven-stack matrix は adopter 側です。 |
+| `tests/test_ensure_locked_dev_environment.py` | implemented-different-by-design | `Cargo.lock`、pinned Rust toolchain、action policy test。Python venv/ruff は provider-owned です。 |
+| `tests/test_enterprise_control_evidence.py` | implemented-different-by-design | Typed assurance/delegated-evidence test と enterprise boundary docs。local compliance verdict は作りません。 |
+| `tests/test_enterprise_control_matrix.py` | implemented-different-by-design | Rust governance controls と enterprise docs は observed control evidence のみを示し、外部 assurance を delegated とします。 |
+| `tests/test_evidence_dependencies.py` | implemented-different-by-design | Repository-bound evidence/knowledge projection が safe path、deterministic order、identity、binding を検証します。 |
+| `tests/test_external_adopter_long_cycle.py` | implemented-different-by-design | Published-artifact adopter/upgrade harness が bare-origin lifecycle、rollback、isolation、cleanup を検証します。 |
+| `tests/test_external_identity.py` | implemented-different-by-design | Typed authority/provenance/scope と operation-time policy test。provider/enterprise identity は外部です。 |
+| `tests/test_final_north_star_acceptance.py` | implemented-different-by-design | Rust conformance/final-replacement acceptance が bounded dimensions と limitation を保持します。 |
+| `tests/test_finish_e2e.py` | implemented-different-by-design | Typed lifecycle/resource-finalization test と workflow policy が fail-closed sequencing/recovery を保持します。 |
+| `tests/test_finish_readiness.py` | implemented-different-by-design | Contract preflight、checkpoint、agent-risk、CLI readiness test が stop/recovery guidance を提供します。 |
+| `tests/test_fixture_harness.py` | implemented-different-by-design | Release fixture/acceptance test は immutable artifact/adopter boundary を扱い、source stack matrix は reference-only です。 |
+| `tests/test_governance_complexity.py` | implemented-different-by-design | Typed diagnostics、provenance-bound baseline、performance gate が source line-count report を置き換えます。 |
+| `tests/test_governance_compression.py` | implemented-different-by-design | Deterministic status/human Outcome projection が warning、stop、unknown、decision を保持し、source score wire は copy しません。 |
+| `tests/test_governance_profile.py` | implemented-different-by-design | Typed verification tier/assurance、route precedence、profile diagnostics が source YAML parser を置き換えます。 |
+| `tests/test_guard_failure_paths.py` | implemented-different-by-design | Rust-native guard/adversarial fixture が injection、unsafe path、unsupported claim、contradiction を fail-closed にします。 |
+| `tests/test_guards_and_status.py` | implemented-different-by-design | Typed status、unknown、recovery、retry、多言語 handoff が guard responsibility を保持します。 |
+| `tests/test_guidelines.py` | implemented-different-by-design | Contract/preflight validation が missing、noncompliant、evidence/file diagnostics を示し、source wire は copy しません。 |
+| `tests/test_hosted_verification_snapshot.py` | implemented-different-by-design | Provider-bound verification と quality/snapshot binding を検証し、source Make snapshot exception は持ちません。 |
+| `tests/test_indirect_injection_dataflow.py` | implemented-different-by-design | Typed provenance により repository text、tool output、Agent interpretation は operation-time check 前に non-authoritative です。 |
+| `tests/test_input_trust.py` | implemented-different-by-design | Repository、Markdown、tool、Agent input は explicit authority と reevaluation まで untrusted です。 |
+| `tests/test_input_trust_corpus.py` | implemented-different-by-design | Rust adversarial fixture が issue、web、log、dependency、tool、generated、empty scope の non-promotion を保持します。 |
+
+attached object/adopter は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、dynamic verification、fail-closed lifecycle、人間向け Outcome boundary を継承します。source Python test、Make target、fixture stack、provider policy value、source wire は継承しません。[WI-619 Work Item](../work-items/WI-619-reference-script-semantic-batch.ja.md) を参照してください。
+
+reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0

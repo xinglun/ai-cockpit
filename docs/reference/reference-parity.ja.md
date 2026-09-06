@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-617-reference-outcome-parity
+lastVerifiedBy: WI-619-reference-script-semantic-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -673,6 +673,7 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 | WI-616 — v0.2.83 release と adopter acceptance | Implemented | [Work Item](../work-items/WI-616-release-v0-2-83.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-616-release-v0-2-83.contract.json`; verification `.ai/evidence/WI-616-release-v0-2-83.verification.json`; finalization `.ai/decisions/WI-616-release-v0-2-83.finalize.json`; close `.ai/decisions/WI-616-release-v0-2-83.close.json`. |
 | WI-617 — reference Outcome、event、人間向け handoff parity | Implemented | [Work Item](../work-items/WI-617-reference-outcome-parity.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-617-reference-outcome-parity.contract.json`; verification `.ai/evidence/WI-617-reference-outcome-parity.verification.json`; finalization `.ai/decisions/WI-617-reference-outcome-parity.finalize.json`; close `.ai/decisions/WI-617-reference-outcome-parity.close.json`. |
 | WI-618 — WI-617 終端ドキュメント昇格 | Implemented | [Work Item](../work-items/WI-618-doc-promotion-wi617.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json`; verification `.ai/evidence/WI-618-doc-promotion-wi617.verification.json`; finalization `.ai/decisions/WI-618-doc-promotion-wi617.finalize.json`; close `.ai/decisions/WI-618-doc-promotion-wi617.close.json`. |
+| WI-619 — reference adoption、enterprise、lifecycle、trust test parity | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-619-reference-script-semantic-batch.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json`; verification `.ai/evidence/WI-619-reference-script-semantic-batch.verification.json`; finalization `.ai/decisions/WI-619-reference-script-semantic-batch.finalize.json`; close `.ai/decisions/WI-619-reference-script-semantic-batch.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 

@@ -39387,10 +39387,15 @@
     },
     {
       "referencePath": "tests/test_end_to_end_adoption_validation.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/isolation_manifest_test.sh",
+        "crates/cockpit-agent/tests/isolation.rs"
+      ],
+      "reason": "The adopter boundary is implemented by immutable public-release and N-1 harnesses plus typed isolation tests; source seven-stack fixture matrices remain adopter-owned and are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39398,59 +39403,97 @@
     },
     {
       "referencePath": "tests/test_ensure_locked_dev_environment.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        "tests/release/action_runtime_policy_test.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "reason": "Locked Cargo/toolchain and action-policy checks provide reproducibility; source Python virtualenv and ruff provisioning remain provider/toolchain-specific."
     },
     {
       "referencePath": "tests/test_enterprise_control_evidence.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-repository/tests/governance_controls.rs",
+        "docs/security/enterprise-governance.md",
+        "docs/security/enterprise-deployment-boundary.md"
+      ],
+      "reason": "Typed assurance and delegated-evidence checks preserve expiry, provenance, retention, and non-certification boundaries; external enterprise providers remain delegated."
     },
     {
       "referencePath": "tests/test_enterprise_control_matrix.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/governance_controls.rs",
+        "docs/security/enterprise-governance.md",
+        "docs/security/enterprise-deployment-boundary.md"
+      ],
+      "reason": "The Rust control projection records observed control evidence only and never turns local data into an ISO/SOC or enterprise compliance verdict."
     },
     {
       "referencePath": "tests/test_evidence_dependencies.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/knowledge_projection.rs",
+        "crates/cockpit-knowledge/tests/query.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "docs/reference/capability-truth.md"
+      ],
+      "reason": "Repository-bound dependency and knowledge projections enforce safe paths, deterministic ordering, identity, and evidence binding; the source matrix loader is not copied."
     },
     {
       "referencePath": "tests/test_external_adopter_long_cycle.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "reason": "Long-cycle bare-origin, upgrade, rollback, and cleanup responsibilities are exercised by published-artifact adopter harnesses; provider business fixtures remain external."
     },
     {
       "referencePath": "tests/test_external_identity.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-core/tests/operation_time_policy.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "docs/reference/input-trust-dataflow.md"
+      ],
+      "reason": "Typed authority, provenance, scope, and operation-time reevaluation are enforced locally while provider and enterprise identity assurance remains delegated."
     },
     {
       "referencePath": "tests/test_final_north_star_acceptance.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/conformance/final_replacement_acceptance.sh",
+        "crates/cockpit-core/tests/conformance.rs",
+        "docs/reference/final-replacement-acceptance.md"
+      ],
+      "reason": "The Rust conformance route preserves the bounded acceptance dimensions and explicit external limitations; source wire and provider matrix are not claimed."
     },
     {
       "referencePath": "tests/test_finish_e2e.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "tests/workflow/resource_finalization_policy_test.sh"
+      ],
+      "reason": "Typed lifecycle, resource finalization, retry, archive, and cleanup checks replace the source mutex/report implementation while preserving fail-closed sequencing.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39465,24 +39508,37 @@
     },
     {
       "referencePath": "tests/test_finish_readiness.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/contract_preflight.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+        "crates/cockpit-cli/tests/preflight.rs"
+      ],
+      "reason": "Rust preflight, checkpoint, evidence, and visible Outcome guidance provide readiness and recovery boundaries without copying source Make commands."
     },
     {
       "referencePath": "tests/test_fixture_harness.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-release/tests/fixtures.rs",
+        "tests/release/adopter_acceptance_test.sh",
+        "docs/reference/final-replacement-acceptance.md"
+      ],
+      "reason": "The release fixture and acceptance tests cover immutable artifact/adopter boundaries; source seven-stack and eight-phase fixture orchestration remains reference-only."
     },
     {
       "referencePath": "tests/test_governance_complexity.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/governance-complexity.md",
+        "crates/cockpit-repository/tests/governance_controls.rs",
+        "tests/performance/regression_gate_test.sh"
+      ],
+      "reason": "Typed diagnostics, provenance-bound baselines, and performance gates preserve the cost/complexity responsibility without importing Python line-count reports.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39490,17 +39546,27 @@
     },
     {
       "referencePath": "tests/test_governance_compression.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "reason": "Deterministic status and human Outcome projections preserve warnings, stops, unknowns, and decisions; the source score and report wire are not copied."
     },
     {
       "referencePath": "tests/test_governance_profile.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between e5acb677da6621004d96f0ef353c58fe8d3acfbf and fde3380f81fea5fd2e288f7a8849f737dc074060; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/tests/policy_planner.rs",
+        "crates/cockpit-verification/tests/route_convergence.rs",
+        "crates/cockpit-cli/tests/profile.rs",
+        "docs/reference/governance-profiles.md"
+      ],
+      "reason": "Typed verification tiers, assurance, route precedence, and profile diagnostics replace source YAML parsing while keeping policy explicit and evidence-bound.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39508,37 +39574,61 @@
     },
     {
       "referencePath": "tests/test_guard_failure_paths.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-repository/tests/governance_controls.rs",
+        "crates/cockpit-core/tests/adversarial_v2.rs",
+        "tests/conformance/fixtures/repository-prompt-injection"
+      ],
+      "reason": "Rust-native guards and adversarial fixtures fail closed for injection, unsafe paths, unsupported claims, and contradictory evidence; source scripts are not copied."
     },
     {
       "referencePath": "tests/test_guards_and_status.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-cli/tests/intelligence.rs"
+      ],
+      "reason": "Typed status, unknowns, recovery, retry, and multilingual human handoff preserve guard responsibilities without source report files."
     },
     {
       "referencePath": "tests/test_guidelines.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/contract_schema.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-cli/tests/preflight.rs"
+      ],
+      "reason": "Contract and preflight validation expose pass, missing, noncompliant, and evidence/file diagnostics; source guidelinesCompliance is not a Rust wire field."
     },
     {
       "referencePath": "tests/test_hosted_verification_snapshot.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "crates/cockpit-repository/tests/verification_service.rs",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "tests/ci/runtime_verify_shadow.sh",
+        "tests/release/adopter_acceptance.sh"
+      ],
+      "reason": "Provider-bound verification, quality, snapshot, and artifact binding are validated without the source Make snapshot exception; hosted evidence remains external."
     },
     {
       "referencePath": "tests/test_human_benefit_report.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-repository/src/outcome_render.rs", "crates/cockpit-repository/tests/outcome_report.rs", "crates/cockpit-cli/tests/outcome_handoff.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
       "reason": "Rust emits a repository-bound typed Outcome and visible human handoff with issue, risk, decision, evidence, impact, and next-action sections; the source Python report generator and its provider closure facts are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
@@ -39554,24 +39644,38 @@
     },
     {
       "referencePath": "tests/test_indirect_injection_dataflow.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/tests/operation_time_policy.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "tests/conformance/fixtures/repository-prompt-injection",
+        "docs/reference/input-trust-dataflow.md"
+      ],
+      "reason": "Typed provenance and trust labels keep repository text, tool output, and Agent interpretation non-authoritative until operation-time checks pass."
     },
     {
       "referencePath": "tests/test_input_trust.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/tests/operation_time_policy.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "tests/conformance/fixtures/repository-prompt-injection",
+        "docs/reference/input-trust-dataflow.md"
+      ],
+      "reason": "Repository, Markdown, tool, and Agent inputs remain untrusted; explicit human authority and high-risk reevaluation are required at operation time."
     },
     {
       "referencePath": "tests/test_input_trust_corpus.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-619-reference-script-semantic-batch",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-core/tests/adversarial_v2.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "tests/conformance/fixtures/repository-prompt-injection"
+      ],
+      "reason": "The adversarial corpus preserves issue, web, log, dependency, tool, generated, and empty-scope non-promotion cases in Rust-native fixtures."
     },
     {
       "referencePath": "tests/test_install_entrypoint.py",
@@ -39813,7 +39917,12 @@
       "referencePath": "tests/test_multilingual_semantic_parity.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["docs/reference/multilingual-semantic-parity.md", "docs/reference/multilingual-semantic-parity.zh-CN.md", "docs/reference/multilingual-semantic-parity.ja.md", "crates/cockpit-cli/tests/intelligence.rs"],
+      "rustCounterparts": [
+        "docs/reference/multilingual-semantic-parity.md",
+        "docs/reference/multilingual-semantic-parity.zh-CN.md",
+        "docs/reference/multilingual-semantic-parity.ja.md",
+        "crates/cockpit-cli/tests/intelligence.rs"
+      ],
       "reason": "Locale-specific presentation is checked while machine fields, paths, evidence and Contract text remain stable; Rust uses typed CLI/MCP presentation rather than the source Python projection helper.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
@@ -40242,14 +40351,23 @@
       "referencePath": "tests/test_task_event_log.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/task_outcome_events.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/task_outcome_events.rs"
+      ],
       "reason": "Typed append-only TaskOutcomeEvent records enforce repository/Work Item identity, ordering, correction links, finding fingerprints, safe details and secret rejection; JSONL storage and event names are Rust-native."
     },
     {
       "referencePath": "tests/test_task_outcome_ai_finish_integration.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/tests/outcome_report.rs", "crates/cockpit-cli/tests/outcome_handoff.rs", "crates/cockpit-cli/tests/intelligence.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-cli/tests/intelligence.rs"
+      ],
       "reason": "finish generates and validates repository-bound Outcome/report/event projections, preserves blocked evidence and recovery, and archives the bound artifacts; Rust lifecycle receipts replace source ai_finish orchestration.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
@@ -40260,7 +40378,11 @@
       "referencePath": "tests/test_task_outcome_generator.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/tests/outcome_report.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
       "reason": "Deterministic Rust report generation covers empty sections, findings, warnings, risks, stops, resolutions, recurrence prevention, evidence provenance and explicit unknowns without accepting arbitrary completion claims.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
@@ -40271,7 +40393,11 @@
       "referencePath": "tests/test_task_outcome_markdown_renderer.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-repository/src/lib.rs", "crates/cockpit-repository/src/outcome_render.rs", "crates/cockpit-cli/tests/outcome_handoff.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
       "reason": "Rust writes deterministic typed task-report Markdown and separately renders the human handoff; empty sections, conditional language, provenance and blocked diagnostics remain visible without mutating source records.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
@@ -40282,7 +40408,11 @@
       "referencePath": "tests/test_task_outcome_multilingual.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-repository/src/outcome_render.rs", "crates/cockpit-cli/tests/intelligence.rs", "crates/cockpit-cli/tests/outcome_handoff.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
       "reason": "CLI and MCP select en/zh/ja presentation through explicit Runtime language inputs while preserving Contract-language acceptance text and stable machine JSON; source profile-driven file generation is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
@@ -40293,14 +40423,21 @@
       "referencePath": "tests/test_task_outcome_pr_summary.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "not-applicable",
-      "rustCounterparts": ["crates/cockpit-cli/tests/outcome_handoff.rs", "docs/reference/outcome-report.md"],
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "docs/reference/outcome-report.md"
+      ],
       "reason": "The source opt-in pull-request summary is a provider/adapter presentation surface. Rust exposes the canonical human Outcome and machine OutcomeV2; it does not generate a second PR-specific projection or treat it as governance authority."
     },
     {
       "referencePath": "tests/test_task_outcome_schema.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-protocol/tests/intelligence_schema.rs", "crates/cockpit-repository/tests/outcome_report.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/intelligence_schema.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
       "reason": "OutcomeV2 and TaskOutcomeReport are strict typed Rust Protocol structs with deny-unknown-fields, stable camelCase machine keys and digest bindings; source standalone JSON Schema bytes are not the Rust wire contract.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
@@ -40311,7 +40448,12 @@
       "referencePath": "tests/test_task_outcome_validator.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-protocol/src/lib.rs", "crates/cockpit-repository/src/outcome_render.rs", "crates/cockpit-repository/tests/outcome_report.rs", "crates/cockpit-cli/tests/intelligence.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-cli/tests/intelligence.rs"
+      ],
       "reason": "Runtime validates report/event identity, evidence provenance, red/yellow/green decision mapping, historical boundaries, symlink/tamper failure and human-decision projection; source claim validator rules are expressed through typed Rust controls rather than a Python validator.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
@@ -40392,7 +40534,11 @@
       "referencePath": "tests/test_unsupported_claim_regression.py",
       "batch": "WI-617-reference-outcome-parity",
       "classification": "implemented-different-by-design",
-      "rustCounterparts": ["crates/cockpit-core/src/lib.rs", "crates/cockpit-core/tests/governance_semantics.rs", "crates/cockpit-repository/src/lib.rs"],
+      "rustCounterparts": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-core/tests/governance_semantics.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
       "reason": "Unsupported completion and provider/enterprise claims remain explicit governance blockers; Rust emits forbidden-claim boundaries and requires evidence or human review without copying the source claim-gate script."
     },
     {

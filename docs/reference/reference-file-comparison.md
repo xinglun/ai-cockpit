@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-617-reference-outcome-parity
+lastVerifiedBy: WI-619-reference-script-semantic-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -30,8 +30,8 @@ check is executable and fails closed when any translated page drifts.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `fde3380f81fea5fd2e288f7a8849f737dc074060` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `9a9a86da018876fc380706be141773a92c52757c`.
-- Runtime used for the comparison work: the reviewed `ai-cockpit 0.2.83` binary, SHA256 `sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `2536e4db399a7c20479e09693c8eab968c635ac9`.
+- Runtime used for the comparison work: the reviewed `ai-cockpit 0.2.83` binary, SHA256 `sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -274,17 +274,17 @@ changed current paths, and the capability/profile slice has no remaining
 This comparison uses the Rust baseline recorded above; the ledger's historical
 target commit remains recorded separately in the machine inventory.
 The reviewed Runtime is v0.2.83 with binary digest
-`sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a`.
+`sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130`.
 
 | Metric | Count |
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 504 |
+| `implemented-different-by-design` | 525 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
 | `reference-only` | 139 |
-| `deferred-next-batch` | 117 |
+| `deferred-next-batch` | 96 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2287,4 +2287,43 @@ and human handoff boundaries. It does not inherit source Python tests, Make
 targets, provider PR formatting, or source wire formats. See the [WI-617 Work
 Item record](../work-items/WI-617-reference-outcome-parity.md).
 
-reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0
+## WI-619 — reference adoption, enterprise, lifecycle, and trust test parity
+
+WI-619 re-read the next 21 maintained source test paths one file at a time at
+the pinned local reference commit. All 21 portable responsibilities are
+implemented differently by the shared Rust Runtime, repository-native tests,
+release/adopter harnesses, or documentation. No `migrate-gap` was found. The
+source fixture stacks, Python/Make provisioning, provider identity, and source
+JSON wire remain outside the target by design.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `tests/test_end_to_end_adoption_validation.py` | implemented-different-by-design | Public-release/N-1 adopter harnesses and typed isolation tests; source seven-stack matrix remains adopter-owned. |
+| `tests/test_ensure_locked_dev_environment.py` | implemented-different-by-design | `Cargo.lock`, pinned Rust toolchain, and action-policy checks; Python virtualenv/ruff provisioning remains provider-owned. |
+| `tests/test_enterprise_control_evidence.py` | implemented-different-by-design | Typed assurance/delegated-evidence tests and enterprise boundary docs; no local compliance verdict. |
+| `tests/test_enterprise_control_matrix.py` | implemented-different-by-design | Rust governance controls and enterprise docs expose observed control evidence only; external assurance remains delegated. |
+| `tests/test_evidence_dependencies.py` | implemented-different-by-design | Repository-bound evidence/knowledge projections enforce safe paths, deterministic ordering, identity, and binding. |
+| `tests/test_external_adopter_long_cycle.py` | implemented-different-by-design | Published-artifact adopter and upgrade harnesses cover bare-origin lifecycle, rollback, isolation, and cleanup. |
+| `tests/test_external_identity.py` | implemented-different-by-design | Typed authority/provenance/scope and operation-time policy tests; provider/enterprise identity stays external. |
+| `tests/test_final_north_star_acceptance.py` | implemented-different-by-design | Rust conformance and final-replacement acceptance preserve bounded dimensions and explicit limitations. |
+| `tests/test_finish_e2e.py` | implemented-different-by-design | Typed lifecycle/resource-finalization tests and workflow policy preserve fail-closed sequencing and recovery. |
+| `tests/test_finish_readiness.py` | implemented-different-by-design | Contract preflight, checkpoint, agent-risk, and CLI readiness tests provide stop/recovery guidance. |
+| `tests/test_fixture_harness.py` | implemented-different-by-design | Release fixture and acceptance tests cover immutable artifact/adopter boundaries; source stack matrix is reference-only. |
+| `tests/test_governance_complexity.py` | implemented-different-by-design | Typed diagnostics, provenance-bound baselines, and performance gates replace source line-count reports. |
+| `tests/test_governance_compression.py` | implemented-different-by-design | Deterministic status and human Outcome projections preserve warnings, stops, unknowns, and decisions without source score wire. |
+| `tests/test_governance_profile.py` | implemented-different-by-design | Typed verification tier/assurance, route precedence, and profile diagnostics replace source YAML parsing. |
+| `tests/test_guard_failure_paths.py` | implemented-different-by-design | Rust-native guards and adversarial fixtures fail closed for injection, unsafe paths, unsupported claims, and contradictions. |
+| `tests/test_guards_and_status.py` | implemented-different-by-design | Typed status, unknowns, recovery, retry, and multilingual handoff preserve guard responsibilities. |
+| `tests/test_guidelines.py` | implemented-different-by-design | Contract/preflight validation exposes missing, noncompliant, and evidence/file diagnostics; source wire is not copied. |
+| `tests/test_hosted_verification_snapshot.py` | implemented-different-by-design | Provider-bound verification and quality/snapshot binding are validated without the source Make snapshot exception. |
+| `tests/test_indirect_injection_dataflow.py` | implemented-different-by-design | Typed provenance keeps repository text, tool output, and Agent interpretation non-authoritative until operation-time checks pass. |
+| `tests/test_input_trust.py` | implemented-different-by-design | Repository, Markdown, tool, and Agent inputs remain untrusted pending explicit authority and reevaluation. |
+| `tests/test_input_trust_corpus.py` | implemented-different-by-design | Rust adversarial fixtures preserve non-promotion cases for issue, web, log, dependency, tool, generated, and empty-scope inputs. |
+
+The attached object/adopter route inherits the shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, dynamic verification,
+fail-closed lifecycle, and human Outcome boundary. It does not inherit source
+Python tests, Make targets, fixture stacks, provider policy values, or source
+wire formats. See the [WI-619 Work Item](../work-items/WI-619-reference-script-semantic-batch.md).
+
+reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0

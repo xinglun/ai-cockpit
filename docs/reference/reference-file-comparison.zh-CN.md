@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-617-reference-outcome-parity
+lastVerifiedBy: WI-619-reference-script-semantic-batch
 capabilityClaims:
   - reference_parity
 ---
@@ -25,8 +25,8 @@ capabilityClaims:
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `fde3380f81fea5fd2e288f7a8849f737dc074060`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `9a9a86da018876fc380706be141773a92c52757c`。
-- 比较时使用审查中的 Runtime：`ai-cockpit 0.2.83`，binary SHA256 为 `sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `2536e4db399a7c20479e09693c8eab968c635ac9`。
+- 比较时使用审查中的 Runtime：`ai-cockpit 0.2.83`，binary SHA256 为 `sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -307,11 +307,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.83，二进制摘要为
-`sha256:45134fb5861872ef594743b5bf9bf8dc8cc9acf04fc624e73a5c22d22d56005a`。
+`sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130`。
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 4,450 条路径。追加式台账共有 5,119 条记录，因为它保留了上一参考基线
@@ -322,11 +322,11 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 504 |
+| `implemented-different-by-design` | 525 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
 | `reference-only` | 139 |
-| `deferred-next-batch` | 117 |
+| `deferred-next-batch` | 96 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1695,4 +1695,34 @@ WI-617 在固定本地参考提交 `fde3380f81fea5fd2e288f7a8849f737dc074060` �
 
 对象/adopter 工程继承相同的 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、fail-closed Outcome 和人类交接边界；不会继承源 Python 测试、Make target、供应商 PR 格式或 source wire。详见 [WI-617 Work Item 记录](../work-items/WI-617-reference-outcome-parity.zh-CN.md)。
 
-reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=504 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=117 migrate-gap=0
+## WI-619——参考源 adoption、企业、生命周期与信任测试对等
+
+WI-619 在固定参考提交上逐一复核下一批 21 条维护中的测试路径。21 条可移植责任由共享 Rust Runtime、仓库原生测试、release/adopter harness 或文档以不同设计实现，未发现 `migrate-gap`。源 fixture 栈、Python/Make 环境准备、供应商身份和源 JSON wire 按边界保留在目标之外。
+
+| 固定参考路径 | 分类 | Rust 对应或边界决定 |
+| --- | --- | --- |
+| `tests/test_end_to_end_adoption_validation.py` | implemented-different-by-design | 公开 Release/N-1 adopter harness 与类型化隔离测试；源七栈矩阵仍由对象工程负责。 |
+| `tests/test_ensure_locked_dev_environment.py` | implemented-different-by-design | `Cargo.lock`、固定 Rust toolchain 与 action policy 检查；Python venv/ruff 由供应商负责。 |
+| `tests/test_enterprise_control_evidence.py` | implemented-different-by-design | 类型化 assurance/delegated evidence 测试与企业边界文档；不产生本地合规结论。 |
+| `tests/test_enterprise_control_matrix.py` | implemented-different-by-design | Rust governance controls 与企业文档只展示 observed control evidence；外部 assurance 仍 delegated。 |
+| `tests/test_evidence_dependencies.py` | implemented-different-by-design | 仓库绑定的 evidence/knowledge 投影强制安全路径、确定性排序、身份和绑定。 |
+| `tests/test_external_adopter_long_cycle.py` | implemented-different-by-design | 发布产物 adopter/upgrade harness 覆盖 bare-origin 生命周期、回滚、隔离和清理。 |
+| `tests/test_external_identity.py` | implemented-different-by-design | 类型化 authority/provenance/scope 与操作时 policy 检查；供应商/企业身份留在外部。 |
+| `tests/test_final_north_star_acceptance.py` | implemented-different-by-design | Rust conformance 与 final-replacement acceptance 保留边界维度和显式限制。 |
+| `tests/test_finish_e2e.py` | implemented-different-by-design | 类型化 lifecycle/resource-finalization 测试与 workflow policy 保留 fail-closed 顺序和恢复。 |
+| `tests/test_finish_readiness.py` | implemented-different-by-design | Contract preflight、checkpoint、agent-risk 与 CLI readiness 测试提供停止/恢复指引。 |
+| `tests/test_fixture_harness.py` | implemented-different-by-design | Release fixture 与 acceptance 测试覆盖不可变产物/对象边界；源栈矩阵仅参考。 |
+| `tests/test_governance_complexity.py` | implemented-different-by-design | 类型化诊断、provenance 基线和性能门替代源行数报告。 |
+| `tests/test_governance_compression.py` | implemented-different-by-design | 确定性 status 与人类 Outcome 投影保留 warning、stop、unknown 和 decision，不复制源 score。 |
+| `tests/test_governance_profile.py` | implemented-different-by-design | 类型化 verification tier/assurance、route precedence 和 profile diagnostics 替代源 YAML 解析。 |
+| `tests/test_guard_failure_paths.py` | implemented-different-by-design | Rust 原生 guard 与 adversarial fixture 对注入、不安全路径、不支持声明和矛盾证据 fail-closed。 |
+| `tests/test_guards_and_status.py` | implemented-different-by-design | 类型化 status、unknown、recovery、retry 和多语言 handoff 保留 guard 责任。 |
+| `tests/test_guidelines.py` | implemented-different-by-design | Contract/preflight 暴露缺失、不合规和 evidence/file 诊断，不复制源 wire。 |
+| `tests/test_hosted_verification_snapshot.py` | implemented-different-by-design | provider-bound verification 与 quality/snapshot binding 被验证，不复制源 Make snapshot 例外。 |
+| `tests/test_indirect_injection_dataflow.py` | implemented-different-by-design | 类型化 provenance 使仓库文本、工具输出和 Agent 解释在操作时检查前保持非权威。 |
+| `tests/test_input_trust.py` | implemented-different-by-design | 仓库、Markdown、工具和 Agent 输入保持不可信，需显式 authority 与重新评估。 |
+| `tests/test_input_trust_corpus.py` | implemented-different-by-design | Rust adversarial fixture 保留 issue、web、log、dependency、tool、generated 和空 scope 不提升案例。 |
+
+对象工程继承共享 Runtime、显式 repository context、隔离 Contract/evidence/knowledge、动态验证、fail-closed 生命周期和人类 Outcome 边界；不继承源 Python 测试、Make target、fixture 栈、供应商 policy 值或 source wire。参见 [WI-619 Work Item](../work-items/WI-619-reference-script-semantic-batch.zh-CN.md)。
+
+reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=525 implemented-equivalent=1 not-applicable=8 reference-only=139 deferred-next-batch=96 migrate-gap=0

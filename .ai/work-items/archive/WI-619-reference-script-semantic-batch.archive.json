@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T16:48:03Z",
+  "files": {
+    "contractDigest": "sha256:fff6b6f395eeb34ae6bdc02e038bf916658d26c4d9a712bd1a9702495bb24160",
+    "contractPath": ".ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json",
+    "eventsDigest": "sha256:06e91375b2381e221eadff87a88812612ae593998e87a508315cc21c4045d558",
+    "eventsPath": ".ai/work-items/archive/WI-619-reference-script-semantic-batch.events.jsonl",
+    "outcomeDigest": "sha256:0ae4aab8853480950bc8f4e2c05261e7b1d97a9f4aa26a5c0c1cb437a2ad13cc",
+    "outcomePath": ".ai/work-items/archive/WI-619-reference-script-semantic-batch.outcome.json",
+    "summaryDigest": "sha256:b46155f988d3e54ee25f6cdc01eac4aee70785e74b485b090847eb11eb42d4c8",
+    "summaryPath": ".ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json",
+    "taskReportDigest": "sha256:e08dd60c714ee269d031adf4c9c7fba54606d340cfa108ffd1f8db7b83d4a7ad",
+    "taskReportMarkdownDigest": "sha256:adeff3b48f56d96e0dedbaa60643d0ae886067d780c7c015b410df9eee846baa",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-619-reference-script-semantic-batch.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-619-reference-script-semantic-batch.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-619-reference-script-semantic-batch"
+}
