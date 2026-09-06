@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d46f03fa9fc8d1320bc1f6cddcd0a1e548f974214b4241eafb0171d9b177052f",
+      "workItemId": "WI-624-wi622-doc-promotion-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-06T20:59:53Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the failed documentation projection recovery for WI-622 and record this recovery Work Item own tri-language projection."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-624-wi622-doc-promotion-recovery"
+  },
+  "finalReportDigest": "sha256:5885df189518f1748a819dfef76a000ead81124e82846414dba14f43bbfb8f6f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:6f86f40c7591d6c110fbef8b4aba273bb9864ead6d069d6f915cff154150bea4",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-624-wi622-doc-promotion-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-06T20:59:53Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json"
+    ],
+    "policyRefs": [
+      "docs/reference/repository-workflow.md"
+    ],
+    "reason": "Reviewed PR #619 passed hosted checks, merged to main, documentation projection recovery verified, and exact cleanup completed.",
+    "resumeCondition": "No resume required; repository is ready_on_base."
+  },
+  "timestamp": "2026-09-06T21:02:11Z",
+  "workItemId": "WI-624-wi622-doc-promotion-recovery"
+}

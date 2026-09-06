@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "6953cf8389fe029b9ed5aa375e08fde321493e58",
+    "name": "codex/wi-624-doc-promotion-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:48abc6064bdc4cee4556cb76ff3fe0837a13ef9b5bdda4047b7de88f8574497d",
+  "operationId": "github-pr-619-finalization-20260906",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "32184d326b588022f288f2617a9dd5eba0a24886",
+    "headRevision": "6953cf8389fe029b9ed5aa375e08fde321493e58",
+    "mergeCommit": "02e9dadbc5d2ec0ca97d3740aff0447527b40d64",
+    "number": 619,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #619 passed all hosted checks, merged into main, and exact branch/worktree cleanup was verified.",
+  "receiptId": "github-pr-619-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-624-doc-promotion-recovery",
+    "provider": "github",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi624-doc-promotion-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130",
+  "runtimeVersion": "0.2.83",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T20:59:53Z",
+  "workItemId": "WI-624-wi622-doc-promotion-recovery",
+  "worktree": {
+    "branch": "codex/wi-624-doc-promotion-recovery",
+    "headRevision": "6953cf8389fe029b9ed5aa375e08fde321493e58",
+    "path": "/private/tmp/ai-cockpit-wi624-doc-promotion-recovery",
+    "worktreeId": "wi-624-doc-promotion-recovery"
+  }
+}
