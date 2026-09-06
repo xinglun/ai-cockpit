@@ -3,10 +3,14 @@ title: "WI-603 — v0.2.80 release と adopter acceptance"
 description: "次の Rust Runtime patch を公開し、immutable artifact と adopter 境界を検証する。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-603-release-v0-2-80
 lastVerifiedBy: WI-603-release-v0-2-80
+terminalArchive: .ai/work-items/archive/WI-603-release-v0-2-80.contract.json
+terminalVerification: .ai/evidence/WI-603-release-v0-2-80.verification.json
+terminalFinalization: .ai/decisions/WI-603-release-v0-2-80.finalize.json
+terminalDecision: .ai/decisions/WI-603-release-v0-2-80.close.json
 ---
 
 [English](WI-603-release-v0-2-80.md) · [简体中文](WI-603-release-v0-2-80.zh-CN.md)
