@@ -3,7 +3,7 @@ title: "WI-625——v0.2.84 发布与对象验收"
 description: "发布 direct-merge 恢复修复，并用不可变发布产物完成发布后对象验收。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: canonical
 workItemId: WI-625-release-v0-2-84
 lastVerifiedBy: WI-625-release-v0-2-84
@@ -14,6 +14,9 @@ lastVerifiedBy: WI-625-release-v0-2-84
 # WI-625——v0.2.84 发布与对象验收
 
 ## 目标
+
+本历史发布尝试保留为已恢复的失败发布边界。不可变的 `v0.2.84` 标签从未成为公开
+Release；其 source-quality 失败由 WI-626 的 `v0.2.85` 发布接替。
 
 将已审查 Runtime 发布为 `v0.2.84`，包含首次 `direct_merge_no_pr` CLI 往返修复，
 再用不可变发布产物执行对象与 N-1 验收。

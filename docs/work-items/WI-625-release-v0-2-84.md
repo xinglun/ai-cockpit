@@ -3,7 +3,7 @@ title: "WI-625 — v0.2.84 release and adopter acceptance"
 description: "Publish the direct-merge recovery fix and validate immutable release artifacts with post-release adopter evidence."
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: canonical
 workItemId: WI-625-release-v0-2-84
 lastVerifiedBy: WI-625-release-v0-2-84
@@ -14,6 +14,10 @@ lastVerifiedBy: WI-625-release-v0-2-84
 # WI-625 — v0.2.84 release and adopter acceptance
 
 ## Objective
+
+This historical release attempt is retained as a recovered, failed
+publication boundary. The immutable `v0.2.84` tag was never a public release;
+its source-quality failure was superseded by WI-626 for `v0.2.85`.
 
 Publish the reviewed Runtime as `v0.2.84`, carrying the first-record
 `direct_merge_no_pr` CLI round-trip fix, then validate the public artifacts
