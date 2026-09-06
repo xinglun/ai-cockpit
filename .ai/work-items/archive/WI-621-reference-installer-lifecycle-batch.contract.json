@@ -26,11 +26,11 @@
     "archive"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-621-reference-installer-lifecycle-batch",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/616",
     "worktree": "/private/tmp/ai-cockpit-wi621-reference-installer-lifecycle-batch"
   },
   "risk": "normal",
