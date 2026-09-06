@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dfe8263d35dade1b41e9128f0ef0527424a6a3e1199ce020a18015ad11433bc5",
+      "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json",
+            ".ai/decisions/WI-612-reference-file-comparison-batch-50-ci-repair.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via human:repository-owner at 2026-09-06T10:56:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "从最新main完成批次50的逐文件语义比对、三语parity与metadata更新、回归门修正，并产出可审计的发布前交付。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+  },
+  "finalReportDigest": "sha256:5b682f07947579296c839fdca022ce302d3ba6a6d046a898a51128686cc9f16f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1081c889db8ffc7f557cdd6f9078ff913f47e02cff3de3b8905728d497711dec",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-612-reference-file-comparison-batch-50-ci-repair.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "human:repository-owner",
+    "decidedAt": "2026-09-06T10:56:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json",
+      ".ai/decisions/WI-612-reference-file-comparison-batch-50-ci-repair.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-file-comparison.md"
+    ],
+    "reason": "Reviewed PR #604 passed all hosted checks and merged; the reference parity batch and inventory regression repair are accepted with immutable evidence.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-06T10:49:51Z",
+  "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+}

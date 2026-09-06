@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0bb8f7630a3a371795438fd1905ed53d0fd0522b",
+    "name": "codex/wi-612-reference-file-comparison-batch-50-ci-repair",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:39fbce7d4e27104ff7f8ca1e48a0a228660b8d63945d3a78b6f207561dc98d3e",
+  "operationId": "github-pr-604-finalization-20260906",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9a9a86da018876fc380706be141773a92c52757c",
+    "headRevision": "0bb8f7630a3a371795438fd1905ed53d0fd0522b",
+    "mergeCommit": "7b89819bf61fdfb0f52b0f913681b899a0e18eb9",
+    "number": 604,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/604"
+  },
+  "reason": "Reviewed PR #604 was merged after all hosted checks passed; the exact Work Item branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "github-pr-604-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-612-reference-file-comparison-batch-50-ci-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/604",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-612-reference-file-comparison-batch-50-ci-repair"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:e3457009cb1070c038d300b80f9d34fb24b5cf2f388f8f60d9c296aa1d63b662",
+  "runtimeVersion": "0.2.82",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T10:55:00Z",
+  "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair",
+  "worktree": {
+    "branch": "codex/wi-612-reference-file-comparison-batch-50-ci-repair",
+    "headRevision": "0bb8f7630a3a371795438fd1905ed53d0fd0522b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-612-reference-file-comparison-batch-50-ci-repair",
+    "worktreeId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+  }
+}
