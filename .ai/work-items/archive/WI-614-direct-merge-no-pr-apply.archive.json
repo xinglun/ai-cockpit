@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T11:57:15Z",
+  "files": {
+    "contractDigest": "sha256:224c3a26cdc8fbc43f163458115b0b49a57f0b5e52dd4083821242031a003bb8",
+    "contractPath": ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json",
+    "eventsDigest": "sha256:5d57224b8d4827183d05329bfc145f7886a7751e629b0cc9b86c9e7883c5e592",
+    "eventsPath": ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.events.jsonl",
+    "outcomeDigest": "sha256:0d9e662b3e94f1b0ed11beb7abe6756b900c3bacbcf6d487a23ad29e81220dbb",
+    "outcomePath": ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.outcome.json",
+    "summaryDigest": "sha256:38f19b9e25188d49b014d5dd411d8c4628b3855cd20af1c80d8948d702457e5c",
+    "summaryPath": ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.summary.json",
+    "taskReportDigest": "sha256:65b8d90f661a7a2f5fc322628dca9842bf454d78648d6ed48ac163835ee7924e",
+    "taskReportMarkdownDigest": "sha256:5c020b7142697f3187c8bfe5b2ee204ba2a0cd99b1307b4814bbe7c3c1708925",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-614-direct-merge-no-pr-apply"
+}

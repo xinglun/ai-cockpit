@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "finalize-recovery-plan 输出的 direct_merge_no_pr 建议收据包含所有可由 merge commit、Contract 与 repository observer 确定性推导的字段，并明确仅需补充人类授权字段。",
+    "使用建议收据并补充合法的人类字段后，首次 finalize 与 finalize-recovery 均可成功记录，不再出现 direct-merge history requires a merged no-PR identity 或 resourceContext identity mismatch。",
+    "Git merge commit、完整 parents、真实 baseRevision、repositoryId、Contract digest 与 runtime identity 全部绑定；历史事实不可被覆盖或重分类为 PR。",
+    "缺失/错误 merge parents、foreign repository、错误 Work Item、非法状态、伪造 PR 或不一致 resourceContext 继续 fail closed。",
+    "新增回归测试覆盖 plan→apply 首次路径与 suggestedReceipt round-trip，三语命令文档说明完整输入与人类决定边界。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "340881df6d21d9ab4b0c704c69ab7dcc32b838a0",
+  "createdAt": "2026-09-06T11:21:58Z",
+  "goal": "让无 PR 的真实 direct merge 可以通过可审计、不可伪造的首次 finalization 记录完成后续验证与 close。",
+  "intent": "修复首次 direct_merge_no_pr 历史收尾路径，使 Runtime 自己生成的 recovery plan 能在明确人类补充后被 finalize/finalize-recovery 接受，并保持历史事实与 fail-closed 校验。",
+  "mode": "code",
+  "outOfScope": [
+    "对象工程 /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "发布版本与 GitHub Release",
+    "参考源工程功能迁移",
+    "手工修改生成的 .ai 状态、receipt 或 archive 文件"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:74b52c2e768bbbf00fe6592981b262200d2e0b695f0a5ac0fdc26b6b54ee3e42",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-614-direct-merge-no-pr-apply",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-614-direct-merge-no-pr-apply"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/troubleshooting.md",
+    "docs/reference/troubleshooting.zh-CN.md",
+    "docs/reference/troubleshooting.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-614-direct-merge-no-pr-apply"
+}

@@ -1026,12 +1026,9 @@ fn historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing()
         plan["suggestedReceipt"]["historical"]["contractBaseRevision"],
         base_revision
     );
-    assert!(
-        plan["humanInputRequired"]
-            .as_array()
-            .expect("human input list")
-            .iter()
-            .any(|field| field == "resourceContext")
+    assert_eq!(
+        plan["humanInputRequired"],
+        json!(["actor", "authoritySource", "reason", "timestamp"])
     );
     assert_eq!(
         fs::read_dir(directory.path().join(".ai/decisions"))
@@ -1044,7 +1041,7 @@ fn historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing()
 
 #[test]
 fn historical_direct_merge_plan_suggested_receipt_can_be_completed_and_applied() {
-    let (directory, context, _contract, _base_revision, feature_head, merge_commit) =
+    let (directory, _context, _contract, _base_revision, _feature_head, merge_commit) =
         direct_merge_repository();
     let plan = historical_finalization_recovery_plan(
         directory.path(),
@@ -1054,36 +1051,6 @@ fn historical_direct_merge_plan_suggested_receipt_can_be_completed_and_applied()
     )
     .expect("direct merge plan");
     let mut receipt = plan["suggestedReceipt"].clone();
-    receipt["receiptId"] = "direct-merge-plan-receipt".into();
-    receipt["operationId"] = "direct-merge-plan-operation".into();
-    receipt["pullRequest"]["baseBranch"] = context.base_branch.clone().into();
-    receipt["pullRequest"]["baseRemote"] = context.base_remote.clone().into();
-    receipt["branch"] = json!({
-        "name": context.branch,
-        "remote": "origin",
-        "headRevision": feature_head,
-    });
-    receipt["worktree"] = json!({
-        "worktreeId": "primary-repository",
-        "path": context.worktree,
-        "branch": context.branch,
-        "headRevision": feature_head,
-    });
-    receipt["before"] = json!({
-        "pullRequest": "merged",
-        "branch": "present",
-        "worktree": "clean",
-    });
-    receipt["after"] = json!({
-        "pullRequest": "merged",
-        "branch": "deleted",
-        "worktree": "clean",
-    });
-    receipt["result"] = json!({
-        "disposition": "retained",
-        "failureCodes": [],
-        "unknownCodes": [],
-    });
     receipt["actor"] = "human:test".into();
     receipt["authoritySource"] = "historical-test".into();
     receipt["reason"] = "record a direct merge without inventing a pull request".into();
@@ -1097,6 +1064,70 @@ fn historical_direct_merge_plan_suggested_receipt_can_be_completed_and_applied()
         .expect("the applied plan receipt should verify");
     assert_eq!(verified["state"], "verified");
     assert_eq!(verified["historicalKind"], "direct_merge_no_pr");
+}
+
+#[test]
+fn historical_direct_merge_plan_includes_deterministic_receipt_fields() {
+    let (directory, context, _contract, _base_revision, feature_head, merge_commit) =
+        direct_merge_repository();
+    let plan = historical_finalization_recovery_plan(
+        directory.path(),
+        ID,
+        &runtime(),
+        Some(&merge_commit),
+    )
+    .expect("direct merge plan");
+    let receipt = &plan["suggestedReceipt"];
+    for path in [
+        "receiptId",
+        "operationId",
+        "pullRequest.baseBranch",
+        "pullRequest.baseRemote",
+        "resourceContext",
+        "branch",
+        "worktree",
+        "before",
+        "after",
+        "result",
+    ] {
+        let mut value = receipt;
+        for segment in path.split('.') {
+            value = &value[segment];
+        }
+        assert!(
+            !value.is_null(),
+            "plan must include deterministic field {path}"
+        );
+    }
+    assert_eq!(receipt["pullRequest"]["baseBranch"], context.base_branch);
+    assert_eq!(receipt["pullRequest"]["baseRemote"], context.base_remote);
+    assert_eq!(receipt["pullRequest"]["headRevision"], feature_head);
+    assert_eq!(receipt["before"]["pullRequest"], "merged");
+    assert_eq!(receipt["after"]["pullRequest"], "merged");
+    assert_eq!(receipt["result"]["disposition"], "retained");
+    let required = plan["humanInputRequired"]
+        .as_array()
+        .expect("human input list");
+    for field in ["actor", "authoritySource", "reason", "timestamp"] {
+        assert!(
+            required.iter().any(|value| value == field),
+            "missing human field {field}"
+        );
+    }
+    for field in [
+        "pullRequest.baseBranch",
+        "resourceContext",
+        "branch",
+        "worktree",
+        "before",
+        "after",
+        "result.disposition",
+    ] {
+        assert!(
+            !required.iter().any(|value| value == field),
+            "deterministic field must not be left for human reconstruction: {field}"
+        );
+    }
 }
 
 #[test]

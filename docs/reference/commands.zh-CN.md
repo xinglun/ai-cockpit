@@ -128,11 +128,14 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   disposition，以及仍需人工提供的字段。没有 canonical predecessor 时追加真实的
   `--merge-commit <sha>`；Runtime 会校验真实 parents，并输出确定性的 identity facts（repositoryId、
   当前 Runtime、merge commit、parents、base revision 和 zero-PR URL），以及包含
-  `pullRequest.number=0` 与 `historical://direct-merge/<sha>` 的部分 receipt 骨架。
+  `pullRequest.number=0` 与 `historical://direct-merge/<sha>` 的完整类型化 receipt 骨架。
   `pullRequest.baseRevision` 是真实 merge 第一 parent，`historical.contractBaseRevision`
   是归档 Contract base；这两个确定性事实都必须保留。同时输出 archived Contract digest/base
-  和 provisional context。receipt ID、branch/worktree 事实、disposition、
-  authority、reason 和 timestamp 仍由人提供。该命令不写入 `.ai/decisions`，不会虚构 PR 号、authority
+  和 provisional context。若 archived Contract 具有非 provisional 的 resource context，plan 还会填充
+  receipt/operation ID、branch/worktree identity、base branch/remote、merged 的 before/after PR 状态，
+  以及带有 `historical_resource_state_unknown` 的保守 `retained` 结果，不要求 Agent 重建这些协议字段。
+  只有 `actor`、`authoritySource`、`reason` 和 `timestamp` 仍由人提供；context 不完整时，
+  `humanInputRequired` 会明确列出缺失字段。该命令不写入 `.ai/decisions`，不会虚构 PR 号、authority
   或 human decision。
 - `migrate plan --repo <path>` 在 schema 已兼容时仍保持兼容，但会额外输出
   `historicalFinalization`。已有有效 close 绑定的旧 receipt 标记为

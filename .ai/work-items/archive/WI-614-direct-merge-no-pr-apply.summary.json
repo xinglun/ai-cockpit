@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.contract.json",
+    ".ai/work-items/archive/WI-614-direct-merge-no-pr-apply.summary.json"
+  ],
+  "checkpointAt": "2026-09-06T11:40:05Z",
+  "checkpointContractDigest": "sha256:36869c11538359032dba94fb144ee7851313055b2e4daab5676f9e5c6780b3d7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:5fd6216f4b3a99a839c3728dadbc959f5d999653379a909e6f5f5886de7e5711",
+  "createdAt": "2026-09-06T11:21:58Z",
+  "mode": "code",
+  "preflightAt": "2026-09-06T11:57:00Z",
+  "preflightContractDigest": "sha256:36869c11538359032dba94fb144ee7851313055b2e4daab5676f9e5c6780b3d7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5fd6216f4b3a99a839c3728dadbc959f5d999653379a909e6f5f5886de7e5711",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T11:57:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-614-direct-merge-no-pr-apply"
+}
