@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "All three Work Item documents are regular files with terminal evidence frontmatter.",
+    "All three parity ledgers contain one WI-609 row bound to the documentation promotion evidence.",
+    "promote_closed_work_item.py --repo <repo> --work-item WI-608-adopter-removal-race --check passes after the projection.",
+    "The closed WI-608 documentation projection is present in all three languages and remains bound to its immutable archive, verification, finalization, and close receipts."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2335e29b76e9b86020efe239a94c2a006d248ed7",
+  "createdAt": "2026-09-06T07:24:49Z",
+  "goal": "Keep closed Work Item documentation projections complete and auditable before release.",
+  "intent": "Promote the closed WI-608 adopter cleanup result into the required tri-language reader documentation and parity ledger.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust runtime semantics",
+    "release artifact implementation",
+    "object repositories"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:53c5ae76bb31bac8cf17d29d0b73e4693e96ba1a209d15a2f0bc02b4151d50e6",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-609-doc-promotion-wi608",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-609-doc-promotion-wi608"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-609-doc-promotion-wi608.md",
+    "docs/work-items/WI-609-doc-promotion-wi608.zh-CN.md",
+    "docs/work-items/WI-609-doc-promotion-wi608.ja.md",
+    "docs/work-items/WI-608-adopter-removal-race.md",
+    "docs/work-items/WI-608-adopter-removal-race.zh-CN.md",
+    "docs/work-items/WI-608-adopter-removal-race.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-609-doc-promotion-wi608"
+}
