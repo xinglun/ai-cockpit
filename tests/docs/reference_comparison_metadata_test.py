@@ -50,6 +50,20 @@ def git_head() -> str:
     return result.stdout.strip()
 
 
+def workspace_version() -> str:
+    result = subprocess.run(
+        ["cargo", "metadata", "--locked", "--format-version", "1", "--no-deps"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    versions = {package["version"] for package in json.loads(result.stdout)["packages"]}
+    if len(versions) != 1:
+        fail(f"workspace packages have multiple versions: {sorted(versions)}")
+    return versions.pop()
+
+
 def frontmatter(text: str) -> dict[str, str]:
     if not text.startswith("---\n"):
         fail("reference page has no frontmatter")
@@ -82,6 +96,11 @@ def main() -> None:
         fail(f"metadata keys differ: expected {sorted(required)}, got {sorted(metadata)}")
     if metadata["schemaVersion"] != 1:
         fail("unsupported metadata schema")
+    if metadata["runtimeVersion"] != workspace_version():
+        fail(
+            "runtimeVersion must match the single Cargo workspace version; "
+            "update comparison metadata when the Runtime is released"
+        )
     reference_commit = parse_lock_commit()
     if metadata["referenceCommit"] != reference_commit:
         fail("metadata referenceCommit differs from reference-source.lock")
@@ -169,6 +188,12 @@ def main() -> None:
     if comparison_text.count(metadata["rustBaselineCommit"]) != 1:
         fail("comparison baseline commit must appear once in the live section")
     print("reference comparison metadata check passed")
+
+
+def test_runtime_identity_tracks_workspace_version() -> None:
+    """The live comparison metadata must not silently lag the Rust release."""
+    metadata = json.loads(METADATA_PATH.read_text(encoding="utf-8"))
+    assert metadata["runtimeVersion"] == workspace_version()
 
 
 if __name__ == "__main__":
