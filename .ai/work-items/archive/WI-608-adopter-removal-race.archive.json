@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T07:21:18Z",
+  "files": {
+    "approachDigest": "sha256:63bf15798395054a7fa6e88845d92394bbdd792b9dfb274f7085e771e81b04b4",
+    "approachPath": ".ai/work-items/archive/WI-608-adopter-removal-race.approach.json",
+    "contractDigest": "sha256:166b13a2e4abd5ee150be34e2fd2f09472c8519386cb0a5576a15cf14d602dc6",
+    "contractPath": ".ai/work-items/archive/WI-608-adopter-removal-race.contract.json",
+    "eventsDigest": "sha256:db03e77e4a9c09f1bac3d9eb4150f1e0c189786603cb4ca62e7a1828fb972645",
+    "eventsPath": ".ai/work-items/archive/WI-608-adopter-removal-race.events.jsonl",
+    "outcomeDigest": "sha256:22b2a98746b741f637b16599b3455ad16414e0d1ec1fd853b064e05464c00630",
+    "outcomePath": ".ai/work-items/archive/WI-608-adopter-removal-race.outcome.json",
+    "summaryDigest": "sha256:99c75372228a75f49ff44f86f8f759129581bd6caf9ef29ef27889a4adfc5289",
+    "summaryPath": ".ai/work-items/archive/WI-608-adopter-removal-race.summary.json",
+    "taskReportDigest": "sha256:76170a9f7690b336342f16468e7137d15525010c951c24c8c2bc6e35696eb3e7",
+    "taskReportMarkdownDigest": "sha256:f1edcd7f0dec999a3c3dafcfeea6fd67b8b14985dde840158d0ba4642f279260",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-608-adopter-removal-race.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-608-adopter-removal-race.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-608-adopter-removal-race"
+}

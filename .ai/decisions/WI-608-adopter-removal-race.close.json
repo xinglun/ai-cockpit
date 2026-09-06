@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:53c5ae76bb31bac8cf17d29d0b73e4693e96ba1a209d15a2f0bc02b4151d50e6",
+      "workItemId": "WI-608-adopter-removal-race"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-608-adopter-removal-race.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-608-adopter-removal-race.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-608-adopter-removal-race.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-608-adopter-removal-race.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json",
+            ".ai/decisions/WI-608-adopter-removal-race.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:release via human:release at 2026-09-06T07:22:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-608-adopter-removal-race.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the release acceptance harness remove only the exact lifecycle checkout, tolerate transient Git maintenance races with bounded retries, and fail closed with auditable cleanup evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-608-adopter-removal-race.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-608-adopter-removal-race"
+  },
+  "finalReportDigest": "sha256:58979f6d3bca69005f3d0bb06f1dc9375f037e57779aef7283530e85ab54183c",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:2c6876251696d6db2ba1992498753abf8196a7808201319efd8b9d44ca501c7d",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-608-adopter-removal-race.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:release",
+    "authoritySource": "human:release",
+    "decidedAt": "2026-09-06T07:22:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-608-adopter-removal-race.verification.json",
+      ".ai/decisions/WI-608-adopter-removal-race.finalize.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #598 passed all hosted checks; merge commit 37604dc and exact branch/worktree cleanup are recorded. Adopter cleanup race fix is ready for the next published release.",
+    "resumeCondition": "Publish v0.2.82 from the merged main and verify staged/public/N-1 adopter acceptance before release completion."
+  },
+  "timestamp": "2026-09-06T07:22:17Z",
+  "workItemId": "WI-608-adopter-removal-race"
+}

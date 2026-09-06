@@ -1,0 +1,58 @@
+{
+  "actor": "human:release",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0b11aceefae22b1b1087d87af20833a3e64cc888",
+    "name": "codex/wi-608-adopter-removal-race",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:166b13a2e4abd5ee150be34e2fd2f09472c8519386cb0a5576a15cf14d602dc6",
+  "operationId": "github-pr-598-finalization-20260906",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "424e313208f75df96a255a20d057b1574accb6d0",
+    "headRevision": "0b11aceefae22b1b1087d87af20833a3e64cc888",
+    "mergeCommit": "37604dc613e04f42d858a3d514cddb039879586c",
+    "number": 598,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/598"
+  },
+  "reason": "Reviewed PR #598 merged after all hosted checks passed; exact Work Item branch and dedicated worktree removed after cleanup verification.",
+  "receiptId": "github-pr-598-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-608-adopter-removal-race",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/598",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-608-adopter-removal-race"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",
+  "runtimeVersion": "0.2.79",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T07:19:00Z",
+  "workItemId": "WI-608-adopter-removal-race",
+  "worktree": {
+    "branch": "codex/wi-608-adopter-removal-race",
+    "headRevision": "0b11aceefae22b1b1087d87af20833a3e64cc888",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-608-adopter-removal-race",
+    "worktreeId": "WI-608-adopter-removal-race"
+  }
+}

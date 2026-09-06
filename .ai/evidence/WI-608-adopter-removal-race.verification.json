@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:ea4df8ebc690f541a5a7327043278e8154813abfb0bea6fb5ff2085ff47ae8a7",
-  "createdAt": "2026-09-06T07:10:38Z",
+  "contractDigest": "sha256:577643acd117e552485f1fd8a2a393cc45813773fe6cf170319607e1d1754a18",
+  "createdAt": "2026-09-06T07:17:20Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 152042,
-      "executionElapsedMs": 151764,
+      "elapsedMs": 153397,
+      "executionElapsedMs": 153092,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 152042,
-    "executionElapsedMs": 151764,
-    "filesHashed": 13,
-    "filesRead": 13,
+    "elapsedMs": 153397,
+    "executionElapsedMs": 153092,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,12 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "tests/release/adopter_acceptance.sh",
-        "tests/release/adopter_acceptance_test.sh",
-        "tests/release/adopter_upgrade_acceptance.sh",
-        "tests/release/adopter_upgrade_acceptance_test.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "424e313208f75df96a255a20d057b1574accb6d0",
       "dependencyConfidence": "unknown",
@@ -49,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 151764,
+      "executionElapsedMs": 153092,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -81,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:04e6f5f968e9d41680cb2e015655bd892fafa45699473a6b7783a1570d726ebb",
+        "outputDigest": "sha256:e557afc9fef64916f7c8432e9ab4bcf0d96a68115ccbea221335850a43b01497",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -97,7 +92,7 @@
     "runtimeVersion": "0.2.79",
     "workItemId": "WI-608-adopter-removal-race"
   },
-  "receiptDigest": "sha256:65008dd54567d82d300ee5111d35ad4a4004fb30214302f7489a96dc8c7ab707",
+  "receiptDigest": "sha256:a4ec600d0179428f453a10760f762d66f1aa37a66f8424b15560fe7aab106b15",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:53c5ae76bb31bac8cf17d29d0b73e4693e96ba1a209d15a2f0bc02b4151d50e6",
   "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",

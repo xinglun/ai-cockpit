@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "staged adopter acceptance passes on the candidate artifact without source fallback",
+    "public adopter and N-1 acceptance retain cleanup receipts and pass on the published Release",
+    "cleanup works on GNU/Linux and BSD/macOS rm implementations",
+    "forced removal failure remains failed and preserves acceptance truth"
+  ],
+  "createdAt": "2026-09-06T07:17:31Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:add0b68a99a4fc2fe576cecf3a600ad17a364705a664a163468296faa90644c1",
+  "evidenceRefs": [
+    ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:53c5ae76bb31bac8cf17d29d0b73e4693e96ba1a209d15a2f0bc02b4151d50e6",
+      "workItemId": "WI-608-adopter-removal-race"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-608-adopter-removal-race.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-608-adopter-removal-race.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-608-adopter-removal-race.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-608-adopter-removal-race.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-608-adopter-removal-race.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-608-adopter-removal-race.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the release acceptance harness remove only the exact lifecycle checkout, tolerate transient Git maintenance races with bounded retries, and fail closed with auditable cleanup evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-608-adopter-removal-race.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-608-adopter-removal-race"
+  },
+  "taskReportDigest": "sha256:76170a9f7690b336342f16468e7137d15525010c951c24c8c2bc6e35696eb3e7",
+  "taskReportMarkdownDigest": "sha256:f1edcd7f0dec999a3c3dafcfeea6fd67b8b14985dde840158d0ba4642f279260",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-608-adopter-removal-race.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-608-adopter-removal-race"
+}
