@@ -3,10 +3,14 @@ title: "WI-607 — v0.2.81 release と adopter acceptance"
 description: "次の Rust Runtime patch を公開し、immutable artifact と adopter 境界を検証する。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-607-release-v0-2-81
 lastVerifiedBy: WI-607-release-v0-2-81
+terminalArchive: .ai/work-items/archive/WI-607-release-v0-2-81.contract.json
+terminalVerification: .ai/evidence/WI-607-release-v0-2-81.verification.json
+terminalFinalization: .ai/decisions/WI-607-release-v0-2-81.finalize.json
+terminalDecision: .ai/decisions/WI-607-release-v0-2-81.close.json
 ---
 
 [English](WI-607-release-v0-2-81.md) · [简体中文](WI-607-release-v0-2-81.zh-CN.md)

@@ -1,0 +1,58 @@
+{
+  "actor": "human:release",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e977df1630964c69cf25d3a314d70e3bc88c16f6",
+    "name": "codex/wi-607-release-v0-2-81",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:51c6ae80c34a3c9ccf919c6a23eb768cc2c5ba12c1d93fb620448b03b08dab7b",
+  "operationId": "github-pr-597-finalization-20260906",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "4e16ad789607d1723dc79caad1db1a77102a2974",
+    "headRevision": "e977df1630964c69cf25d3a314d70e3bc88c16f6",
+    "mergeCommit": "327baae2c866eef1092944ff2602e1c8d87689ae",
+    "number": 597,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/597"
+  },
+  "reason": "Reviewed PR #597 was merged after all hosted checks passed; the exact Work Item branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "github-pr-597-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-607-release-v0-2-81",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/597",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-607-release-v0-2-81"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",
+  "runtimeVersion": "0.2.79",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T06:45:00Z",
+  "workItemId": "WI-607-release-v0-2-81",
+  "worktree": {
+    "branch": "codex/wi-607-release-v0-2-81",
+    "headRevision": "e977df1630964c69cf25d3a314d70e3bc88c16f6",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-607-release-v0-2-81",
+    "worktreeId": "WI-607-release-v0-2-81"
+  }
+}

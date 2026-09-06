@@ -22,11 +22,11 @@
   "repositorySnapshotDigest": "sha256:c0fa23c061adcb1e7e57b91691be1ff6b3a5fa3ed7238a031dd50c7b7677fe6c",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-607-release-v0-2-81",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/597",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-607-release-v0-2-81"
   },
   "risk": "normal",
