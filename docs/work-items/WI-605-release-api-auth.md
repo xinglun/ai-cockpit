@@ -3,7 +3,7 @@ title: "WI-605 — release API authentication for adopter acceptance"
 description: "Keep staged and public adopter acceptance deterministic under repeated GitHub Release API access."
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: canonical
 workItemId: WI-605-release-api-auth
 lastVerifiedBy: WI-605-release-api-auth

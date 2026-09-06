@@ -5,6 +5,7 @@ author: AI Cockpit maintainers
 audience: [maintainer, reviewer]
 status: in_progress
 authority: canonical
+lastVerifiedBy: WI-606-release-api-auth-doc-projection
 workItemId: WI-606-release-api-auth-doc-projection
 predecessorWorkItemId: WI-605-release-api-auth
 ---
