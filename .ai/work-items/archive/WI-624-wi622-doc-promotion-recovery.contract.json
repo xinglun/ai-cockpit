@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "Promote the already closed WI-622 Work Item document and its English, Chinese, and Japanese reference-parity entries to implemented without changing historical evidence bytes.",
+    "Add this recovery Work Item's own English, Chinese, and Japanese pages and register all three parity ledger entries before verification.",
+    "Run the closed-Work-Item promotion check, parity status check, and documentation acceptance checks successfully."
+  ],
+  "authority": "authorized",
+  "baseRevision": "32184d326b588022f288f2617a9dd5eba0a24886",
+  "createdAt": "2026-09-06T20:42:32Z",
+  "goal": "Complete the failed documentation projection recovery for WI-622 and record this recovery Work Item own tri-language projection.",
+  "intent": "Repair the documentation-governance omission found by the CI parity gate: a docs promotion must include its own tri-language pages and parity ledger entries.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust implementation or test changes",
+    "Release publication or adopter acceptance",
+    "Object repositories and global Agent/MCP configuration",
+    "Historical Contract, evidence, archive, receipt, and decision bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:968818c765342bcfc663410045cc3759be12f314e4a69491225ab1d22e7954fe",
+  "requiredEvidenceClasses": ["verification"],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-624-doc-promotion-recovery",
+    "provider": "github",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi624-doc-promotion-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-622-direct-merge-cli-contract.md",
+    "docs/work-items/WI-622-direct-merge-cli-contract.zh-CN.md",
+    "docs/work-items/WI-622-direct-merge-cli-contract.ja.md",
+    "docs/work-items/WI-624-wi622-doc-promotion-recovery.md",
+    "docs/work-items/WI-624-wi622-doc-promotion-recovery.zh-CN.md",
+    "docs/work-items/WI-624-wi622-doc-promotion-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-624-wi622-doc-promotion-recovery"
+}
