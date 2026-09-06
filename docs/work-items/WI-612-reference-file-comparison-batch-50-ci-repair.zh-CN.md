@@ -5,12 +5,14 @@ author: AI Cockpit maintainers
 audience:
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: canonical
 workItemId: WI-612-reference-file-comparison-batch-50-ci-repair
 lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
 terminalArchive: .ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.contract.json
 terminalVerification: .ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json
+terminalFinalization: .ai/decisions/WI-612-reference-file-comparison-batch-50-ci-repair.finalize.json
+terminalDecision: .ai/decisions/WI-612-reference-file-comparison-batch-50-ci-repair.close.json
 ---
 
 # WI-612——参考源测试对等批次 50
