@@ -1,4 +1,38 @@
 {
-  "entries": [],
+  "entries": [
+    {
+      "baseRevision": "074f11e2fcff67f66eae57625875c5d47ff4f603",
+      "createdAt": "2026-09-06T03:15:00Z",
+      "expectedRecords": {
+        "contract": ".ai/work-items/archive/WI-604-doc-promotion-wi603.contract.json",
+        "finalize": ".ai/decisions/WI-604-doc-promotion-wi603.finalize.json",
+        "verification": ".ai/evidence/WI-604-doc-promotion-wi603.verification.json"
+      },
+      "headRevision": "8d365cd0cbb9b1bdd798e24a7cc802758472b37d",
+      "parityRows": [
+        {
+          "path": "docs/reference/reference-parity.md",
+          "row": "| WI-604 — WI-603 terminal documentation promotion | In progress | [Work Item](../work-items/WI-604-doc-promotion-wi603.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-604-doc-promotion-wi603.contract.json`; verification `.ai/evidence/WI-604-doc-promotion-wi603.verification.json`; finalization `.ai/decisions/WI-604-doc-promotion-wi603.finalize.json`; close `.ai/decisions/WI-604-doc-promotion-wi603.close.json`. |"
+        },
+        {
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "row": "| WI-604 —— WI-603 终态文档晋级 | 进行中 | [Work Item](../work-items/WI-604-doc-promotion-wi603.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-604-doc-promotion-wi603.contract.json`; verification `.ai/evidence/WI-604-doc-promotion-wi603.verification.json`; finalization `.ai/decisions/WI-604-doc-promotion-wi603.finalize.json`; close `.ai/decisions/WI-604-doc-promotion-wi603.close.json`. |"
+        },
+        {
+          "path": "docs/reference/reference-parity.ja.md",
+          "row": "| WI-604 — WI-603 終端ドキュメント昇格 | In progress | [Work Item](../work-items/WI-604-doc-promotion-wi603.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-604-doc-promotion-wi603.contract.json`; verification `.ai/evidence/WI-604-doc-promotion-wi603.verification.json`; finalization `.ai/decisions/WI-604-doc-promotion-wi603.finalize.json`; close `.ai/decisions/WI-604-doc-promotion-wi603.close.json`. |"
+        }
+      ],
+      "provider": "github",
+      "pullRequest": {
+        "number": 593,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/593"
+      },
+      "registryBaseRevision": "8d365cd0cbb9b1bdd798e24a7cc802758472b37d",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "in_progress",
+      "workItemId": "WI-604-doc-promotion-wi603"
+    }
+  ],
   "schemaVersion": 1
 }
