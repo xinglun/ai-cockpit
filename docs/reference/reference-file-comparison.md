@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-598-reference-test-parity-batch-48
+lastVerifiedBy: WI-601-reference-test-parity-batch-49
 capabilityClaims:
   - reference_parity
 ---
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=472 implemented-equivalent=1 not-applicable=7 reference-only=131 deferred-next-batch=158 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=479 implemented-equivalent=1 not-applicable=7 reference-only=134 deferred-next-batch=148 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -271,15 +271,21 @@ records remain scheduled work, not parity claims. The rebaseline records 160
 changed current paths, and the capability/profile slice has no remaining
 `migrate-gap` records:
 
+This comparison was reviewed against Rust baseline commit
+`d64445bff646e477071c220410957c6756a4fc87`; the ledger's historical target
+commit remains recorded separately in the machine inventory.
+The reviewed Runtime is v0.2.79 with binary digest
+`sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63`.
+
 | Metric | Count |
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 472 |
+| `implemented-different-by-design` | 479 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 131 |
-| `deferred-next-batch` | 158 |
+| `reference-only` | 134 |
+| `deferred-next-batch` | 148 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -2175,3 +2181,33 @@ is 3,681 `generated-history`, 472 `implemented-different-by-design`, one
 `implemented-equivalent`, 7 `not-applicable`, 131 `reference-only`, and 158
 `deferred-next-batch` records; `migrate-gap` remains zero and 669 retired
 records remain append-only. See the [WI-598 Work Item record](../work-items/WI-598-reference-test-parity-batch-48.md).
+
+## WI-601 — reference test parity batch 49
+
+WI-601 re-read the next ten maintained source test paths at the pinned local
+reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060`, one file at a time.
+Seven portable governance responsibilities are represented differently by the
+Rust Runtime, repository-native tests, CI, or documentation. Three paths are
+`reference-only`: the source seven-stack long-cycle fixture, Dependabot intake,
+and deprecated-assets registry are source/provider-specific boundaries. No
+portable implementation omission or `migrate-gap` was found; source Python,
+Make, fixtures, and wire formats are not copied.
+
+| Source path group | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `tests/test_configuration_gate.py`, `tests/test_contract_examples.py` | implemented-different-by-design | Explicit attach/profile calibration, readiness/reuse checks, strict Contract v2, scenario/checkpoint/Agent-risk validation, and reader-facing examples. |
+| `tests/test_core_gates.py` | implemented-different-by-design | Rust lifecycle/status/Outcome/repository-bound verification regressions plus dynamic CI gate manifest; source Make/Python orchestration is not copied. |
+| `tests/test_critical_coverage.py`, `tests/test_critical_domain_guards.py` | implemented-different-by-design | Workspace coverage gate, typed governance signals, adversarial refusal tests, and security documentation. |
+| `tests/test_cross_stack_long_cycle.py` | reference-only | Source seven-stack fixture aggregation remains template-specific; immutable public/N-1 adopter acceptance covers portable installation, lifecycle, isolation, and cleanup. |
+| `tests/test_decision_protocol.py`, `tests/test_delusion_scenarios.py` | implemented-different-by-design | Typed preflight human-review receipts, current-option binding, trust/adversarial signals, and fail-closed unknowns. |
+| `tests/test_dependabot_intake.py`, `tests/test_deprecated_assets.py` | reference-only | GitHub Dependabot parsing and source deprecated-asset registry/lexical cleanup scan remain provider or source-tooling boundaries. |
+
+Attached object/adopter repositories inherit the same shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, dynamic quality,
+fail-closed lifecycle, and human Outcome handoff. They do not inherit source
+Python modules, provider policy values, stack matrices, or source wire formats.
+The current 4,450-path set contains 3,681 `generated-history`, 479
+`implemented-different-by-design`, one `implemented-equivalent`, 7
+`not-applicable`, 134 `reference-only`, and 148 `deferred-next-batch` records;
+`migrate-gap` remains zero and 669 retired records remain append-only. See the
+[WI-601 Work Item](../work-items/WI-601-reference-test-parity-batch-49.md).

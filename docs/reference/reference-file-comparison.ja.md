@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-598-reference-test-parity-batch-48
+lastVerifiedBy: WI-601-reference-test-parity-batch-49
 capabilityClaims:
   - reference_parity
 ---
@@ -324,7 +324,13 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=472 implemented-equivalent=1 not-applicable=7 reference-only=131 deferred-next-batch=158 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=479 implemented-equivalent=1 not-applicable=7 reference-only=134 deferred-next-batch=148 migrate-gap=0 -->
+
+この比較は Rust baseline commit
+`d64445bff646e477071c220410957c6756a4fc87` に対して review しました。ledger
+の historical target commit は machine inventory に別途保持しています。
+review に使用した Runtime は v0.2.79、binary digest は
+`sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
@@ -336,11 +342,11 @@ slice に `migrate-gap` は残っていません。
 | --- | ---: |
 | `current-tracked-paths` | 4,450 |
 | `generated-history` | 3,681 |
-| `implemented-different-by-design` | 472 |
+| `implemented-different-by-design` | 479 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 7 |
-| `reference-only` | 131 |
-| `deferred-next-batch` | 158 |
+| `reference-only` | 134 |
+| `deferred-next-batch` | 148 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 669 |
 | `append-only-ledger-records` | 5,119 |
@@ -1677,3 +1683,18 @@ WI-598 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc0740
 | `tests/test_capability_claims.py`, `tests/test_capability_freshness.py`, `tests/test_capability_truth_matrix.py`, `tests/test_changed_critical_coverage.py`, `tests/test_ci_quality_orchestration.py`, `tests/test_ci_release_evidence.sh` | implemented-different-by-design | typed capability/evidence freshness、reviewed CI gate manifest、phased quality route、release evidence、SBOM/provenance、native regression。 |
 
 この batch に portable implementation omission はありません。attached object/adopter は shared Runtime、repository isolation、evidence、dynamic quality、人間向け Outcome boundary を継承しますが、Python test、toolchain validator、Bandit data、source wire format は継承しません。現在は 3,681 `generated-history`、472 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、131 `reference-only`、158 `deferred-next-batch`、`migrate-gap` zero、669 retired record append-only です。[WI-598 Work Item](../work-items/WI-598-reference-test-parity-batch-48.ja.md) を参照してください。
+
+## WI-601 — reference test parity batch 49
+
+WI-601 は pinned local reference commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の次の maintained test path 10 件を一件ずつ再読しました。7 件の portable governance responsibility は Rust Runtime、repository-native test、CI、documentation が異なる設計で担います。3 件は `reference-only` です。source の七 stack long-cycle fixture、Dependabot intake、deprecated-assets registry は source/provider boundary であり、portable Runtime omission ではありません。source Python、Make、fixture、wire format は copy しません。
+
+| Source path group | Classification | Rust counterpart / boundary |
+| --- | --- | --- |
+| `tests/test_configuration_gate.py`、`tests/test_contract_examples.py` | implemented-different-by-design | explicit attach/profile calibration、readiness/reuse check、strict Contract v2、scenario/checkpoint/Agent-risk validation、reader-facing example。 |
+| `tests/test_core_gates.py` | implemented-different-by-design | Rust lifecycle/status/Outcome/repository-bound verification regression と dynamic CI gate manifest。source Make/Python orchestration は copy しません。 |
+| `tests/test_critical_coverage.py`、`tests/test_critical_domain_guards.py` | implemented-different-by-design | workspace coverage gate、typed governance signal、adversarial refusal test、安全 documentation。 |
+| `tests/test_cross_stack_long_cycle.py` | reference-only | source 七 stack fixture aggregation は template 固有。immutable public/N-1 adopter acceptance が portable install、lifecycle、isolation、cleanup を検証します。 |
+| `tests/test_decision_protocol.py`、`tests/test_delusion_scenarios.py` | implemented-different-by-design | typed preflight human-review receipt、current-option binding、trust/adversarial signal、fail-closed unknown。 |
+| `tests/test_dependabot_intake.py`、`tests/test_deprecated_assets.py` | reference-only | GitHub Dependabot parser と source deprecated-asset registry/lexical cleanup scan は provider/source tooling boundary。 |
+
+attached object/adopter repository は同じ shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、dynamic quality、fail-closed lifecycle、人間向け Outcome handoff を継承しますが、source Python module、provider policy value、stack matrix、source wire format は継承しません。現在の 4,450 path set は 3,681 `generated-history`、479 `implemented-different-by-design`、1 `implemented-equivalent`、7 `not-applicable`、134 `reference-only`、148 `deferred-next-batch` で、`migrate-gap` は zero、669 retired record は append-only です。[WI-601 Work Item](../work-items/WI-601-reference-test-parity-batch-49.ja.md) を参照してください。

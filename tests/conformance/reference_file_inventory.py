@@ -85,6 +85,7 @@ WI572_BATCH = "WI-572-reference-installer-quality-batch-45"
 WI579_BATCH = "WI-579-reference-template-parity-batch-46"
 WI587_BATCH = "WI-587-reference-file-comparison-batch-47"
 WI598_BATCH = "WI-598-reference-test-parity-batch-48"
+WI601_BATCH = "WI-601-reference-test-parity-batch-49"
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -2520,6 +2521,119 @@ WI598_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
         "implemented-different-by-design",
         ["tests/ci/release_gate_policy_test.sh", "tests/ci/repository_gate_manifest_test.sh", "crates/cockpit-cli/tests/ci_gate.rs", "docs/reference/ci-release-evidence.md"],
         "CI release evidence identity, required-job completeness, head/merge binding, failure reasons, artifact digests, SBOM, and provenance are enforced by typed gate/release manifests and native regressions. The source shell fixture is not a Runtime command contract.",
+    ),
+}
+
+# WI-601 compares the next ten maintained source tests.  The source corpus
+# remains a behavioural specification: portable governance responsibilities
+# map to the target's typed Runtime/repository/CI boundaries, while source
+# provider fixtures, Python registries, and stack-specific orchestration stay
+# explicit reference-only boundaries.  No source implementation or wire shape
+# is copied.
+WI601_REFERENCE_FILES: dict[str, tuple[str, list[str], str]] = {
+    "tests/test_configuration_gate.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/tests/project_governance.rs",
+            "crates/cockpit-repository/tests/verification_context.rs",
+            "crates/cockpit-repository/tests/lifecycle_entry.rs",
+            "docs/getting-started/first-calibration.md",
+        ],
+        "The source adoption-runtime artifact gate is represented by explicit attach/profile calibration, request-scoped readiness, and fail-closed verification-reuse checks. Rust does not copy the source adoption-runtime JSON or make configuration exception; adopters review and confirm their own profile before normal governed work.",
+    ),
+    "tests/test_contract_examples.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-protocol/tests/contract_v2.rs",
+            "crates/cockpit-repository/tests/contract_schema.rs",
+            "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+            "docs/reference/contract-fields.md",
+            "docs/getting-started/examples",
+        ],
+        "Strict Contract v2, scenario/checkpoint/Agent-risk validation, and reader-facing examples preserve the source example responsibilities. Rust intentionally has no source template directory or Python default/wire shape; example decisions never become governance authority.",
+    ),
+    "tests/test_core_gates.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/tests/ci_quality_gate.rs",
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+            "crates/cockpit-repository/tests/status_projection.rs",
+            "crates/cockpit-repository/tests/outcome_report.rs",
+            "crates/cockpit-cli/tests/lifecycle.rs",
+            "tests/ci/quality_route.py",
+            "tests/ci/run_repository_gates.py",
+            "docs/reference/ci-quality-gates.md",
+            "docs/reference/repository-workflow.md",
+        ],
+        "The large source gate corpus is covered by Rust lifecycle, status, Outcome, repository-bound verification, output redaction, branch/base, archive, and dynamic CI gate regressions. Source Make/Python orchestration and generated status bytes are not copied; provider checks remain delegated at their owning boundary.",
+    ),
+    "tests/test_critical_coverage.py": (
+        "implemented-different-by-design",
+        [
+            "tests/ci/workspace_package_coverage_test.sh",
+            "crates/cockpit-repository/tests/ci_quality_gate.rs",
+            ".github/workflows/ci.yml",
+            "docs/reference/ci-quality-gates.md",
+        ],
+        "Coverage floors and missing/regressed-report fail-closed behaviour are supplied by the Rust workspace package coverage route and reviewed CI gate manifest. The source pytest/Coverage.py report format and Python module are not a Runtime contract.",
+    ),
+    "tests/test_critical_domain_guards.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/src/governance_controls.rs",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+            "crates/cockpit-core/tests/adversarial_v2.rs",
+            "docs/security/adversarial-validation.md",
+        ],
+        "Critical-domain, bypass, production-operation, and evidence-forgery refusal semantics are enforced by typed governance signals and adversarial Rust tests with safe alternatives. Source lexical helper names and fixed Python case data are not copied as Runtime policy.",
+    ),
+    "tests/test_cross_stack_long_cycle.py": (
+        "reference-only",
+        [
+            "tests/release/adopter_acceptance.sh",
+            "tests/release/adopter_upgrade_acceptance.sh",
+            "docs/release/distribution.md",
+        ],
+        "The seven-stack in-process fixture bundle and its local-bare-provider assumptions are reference-template test data. Rust's immutable public/N-1 adopter acceptance proves portable installation, lifecycle, isolation, and cleanup without claiming the source stack matrix or provider simulation.",
+    ),
+    "tests/test_decision_protocol.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-repository/tests/preflight_review.rs",
+            "crates/cockpit-repository/tests/contract_preflight.rs",
+            "crates/cockpit-core/tests/governance_semantics.rs",
+            "crates/cockpit-protocol/tests/preflight_review.rs",
+        ],
+        "Stable request identity, current-option binding, persisted human review, and stale-option rejection are represented by typed preflight decision receipts bound to Contract and snapshot. The source Python request JSON is not a wire-compatible target schema.",
+    ),
+    "tests/test_delusion_scenarios.py": (
+        "implemented-different-by-design",
+        [
+            "crates/cockpit-core/tests/adversarial_v2.rs",
+            "crates/cockpit-repository/tests/governance_signals.rs",
+            "crates/cockpit-repository/tests/input_trust.rs",
+            "docs/security/adversarial-validation.md",
+        ],
+        "Rocket, underspecified, bypass, universal-success, and safe-positive scenarios are covered by Rust trust/adversarial signals, explicit unknowns, and fail-closed governance. Source multilingual Python fixtures are test corpus evidence, not copied Runtime logic.",
+    ),
+    "tests/test_dependabot_intake.py": (
+        "reference-only",
+        [
+            "docs/reference/provider-reconciliation-boundary.md",
+            "docs/reference/ci-quality-gates.md",
+            "docs/security/enterprise-governance.md",
+        ],
+        "Dependabot author/event parsing and successor eligibility are GitHub-provider-specific intake policy. Rust accepts delegated provider evidence at the documented boundary but does not ship a Dependabot bot parser or automatic-merge authority.",
+    ),
+    "tests/test_deprecated_assets.py": (
+        "reference-only",
+        [
+            "tests/ci/governance_integrity_gate.py",
+            "tests/conformance/reference_source_policy.py",
+            "docs/reference/governance-integrity-gate.md",
+            "docs/reference/reference-file-comparison.md",
+        ],
+        "The source deprecated-assets registry and prohibited-command lexical scan govern template-specific cleanup history. Rust uses immutable Work Item/archive records, explicit resource finalization, governance-integrity checks, and source-policy boundaries; it does not install a generic deletion authority or copy the source registry.",
     ),
 }
 
@@ -6866,6 +6980,45 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(
                     f"{record.get('referencePath')}: WI-598 cannot leave deferred or migrate-gap"
                 )
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI601_BATCH
+        for record in records
+    ):
+        wi601_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI601_BATCH
+            and record.get("referencePath") in WI601_REFERENCE_FILES
+        ]
+        expected_wi601_paths = set(WI601_REFERENCE_FILES) & current_reference_paths
+        actual_wi601_paths = {record.get("referencePath") for record in wi601_records}
+        if actual_wi601_paths != expected_wi601_paths:
+            errors.append(
+                "WI-601 reference test batch paths do not match the bounded ten-file set: "
+                f"expected {sorted(expected_wi601_paths)!r}, got {sorted(actual_wi601_paths)!r}"
+            )
+        if len(wi601_records) != len(expected_wi601_paths):
+            errors.append(
+                f"WI-601 batch must contain {len(expected_wi601_paths)} records, found {len(wi601_records)}"
+            )
+        expected_wi601_classifications = Counter(
+            WI601_REFERENCE_FILES[path][0] for path in expected_wi601_paths
+        )
+        wi601_classifications = [record.get("classification") for record in wi601_records]
+        if Counter(wi601_classifications) != expected_wi601_classifications:
+            errors.append(
+                "WI-601 classifications do not match the bounded source/test decisions"
+            )
+        for record in wi601_records:
+            if not record.get("rustCounterparts") or not record.get("reason"):
+                errors.append(
+                    f"{record.get('referencePath')}: WI-601 result needs counterparts and reason"
+                )
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(
+                    f"{record.get('referencePath')}: WI-601 cannot leave deferred or migrate-gap"
+                )
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -7590,6 +7743,34 @@ def apply_wi598_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi601_batch(manifest: dict[str, Any]) -> int:
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        details = WI601_REFERENCE_FILES.get(path)
+        if details is None:
+            continue
+        classification, counterparts, reason = details
+        record.update(
+            {
+                "batch": WI601_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": record.get("classification"),
+            }
+        )
+        updated += 1
+    if updated != len(WI601_REFERENCE_FILES):
+        raise ValueError(
+            f"expected {len(WI601_REFERENCE_FILES)} WI-601 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -7630,6 +7811,7 @@ def main() -> int:
     parser.add_argument("--apply-wi579-batch", action="store_true")
     parser.add_argument("--apply-wi587-batch", action="store_true")
     parser.add_argument("--apply-wi598-batch", action="store_true")
+    parser.add_argument("--apply-wi601-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -7664,6 +7846,7 @@ def main() -> int:
         args.apply_wi579_batch,
         args.apply_wi587_batch,
         args.apply_wi598_batch,
+        args.apply_wi601_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -7867,6 +8050,13 @@ def main() -> int:
     if args.apply_wi598_batch:
         try:
             apply_wi598_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi601_batch:
+        try:
+            apply_wi601_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

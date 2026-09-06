@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-598-reference-test-parity-batch-48
+lastVerifiedBy: WI-601-reference-test-parity-batch-49
 capabilityClaims:
   - reference_parity
 ---
@@ -656,3 +656,11 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 | WI-598 — reference test parity batch 48 | Implemented | [Work Item](../work-items/WI-598-reference-test-parity-batch-48.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-598-reference-test-parity-batch-48.contract.json`; verification `.ai/evidence/WI-598-reference-test-parity-batch-48.verification.json`; finalization `.ai/decisions/WI-598-reference-test-parity-batch-48.finalize.json`; close `.ai/decisions/WI-598-reference-test-parity-batch-48.close.json`. |
 | WI-599 — WI-598 終端ドキュメント昇格 | Implemented | [Work Item](../work-items/WI-599-wi598-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-599-wi598-doc-promotion.contract.json`; verification `.ai/evidence/WI-599-wi598-doc-promotion.verification.json`; finalization `.ai/decisions/WI-599-wi598-doc-promotion.finalize.eacd2ab5f9639f57f01f2caabefc3f22aaaf2e7842260629b1a8d8d538903a67.json`; close `.ai/decisions/WI-599-wi598-doc-promotion.close.json`. |
 | WI-600 — v0.2.79 release と adopter acceptance | Implemented | [Work Item](../work-items/WI-600-release-v0-2-79.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-600-release-v0-2-79.contract.json`; verification `.ai/evidence/WI-600-release-v0-2-79.verification.json`; finalization `.ai/decisions/WI-600-release-v0-2-79.finalize.json`; close `.ai/decisions/WI-600-release-v0-2-79.close.json`. |
+
+## WI-601 — reference test parity batch 49
+
+この parity review は Rust baseline commit
+`d64445bff646e477071c220410957c6756a4fc87` を使用します。historical inventory target
+は machine-readable ledger に bind されたままです。
+
+WI-601 は pinned local reference test corpus の 10 path を file-level に比較します。7 件の portable responsibility は Rust Runtime、repository-native test、CI、documentation が異なる設計で担い、3 件（source の七 stack long-cycle fixture、Dependabot intake、deprecated-assets registry）は source/provider boundary のため `reference-only` です。portable Runtime omission ではありません。attached object/adopter repository は shared Runtime identity、repository isolation、dynamic quality、fail-closed lifecycle、人間向け Outcome boundary を継承しますが、source Python/Make module、stack matrix、provider policy value、wire format は継承しません。詳細は [WI-601 file-level ledger](reference-file-comparison.ja.md#wi-601--reference-test-parity-batch-49) を参照してください。
