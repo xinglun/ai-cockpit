@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions and Cargo.lock resolve to 0.2.81.",
+    "Release CI publishes the annotated tag, target archives, SBOM/provenance, Formula, checksums, and Runtime identity with matching digests.",
+    "Post-release adopter and N-1 acceptance use only immutable public artifacts and prove isolation and cleanup.",
+    "Three-language release and parity records identify the v0.2.81 baseline and v0.2.80 N-1 boundary.",
+    "The terminal Outcome is human-visible and records status, unknowns, evidence, decision, and next action."
+  ],
+  "authority": "human:release",
+  "baseRevision": "4e16ad789607d1723dc79caad1db1a77102a2974",
+  "createdAt": "2026-09-06T06:30:09Z",
+  "goal": "Release v0.2.81 and verify that its downloaded artifact can govern a fresh adopter without source fallback or isolation leakage.",
+  "intent": "Publish the next reviewed Rust Runtime patch with immutable public release acceptance.",
+  "mode": "release",
+  "outOfScope": [
+    "Object repositories and global Agent/MCP configuration",
+    "Reference source implementation and JSON wire format"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c0fa23c061adcb1e7e57b91691be1ff6b3a5fa3ed7238a031dd50c7b7677fe6c",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-607-release-v0-2-81",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-607-release-v0-2-81"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/work-items/WI-607-release-v0-2-81.md",
+    "docs/work-items/WI-607-release-v0-2-81.zh-CN.md",
+    "docs/work-items/WI-607-release-v0-2-81.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-607-release-v0-2-81"
+}
