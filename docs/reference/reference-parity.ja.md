@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-601-reference-test-parity-batch-49
+lastVerifiedBy: WI-612-reference-file-comparison-batch-50-ci-repair
 capabilityClaims:
   - reference_parity
 ---
@@ -666,6 +666,7 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 | WI-608 — adopter checkout の競合耐性クリーンアップ | Implemented | [Work Item](../work-items/WI-608-adopter-removal-race.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-608-adopter-removal-race.contract.json`; verification `.ai/evidence/WI-608-adopter-removal-race.verification.json`; finalization `.ai/decisions/WI-608-adopter-removal-race.finalize.json`; close `.ai/decisions/WI-608-adopter-removal-race.close.json`. |
 | WI-609 — WI-608 終端ドキュメント昇格 | Implemented | [Work Item](../work-items/WI-609-doc-promotion-wi608.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-609-doc-promotion-wi608.contract.json`; verification `.ai/evidence/WI-609-doc-promotion-wi608.verification.json`; finalization `.ai/decisions/WI-609-doc-promotion-wi608.finalize.json`; close `.ai/decisions/WI-609-doc-promotion-wi608.close.json`. |
 | WI-610 — v0.2.82 release と adopter acceptance | Implemented | [Work Item](../work-items/WI-610-release-v0-2-82.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-610-release-v0-2-82.contract.json`; verification `.ai/evidence/WI-610-release-v0-2-82.verification.json`; finalization `.ai/decisions/WI-610-release-v0-2-82.finalize.json`; close `.ai/decisions/WI-610-release-v0-2-82.close.json`. |
+| WI-612 — reference test parity batch 50 | In progress | [Work Item](../work-items/WI-612-reference-file-comparison-batch-50-ci-repair.ja.md); archive `.ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.contract.json`; verification `.ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json`; finalization `.ai/decisions/WI-612-reference-file-comparison-batch-50-ci-repair.finalize.json`; file-level ledger と metadata guard を記録し、reviewed merge 後の close は保留。 |
 
 ## WI-601 — reference test parity batch 49
 
@@ -674,3 +675,15 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 は machine-readable ledger に bind されたままです。
 
 WI-601 は pinned local reference test corpus の 10 path を file-level に比較します。7 件の portable responsibility は Rust Runtime、repository-native test、CI、documentation が異なる設計で担い、3 件（source の七 stack long-cycle fixture、Dependabot intake、deprecated-assets registry）は source/provider boundary のため `reference-only` です。portable Runtime omission ではありません。attached object/adopter repository は shared Runtime identity、repository isolation、dynamic quality、fail-closed lifecycle、人間向け Outcome boundary を継承しますが、source Python/Make module、stack matrix、provider policy value、wire format は継承しません。詳細は [WI-601 file-level ledger](reference-file-comparison.ja.md#wi-601--reference-test-parity-batch-49) を参照してください。
+
+## WI-612 — reference test parity batch 50
+
+WI-612 は pinned local reference corpus の次の 20 件を file-level に比較しました。
+15 件は `implemented-different-by-design`、5 件は `reference-only` で、portable
+omission と `migrate-gap` はありません。詳細な mapping は [WI-612 file-level
+ledger](reference-file-comparison.ja.md#wi-612--reference-test-parity-batch-50) に記録しています。
+attached object/adopter repository は同じ shared Runtime、repository isolation、
+dynamic quality、documentation、人間向け Outcome boundary を継承します。比較
+metadata は Runtime identity が workspace version より古い場合に fail-closed と
+なり、source Python test、installer toggle、participant study、toolchain preset、
+source wire format は継承しません。

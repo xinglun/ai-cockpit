@@ -58,15 +58,11 @@ for current_capability_path in \
   .ai/project_profile.yaml; do
   test "$(jq --arg path "$current_capability_path" '[.records[] | select(.referencePath == $path and .batch == "capability-status-projection" and .classification == "implemented-different-by-design")] | length' "$current_manifest")" -eq 1
 done
-# Bounded rebaseline batches resolve changed source records; WI-521 resolves
-# one of the previously changed deferred records. Keep this regression count
-# tied to the current pinned source ledger.
-# The pinned source inventory currently leaves 38 changed records explicitly
-# deferred. Keep this count tied to the committed ledger so a batch cannot
-# silently change the historical rebaseline boundary.
-# WI-601 resolves two of the previously changed deferred records while the
-# remaining source-changed backlog is kept explicit in the ledger.
-test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 36
+# Bounded rebaseline batches resolve changed source records; the remaining
+# source-changed backlog is kept explicit in the ledger. This regression count
+# is intentionally pinned so a batch cannot silently change the historical
+# rebaseline boundary.
+test "$(jq '[.records[] | select(.classification == "deferred-next-batch" and .sourceChangedSincePrevious == true and .previousClassification != null)] | length' "$current_manifest")" -eq 34
 wi437_paths=(
   .ai/cockpit/README.ja.md
   .ai/cockpit/README.md

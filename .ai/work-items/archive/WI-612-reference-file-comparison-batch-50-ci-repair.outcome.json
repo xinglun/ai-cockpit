@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "每个批次50参考源路径都有明确分类、Rust counterpart或reference-only理由。",
+    "Rust、文档与测试承担可移植语义，不复制参考源Python/Make实现。",
+    "reference ledger与中/日/英parity文档一致，inventory gate的deferred变更数与当前manifest一致。",
+    "不编辑生成的状态、证据、receipt或archive bytes；对象工程可通过已安装Runtime继承同一能力。",
+    "本批次声明的conformance、docs与workspace验证命令可重复通过。"
+  ],
+  "createdAt": "2026-09-06T10:42:24Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8beb071ae011a352e149845288e300d938c54fe9252c26eecdbb2c9b6b8f021b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dfe8263d35dade1b41e9128f0ef0527424a6a3e1199ce020a18015ad11433bc5",
+      "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "从最新main完成批次50的逐文件语义比对、三语parity与metadata更新、回归门修正，并产出可审计的发布前交付。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+  },
+  "taskReportDigest": "sha256:30248cd77398d115d8be2a5c83f006102e94d62bcd5d19fee3205312e2347658",
+  "taskReportMarkdownDigest": "sha256:beb85aa08ba7b89312e03c6902d669f0671d2045308aa43a2ce316c1b8c14fb8",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-612-reference-file-comparison-batch-50-ci-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+}

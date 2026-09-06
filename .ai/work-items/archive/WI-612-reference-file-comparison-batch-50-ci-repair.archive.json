@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T10:42:29Z",
+  "files": {
+    "contractDigest": "sha256:39fbce7d4e27104ff7f8ca1e48a0a228660b8d63945d3a78b6f207561dc98d3e",
+    "contractPath": ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.contract.json",
+    "eventsDigest": "sha256:3a8d0f22a10810816fd34f506d10b9f6c8424296baa3e8185018fbfb45e10b57",
+    "eventsPath": ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.events.jsonl",
+    "outcomeDigest": "sha256:ed03ecdfc1f6709afcd94ffd868bca791a4cbe843c24bf3a958f412785c849ae",
+    "outcomePath": ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.outcome.json",
+    "summaryDigest": "sha256:10a31dee0983605c11c7893b1f5a5425fa444c5903aaaba1e85c710920386161",
+    "summaryPath": ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.summary.json",
+    "taskReportDigest": "sha256:30248cd77398d115d8be2a5c83f006102e94d62bcd5d19fee3205312e2347658",
+    "taskReportMarkdownDigest": "sha256:beb85aa08ba7b89312e03c6902d669f0671d2045308aa43a2ce316c1b8c14fb8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-612-reference-file-comparison-batch-50-ci-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+}
