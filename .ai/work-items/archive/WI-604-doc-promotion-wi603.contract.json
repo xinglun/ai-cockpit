@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "The six WI-603 terminal projection pages and parity rows reflect closed evidence without rewriting governance facts.",
+    "The three WI-604 reader pages and in-progress parity rows are present before archive and pass documentation gates.",
+    "No Runtime behavior, reference scaffold, or object repository is changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "074f11e2fcff67f66eae57625875c5d47ff4f603",
+  "createdAt": "2026-09-06T03:15:21Z",
+  "goal": "synchronize the WI-603 and WI-604 tri-language documentation projections before archive",
+  "intent": "promote the closed WI-603 release documentation projection and record this Work Item in all reader-facing parity ledgers",
+  "mode": "documentation",
+  "outOfScope": [
+    "Rust Runtime behavior",
+    "reference source scaffold or wire-format copying",
+    "object/adopter repositories",
+    "global Agent or MCP configuration",
+    "generated evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d2dcdddd219a59712f8ab4a43c35fcdc3983dd0eeb4640346de934bf8d21cd2a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-604-doc-promotion-wi603-v3",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/594",
+    "worktree": "/private/tmp/ai-cockpit-wi604-doc-promotion-wi603-v3"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-603-release-v0-2-80.md",
+    "docs/work-items/WI-603-release-v0-2-80.zh-CN.md",
+    "docs/work-items/WI-603-release-v0-2-80.ja.md",
+    "docs/work-items/WI-604-doc-promotion-wi603.md",
+    "docs/work-items/WI-604-doc-promotion-wi603.zh-CN.md",
+    "docs/work-items/WI-604-doc-promotion-wi603.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-604-doc-promotion-wi603"
+}
