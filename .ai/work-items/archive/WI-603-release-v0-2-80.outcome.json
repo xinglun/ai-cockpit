@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Workspace package versions resolve to 0.2.80 and the locked dependency metadata remains consistent.",
+    "Release CI binds the annotated v0.2.80 tag to this reviewed commit, five target archives, checksums, SBOM/provenance, Formula, and Runtime identity.",
+    "Staged and post-release adopter acceptance use immutable artifacts only, prove isolation and temporary-run cleanup, and preserve published truth on failure.",
+    "English, Chinese, and Japanese release, architecture, versioning, and parity pages agree on the v0.2.80 baseline.",
+    "The published Release is verified after CI, and no reference-source scaffold or object repository is modified."
+  ],
+  "createdAt": "2026-09-06T02:43:51Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d12b27b5e881a5b81feafbe47ca2ef2ec487d7cb7e7ac1f9caaf78eed9406c89",
+  "evidenceRefs": [
+    ".ai/evidence/WI-603-release-v0-2-80.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-603-release-v0-2-80.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-603-release-v0-2-80.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d2dcdddd219a59712f8ab4a43c35fcdc3983dd0eeb4640346de934bf8d21cd2a",
+      "workItemId": "WI-603-release-v0-2-80"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-603-release-v0-2-80.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-603-release-v0-2-80.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-603-release-v0-2-80.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-603-release-v0-2-80.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-603-release-v0-2-80.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-603-release-v0-2-80.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-603-release-v0-2-80.contract.json"
+          ],
+          "inference": false,
+          "text": "Release ai-cockpit v0.2.80 from the reviewed main branch and verify its installation and upgrade boundaries without copying the reference scaffold."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-603-release-v0-2-80.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-603-release-v0-2-80"
+  },
+  "taskReportDigest": "sha256:356fc9693e9f1d3b78a4f5c04fa1d1138422ffe9427943e2ec2dcec4f0f6b72b",
+  "taskReportMarkdownDigest": "sha256:0a26ed4a0069a9cc9dceb93daac7f811ca77c22447df7cffdee0864ed628cfd3",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-603-release-v0-2-80.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-603-release-v0-2-80"
+}

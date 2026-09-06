@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions resolve to 0.2.80 and the locked dependency metadata remains consistent.",
+    "Release CI binds the annotated v0.2.80 tag to this reviewed commit, five target archives, checksums, SBOM/provenance, Formula, and Runtime identity.",
+    "Staged and post-release adopter acceptance use immutable artifacts only, prove isolation and temporary-run cleanup, and preserve published truth on failure.",
+    "English, Chinese, and Japanese release, architecture, versioning, and parity pages agree on the v0.2.80 baseline.",
+    "The published Release is verified after CI, and no reference-source scaffold or object repository is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "96743aab2410a6700bcca64aa9930e6ec624ee91",
+  "createdAt": "2026-09-06T02:19:01Z",
+  "goal": "Release ai-cockpit v0.2.80 from the reviewed main branch and verify its installation and upgrade boundaries without copying the reference scaffold.",
+  "intent": "Publish the next Rust Runtime patch release after the completed reference-parity and documentation projection batch, with immutable public artifacts and adopter acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "reference source implementation",
+    "reference source scaffold",
+    "reference source wire formats",
+    "object/adopter repository changes",
+    "global Agent or MCP configuration",
+    "Runtime behavior changes",
+    "historical evidence rewriting"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6632d476f4ad59778e4f4fa155547f942f67dd877f2683f299edf63a2a177d2f",
+  "requiredEvidenceClasses": [
+    "release",
+    "verification",
+    "external"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-603-release-v0-2-80-v3",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/592",
+    "worktree": "/private/tmp/ai-cockpit-wi603-release-v0-2-80-v3"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-603-release-v0-2-80.md",
+    "docs/work-items/WI-603-release-v0-2-80.ja.md",
+    "docs/work-items/WI-603-release-v0-2-80.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-603-release-v0-2-80"
+}
