@@ -1,0 +1,59 @@
+{
+  "actor": "human:release",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "human:release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "8d365cd0cbb9b1bdd798e24a7cc802758472b37d",
+    "name": "codex/wi-604-doc-promotion-wi603",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:588de27ae5e02e6307062b72e30648c5cd65ce5c9ca1d37f86d4d7dd4f0f7d82",
+  "operationId": "WI-604-doc-promotion-wi603-pr593-pending",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "074f11e2fcff67f66eae57625875c5d47ff4f603",
+    "headRevision": "8d365cd0cbb9b1bdd798e24a7cc802758472b37d",
+    "number": 593,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/593"
+  },
+  "reason": "record the reviewed but not-yet-merged PR while the parity projection awaits merge",
+  "receiptId": "WI-604-doc-promotion-wi603-pr593-pending",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-604-doc-promotion-wi603",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/593",
+    "worktree": "/private/tmp/ai-cockpit-wi604-doc-promotion-wi603"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",
+  "runtimeVersion": "0.2.79",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T03:10:00Z",
+  "workItemId": "WI-604-doc-promotion-wi603",
+  "worktree": {
+    "branch": "codex/wi-604-doc-promotion-wi603",
+    "headRevision": "8d365cd0cbb9b1bdd798e24a7cc802758472b37d",
+    "path": "/private/tmp/ai-cockpit-wi604-doc-promotion-wi603",
+    "worktreeId": "WI-604-doc-promotion-wi603"
+  }
+}
