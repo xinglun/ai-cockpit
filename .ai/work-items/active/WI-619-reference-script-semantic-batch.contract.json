@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "Read each of the 21 current pinned reference test paths listed in scope and record an evidence-backed Rust semantic counterpart or an explicit non-portable boundary.",
+    "Update the machine inventory only for these paths to the batch classification with per-file counterpart/boundary reasons; do not classify retired or unreviewed paths.",
+    "Add synchronized English, Simplified Chinese, and Japanese comparison documentation and parity registration describing the per-file decisions and object/adopter inheritance boundary.",
+    "Run reference inventory, documentation, parity, CI gate, and workspace tests; no source Python, Make, provider-global configuration, or source JSON wire format is copied."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "2536e4db399a7c20479e09693c8eab968c635ac9",
+  "createdAt": "2026-09-06T16:08:11Z",
+  "goal": "Compare the next bounded set of current reference test responsibilities file by file and register only evidence-backed Rust semantic parity.",
+  "intent": "Prevent omissions in the reference comparison by reconciling adoption, enterprise evidence, lifecycle readiness, governance guards, hosted verification, and input-trust responsibilities with the installed Rust Runtime and its adopter boundary.",
+  "mode": "docs",
+  "outOfScope": [
+    "Changing Rust runtime behavior unless a concrete migrate-gap is found and the Contract is amended before implementation.",
+    "Copying Python scripts, Make targets, provider-global configuration, source generated history, or source JSON wire schemas.",
+    "Classifying retired reference paths or the remaining deferred tests not listed in this Contract.",
+    "Operating or modifying any external adopter repository."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ce9e06bb1151ab186ec41c49c5fe3f4224f5949a3e8562ff60b01284f97f399c",
+  "requiredEvidenceClasses": [
+    "reference_file_comparison",
+    "documentation",
+    "workspace_tests"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-619-reference-scripts",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi619-reference-scripts"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/test_end_to_end_adoption_validation.py",
+    "tests/test_ensure_locked_dev_environment.py",
+    "tests/test_enterprise_control_evidence.py",
+    "tests/test_enterprise_control_matrix.py",
+    "tests/test_evidence_dependencies.py",
+    "tests/test_external_adopter_long_cycle.py",
+    "tests/test_external_identity.py",
+    "tests/test_final_north_star_acceptance.py",
+    "tests/test_finish_e2e.py",
+    "tests/test_finish_readiness.py",
+    "tests/test_fixture_harness.py",
+    "tests/test_governance_complexity.py",
+    "tests/test_governance_compression.py",
+    "tests/test_governance_profile.py",
+    "tests/test_guard_failure_paths.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_guidelines.py",
+    "tests/test_hosted_verification_snapshot.py",
+    "tests/test_indirect_injection_dataflow.py",
+    "tests/test_input_trust.py",
+    "tests/test_input_trust_corpus.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "tests/conformance/reference_file_inventory.json"
+  ],
+  "sources": [
+    "local reference checkout fde3380f81fea5fd2e288f7a8849f737dc074060",
+    "tests/conformance/reference_source.lock",
+    "docs/reference/reference-file-comparison.*"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-619-reference-script-semantic-batch"
+}

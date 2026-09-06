@@ -1,0 +1,83 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json",
+    ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+  ],
+  "checkpointAt": "2026-09-06T16:11:46Z",
+  "checkpointContractDigest": "sha256:a9967b9928decb717e5c08b054689081cf7d932ff2e8cd150af7256c7f15babe",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a9967b9928decb717e5c08b054689081cf7d932ff2e8cd150af7256c7f15babe",
+      "recorded": true,
+      "recordedAt": "2026-09-06T16:11:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ce9e06bb1151ab186ec41c49c5fe3f4224f5949a3e8562ff60b01284f97f399c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-619-reference-script-semantic-batch"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:104134845eeef060863265116d569d985ee2149bea401d1f41a155dfa547a333",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a9967b9928decb717e5c08b054689081cf7d932ff2e8cd150af7256c7f15babe",
+      "previousContractHash": "sha256:a9967b9928decb717e5c08b054689081cf7d932ff2e8cd150af7256c7f15babe",
+      "reason": "The live comparison metadata sidecar is part of the canonical tri-language comparison projection and must be updated with the same evidence-backed inventory counts; add it to this Work Item rather than leaving a stale release identity.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T16:15:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ce9e06bb1151ab186ec41c49c5fe3f4224f5949a3e8562ff60b01284f97f399c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-619-reference-script-semantic-batch"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:98385af201d8fb0540d15ed086ab57ac8de198e5b992e0015e0ccd587d6abeae",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a9967b9928decb717e5c08b054689081cf7d932ff2e8cd150af7256c7f15babe",
+      "previousContractHash": "sha256:104134845eeef060863265116d569d985ee2149bea401d1f41a155dfa547a333",
+      "reason": "Use the inventory ledger canonical targetCommit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd in the declared read-only check; the moving Runtime branch tip is not the ledger target anchor.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T16:27:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fc3c719617b69c9002e3dee10b7cb064ff1d21bcf98b5f005362c07c7660e2dc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-619-reference-script-semantic-batch"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ce9e06bb1151ab186ec41c49c5fe3f4224f5949a3e8562ff60b01284f97f399c",
+  "createdAt": "2026-09-06T16:08:11Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-06T16:25:59Z",
+  "preflightContractDigest": "sha256:104134845eeef060863265116d569d985ee2149bea401d1f41a155dfa547a333",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:3bf0e1ab6ce56e6bd602c8f7fd919b2373eb8155bdd8b2f74bb3841fe6e89630",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-06T16:11:46Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:98385af201d8fb0540d15ed086ab57ac8de198e5b992e0015e0ccd587d6abeae",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-06T16:27:30Z"
+  },
+  "workItemId": "WI-619-reference-script-semantic-batch"
+}

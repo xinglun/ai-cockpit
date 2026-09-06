@@ -39395,7 +39395,11 @@
         "tests/release/isolation_manifest_test.sh",
         "crates/cockpit-agent/tests/isolation.rs"
       ],
-      "reason": "The adopter boundary is implemented by immutable public-release and N-1 harnesses plus typed isolation tests; source seven-stack fixture matrices remain adopter-owned and are not copied."
+      "reason": "The adopter boundary is implemented by immutable public-release and N-1 harnesses plus typed isolation tests; source seven-stack fixture matrices remain adopter-owned and are not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_ensure_locked_dev_environment.py",
@@ -39489,7 +39493,11 @@
         "crates/cockpit-cli/tests/lifecycle.rs",
         "tests/workflow/resource_finalization_policy_test.sh"
       ],
-      "reason": "Typed lifecycle, resource finalization, retry, archive, and cleanup checks replace the source mutex/report implementation while preserving fail-closed sequencing."
+      "reason": "Typed lifecycle, resource finalization, retry, archive, and cleanup checks replace the source mutex/report implementation while preserving fail-closed sequencing.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_finish_process_cleanup.py",
@@ -39530,7 +39538,11 @@
         "crates/cockpit-repository/tests/governance_controls.rs",
         "tests/performance/regression_gate_test.sh"
       ],
-      "reason": "Typed diagnostics, provenance-bound baselines, and performance gates preserve the cost/complexity responsibility without importing Python line-count reports."
+      "reason": "Typed diagnostics, provenance-bound baselines, and performance gates preserve the cost/complexity responsibility without importing Python line-count reports.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_governance_compression.py",
@@ -39554,7 +39566,11 @@
         "crates/cockpit-cli/tests/profile.rs",
         "docs/reference/governance-profiles.md"
       ],
-      "reason": "Typed verification tiers, assurance, route precedence, and profile diagnostics replace source YAML parsing while keeping policy explicit and evidence-bound."
+      "reason": "Typed verification tiers, assurance, route precedence, and profile diagnostics replace source YAML parsing while keeping policy explicit and evidence-bound.",
+      "sourceChangedSincePrevious": true,
+      "previousBatch": "later-batch",
+      "previousClassification": "deferred-next-batch",
+      "rebaselineBatch": "rebaseline-delta"
     },
     {
       "referencePath": "tests/test_guard_failure_paths.py",

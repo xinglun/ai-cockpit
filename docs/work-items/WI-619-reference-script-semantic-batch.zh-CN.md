@@ -28,7 +28,7 @@ lastVerifiedBy: WI-619-reference-script-semantic-batch
 使用显式 repository context 运行：
 
 ```text
-python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit 2536e4db399a7c20479e09693c8eab968c635ac9
+python3 tests/conformance/reference_file_inventory.py --manifest tests/conformance/reference_file_inventory.json --check --source-commit fde3380f81fea5fd2e288f7a8849f737dc074060 --target-commit cb8248fdf8ac8d965d8d8eb7b53760147bd13fcd
 bash tests/docs/documentation_acceptance.sh
 bash tests/docs/parity_status_check.sh
 python3 tests/conformance/reference_inventory_docs_test.py
