@@ -1,0 +1,115 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions and Cargo.lock resolve to 0.2.84.",
+    "Release CI publishes an annotated v0.2.84 tag with target archives, SBOM/provenance, Formula, checksums, and matching Runtime identity.",
+    "Public adopter and N-1 acceptance use only immutable v0.2.84 and v0.2.83 artifacts and prove repository isolation and temporary-run cleanup.",
+    "English, Chinese, and Japanese release/versioning/parity records identify v0.2.84 and its v0.2.83 N-1 boundary.",
+    "The terminal Outcome is human-visible and records status, unknowns, evidence, human decision, and next action."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a81cea79dc10abe6453ac50fd2b34fb9b2c6b4c3",
+  "createdAt": "2026-09-06T21:03:42Z",
+  "goal": "Release v0.2.84 with reproducible supply-chain evidence and a human-auditable adopter acceptance boundary.",
+  "intent": "Publish the direct-merge recovery fix as v0.2.84 and validate immutable release artifacts for adopters.",
+  "mode": "release",
+  "outOfScope": [
+    "Object repositories and their .ai/ records",
+    "Reference scaffold/Python/Make implementation",
+    "Global Agent or MCP configuration",
+    "Unrelated Runtime feature changes",
+    "Post-release adopter execution before public artifacts exist"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d46f03fa9fc8d1320bc1f6cddcd0a1e548f974214b4241eafb0171d9b177052f",
+  "requiredEvidenceClasses": [
+    "release",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-625-release-v0-2-84",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi625-release-v0-2-84"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "v0.2.84 source and artifact identity",
+      "required": true,
+      "status": "unverified",
+      "expected": "Workspace version, annotated tag, release manifest, archive, SBOM, checksums, and Runtime identity remain bound to one reviewed commit.",
+      "verificationPlan": "Run workspace package/version, release policy, manifest, and artifact identity checks.",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/version_consistency.sh"
+      ]
+    },
+    {
+      "scenario": "public adopter and N-1 upgrade",
+      "required": true,
+      "status": "unverified",
+      "expected": "Only immutable public v0.2.84 and v0.2.83 artifacts are used; adopter repositories are isolated and temporary run roots are cleaned.",
+      "verificationPlan": "Run post-release adopter acceptance plus the v0.2.83 to v0.2.84 N-1 harness.",
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ]
+    },
+    {
+      "scenario": "direct_merge_no_pr recovery availability",
+      "required": true,
+      "status": "unverified",
+      "expected": "The published Runtime emits a complete first-record direct_merge_no_pr receipt that its own finalize-recovery validator accepts without hand-editing generated evidence.",
+      "verificationPlan": "Run the plan-to-apply round-trip and validate the downloaded v0.2.84 binary after publication.",
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ]
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/work-items/WI-625-release-v0-2-84.md",
+    "docs/work-items/WI-625-release-v0-2-84.zh-CN.md",
+    "docs/work-items/WI-625-release-v0-2-84.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/versioning.md",
+    "docs/work-items/WI-616-release-v0-2-83.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/release/version_consistency.sh --repo .",
+    "bash tests/release/workflow_policy.sh",
+    "bash tests/release/action_runtime_policy.sh",
+    "bash tests/release/adopter_acceptance_test.sh",
+    "bash tests/release/adopter_upgrade_acceptance_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/docs/reference_comparison_metadata_test.py"
+  ],
+  "workItemId": "WI-625-release-v0-2-84"
+}
