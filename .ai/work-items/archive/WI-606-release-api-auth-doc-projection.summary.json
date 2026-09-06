@@ -1,0 +1,33 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-605-release-api-auth.recovery.99eca5bc90a13adff68b5d464112f8d59fbde09a2adea95b075abfb8a0f20df1.json",
+    ".ai/evidence/reuse/index.json",
+    ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.contract.json",
+    ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.summary.json"
+  ],
+  "checkpointAt": "2026-09-06T06:00:36Z",
+  "checkpointContractDigest": "sha256:b760f46a5fc147ba2ef2fb1e7d4a5d47478d8228a8de22beaa519e66cf10296d",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:465c63410c20cfbab8dd1117b2bc1238e8071358032b09d5986494429e2800fb",
+  "createdAt": "2026-09-06T05:59:04Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:a5ff36bc0508b037b9b28f24b4143249277eb7a69c5c54b6647017fe909582f6",
+  "predecessorWorkItemId": "WI-605-release-api-auth",
+  "preflightAt": "2026-09-06T06:10:53Z",
+  "preflightContractDigest": "sha256:b760f46a5fc147ba2ef2fb1e7d4a5d47478d8228a8de22beaa519e66cf10296d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:465c63410c20cfbab8dd1117b2bc1238e8071358032b09d5986494429e2800fb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-605-release-api-auth.recovery.99eca5bc90a13adff68b5d464112f8d59fbde09a2adea95b075abfb8a0f20df1.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T06:10:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-606-release-api-auth-doc-projection"
+}

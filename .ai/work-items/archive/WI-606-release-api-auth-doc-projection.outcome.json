@@ -1,0 +1,156 @@
+{
+  "acceptanceResults": [
+    "All three parity indexes identify WI-605 and WI-606 with their evidence.",
+    "All three language records identify the same governed scope.",
+    "The documentation change passes the repository documentation gate."
+  ],
+  "createdAt": "2026-09-06T06:10:59Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:729c8c0c982b654427ee4db85dc1696dff8c674f4db906318fef9adab733fec8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:465c63410c20cfbab8dd1117b2bc1238e8071358032b09d5986494429e2800fb",
+      "workItemId": "WI-606-release-api-auth-doc-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-605-release-api-auth.recovery.99eca5bc90a13adff68b5d464112f8d59fbde09a2adea95b075abfb8a0f20df1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/reuse/index.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-606-release-api-auth-doc-projection.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-606-release-api-auth-doc-projection.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep release remediation documentation discoverable and aligned without changing runtime behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-606-release-api-auth-doc-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-606-release-api-auth-doc-projection"
+  },
+  "taskReportDigest": "sha256:a243f1d427c19010acf5b78d6c0056fd16cb3975da78719ff6dfe4f187d2f4cc",
+  "taskReportMarkdownDigest": "sha256:793d0e8737753cde06cb2d5014a38826e0aced41493e5cec40dc9520726f62d7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-606-release-api-auth-doc-projection.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-606-release-api-auth-doc-projection"
+}

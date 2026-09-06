@@ -3,7 +3,7 @@ title: "WI-605 — adopter acceptance の Release API 認証"
 description: "GitHub Release API への反復アクセス時も staged/public adopter acceptance を決定的に保つ。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: canonical
 workItemId: WI-605-release-api-auth
 lastVerifiedBy: WI-605-release-api-auth

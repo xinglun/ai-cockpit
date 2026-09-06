@@ -3,7 +3,7 @@ title: "WI-605 —— 发布验收 API 认证"
 description: "在重复访问 GitHub Release API 时保持 staged 与 public adopter 验收确定。"
 author: AI Cockpit maintainers
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: canonical
 workItemId: WI-605-release-api-auth
 lastVerifiedBy: WI-605-release-api-auth
