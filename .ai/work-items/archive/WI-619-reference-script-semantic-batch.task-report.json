@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+          ".ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+          ".ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+          ".ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
         ],
         "inference": false,
         "text": "Compare the next bounded set of current reference test responsibilities file by file and register only evidence-backed Rust semantic parity."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+          ".ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

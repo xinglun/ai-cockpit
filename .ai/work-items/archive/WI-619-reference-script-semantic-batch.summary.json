@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json",
-    ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+    ".ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json",
+    ".ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
   ],
   "checkpointAt": "2026-09-06T16:11:46Z",
   "checkpointContractDigest": "sha256:4f3e91ebbaa97fe950d05216aef8cc569a1c415241a0e513e776ef47f535e8b1",

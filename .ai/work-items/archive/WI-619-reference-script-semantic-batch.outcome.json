@@ -44,17 +44,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+            ".ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+            ".ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json"
         }
       ],
       "evidence": [
@@ -110,7 +110,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+            ".ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
           ],
           "inference": false,
           "text": "Compare the next bounded set of current reference test responsibilities file by file and register only evidence-backed Rust semantic parity."
@@ -119,7 +119,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+            ".ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -129,8 +129,8 @@
     "status": "verified",
     "workItemId": "WI-619-reference-script-semantic-batch"
   },
-  "taskReportDigest": "sha256:89099dcc2758330e9029eb2df3ffa8e029b6fe41518dbd6f8bb720ca5e614f1c",
-  "taskReportMarkdownDigest": "sha256:8aff3c246cad6f04e605406499c44ce17d9b0a2f0b7bf7d4381990c93129ab03",
+  "taskReportDigest": "sha256:e08dd60c714ee269d031adf4c9c7fba54606d340cfa108ffd1f8db7b83d4a7ad",
+  "taskReportMarkdownDigest": "sha256:adeff3b48f56d96e0dedbaa60643d0ae886067d780c7c015b410df9eee846baa",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json
-- Changed path: .ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json
+- Changed path: .ai/work-items/archive/WI-619-reference-script-semantic-batch.contract.json
+- Changed path: .ai/work-items/archive/WI-619-reference-script-semantic-batch.summary.json
 
 ## Findings
 
