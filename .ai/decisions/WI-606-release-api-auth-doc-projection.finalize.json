@@ -1,0 +1,58 @@
+{
+  "actor": "human:release",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f4f017c5a90869f00da634a8f585412f4b7a738b",
+    "name": "codex/wi-606-release-api-auth-doc-projection",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9782a37788d7a1d948375d757890bc33b8dd4735492eb3339038b7d5fc20f765",
+  "operationId": "github-pr-596-finalization-20260906",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "aab9abb8876cc88ecc524a81de7f652d2de61591",
+    "headRevision": "f4f017c5a90869f00da634a8f585412f4b7a738b",
+    "mergeCommit": "9b0cc0791b93620a073367c2c1bd5cf09a856403",
+    "number": 596,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/596"
+  },
+  "reason": "Reviewed PR #596 was merged after all hosted checks passed; the exact Work Item branch and dedicated worktree will be removed after cleanup verification.",
+  "receiptId": "github-pr-596-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-606-release-api-auth-doc-projection",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/596",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-606-release-api-auth-doc-projection"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",
+  "runtimeVersion": "0.2.79",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T06:29:00Z",
+  "workItemId": "WI-606-release-api-auth-doc-projection",
+  "worktree": {
+    "branch": "codex/wi-606-release-api-auth-doc-projection",
+    "headRevision": "f4f017c5a90869f00da634a8f585412f4b7a738b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-606-release-api-auth-doc-projection",
+    "worktreeId": "WI-606-release-api-auth-doc-projection"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "actor": "human:release",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a41b2aa997385aba59d7a3c66e588d528607fb5e",
+    "name": "codex/wi-605-release-api-auth",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:fe93a7e9c682e816f0cca4d3245bbf86ba42ed8de3fdb9aa2e063af1325f7c48",
+  "operationId": "github-pr-595-finalization-20260906",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "18f93749a0270b10fbbd6a5056376cf1f95a06f1",
+    "headRevision": "a41b2aa997385aba59d7a3c66e588d528607fb5e",
+    "mergeCommit": "aab9abb8876cc88ecc524a81de7f652d2de61591",
+    "number": 595,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/595"
+  },
+  "reason": "Reviewed PR #595 was merged and the exact Work Item branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "github-pr-595-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-605-release-api-auth",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/595",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-605-release-api-auth"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c799c7f1caa42d2e9124c46751cf3d4baa2c60d14d0695bc1d85acd964a4aa63",
+  "runtimeVersion": "0.2.79",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T05:40:00Z",
+  "workItemId": "WI-605-release-api-auth",
+  "worktree": {
+    "branch": "codex/wi-605-release-api-auth",
+    "headRevision": "a41b2aa997385aba59d7a3c66e588d528607fb5e",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-605-release-api-auth",
+    "worktreeId": "WI-605-release-api-auth"
+  }
+}

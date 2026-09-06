@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-605-release-api-auth.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6dffd29998c3eb278a1b828fa0807ba6d0d01513da08fdaa6e77f68e5d191d91",
+      "workItemId": "WI-605-release-api-auth"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-605-release-api-auth.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-605-release-api-auth.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-605-release-api-auth.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-605-release-api-auth.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-605-release-api-auth.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json",
+            ".ai/decisions/WI-605-release-api-auth.finalize.json",
+            ".ai/decisions/WI-605-release-api-auth.recovery.99eca5bc90a13adff68b5d464112f8d59fbde09a2adea95b075abfb8a0f20df1.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:release via human:release at 2026-09-06T06:38:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-605-release-api-auth.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-605-release-api-auth.contract.json"
+          ],
+          "inference": false,
+          "text": "Make staged and public adopter acceptance deterministic under repeated Release API access without weakening public artifact or isolation checks."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-605-release-api-auth.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-605-release-api-auth"
+  },
+  "finalReportDigest": "sha256:029846a6c7a9ea9da3692aade9299dd1695aadc7dfa255b6ea338acbec282317",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:aa262203c81f0b6876b66b6a9459c334299c8ddcad53e455337fa55df6737728",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-605-release-api-auth.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:release",
+    "authoritySource": "human:release",
+    "decidedAt": "2026-09-06T06:38:00Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/evidence/WI-605-release-api-auth.verification.json",
+      ".ai/decisions/WI-605-release-api-auth.finalize.json",
+      ".ai/decisions/WI-605-release-api-auth.recovery.99eca5bc90a13adff68b5d464112f8d59fbde09a2adea95b075abfb8a0f20df1.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "WI-605 implementation is superseded by the reviewed WI-606 documentation projection; original archive/evidence/recovery bytes remain immutable and the successor is closed.",
+    "resumeCondition": "No resume required; successor WI-606 is closed."
+  },
+  "timestamp": "2026-09-06T06:28:51Z",
+  "workItemId": "WI-605-release-api-auth"
+}
