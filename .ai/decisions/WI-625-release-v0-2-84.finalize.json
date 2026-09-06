@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-policy:release-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "741908008e14b141f85a81248740ffe4b8058ba3",
+    "name": "codex/wi-625-release-v0-2-84",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9e21ef6df6917531a02a436281ce799d316e7d56daf9bd78e26f01bc8fe77127",
+  "operationId": "wi625-release-v0-2-84-finalization",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a81cea79dc10abe6453ac50fd2b34fb9b2c6b4c3",
+    "headRevision": "741908008e14b141f85a81248740ffe4b8058ba3",
+    "mergeCommit": "c07851b92b03ebd132559db9b41fbd5111b6d212",
+    "number": 620,
+    "url": "not-requested"
+  },
+  "reason": "record the reviewed release branch and exact cleanup; v0.2.84 publication failed its immutable source-quality gate and remains an unpublished failed tag",
+  "receiptId": "local-wi625-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-625-release-v0-2-84",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi625-release-v0-2-84"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130",
+  "runtimeVersion": "0.2.83",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T00:00:00Z",
+  "workItemId": "WI-625-release-v0-2-84",
+  "worktree": {
+    "branch": "codex/wi-625-release-v0-2-84",
+    "headRevision": "741908008e14b141f85a81248740ffe4b8058ba3",
+    "path": "/private/tmp/ai-cockpit-wi625-release-v0-2-84",
+    "worktreeId": "WI-625-release-v0-2-84"
+  }
+}
