@@ -4,9 +4,13 @@ title: "WI-622——Direct-merge recovery 计划/应用契约"
 description: "确保第一条 direct-merge recovery 计划可以通过两个 CLI 应用入口执行。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-622-direct-merge-cli-contract
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-622-direct-merge-cli-contract
+terminalArchive: .ai/work-items/archive/WI-622-direct-merge-cli-contract.contract.json
+terminalVerification: .ai/evidence/WI-622-direct-merge-cli-contract.verification.json
+terminalFinalization: .ai/decisions/WI-622-direct-merge-cli-contract.finalize.json
+terminalDecision: .ai/decisions/WI-622-direct-merge-cli-contract.close.json
 ---
 
 # WI-622——Direct-merge recovery 计划/应用契约
