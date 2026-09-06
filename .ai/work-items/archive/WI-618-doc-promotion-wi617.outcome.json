@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "Run promote_closed_work_item.py --check-all and update only the six stale WI-617 projections plus this Work Item's required three-language documentation projection.",
+    "No Contract, evidence, archive, decision, or release bytes are modified.",
+    "Documentation acceptance, parity checks, reference inventory checks, closed-Work-Item promotion checks, and workspace tests pass."
+  ],
+  "createdAt": "2026-09-06T15:40:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0b56025814bcb07c40cfedd3f0b2599f022cc3029887c29571e77df39a22b327",
+  "evidenceRefs": [
+    ".ai/evidence/WI-618-doc-promotion-wi617.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-618-doc-promotion-wi617.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-618-doc-promotion-wi617.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0afc1a7a20e639633fc64a471bdce4c33817510252fb999f3a67918181de3f6",
+      "workItemId": "WI-618-doc-promotion-wi617"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-618-doc-promotion-wi617.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-618-doc-promotion-wi617.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-618-doc-promotion-wi617.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-618-doc-promotion-wi617.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-618-doc-promotion-wi617.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-618-doc-promotion-wi617.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-618-doc-promotion-wi617.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-618-doc-promotion-wi617.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize tri-language Work Item and parity status projections after WI-617 close without changing governance evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-618-doc-promotion-wi617.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-618-doc-promotion-wi617"
+  },
+  "taskReportDigest": "sha256:112b24364f49e03883acdb109020bf54507a30f34a5bd20624430085ef67f85e",
+  "taskReportMarkdownDigest": "sha256:a95782b18e3cf23ab5f0136de7fe1f5537c58bcedb6ce25ebb2f1b52eb9f5ecc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-618-doc-promotion-wi617.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-618-doc-promotion-wi617"
+}

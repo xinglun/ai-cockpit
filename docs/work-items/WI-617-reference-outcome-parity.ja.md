@@ -4,9 +4,13 @@ title: "WI-617 — reference Outcome、event、人間向け handoff parity"
 description: "Maintained reference の Outcome、event、human handoff test を file-level semantic comparison し、Rust boundary を記録します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-617-reference-outcome-parity
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-617-reference-outcome-parity
+terminalArchive: .ai/work-items/archive/WI-617-reference-outcome-parity.contract.json
+terminalVerification: .ai/evidence/WI-617-reference-outcome-parity.verification.json
+terminalFinalization: .ai/decisions/WI-617-reference-outcome-parity.finalize.json
+terminalDecision: .ai/decisions/WI-617-reference-outcome-parity.close.json
 ---
 
 # WI-617 — reference Outcome、event、人間向け handoff parity

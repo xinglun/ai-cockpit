@@ -4,9 +4,13 @@ title: "WI-617 — Reference Outcome, Event, and Human Handoff Parity"
 description: "File-level semantic comparison of maintained reference Outcome, event, and human-handoff tests."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-617-reference-outcome-parity
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-617-reference-outcome-parity
+terminalArchive: .ai/work-items/archive/WI-617-reference-outcome-parity.contract.json
+terminalVerification: .ai/evidence/WI-617-reference-outcome-parity.verification.json
+terminalFinalization: .ai/decisions/WI-617-reference-outcome-parity.finalize.json
+terminalDecision: .ai/decisions/WI-617-reference-outcome-parity.close.json
 ---
 
 # WI-617 — Reference Outcome, Event, and Human Handoff Parity
