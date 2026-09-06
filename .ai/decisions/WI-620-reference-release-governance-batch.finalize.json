@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c1ee53eb40832aacb63e0bc7381672c3e2572499",
+    "name": "codex/wi-620-reference-release-governance",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:da0f73c81dd97664cecfccd4e834e41c75bd7f1a046b34fac5374a5ebf376d8b",
+  "operationId": "github-pr-615-finalization-20260906",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a241bd6942d309fef0a9d3f034f33ae6aab1dfd8",
+    "headRevision": "c1ee53eb40832aacb63e0bc7381672c3e2572499",
+    "mergeCommit": "db09d19a6fc2b2c253174f02371664c4ef89d929",
+    "number": 615,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #615 merged after all hosted checks passed; the exact Work Item branch and dedicated worktree were removed after synchronization.",
+  "receiptId": "github-pr-615-finalization-20260906",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-620-reference-release-governance",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi620-release-governance"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9f44d14278a614636ca47ee660656ce3b5eb5a0b969059b46d3132947310d130",
+  "runtimeVersion": "0.2.83",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T18:16:01Z",
+  "workItemId": "WI-620-reference-release-governance-batch",
+  "worktree": {
+    "branch": "codex/wi-620-reference-release-governance",
+    "headRevision": "c1ee53eb40832aacb63e0bc7381672c3e2572499",
+    "path": "/private/tmp/ai-cockpit-wi620-release-governance",
+    "worktreeId": "wi-620-reference-release-governance"
+  }
+}
