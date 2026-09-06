@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Read each of the 21 current pinned reference test paths listed in scope and record an evidence-backed Rust semantic counterpart or an explicit non-portable boundary.",
+    "Update the machine inventory only for these paths to the batch classification with per-file counterpart/boundary reasons; do not classify retired or unreviewed paths.",
+    "Add synchronized English, Simplified Chinese, and Japanese comparison documentation and parity registration describing the per-file decisions and object/adopter inheritance boundary.",
+    "Run reference inventory, documentation, parity, CI gate, and workspace tests; no source Python, Make, provider-global configuration, or source JSON wire format is copied."
+  ],
+  "createdAt": "2026-09-06T16:47:47Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8349d84e3d50107d6259fc66846dc8863f71fe80004d961825dca59917a905e8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:be767f73da80123d3f4ea3a03358356f68ec425d353a480f43a2ff3741c2fa2d",
+      "workItemId": "WI-619-reference-script-semantic-batch"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "Compare the next bounded set of current reference test responsibilities file by file and register only evidence-backed Rust semantic parity."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-619-reference-script-semantic-batch.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-619-reference-script-semantic-batch"
+  },
+  "taskReportDigest": "sha256:89099dcc2758330e9029eb2df3ffa8e029b6fe41518dbd6f8bb720ca5e614f1c",
+  "taskReportMarkdownDigest": "sha256:8aff3c246cad6f04e605406499c44ce17d9b0a2f0b7bf7d4381990c93129ab03",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-619-reference-script-semantic-batch.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-619-reference-script-semantic-batch"
+}

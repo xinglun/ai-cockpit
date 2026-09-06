@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-619-reference-script-semantic-batch.summary.json"
   ],
   "checkpointAt": "2026-09-06T16:11:46Z",
-  "checkpointContractDigest": "sha256:a9967b9928decb717e5c08b054689081cf7d932ff2e8cd150af7256c7f15babe",
+  "checkpointContractDigest": "sha256:4f3e91ebbaa97fe950d05216aef8cc569a1c415241a0e513e776ef47f535e8b1",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -60,24 +60,65 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-619-reference-script-semantic-batch"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:b94a6a5a5e53ba62c6701e9433f131513a3f744426ae63f13bf6ecbf1250967a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a9967b9928decb717e5c08b054689081cf7d932ff2e8cd150af7256c7f15babe",
+      "previousContractHash": "sha256:98385af201d8fb0540d15ed086ab57ac8de198e5b992e0015e0ccd587d6abeae",
+      "reason": "The Runtime completion evidence class is verification; the declared inventory, documentation, and workspace commands remain covered inside that single bound verification run. Use the known protocol vocabulary so post-verify preflight can become green.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T16:36:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:be767f73da80123d3f4ea3a03358356f68ec425d353a480f43a2ff3741c2fa2d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-619-reference-script-semantic-batch"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:4f3e91ebbaa97fe950d05216aef8cc569a1c415241a0e513e776ef47f535e8b1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a9967b9928decb717e5c08b054689081cf7d932ff2e8cd150af7256c7f15babe",
+      "previousContractHash": "sha256:b94a6a5a5e53ba62c6701e9433f131513a3f744426ae63f13bf6ecbf1250967a",
+      "reason": "Bind the explicit resource finalization plan after the initial evidence was recorded; preserve the earlier evidence as historical and require a fresh verification against the planned context.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T16:43:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:be767f73da80123d3f4ea3a03358356f68ec425d353a480f43a2ff3741c2fa2d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-619-reference-script-semantic-batch"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:ce9e06bb1151ab186ec41c49c5fe3f4224f5949a3e8562ff60b01284f97f399c",
+  "checkpointRepositorySnapshotDigest": "sha256:be767f73da80123d3f4ea3a03358356f68ec425d353a480f43a2ff3741c2fa2d",
   "createdAt": "2026-09-06T16:08:11Z",
   "mode": "docs",
-  "preflightAt": "2026-09-06T16:25:59Z",
-  "preflightContractDigest": "sha256:104134845eeef060863265116d569d985ee2149bea401d1f41a155dfa547a333",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:3bf0e1ab6ce56e6bd602c8f7fd919b2373eb8155bdd8b2f74bb3841fe6e89630",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-06T16:47:42Z",
+  "preflightContractDigest": "sha256:4f3e91ebbaa97fe950d05216aef8cc569a1c415241a0e513e776ef47f535e8b1",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:be767f73da80123d3f4ea3a03358356f68ec425d353a480f43a2ff3741c2fa2d",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-06T16:11:46Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:98385af201d8fb0540d15ed086ab57ac8de198e5b992e0015e0ccd587d6abeae",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-06T16:27:30Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T16:47:47Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-619-reference-script-semantic-batch"
 }

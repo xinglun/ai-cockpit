@@ -22,16 +22,14 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:ce9e06bb1151ab186ec41c49c5fe3f4224f5949a3e8562ff60b01284f97f399c",
   "requiredEvidenceClasses": [
-    "reference_file_comparison",
-    "documentation",
-    "workspace_tests"
+    "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-619-reference-scripts",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "local",
+    "pullRequest": "not-requested",
     "worktree": "/private/tmp/ai-cockpit-wi619-reference-scripts"
   },
   "risk": "normal",
