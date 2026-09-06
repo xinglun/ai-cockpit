@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "三语Work Item文档状态、归档、验证、finalization与close链接准确反映已关闭事实。",
+    "三语reference parity记录移除进行中状态并保留不可变证据引用。",
+    "documentation promotion与status consistency检查通过，未修改生成治理bytes。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "1c15314eb3c7892a45f0a7b1c80bd09fe547f547",
+  "createdAt": "2026-09-06T10:53:27Z",
+  "goal": "让关闭后的批次50文档与Runtime archive/close事实一致，并通过文档治理检查。",
+  "intent": "将已合并并关闭的WI-612终态推广到三语Work Item与参考对等文档，消除过期的进行中投影。",
+  "mode": "implementation",
+  "outOfScope": [
+    "业务代码与Runtime协议",
+    "参考源实现复制",
+    "Release发布与adopter验收"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dfe8263d35dade1b41e9128f0ef0527424a6a3e1199ce020a18015ad11433bc5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-613-wi612-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/606",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-613-wi612-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-612-reference-file-comparison-batch-50-ci-repair.md",
+    "docs/work-items/WI-612-reference-file-comparison-batch-50-ci-repair.zh-CN.md",
+    "docs/work-items/WI-612-reference-file-comparison-batch-50-ci-repair.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-613-wi612-doc-promotion"
+}

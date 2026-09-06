@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-06T10:53:55Z",
+  "checkpointContractDigest": "sha256:7cabfc6f6f1bceb75e07d132f50e5c862d181573d00cb1534e1aec520bea0577",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:993d283b86c76d622ce626eda6df2f1cac8a17e80c578771cb2b38632a6c23ba",
+  "createdAt": "2026-09-06T10:53:27Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-06T10:54:15Z",
+  "preflightContractDigest": "sha256:7cabfc6f6f1bceb75e07d132f50e5c862d181573d00cb1534e1aec520bea0577",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:993d283b86c76d622ce626eda6df2f1cac8a17e80c578771cb2b38632a6c23ba",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-06T10:54:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-613-wi612-doc-promotion"
+}
