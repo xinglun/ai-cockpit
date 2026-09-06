@@ -1,0 +1,63 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-610-release-v0-2-82.contract.json",
+    ".ai/work-items/active/WI-610-release-v0-2-82.summary.json"
+  ],
+  "checkpointAt": "2026-09-06T07:58:18Z",
+  "checkpointContractDigest": "sha256:1bdbc25bd8344f62ae7311a82dd5f049c929fc22e188230379e96cff8dea86f8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:1bdbc25bd8344f62ae7311a82dd5f049c929fc22e188230379e96cff8dea86f8",
+      "recorded": true,
+      "recordedAt": "2026-09-06T07:58:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:54e30da9a54b30101f850e87ff9b618f593e4684747a22f651c0b5da0ca578bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-610-release-v0-2-82"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:5ba2836c0521c34c8d1ca75705c38f82d2c54d74937bac176ce21e2a4da0cfab",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1bdbc25bd8344f62ae7311a82dd5f049c929fc22e188230379e96cff8dea86f8",
+      "previousContractHash": "sha256:1bdbc25bd8344f62ae7311a82dd5f049c929fc22e188230379e96cff8dea86f8",
+      "reason": "Include tri-language release/distribution and versioning documents in the governed release scope; align parity prearchive status with the dynamic governance gate.",
+      "recorded": true,
+      "recordedAt": "2026-09-06T08:08:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0b5cb60d5d9f4124b06e7b1d227a20cd8352e8ccc0495015f57cdbd6b368f80b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-610-release-v0-2-82"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:54e30da9a54b30101f850e87ff9b618f593e4684747a22f651c0b5da0ca578bd",
+  "createdAt": "2026-09-06T07:56:19Z",
+  "mode": "release",
+  "preflightAt": "2026-09-06T08:08:23Z",
+  "preflightContractDigest": "sha256:5ba2836c0521c34c8d1ca75705c38f82d2c54d74937bac176ce21e2a4da0cfab",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:0b5cb60d5d9f4124b06e7b1d227a20cd8352e8ccc0495015f57cdbd6b368f80b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-06T07:58:18Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:5ba2836c0521c34c8d1ca75705c38f82d2c54d74937bac176ce21e2a4da0cfab",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-06T08:08:19Z"
+  },
+  "workItemId": "WI-610-release-v0-2-82"
+}

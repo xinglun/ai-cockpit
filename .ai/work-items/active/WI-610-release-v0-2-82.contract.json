@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "workspace package versions and Cargo.lock resolve to 0.2.82",
+    "release CI publishes an annotated v0.2.82 tag with target archives, SBOM/provenance, Formula, checksums, and matching Runtime identity",
+    "post-release adopter and N-1 acceptance use only immutable public Release artifacts and prove repository isolation and temporary-run cleanup",
+    "English, Chinese, and Japanese release/parity records identify v0.2.82 and the v0.2.81 N-1 boundary",
+    "terminal Outcome is human-visible and records status, unknowns, evidence, human decision, and next action"
+  ],
+  "authority": "authorized",
+  "baseRevision": "ecf2a7378091fe6b3717a312056c181c620b47a1",
+  "createdAt": "2026-09-06T07:56:19Z",
+  "goal": "完成 v0.2.82 的版本元数据、公开发布、下载校验、adopter 与 N-1 acceptance，并记录可审计的 Runtime identity。",
+  "intent": "发布并验收 AI Cockpit v0.2.82，修复后的 Runtime 必须由公开不可变 Release artifact 进行安装验证并作为后续对象工程基线。",
+  "mode": "release",
+  "outOfScope": [
+    "对象工程源码或 .ai/ 修改",
+    "参考源脚手架/Python/Make/V1 wire format",
+    "用户全局 Agent/MCP 配置",
+    "业务功能",
+    "未授权的架构重构"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:54e30da9a54b30101f850e87ff9b618f593e4684747a22f651c0b5da0ca578bd",
+  "requiredEvidenceClasses": [
+    "release",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-610-release-v0-2-82",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-610-release-v0-2-82"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/work-items/WI-610-release-v0-2-82.md",
+    "docs/work-items/WI-610-release-v0-2-82.zh-CN.md",
+    "docs/work-items/WI-610-release-v0-2-82.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-610-release-v0-2-82"
+}
