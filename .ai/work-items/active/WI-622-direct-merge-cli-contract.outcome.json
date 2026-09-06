@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "在临时 Git 仓库中创建真实双 parent merge commit，且 Work Item Contract 的 baseRevision 与 merge 第一 parent 可不同。",
+    "finalize-recovery-plan 输出的 suggestedReceipt 作为唯一协议输入，仅补 humanInputRequired 字段，不得手工重建协议字段。",
+    "该 receipt 通过 finalize-recovery 首次写入；同一 receipt 通过 finalize 的行为必须明确且不能出现自相矛盾的拒绝。",
+    "写入后 finalize-verify 与显式 human close 成功；repositoryId、Contract digest、真实 parents/base、Runtime identity 全部绑定。",
+    "malformed、foreign、错误 parents/base、错误 context、伪造 PR 仍 fail closed 且不产生半成品。",
+    "CLI help 明确首次 direct merge 的正式入口、字段来源和禁止伪造规则；中英日文档同步。",
+    "新增 CLI/Repository regression 覆盖 published-binary-like round trip，避免只由内部 library helper 证明。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c9719905d69ef4c6dfbf72b6f17c253e7a7d722165ed6b22b170488bdbd44aa",
+      "workItemId": "WI-622-direct-merge-cli-contract"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-622-direct-merge-cli-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-622-direct-merge-cli-contract.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-622-direct-merge-cli-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-622-direct-merge-cli-contract.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-622-direct-merge-cli-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "使真实 merge commit 的无 PR 历史 Work Item 能在不伪造 PR、不手改 .ai/ 的前提下，通过 finalize-recovery-plan 生成完整 receipt，并由 finalize 与 finalize-recovery 至少一个正式入口成功写入、验证和关闭。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-622-direct-merge-cli-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-622-direct-merge-cli-contract"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-622-direct-merge-cli-contract.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-622-direct-merge-cli-contract"
+}

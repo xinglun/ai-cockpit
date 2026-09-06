@@ -137,6 +137,10 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   只有 `actor`、`authoritySource`、`reason` 和 `timestamp` 仍由人提供；context 不完整时，
   `humanInputRequired` 会明确列出缺失字段。该命令不写入 `.ai/decisions`，不会虚构 PR 号、authority
   或 human decision。
+- 对于第一条 direct merge 记录，输出的 `suggestedReceipt` 是完整协议输入。只补充
+  `humanInputRequired` 列出的字段后，可以原样传给 `work-item finalize-recovery`（显式历史入口）或
+  `work-item finalize`（普通记录入口）。两个入口必须接受相同的身份绑定字节；如果 Runtime 拒绝了自己
+  生成的计划输出，应将失败输入保留在 `.ai/` 之外并报告 Runtime 缺陷，不要重建 receipt 或虚构 PR。
 - `migrate plan --repo <path>` 在 schema 已兼容时仍保持兼容，但会额外输出
   `historicalFinalization`。已有有效 close 绑定的旧 receipt 标记为
   `historical_verified`/`historical_low`；待恢复或不可读的记录标记为 `recovery_required` 或

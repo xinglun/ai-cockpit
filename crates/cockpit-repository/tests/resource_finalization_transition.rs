@@ -1067,6 +1067,32 @@ fn historical_direct_merge_plan_suggested_receipt_can_be_completed_and_applied()
 }
 
 #[test]
+fn historical_direct_merge_plan_suggested_receipt_can_be_applied_via_finalize() {
+    let (directory, _context, _contract, _base_revision, _feature_head, merge_commit) =
+        direct_merge_repository();
+    let plan = historical_finalization_recovery_plan(
+        directory.path(),
+        ID,
+        &runtime(),
+        Some(&merge_commit),
+    )
+    .expect("direct merge plan");
+    let mut receipt = plan["suggestedReceipt"].clone();
+    receipt["actor"] = "human:test".into();
+    receipt["authoritySource"] = "historical-test".into();
+    receipt["reason"] = "record a direct merge through finalize".into();
+    receipt["timestamp"] = "2026-09-03T07:02:00Z".into();
+    let input = write_input(&directory, "direct-merge-finalize.json", &receipt);
+    let recorded = record_resource_finalization(directory.path(), ID, &input, &runtime())
+        .expect("the completed plan receipt should be accepted by finalize");
+    assert_eq!(recorded["state"], "recorded");
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("the finalize-applied plan receipt should verify");
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["historicalKind"], "direct_merge_no_pr");
+}
+
+#[test]
 fn historical_direct_merge_plan_includes_deterministic_receipt_fields() {
     let (directory, context, _contract, _base_revision, feature_head, merge_commit) =
         direct_merge_repository();
