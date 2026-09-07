@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-07T05:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:f105617a79f49c07ac01b09d1d563377baf725407d50e787ba85ef1c65cc0b38",
+  "predecessorEventsDigest": "sha256:33d915da6ce30ae9c40550338866f97924885e1a6d4a2053268a2f464d2a4d11",
+  "predecessorOutcomeDigest": "sha256:dee0af588362a40c44a986cba4ef8c12f190d91f735f1ea8b181f6a6c23fb405",
+  "predecessorSummaryDigest": "sha256:826c4bf8eda0dcf53446dc2c4fa0ce5d56c6158a71448c06edaf23f43a3d7dbb",
+  "predecessorWorkItemId": "WI-635-batch-53-final-revalidation",
+  "reason": "Retry after finalize-plan changed the active Contract and invalidated the earlier verification projection; preserve the attempt and reverify with the bound context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, verification, and finish with the current Contract and finalization plan.",
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "workItemId": "WI-635-batch-53-final-revalidation"
+}

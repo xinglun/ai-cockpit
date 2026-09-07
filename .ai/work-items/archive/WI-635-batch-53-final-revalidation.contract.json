@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "All three parity documents pass governance integrity and documentation acceptance against the merged main tree.",
+    "WI-634 archive, evidence, finalization, and close bytes remain immutable and are bound by the successor recovery record.",
+    "The successor produces only evidence-backed lifecycle records and no unsupported completion or governance decision."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "ec7a2c77bc95de65341fab2bb47a7f231f240115",
+  "createdAt": "2026-09-07T04:56:10Z",
+  "goal": "Produce fresh verification evidence for the three reference-parity documents and close the predecessor through an auditable successor lineage.",
+  "intent": "Revalidate the already-merged batch 53 documentation parity projection after WI-634 archive without changing predecessor bytes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    " source-template copying",
+    " object repositories",
+    " release artifacts",
+    " global Agent/MCP configuration",
+    " and WI-634 immutable bytes."
+  ],
+  "predecessorContractDigest": "sha256:d478dd8e775c02da83ad633f69a62c60c6ab24ce38b9b1b034906788a1df1e4d",
+  "predecessorWorkItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d9f53bbb3cefca4e7dcb20a6a9ad7f6649cf2fbc660c5e42646cc47c7f1bbf1a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-635-batch-53-final-revalidation",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-635-batch-53-final-revalidation"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-635-batch-53-final-revalidation"
+}

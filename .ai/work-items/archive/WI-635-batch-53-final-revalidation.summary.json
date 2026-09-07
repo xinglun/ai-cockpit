@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.recovery.json",
+    ".ai/work-items/archive/WI-635-batch-53-final-revalidation.contract.json",
+    ".ai/work-items/archive/WI-635-batch-53-final-revalidation.summary.json"
+  ],
+  "checkpointAt": "2026-09-07T04:57:13Z",
+  "checkpointContractDigest": "sha256:f105617a79f49c07ac01b09d1d563377baf725407d50e787ba85ef1c65cc0b38",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:84800e86cbf7b0908b6d7b4c2950a17352770848cb17c2693bad097289ca00d4",
+  "createdAt": "2026-09-07T04:56:10Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:d478dd8e775c02da83ad633f69a62c60c6ab24ce38b9b1b034906788a1df1e4d",
+  "predecessorWorkItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery",
+  "preflightAt": "2026-09-07T05:04:19Z",
+  "preflightContractDigest": "sha256:f105617a79f49c07ac01b09d1d563377baf725407d50e787ba85ef1c65cc0b38",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:84800e86cbf7b0908b6d7b4c2950a17352770848cb17c2693bad097289ca00d4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-07T05:04:23Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-635-batch-53-final-revalidation"
+}
