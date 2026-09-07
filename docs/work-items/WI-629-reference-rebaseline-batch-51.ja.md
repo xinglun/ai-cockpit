@@ -4,9 +4,13 @@ title: WI-629 — Reference rebaseline batch 51
 description: 固定した local commit の source-changed path 60 件を一件ずつ再確認し、source implementation はコピーしない。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-629-reference-rebaseline-batch-51
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-629-reference-rebaseline-batch-51
+terminalArchive: .ai/work-items/archive/WI-629-reference-rebaseline-batch-51.contract.json
+terminalVerification: .ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json
+terminalFinalization: .ai/decisions/WI-629-reference-rebaseline-batch-51.finalize.json
+terminalDecision: .ai/decisions/WI-629-reference-rebaseline-batch-51.close.json
 ---
 
 # WI-629 — Reference rebaseline batch 51

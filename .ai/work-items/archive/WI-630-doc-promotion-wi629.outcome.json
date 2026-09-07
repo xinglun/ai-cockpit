@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "三语 WI-629 文档 frontmatter status 为 implemented",
+    "三语 reference-parity WI-629 行与终态 receipts 一致",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all 通过",
+    "documentation/parity/status consistency gates 通过"
+  ],
+  "createdAt": "2026-09-07T01:38:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:edd89dfcfad1680141505cc4cf91be02c52579d865840902fa60c4fc441d98be",
+  "evidenceRefs": [
+    ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:97288a2bd17822e754c5aec639afb0122e3462f35f7ae54e27e9b47ff75d478c",
+      "workItemId": "WI-630-doc-promotion-wi629"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-630-doc-promotion-wi629.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-630-doc-promotion-wi629.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-630-doc-promotion-wi629.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json"
+          ],
+          "inference": false,
+          "text": "关闭 WI-630 文档投影晋级并让 post-close documentation check-all 通过。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-630-doc-promotion-wi629"
+  },
+  "taskReportDigest": "sha256:875defef92950852c4aba3bf0e8b8e6491448cb9e8d0aca432db8a3593ecb6e3",
+  "taskReportMarkdownDigest": "sha256:e20ce3ebaf770864cf8f99adb4e080cc2f8c17abe72df30b6a793b00a582219f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-630-doc-promotion-wi629.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-630-doc-promotion-wi629"
+}

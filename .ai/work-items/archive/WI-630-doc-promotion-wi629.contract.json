@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "三语 WI-629 文档 frontmatter status 为 implemented",
+    "三语 reference-parity WI-629 行与终态 receipts 一致",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repo> --check-all 通过",
+    "documentation/parity/status consistency gates 通过"
+  ],
+  "authority": "authorized",
+  "baseRevision": "f758f5d13d210c91bb67b16f7956db205fc83780",
+  "createdAt": "2026-09-07T01:29:42Z",
+  "goal": "关闭 WI-630 文档投影晋级并让 post-close documentation check-all 通过。",
+  "intent": "将已关闭 WI-629 的三语 Work Item 与参考对等文档状态晋级为已实现，并保持终态证据链接一致。",
+  "mode": "code",
+  "outOfScope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "tests/docs/getting_started_semantic.sh",
+    "reference",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "runtime",
+    "release"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:13d58435ec00159f32665052014af25a4dba75e0a727a1b82477a4118607aecc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-630-doc-promotion-wi629",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi630-doc-promotion-wi629"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-629-reference-rebaseline-batch-51.md",
+    "docs/work-items/WI-629-reference-rebaseline-batch-51.zh-CN.md",
+    "docs/work-items/WI-629-reference-rebaseline-batch-51.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-630-doc-promotion-wi629.md",
+    "docs/work-items/WI-630-doc-promotion-wi629.zh-CN.md",
+    "docs/work-items/WI-630-doc-promotion-wi629.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-630-doc-promotion-wi629"
+}
