@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "WI-627 reader-facing status and terminal evidence links are current in all three languages",
+    "The three documentation checks pass after promotion"
+  ],
+  "authority": "authorized",
+  "baseRevision": "27369eabf0c07ea31a27c67d0234a368445e6363",
+  "createdAt": "2026-09-07T00:20:36Z",
+  "goal": "Make closed Work Item and reference parity documentation reflect the verified terminal outcome without changing governance facts.",
+  "intent": "Promote the closed WI-627 reference rebaseline into synchronized tri-language documentation projections.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime code",
+    " tests",
+    " CI",
+    " reference ledger",
+    " contract bytes",
+    " generated evidence",
+    " global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:541903d9b180e4c4849663a55fa4a31ec4b3de7c4258d397f9de551da4c2ccdd",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-628-doc-promotion",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi628-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-627-reference-rebaseline.md",
+    "docs/work-items/WI-627-reference-rebaseline.zh-CN.md",
+    "docs/work-items/WI-627-reference-rebaseline.ja.md",
+    "docs/work-items/WI-628-doc-promotion-wi627.md",
+    "docs/work-items/WI-628-doc-promotion-wi627.zh-CN.md",
+    "docs/work-items/WI-628-doc-promotion-wi627.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-628-doc-promotion-wi627"
+}
