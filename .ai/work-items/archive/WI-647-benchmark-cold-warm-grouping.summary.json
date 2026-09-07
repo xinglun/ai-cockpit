@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-647-benchmark-cold-warm-grouping.contract.json",
+    ".ai/work-items/archive/WI-647-benchmark-cold-warm-grouping.summary.json"
+  ],
+  "checkpointAt": "2026-09-07T23:24:00Z",
+  "checkpointContractDigest": "sha256:ed32baf1bb695309be080c31e93f0eedf57f357fb5065c08316b137e641f5a60",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:43982d6a17715d3a6b33ce69a5152b82399cf6882d282194a5adc5cbb8e3937c",
+      "recorded": true,
+      "recordedAt": "2026-09-07T23:24:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2dc879cfc19ba10892b10d031c82625132045332ae062e8fad41f93fa9d884c2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-647-benchmark-cold-warm-grouping"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:ed32baf1bb695309be080c31e93f0eedf57f357fb5065c08316b137e641f5a60",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:43982d6a17715d3a6b33ce69a5152b82399cf6882d282194a5adc5cbb8e3937c",
+      "previousContractHash": "sha256:43982d6a17715d3a6b33ce69a5152b82399cf6882d282194a5adc5cbb8e3937c",
+      "reason": "Bind the reviewed PR resource context before the final verification rerun required by the Runtime lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-07T23:41:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2dc879cfc19ba10892b10d031c82625132045332ae062e8fad41f93fa9d884c2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-647-benchmark-cold-warm-grouping"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2dc879cfc19ba10892b10d031c82625132045332ae062e8fad41f93fa9d884c2",
+  "createdAt": "2026-09-07T23:23:19Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-07T23:42:52Z",
+  "preflightContractDigest": "sha256:ed32baf1bb695309be080c31e93f0eedf57f357fb5065c08316b137e641f5a60",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2dc879cfc19ba10892b10d031c82625132045332ae062e8fad41f93fa9d884c2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-07T23:42:55Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-647-benchmark-cold-warm-grouping"
+}

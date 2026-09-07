@@ -36,11 +36,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-647-benchmark-cold-warm-grouping",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/645",
     "worktree": "/private/tmp/ai-cockpit-wi647-benchmark-cold-warm-grouping"
   },
   "risk": "normal",

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-07T23:42:58Z",
+  "files": {
+    "contractDigest": "sha256:b5d4cdd961f95a0518916c4457c33517ec55edcda10a63a377a1ad03245723e0",
+    "contractPath": ".ai/work-items/archive/WI-647-benchmark-cold-warm-grouping.contract.json",
+    "eventsDigest": "sha256:5828ce85c9c68f74145a5d9f13c99cbdd743d66f68552e44458f9a4aefd0df83",
+    "eventsPath": ".ai/work-items/archive/WI-647-benchmark-cold-warm-grouping.events.jsonl",
+    "outcomeDigest": "sha256:12cd34c913bed16cdc1235fd5afb0c4ccc399c9d794c20ac44cf9c6cefcdd563",
+    "outcomePath": ".ai/work-items/archive/WI-647-benchmark-cold-warm-grouping.outcome.json",
+    "summaryDigest": "sha256:3df2ebb705f00dd00736b272f7547a29014ae20e87a77cb9bd46631ae4454bde",
+    "summaryPath": ".ai/work-items/archive/WI-647-benchmark-cold-warm-grouping.summary.json",
+    "taskReportDigest": "sha256:d6c93fc0e1cc5004697f24d11a8edc27ac9314d424b54e9260ad20b3804f8596",
+    "taskReportMarkdownDigest": "sha256:aada2cfca93c965a17775c611af7121726bb8f298b69aecacd8a232a921e3bd7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-647-benchmark-cold-warm-grouping.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-647-benchmark-cold-warm-grouping.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-647-benchmark-cold-warm-grouping"
+}

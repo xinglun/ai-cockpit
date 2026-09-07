@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:43982d6a17715d3a6b33ce69a5152b82399cf6882d282194a5adc5cbb8e3937c",
-  "createdAt": "2026-09-07T23:32:19Z",
+  "contractDigest": "sha256:ed32baf1bb695309be080c31e93f0eedf57f357fb5065c08316b137e641f5a60",
+  "createdAt": "2026-09-07T23:42:50Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 95223,
-      "executionElapsedMs": 94762,
+      "elapsedMs": 98529,
+      "executionElapsedMs": 98210,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 95223,
-    "executionElapsedMs": 94762,
-    "filesHashed": 30,
-    "filesRead": 33,
+    "elapsedMs": 98529,
+    "executionElapsedMs": 98210,
+    "filesHashed": 10,
+    "filesRead": 13,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,18 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/work-items/WI-647-benchmark-cold-warm-grouping.ja.md",
-        "docs/work-items/WI-647-benchmark-cold-warm-grouping.md",
-        "docs/work-items/WI-647-benchmark-cold-warm-grouping.zh-CN.md",
-        "tests/performance/README.ja.md",
-        "tests/performance/README.md",
-        "tests/performance/README.zh-CN.md",
-        "tests/performance/regression_gate.sh",
-        "tests/performance/runtime_benchmark.sh",
-        "tests/performance/runtime_benchmark_stats.py",
-        "tests/performance/runtime_benchmark_stats_test.py"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
       "dependencyConfidence": "unknown",
@@ -55,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 94762,
+      "executionElapsedMs": 98210,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -85,9 +74,9 @@
           "commandDigest": "sha256:6a9431c23eeeb5d2e9f8e0f1d3e2cb0ce0cba822dbf3cf3a178f9a8a4f390a63",
           "contentDigest": "sha256:2dc879cfc19ba10892b10d031c82625132045332ae062e8fad41f93fa9d884c2",
           "diff": {
-            "baseCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
-            "changedPathsDigest": "sha256:24cd931c69bdefa8ce92b2f66fae6da5dcc72ddb6510f677c44bafe58e1c3dcb",
-            "headCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e"
+            "baseCommit": "8a2305d52cd812699d0504e1a048407167265b46",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "8a2305d52cd812699d0504e1a048407167265b46"
           },
           "environmentDigest": "sha256:3c7dc3534563b95e4ce80daa986400738bc6fcce45658422835908f4cbf434a2",
           "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
@@ -98,12 +87,12 @@
           "stage": "task",
           "toolchainDigest": "sha256:55a5c4e40f6f930201133025c136270210ca51b8520d039178b89cf5405dcbd2"
         },
-        "createdAtEpochSeconds": 1788823844,
-        "expiresAtEpochSeconds": 1788910244,
+        "createdAtEpochSeconds": 1788824471,
+        "expiresAtEpochSeconds": 1788910871,
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:7404f8994654c6ae687819a1ef6284fbc149ff133adee371a5b32f086478a3e9",
+        "outputDigest": "sha256:5c014cb88c266aefc43f1f4cdb41e7c586ccf565969398c1612c37710555ebfb",
         "passed": true,
-        "receiptId": "sha256:07935281ba3cde1baa9b5a42a8c7fb54fb37883e84523d5a499b37725f0a629d",
+        "receiptId": "sha256:b0566dd03d0b4fc02f235e2f883a47366d71bbd74bac9e7c8e61fb6352386876",
         "schemaVersion": 2
       }
     ],
@@ -114,12 +103,12 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:7404f8994654c6ae687819a1ef6284fbc149ff133adee371a5b32f086478a3e9",
+        "outputDigest": "sha256:5c014cb88c266aefc43f1f4cdb41e7c586ccf565969398c1612c37710555ebfb",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
         "reason": "binding_mismatch",
-        "receiptId": "sha256:07935281ba3cde1baa9b5a42a8c7fb54fb37883e84523d5a499b37725f0a629d",
+        "receiptId": "sha256:b0566dd03d0b4fc02f235e2f883a47366d71bbd74bac9e7c8e61fb6352386876",
         "reused": false,
         "satisfiedBy": "execution",
         "state": "stale",
@@ -130,7 +119,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-647-benchmark-cold-warm-grouping"
   },
-  "receiptDigest": "sha256:8f26f71bd8d1c7d48f3f394ad3ec9cd130a42449f0c9f1a4a239c08c265c561d",
+  "receiptDigest": "sha256:3d6edbf25cba9f5f07ca9a1b73b54ae6d5296645a3a4f7d01712c9cce1329bde",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:2dc879cfc19ba10892b10d031c82625132045332ae062e8fad41f93fa9d884c2",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
