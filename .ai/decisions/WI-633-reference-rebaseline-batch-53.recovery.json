@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorization to repair the current batch's CI-discovered documentation gate omission",
+  "decidedAt": "2026-09-07T04:23:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "https://github.com/xinglun/ai-cockpit/pull/631"
+  ],
+  "policyRefs": [
+    "AGENTS.md#work-item-change-discipline",
+    "AGENTS.md#outcome-and-release-acceptance-boundaries"
+  ],
+  "predecessorContractDigest": "sha256:0418fc8d21b834d6429cadb9ad55bf620853eaa9c1f489c1940cb2a7ec921b89",
+  "predecessorEventsDigest": "sha256:58727bfb97991ce58f4b1afaed8f310cc4ab99b60ba03444dd96d2a89d128040",
+  "predecessorOutcomeDigest": "sha256:7e17f9727b7bac317df7d616e8291e3f38d3592baf162cdeb5bafde792248696",
+  "predecessorSummaryDigest": "sha256:ef2fae770941d4d61b52fa859ea493a9ea07eabfb720bef29c7cbb64991f1484",
+  "predecessorWorkItemId": "WI-633-reference-rebaseline-batch-53",
+  "reason": "PR quality correctly discovered that the batch's three reference-parity entry documents were omitted from the archived Contract scope. Preserve the predecessor bytes and redeliver the same bounded batch through an explicit recovery successor; do not weaken or rewrite evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the recovery successor's docs-gate verification, reviewed merge, provider finalization, close, and post-close documentation promotion; retain WI-633 archive and evidence unchanged.",
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery",
+  "workItemId": "WI-633-reference-rebaseline-batch-53"
+}

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-07T04:24:44Z",
+  "files": {
+    "contractDigest": "sha256:bcbdb39d45b7ce3efac8e8d83cd656c6743665c3742d99ce1e8d66bc04a196d3",
+    "contractPath": ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.contract.json",
+    "eventsDigest": "sha256:1c5440ffe23e6f445fe5001518154f4d9da0332d72420c4feff6a55ea2ae2a25",
+    "eventsPath": ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.events.jsonl",
+    "outcomeDigest": "sha256:2d426bc71e4e8220ad05daa3a6edb5b190113520d14be9ed5b0e89b142669134",
+    "outcomePath": ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.outcome.json",
+    "summaryDigest": "sha256:0eff4489273f40d770855041f3d173084ddde934a0d05b5e3272d74831a996df",
+    "summaryPath": ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.summary.json",
+    "taskReportDigest": "sha256:54b496288905fc32aa25421bc9c8e06ca9bd53dd2759effc5e99bf4ff105dce8",
+    "taskReportMarkdownDigest": "sha256:79f4fbbfefaa7e1bb6580755ad251e40ee1c083fe8e737f928d700b0646c955b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery"
+}
