@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-631-reference-rebaseline-batch-52
+lastVerifiedBy: WI-633-reference-rebaseline-batch-53
 capabilityClaims:
   - reference_parity
 ---
@@ -334,7 +334,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=571 implemented-equivalent=1 not-applicable=8 reference-only=159 deferred-next-batch=174 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.85，二进制摘要为
@@ -349,11 +349,11 @@ capability/profile slice 已没有 `migrate-gap`：
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 528 |
+| `implemented-different-by-design` | 571 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 142 |
-| `deferred-next-batch` | 234 |
+| `reference-only` | 159 |
+| `deferred-next-batch` | 174 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -1802,3 +1802,7 @@ WI-629 逐个复核固定提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` 中�
 ## WI-631：参考源重新基线第 52 批
 
 WI-631 在固定本地参考提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` 上逐一复核下一批 60 条源字节已变化的非历史路径。其中 44 条为 `implemented-different-by-design`，16 条问卷、注册表和评估记录保持 `reference-only`；本批没有 `migrate-gap`。完整逐文件记录见 [WI-631 Work Item](../work-items/WI-631-reference-rebaseline-batch-52.zh-CN.md)。Rust 通过 shared Runtime、仓库原生测试、CI/release 边界和三语读者文档承载可移植责任，不复制源 Python、Make、provider 决策或 JSON 线格式。
+
+## WI-633：参考源重新基线第 53 批
+
+WI-633 在固定本地参考提交上逐一复核下一批 60 条 source-changed 非历史路径。43 条可移植责任由 shared Rust Runtime、仓库原生测试、CI/release 边界或读者文档承载；17 条源/provider 生成物、catalog、分片/benchmark 工具、聚合报告和 adopter feature-parity 测试为 `reference-only`。没有 `migrate-gap`。完整路径、counterpart、理由和前序分类见 [WI-633 记录](../work-items/WI-633-reference-rebaseline-batch-53.zh-CN.md) 与机器台账。对象/adopter 工程继承同一 Runtime 语义和隔离边界，不复制源 Python/Make、provider catalog、生成 release artifact 或 source wire。
