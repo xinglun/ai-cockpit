@@ -4,7 +4,11 @@ title: WI-635 - Batch 53 final revalidation
 description: Produce fresh evidence for the merged batch 53 parity projection through one repository-bound successor.
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-635-batch-53-final-revalidation
-status: in-progress
+status: implemented
+terminalArchive: .ai/work-items/archive/WI-635-batch-53-final-revalidation.contract.json
+terminalVerification: .ai/evidence/WI-635-batch-53-final-revalidation.verification.json
+terminalFinalization: .ai/decisions/WI-635-batch-53-final-revalidation.finalize.json
+terminalDecision: .ai/decisions/WI-635-batch-53-final-revalidation.close.json
 authority: human:repository-owner
 lastVerifiedBy: WI-635-batch-53-final-revalidation
 ---

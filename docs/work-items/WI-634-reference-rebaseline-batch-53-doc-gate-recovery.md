@@ -4,7 +4,7 @@ title: WI-634 - Batch 53 documentation-gate recovery
 description: Revalidate the batch 53 parity registration after the hosted documentation gate found an omitted entry projection.
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-634-reference-rebaseline-batch-53-doc-gate-recovery
-status: in-progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-634-reference-rebaseline-batch-53-doc-gate-recovery
 ---
