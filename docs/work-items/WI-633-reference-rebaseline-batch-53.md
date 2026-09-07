@@ -4,7 +4,7 @@ title: WI-633 - Reference rebaseline batch 53
 description: Re-read the next 60 source-changed reference paths without copying source implementation.
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-633-reference-rebaseline-batch-53
-status: implemented
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-633-reference-rebaseline-batch-53
 terminalArchive: .ai/work-items/archive/WI-633-reference-rebaseline-batch-53.contract.json

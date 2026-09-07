@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "All three reference-parity entry documents register WI-633 and link to its immutable evidence.",
+    "Documentation acceptance, parity status, metadata, and inventory checks pass without weakening any gate.",
+    "The predecessor archive and verification evidence remain immutable and the recovery lineage is auditable."
+  ],
+  "authority": "authorized",
+  "baseRevision": "03b280d6fc0b63bfa354d70c810c95612fff5204",
+  "createdAt": "2026-09-07T04:23:08Z",
+  "goal": "Complete the same bounded batch 53 delivery with all required reference-parity entry projections registered and verified.",
+  "intent": "Revalidate the batch 53 parity registration after the hosted documentation gate caught the omitted three-language entry documents.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime architecture",
+    " performance",
+    " CI or release behavior changes",
+    "Object repository writes",
+    " source Python/Shell/V1 copying",
+    " global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:0418fc8d21b834d6429cadb9ad55bf620853eaa9c1f489c1940cb2a7ec921b89",
+  "predecessorWorkItemId": "WI-633-reference-rebaseline-batch-53",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-633-reference-rebaseline-batch-53.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:356e5b3d460072e45851229eb2d94b6d0e3c2f7d10e0042db270ff416d561f88",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-634-batch-53-recovery",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-634-batch-53-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery"
+}

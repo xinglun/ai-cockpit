@@ -4,7 +4,7 @@ title: WI-633——参考源重新基线第 53 批
 description: 逐一复核下一批 60 条源字节变化路径，不复制源实现。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-633-reference-rebaseline-batch-53
-status: implemented
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-633-reference-rebaseline-batch-53
 terminalArchive: .ai/work-items/archive/WI-633-reference-rebaseline-batch-53.contract.json
