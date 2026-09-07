@@ -758,7 +758,9 @@ WI-633 は pinned local reference commit の次の source-changed 60 パスを�
 
 | WI-639 — WI-638 ドキュメント昇格 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-639-wi638-documentation-promotion.ja.md); archive `.ai/work-items/archive/WI-639-wi638-documentation-promotion.contract.json`; verification `.ai/evidence/WI-639-wi638-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-639-wi638-documentation-promotion.finalize.json`; close `.ai/decisions/WI-639-wi638-documentation-promotion.close.json`. |
 
-| WI-640 — reference rebaseline batch 55 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.ja.md); archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
+| WI-640 — reference rebaseline batch 55 | Implemented | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
+
+| WI-641 — WI-640 documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-641-wi640-documentation-promotion.ja.md); archive `.ai/work-items/archive/WI-641-wi640-documentation-promotion.contract.json`; verification `.ai/evidence/WI-641-wi640-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-641-wi640-documentation-promotion.finalize.json`; close `.ai/decisions/WI-641-wi640-documentation-promotion.close.json`. |
 
 ## WI-640 — reference rebaseline batch 55
 
