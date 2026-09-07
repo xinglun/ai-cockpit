@@ -4,9 +4,13 @@ title: WI-640：参考源重新基线第 55 批
 description: 逐一复核固定参考源的 60 条路径，不复制源实现。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-640-reference-rebaseline-batch-55
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-640-reference-rebaseline-batch-55
+terminalArchive: .ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json
+terminalVerification: .ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json
+terminalFinalization: .ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json
+terminalDecision: .ai/decisions/WI-640-reference-rebaseline-batch-55.close.json
 ---
 
 # WI-640：参考源重新基线第 55 批

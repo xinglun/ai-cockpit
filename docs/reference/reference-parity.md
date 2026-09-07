@@ -888,7 +888,9 @@ documentation; seventeen source artifacts remain `reference-only`. No
 
 | WI-639 — WI-638 documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-639-wi638-documentation-promotion.md); archive `.ai/work-items/archive/WI-639-wi638-documentation-promotion.contract.json`; verification `.ai/evidence/WI-639-wi638-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-639-wi638-documentation-promotion.finalize.json`; close `.ai/decisions/WI-639-wi638-documentation-promotion.close.json`. |
 
-| WI-640 — reference rebaseline batch 55 | In progress → Implemented after verified close | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.md); archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
+| WI-640 — reference rebaseline batch 55 | Implemented | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.md); terminal lifecycle: archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
+
+| WI-641 — WI-640 documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-641-wi640-documentation-promotion.md); archive `.ai/work-items/archive/WI-641-wi640-documentation-promotion.contract.json`; verification `.ai/evidence/WI-641-wi640-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-641-wi640-documentation-promotion.finalize.json`; close `.ai/decisions/WI-641-wi640-documentation-promotion.close.json`. |
 
 ## WI-640 — reference rebaseline batch 55
 

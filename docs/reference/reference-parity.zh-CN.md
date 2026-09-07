@@ -734,7 +734,9 @@ WI-633 在固定本地参考提交上逐一复核后续 60 条 source-changed �
 
 | WI-639——WI-638 文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-639-wi638-documentation-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-639-wi638-documentation-promotion.contract.json`; verification `.ai/evidence/WI-639-wi638-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-639-wi638-documentation-promotion.finalize.json`; close `.ai/decisions/WI-639-wi638-documentation-promotion.close.json`. |
 
-| WI-640——参考源重新基线第 55 批 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.zh-CN.md); archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`。 |
+| WI-640——参考源重新基线第 55 批 | 已实现 | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
+
+| WI-641——WI-640 文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-641-wi640-documentation-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-641-wi640-documentation-promotion.contract.json`; verification `.ai/evidence/WI-641-wi640-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-641-wi640-documentation-promotion.finalize.json`; close `.ai/decisions/WI-641-wi640-documentation-promotion.close.json`. |
 
 ## WI-640：参考源重新基线第 55 批
 
