@@ -4,9 +4,13 @@ title: WI-638——参考源重新基线第 54 批
 description: 逐一复核固定参考源的下一批 60 条路径，不复制源实现。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-638-reference-rebaseline-batch-54
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-638-reference-rebaseline-batch-54
+terminalArchive: .ai/work-items/archive/WI-638-reference-rebaseline-batch-54.contract.json
+terminalVerification: .ai/evidence/WI-638-reference-rebaseline-batch-54.verification.json
+terminalFinalization: .ai/decisions/WI-638-reference-rebaseline-batch-54.finalize.json
+terminalDecision: .ai/decisions/WI-638-reference-rebaseline-batch-54.close.json
 ---
 
 # WI-638——参考源重新基线第 54 批
