@@ -29,14 +29,14 @@ are independent identities.
 
 ```text
 ai-cockpit --version
-0.2.85
+0.2.86
 
 repository:
 protocol_version = 1
 repository_schema_version = 2
 ```
 
-`v0.2.83` is the preceding public patch release and remains historical evidence;
+`v0.2.85` is the preceding public patch release and remains historical evidence;
 `v0.2.84` is retained as an immutable failed-publication tag: its release
 workflow stopped at the source-quality gate before a provider Release existed,
 so it is never reused or treated as an installation identity.
@@ -45,7 +45,7 @@ The reserved `v0.2.51` tag is an immutable lightweight-tag publication failure
 (workflow run `33417057474`), has no provider Release, and is never reused. The
 failed `v0.2.49` tag is retained as unpublished history and is not reused;
 `v0.2.77` is retained as failed unpublished history and is not the package identity;
-`v0.2.83` remains the preceding public patch history; `v0.2.85` is the current package identity.
+`v0.2.85` remains the preceding public patch history; `v0.2.86` is the current package identity.
 The failed `v0.2.56` tag is immutable unpublished history from a source-quality
 failure and is never reused as an installation identity.
 The `v0.2.68` tag is also immutable failed-publication history (workflow run

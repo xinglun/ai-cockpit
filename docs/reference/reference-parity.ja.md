@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-642-reference-rebaseline-batch-56
+lastVerifiedBy: WI-644-release-v0-2-86
 capabilityClaims:
   - reference_parity
 ---
@@ -39,7 +39,7 @@ parity check に network source や source content の copy は必要ありま�
 
 Current snapshot は Rust baseline `4232bb2d1062b5376ae2b7b247c0ae906392585f` と、
 review 済み `ai-cockpit v0.2.85`（binary digest
-`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）を使用します。
+`sha256:69005dd2dd3346ca80ccf02b3b9801d7f830d3a24dcd8707f23dec71bccbc7cd`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。

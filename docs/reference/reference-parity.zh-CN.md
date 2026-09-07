@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-642-reference-rebaseline-batch-56
+lastVerifiedBy: WI-644-release-v0-2-86
 capabilityClaims:
   - reference_parity
 ---
@@ -36,7 +36,7 @@ capabilityClaims:
 
 当前快照使用 Rust 基线 `4232bb2d1062b5376ae2b7b247c0ae906392585f`，以及经审查的
 `ai-cockpit v0.2.85` Runtime（二进制摘要
-`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）。
+`sha256:69005dd2dd3346ca80ccf02b3b9801d7f830d3a24dcd8707f23dec71bccbc7cd`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
