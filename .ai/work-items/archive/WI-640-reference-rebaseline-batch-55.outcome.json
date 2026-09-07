@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "固定参考提交 a9224aed77b5c317b53c4551a9eec306d91ee330 的 60 条路径必须逐一记录 previousClassification、classification、Rust counterpart 或 reference-only 边界与理由。",
+    "不得把 source implementation、JSON wire、provider policy 或技术栈专属行为复制到 Rust；portable responsibility 若存在遗漏必须在本 Work Item 内修复或明确记录为 migrate-gap。",
+    "更新机器台账、reference-comparison metadata、reference-file-comparison 三语页面、reference-parity 三语页面和本 Work Item 三语文档，计数必须一致。",
+    "每个 attach 的对象/adopter 工程继承 shared external Runtime、显式 --repo、隔离 Contract/evidence/knowledge、动态验证、fail-closed lifecycle 和可见人类 Outcome；本批必须复核该边界。",
+    "通过 reference inventory、metadata、documentation acceptance、parity、status consistency、diff 检查及 Contract 声明的验证命令。"
+  ],
+  "createdAt": "2026-09-07T07:29:16Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:704fb7db1bda395086eff0379434fd5fb5ad3d0287638d5713eb23a3ed295862",
+  "evidenceRefs": [
+    ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3ed29783572e93f6c17563d2a7a93f2bce115524219b1d8411d2f6081f934c8c",
+      "workItemId": "WI-640-reference-rebaseline-batch-55"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-640-reference-rebaseline-batch-55.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json"
+          ],
+          "inference": false,
+          "text": "完成参考源重新基线第 55 批的逐文件语义比对、台账更新、三语文档同步和对象/adopter 继承门槛验收。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-640-reference-rebaseline-batch-55"
+  },
+  "taskReportDigest": "sha256:55ea97713fb338ff6b77bd682bbac8e6fc897d5802184abbb7feb732d90ef88f",
+  "taskReportMarkdownDigest": "sha256:c74eaf44862e8de0a24f34f58d54ab553cb8d0e20a2eb4d951a9944dbe03364c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-640-reference-rebaseline-batch-55"
+}
