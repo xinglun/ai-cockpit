@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "lastVerifiedBy": "WI-640-reference-rebaseline-batch-55",
+  "lastVerifiedBy": "WI-642-reference-rebaseline-batch-56",
   "referenceCommit": "a9224aed77b5c317b53c4551a9eec306d91ee330",
-  "rustBaselineCommit": "2112b34ccc9a1384dd4bf8aa790c49e5746d5314",
+  "rustBaselineCommit": "4232bb2d1062b5376ae2b7b247c0ae906392585f",
   "runtimeVersion": "0.2.85",
   "runtimeBinaryDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
   "currentPathCount": 5175,
-  "classifiedPathCount": 5121,
-  "semanticDecisionCount": 859,
-  "deferredPathCount": 54,
+  "classifiedPathCount": 5175,
+  "semanticDecisionCount": 913,
+  "deferredPathCount": 0,
   "retiredPathCount": 0,
   "migrateGapCount": 0
 }

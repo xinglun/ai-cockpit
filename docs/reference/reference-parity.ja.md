@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-640-reference-rebaseline-batch-55
+lastVerifiedBy: WI-642-reference-rebaseline-batch-56
 capabilityClaims:
   - reference_parity
 ---
@@ -33,15 +33,16 @@ public source ledger の historical metadata、再確認待ちの changed path�
 parity check に network source や source content の copy は必要ありません。rebaseline の receipt と手順は
 [Reference file comparison](reference-file-comparison.ja.md) を参照してください。
 
-### Current ledger snapshot (WI-640)
+### Current ledger snapshot (WI-642)
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-Current snapshot は Rust baseline `2112b34ccc9a1384dd4bf8aa790c49e5746d5314` と、
+Current snapshot は Rust baseline `4232bb2d1062b5376ae2b7b247c0ae906392585f` と、
 review 済み `ai-cockpit v0.2.85`（binary digest
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）を使用します。
-現在の reference は 5,175 path、deferred は 54 path です。deferred は次の semantic comparison
-batch を示すだけで、parity claim ではありません。
+現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
+reference-only は source/provider history の境界を保持し、source file を import しません。
+implemented-different-by-design は Rust-native counterpart と boundary を記録します。
 
 ## Truth state
 
@@ -761,6 +762,11 @@ WI-633 は pinned local reference commit の次の source-changed 60 パスを�
 | WI-640 — reference rebaseline batch 55 | Implemented | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
 
 | WI-641 — WI-640 documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-641-wi640-documentation-promotion.ja.md); archive `.ai/work-items/archive/WI-641-wi640-documentation-promotion.contract.json`; verification `.ai/evidence/WI-641-wi640-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-641-wi640-documentation-promotion.finalize.json`; close `.ai/decisions/WI-641-wi640-documentation-promotion.close.json`. |
+| WI-642 — reference rebaseline batch 56 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-642-reference-rebaseline-batch-56.ja.md); archive `.ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json`; verification `.ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json`; finalization `.ai/decisions/WI-642-reference-rebaseline-batch-56.finalize.json`; close `.ai/decisions/WI-642-reference-rebaseline-batch-56.close.json`. |
+
+## WI-642 — reference rebaseline batch 56
+
+WI-642 は最後の 54 source-changed path を一件ずつ再確認します。source-generated knowledge record 5 件は `reference-only`、残り 49 件の archive/start/recovery/handoff/performance path は `implemented-different-by-design` です。ledger は 5,175 path すべてを classification 済みで、deferred と `migrate-gap` は 0 です。詳細は [WI-642 file-level record](reference-file-comparison.ja.md#wi-642--reference-rebaseline-batch-56) を参照してください。object/adopter repository は shared Runtime、明示的な repository context、isolated evidence/knowledge、dynamic verification、fail-closed lifecycle、visible human Outcome を継承し、source history や source 固有 toolchain bytes は copy しません。
 
 ## WI-640 — reference rebaseline batch 55
 

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-640-reference-rebaseline-batch-55
+lastVerifiedBy: WI-642-reference-rebaseline-batch-56
 capabilityClaims:
   - reference_parity
 ---
@@ -30,7 +30,7 @@ check is executable and fails closed when any translated page drifts.
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
   `a9224aed77b5c317b53c4551a9eec306d91ee330` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `2112b34ccc9a1384dd4bf8aa790c49e5746d5314`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `4232bb2d1062b5376ae2b7b247c0ae906392585f`.
 - Runtime used for the comparison work: the reviewed `ai-cockpit v0.2.85` binary, SHA256 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
@@ -261,14 +261,14 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
 reference set has 5,175 paths and the append-only ledger currently has 5,175
-records; no paths were retired in this rebaseline. Deferred records remain
-scheduled work, not parity claims. The rebaseline records 890 changed current
-paths, and the capability/profile slice has no remaining `migrate-gap` records:
+records; no paths were retired in this rebaseline. All paths are now
+classified; no deferred or `migrate-gap` records remain. WI-642 re-read the
+final 54 changed paths one by one:
 
 This comparison uses the Rust baseline recorded above; the ledger's historical
 target commit remains recorded separately in the machine inventory.
@@ -279,11 +279,11 @@ The reviewed Runtime is v0.2.85 with binary digest
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 680 |
+| `implemented-different-by-design` | 729 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 170 |
-| `deferred-next-batch` | 54 |
+| `reference-only` | 175 |
+| `deferred-next-batch` | 0 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -2674,3 +2674,65 @@ explicit `--repo` context, isolated Contract/evidence/knowledge, dynamic
 verification, fail-closed lifecycle, and visible human Outcome. They do not
 inherit source Python, Shell, Make, provider decisions, stack fixtures, or
 source JSON wire formats.
+## WI-642 — reference rebaseline batch 56
+
+WI-642 re-read the final 54 source-changed paths one by one at pinned commit `a9224aed77b5c317b53c4551a9eec306d91ee330`. Five source-generated knowledge records remain `reference-only`; the other 49 paths are `implemented-different-by-design`. No path in this batch is deferred or a `migrate-gap`. Source/provider history and wire bytes are not copied; the Rust target preserves the portable responsibility through its own typed Runtime, repository records, tests, and reader documentation.
+
+The machine ledger is authoritative; this table is the reader-facing one-row-per-path projection.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `.ai/knowledge/work-items/fix-lockfile-noindex-20260903.json` | reference-only | `crates/cockpit-knowledge/src/lib.rs; docs/reference/implementation-knowledge.md; docs/reference/reference-file-comparison.md` — Source-generated historical knowledge; retain as reference material only and do not import its bytes or authority. |
+| `.ai/knowledge/work-items/fix-release-python-pin-20260903.json` | reference-only | `crates/cockpit-knowledge/src/lib.rs; docs/reference/implementation-knowledge.md; docs/reference/reference-file-comparison.md` — Source-generated historical knowledge; retain as reference material only and do not import its bytes or authority. |
+| `.ai/knowledge/work-items/release-post-publish-projection-v0-5-71-20260826.json` | reference-only | `crates/cockpit-knowledge/src/lib.rs; docs/reference/implementation-knowledge.md; docs/reference/reference-file-comparison.md` — Source-generated historical knowledge; retain as reference material only and do not import its bytes or authority. |
+| `.ai/knowledge/work-items/repository-release-publish-v0-5-71-20260826.json` | reference-only | `crates/cockpit-knowledge/src/lib.rs; docs/reference/implementation-knowledge.md; docs/reference/reference-file-comparison.md` — Source-generated historical knowledge; retain as reference material only and do not import its bytes or authority. |
+| `.ai/knowledge/work-items/wi-ci-performance-governance-20260826.json` | reference-only | `crates/cockpit-knowledge/src/lib.rs; docs/reference/implementation-knowledge.md; docs/reference/reference-file-comparison.md` — Source-generated historical knowledge; retain as reference material only and do not import its bytes or authority. |
+| `.ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.archive-manifest.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.contract.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.outcome.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.outcome.md` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.summary.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.archive-manifest.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.contract.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.outcome.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.outcome.md` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.summary.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-lockfile-noindex-20260903.archive-manifest.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-lockfile-noindex-20260903.contract.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-lockfile-noindex-20260903.outcome.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-lockfile-noindex-20260903.outcome.md` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-lockfile-noindex-20260903.summary.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-release-python-pin-20260903.archive-manifest.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-release-python-pin-20260903.contract.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-release-python-pin-20260903.outcome.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-release-python-pin-20260903.outcome.md` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/fix-release-python-pin-20260903.summary.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.archive-manifest.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.contract.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.outcome.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.outcome.md` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.summary.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.archive-manifest.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.contract.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.outcome.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.outcome.md` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.summary.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/wi-ci-performance-governance-20260826.archive-manifest.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/wi-ci-performance-governance-20260826.contract.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/wi-ci-performance-governance-20260826.outcome.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/wi-ci-performance-governance-20260826.outcome.md` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/archive/2026/wi-ci-performance-governance-20260826.summary.json` | implemented-different-by-design | `.ai/work-items/archive/; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md; docs/reference/outcome-report.md` — Historical archive projection; preserve lifecycle/evidence semantics with Rust-owned typed records and layout. |
+| `.ai/work-items/external-handoffs/run-release-rehearsal-v0-5-71-20260826.json` | implemented-different-by-design | `crates/cockpit-repository/src/lib.rs; docs/reference/agent-workflow.md; docs/reference/repository-workflow.md` — Provider handoff history; preserve explicit identity-bound external handoff semantics without copying source JSON. |
+| `.ai/work-items/recovery-receipts/dependabot-lockfile-sync-20260826-2.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Recovery evidence history; preserve append-only recovery and fail-closed identity validation. |
+| `.ai/work-items/recovery-receipts/dependabot-lockfile-sync-20260826.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Recovery evidence history; preserve append-only recovery and fail-closed identity validation. |
+| `.ai/work-items/starts/dependabot-lockfile-sync-20260826.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Generated start snapshot history; preserve repository-bound Contract/start semantics. |
+| `.ai/work-items/starts/dependabot-ruff-0165-sync-20260902.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Generated start snapshot history; preserve repository-bound Contract/start semantics. |
+| `.ai/work-items/starts/fix-lockfile-noindex-20260903.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Generated start snapshot history; preserve repository-bound Contract/start semantics. |
+| `.ai/work-items/starts/fix-release-python-pin-20260903.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Generated start snapshot history; preserve repository-bound Contract/start semantics. |
+| `.ai/work-items/starts/release-post-publish-projection-v0-5-71-20260826.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Generated start snapshot history; preserve repository-bound Contract/start semantics. |
+| `.ai/work-items/starts/repository-release-publish-v0-5-71-20260826.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Generated start snapshot history; preserve repository-bound Contract/start semantics. |
+| `.ai/work-items/starts/wi-ci-performance-governance-20260826.json` | implemented-different-by-design | `crates/cockpit-protocol/src/lib.rs; crates/cockpit-repository/src/lib.rs; docs/reference/repository-workflow.md` — Generated start snapshot history; preserve repository-bound Contract/start semantics. |
+| `docs/reference/ci-performance-baseline.json` | implemented-different-by-design | `crates/cockpit-verification/tests/cost_observation.rs; crates/cockpit-cli/tests/performance.rs; docs/reference/performance-diagnosis.md; docs/reference/verification-cost.md` — Observation artifact; preserve measured cost and dynamic verification guidance, not source thresholds. |
+| `docs/superpowers/plans/2026-08-26-wi-ci-performance-governance.md` | implemented-different-by-design | `docs/reference/performance-diagnosis.md; docs/reference/verification-cost.md; docs/reference/reference-file-comparison.md` — Internal source planning/spec history; retain portable cost/governance lessons in Rust reference docs. |
+| `docs/superpowers/specs/2026-08-26-wi-ci-performance-governance-design.md` | implemented-different-by-design | `docs/reference/performance-diagnosis.md; docs/reference/verification-cost.md; docs/reference/reference-file-comparison.md` — Internal source planning/spec history; retain portable cost/governance lessons in Rust reference docs. |
+| `tests/test_ci_performance_baseline.py` | implemented-different-by-design | `crates/cockpit-verification/tests/cost_observation.rs; crates/cockpit-cli/tests/performance.rs; docs/reference/performance-diagnosis.md; docs/reference/reference-file-comparison.md` — Source performance test corpus; preserve the responsibility in Rust-native cost/CLI tests and dynamic verification docs. |

@@ -7,11 +7,15 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-640-reference-rebaseline-batch-55
+lastVerifiedBy: WI-642-reference-rebaseline-batch-56
 capabilityClaims:
   - reference_parity
 ---
+## WI-642：参考源重新基线第 56 批
 
+WI-642 在固定本地参考提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` 上逐一复核最后 54 条源变更路径。5 条源生成的 knowledge 工作项记录为 `reference-only`；其余 49 条为 `implemented-different-by-design`。本批没有 deferred 或 `migrate-gap`。源端历史、Python/Shell/Make 实现和 wire bytes 不复制到 Rust；Rust 通过自身类型化 Runtime、仓库记录、原生测试和读者文档承载可移植责任。
+
+逐文件的 54 行明细以机器台账 [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json) 为准，英文读者表见[WI-642 逐文件记录](reference-file-comparison.md#wi-642--reference-rebaseline-batch-56)。对象/adopter 工程继承 shared Runtime、显式 `--repo`、隔离的 Contract/evidence/knowledge、动态验证、fail-closed 生命周期和可见 human Outcome；不会继承源项目的历史记录或源专用工具链。
 # 参考源逐文件比较
 
 本页说明 Rust 工程如何与维护者提供的本地参考源逐个文件比较。参考源是规格和行为语料，
@@ -25,7 +29,7 @@ capabilityClaims:
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `a9224aed77b5c317b53c4551a9eec306d91ee330`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `2112b34ccc9a1384dd4bf8aa790c49e5746d5314`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `4232bb2d1062b5376ae2b7b247c0ae906392585f`。
 - 比较时使用审查中的 Runtime：`ai-cockpit v0.2.85`，binary SHA256 为 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
@@ -334,7 +338,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.85，二进制摘要为
@@ -342,18 +346,17 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 5,175 条路径，追加式台账当前也有 5,175 条记录；本次重绑定没有退休路径。
-deferred 记录仍是待比较工作，不是 parity 声明。本次重绑定记录了 890 条当前源内容发生变化的路径，
-capability/profile slice 已没有 `migrate-gap`：
+所有路径均已完成分类，不再有 deferred 或 `migrate-gap`。WI-642 逐一复核并关闭最后 54 条变化路径：
 
 | 指标 | 数量 |
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 680 |
+| `implemented-different-by-design` | 729 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 170 |
-| `deferred-next-batch` | 54 |
+| `reference-only` | 175 |
+| `deferred-next-batch` | 0 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |

@@ -813,6 +813,78 @@ WI640_COUNTERPARTS = {
         "docs/reference/ci-quality-gates.md",
     ],
 }
+
+# WI-642 closes the final rebaseline delta at the pinned local reference
+# revision.  These are explicitly enumerated so a future reference refresh
+# cannot silently enlarge the last comparison batch.  Historical/source-local
+# records are classified as reference-only; the remaining paths are mapped to
+# the Rust repository's own typed lifecycle, knowledge, verification, and
+# performance surfaces.  No source JSON, Python, shell, Make, or provider
+# history is copied into the target.
+WI642_BATCH = "WI-642-reference-rebaseline-batch-56"
+WI642_REFERENCE_PATHS = (
+    ".ai/knowledge/work-items/fix-lockfile-noindex-20260903.json",
+    ".ai/knowledge/work-items/fix-release-python-pin-20260903.json",
+    ".ai/knowledge/work-items/release-post-publish-projection-v0-5-71-20260826.json",
+    ".ai/knowledge/work-items/repository-release-publish-v0-5-71-20260826.json",
+    ".ai/knowledge/work-items/wi-ci-performance-governance-20260826.json",
+    ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.archive-manifest.json",
+    ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.contract.json",
+    ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.outcome.json",
+    ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.outcome.md",
+    ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.summary.json",
+    ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.archive-manifest.json",
+    ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.contract.json",
+    ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.outcome.json",
+    ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.outcome.md",
+    ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.summary.json",
+    ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.archive-manifest.json",
+    ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.contract.json",
+    ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.outcome.json",
+    ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.outcome.md",
+    ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.summary.json",
+    ".ai/work-items/archive/2026/fix-release-python-pin-20260903.archive-manifest.json",
+    ".ai/work-items/archive/2026/fix-release-python-pin-20260903.contract.json",
+    ".ai/work-items/archive/2026/fix-release-python-pin-20260903.outcome.json",
+    ".ai/work-items/archive/2026/fix-release-python-pin-20260903.outcome.md",
+    ".ai/work-items/archive/2026/fix-release-python-pin-20260903.summary.json",
+    ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.archive-manifest.json",
+    ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.contract.json",
+    ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.outcome.json",
+    ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.outcome.md",
+    ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.summary.json",
+    ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.archive-manifest.json",
+    ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.contract.json",
+    ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.outcome.json",
+    ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.outcome.md",
+    ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.summary.json",
+    ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.archive-manifest.json",
+    ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.contract.json",
+    ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.outcome.json",
+    ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.outcome.md",
+    ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.summary.json",
+    ".ai/work-items/external-handoffs/run-release-rehearsal-v0-5-71-20260826.json",
+    ".ai/work-items/recovery-receipts/dependabot-lockfile-sync-20260826-2.json",
+    ".ai/work-items/recovery-receipts/dependabot-lockfile-sync-20260826.json",
+    ".ai/work-items/starts/dependabot-lockfile-sync-20260826.json",
+    ".ai/work-items/starts/dependabot-ruff-0165-sync-20260902.json",
+    ".ai/work-items/starts/fix-lockfile-noindex-20260903.json",
+    ".ai/work-items/starts/fix-release-python-pin-20260903.json",
+    ".ai/work-items/starts/release-post-publish-projection-v0-5-71-20260826.json",
+    ".ai/work-items/starts/repository-release-publish-v0-5-71-20260826.json",
+    ".ai/work-items/starts/wi-ci-performance-governance-20260826.json",
+    "docs/reference/ci-performance-baseline.json",
+    "docs/superpowers/plans/2026-08-26-wi-ci-performance-governance.md",
+    "docs/superpowers/specs/2026-08-26-wi-ci-performance-governance-design.md",
+    "tests/test_ci_performance_baseline.py",
+)
+WI642_REFERENCE_ONLY_PATHS = {
+    ".ai/knowledge/work-items/fix-lockfile-noindex-20260903.json",
+    ".ai/knowledge/work-items/fix-release-python-pin-20260903.json",
+    ".ai/knowledge/work-items/release-post-publish-projection-v0-5-71-20260826.json",
+    ".ai/knowledge/work-items/repository-release-publish-v0-5-71-20260826.json",
+    ".ai/knowledge/work-items/wi-ci-performance-governance-20260826.json",
+}
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -8420,6 +8492,48 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{path}: WI-640 result needs a reason")
             if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
                 errors.append(f"{path}: WI-640 cannot leave deferred or migrate-gap")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI642_BATCH
+        for record in records
+    ):
+        wi642_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI642_BATCH
+            and record.get("referencePath") in WI642_REFERENCE_PATHS
+        ]
+        expected_wi642_paths = set(WI642_REFERENCE_PATHS) & current_reference_paths
+        actual_wi642_paths = {record.get("referencePath") for record in wi642_records}
+        if actual_wi642_paths != expected_wi642_paths:
+            errors.append(
+                "WI-642 rebaseline paths do not match the explicit fifty-four-file set: "
+                f"expected {sorted(expected_wi642_paths)!r}, got {sorted(actual_wi642_paths)!r}"
+            )
+        if len(wi642_records) != len(expected_wi642_paths):
+            errors.append(
+                f"WI-642 batch must contain {len(expected_wi642_paths)} records, found {len(wi642_records)}"
+            )
+        expected_wi642_classifications = Counter(
+            "reference-only" if path in WI642_REFERENCE_ONLY_PATHS
+            else "implemented-different-by-design"
+            for path in expected_wi642_paths
+        )
+        wi642_classifications = Counter(record.get("classification") for record in wi642_records)
+        if wi642_classifications != expected_wi642_classifications:
+            errors.append(
+                "WI-642 classifications do not match the bounded semantic/boundary decisions"
+            )
+        for record in wi642_records:
+            path = record.get("referencePath")
+            if not isinstance(record.get("sourceChangedSincePrevious"), bool):
+                errors.append(f"{path}: WI-642 requires boolean sourceChangedSincePrevious")
+            if not record.get("rustCounterparts"):
+                errors.append(f"{path}: WI-642 result needs a counterpart or explicit boundary")
+            if not record.get("reason"):
+                errors.append(f"{path}: WI-642 result needs a reason")
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(f"{path}: WI-642 cannot leave deferred or migrate-gap")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -9514,6 +9628,157 @@ def apply_wi640_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi642_batch(manifest: dict[str, Any]) -> int:
+    """Resolve the final fifty-four paths in the rebaseline delta."""
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    paths = set(WI642_REFERENCE_PATHS)
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        if path not in paths:
+            continue
+        if record.get("batch") == WI642_BATCH:
+            updated += 1
+            continue
+        if record.get("classification") != "deferred-next-batch":
+            raise ValueError(f"{path}: WI-642 expects a deferred source-changed record")
+        source_changed = record.get("sourceChangedSincePrevious")
+        if source_changed is None:
+            source_changed = False
+        if not isinstance(source_changed, bool):
+            raise ValueError(f"{path}: WI-642 sourceChangedSincePrevious must be boolean")
+        previous = record.get("previousClassification") or record.get("classification")
+        classification = (
+            "reference-only" if path in WI642_REFERENCE_ONLY_PATHS
+            else "implemented-different-by-design"
+        )
+        if path in WI642_REFERENCE_ONLY_PATHS:
+            counterparts = [
+                "crates/cockpit-knowledge/src/lib.rs",
+                "docs/reference/implementation-knowledge.md",
+                "docs/reference/reference-file-comparison.md",
+            ]
+            reason = (
+                "Re-read at the pinned local reference commit: this source-generated "
+                "Work Item knowledge record is historical/provider material, not a "
+                "portable Runtime wire contract. Rust keeps repository-scoped "
+                "knowledge projection and an explicit reference-only boundary; the "
+                "source JSON bytes are not copied or treated as authority."
+            )
+        elif path.startswith(".ai/work-items/archive/"):
+            counterparts = [
+                ".ai/work-items/archive/",
+                "crates/cockpit-repository/src/lib.rs",
+                "docs/reference/repository-workflow.md",
+                "docs/reference/outcome-report.md",
+            ]
+            reason = (
+                "Re-read at the pinned local reference commit: these generated "
+                "archive Contract, Summary, Outcome, and manifest records express "
+                "historical lifecycle evidence. The Rust target preserves the "
+                "semantic archive/evidence/decision boundary with different typed "
+                "bytes and repository layout; source history is not copied."
+            )
+        elif path.startswith(".ai/work-items/external-handoffs/"):
+            counterparts = [
+                "crates/cockpit-repository/src/lib.rs",
+                "docs/reference/agent-workflow.md",
+                "docs/reference/repository-workflow.md",
+            ]
+            reason = (
+                "Re-read at the pinned local reference commit: the provider handoff "
+                "record is source-local operational history. Rust represents the "
+                "same explicit, identity-bound external handoff boundary through "
+                "typed repository records and reader documentation without copying "
+                "the source JSON."
+            )
+        elif path.startswith(".ai/work-items/recovery-receipts/"):
+            counterparts = [
+                "crates/cockpit-protocol/src/lib.rs",
+                "crates/cockpit-repository/src/lib.rs",
+                "docs/reference/repository-workflow.md",
+            ]
+            reason = (
+                "Re-read at the pinned local reference commit: source recovery "
+                "receipts are historical evidence with provider-specific shape. "
+                "Rust preserves append-only recovery, identity binding, and "
+                "fail-closed validation in its own Protocol and repository "
+                "surfaces; source receipt bytes are not imported."
+            )
+        elif path.startswith(".ai/work-items/starts/"):
+            counterparts = [
+                "crates/cockpit-protocol/src/lib.rs",
+                "crates/cockpit-repository/src/lib.rs",
+                "docs/reference/repository-workflow.md",
+            ]
+            reason = (
+                "Re-read at the pinned local reference commit: source start "
+                "snapshots are generated lifecycle history. Rust records a "
+                "repository-bound Contract/start state through typed Runtime "
+                "services and explicit lifecycle documentation; the source "
+                "snapshot bytes are not copied."
+            )
+        elif path == "docs/reference/ci-performance-baseline.json":
+            counterparts = [
+                "crates/cockpit-verification/tests/cost_observation.rs",
+                "crates/cockpit-cli/tests/performance.rs",
+                "docs/reference/performance-diagnosis.md",
+                "docs/reference/verification-cost.md",
+            ]
+            reason = (
+                "Re-read at the pinned local reference commit: the source "
+                "performance baseline is an observation artifact, not a Runtime "
+                "authority or portable threshold. Rust keeps measured cost "
+                "observations and dynamic verification guidance in native tests "
+                "and tri-language performance docs; source JSON is not copied."
+            )
+        elif path.startswith("docs/superpowers/"):
+            counterparts = [
+                "docs/reference/performance-diagnosis.md",
+                "docs/reference/verification-cost.md",
+                "docs/reference/reference-file-comparison.md",
+            ]
+            reason = (
+                "Re-read at the pinned local reference commit: this internal "
+                "planning/specification page records source-project process "
+                "history. Its portable verification-cost and governance lessons "
+                "are documented in the Rust reference pages; source planning "
+                "prose is not copied into Runtime authority."
+            )
+        else:
+            counterparts = [
+                "crates/cockpit-verification/tests/cost_observation.rs",
+                "crates/cockpit-cli/tests/performance.rs",
+                "docs/reference/performance-diagnosis.md",
+                "docs/reference/reference-file-comparison.md",
+            ]
+            reason = (
+                "Re-read at the pinned local reference commit: the source "
+                "performance test corpus is represented by Rust-native cost "
+                "observation/CLI tests and dynamic verification documentation. "
+                "Python implementation and source test bytes are intentionally "
+                "not copied."
+            )
+        record.update(
+            {
+                "batch": WI642_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": previous,
+                "sourceChangedSincePrevious": source_changed,
+            }
+        )
+        updated += 1
+    if updated != len(WI642_REFERENCE_PATHS):
+        raise ValueError(
+            f"expected {len(WI642_REFERENCE_PATHS)} WI-642 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -9561,6 +9826,7 @@ def main() -> int:
     parser.add_argument("--apply-wi631-batch", action="store_true")
     parser.add_argument("--apply-wi633-batch", action="store_true")
     parser.add_argument("--apply-wi640-batch", action="store_true")
+    parser.add_argument("--apply-wi642-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -9602,6 +9868,7 @@ def main() -> int:
         args.apply_wi631_batch,
         args.apply_wi633_batch,
         args.apply_wi640_batch,
+        args.apply_wi642_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -9854,6 +10121,13 @@ def main() -> int:
     if args.apply_wi640_batch:
         try:
             apply_wi640_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi642_batch:
+        try:
+            apply_wi642_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1
