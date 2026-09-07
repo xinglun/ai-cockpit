@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-07T06:12:59Z",
+  "files": {
+    "contractDigest": "sha256:ed1b14ea38b6f6caf2c1e548cc9ad343c3d536955c69b03a7f04cad0c36c7b58",
+    "contractPath": ".ai/work-items/archive/WI-638-reference-rebaseline-batch-54.contract.json",
+    "eventsDigest": "sha256:b8e0636bd73a169148e6c80ab1d9c851b90d56746b5c01140803a05e19f97c81",
+    "eventsPath": ".ai/work-items/archive/WI-638-reference-rebaseline-batch-54.events.jsonl",
+    "outcomeDigest": "sha256:e32cf24144ac077ec6aba81fe40051c8cd6c2b1d5d6e471c3666122fc38e1d75",
+    "outcomePath": ".ai/work-items/archive/WI-638-reference-rebaseline-batch-54.outcome.json",
+    "summaryDigest": "sha256:f54383b05c344b86b2bf220d370d96575c130a2295af5886e3998ceec15d0f8e",
+    "summaryPath": ".ai/work-items/archive/WI-638-reference-rebaseline-batch-54.summary.json",
+    "taskReportDigest": "sha256:488c8546bdfcf4e0e743f2131fa5dbc47e0fe2b2522471f97dfc57f05c5ab680",
+    "taskReportMarkdownDigest": "sha256:0d0535678cff99fcb8c3ec68caa6c68cdfefd7102570fc2587224665da93a44d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-638-reference-rebaseline-batch-54.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-638-reference-rebaseline-batch-54.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-638-reference-rebaseline-batch-54"
+}
