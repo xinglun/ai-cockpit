@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-627-reference-rebaseline
+lastVerifiedBy: WI-629-reference-rebaseline-batch-51
 capabilityClaims:
   - reference_parity
 ---
@@ -30,14 +30,14 @@ capabilityClaims:
 等待复核的变化路径和已退休路径。对齐检查不依赖网络参考源，也不复制源内容；重新基线的 receipt 和
 流程见[参考源逐文件比较](reference-file-comparison.zh-CN.md)。
 
-### 当前台账快照（WI-627）
+### 当前台账快照（WI-629）
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=484 implemented-equivalent=1 not-applicable=8 reference-only=126 deferred-next-batch=294 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `98f12b18b978db509fc884a8a6225afeb7f10df5`，以及经审查的
 `ai-cockpit v0.2.85` Runtime（二进制摘要
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）。
-当前参考源有 5,175 条路径，其中 354 条 deferred；deferred 只表示下一语义比较批次，
+当前参考源有 5,175 条路径，其中 294 条 deferred；deferred 只表示下一语义比较批次，
 不构成对等声明。
 
 ## 真实性状态
@@ -672,6 +672,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-626——v0.2.85 发布与对象验收 | 已实现 | [Work Item](../work-items/WI-626-release-v0-2-85.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-626-release-v0-2-85.contract.json`; verification `.ai/evidence/WI-626-release-v0-2-85.verification.json`; finalization `.ai/decisions/WI-626-release-v0-2-85.finalize.json`; close `.ai/decisions/WI-626-release-v0-2-85.close.json`. |
 | WI-627——参考源逐文件台账重新基线 | 已实现 | [Work Item](../work-items/WI-627-reference-rebaseline.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-627-reference-rebaseline.contract.json`; verification `.ai/evidence/WI-627-reference-rebaseline.verification.json`; finalization `.ai/decisions/WI-627-reference-rebaseline.finalize.json`; close `.ai/decisions/WI-627-reference-rebaseline.close.json`. |
 | WI-628——WI-627 文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-628-doc-promotion-wi627.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-628-doc-promotion-wi627.contract.json`; verification `.ai/evidence/WI-628-doc-promotion-wi627.verification.json`; finalization `.ai/decisions/WI-628-doc-promotion-wi627.finalize.json`; close `.ai/decisions/WI-628-doc-promotion-wi627.close.json`. |
+| WI-629——参考源重新基线第 51 批 | 进行中 | [Work Item](../work-items/WI-629-reference-rebaseline-batch-51.zh-CN.md); archive `.ai/work-items/archive/WI-629-reference-rebaseline-batch-51.contract.json`; verification `.ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json`。 |
 
 ## WI-601——参考源测试对等批次 49
 
@@ -707,3 +708,9 @@ evidence/lifecycle、release identity 和可见的 human Outcome；不继承源 
 ## WI-621：参考安装与生命周期安全对等
 
 WI-621 逐一重读 18 个当前 deferred 的安装、对象接入和生命周期安全测试。17 项可移植责任由 Rust Runtime、仓库原生测试、release/adopter harness 或文档以不同设计承载；源交互式向导为 `reference-only`，Rust 的边界是不可变产物安装与显式 `attach --repo`。未发现 `migrate-gap`。详见 [WI-621 台账](reference-file-comparison.zh-CN.md#wi-621参考安装与生命周期安全对等)。
+
+## WI-629——参考源重新基线第 51 批
+
+WI-629 逐个复核固定本地参考提交中首批 60 条当前、非历史且源字节已变化的路径。58 条可移植责任由 Rust Runtime、仓库原生测试、CI/release 边界或三语读者文档以不同设计承载；源 adopter capability manifest 及其 schema 保持 `reference-only`，Rust 只提供真实的 request-scoped capability/status 视图，不复制源 installer manifest 或 JSON 线格式。本批没有发现 `migrate-gap`。详见 [WI-629 逐文件记录](reference-file-comparison.zh-CN.md#wi-629参考源重新基线第-51-批)。
+
+对象/adopter 工程继承 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、fail-closed 生命周期和 human Outcome；不会继承源 Python、Make、provider 决定或 source wire 格式。

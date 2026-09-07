@@ -105,8 +105,21 @@ records = {
 if len(records) != 35:
     failures.append(f"reference getting-started inventory count is {len(records)}, expected 35")
 for reference_path, record in sorted(records.items()):
-    if record.get("batch") != "getting-started-onboarding":
-        failures.append(f"{reference_path}: batch is not getting-started-onboarding")
+    # A source refresh may be reviewed by a later bounded rebaseline Work
+    # Item.  Keep the current processing batch in the ledger while retaining
+    # the onboarding route identity through previousBatch; otherwise every
+    # legitimate onboarding rebaseline would fail this static gate and force
+    # the ledger to lie about which Work Item performed the review.
+    onboarding_batch = record.get("batch") == "getting-started-onboarding"
+    onboarding_rebaseline = (
+        record.get("previousBatch") == "getting-started-onboarding"
+        and record.get("rebaselineBatch") == "rebaseline-delta"
+        and record.get("sourceChangedSincePrevious") is True
+    )
+    if not onboarding_batch and not onboarding_rebaseline:
+        failures.append(
+            f"{reference_path}: batch is neither getting-started-onboarding nor a bound onboarding rebaseline"
+        )
     # A local-reference rebaseline can change the source wording without
     # removing the already-reviewed target onboarding route.  Keep the
     # ledger's current classification deferred (so no parity claim is
