@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-629-reference-rebaseline-batch-51
+lastVerifiedBy: WI-631-reference-rebaseline-batch-52
 capabilityClaims:
   - reference_parity
 ---
@@ -334,7 +334,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=484 implemented-equivalent=1 not-applicable=8 reference-only=126 deferred-next-batch=294 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.85，二进制摘要为
@@ -349,11 +349,11 @@ capability/profile slice 已没有 `migrate-gap`：
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 484 |
+| `implemented-different-by-design` | 528 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 126 |
-| `deferred-next-batch` | 294 |
+| `reference-only` | 142 |
+| `deferred-next-batch` | 234 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -1798,3 +1798,7 @@ JSON wire 格式。这是语义对等，不是源实现或 wire 对等。参见
 WI-629 逐个复核固定提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` 中首批 60 条发生变化的非历史路径。58 条由 Rust Runtime、仓库原生测试、CI/release 边界或三语读者文档以不同设计承载；`.ai/project/adopter-capability-manifest.json` 及其 schema 保持 `reference-only`，因为 Rust 提供真实的 request-scoped capability/status 视图，不复制源 installer manifest 或 JSON 线格式。本批没有发现 `migrate-gap`。
 
 完整的 60 条逐文件决定（包括 Rust 对应物、不复制边界和对象工程继承说明）见 [WI-629 Work Item](../work-items/WI-629-reference-rebaseline-batch-51.zh-CN.md)。每个 attach 的对象/adopter 工程继承同一 shared Runtime、显式 repository context、隔离 Contract/evidence/knowledge、fail-closed 生命周期和可见 human Outcome；不会继承源 Python、Make、provider 决定或 source wire。
+
+## WI-631：参考源重新基线第 52 批
+
+WI-631 在固定本地参考提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` 上逐一复核下一批 60 条源字节已变化的非历史路径。其中 44 条为 `implemented-different-by-design`，16 条问卷、注册表和评估记录保持 `reference-only`；本批没有 `migrate-gap`。完整逐文件记录见 [WI-631 Work Item](../work-items/WI-631-reference-rebaseline-batch-52.zh-CN.md)。Rust 通过 shared Runtime、仓库原生测试、CI/release 边界和三语读者文档承载可移植责任，不复制源 Python、Make、provider 决策或 JSON 线格式。
