@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-633-reference-rebaseline-batch-53
+lastVerifiedBy: WI-638-reference-rebaseline-batch-54
 capabilityClaims:
   - reference_parity
 ---
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=571 implemented-equivalent=1 not-applicable=8 reference-only=159 deferred-next-batch=174 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=626 implemented-equivalent=1 not-applicable=8 reference-only=164 deferred-next-batch=114 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -279,11 +279,11 @@ The reviewed Runtime is v0.2.85 with binary digest
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 571 |
+| `implemented-different-by-design` | 626 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 159 |
-| `deferred-next-batch` | 174 |
+| `reference-only` | 164 |
+| `deferred-next-batch` | 114 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -2511,3 +2511,84 @@ repository context, isolated Contract/evidence/knowledge, dynamic verification,
 fail-closed lifecycle, and visible human Outcome. They do not inherit source
 Python/Make implementation, provider catalogs, generated release artifacts,
 or source-local wire formats.
+
+## WI-638 — reference rebaseline batch 54
+
+WI-638 re-read the next sixty non-history paths at the pinned local reference
+commit `a9224aed77b5c317b53c4551a9eec306d91ee330`, one file at a time. Fifty-five
+portable responsibilities are implemented differently by the Rust Runtime,
+repository-native tests, CI/release/adopter boundaries, or reader documentation.
+Five source/provider or fixture records remain `reference-only`: the
+cross-Work-Item aggregate, deprecated-asset and comprehension records,
+install-plan wizard test, and Java fixture test. No `migrate-gap` or deferred
+record remains in this bounded batch. The machine ledger is authoritative for
+the exact previous decision, counterpart paths, and reason for each row.
+
+| Pinned reference path | Classification | Rust counterpart / bounded decision |
+| --- | --- | --- |
+| `tests/test_ai_cross_wi_integration.py` | reference-only | Source aggregate/report; target boundary is cross-Work-Item documentation and immutable archive evidence. |
+| `tests/test_ai_diff_bound_reuse.py` | implemented-different-by-design | Evidence reuse tests and verification-evidence-reuse documentation bind exact diff identity and rerun. |
+| `tests/test_ai_environment_reuse.py` | implemented-different-by-design | Typed environment-bound evidence and execution tests bind current snapshots without source helper bytes. |
+| `tests/test_ai_evidence_binding.py` | implemented-different-by-design | Evidence/repository receipt stores and reuse tests bind classification, scope, governance, and digests. |
+| `tests/test_ai_generate_work_item_status.py` | implemented-different-by-design | Request-scoped status projection, CLI output, and status-interface documentation replace generated Python files. |
+| `tests/test_ai_governance_cost.py` | implemented-different-by-design | Typed cost observations and `diagnose` documentation keep timing advisory and identity-bound. |
+| `tests/test_ai_onboard.py` | implemented-different-by-design | `attach`, Agent install/doctor, and installation pages provide explicit repository onboarding. |
+| `tests/test_ai_parallel_verification.py` | implemented-different-by-design | Bounded executor, conflict serialization, and affected-verification pages retain safe parallel semantics. |
+| `tests/test_ai_performance_diagnosis.py` | implemented-different-by-design | Runtime cost observations expose measured facts without provider/P95 overclaim. |
+| `tests/test_ai_post_archive_recovery.py` | implemented-different-by-design | Typed recovery/revalidation and finalization tests preserve immutable archive and explicit recovery. |
+| `tests/test_ai_verification_runtime.py` | implemented-different-by-design | Verification planner, dependency graph, execution, and reuse tests provide Runtime routing. |
+| `tests/test_ai_verify.py` | implemented-different-by-design | Rust verification service/CLI tests and verification-semantics docs replace source checker registry. |
+| `tests/test_changed_critical_coverage.py` | implemented-different-by-design | Dynamic CI integrity and package-coverage gates bind changed paths to declared checks. |
+| `tests/test_ci_quality_orchestration.py` | implemented-different-by-design | Reviewed gate manifest, CI route, and native gate tests preserve quality orchestration. |
+| `tests/test_core_gates.py` | implemented-different-by-design | Contract, lifecycle, Outcome, and CI validators enforce the Rust fail-closed gate boundary. |
+| `tests/test_deprecated_assets.py` | reference-only | Source deprecation scanner/registry is not Runtime authority; cleanup is owner-approved and history-preserving. |
+| `tests/test_documentation_comprehension_results.py` | reference-only | Revision-bound participant study evidence is not target capability or adopter proof. |
+| `tests/test_documentation_journey.py` | implemented-different-by-design | Current/getting-started/reference routes and documentation acceptance preserve reader authority boundaries. |
+| `tests/test_end_to_end_adoption_validation.py` | implemented-different-by-design | Immutable public/N-1 adopter acceptance and isolation tests replace source matrix orchestration. |
+| `tests/test_finish_e2e.py` | implemented-different-by-design | Lifecycle order, finalization, and CLI tests enforce finish/archive boundaries. |
+| `tests/test_finish_process_cleanup.py` | implemented-different-by-design | Cleanup policy retains evidence and requires exact worktree/branch disposition. |
+| `tests/test_governance_complexity.py` | implemented-different-by-design | Governance controls and performance gates preserve bounded complexity facts without source thresholds. |
+| `tests/test_governance_profile.py` | implemented-different-by-design | Typed profile planner, route convergence, CLI profile, and reader pages provide proportional policy. |
+| `tests/test_human_benefit_report.py` | implemented-different-by-design | Rust Outcome renderer and handoff tests separate benefit inference from authority. |
+| `tests/test_implementation_knowledge.py` | implemented-different-by-design | Knowledge crate/projection tests and docs provide repository-local evidence-bound knowledge. |
+| `tests/test_install_plan.py` | reference-only | Source interactive wizard is not a Rust requirement; install uses immutable artifacts and `attach --repo`. |
+| `tests/test_installed_lifecycle_e2e.py` | implemented-different-by-design | Published adopter lifecycle and upgrade acceptance validate Runtime identity and cleanup. |
+| `tests/test_installed_runtime_parity.py` | implemented-different-by-design | Release identity, Agent doctor, attach, and adopter harnesses verify the installed binary boundary. |
+| `tests/test_installer.py` | implemented-different-by-design | Release archive/manifest, Agent ownership, attach scaffolding, and evolution tests replace source installer code. |
+| `tests/test_instruction_traceability.py` | implemented-different-by-design | Conformance inventory, traceability pages, and docs acceptance provide current bidirectional traceability. |
+| `tests/test_japanese_adopter_lifecycle.py` | implemented-different-by-design | Japanese presentation plus immutable adopter acceptance preserve locale-aware lifecycle facts. |
+| `tests/test_japanese_capability.py` | implemented-different-by-design | Japanese Outcome/capability pages and CLI intelligence preserve evidence-source identity. |
+| `tests/test_java_fixture.py` | reference-only | Source Java application fixture is provider/adopter evidence; target documents the fixture boundary without bundling bytes. |
+| `tests/test_knowledge_installer_parity.py` | implemented-different-by-design | Agent installation and Knowledge query/cache tests preserve local materialization and ownership. |
+| `tests/test_knowledge_projection_benchmark.py` | implemented-different-by-design | Knowledge projection and runtime benchmark tests measure bounded reuse cost; source wire is not copied. |
+| `tests/test_knowledge_query.py` | implemented-different-by-design | Knowledge crate, CLI/MCP query, and docs provide explicit repository filtering. |
+| `tests/test_lifecycle_truth_core_677.py` | implemented-different-by-design | Lifecycle-order and status projections enforce current snapshot and terminal-state truth. |
+| `tests/test_lightweight_verification.py` | implemented-different-by-design | Verification service tests and soft-gate docs preserve proportional verification and visible unknowns. |
+| `tests/test_makefile.py` | implemented-different-by-design | Native CI workflows, gate manifest, and Rust tests replace source Make syntax. |
+| `tests/test_multilingual_semantic_parity.py` | implemented-different-by-design | Tri-language docs/tests localize fixed presentation while preserving Contract text. |
+| `tests/test_onboard_e2e.py` | implemented-different-by-design | Attach/Agent installation tests provide explicit repository onboarding. |
+| `tests/test_operation_impact.py` | implemented-different-by-design | Governance signals and operation-time policy keep impact separate from authority. |
+| `tests/test_operation_time_policy_reevaluation.py` | implemented-different-by-design | Typed reevaluation invalidates stale or mismatched authority. |
+| `tests/test_outcome_gate.py` | implemented-different-by-design | Outcome terminal gates reject stale, yellow, or unbound claims. |
+| `tests/test_outcome_lifecycle_rules.py` | implemented-different-by-design | Agent rules, static parity, and workflow docs keep terminality and successor limits explicit. |
+| `tests/test_ownership.py` | implemented-different-by-design | Ownership/evidence-assurance tests separate owner facts from path guesses. |
+| `tests/test_parallel_lifecycle_contract.py` | implemented-different-by-design | Parallel boundary and projection leases serialize shared writes and require dedicated Work Items. |
+| `tests/test_performance_budget.py` | implemented-different-by-design | Performance baselines/regression gates remain advisory and never remove verification. |
+| `tests/test_plan_cleanup.sh` | implemented-different-by-design | Adopter cleanup manifests require isolated temporary roots and exact disposal. |
+| `tests/test_pr_aggregate.py` | implemented-different-by-design | Typed PR/finalization/recovery and CI evidence bind merge state to the Work Item. |
+| `tests/test_pre_release_documentation_alignment.py` | implemented-different-by-design | Documentation acceptance and parity pages validate generated artifacts and bound evidence. |
+| `tests/test_project_governance.py` | implemented-different-by-design | Typed project governance, doctor, profile, and repository tests preserve facts and unknowns. |
+| `tests/test_project_governance_journey.py` | implemented-different-by-design | Profile proposal/calibration tests preserve human confirmation and rollback boundaries. |
+| `tests/test_project_profile.py` | implemented-different-by-design | Project profile validation accepts typed, repository-bound facts and explicit legacy boundaries. |
+| `tests/test_projection_isolation.py` | implemented-different-by-design | Repository context and projection leases prevent cross-Work-Item generated writes. |
+| `tests/test_provider_backed_governance_validation.py` | implemented-different-by-design | Provider reconciliation and enterprise docs keep external evidence delegated and non-certifying. |
+| `tests/test_provider_merge_state_recovery.py` | implemented-different-by-design | Recovery tests bind provider merge facts, hosted checks, and human confirmation. |
+| `tests/test_purge.py` | implemented-different-by-design | Evidence policy/purge-plan requires owner confirmation and never silently deletes history. |
+| `tests/test_quality_architecture.py` | implemented-different-by-design | CI quality/security tests inspect unsafe inputs and document test-layer evidence. |
+| `tests/test_quality_gate_architecture.py` | implemented-different-by-design | Dynamic profiles, gate manifest, workflow policy, and CI tests keep routing explicit. |
+
+This is semantic parity, not source implementation or JSON-wire parity. Attached
+object/adopter projects inherit the shared Runtime, explicit `--repo`, isolated
+repository state, dynamic verification, fail-closed lifecycle, and visible human
+Outcome; source-specific wizard, fixture, participant, Make, provider, and
+generated-report bytes remain outside the target.

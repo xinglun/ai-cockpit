@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-633-reference-rebaseline-batch-53
+lastVerifiedBy: WI-638-reference-rebaseline-batch-54
 capabilityClaims:
   - reference_parity
 ---
@@ -30,14 +30,14 @@ capabilityClaims:
 等待复核的变化路径和已退休路径。对齐检查不依赖网络参考源，也不复制源内容；重新基线的 receipt 和
 流程见[参考源逐文件比较](reference-file-comparison.zh-CN.md)。
 
-### 当前台账快照（WI-631）
+### 当前台账快照（WI-638）
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=626 implemented-equivalent=1 not-applicable=8 reference-only=164 deferred-next-batch=114 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `98f12b18b978db509fc884a8a6225afeb7f10df5`，以及经审查的
 `ai-cockpit v0.2.85` Runtime（二进制摘要
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）。
-当前参考源有 5,175 条路径，其中 294 条 deferred；deferred 只表示下一语义比较批次，
+当前参考源有 5,175 条路径，其中 114 条 deferred；deferred 只表示下一语义比较批次，
 不构成对等声明。
 
 ## 真实性状态
@@ -681,6 +681,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-635——批次 53 最终重新验证 | 已实现 | [Work Item](../work-items/WI-635-batch-53-final-revalidation.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-635-batch-53-final-revalidation.contract.json`; verification `.ai/evidence/WI-635-batch-53-final-revalidation.verification.json`; finalization `.ai/decisions/WI-635-batch-53-final-revalidation.finalize.json`; close `.ai/decisions/WI-635-batch-53-final-revalidation.close.json`. |
 | WI-636——批次 53 文档晋级 | 已实现 | [Work Item](../work-items/WI-636-batch-53-documentation-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-636-batch-53-documentation-promotion.contract.json`; verification `.ai/evidence/WI-636-batch-53-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-636-batch-53-documentation-promotion.finalize.json`; close `.ai/decisions/WI-636-batch-53-documentation-promotion.close.json`. |
 | WI-637——WI-636 文档晋级 | 已实现 | [Work Item](../work-items/WI-637-wi636-documentation-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-637-wi636-documentation-promotion.contract.json`; verification `.ai/evidence/WI-637-wi636-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-637-wi636-documentation-promotion.finalize.json`; close `.ai/decisions/WI-637-wi636-documentation-promotion.close.json`. |
+| WI-638——参考源重新基线第 54 批 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-638-reference-rebaseline-batch-54.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-638-reference-rebaseline-batch-54.contract.json`; verification `.ai/evidence/WI-638-reference-rebaseline-batch-54.verification.json`; finalization `.ai/decisions/WI-638-reference-rebaseline-batch-54.finalize.json`; close `.ai/decisions/WI-638-reference-rebaseline-batch-54.close.json`. |
 
 ## WI-601——参考源测试对等批次 49
 
