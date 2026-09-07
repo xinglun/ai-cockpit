@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-632-doc-promotion-wi631.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8353eeac1a1230f1374eb0ac9480fa5bdce597fa272876871c09a13c1c66b707",
+      "workItemId": "WI-632-doc-promotion-wi631"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-632-doc-promotion-wi631.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-632-doc-promotion-wi631.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-632-doc-promotion-wi631.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-07T03:30:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-632-doc-promotion-wi631.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-632-doc-promotion-wi631.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-632-doc-promotion-wi631.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-632-doc-promotion-wi631.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-632-doc-promotion-wi631.contract.json"
+          ],
+          "inference": false,
+          "text": "Keep Work Item and parity documentation synchronized with immutable terminal evidence without creating an unregistered documentation transition."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-632-doc-promotion-wi631.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-632-doc-promotion-wi631"
+  },
+  "finalReportDigest": "sha256:0e18e387e37ce20274be4c0e8bbf79d37ef76bf0bbe849a0bb36256bc2af3228",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:9482ff42ad05ac0b036efbc2113800b45f3bae7816cc0ef171f8a43b39613f3e",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-632-doc-promotion-wi631.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T03:30:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-632-doc-promotion-wi631.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md repository lifecycle"
+    ],
+    "reason": "Reviewed PR #630 merged; pre-archive registration ordering, documentation promotion, archive, verification, finalization, synchronized main, and exact cleanup are complete.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-07T03:31:20Z",
+  "workItemId": "WI-632-doc-promotion-wi631"
+}
