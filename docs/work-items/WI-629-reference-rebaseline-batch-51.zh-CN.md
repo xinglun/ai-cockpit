@@ -4,9 +4,13 @@ title: WI-629——参考源重新基线第 51 批
 description: 在固定本地提交逐个复核首批 60 个变更路径，不复制源实现。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-629-reference-rebaseline-batch-51
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-629-reference-rebaseline-batch-51
+terminalArchive: .ai/work-items/archive/WI-629-reference-rebaseline-batch-51.contract.json
+terminalVerification: .ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json
+terminalFinalization: .ai/decisions/WI-629-reference-rebaseline-batch-51.finalize.json
+terminalDecision: .ai/decisions/WI-629-reference-rebaseline-batch-51.close.json
 ---
 
 # WI-629——参考源重新基线第 51 批
