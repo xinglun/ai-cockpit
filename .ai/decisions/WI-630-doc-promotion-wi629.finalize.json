@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c13fc0d812aa80777ae78eb9f56642879e310038",
+    "name": "codex/wi-630-doc-promotion-wi629",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1356ca0ecd76f1933dc0fd2dfb8a8415d9e7b8a61f923135f03d67e51a7ec065",
+  "operationId": "github-pr-625-local-finalization-20260907",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "f758f5d13d210c91bb67b16f7956db205fc83780",
+    "headRevision": "c13fc0d812aa80777ae78eb9f56642879e310038",
+    "mergeCommit": "c5bde15acc26d49b785a018a9e967cffee33d154",
+    "number": 625,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed GitHub PR #625 merged after all hosted checks passed (merge commit c5bde15a); exact Work Item branch and dedicated worktree were removed after default-branch synchronization.",
+  "receiptId": "github-pr-625-local-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-630-doc-promotion-wi629",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi630-doc-promotion-wi629"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T01:52:00Z",
+  "workItemId": "WI-630-doc-promotion-wi629",
+  "worktree": {
+    "branch": "codex/wi-630-doc-promotion-wi629",
+    "headRevision": "c13fc0d812aa80777ae78eb9f56642879e310038",
+    "path": "/private/tmp/ai-cockpit-wi630-doc-promotion-wi629",
+    "worktreeId": "WI-630-doc-promotion-wi629"
+  }
+}

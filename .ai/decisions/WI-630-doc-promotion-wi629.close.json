@@ -1,0 +1,136 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:97288a2bd17822e754c5aec639afb0122e3462f35f7ae54e27e9b47ff75d478c",
+      "workItemId": "WI-630-doc-promotion-wi629"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-630-doc-promotion-wi629.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-630-doc-promotion-wi629.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-630-doc-promotion-wi629.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json",
+            ".ai/decisions/WI-630-doc-promotion-wi629.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-07T01:52:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-630-doc-promotion-wi629.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json"
+          ],
+          "inference": false,
+          "text": "关闭 WI-630 文档投影晋级并让 post-close documentation check-all 通过。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-630-doc-promotion-wi629"
+  },
+  "finalReportDigest": "sha256:ef3dbf6f42b8d2d2c7e09221189abe3f837d3cb5cfb8e05a6e6002241ceb4681",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:213d5ad33ab6a2ce49c7dd0b000b256561ceeeacbef0aad5bc99a2ca7c8597ad",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-630-doc-promotion-wi629.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T01:52:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-630-doc-promotion-wi629.verification.json",
+      ".ai/decisions/WI-630-doc-promotion-wi629.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Reviewed PR #625, all hosted checks passed, finalization verified, and main synchronized; documentation promotion is complete.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-07T01:53:56Z",
+  "workItemId": "WI-630-doc-promotion-wi629"
+}
