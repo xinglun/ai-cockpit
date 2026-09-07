@@ -4,9 +4,13 @@ title: WI-636 - Batch 53 documentation promotion
 description: Promote tri-language projections after the batch 53 recovery lineage reached terminal close.
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-636-batch-53-documentation-promotion
-status: in-progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-636-batch-53-documentation-promotion
+terminalArchive: .ai/work-items/archive/WI-636-batch-53-documentation-promotion.contract.json
+terminalVerification: .ai/evidence/WI-636-batch-53-documentation-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-636-batch-53-documentation-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-636-batch-53-documentation-promotion.close.json
 ---
 
 [简体中文](WI-636-batch-53-documentation-promotion.zh-CN.md) · [日本語](WI-636-batch-53-documentation-promotion.ja.md)

@@ -4,9 +4,13 @@ title: WI-636 - 第 53 批文档晋级
 description: 在第 53 批恢复谱系完成终态关闭后，晋级三语文档投影。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-636-batch-53-documentation-promotion
-status: in-progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-636-batch-53-documentation-promotion
+terminalArchive: .ai/work-items/archive/WI-636-batch-53-documentation-promotion.contract.json
+terminalVerification: .ai/evidence/WI-636-batch-53-documentation-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-636-batch-53-documentation-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-636-batch-53-documentation-promotion.close.json
 ---
 
 [English](WI-636-batch-53-documentation-promotion.md) · [日本語](WI-636-batch-53-documentation-promotion.ja.md)
