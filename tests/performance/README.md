@@ -50,3 +50,19 @@ diagnosis. It requires an external executable regular file, records both the
 Runtime-reported and file SHA-256 identities, writes atomically, and never builds
 or runs a source fallback. Its output is measurement evidence only; use
 `regression_gate.sh` with an explicitly reviewed budget file for a release gate.
+
+Cold/warm grouping happens on the original call order, in `runtime_benchmark_stats.py`
+(shared with `runtime_benchmark_stats_test.py`, which pins the fixed sequence
+`[120, 20, 22, 21]` to prove the first call is always classified as cold): the
+first process call is always the cold sample, and the remaining calls are the
+warm samples; only a separately sorted copy of the warm samples feeds the
+percentile calculation. `p50Ms`/`p95Ms` are withheld with an explicit
+`insufficient_samples` reason below fixed reliability floors instead of
+reporting a percentile estimate from too few points. Every capture also records
+an `environment` block (hardware, OS, filesystem, repository head/branch/dirty
+state, tracked file count) and a `preMeasurementProcessInvocations` list, since
+`--version`/`inspect`/`status` identity probes already run before any sample is
+measured — a `.cold` sample is the first *measured* call, not a true
+OS-cold-cache call, and the harness never claims otherwise. This harness
+measures independent CLI process latency only; it does not measure persistent
+MCP session latency.

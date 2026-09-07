@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "A fixed sequence [120, 20, 22, 21] proves the first process call is classified as cold; grouping into cold/warm happens on the original call order before any sorting, and a regression test pins this behavior.",
+    "Cold and warm raw sample lists preserve original call order in the output; percentiles are computed only from a separately sorted copy, and the quantile method is recorded.",
+    "p50/p95 are withheld with an explicit insufficient_samples reason below defined reliability floors instead of reporting a misleading percentile from too few samples.",
+    "regression_gate.sh accepts real non-integer elapsedMs/maxElapsedMs values without weakening identity mismatch or budget-exceeded failure detection; its existing self-test continues to pass.",
+    "Each capture records environment metadata (hardware, OS, filesystem, runtime identity, repository head/branch/dirty state, tracked file count) and discloses pre-measurement identity-probe invocations so no sample is misrepresented as a true OS-cold-cache call.",
+    "cargo fmt, cargo clippy, cargo test --workspace, and tests/performance/regression_gate_test.sh continue to pass; no governance decision or evidence semantics change."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-07T23:23:19Z",
+  "goal": "Establish a trustworthy development performance baseline harness: preserve original sample call order for cold/warm grouping, withhold unreliable percentile claims, disclose pre-measurement identity-probe warm-up, record measurement environment, and let regression_gate.sh consume real (non-integer) elapsed measurements.",
+  "intent": "Fix the cold/warm sample misclassification defect in the local development performance benchmark harness (tests/performance/runtime_benchmark.sh): it sorts all samples before selecting the minimum as cold, which silently swaps the first process call for whichever later call happens to be fastest. Make cold/warm grouping, quantile reliability, and environment disclosure trustworthy before any runtime optimization work proceeds.",
+  "mode": "implementation",
+  "outOfScope": [
+    "8-scenario fixture matrix and phase-level Rust instrumentation (bytes read/hashed",
+    " git calls",
+    " process count",
+    " peak memory) surfaced on inspect/status/doctor/observe",
+    "persistent MCP session latency benchmarking",
+    "any P1-P3 runtime optimization (dedup",
+    " IncrementalMerkle",
+    " PhysicalSingleFlightCoordinator",
+    " polling wait changes",
+    " resident cache)",
+    "changing governance decisions",
+    " evidence semantics",
+    " or the required verification graph"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-647-benchmark-cold-warm-grouping",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi647-benchmark-cold-warm-grouping"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/runtime_benchmark_stats.py",
+    "tests/performance/runtime_benchmark_stats_test.py",
+    "tests/performance/regression_gate.sh",
+    "tests/performance/README.md",
+    "tests/performance/README.ja.md",
+    "tests/performance/README.zh-CN.md",
+    "docs/work-items/WI-647-benchmark-cold-warm-grouping.md",
+    "docs/work-items/WI-647-benchmark-cold-warm-grouping.ja.md",
+    "docs/work-items/WI-647-benchmark-cold-warm-grouping.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-647-benchmark-cold-warm-grouping"
+}

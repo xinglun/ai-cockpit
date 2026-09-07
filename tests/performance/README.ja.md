@@ -30,3 +30,15 @@ WI-395 の Rust ネイティブ最適化は、Work Item 集約 status の重複 
 Portable `runtime_benchmark.sh <binary> <repo> <output.json> [iterations]
 [work-item-id] [budgets.json]` は `inspect`、`status`、`doctor`、`observe` の cold/warm process latency と、
 指定時の Work Item status/diagnose を測定します。外部の executable regular file だけを受け付け、Runtime が報告した identity と file SHA-256 を記録し、atomic に出力します。source fallback の build/run は行いません。出力は measurement evidence であり、release gate には明示的にレビューした budget file と `regression_gate.sh` を使用します。
+
+cold/warm の分類は元の呼び出し順のまま `runtime_benchmark_stats.py`（`runtime_benchmark_stats_test.py`
+と共有）で行います。固定シーケンス `[120, 20, 22, 21]` により、最初の呼び出しが常に cold として
+分類されることを検証します。最初のプロセス呼び出しは常に cold sample、残りが warm sample であり、
+percentile の計算には別途ソートしたコピーだけを使います。`p50Ms`/`p95Ms` は、既定の信頼性フロアを
+下回るサンプル数では明示的な `insufficient_samples` 理由付きで抑制され、少なすぎるサンプルから
+percentile を偽って報告することはありません。各計測では `environment`
+ブロック（ハードウェア、OS、ファイルシステム、リポジトリの head/branch/dirty 状態、追跡ファイル数）と
+`preMeasurementProcessInvocations` の一覧も記録します。`--version`/`inspect`/`status` の identity probe が
+計測前に既に実行されているため、`.cold` サンプルは最初に *計測された* 呼び出しであって真の
+OS cold cache 呼び出しではなく、本ハーネスはそのように主張しません。本ハーネスは独立した CLI
+プロセスの latency のみを測定し、常駐 MCP セッションの latency は測定しません。

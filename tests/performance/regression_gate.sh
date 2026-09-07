@@ -66,7 +66,9 @@ for budget in baseline["budgets"]:
     elapsed = sample.get("elapsedMs")
     iterations = sample.get("iterations")
     limit = budget.get("maxElapsedMs")
-    if not isinstance(elapsed, int) or not isinstance(iterations, int) or not isinstance(limit, int):
+    def is_elapsed_number(value):
+        return isinstance(value, (int, float)) and not isinstance(value, bool)
+    if not is_elapsed_number(elapsed) or not isinstance(iterations, int) or not is_elapsed_number(limit):
         failures.append(f"sample_malformed:{name}")
     elif iterations <= 0:
         failures.append(f"iterations_zero:{name}")

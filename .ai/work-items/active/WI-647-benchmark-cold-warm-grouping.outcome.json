@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "A fixed sequence [120, 20, 22, 21] proves the first process call is classified as cold; grouping into cold/warm happens on the original call order before any sorting, and a regression test pins this behavior.",
+    "Cold and warm raw sample lists preserve original call order in the output; percentiles are computed only from a separately sorted copy, and the quantile method is recorded.",
+    "p50/p95 are withheld with an explicit insufficient_samples reason below defined reliability floors instead of reporting a misleading percentile from too few samples.",
+    "regression_gate.sh accepts real non-integer elapsedMs/maxElapsedMs values without weakening identity mismatch or budget-exceeded failure detection; its existing self-test continues to pass.",
+    "Each capture records environment metadata (hardware, OS, filesystem, runtime identity, repository head/branch/dirty state, tracked file count) and discloses pre-measurement identity-probe invocations so no sample is misrepresented as a true OS-cold-cache call.",
+    "cargo fmt, cargo clippy, cargo test --workspace, and tests/performance/regression_gate_test.sh continue to pass; no governance decision or evidence semantics change."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-647-benchmark-cold-warm-grouping.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-647-benchmark-cold-warm-grouping.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2dc879cfc19ba10892b10d031c82625132045332ae062e8fad41f93fa9d884c2",
+      "workItemId": "WI-647-benchmark-cold-warm-grouping"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-647-benchmark-cold-warm-grouping.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-647-benchmark-cold-warm-grouping.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-647-benchmark-cold-warm-grouping.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-647-benchmark-cold-warm-grouping.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-647-benchmark-cold-warm-grouping.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-647-benchmark-cold-warm-grouping.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-647-benchmark-cold-warm-grouping.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-647-benchmark-cold-warm-grouping.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-647-benchmark-cold-warm-grouping.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-647-benchmark-cold-warm-grouping.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish a trustworthy development performance baseline harness: preserve original sample call order for cold/warm grouping, withhold unreliable percentile claims, disclose pre-measurement identity-probe warm-up, record measurement environment, and let regression_gate.sh consume real (non-integer) elapsed measurements."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-647-benchmark-cold-warm-grouping.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-647-benchmark-cold-warm-grouping"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-647-benchmark-cold-warm-grouping.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-647-benchmark-cold-warm-grouping"
+}

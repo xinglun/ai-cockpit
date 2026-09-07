@@ -34,14 +34,16 @@ case "$binary" in
     exit 1
     ;;
 esac
+script_dir=$(cd "$(dirname "$0")" && pwd -P)
 
-exec python3 - "$binary" "$repo" "$output" "$iterations" "$work_item" "$budgets" <<'PY'
+exec python3 - "$binary" "$repo" "$output" "$iterations" "$work_item" "$budgets" "$script_dir" <<'PY'
 import datetime as dt
 import hashlib
 import json
 import os
 import pathlib
 import platform
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -53,6 +55,12 @@ output = pathlib.Path(sys.argv[3])
 iterations = int(sys.argv[4])
 work_item = sys.argv[5] or None
 budgets_path = pathlib.Path(sys.argv[6]) if sys.argv[6] else None
+script_dir = sys.argv[7]
+
+sys.path.insert(0, script_dir)
+from runtime_benchmark_stats import summarize
+
+probe_log = []
 
 def call(args, parse_json=False):
     try:
@@ -68,6 +76,7 @@ def call(args, parse_json=False):
         raise SystemExit(f"benchmark command failed: {args[0]} ({type(error).__name__})")
     if result.returncode != 0:
         raise SystemExit(f"benchmark command failed: {args[0]} (exit {result.returncode})")
+    probe_log.append(args[0])
     if parse_json:
         try:
             return json.loads(result.stdout)
@@ -85,6 +94,7 @@ version = subprocess.run(
 )
 if version.returncode != 0 or not version.stdout.decode("utf-8", "replace").strip().startswith("ai-cockpit "):
     raise SystemExit("runtime binary did not report an ai-cockpit version")
+probe_log.append("--version")
 
 inspect = call(["inspect"], parse_json=True)
 runtime_version = inspect.get("runtimeVersion")
@@ -95,26 +105,13 @@ if not all(isinstance(value, str) and value.startswith("sha256:") for value in (
     raise SystemExit("inspect did not provide runtime/repository identity")
 
 def measure(name, args):
-    values = []
+    prior_probe_calls = probe_log.count(args[0])
+    raw = []
     for _ in range(iterations + 1):
         started = time.perf_counter_ns()
         call(args)
-        values.append((time.perf_counter_ns() - started) / 1_000_000)
-    values.sort()
-    warm = values[1:]
-    def percentile(items, fraction):
-        index = min(len(items) - 1, max(0, int((len(items) - 1) * fraction)))
-        return round(items[index], 3)
-    return [
-        {"name": f"{name}.cold", "elapsedMs": round(values[0], 3), "iterations": 1},
-        {
-            "name": f"{name}.warm",
-            "elapsedMs": percentile(warm, 0.95),
-            "iterations": len(warm),
-            "p50Ms": percentile(warm, 0.50),
-            "p95Ms": percentile(warm, 0.95),
-        },
-    ]
+        raw.append(round((time.perf_counter_ns() - started) / 1_000_000, 3))
+    return summarize(name, raw, prior_probe_calls=prior_probe_calls)
 
 samples = []
 for name, args in (("inspect", ["inspect"]), ("status", ["status"]), ("doctor", ["doctor"]), ("observe", ["observe"])):
@@ -133,6 +130,65 @@ if budgets_path:
 else:
     budgets = []
 
+def git_capture(args):
+    try:
+        result = subprocess.run(
+            ["git", *args],
+            cwd=repo,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            check=False,
+            timeout=30,
+        )
+    except OSError:
+        return None
+    if result.returncode != 0:
+        return None
+    return result.stdout.decode("utf-8", "replace").strip()
+
+def tracked_file_count():
+    tracked = git_capture(["ls-files"])
+    if tracked is None:
+        return "unavailable"
+    return len([line for line in tracked.splitlines() if line])
+
+def filesystem_kind(path):
+    if shutil.which("df") is None:
+        return "unavailable"
+    args = ["df", "-T", str(path)] if platform.system() == "Linux" else ["df", str(path)]
+    try:
+        result = subprocess.run(
+            args, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=False, timeout=10
+        )
+    except OSError:
+        return "unavailable"
+    if result.returncode != 0:
+        return "unavailable"
+    return result.stdout.decode("utf-8", "replace").strip()
+
+dirty_status = git_capture(["status", "--porcelain"])
+environment = {
+    "hardware": {
+        "machine": platform.machine(),
+        "processorCount": os.cpu_count() or "unavailable",
+    },
+    "os": {
+        "system": platform.system(),
+        "release": platform.release(),
+        "version": platform.version(),
+    },
+    "filesystem": filesystem_kind(repo),
+    "repositoryState": {
+        "repositoryId": repository_id,
+        "head": git_capture(["rev-parse", "HEAD"]) or "unavailable",
+        "branch": git_capture(["rev-parse", "--abbrev-ref", "HEAD"]) or "unavailable",
+        "dirty": "unavailable" if dirty_status is None else bool(dirty_status),
+    },
+    "dataScale": {"trackedFileCount": tracked_file_count()},
+    "preMeasurementProcessInvocations": probe_log,
+}
+
 document = {
     "schemaVersion": 1,
     "runtimeVersion": runtime_version,
@@ -142,8 +198,13 @@ document = {
     "platform": {"system": platform.system(), "machine": platform.machine()},
     "capturedAt": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
     "source": "explicit-external-binary",
+    "measurementModel": (
+        "independent-cli-process-per-call; this harness does not measure "
+        "persistent MCP session latency"
+    ),
     "iterations": iterations,
     "samples": samples,
+    "environment": environment,
     "budgets": budgets,
 }
 

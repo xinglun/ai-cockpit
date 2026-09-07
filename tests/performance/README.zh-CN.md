@@ -30,3 +30,12 @@ request-scoped 和 identity-bound，不创建全局 repository cache，也不复
 以及可选的 Work Item status/diagnose。它要求外部的可执行普通文件，记录 Runtime 报告的身份和文件
 SHA-256，原子写出结果，绝不构建或回退到源码。脚本输出只是测量证据；发布 gate 必须再用经过明确审查的
 budget 文件调用 `regression_gate.sh`。
+
+冷/热分组按原始调用顺序在 `runtime_benchmark_stats.py`（与 `runtime_benchmark_stats_test.py` 共用）
+中完成：固定序列 `[120, 20, 22, 21]` 用于验证首次调用始终被归类为 cold。第一次进程调用始终是 cold
+样本，其余调用是 warm 样本；只有另行排序的 warm 样本副本才用于计算分位数。当 warm 样本数低于
+既定可靠性下限时，`p50Ms`/`p95Ms` 会附带明确的 `insufficient_samples` 原因被抑制，不会用过少的样本
+冒称分位数。每次采集还会记录 `environment` 区块（硬件、操作系统、文件系统、仓库 head/branch/dirty
+状态、被跟踪文件数）以及 `preMeasurementProcessInvocations` 列表：由于 `--version`/`inspect`/`status`
+身份探测在任何样本被测量之前就已经运行，`.cold` 样本只是第一次被 *测量* 的调用，并非真正的
+OS 冷缓存调用，脚本不会做出相反的声称。本工具只测量独立 CLI 进程的延迟，不测量常驻 MCP 会话的延迟。
