@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-review-policy",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7888071028924fd7eded7307d492a6e2d5555ca8",
+    "name": "codex/wi-646-release-v0-2-87",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3fe7d267354fd25fc89824a48fb58e9e0b2c4574bd168301e62ff947d5e9a0b6",
+  "operationId": "github-pr-644-finalization-20260907",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b55b9732ef3b72f1b9402f2748c3a809cb8323c7",
+    "headRevision": "7888071028924fd7eded7307d492a6e2d5555ca8",
+    "mergeCommit": "130bb69879ffd61fe539d1162253d148ed1a315e",
+    "number": 644,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #644 passed all hosted checks and was merged; the exact Work Item branch and dedicated worktree were removed after default-branch synchronization.",
+  "receiptId": "github-pr-644-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-646-release-v0-2-87",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi646-release-v0-2-87"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:60f51dc9b95c7ecd64f8d03181e6e2acf6ba3220ee0ed5f433d8ef69b6d7a0f7",
+  "runtimeVersion": "0.2.86",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T11:51:30Z",
+  "workItemId": "WI-646-release-v0-2-87",
+  "worktree": {
+    "branch": "codex/wi-646-release-v0-2-87",
+    "headRevision": "7888071028924fd7eded7307d492a6e2d5555ca8",
+    "path": "/private/tmp/ai-cockpit-wi646-release-v0-2-87",
+    "worktreeId": "WI-646-release-v0-2-87"
+  }
+}

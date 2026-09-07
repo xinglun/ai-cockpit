@@ -4,9 +4,13 @@ title: WI-646 — v0.2.87 release
 description: Publish the Runtime release and verify its immutable public artifact and adopter boundaries.
 audience: [adopter, maintainer, reviewer]
 workItemId: WI-646-release-v0-2-87
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-646-release-v0-2-87
+terminalArchive: .ai/work-items/archive/WI-646-release-v0-2-87.contract.json
+terminalVerification: .ai/evidence/WI-646-release-v0-2-87.verification.json
+terminalFinalization: .ai/decisions/WI-646-release-v0-2-87.finalize.json
+terminalDecision: .ai/decisions/WI-646-release-v0-2-87.close.json
 capabilityClaims: [release_distribution, reference_comparison, adopter_acceptance]
 ---
 
