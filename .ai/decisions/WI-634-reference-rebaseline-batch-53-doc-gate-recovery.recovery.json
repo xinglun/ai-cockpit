@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-07T05:20:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.verification.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md#work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:d478dd8e775c02da83ad633f69a62c60c6ab24ce38b9b1b034906788a1df1e4d",
+  "predecessorEventsDigest": "sha256:1c5440ffe23e6f445fe5001518154f4d9da0332d72420c4feff6a55ea2ae2a25",
+  "predecessorOutcomeDigest": "sha256:2f89aa8c5f9c54363fd6c3cf7fc307982a98a94011d3cbce152af63e2f811913",
+  "predecessorSummaryDigest": "sha256:d18cb9d765373efe9d66cace9fd105263171b497769d800673546c18e838377e",
+  "predecessorWorkItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery",
+  "reason": "The documentation parity projection was corrected after the predecessor verification snapshot; preserve WI-634 bytes and revalidate the same bounded projection through one explicit successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the successor lifecycle, then supersede and close WI-634 without rewriting predecessor bytes.",
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-635-batch-53-final-revalidation",
+  "workItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery"
+}

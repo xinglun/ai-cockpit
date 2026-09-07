@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "All three parity documents pass governance integrity and documentation acceptance against the merged main tree.",
+    "WI-634 archive, evidence, finalization, and close bytes remain immutable and are bound by the successor recovery record.",
+    "The successor produces only evidence-backed lifecycle records and no unsupported completion or governance decision."
+  ],
+  "createdAt": "2026-09-07T05:04:23Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:de0a3e9fb489fc88ee3322f6fcd126abbe55dc52395ce2c54973a059d6eed313",
+  "evidenceRefs": [
+    ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:84800e86cbf7b0908b6d7b4c2950a17352770848cb17c2693bad097289ca00d4",
+      "workItemId": "WI-635-batch-53-final-revalidation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-635-batch-53-final-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-635-batch-53-final-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-635-batch-53-final-revalidation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-635-batch-53-final-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-635-batch-53-final-revalidation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-635-batch-53-final-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce fresh verification evidence for the three reference-parity documents and close the predecessor through an auditable successor lineage."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-635-batch-53-final-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-635-batch-53-final-revalidation"
+  },
+  "taskReportDigest": "sha256:62a851a5fb3156551a16b3dc744c42a3c6c05b083d09b5f21ff6c113fb11c9cb",
+  "taskReportMarkdownDigest": "sha256:2ac0e44eb428c48a06a5447594f0796c8aedb9c9f11b46b325611eac8d478f8e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-635-batch-53-final-revalidation"
+}
