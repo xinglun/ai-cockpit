@@ -1,0 +1,12 @@
+{
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/reference-comparison-metadata.json",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-file-comparison.md",
+      "tests/docs/reference_comparison_metadata_test.py"
+    ],
+    "reason": "The documentation and regression check directly implement the declared version-binding intent without changing Runtime or historical governance bytes.",
+    "state": "resolved"
+  }
+}

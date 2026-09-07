@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-07T10:56:51Z",
+  "files": {
+    "approachDigest": "sha256:992b005a0525c11691147b4dcd6eb6b195e787c128108da50339f4fa9c124354",
+    "approachPath": ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.approach.json",
+    "contractDigest": "sha256:09c61f508604167261788851e3fc705adf651988c9436b85b1677da58874f78e",
+    "contractPath": ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json",
+    "eventsDigest": "sha256:d6a6db55c2edd1e240486213c627121272f0251fddcdabf307f0473a36e7716d",
+    "eventsPath": ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.events.jsonl",
+    "outcomeDigest": "sha256:25f4c083b2040749485ad481fa7fb6bf55f9d61abfb56b9a6b74a9edde164fdb",
+    "outcomePath": ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.outcome.json",
+    "summaryDigest": "sha256:34d968364da9b3874ef2204b801897a9c5d2c8bff8062c4a46dad458b19063ab",
+    "summaryPath": ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.summary.json",
+    "taskReportDigest": "sha256:0e2c27e9639b1e9aec388cdb86417f40d3c33a504c22824cb795071eac10b614",
+    "taskReportMarkdownDigest": "sha256:84bfd68a8b2ee53d7d805fcc59b712b22823268faf4c658d4a6a82f4d585c072",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-645-reference-doc-runtime-version-binding"
+}

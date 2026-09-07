@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "六个页面当前快照中的 Runtime 版本和 digest 与 reference-comparison-metadata.json 一致，且三语语义保持等价。",
+    "metadata regression test 能在版本正文错配时失败，并在正确版本时通过。",
+    "不修改历史对比记录、Contract/evidence/archive bytes 或参考源 checkout。"
+  ],
+  "createdAt": "2026-09-07T10:56:46Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:77fcf6a6186ccde70cbd4034a14aa8c8ab6ea1b3f09edaf10525efacf99ef2a7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4d294f240ef328e14ac2ff6e2c0c751bf1e35fb0b7af7b6d6f3b43f6db711f91",
+      "workItemId": "WI-645-reference-doc-runtime-version-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "六个三语参考比对页面的当前快照正文与 reference-comparison-metadata.json 保持一致，并由测试强制验证。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-645-reference-doc-runtime-version-binding"
+  },
+  "taskReportDigest": "sha256:0e2c27e9639b1e9aec388cdb86417f40d3c33a504c22824cb795071eac10b614",
+  "taskReportMarkdownDigest": "sha256:84bfd68a8b2ee53d7d805fcc59b712b22823268faf4c658d4a6a82f4d585c072",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-645-reference-doc-runtime-version-binding"
+}

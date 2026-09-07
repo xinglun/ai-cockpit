@@ -359,7 +359,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
-review に使用した Runtime は v0.2.85、binary digest は
+review に使用した Runtime は v0.2.86、binary digest は
 `sha256:69005dd2dd3346ca80ccf02b3b9801d7f830d3a24dcd8707f23dec71bccbc7cd` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
