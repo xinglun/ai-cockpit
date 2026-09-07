@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-07T06:35:55Z",
+  "checkpointContractDigest": "sha256:c8ffe9630e247fd8dee38171595c0b64bfc92b948665734709ce63f3bc17eb82",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a844e51a8c785e561172d9b7b043bfed9c7cd8a994f5ec3f4b2fbac3f35312b1",
+      "recorded": true,
+      "recordedAt": "2026-09-07T06:35:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:28cd5b6a43a4bf4649d1fac9670009ef382664630ffa6afabd1658f5328a3342",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-639-wi638-documentation-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:c8ffe9630e247fd8dee38171595c0b64bfc92b948665734709ce63f3bc17eb82",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a844e51a8c785e561172d9b7b043bfed9c7cd8a994f5ec3f4b2fbac3f35312b1",
+      "previousContractHash": "sha256:a844e51a8c785e561172d9b7b043bfed9c7cd8a994f5ec3f4b2fbac3f35312b1",
+      "reason": "Bind the explicit local finalization context before rerunning the verification receipt.",
+      "recorded": true,
+      "recordedAt": "2026-09-07T06:37:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:28cd5b6a43a4bf4649d1fac9670009ef382664630ffa6afabd1658f5328a3342",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-639-wi638-documentation-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:28cd5b6a43a4bf4649d1fac9670009ef382664630ffa6afabd1658f5328a3342",
+  "createdAt": "2026-09-07T06:33:51Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-07T06:37:52Z",
+  "preflightContractDigest": "sha256:c8ffe9630e247fd8dee38171595c0b64bfc92b948665734709ce63f3bc17eb82",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:28cd5b6a43a4bf4649d1fac9670009ef382664630ffa6afabd1658f5328a3342",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-07T06:37:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-639-wi638-documentation-promotion"
+}

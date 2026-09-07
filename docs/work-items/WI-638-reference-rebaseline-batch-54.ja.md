@@ -4,9 +4,13 @@ title: WI-638 — Reference rebaseline batch 54
 description: 固定 reference の次の 60 パスを一件ずつ比較し、source 実装はコピーしない。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-638-reference-rebaseline-batch-54
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-638-reference-rebaseline-batch-54
+terminalArchive: .ai/work-items/archive/WI-638-reference-rebaseline-batch-54.contract.json
+terminalVerification: .ai/evidence/WI-638-reference-rebaseline-batch-54.verification.json
+terminalFinalization: .ai/decisions/WI-638-reference-rebaseline-batch-54.finalize.json
+terminalDecision: .ai/decisions/WI-638-reference-rebaseline-batch-54.close.json
 ---
 
 # WI-638 — Reference rebaseline batch 54

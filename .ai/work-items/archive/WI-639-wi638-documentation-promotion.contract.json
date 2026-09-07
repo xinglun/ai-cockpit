@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "The promotion helper's deterministic projection is applied to all three language Work Item pages.",
+    "The promotion helper's deterministic projection is applied to all three parity rows.",
+    "Immutable Contract, verification, archive, finalization, and close records remain unchanged.",
+    "The post-close promotion check and documentation gates pass."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "106a148dac91afefd01907e4dd3aa2ad855bb6ab",
+  "createdAt": "2026-09-07T06:33:51Z",
+  "goal": "Synchronize the WI-638 tri-language Work Item pages and parity rows to their verified terminal state.",
+  "intent": "Promote WI-638's closed documentation projection from immutable lifecycle evidence without changing governance facts or historical bytes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source comparison inventory",
+    "historical evidence bytes",
+    "object repositories",
+    "runtime code",
+    "release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7de0e19d02c8441bf2d0f9773b85110d7509897c21d3a24d434d20b21f9a7b1f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-639-wi638-documentation-promotion",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-639-wi638-documentation-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-638-reference-rebaseline-batch-54.md",
+    "docs/work-items/WI-638-reference-rebaseline-batch-54.zh-CN.md",
+    "docs/work-items/WI-638-reference-rebaseline-batch-54.ja.md",
+    "docs/work-items/WI-639-wi638-documentation-promotion.md",
+    "docs/work-items/WI-639-wi638-documentation-promotion.zh-CN.md",
+    "docs/work-items/WI-639-wi638-documentation-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-639-wi638-documentation-promotion"
+}
