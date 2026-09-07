@@ -4,7 +4,7 @@ title: WI-642：参考源重新基线第 56 批
 description: 完成固定参考源的逐文件比对，不复制源实现。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-642-reference-rebaseline-batch-56
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-642-reference-rebaseline-batch-56
 terminalArchive: .ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json
