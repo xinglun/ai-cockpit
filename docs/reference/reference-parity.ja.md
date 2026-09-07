@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-633-reference-rebaseline-batch-53
+lastVerifiedBy: WI-638-reference-rebaseline-batch-54
 capabilityClaims:
   - reference_parity
 ---
@@ -33,14 +33,14 @@ public source ledger の historical metadata、再確認待ちの changed path�
 parity check に network source や source content の copy は必要ありません。rebaseline の receipt と手順は
 [Reference file comparison](reference-file-comparison.ja.md) を参照してください。
 
-### Current ledger snapshot (WI-631)
+### Current ledger snapshot (WI-638)
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=626 implemented-equivalent=1 not-applicable=8 reference-only=164 deferred-next-batch=114 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `98f12b18b978db509fc884a8a6225afeb7f10df5` と、
 review 済み `ai-cockpit v0.2.85`（binary digest
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）を使用します。
-現在の reference は 5,175 path、deferred は 294 path です。deferred は次の semantic comparison
+現在の reference は 5,175 path、deferred は 114 path です。deferred は次の semantic comparison
 batch を示すだけで、parity claim ではありません。
 
 ## Truth state
@@ -701,6 +701,7 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 | WI-635 — batch 53 final revalidation | Implemented | [Work Item](../work-items/WI-635-batch-53-final-revalidation.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-635-batch-53-final-revalidation.contract.json`; verification `.ai/evidence/WI-635-batch-53-final-revalidation.verification.json`; finalization `.ai/decisions/WI-635-batch-53-final-revalidation.finalize.json`; close `.ai/decisions/WI-635-batch-53-final-revalidation.close.json`. |
 | WI-636 — batch 53 documentation promotion | Implemented | [Work Item](../work-items/WI-636-batch-53-documentation-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-636-batch-53-documentation-promotion.contract.json`; verification `.ai/evidence/WI-636-batch-53-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-636-batch-53-documentation-promotion.finalize.json`; close `.ai/decisions/WI-636-batch-53-documentation-promotion.close.json`. |
 | WI-637 — WI-636 documentation promotion | Implemented | [Work Item](../work-items/WI-637-wi636-documentation-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-637-wi636-documentation-promotion.contract.json`; verification `.ai/evidence/WI-637-wi636-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-637-wi636-documentation-promotion.finalize.json`; close `.ai/decisions/WI-637-wi636-documentation-promotion.close.json`. |
+| WI-638 — reference rebaseline batch 54 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-638-reference-rebaseline-batch-54.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-638-reference-rebaseline-batch-54.contract.json`; verification `.ai/evidence/WI-638-reference-rebaseline-batch-54.verification.json`; finalization `.ai/decisions/WI-638-reference-rebaseline-batch-54.finalize.json`; close `.ai/decisions/WI-638-reference-rebaseline-batch-54.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 

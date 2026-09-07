@@ -39612,10 +39612,14 @@
     },
     {
       "referencePath": "tests/test_ai_cross_wi_integration.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/cross-work-item-dedup.md",
+        "docs/reference/reference-parity.md",
+        ".ai/work-items/archive/"
+      ],
+      "reason": "Re-read at the pinned reference commit: this source/provider-specific test or generated assessment is not a portable Runtime authority or target wire contract. The listed target documentation records the boundary without copying source bytes.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39623,13 +39627,14 @@
     },
     {
       "referencePath": "tests/test_ai_diff_bound_reuse.py",
-      "batch": "WI-334-reference-file-comparison-batch-12",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-evidence/tests/reuse.rs",
-        "crates/cockpit-git/tests/repository.rs"
+        "crates/cockpit-git/tests/repository.rs",
+        "docs/reference/verification-evidence-reuse.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-334-reference-file-comparison-batch-12",
       "previousClassification": "implemented-different-by-design",
@@ -39637,13 +39642,14 @@
     },
     {
       "referencePath": "tests/test_ai_environment_reuse.py",
-      "batch": "WI-334-reference-file-comparison-batch-12",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-evidence/tests/reuse.rs",
-        "crates/cockpit-verification/tests/execution.rs"
+        "crates/cockpit-verification/tests/execution.rs",
+        "docs/reference/verification-evidence-reuse-runtime.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-334-reference-file-comparison-batch-12",
       "previousClassification": "implemented-different-by-design",
@@ -39651,13 +39657,14 @@
     },
     {
       "referencePath": "tests/test_ai_evidence_binding.py",
-      "batch": "WI-334-reference-file-comparison-batch-12",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-evidence/tests/reuse.rs",
-        "crates/cockpit-repository/tests/receipt_store.rs"
+        "crates/cockpit-repository/tests/receipt_store.rs",
+        "docs/reference/verification-evidence-reuse.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-334-reference-file-comparison-batch-12",
       "previousClassification": "implemented-different-by-design",
@@ -39677,10 +39684,15 @@
     },
     {
       "referencePath": "tests/test_ai_generate_work_item_status.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/work-item-status-interface.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39688,10 +39700,14 @@
     },
     {
       "referencePath": "tests/test_ai_governance_cost.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/governance-cost-metrics.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39699,15 +39715,15 @@
     },
     {
       "referencePath": "tests/test_ai_onboard.py",
-      "batch": "WI-587-reference-file-comparison-batch-47",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-cli/tests/attach.rs",
         "crates/cockpit-agent/tests/install.rs",
         "crates/cockpit-agent/tests/doctor.rs",
         "docs/getting-started/installation.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-587-reference-file-comparison-batch-47",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -39715,13 +39731,14 @@
     },
     {
       "referencePath": "tests/test_ai_parallel_verification.py",
-      "batch": "WI-270-reference-contract-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-cli/tests/verify.rs",
-        "crates/cockpit-verification/tests/execution.rs"
+        "crates/cockpit-verification/tests/execution.rs",
+        "docs/reference/affected-verification.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-270-reference-contract-batch",
       "previousClassification": "implemented-different-by-design",
@@ -39729,10 +39746,15 @@
     },
     {
       "referencePath": "tests/test_ai_performance_diagnosis.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-verification/tests/cost_observation.rs",
+        "docs/reference/performance-diagnosis.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39740,15 +39762,15 @@
     },
     {
       "referencePath": "tests/test_ai_post_archive_recovery.py",
-      "batch": "WI-587-reference-file-comparison-batch-47",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/tests/recovery_revalidation.rs",
         "crates/cockpit-repository/tests/recovery_events.rs",
         "crates/cockpit-repository/tests/resource_finalization_transition.rs",
         "docs/reference/recovery.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-587-reference-file-comparison-batch-47",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -39779,10 +39801,15 @@
     },
     {
       "referencePath": "tests/test_ai_verification_runtime.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-verification/tests/execution.rs",
+        "crates/cockpit-verification/tests/graph.rs",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39790,10 +39817,15 @@
     },
     {
       "referencePath": "tests/test_ai_verify.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/tests/verification_service.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "docs/reference/verification-semantics.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -39980,14 +40012,14 @@
     },
     {
       "referencePath": "tests/test_changed_critical_coverage.py",
-      "batch": "WI-598-reference-test-parity-batch-48",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "tests/ci/governance_integrity_gate.py",
         "tests/ci/workspace_package_coverage_test.sh",
         "crates/cockpit-repository/tests/ci_quality_gate.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-598-reference-test-parity-batch-48",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40005,15 +40037,15 @@
     },
     {
       "referencePath": "tests/test_ci_quality_orchestration.py",
-      "batch": "WI-598-reference-test-parity-batch-48",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "tests/ci/quality_route.py",
         "tests/ci/run_repository_gates.py",
         "crates/cockpit-repository/tests/ci_quality_gate.rs",
         "docs/reference/ci-quality-gates.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousClassification": "implemented-different-by-design",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-598-reference-test-parity-batch-48",
@@ -40071,20 +40103,17 @@
     },
     {
       "referencePath": "tests/test_core_gates.py",
-      "batch": "WI-601-reference-test-parity-batch-49",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/tests/ci_quality_gate.rs",
         "crates/cockpit-repository/tests/lifecycle_order.rs",
         "crates/cockpit-repository/tests/status_projection.rs",
         "crates/cockpit-repository/tests/outcome_report.rs",
-        "crates/cockpit-cli/tests/lifecycle.rs",
-        "tests/ci/quality_route.py",
-        "tests/ci/run_repository_gates.py",
         "docs/reference/ci-quality-gates.md",
         "docs/reference/repository-workflow.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-601-reference-test-parity-batch-49",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40168,15 +40197,15 @@
     },
     {
       "referencePath": "tests/test_deprecated_assets.py",
-      "batch": "WI-601-reference-test-parity-batch-49",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "reference-only",
       "rustCounterparts": [
         "tests/ci/governance_integrity_gate.py",
         "tests/conformance/reference_source_policy.py",
         "docs/reference/governance-integrity-gate.md",
         "docs/reference/reference-file-comparison.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: this source/provider-specific test or generated assessment is not a portable Runtime authority or target wire contract. The listed target documentation records the boundary without copying source bytes.",
       "previousBatch": "WI-601-reference-test-parity-batch-49",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta",
@@ -40282,14 +40311,13 @@
     },
     {
       "referencePath": "tests/test_documentation_comprehension_results.py",
-      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "reference-only",
       "rustCounterparts": [
         "docs/reference/comprehension-validation-results.md",
-        "docs/reference/comprehension-validation-results.json",
-        "docs/work-items/WI-333-comprehension-validation.md"
+        "docs/reference/documentation-authority-boundary.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: this source/provider-specific test or generated assessment is not a portable Runtime authority or target wire contract. The listed target documentation records the boundary without copying source bytes.",
       "previousBatch": "WI-612-reference-file-comparison-batch-50-ci-repair",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta",
@@ -40321,8 +40349,8 @@
     },
     {
       "referencePath": "tests/test_documentation_journey.py",
-      "batch": "WI-612-reference-file-comparison-batch-50-ci-repair",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/documentation-authority-registry.json",
         "docs/reference/documentation-authority-boundary.md",
@@ -40330,7 +40358,7 @@
         "docs/current/README.md",
         "docs/getting-started/README.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-612-reference-file-comparison-batch-50-ci-repair",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40440,15 +40468,15 @@
     },
     {
       "referencePath": "tests/test_end_to_end_adoption_validation.py",
-      "batch": "WI-619-reference-script-semantic-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "tests/release/adopter_acceptance.sh",
         "tests/release/adopter_upgrade_acceptance.sh",
         "tests/release/isolation_manifest_test.sh",
         "crates/cockpit-agent/tests/isolation.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-619-reference-script-semantic-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40538,15 +40566,15 @@
     },
     {
       "referencePath": "tests/test_finish_e2e.py",
-      "batch": "WI-619-reference-script-semantic-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/tests/lifecycle_order.rs",
         "crates/cockpit-repository/tests/resource_finalization_transition.rs",
         "crates/cockpit-cli/tests/lifecycle.rs",
         "tests/workflow/resource_finalization_policy_test.sh"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-619-reference-script-semantic-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40554,10 +40582,15 @@
     },
     {
       "referencePath": "tests/test_finish_process_cleanup.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "tests/workflow/resource_finalization_policy_test.sh",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -40588,14 +40621,14 @@
     },
     {
       "referencePath": "tests/test_governance_complexity.py",
-      "batch": "WI-619-reference-script-semantic-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/governance-complexity.md",
         "crates/cockpit-repository/tests/governance_controls.rs",
         "tests/performance/regression_gate_test.sh"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-619-reference-script-semantic-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40615,15 +40648,15 @@
     },
     {
       "referencePath": "tests/test_governance_profile.py",
-      "batch": "WI-619-reference-script-semantic-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-verification/tests/policy_planner.rs",
         "crates/cockpit-verification/tests/route_convergence.rs",
         "crates/cockpit-cli/tests/profile.rs",
         "docs/reference/governance-profiles.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-619-reference-script-semantic-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40679,14 +40712,14 @@
     },
     {
       "referencePath": "tests/test_human_benefit_report.py",
-      "batch": "WI-617-reference-outcome-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/outcome_render.rs",
         "crates/cockpit-repository/tests/outcome_report.rs",
         "crates/cockpit-cli/tests/outcome_handoff.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-617-reference-outcome-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40694,10 +40727,14 @@
     },
     {
       "referencePath": "tests/test_implementation_knowledge.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-repository/tests/knowledge_projection.rs",
+        "docs/reference/implementation-knowledge.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -40766,14 +40803,13 @@
     },
     {
       "referencePath": "tests/test_install_plan.py",
-      "batch": "WI-620-reference-release-governance-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "reference-only",
       "rustCounterparts": [
         "docs/getting-started/installation.md",
-        "docs/reference/commands.md",
-        "crates/cockpit-cli/src/main.rs"
+        "docs/reference/commands.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: this source/provider-specific test or generated assessment is not a portable Runtime authority or target wire contract. The listed target documentation records the boundary without copying source bytes.",
       "previousBatch": "WI-620-reference-release-governance-batch",
       "previousClassification": "reference-only",
       "rebaselineBatch": "rebaseline-delta",
@@ -40830,15 +40866,15 @@
     },
     {
       "referencePath": "tests/test_installed_lifecycle_e2e.py",
-      "batch": "WI-621-reference-installer-lifecycle-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "tests/release/adopter_acceptance.sh",
         "tests/release/adopter_upgrade_acceptance.sh",
         "crates/cockpit-repository/tests/lifecycle_order.rs",
         "docs/reference/installed-lifecycle.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousClassification": "implemented-different-by-design",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-621-reference-installer-lifecycle-batch",
@@ -40846,8 +40882,8 @@
     },
     {
       "referencePath": "tests/test_installed_runtime_parity.py",
-      "batch": "WI-620-reference-release-governance-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-release/src/lib.rs",
         "crates/cockpit-agent/src/lib.rs",
@@ -40855,7 +40891,7 @@
         "tests/release/adopter_acceptance.sh",
         "docs/reference/installed-lifecycle.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-620-reference-release-governance-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40863,8 +40899,8 @@
     },
     {
       "referencePath": "tests/test_installer.py",
-      "batch": "WI-620-reference-release-governance-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-release/src/lib.rs",
         "crates/cockpit-agent/src/lib.rs",
@@ -40873,7 +40909,7 @@
         "tests/release/adopter_acceptance.sh",
         "docs/reference/installed-lifecycle.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-620-reference-release-governance-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -40972,10 +41008,15 @@
     },
     {
       "referencePath": "tests/test_instruction_traceability.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/conformance/reference_file_inventory.json",
+        "docs/reference/instruction-traceability.md",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_intent_policy.py",
@@ -41002,31 +41043,51 @@
     },
     {
       "referencePath": "tests/test_japanese_adopter_lifecycle.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "docs/getting-started/installation.ja.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_japanese_capability.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "docs/capabilities.ja.md",
+        "docs/reference/multilingual-semantic-parity.ja.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_java_fixture.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "docs/reference/verification-fixture-boundary.md",
+        "docs/getting-started/examples/java.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: this source/provider-specific test or generated assessment is not a portable Runtime authority or target wire contract. The listed target documentation records the boundary without copying source bytes.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_knowledge_installer_parity.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-agent/tests/install.rs",
+        "crates/cockpit-knowledge/tests/query.rs",
+        "docs/reference/implementation-knowledge.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -41034,10 +41095,15 @@
     },
     {
       "referencePath": "tests/test_knowledge_projection_benchmark.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/knowledge_projection.rs",
+        "crates/cockpit-repository/tests/knowledge_cache.rs",
+        "tests/performance/runtime_benchmark.sh",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -41045,10 +41111,15 @@
     },
     {
       "referencePath": "tests/test_knowledge_query.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/reference/implementation-knowledge.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -41082,31 +41153,40 @@
     },
     {
       "referencePath": "tests/test_lifecycle_truth_core_677.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/work-item-state-machine.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_lightweight_verification.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/tests/verification_service.rs",
+        "docs/reference/lightweight-verification-and-soft-gates.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_makefile.py",
-      "batch": "WI-620-reference-release-governance-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/ci.yml",
         "tests/ci/quality_route.py",
-        "tests/ci/repository_gate_manifest.json",
-        "tests/ci/repository_gate_manifest_test.py",
+        "tests/ci/repository_gate_manifest.py",
         "crates/cockpit-repository/tests/ci_quality_gate.rs",
         "docs/reference/ci-quality-gates.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-620-reference-release-governance-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -41114,15 +41194,15 @@
     },
     {
       "referencePath": "tests/test_multilingual_semantic_parity.py",
-      "batch": "WI-617-reference-outcome-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/multilingual-semantic-parity.md",
         "docs/reference/multilingual-semantic-parity.zh-CN.md",
         "docs/reference/multilingual-semantic-parity.ja.md",
         "crates/cockpit-cli/tests/intelligence.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-617-reference-outcome-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -41143,31 +41223,51 @@
     },
     {
       "referencePath": "tests/test_onboard_e2e.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-agent/tests/install.rs",
+        "docs/getting-started/installation.md",
+        "docs/reference/commands.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_operation_impact.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_signals.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "docs/reference/operation-time-policy-reevaluation.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_operation_time_policy_reevaluation.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/governance_controls.rs",
+        "docs/reference/operation-time-policy-reevaluation.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_outcome_gate.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "later-batch",
       "previousClassification": "deferred-next-batch",
@@ -41175,17 +41275,15 @@
     },
     {
       "referencePath": "tests/test_outcome_lifecycle_rules.py",
-      "batch": "WI-272-reference-agent-rule-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "AGENTS.md",
         ".ai/README.md",
-        "crates/cockpit-agent/tests/install.rs",
-        "docs/reference/agent-workflow.md",
-        "docs/reference/agent-workflow.zh-CN.md",
-        "docs/reference/agent-workflow.ja.md"
+        "crates/cockpit-agent/tests/agent_rule_parity.rs",
+        "docs/reference/agent-workflow.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-272-reference-agent-rule-batch",
       "previousClassification": "implemented-different-by-design",
@@ -41193,20 +41291,26 @@
     },
     {
       "referencePath": "tests/test_ownership.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "docs/security/enterprise-governance.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_parallel_lifecycle_contract.py",
-      "batch": "WI-270-reference-contract-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/tests/parallel_boundary.rs",
-        "crates/cockpit-cli/tests/parallel_boundary.rs"
+        "crates/cockpit-cli/tests/parallel_boundary.rs",
+        "docs/reference/agent-parallel-work-items.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-270-reference-contract-batch",
       "previousClassification": "implemented-different-by-design",
@@ -41214,31 +41318,39 @@
     },
     {
       "referencePath": "tests/test_performance_budget.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/performance/regression_gate.sh",
+        "docs/reference/governance-performance-budget.md",
+        "docs/reference/work-item-intelligence-performance-baseline.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_plan_cleanup.sh",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_pr_aggregate.py",
-      "batch": "WI-620-reference-release-governance-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
-        "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-repository/tests/resource_finalization_transition.rs",
         "crates/cockpit-repository/tests/recovery_decision.rs",
         "crates/cockpit-repository/tests/ci_quality_gate.rs",
-        "tests/ci/repository_gate_manifest_test.py",
         "docs/reference/work-item-lifecycle-closure.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-620-reference-release-governance-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -41246,10 +41358,15 @@
     },
     {
       "referencePath": "tests/test_pre_release_documentation_alignment.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/docs/documentation_acceptance.sh",
+        "docs/reference/documentation-authority-boundary.md",
+        "docs/reference/reference-parity.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_preflight_review.py",
@@ -41263,17 +41380,16 @@
     },
     {
       "referencePath": "tests/test_project_governance.py",
-      "batch": "WI-620-reference-release-governance-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/project_governance.rs",
         "crates/cockpit-repository/tests/project_governance.rs",
         "crates/cockpit-cli/tests/doctor.rs",
         "crates/cockpit-cli/tests/profile.rs",
-        "crates/cockpit-cli/tests/profile_propose.rs",
         "docs/reference/governance-profiles.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-620-reference-release-governance-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -41281,16 +41397,15 @@
     },
     {
       "referencePath": "tests/test_project_governance_journey.py",
-      "batch": "WI-620-reference-release-governance-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/tests/project_governance.rs",
-        "crates/cockpit-cli/tests/profile.rs",
         "crates/cockpit-cli/tests/profile_propose.rs",
         "docs/getting-started/calibration.md",
         "docs/reference/governance-profiles.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-620-reference-release-governance-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -41298,58 +41413,88 @@
     },
     {
       "referencePath": "tests/test_project_profile.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/project_governance.rs",
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "crates/cockpit-cli/tests/profile.rs",
+        "docs/reference/governance-profiles.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_projection_isolation.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/parallel_boundary.rs",
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "docs/reference/agent-parallel-work-items.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_provider_backed_governance_validation.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/provider-backed-governance-validation.md",
+        "docs/security/enterprise-governance.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_provider_merge_state_recovery.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/recovery_revalidation.rs",
+        "docs/reference/provider-reconciliation-boundary.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_purge.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "docs/security/enterprise-governance.md",
+        "docs/reference/installed-lifecycle.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_quality_architecture.py",
-      "batch": "later-batch",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "Scheduled for a later file-by-file semantic comparison batch; no equivalence or omission is claimed yet."
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "tests/ci/governance_integrity_gate.py",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_quality_gate_architecture.py",
-      "batch": "WI-620-reference-release-governance-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-638-reference-rebaseline-batch-54",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "tests/ci/quality_route.py",
-        "tests/ci/repository_gate_manifest.json",
+        "tests/ci/repository_gate_manifest_test.py",
         ".github/workflows/ci.yml",
         "crates/cockpit-repository/tests/ci_quality_gate.rs",
         "docs/reference/ci-quality-gates.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned reference commit: the portable responsibility is represented by the listed Rust Runtime, repository-native test, CI/release surface, or reader documentation with an intentional design difference. Source Python/Make implementation and provider-local wire bytes are not copied.",
       "previousBatch": "WI-620-reference-release-governance-batch",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",

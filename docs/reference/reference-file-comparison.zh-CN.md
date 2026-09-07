@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-633-reference-rebaseline-batch-53
+lastVerifiedBy: WI-638-reference-rebaseline-batch-54
 capabilityClaims:
   - reference_parity
 ---
@@ -334,7 +334,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=571 implemented-equivalent=1 not-applicable=8 reference-only=159 deferred-next-batch=174 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=626 implemented-equivalent=1 not-applicable=8 reference-only=164 deferred-next-batch=114 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.85，二进制摘要为
@@ -349,11 +349,11 @@ capability/profile slice 已没有 `migrate-gap`：
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 571 |
+| `implemented-different-by-design` | 626 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 159 |
-| `deferred-next-batch` | 174 |
+| `reference-only` | 164 |
+| `deferred-next-batch` | 114 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -1806,3 +1806,16 @@ WI-631 在固定本地参考提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` �
 ## WI-633：参考源重新基线第 53 批
 
 WI-633 在固定本地参考提交上逐一复核下一批 60 条 source-changed 非历史路径。43 条可移植责任由 shared Rust Runtime、仓库原生测试、CI/release 边界或读者文档承载；17 条源/provider 生成物、catalog、分片/benchmark 工具、聚合报告和 adopter feature-parity 测试为 `reference-only`。没有 `migrate-gap`。完整路径、counterpart、理由和前序分类见 [WI-633 记录](../work-items/WI-633-reference-rebaseline-batch-53.zh-CN.md) 与机器台账。对象/adopter 工程继承同一 Runtime 语义和隔离边界，不复制源 Python/Make、provider catalog、生成 release artifact 或 source wire。
+
+## WI-638：参考源重新基线第 54 批
+
+WI-638 在固定参考提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` 上逐个复核下一批 60 条非历史路径。
+55 条可移植责任以 Rust Runtime、仓库原生测试、CI/release/adopter 边界或读者文档的不同设计实现；
+5 条 source/provider 或 fixture 记录保持 `reference-only`：跨 Work Item 汇总、废弃资产/理解度记录、
+安装计划 wizard 测试和 Java fixture 测试。没有 `migrate-gap` 或遗留 deferred。
+
+完整的 60 条路径、前序决定、Rust counterpart、分类和边界理由在
+[WI-638 记录](../work-items/WI-638-reference-rebaseline-batch-54.zh-CN.md) 与机器台账中；英文页面提供逐文件表格。
+这是语义 parity，不是源 Python/Make 或 JSON-wire parity。对象/adopter 工程继续继承 shared Runtime、显式
+`--repo`、隔离 Contract/evidence/knowledge、动态验证、fail-closed 生命周期和可见 human Outcome；不复制
+源实现、provider 决定、fixture bytes 或生成报告。
