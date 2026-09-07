@@ -26,6 +26,21 @@ PARITY_DOCS = (
 )
 ALL_DOCS = COMPARISON_DOCS + PARITY_DOCS
 
+CURRENT_RUNTIME_PROJECTIONS = {
+    ROOT / "docs/reference/reference-parity.md":
+        "and the reviewed Runtime `ai-cockpit v{version}` with binary digest\n`{digest}`",
+    ROOT / "docs/reference/reference-parity.zh-CN.md":
+        "`ai-cockpit v{version}` Runtime（二进制摘要\n`{digest}`）",
+    ROOT / "docs/reference/reference-parity.ja.md":
+        "review 済み `ai-cockpit v{version}`（binary digest\n`{digest}`）",
+    ROOT / "docs/reference/reference-file-comparison.md":
+        "The reviewed Runtime is v{version} with binary digest\n`{digest}`",
+    ROOT / "docs/reference/reference-file-comparison.zh-CN.md":
+        "审查使用的 Runtime 为 v{version}，二进制摘要为\n`{digest}`",
+    ROOT / "docs/reference/reference-file-comparison.ja.md":
+        "review に使用した Runtime は v{version}、binary digest は\n`{digest}`",
+}
+
 
 def fail(message: str) -> "NoReturn":
     raise SystemExit(f"reference comparison metadata check failed: {message}")
@@ -74,6 +89,20 @@ def frontmatter(text: str) -> dict[str, str]:
         if separator:
             fields[key.strip()] = value.strip().strip('"')
     return fields
+
+
+def current_runtime_projection(path: Path, metadata: dict[str, object]) -> str:
+    template = CURRENT_RUNTIME_PROJECTIONS[path]
+    return template.format(
+        version=metadata["runtimeVersion"],
+        digest=metadata["runtimeBinaryDigest"],
+    )
+
+
+def has_current_runtime_projection(
+    path: Path, text: str, metadata: dict[str, object]
+) -> bool:
+    return text.count(current_runtime_projection(path, metadata)) == 1
 
 
 def main() -> None:
@@ -157,6 +186,11 @@ def main() -> None:
             fail(f"{path}: missing metadata sidecar link")
         if f"`{metadata['referenceCommit']}`" not in text:
             fail(f"{path}: current reference commit is missing")
+        if not has_current_runtime_projection(path, text, metadata):
+            fail(
+                f"{path}: current Runtime projection must match metadata exactly once; "
+                f"expected {current_runtime_projection(path, metadata)!r}"
+            )
     comparison_text = COMPARISON_DOCS[0].read_text(encoding="utf-8")
     inventory_marker = (
         "reference-inventory-counts: "
@@ -194,6 +228,17 @@ def test_runtime_identity_tracks_workspace_version() -> None:
     """The live comparison metadata must not silently lag the Rust release."""
     metadata = json.loads(METADATA_PATH.read_text(encoding="utf-8"))
     assert metadata["runtimeVersion"] == workspace_version()
+
+
+def test_current_runtime_projection_rejects_stale_version() -> None:
+    """A stale current-snapshot version must fail instead of being tolerated."""
+    metadata = json.loads(METADATA_PATH.read_text(encoding="utf-8"))
+    path = ROOT / "docs/reference/reference-file-comparison.md"
+    text = path.read_text(encoding="utf-8")
+    current = current_runtime_projection(path, metadata)
+    stale = current.replace(f"v{metadata['runtimeVersion']}", "v0.0.0", 1)
+    assert current in text
+    assert not has_current_runtime_projection(path, text.replace(current, stale), metadata)
 
 
 if __name__ == "__main__":

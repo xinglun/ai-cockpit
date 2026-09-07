@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "六个页面当前快照中的 Runtime 版本和 digest 与 reference-comparison-metadata.json 一致，且三语语义保持等价。",
+    "metadata regression test 能在版本正文错配时失败，并在正确版本时通过。",
+    "不修改历史对比记录、Contract/evidence/archive bytes 或参考源 checkout。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "f9b185b537589dc6e9ebdf7b71fc81f0a6e3a4f4",
+  "createdAt": "2026-09-07T10:35:19Z",
+  "goal": "六个三语参考比对页面的当前快照正文与 reference-comparison-metadata.json 保持一致，并由测试强制验证。",
+  "intent": "修复参考源逐文件比对文档当前 Runtime 版本与 metadata 不一致，并建立可执行防回归检查，避免发布后文档版本漂移。",
+  "mode": "code",
+  "outOfScope": [
+    "不改变参考源内容、Rust Runtime 行为、Protocol bytes、历史发布记录、对象工程或全局 Agent/MCP 配置。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:40b0ccacb1a180012871cf18214703af076b3bc7642497aa81af45e8797ff8db",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-645-reference-doc-runtime-version-binding",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi645-reference-doc-runtime-version-binding"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "tests/docs/reference_comparison_metadata_test.py",
+    ".ai/work-items/active/WI-645-reference-doc-runtime-version-binding.controls.json",
+    "docs/work-items/WI-645-reference-doc-runtime-version-binding.md",
+    "docs/work-items/WI-645-reference-doc-runtime-version-binding.zh-CN.md",
+    "docs/work-items/WI-645-reference-doc-runtime-version-binding.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-645-reference-doc-runtime-version-binding"
+}

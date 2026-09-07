@@ -38,7 +38,7 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `4232bb2d1062b5376ae2b7b247c0ae906392585f` と、
-review 済み `ai-cockpit v0.2.85`（binary digest
+review 済み `ai-cockpit v0.2.86`（binary digest
 `sha256:69005dd2dd3346ca80ccf02b3b9801d7f830d3a24dcd8707f23dec71bccbc7cd`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
@@ -764,6 +764,7 @@ WI-633 は pinned local reference commit の次の source-changed 60 パスを�
 | WI-641 — WI-640 documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-641-wi640-documentation-promotion.ja.md); archive `.ai/work-items/archive/WI-641-wi640-documentation-promotion.contract.json`; verification `.ai/evidence/WI-641-wi640-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-641-wi640-documentation-promotion.finalize.json`; close `.ai/decisions/WI-641-wi640-documentation-promotion.close.json`. |
 | WI-642 — reference rebaseline batch 56 | Implemented | [Work Item](../work-items/WI-642-reference-rebaseline-batch-56.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json`; verification `.ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json`; finalization `.ai/decisions/WI-642-reference-rebaseline-batch-56.finalize.json`; close `.ai/decisions/WI-642-reference-rebaseline-batch-56.close.json`. |
 | WI-644 — reference comparison 完了後の v0.2.86 release | Implemented | [Work Item](../work-items/WI-644-release-v0-2-86.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-644-release-v0-2-86.contract.json`; verification `.ai/evidence/WI-644-release-v0-2-86.verification.json`; finalization `.ai/decisions/WI-644-release-v0-2-86.finalize.json`; close `.ai/decisions/WI-644-release-v0-2-86.close.json`. |
+| WI-645 — reference comparison Runtime version binding | In progress | [Work Item](../work-items/WI-645-reference-doc-runtime-version-binding.ja.md); archive `.ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json`; verification `.ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json`; finalization `.ai/decisions/WI-645-reference-doc-runtime-version-binding.finalize.json`; close `.ai/decisions/WI-645-reference-doc-runtime-version-binding.close.json`. |
 | WI-643 — WI-642 ドキュメント昇格 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-643-wi642-doc-promotion.ja.md); archive `.ai/work-items/archive/WI-643-wi642-doc-promotion.contract.json`; verification `.ai/evidence/WI-643-wi642-doc-promotion.verification.json`; finalization `.ai/decisions/WI-643-wi642-doc-promotion.finalize.json`; close `.ai/decisions/WI-643-wi642-doc-promotion.close.json`. |
 
 
