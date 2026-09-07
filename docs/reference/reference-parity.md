@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-638-reference-rebaseline-batch-54
+lastVerifiedBy: WI-640-reference-rebaseline-batch-55
 capabilityClaims:
   - reference_parity
 ---
@@ -37,14 +37,14 @@ awaiting re-review, and retired paths. No network reference or source-content
 copy is required for parity checks; see [Reference file comparison](reference-file-comparison.md)
 for the rebaseline receipt and procedure.
 
-### Current ledger snapshot (WI-638)
+### Current ledger snapshot (WI-640)
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=626 implemented-equivalent=1 not-applicable=8 reference-only=164 deferred-next-batch=114 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
 
-The current snapshot uses Rust baseline `98f12b18b978db509fc884a8a6225afeb7f10df5`
+The current snapshot uses Rust baseline `2112b34ccc9a1384dd4bf8aa790c49e5746d5314`
 and the reviewed Runtime `ai-cockpit v0.2.85` with binary digest
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`.
-It contains 5,175 current paths and 114 deferred paths; deferred means the
+It contains 5,175 current paths and 54 deferred paths; deferred means the
 next semantic comparison batch, not a parity claim.
 
 ## Truth states
@@ -887,3 +887,20 @@ documentation; seventeen source artifacts remain `reference-only`. No
 `migrate-gap` was found. See the [WI-633 file-level record](reference-file-comparison.md#wi-633--reference-rebaseline-batch-53). Attached object/adopter repositories inherit the same shared Runtime semantics, explicit repository context, isolated evidence/knowledge, and visible human Outcome; source Python, shell, and wire formats are not copied.
 
 | WI-639 — WI-638 documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-639-wi638-documentation-promotion.md); archive `.ai/work-items/archive/WI-639-wi638-documentation-promotion.contract.json`; verification `.ai/evidence/WI-639-wi638-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-639-wi638-documentation-promotion.finalize.json`; close `.ai/decisions/WI-639-wi638-documentation-promotion.close.json`. |
+
+| WI-640 — reference rebaseline batch 55 | In progress → Implemented after verified close | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.md); archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
+
+## WI-640 — reference rebaseline batch 55
+
+The current ledger now records all sixty batch-55 paths: 54
+`implemented-different-by-design` and 6 `reference-only`; no deferred or
+migrate-gap remains in the batch. The six reference-only rows are source-specific
+stack/wizard fixtures or historical knowledge records, not Runtime omissions.
+Portable quality, release, evidence, trust, recovery, lifecycle, and Outcome
+responsibilities are represented by the Rust Runtime, repository-native tests,
+CI/release surfaces, and reader documentation listed in the ledger. The target
+and attached adopters inherit shared Runtime identity, explicit repository
+context, isolated records, dynamic verification, fail-closed lifecycle, and
+visible human Outcome; source implementation bytes and provider-local wire
+formats remain outside the target.
+See the [WI-640 file-level record](reference-file-comparison.md#wi-640--reference-rebaseline-batch-55).

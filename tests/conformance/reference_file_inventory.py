@@ -398,6 +398,421 @@ WI633_COUNTERPARTS = {
         ".ai/work-items/archive/",
     ],
 }
+
+# WI-640 re-reads the next sixty source-changed non-history paths after
+# WI-633.  Keep this path set explicit: a later reference refresh must not
+# silently expand the governed batch.  The source tests/records are a
+# specification corpus; the target records semantic ownership and bounded
+# non-claims rather than copying Python, shell, Make, fixture, or JSON bytes.
+WI640_BATCH = "WI-640-reference-rebaseline-batch-55"
+WI640_REFERENCE_PATHS = (
+    "tests/test_quality_measurements.py",
+    "tests/test_quality_scope.py",
+    "tests/test_quality_session.py",
+    "tests/test_quality_shard_workspace.py",
+    "tests/test_quality_telemetry.py",
+    "tests/test_quality_test_manifest.py",
+    "tests/test_quick_install_release.py",
+    "tests/test_readiness_policy.py",
+    "tests/test_real_absurd_injection.py",
+    "tests/test_real_absurd_injection_docs.py",
+    "tests/test_real_adopter_reference_validation.py",
+    "tests/test_recovery_usability.py",
+    "tests/test_reference_impact.py",
+    "tests/test_release_archive_contract.sh",
+    "tests/test_release_distribution.py",
+    "tests/test_release_preflight.py",
+    "tests/test_release_state_consistency.py",
+    "tests/test_release_workflow.py",
+    "tests/test_required_evidence.py",
+    "tests/test_rollback.py",
+    "tests/test_ruff016_compatibility.py",
+    "tests/test_schema_migration.py",
+    "tests/test_start_and_archive.py",
+    "tests/test_supply_chain.py",
+    "tests/test_sync_published_release_projection.py",
+    "tests/test_system_invariants.py",
+    "tests/test_task_outcome_ai_finish_integration.py",
+    "tests/test_task_outcome_generator.py",
+    "tests/test_task_outcome_markdown_renderer.py",
+    "tests/test_task_outcome_multilingual.py",
+    "tests/test_task_outcome_schema.py",
+    "tests/test_task_outcome_validator.py",
+    "tests/test_terminology.py",
+    "tests/test_test_weakening.py",
+    "tests/test_trust_guards.py",
+    "tests/test_trust_layer_demo.py",
+    "tests/test_trust_layer_docs.py",
+    "tests/test_trust_schema.py",
+    "tests/test_typescript_fixture.py",
+    "tests/test_uninstall_facts.py",
+    "tests/test_uninstall_proposal.py",
+    "tests/test_unknown_confirmation.py",
+    "tests/test_upgrade_apply.py",
+    "tests/test_upgrade_conflict_report.py",
+    "tests/test_upgrade_proposal.py",
+    "tests/test_verification_evidence.py",
+    "tests/test_verification_impact_graph.py",
+    "tests/test_verification_policy.py",
+    "tests/test_wizard_fixtures.py",
+    "tests/test_wizard_io.py",
+    "tests/test_wizard_localization.py",
+    "tests/test_work_item_intelligence.py",
+    "tests/test_work_item_intelligence_benchmark.py",
+    "tests/test_work_item_intelligence_integration.py",
+    "tests/test_work_item_lifecycle_closure.py",
+    "tests/test_work_item_lifecycle_timing.py",
+    "tests/test_work_item_state_machine.py",
+    "tests/test_workflows.py",
+    ".ai/knowledge/work-items/dependabot-lockfile-sync-20260826.json",
+    ".ai/knowledge/work-items/dependabot-ruff-0165-sync-20260902.json",
+)
+WI640_REFERENCE_ONLY_PATHS = {
+    "tests/test_typescript_fixture.py",
+    "tests/test_wizard_fixtures.py",
+    "tests/test_wizard_io.py",
+    "tests/test_wizard_localization.py",
+    ".ai/knowledge/work-items/dependabot-lockfile-sync-20260826.json",
+    ".ai/knowledge/work-items/dependabot-ruff-0165-sync-20260902.json",
+}
+WI640_COUNTERPARTS = {
+    "tests/test_quality_measurements.py": [
+        "crates/cockpit-verification/tests/cost_observation.rs",
+        "crates/cockpit-cli/tests/performance.rs",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "docs/reference/performance-diagnosis.md",
+    ],
+    "tests/test_quality_scope.py": [
+        "crates/cockpit-verification/tests/policy_planner.rs",
+        "crates/cockpit-verification/tests/route_convergence.rs",
+        "tests/ci/quality_route.py",
+        "docs/reference/governance-profiles.md",
+    ],
+    "tests/test_quality_session.py": [
+        "tests/ci/quality_route.py",
+        "tests/ci/quality_route_test.py",
+        ".github/workflows/ci.yml",
+        "docs/reference/ci-quality-gates.md",
+    ],
+    "tests/test_quality_shard_workspace.py": [
+        "crates/cockpit-verification/tests/execution.rs",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "docs/reference/ci-quality-gates.md",
+    ],
+    "tests/test_quality_telemetry.py": [
+        "crates/cockpit-verification/tests/cost_observation.rs",
+        "crates/cockpit-cli/tests/performance.rs",
+        "tests/ci/run_repository_gates.py",
+        "docs/reference/performance-diagnosis.md",
+    ],
+    "tests/test_quality_test_manifest.py": [
+        "tests/ci/repository_gate_manifest.json",
+        "tests/ci/repository_gate_manifest_test.py",
+        "crates/cockpit-verification/tests/affected_verification.rs",
+        "crates/cockpit-verification/tests/graph.rs",
+        "crates/cockpit-verification/tests/execution.rs",
+        "crates/cockpit-verification/tests/route_convergence.rs",
+    ],
+    "tests/test_quick_install_release.py": [
+        "crates/cockpit-release/src/manifest.rs",
+        "crates/cockpit-release/src/archive.rs",
+        "crates/cockpit-release/tests/cli.rs",
+        "docs/getting-started/security-release-verification.md",
+    ],
+    "tests/test_readiness_policy.py": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/tests/doctor.rs",
+        "docs/reference/installed-lifecycle.md",
+    ],
+    "tests/test_real_absurd_injection.py": [
+        "crates/cockpit-core/tests/adversarial_v2.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "tests/adversarial/manifest.json",
+        "docs/security/adversarial-validation.md",
+    ],
+    "tests/test_real_absurd_injection_docs.py": [
+        "tests/adversarial/README.md",
+        "docs/security/adversarial-validation.md",
+        "crates/cockpit-repository/tests/input_trust.rs",
+    ],
+    "tests/test_real_adopter_reference_validation.py": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-cli/tests/agent.rs",
+        "docs/reference/installed-lifecycle.md",
+    ],
+    "tests/test_recovery_usability.py": [
+        "crates/cockpit-protocol/tests/recovery_outcome.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "docs/reference/outcome-report.md",
+    ],
+    "tests/test_reference_impact.py": [
+        "crates/cockpit-core/tests/operation_time_policy.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "docs/reference/operation-time-policy-reevaluation.md",
+        "docs/security/adversarial-validation.md",
+    ],
+    "tests/test_release_archive_contract.sh": [
+        "crates/cockpit-release/src/archive.rs",
+        "crates/cockpit-release/tests/archive.rs",
+        "tests/release/source_archive_policy_test.sh",
+        "docs/release/distribution.md",
+    ],
+    "tests/test_release_distribution.py": [
+        "crates/cockpit-release/src/lib.rs",
+        "crates/cockpit-release/src/archive.rs",
+        "crates/cockpit-release/src/manifest.rs",
+        "crates/cockpit-release/tests/cli.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "docs/release/distribution.md",
+    ],
+    "tests/test_release_preflight.py": [
+        "crates/cockpit-release/src/lib.rs",
+        "crates/cockpit-release/src/manifest.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "crates/cockpit-release/tests/sbom.rs",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "docs/getting-started/security-release-verification.md",
+    ],
+    "tests/test_release_state_consistency.py": [
+        "crates/cockpit-release/src/manifest.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "docs/release/distribution.md",
+    ],
+    "tests/test_release_workflow.py": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "crates/cockpit-release/tests/handoff.rs",
+        "docs/release/distribution.md",
+    ],
+    "tests/test_required_evidence.py": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/governance_controls.rs",
+        "crates/cockpit-verification/tests/policy_planner.rs",
+        "docs/reference/verification-semantics.md",
+    ],
+    "tests/test_rollback.py": [
+        "crates/cockpit-repository/tests/evolution.rs",
+        "crates/cockpit-cli/tests/profile_propose.rs",
+        "docs/reference/upgrade.md",
+    ],
+    "tests/test_ruff016_compatibility.py": [
+        "tests/ci/repository_gate_manifest_test.py",
+        "crates/cockpit-cli/tests/ci_gate.rs",
+        "docs/reference/ci-quality-gates.md",
+    ],
+    "tests/test_schema_migration.py": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/tests/attach.rs",
+        "docs/reference/upgrade.md",
+    ],
+    "tests/test_start_and_archive.py": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-cli/tests/worktree_entry.rs",
+    ],
+    "tests/test_supply_chain.py": [
+        "crates/cockpit-release/src/sbom.rs",
+        "crates/cockpit-release/src/archive.rs",
+        "crates/cockpit-release/tests/sbom.rs",
+        "crates/cockpit-release/tests/archive.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "tests/release/source_archive_policy_test.sh",
+        "docs/reference/ci-release-evidence.md",
+    ],
+    "tests/test_sync_published_release_projection.py": [
+        "crates/cockpit-release/src/manifest.rs",
+        "crates/cockpit-release/src/handoff.rs",
+        "crates/cockpit-release/tests/handoff.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "docs/release/distribution.md",
+    ],
+    "tests/test_system_invariants.py": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-release/tests/manifest.rs",
+        "docs/reference/ci-release-evidence.md",
+    ],
+    "tests/test_task_outcome_ai_finish_integration.py": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+    ],
+    "tests/test_task_outcome_generator.py": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "docs/reference/outcome-report.md",
+    ],
+    "tests/test_task_outcome_markdown_renderer.py": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "docs/reference/outcome-report.md",
+    ],
+    "tests/test_task_outcome_multilingual.py": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "docs/reference/multilingual-semantic-parity.md",
+    ],
+    "tests/test_task_outcome_schema.py": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/intelligence_schema.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        ".ai/schemas/task_outcome.schema.json",
+    ],
+    "tests/test_task_outcome_validator.py": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+    ],
+    "tests/test_terminology.py": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "docs/reference/governance-profiles.md",
+        "docs/reference/multilingual-semantic-parity.md",
+    ],
+    "tests/test_test_weakening.py": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-verification/tests/affected_verification.rs",
+        "docs/reference/test-weakening-guard.md",
+    ],
+    "tests/test_trust_guards.py": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "crates/cockpit-core/tests/operation_time_policy.rs",
+        "docs/security/trust-layer.md",
+    ],
+    "tests/test_trust_layer_demo.py": [
+        "crates/cockpit-repository/tests/input_trust.rs",
+        "docs/security/trust-layer.md",
+    ],
+    "tests/test_trust_layer_docs.py": [
+        "docs/security/trust-layer.md",
+        "docs/security/trust-layer.zh-CN.md",
+        "docs/security/trust-layer.ja.md",
+        "tests/docs/documentation_acceptance.sh",
+    ],
+    "tests/test_trust_schema.py": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/protocol.rs",
+        "crates/cockpit-repository/tests/contract_schema.rs",
+        "docs/security/trust-layer.md",
+    ],
+    "tests/test_uninstall_facts.py": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-agent/tests/isolation.rs",
+        "crates/cockpit-cli/tests/agent.rs",
+        "docs/reference/installed-lifecycle.md",
+    ],
+    "tests/test_uninstall_proposal.py": [
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-cli/tests/agent.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/installed-lifecycle.md",
+    ],
+    "tests/test_unknown_confirmation.py": [
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/tests/preflight_review.rs",
+        "crates/cockpit-protocol/tests/preflight_review.rs",
+        "docs/reference/outcome-report.md",
+    ],
+    "tests/test_upgrade_apply.py": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-repository/tests/evolution.rs",
+        "docs/reference/upgrade.md",
+    ],
+    "tests/test_upgrade_conflict_report.py": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/tests/attach.rs",
+        "docs/reference/upgrade.md",
+    ],
+    "tests/test_upgrade_proposal.py": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/tests/attach.rs",
+        "crates/cockpit-repository/tests/evolution.rs",
+        "docs/reference/upgrade.md",
+    ],
+    "tests/test_verification_evidence.py": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        "crates/cockpit-repository/tests/verification_service.rs",
+    ],
+    "tests/test_verification_impact_graph.py": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-verification/tests/graph.rs",
+        "crates/cockpit-verification/tests/affected_verification.rs",
+        "docs/reference/verification-cost.md",
+    ],
+    "tests/test_verification_policy.py": [
+        "crates/cockpit-verification/tests/policy_planner.rs",
+        "crates/cockpit-verification/tests/route_convergence.rs",
+        "crates/cockpit-verification/tests/affected_verification.rs",
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "docs/reference/governance-profiles.md",
+    ],
+    "tests/test_work_item_intelligence.py": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-knowledge/tests/query.rs",
+        "crates/cockpit-repository/tests/intelligence.rs",
+        "crates/cockpit-repository/tests/knowledge_cache.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "crates/cockpit-cli/tests/knowledge.rs",
+    ],
+    "tests/test_work_item_intelligence_benchmark.py": [
+        "crates/cockpit-verification/tests/cost_observation.rs",
+        "crates/cockpit-cli/tests/performance.rs",
+        "docs/reference/verification-cost.md",
+    ],
+    "tests/test_work_item_intelligence_integration.py": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-repository/tests/intelligence.rs",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "docs/reference/work-item-intelligence-interface.md",
+    ],
+    "tests/test_work_item_lifecycle_closure.py": [
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-cli/tests/resource_finalization.rs",
+        "crates/cockpit-cli/tests/worktree_entry.rs",
+        "docs/reference/work-item-lifecycle-closure.md",
+    ],
+    "tests/test_work_item_lifecycle_timing.py": [
+        "crates/cockpit-repository/tests/recovery_events.rs",
+        "crates/cockpit-cli/tests/performance.rs",
+        "docs/reference/verification-cost.md",
+    ],
+    "tests/test_work_item_state_machine.py": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "docs/reference/work-item-state-machine.md",
+    ],
+    "tests/test_workflows.py": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/release.yml",
+        "tests/ci/repository_gate_manifest_test.py",
+        "tests/release/workflow_policy.sh",
+        "crates/cockpit-cli/tests/ci_gate.rs",
+        "docs/reference/ci-quality-gates.md",
+    ],
+}
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -7963,6 +8378,48 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{path}: WI-633 result needs counterparts or explicit boundary classification")
             if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
                 errors.append(f"{path}: WI-633 cannot leave deferred or migrate-gap")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI640_BATCH
+        for record in records
+    ):
+        wi640_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI640_BATCH
+            and record.get("referencePath") in WI640_REFERENCE_PATHS
+        ]
+        expected_wi640_paths = set(WI640_REFERENCE_PATHS) & current_reference_paths
+        actual_wi640_paths = {record.get("referencePath") for record in wi640_records}
+        if actual_wi640_paths != expected_wi640_paths:
+            errors.append(
+                "WI-640 rebaseline paths do not match the explicit sixty-file set: "
+                f"expected {sorted(expected_wi640_paths)!r}, got {sorted(actual_wi640_paths)!r}"
+            )
+        if len(wi640_records) != len(expected_wi640_paths):
+            errors.append(
+                f"WI-640 batch must contain {len(expected_wi640_paths)} records, found {len(wi640_records)}"
+            )
+        expected_wi640_classifications = Counter(
+            "reference-only" if path in WI640_REFERENCE_ONLY_PATHS
+            else "implemented-different-by-design"
+            for path in expected_wi640_paths
+        )
+        wi640_classifications = Counter(record.get("classification") for record in wi640_records)
+        if wi640_classifications != expected_wi640_classifications:
+            errors.append(
+                "WI-640 classifications do not match the bounded semantic/boundary decisions"
+            )
+        for record in wi640_records:
+            path = record.get("referencePath")
+            if not isinstance(record.get("sourceChangedSincePrevious"), bool):
+                errors.append(f"{path}: WI-640 requires boolean sourceChangedSincePrevious")
+            if not record.get("rustCounterparts"):
+                errors.append(f"{path}: WI-640 result needs a counterpart or explicit boundary")
+            if not record.get("reason"):
+                errors.append(f"{path}: WI-640 result needs a reason")
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(f"{path}: WI-640 cannot leave deferred or migrate-gap")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -8989,6 +9446,74 @@ def apply_wi633_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi640_batch(manifest: dict[str, Any]) -> int:
+    """Resolve the explicit sixty-file batch 55 rebaseline decisions."""
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    paths = set(WI640_REFERENCE_PATHS)
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        if path not in paths:
+            continue
+        if record.get("batch") == WI640_BATCH:
+            updated += 1
+            continue
+        if record.get("classification") != "deferred-next-batch":
+            raise ValueError(f"{path}: WI-640 expects a deferred source-changed record")
+        # Some deferred records predate the rebaseline ledger and therefore do
+        # not have a prior source digest.  Preserve that fact as false rather
+        # than inventing a source change; the batch itself still records a
+        # fresh, explicit semantic re-read.
+        source_changed = record.get("sourceChangedSincePrevious")
+        if source_changed is None:
+            source_changed = False
+        if not isinstance(source_changed, bool):
+            raise ValueError(f"{path}: WI-640 sourceChangedSincePrevious must be boolean")
+        previous = record.get("previousClassification") or record.get("classification")
+        classification = (
+            "reference-only" if path in WI640_REFERENCE_ONLY_PATHS
+            else "implemented-different-by-design"
+        )
+        counterparts = WI640_COUNTERPARTS.get(path)
+        if not counterparts:
+            counterparts = ["docs/reference/reference-file-comparison.md"]
+        if classification == "reference-only":
+            reason = (
+                "Re-read at the pinned local reference commit: this source-specific "
+                "fixture, wizard, or historical knowledge record is reference/provider "
+                "material rather than a portable Runtime wire contract. The listed "
+                "target docs and interfaces record the boundary without copying source "
+                "bytes or treating source-local history as current authority."
+            )
+        else:
+            reason = (
+                "Re-read at the pinned local reference commit: the portable quality, "
+                "release, evidence, lifecycle, trust, recovery, or reader-facing "
+                "responsibility is represented by the listed Rust Runtime, repository "
+                "test, CI/release surface, or documentation counterpart. Source "
+                "Python/Shell/Make implementation, provider-local wire bytes, and "
+                "technology-specific fixtures are intentionally not copied."
+            )
+        record.update(
+            {
+                "batch": WI640_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": previous,
+                "sourceChangedSincePrevious": source_changed,
+            }
+        )
+        updated += 1
+    if updated != len(WI640_REFERENCE_PATHS):
+        raise ValueError(
+            f"expected {len(WI640_REFERENCE_PATHS)} WI-640 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -9035,6 +9560,7 @@ def main() -> int:
     parser.add_argument("--apply-wi629-batch", action="store_true")
     parser.add_argument("--apply-wi631-batch", action="store_true")
     parser.add_argument("--apply-wi633-batch", action="store_true")
+    parser.add_argument("--apply-wi640-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -9075,6 +9601,7 @@ def main() -> int:
         args.apply_wi629_batch,
         args.apply_wi631_batch,
         args.apply_wi633_batch,
+        args.apply_wi640_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -9320,6 +9847,13 @@ def main() -> int:
     if args.apply_wi633_batch:
         try:
             apply_wi633_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi640_batch:
+        try:
+            apply_wi640_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

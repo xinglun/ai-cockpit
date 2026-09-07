@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-638-reference-rebaseline-batch-54
+lastVerifiedBy: WI-640-reference-rebaseline-batch-55
 capabilityClaims:
   - reference_parity
 ---
@@ -25,7 +25,7 @@ capabilityClaims:
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `a9224aed77b5c317b53c4551a9eec306d91ee330`。
-- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `98f12b18b978db509fc884a8a6225afeb7f10df5`。
+- Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `2112b34ccc9a1384dd4bf8aa790c49e5746d5314`。
 - 比较时使用审查中的 Runtime：`ai-cockpit v0.2.85`，binary SHA256 为 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
@@ -334,7 +334,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 ## 当前台账快照
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=626 implemented-equivalent=1 not-applicable=8 reference-only=164 deferred-next-batch=114 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.85，二进制摘要为
@@ -349,11 +349,11 @@ capability/profile slice 已没有 `migrate-gap`：
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 626 |
+| `implemented-different-by-design` | 680 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 164 |
-| `deferred-next-batch` | 114 |
+| `reference-only` | 170 |
+| `deferred-next-batch` | 54 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -1819,3 +1819,14 @@ WI-638 在固定参考提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` 上逐�
 这是语义 parity，不是源 Python/Make 或 JSON-wire parity。对象/adopter 工程继续继承 shared Runtime、显式
 `--repo`、隔离 Contract/evidence/knowledge、动态验证、fail-closed 生命周期和可见 human Outcome；不复制
 源实现、provider 决定、fixture bytes 或生成报告。
+
+## WI-640：参考源重新基线第 55 批
+
+WI-640 在固定提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` 上逐一复核 60 条延期路径：
+54 条为“按设计不同地实现”，6 条为 reference-only（技术栈 fixture、交互 wizard 或历史 knowledge
+记录）。本批没有 migrate-gap，也没有路径继续留在 deferred。旧台账没有 source-change 标记的路径明确记录
+`sourceChangedSincePrevious=false`，表示没有先前 source digest 声明，不表示跳过复核。逐文件的路径、
+分类、counterpart 和理由以[机器台账](../../tests/conformance/reference_file_inventory.json)为准，英文页面
+提供完整表格。对象/adopter 工程继续继承 shared external Runtime、显式 `--repo`、隔离 Contract/evidence/knowledge、
+动态验证、fail-closed lifecycle 和可见人类 Outcome；不复制源 Python/Shell/Make、provider 决定、技术栈 fixture
+或 source JSON wire。

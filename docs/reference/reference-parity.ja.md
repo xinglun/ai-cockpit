@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-638-reference-rebaseline-batch-54
+lastVerifiedBy: WI-640-reference-rebaseline-batch-55
 capabilityClaims:
   - reference_parity
 ---
@@ -33,14 +33,14 @@ public source ledger の historical metadata、再確認待ちの changed path�
 parity check に network source や source content の copy は必要ありません。rebaseline の receipt と手順は
 [Reference file comparison](reference-file-comparison.ja.md) を参照してください。
 
-### Current ledger snapshot (WI-638)
+### Current ledger snapshot (WI-640)
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=626 implemented-equivalent=1 not-applicable=8 reference-only=164 deferred-next-batch=114 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
 
-Current snapshot は Rust baseline `98f12b18b978db509fc884a8a6225afeb7f10df5` と、
+Current snapshot は Rust baseline `2112b34ccc9a1384dd4bf8aa790c49e5746d5314` と、
 review 済み `ai-cockpit v0.2.85`（binary digest
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）を使用します。
-現在の reference は 5,175 path、deferred は 114 path です。deferred は次の semantic comparison
+現在の reference は 5,175 path、deferred は 54 path です。deferred は次の semantic comparison
 batch を示すだけで、parity claim ではありません。
 
 ## Truth state
@@ -757,3 +757,16 @@ WI-631 は pinned local reference commit の次の source-changed non-history 60
 WI-633 は pinned local reference commit の次の source-changed 60 パスを一件ずつ確認しました。43 件は Rust Runtime、native test、CI/release boundary、または三言語ドキュメントで異なる設計により実装され、17 件の source artifact は `reference-only`、`migrate-gap` はありません。詳細は [WI-633 file-level record](reference-file-comparison.ja.md#wi-633--reference-rebaseline-batch-53) を参照してください。object/adopter repository は shared Runtime、明示的な repository context、隔離された evidence/knowledge、可視の human Outcome を継承し、source Python、shell、wire format はコピーしません。
 
 | WI-639 — WI-638 ドキュメント昇格 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-639-wi638-documentation-promotion.ja.md); archive `.ai/work-items/archive/WI-639-wi638-documentation-promotion.contract.json`; verification `.ai/evidence/WI-639-wi638-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-639-wi638-documentation-promotion.finalize.json`; close `.ai/decisions/WI-639-wi638-documentation-promotion.close.json`. |
+
+| WI-640 — reference rebaseline batch 55 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.ja.md); archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
+
+## WI-640 — reference rebaseline batch 55
+
+current ledger は batch-55 の 60 path を完了しました。54 path は implemented-different-by-design、6 path は
+reference-only で、batch 内に deferred/migrate-gap はありません。reference-only は source 固有の stack/wizard
+fixture または historical knowledge record であり Runtime omission ではありません。quality、release、evidence、
+trust、recovery、lifecycle、Outcome の portable responsibility は Rust Runtime、repository-native tests、CI/release、
+reader documentation に投影されます。target と attached adopter は shared Runtime identity、明示的 repository
+context、isolated records、dynamic verification、fail-closed lifecycle、visible human Outcome を継承し、source bytes
+や provider-local wire format はコピーしません。
+[WI-640 file-level record](reference-file-comparison.ja.md#wi-640--reference-rebaseline-batch-55) を参照してください。
