@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "All three Work Item documents have terminal evidence fields bound to WI-631.",
+    "All three parity rows show the registered transition and exact archive, verification, finalization, and close references.",
+    "The documentation and closed-Work-Item promotion checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "fc6eba410a5a765febaa0bf600e36d98264813d7",
+  "createdAt": "2026-09-07T03:11:50Z",
+  "goal": "Keep Work Item and parity documentation synchronized with immutable terminal evidence without creating an unregistered documentation transition.",
+  "intent": "Promote the verified WI-631 terminal status into the tri-language reader documentation with pre-archive self-registration.",
+  "mode": "implementation",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "tests/**",
+    ".ai/**",
+    "docs/reference/reference-file-comparison*"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a373e8abe40f5f4c1bb320ae4c56379a56a1bfce254eb6d6f99b3c5a86f7d325",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-632-doc-promotion-wi631",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi632-doc-promotion-wi631"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-631-reference-rebaseline-batch-52.md",
+    "docs/work-items/WI-631-reference-rebaseline-batch-52.zh-CN.md",
+    "docs/work-items/WI-631-reference-rebaseline-batch-52.ja.md",
+    "docs/work-items/WI-632-doc-promotion-wi631.md",
+    "docs/work-items/WI-632-doc-promotion-wi631.zh-CN.md",
+    "docs/work-items/WI-632-doc-promotion-wi631.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-632-doc-promotion-wi631"
+}
