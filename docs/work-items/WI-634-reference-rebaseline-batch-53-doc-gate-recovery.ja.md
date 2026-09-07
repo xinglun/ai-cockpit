@@ -4,7 +4,7 @@ title: WI-634 - Batch 53 documentation-gate recovery
 description: Hosted documentation gate で不足していた parity 投影を再検証します。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-634-reference-rebaseline-batch-53-doc-gate-recovery
-status: in-progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-634-reference-rebaseline-batch-53-doc-gate-recovery
 ---

@@ -4,7 +4,7 @@ title: WI-634 - 第 53 批文档质量门恢复
 description: 在托管文档质量门发现遗漏投影后，重新验证第 53 批 parity 登记。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-634-reference-rebaseline-batch-53-doc-gate-recovery
-status: in-progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-634-reference-rebaseline-batch-53-doc-gate-recovery
 ---
