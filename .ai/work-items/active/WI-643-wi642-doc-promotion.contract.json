@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-642 Work Item documents have terminal frontmatter bound to archive, verification, finalization, and close evidence.",
+    "All three parity documents promote WI-642 with the same terminal evidence and preserve current tri-language links.",
+    "promote_closed_work_item.py --check-all passes with no stale projections.",
+    "This Work Item has its own tri-language Work Item pages and pre-archive parity entries before verification."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "b82af5e7325a2826efd9a04202f4ed99ff67b78d",
+  "createdAt": "2026-09-07T08:36:27Z",
+  "goal": "Make the six-batch reference comparison terminal documentation auditable and ready for the final release.",
+  "intent": "Promote the closed WI-642 terminal documentation projections into the canonical tri-language parity and Work Item records.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    "conformance inventory",
+    "Runtime behavior",
+    "object repositories",
+    "release publication",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:910ebe07e36fc501abaa513867e8175e9307c36cf5d306fb62c8d9ae71332cd6",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "terminal-projection"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-643-wi642-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-643-wi642-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-642-reference-rebaseline-batch-56.md",
+    "docs/work-items/WI-642-reference-rebaseline-batch-56.zh-CN.md",
+    "docs/work-items/WI-642-reference-rebaseline-batch-56.ja.md",
+    "docs/work-items/WI-643-wi642-doc-promotion.md",
+    "docs/work-items/WI-643-wi642-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-643-wi642-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-643-wi642-doc-promotion"
+}
