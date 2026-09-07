@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-642-reference-rebaseline-batch-56
+lastVerifiedBy: WI-644-release-v0-2-86
 capabilityClaims:
   - reference_parity
 ---
@@ -30,7 +30,7 @@ identity 和台账计数；可执行检查会在任一译文漂移时 fail-close
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `a9224aed77b5c317b53c4551a9eec306d91ee330`。
 - Rust 比较基线：[xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) 的 `origin/main`，提交 `4232bb2d1062b5376ae2b7b247c0ae906392585f`。
-- 比较时使用审查中的 Runtime：`ai-cockpit v0.2.85`，binary SHA256 为 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
+- 比较时使用审查中的 Runtime：`ai-cockpit v0.2.86`，binary SHA256 为 `sha256:69005dd2dd3346ca80ccf02b3b9801d7f830d3a24dcd8707f23dec71bccbc7cd`。
 
 inventory 台账现在已显式重新绑定到本地 checkout。此前的
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` 台账通过记录的 previous target revision 和 digest
@@ -342,7 +342,7 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
 审查使用的 Runtime 为 v0.2.85，二进制摘要为
-`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
+`sha256:69005dd2dd3346ca80ccf02b3b9801d7f830d3a24dcd8707f23dec71bccbc7cd`。
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 5,175 条路径，追加式台账当前也有 5,175 条记录；本次重绑定没有退休路径。

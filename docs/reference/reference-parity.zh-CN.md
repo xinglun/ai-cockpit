@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-642-reference-rebaseline-batch-56
+lastVerifiedBy: WI-644-release-v0-2-86
 capabilityClaims:
   - reference_parity
 ---
@@ -36,7 +36,7 @@ capabilityClaims:
 
 当前快照使用 Rust 基线 `4232bb2d1062b5376ae2b7b247c0ae906392585f`，以及经审查的
 `ai-cockpit v0.2.85` Runtime（二进制摘要
-`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）。
+`sha256:69005dd2dd3346ca80ccf02b3b9801d7f830d3a24dcd8707f23dec71bccbc7cd`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -739,7 +739,9 @@ WI-633 在固定本地参考提交上逐一复核后续 60 条 source-changed �
 
 | WI-641——WI-640 文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-641-wi640-documentation-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-641-wi640-documentation-promotion.contract.json`; verification `.ai/evidence/WI-641-wi640-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-641-wi640-documentation-promotion.finalize.json`; close `.ai/decisions/WI-641-wi640-documentation-promotion.close.json`. |
 | WI-642——参考源重新基线第 56 批 | 已实现 | [Work Item](../work-items/WI-642-reference-rebaseline-batch-56.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json`; verification `.ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json`; finalization `.ai/decisions/WI-642-reference-rebaseline-batch-56.finalize.json`; close `.ai/decisions/WI-642-reference-rebaseline-batch-56.close.json`. |
+| WI-644——参考源比对完成后的 v0.2.86 发布 | 进行中 | [Work Item](../work-items/WI-644-release-v0-2-86.zh-CN.md)；archive `.ai/work-items/archive/WI-644-release-v0-2-86.contract.json`；verification `.ai/evidence/WI-644-release-v0-2-86.verification.json`。 |
 | WI-643——WI-642 文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-643-wi642-doc-promotion.zh-CN.md)；archive `.ai/work-items/archive/WI-643-wi642-doc-promotion.contract.json`；verification `.ai/evidence/WI-643-wi642-doc-promotion.verification.json`；finalization `.ai/decisions/WI-643-wi642-doc-promotion.finalize.json`；close `.ai/decisions/WI-643-wi642-doc-promotion.close.json`。 |
+
 
 ## WI-642：参考源重新基线第 56 批
 

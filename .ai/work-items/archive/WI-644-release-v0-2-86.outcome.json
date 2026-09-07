@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Cargo workspace metadata resolves one aligned version and the version consistency gate passes in all three languages.",
+    "Release workflow and policy gates pass without source fallback, mutable tags, unbound assets, or orphan SBOM/provenance files.",
+    "The annotated release tag and public Release bind the reviewed source commit, manifest, checksums, five-target archives, SBOMs, formula, and provenance.",
+    "Staged and post-release adopter acceptance use downloaded immutable artifacts, prove runtime identity, repository isolation, evidence lifecycle, and cleanup.",
+    "N-1 upgrade acceptance passes when a prior public release exists, or records an explicit not_applicable receipt for a first release."
+  ],
+  "createdAt": "2026-09-07T09:22:07Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:530aead90e8e65a3928a7e5ef62e3cbc7862a0c24bcffd890d71ddbac9a2ee2e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-644-release-v0-2-86.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-644-release-v0-2-86.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-644-release-v0-2-86.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0e6b09614d6a2e8f5f538a7b6c787e5e8bcd89450b1c895b1a66ef4d9ca2df12",
+      "workItemId": "WI-644-release-v0-2-86"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-644-release-v0-2-86.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-644-release-v0-2-86.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-644-release-v0-2-86.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-644-release-v0-2-86.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-644-release-v0-2-86.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-644-release-v0-2-86.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-644-release-v0-2-86.contract.json"
+          ],
+          "inference": false,
+          "text": "Release ai-cockpit v0.2.86 from the reviewed mainline and prove installation, upgrade, supply-chain, and adopter acceptance using only published artifacts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-644-release-v0-2-86.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-644-release-v0-2-86"
+  },
+  "taskReportDigest": "sha256:34f47f5eb691cb79eaf85dd6229a85f4ee74936ef5126277cc20123ca3142fed",
+  "taskReportMarkdownDigest": "sha256:6c2ed6289aaf93ec4b3910d0cebb8c9ccb5ae5f393ad96e98676199ce8f40c25",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-644-release-v0-2-86.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-644-release-v0-2-86"
+}

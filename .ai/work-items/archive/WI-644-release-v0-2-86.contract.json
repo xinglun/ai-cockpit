@@ -1,0 +1,128 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace metadata resolves one aligned version and the version consistency gate passes in all three languages.",
+    "Release workflow and policy gates pass without source fallback, mutable tags, unbound assets, or orphan SBOM/provenance files.",
+    "The annotated release tag and public Release bind the reviewed source commit, manifest, checksums, five-target archives, SBOMs, formula, and provenance.",
+    "Staged and post-release adopter acceptance use downloaded immutable artifacts, prove runtime identity, repository isolation, evidence lifecycle, and cleanup.",
+    "N-1 upgrade acceptance passes when a prior public release exists, or records an explicit not_applicable receipt for a first release."
+  ],
+  "authority": "authorized",
+  "baseRevision": "fc43073b87b42cee1607d6ab558461022dea6c43",
+  "createdAt": "2026-09-07T08:54:09Z",
+  "goal": "Release ai-cockpit v0.2.86 from the reviewed mainline and prove installation, upgrade, supply-chain, and adopter acceptance using only published artifacts.",
+  "intent": "Publish the final Runtime release after all six reference-comparison batches are complete, with synchronized version documentation and immutable public-artifact acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior changes outside release/version binding",
+    "Reference-source feature migration or object repositories",
+    "Hand-editing generated .ai evidence, archive, or decision records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1254f9113c8b1c12ec66ebc4f47634ab678824ec7c8d484a969071f8a4ea0bd4",
+  "requiredEvidenceClasses": [
+    "verification",
+    "release",
+    "adopter"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-644-release-v0-2-86",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-644-release-v0-2-86"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "All workspace packages, current tri-language documentation, annotated tag, manifest, checksums, archives, SBOMs, Formula, and provenance bind to one reviewed commit.",
+      "required": true,
+      "scenario": "source version and release identity",
+      "status": "unverified",
+      "verificationPlan": "Run workspace tests, metadata/version consistency, workflow policy, and release manifest checks."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/isolation_manifest.sh"
+      ],
+      "expected": "Downloaded candidate/public artifacts alone establish runtime identity, repository isolation, lifecycle evidence, and temporary-root cleanup.",
+      "required": true,
+      "scenario": "staged and public adopter acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run wrapper regression tests before publication and the staged/public harnesses at their respective release boundaries."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "When a previous public release exists, N-1 upgrade is verified; otherwise the receipt explicitly records not_applicable without weakening publication gates.",
+      "required": true,
+      "scenario": "first-release and N-1 upgrade boundary",
+      "status": "unverified",
+      "verificationPlan": "Resolve the previous public Release independently and run the N-1 harness against immutable downloaded artifacts."
+    },
+    {
+      "evidence": [
+        "tests/release/source_archive_policy_test.sh",
+        "tests/release/action_runtime_policy_test.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "A failed publication or adopter run preserves tag/release truth and emits an auditable failure receipt without source fallback or destructive cleanup of evidence.",
+      "required": true,
+      "scenario": "failure and rollback truth",
+      "status": "unverified",
+      "verificationPlan": "Run release policy tests and inspect failure-path receipts/manifests without mutating historical release records."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/**/Cargo.toml",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/**",
+    ".github/workflows/release.yml",
+    "tests/release/**",
+    "tests/ci/**",
+    "tests/docs/**"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/workflow_policy.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    ".github/workflows/release.yml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "tests/release/version_consistency.sh --repo .",
+    "tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/isolation_manifest_test.sh",
+    "tests/docs/reference_comparison_metadata_test.py",
+    "tests/conformance/reference_inventory_docs_test.py",
+    "tests/conformance/reference_file_inventory_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "tests/ci/governance_integrity_gate.py --repo ."
+  ],
+  "workItemId": "WI-644-release-v0-2-86"
+}
