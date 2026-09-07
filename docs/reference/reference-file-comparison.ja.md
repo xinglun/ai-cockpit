@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-629-reference-rebaseline-batch-51
+lastVerifiedBy: WI-631-reference-rebaseline-batch-52
 capabilityClaims:
   - reference_parity
 ---
@@ -351,7 +351,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=484 implemented-equivalent=1 not-applicable=8 reference-only=126 deferred-next-batch=294 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
@@ -1850,3 +1850,7 @@ implementation/wire parity ではありません。[WI-620 Work Item](../work-it
 WI-629 は pinned commit `a9224aed77b5c317b53c4551a9eec306d91ee330` の current source-changed non-history path 60 件を一件ずつ再確認しました。58 件は Rust Runtime、repository-native test、CI/release boundary、または tri-language reader documentation が別設計で担当します。`.ai/project/adopter-capability-manifest.json` と schema は `reference-only` のままです。Rust は truthful な request-scoped capability/status view を提供し、source installer manifest や JSON wire format は copy しません。この batch に `migrate-gap` はありません。
 
 60 件の file-level decision（Rust counterpart、non-claim、adopter inheritance を含む）は [WI-629 Work Item](../work-items/WI-629-reference-rebaseline-batch-51.ja.md) に記録しています。各 attach 済み object/adopter は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、fail-closed lifecycle、人間向け Outcome を継承し、source Python、Make、provider decision、source wire は継承しません。
+
+## WI-631 — reference rebaseline batch 52
+
+WI-631 は pinned local reference commit `a9224aed77b5c317b53c4551a9eec306d91ee330` の次の source-changed non-history 60 パスを一件ずつ再確認しました。44 件は `implemented-different-by-design`、16 件の回答・registry・assessment は `reference-only` とし、`migrate-gap` はありません。完全な file-level record は [WI-631 Work Item](../work-items/WI-631-reference-rebaseline-batch-52.ja.md) を参照してください。Rust は shared Runtime、repository-native test、CI/release boundary、tri-language reader documentation で責務を担い、source Python、Make、provider decision、JSON wire はコピーしません。

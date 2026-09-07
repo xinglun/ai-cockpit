@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-631-reference-rebaseline-batch-52.contract.json",
+    ".ai/work-items/archive/WI-631-reference-rebaseline-batch-52.summary.json"
+  ],
+  "checkpointAt": "2026-09-07T02:14:43Z",
+  "checkpointContractDigest": "sha256:615feebeef90434d69792be6cc27ff2438077cf41296749df589034b105d37d0",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:883d537d1a18c2348a00f9635256b369e99abacf232a2f50de8eb74f1cd5dffb",
+  "createdAt": "2026-09-07T01:58:55Z",
+  "mode": "code",
+  "preflightAt": "2026-09-07T02:26:41Z",
+  "preflightContractDigest": "sha256:615feebeef90434d69792be6cc27ff2438077cf41296749df589034b105d37d0",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:883d537d1a18c2348a00f9635256b369e99abacf232a2f50de8eb74f1cd5dffb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-07T02:26:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-631-reference-rebaseline-batch-52"
+}

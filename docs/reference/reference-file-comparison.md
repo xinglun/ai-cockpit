@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-629-reference-rebaseline-batch-51
+lastVerifiedBy: WI-631-reference-rebaseline-batch-52
 capabilityClaims:
   - reference_parity
 ---
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=484 implemented-equivalent=1 not-applicable=8 reference-only=126 deferred-next-batch=294 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -2481,3 +2481,15 @@ The complete per-file decisions are recorded below and in the [WI-629 Work Item]
 | `docs/reference/agent-parallel-work-items.md` | implemented-different-by-design | `docs/reference/cross-work-item-dedup.md; docs/reference/affected-verification.md; docs/reference/agent-workflow.md; AGENTS.md; .ai/README.md Source-specific bytes and commands are not copied; semantics remain Runtime/reader-route owned.` |
 
 Attached object/adopter repositories inherit the shared Runtime, explicit `--repo` binding, isolated Contract/evidence/knowledge, dynamic verification, fail-closed lifecycle, and visible human Outcome. Source Python/Make/provider-global files and wire formats are not copied.
+
+## WI-631 — reference rebaseline batch 52
+
+WI-631 re-read the next 60 non-history paths whose source bytes changed at the
+pinned local reference commit `a9224aed77b5c317b53c4551a9eec306d91ee330`.
+Forty-four paths are `implemented-different-by-design`; sixteen source
+responses, registries, and assessments remain `reference-only`. No
+`migrate-gap` was found. The complete file-level record is in the [WI-631 Work
+Item](../work-items/WI-631-reference-rebaseline-batch-52.md). The target
+preserves portable responsibilities through the shared Rust Runtime,
+repository-native tests, CI/release boundaries, and tri-language reader docs;
+source Python, Make, provider decisions, and JSON wire formats are not copied.

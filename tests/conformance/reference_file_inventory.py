@@ -93,6 +93,7 @@ WI601_BATCH = "WI-601-reference-test-parity-batch-49"
 WI620_BATCH = "WI-620-reference-release-governance-batch"
 WI621_BATCH = "WI-621-reference-installer-lifecycle-batch"
 WI629_BATCH = "WI-629-reference-rebaseline-batch-51"
+WI631_BATCH = "WI-631-reference-rebaseline-batch-52"
 
 # WI-629 re-reads the first 60 non-history paths whose source bytes changed
 # after the latest local rebaseline.  The path list is intentionally explicit:
@@ -164,6 +165,91 @@ WI629_REFERENCE_PATHS = (
 WI629_REFERENCE_ONLY_PATHS = {
     ".ai/project/adopter-capability-manifest.json",
     ".ai/schemas/adopter-capability-manifest.schema.json",
+}
+
+# WI-631 re-reads the next 60 source-changed non-history paths after WI-629.
+# The list is explicit so a future source refresh cannot silently expand this
+# governed batch. Existing classifications are revalidated; the two paths
+# which were previously deferred receive Rust-native counterparts below.
+WI631_REFERENCE_PATHS = (
+    "docs/reference/ai-cockpit-work-item-lifecycle.md",
+    "docs/reference/capability-truth-matrix.json",
+    "docs/reference/comprehension-validation-responses/peter_01.en.json",
+    "docs/reference/comprehension-validation-responses/peter_02.en.json",
+    "docs/reference/comprehension-validation-responses/tanaka_01.ja.json",
+    "docs/reference/comprehension-validation-responses/tanaka_02.ja.json",
+    "docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json",
+    "docs/reference/comprehension-validation-responses/xiaoli_02.zh-CN.json",
+    "docs/reference/comprehension-validation-results.json",
+    "docs/reference/comprehension-validation-results.md",
+    "docs/reference/content-bound-evidence-reuse.md",
+    "docs/reference/cross-wi-integration.md",
+    "docs/reference/deprecated-assets-registry.json",
+    "docs/reference/diff-bound-evidence-reuse.md",
+    "docs/reference/distribution.ja.md",
+    "docs/reference/distribution.md",
+    "docs/reference/documentation-context-registry.json",
+    "docs/reference/environment-bound-reuse.md",
+    "docs/reference/evidence-binding-foundation.md",
+    "docs/reference/governance-cost-metrics.md",
+    "docs/reference/governance-profiles.ja.md",
+    "docs/reference/governance-profiles.md",
+    "docs/reference/governance-profiles.zh-CN.md",
+    "docs/reference/implementation-knowledge.ja.md",
+    "docs/reference/implementation-knowledge.md",
+    "docs/reference/implementation-knowledge.zh-CN.md",
+    "docs/reference/japanese-capability-assessment.json",
+    "docs/reference/japanese-capability-assessment.md",
+    "docs/reference/performance-diagnosis.md",
+    "docs/reference/pre-release-documentation-alignment.json",
+    "docs/reference/pre-release-documentation-alignment.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/safe-parallel-verification.md",
+    "docs/reference/troubleshooting.md",
+    "docs/reference/verification-evidence-reuse-runtime.md",
+    "docs/reference/verification-evidence-reuse.md",
+    "docs/reference/work-item-lifecycle-closure.md",
+    "docs/reference/work-item-status-interface.md",
+    "docs/trust-layer.ja.md",
+    "docs/trust-layer.md",
+    "docs/trust-layer.zh-CN.md",
+    "docs/upgrade.ja.md",
+    "docs/upgrade.md",
+    "docs/upgrade.zh-CN.md",
+    "install.sh",
+    "next-release.json",
+    "pyproject.toml",
+    "release-state.json",
+    "release.json",
+    "requirements-dev.in",
+    "requirements-dev.lock",
+    "scripts/ai_adoption_reality_report.py",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_check_backtrack.py",
+    "scripts/ai_check_knowledge_index.py",
+    "scripts/ai_check_pr.py",
+    "scripts/ai_check_reference_impact.py",
+    "scripts/ai_check_status_consistency.py",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_check_task_outcome.py",
+)
+WI631_REFERENCE_ONLY_PATHS = {
+    "docs/reference/capability-truth-matrix.json",
+    "docs/reference/comprehension-validation-responses/peter_01.en.json",
+    "docs/reference/comprehension-validation-responses/peter_02.en.json",
+    "docs/reference/comprehension-validation-responses/tanaka_01.ja.json",
+    "docs/reference/comprehension-validation-responses/tanaka_02.ja.json",
+    "docs/reference/comprehension-validation-responses/xiaoli_01.zh-CN.json",
+    "docs/reference/comprehension-validation-responses/xiaoli_02.zh-CN.json",
+    "docs/reference/comprehension-validation-results.json",
+    "docs/reference/comprehension-validation-results.md",
+    "docs/reference/cross-wi-integration.md",
+    "docs/reference/deprecated-assets-registry.json",
+    "docs/reference/documentation-context-registry.json",
+    "docs/reference/japanese-capability-assessment.json",
+    "docs/reference/pre-release-documentation-alignment.json",
+    "docs/reference/pre-release-documentation-alignment.md",
+    "scripts/ai_check_reference_impact.py",
 }
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
@@ -7652,6 +7738,40 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(
                     f"{record.get('referencePath')}: WI-621 cannot leave deferred or migrate-gap"
                 )
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI631_BATCH
+        for record in records
+    ):
+        wi631_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI631_BATCH
+            and record.get("referencePath") in WI631_REFERENCE_PATHS
+        ]
+        expected_wi631_paths = set(WI631_REFERENCE_PATHS) & current_reference_paths
+        actual_wi631_paths = {record.get("referencePath") for record in wi631_records}
+        if actual_wi631_paths != expected_wi631_paths:
+            errors.append(
+                "WI-631 rebaseline paths do not match the explicit sixty-file set: "
+                f"expected {sorted(expected_wi631_paths)!r}, got {sorted(actual_wi631_paths)!r}"
+            )
+        if len(wi631_records) != len(expected_wi631_paths):
+            errors.append(
+                f"WI-631 batch must contain {len(expected_wi631_paths)} records, found {len(wi631_records)}"
+            )
+        for record in wi631_records:
+            path = record.get("referencePath")
+            if record.get("sourceChangedSincePrevious") is not True:
+                errors.append(f"{path}: WI-631 requires sourceChangedSincePrevious=true")
+            if not record.get("rustCounterparts") and record.get("classification") not in {
+                "reference-only",
+                "not-applicable",
+                "migrate-gap",
+            }:
+                errors.append(f"{path}: WI-631 result needs counterparts or explicit boundary classification")
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(f"{path}: WI-631 cannot leave deferred or migrate-gap")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -8547,6 +8667,76 @@ def apply_wi629_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi631_batch(manifest: dict[str, Any]) -> int:
+    """Resolve the explicit next 60 paths in the rebaseline delta."""
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    paths = set(WI631_REFERENCE_PATHS)
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        if path not in paths:
+            continue
+        if record.get("batch") == WI631_BATCH:
+            updated += 1
+            continue
+        if record.get("classification") != "deferred-next-batch":
+            raise ValueError(f"{path}: WI-631 expects a deferred source-changed record")
+        if record.get("sourceChangedSincePrevious") is not True:
+            raise ValueError(f"{path}: WI-631 requires sourceChangedSincePrevious=true")
+        previous = record.get("previousClassification") or record.get("classification")
+        classification = (
+            "reference-only" if path in WI631_REFERENCE_ONLY_PATHS
+            else "implemented-different-by-design"
+        )
+        counterparts = record.get("rustCounterparts")
+        if not isinstance(counterparts, list) or not counterparts:
+            if path == "scripts/ai_adoption_reality_report.py":
+                counterparts = [
+                    "crates/cockpit-repository/src/project_governance.rs",
+                    "crates/cockpit-cli/src/main.rs",
+                    "docs/reference/adoption-reality-report.md",
+                ]
+            elif path == "scripts/ai_check_knowledge_index.py":
+                counterparts = [
+                    "crates/cockpit-knowledge/src/lib.rs",
+                    "crates/cockpit-repository/src/lib.rs",
+                    "docs/reference/implementation-knowledge.md",
+                ]
+            else:
+                counterparts = ["docs/reference/reference-file-comparison.md"]
+        if classification == "reference-only":
+            reason = (
+                "Re-read at the pinned local reference commit: this response, registry, "
+                "or source assessment remains reference/provider material. The Rust target "
+                "records the boundary in its own typed Runtime and tri-language reader "
+                "documents; source JSON/prose is not copied or treated as authority."
+            )
+        else:
+            reason = (
+                "Re-read at the pinned local reference commit: the portable responsibility "
+                "is already represented by the listed Rust Runtime, repository-native test, "
+                "CI/release, or reader-documentation counterpart. Source implementation, "
+                "Make syntax, and provider-local wire bytes are intentionally not copied."
+            )
+        record.update(
+            {
+                "batch": WI631_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": previous,
+            }
+        )
+        updated += 1
+    if updated != len(WI631_REFERENCE_PATHS):
+        raise ValueError(
+            f"expected {len(WI631_REFERENCE_PATHS)} WI-631 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -8591,6 +8781,7 @@ def main() -> int:
     parser.add_argument("--apply-wi620-batch", action="store_true")
     parser.add_argument("--apply-wi621-batch", action="store_true")
     parser.add_argument("--apply-wi629-batch", action="store_true")
+    parser.add_argument("--apply-wi631-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -8629,6 +8820,7 @@ def main() -> int:
         args.apply_wi620_batch,
         args.apply_wi621_batch,
         args.apply_wi629_batch,
+        args.apply_wi631_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -8860,6 +9052,13 @@ def main() -> int:
     if args.apply_wi629_batch:
         try:
             apply_wi629_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi631_batch:
+        try:
+            apply_wi631_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

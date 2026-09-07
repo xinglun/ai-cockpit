@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "固定的 60 条 source-changed 非历史路径逐一获得 evidence-backed 分类，且不留 deferred-next-batch 或 migrate-gap",
+    "Rust 对应边界、reference-only 与 source implementation/wire 不复制边界在逐文件台账和 Work Item 文档中可审计",
+    "英文、中文、日文比较台账、parity 台账、元数据和 Work Item 互相链接且计数一致",
+    "对象/adopter 工程继承 shared Runtime、显式 repository context、隔离 evidence/knowledge、fail-closed lifecycle 与可见 Outcome 边界",
+    "inventory、documentation acceptance、parity status 和仓库质量门全部通过，且不产生未授权文件改动"
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "23ecc3737b93a760391ceb0074ffb653547064df",
+  "createdAt": "2026-09-07T01:58:55Z",
+  "goal": "建立可审计的参考源重新基线第 52 批，所有判断保持语义对齐而不复制源实现。",
+  "intent": "在固定本地参考提交上逐个复核下一批 60 条源字节变化路径，确认 Rust 与对象工程继承边界没有遗漏。",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime 核心架构、对象工程写入、发布版本、外部 provider 配置、源 Python/Make/JSON 实现复制"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:97288a2bd17822e754c5aec639afb0122e3462f35f7ae54e27e9b47ff75d478c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "reference-parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-631-reference-rebaseline-batch-52",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi631-reference-rebaseline-batch-52"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-631-reference-rebaseline-batch-52.md",
+    "docs/work-items/WI-631-reference-rebaseline-batch-52.zh-CN.md",
+    "docs/work-items/WI-631-reference-rebaseline-batch-52.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-631-reference-rebaseline-batch-52"
+}
