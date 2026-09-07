@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json",
+    ".ai/work-items/archive/WI-630-doc-promotion-wi629.summary.json"
+  ],
+  "checkpointAt": "2026-09-07T01:30:34Z",
+  "checkpointContractDigest": "sha256:b5d14d49e23c32220f22bd279fe1f0ea84413552403b4878b0c79d13e1cac409",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:0d10809e2ec6a32a0bedd02588a0bdee9ec3dde1c5bd515a7bf5378571201dbe",
+      "recorded": true,
+      "recordedAt": "2026-09-07T01:30:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e6b105dad3f770faaedbc79db9afd2d1597c3840d408fdee944bb30383a0fe81",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-630-doc-promotion-wi629"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:b5d14d49e23c32220f22bd279fe1f0ea84413552403b4878b0c79d13e1cac409",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0d10809e2ec6a32a0bedd02588a0bdee9ec3dde1c5bd515a7bf5378571201dbe",
+      "previousContractHash": "sha256:0d10809e2ec6a32a0bedd02588a0bdee9ec3dde1c5bd515a7bf5378571201dbe",
+      "reason": "文档晋级门要求当前晋级 Work Item 自身三语页和预归档台账登记；将其纳入同一文档范围，避免关闭后再产生投影遗留。",
+      "recorded": true,
+      "recordedAt": "2026-09-07T01:36:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c68caa57c154b9f186d7dde9fdb131e368f79fa4772dab88b0236665dde76eeb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-630-doc-promotion-wi629"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:97288a2bd17822e754c5aec639afb0122e3462f35f7ae54e27e9b47ff75d478c",
+  "createdAt": "2026-09-07T01:29:42Z",
+  "mode": "code",
+  "preflightAt": "2026-09-07T01:38:33Z",
+  "preflightContractDigest": "sha256:b5d14d49e23c32220f22bd279fe1f0ea84413552403b4878b0c79d13e1cac409",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:97288a2bd17822e754c5aec639afb0122e3462f35f7ae54e27e9b47ff75d478c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-07T01:38:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-630-doc-promotion-wi629"
+}
