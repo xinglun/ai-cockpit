@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a192383c471ccada24d36473c2c8f1f238af481c",
+    "name": "codex/wi-638-reference-rebaseline-batch-54",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ed1b14ea38b6f6caf2c1e548cc9ad343c3d536955c69b03a7f04cad0c36c7b58",
+  "operationId": "github-pr-636-finalization-20260907",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "07b087b38b90a8733d39ca91609893a92e04430b",
+    "headRevision": "a192383c471ccada24d36473c2c8f1f238af481c",
+    "mergeCommit": "101b1ab68e7a13f85c50987ea3b120bcebf18d58",
+    "number": 636,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #636 passed all hosted checks and was merged; the exact Work Item branch and dedicated worktree are removed after default-branch synchronization.",
+  "receiptId": "github-pr-636-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-638-reference-rebaseline-batch-54",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-638-reference-rebaseline-batch-54"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T06:19:04Z",
+  "workItemId": "WI-638-reference-rebaseline-batch-54",
+  "worktree": {
+    "branch": "codex/wi-638-reference-rebaseline-batch-54",
+    "headRevision": "a192383c471ccada24d36473c2c8f1f238af481c",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-638-reference-rebaseline-batch-54",
+    "worktreeId": "WI-638-reference-rebaseline-batch-54"
+  }
+}
