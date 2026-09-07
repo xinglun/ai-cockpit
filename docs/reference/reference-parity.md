@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-640-reference-rebaseline-batch-55
+lastVerifiedBy: WI-642-reference-rebaseline-batch-56
 capabilityClaims:
   - reference_parity
 ---
@@ -37,15 +37,17 @@ awaiting re-review, and retired paths. No network reference or source-content
 copy is required for parity checks; see [Reference file comparison](reference-file-comparison.md)
 for the rebaseline receipt and procedure.
 
-### Current ledger snapshot (WI-640)
+### Current ledger snapshot (WI-642)
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-The current snapshot uses Rust baseline `2112b34ccc9a1384dd4bf8aa790c49e5746d5314`
+The current snapshot uses Rust baseline `4232bb2d1062b5376ae2b7b247c0ae906392585f`
 and the reviewed Runtime `ai-cockpit v0.2.85` with binary digest
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`.
-It contains 5,175 current paths and 54 deferred paths; deferred means the
-next semantic comparison batch, not a parity claim.
+It contains all 5,175 current paths and no deferred paths. The final
+rebaseline delta is now classified; `reference-only` preserves source/provider
+history without importing it, while `implemented-different-by-design` records
+the Rust-native counterpart and boundary.
 
 ## Truth states
 
@@ -891,6 +893,11 @@ documentation; seventeen source artifacts remain `reference-only`. No
 | WI-640 — reference rebaseline batch 55 | Implemented | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.md); terminal lifecycle: archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
 
 | WI-641 — WI-640 documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-641-wi640-documentation-promotion.md); archive `.ai/work-items/archive/WI-641-wi640-documentation-promotion.contract.json`; verification `.ai/evidence/WI-641-wi640-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-641-wi640-documentation-promotion.finalize.json`; close `.ai/decisions/WI-641-wi640-documentation-promotion.close.json`. |
+| WI-642 — reference rebaseline batch 56 | In progress → Implemented after verified close | [Work Item](../work-items/WI-642-reference-rebaseline-batch-56.md); archive `.ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json`; verification `.ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json`; finalization `.ai/decisions/WI-642-reference-rebaseline-batch-56.finalize.json`; close `.ai/decisions/WI-642-reference-rebaseline-batch-56.close.json`. |
+
+## WI-642 — reference rebaseline batch 56
+
+WI-642 completes the final 54-path rebaseline delta. Five source-generated knowledge records remain `reference-only`; 49 generated archive/start/recovery/handoff/performance paths are `implemented-different-by-design`. The ledger now contains 5,175 classified paths with zero deferred or `migrate-gap`. See the [WI-642 file-level record](reference-file-comparison.md#wi-642--reference-rebaseline-batch-56). Attached object/adopter repositories inherit the shared Runtime, explicit repository context, isolated evidence/knowledge, dynamic verification, fail-closed lifecycle, and visible human Outcome; source history and source-specific toolchain bytes are not copied.
 
 ## WI-640 — reference rebaseline batch 55
 

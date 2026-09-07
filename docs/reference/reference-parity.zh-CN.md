@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-640-reference-rebaseline-batch-55
+lastVerifiedBy: WI-642-reference-rebaseline-batch-56
 capabilityClaims:
   - reference_parity
 ---
@@ -30,15 +30,16 @@ capabilityClaims:
 等待复核的变化路径和已退休路径。对齐检查不依赖网络参考源，也不复制源内容；重新基线的 receipt 和
 流程见[参考源逐文件比较](reference-file-comparison.zh-CN.md)。
 
-### 当前台账快照（WI-640）
+### 当前台账快照（WI-642）
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-当前快照使用 Rust 基线 `2112b34ccc9a1384dd4bf8aa790c49e5746d5314`，以及经审查的
+当前快照使用 Rust 基线 `4232bb2d1062b5376ae2b7b247c0ae906392585f`，以及经审查的
 `ai-cockpit v0.2.85` Runtime（二进制摘要
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）。
-当前参考源有 5,175 条路径，其中 54 条 deferred；deferred 只表示下一语义比较批次，
-不构成对等声明。
+当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
+保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
+对应能力和边界。
 
 ## 真实性状态
 
@@ -737,6 +738,11 @@ WI-633 在固定本地参考提交上逐一复核后续 60 条 source-changed �
 | WI-640——参考源重新基线第 55 批 | 已实现 | [Work Item](../work-items/WI-640-reference-rebaseline-batch-55.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-640-reference-rebaseline-batch-55.contract.json`; verification `.ai/evidence/WI-640-reference-rebaseline-batch-55.verification.json`; finalization `.ai/decisions/WI-640-reference-rebaseline-batch-55.finalize.json`; close `.ai/decisions/WI-640-reference-rebaseline-batch-55.close.json`. |
 
 | WI-641——WI-640 文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-641-wi640-documentation-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-641-wi640-documentation-promotion.contract.json`; verification `.ai/evidence/WI-641-wi640-documentation-promotion.verification.json`; finalization `.ai/decisions/WI-641-wi640-documentation-promotion.finalize.json`; close `.ai/decisions/WI-641-wi640-documentation-promotion.close.json`. |
+| WI-642——参考源重新基线第 56 批 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-642-reference-rebaseline-batch-56.zh-CN.md); archive `.ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json`; verification `.ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json`; finalization `.ai/decisions/WI-642-reference-rebaseline-batch-56.finalize.json`; close `.ai/decisions/WI-642-reference-rebaseline-batch-56.close.json`. |
+
+## WI-642：参考源重新基线第 56 批
+
+WI-642 完成最后 54 条 source-changed 路径的逐文件复核。5 条源生成的 knowledge 工作项记录为 `reference-only`；其余 49 条生成的 archive/start/recovery/handoff/performance 路径为 `implemented-different-by-design`。台账现在共 5,175 条路径，deferred 和 `migrate-gap` 均为 0。详见[WI-642 逐文件记录](reference-file-comparison.zh-CN.md#wi-642参考源重新基线第-56-批)。对象/adopter 工程继承 shared Runtime、显式 repository context、隔离 evidence/knowledge、动态验证、fail-closed lifecycle 和可见 human Outcome；不复制源历史或源专用工具链字节。
 
 ## WI-640：参考源重新基线第 55 批
 

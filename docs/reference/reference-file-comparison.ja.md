@@ -7,11 +7,15 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-640-reference-rebaseline-batch-55
+lastVerifiedBy: WI-642-reference-rebaseline-batch-56
 capabilityClaims:
   - reference_parity
 ---
+## WI-642 — reference rebaseline batch 56
 
+WI-642 は pinned local reference commit `a9224aed77b5c317b53c4551a9eec306d91ee330` の最後の 54 source-changed path を一件ずつ再確認しました。source が生成した knowledge Work Item record 5 件は `reference-only`、残り 49 件は `implemented-different-by-design` です。この batch に deferred または `migrate-gap` はありません。source の history、Python/Shell/Make implementation、wire bytes は Rust に copy しません。portable responsibility は Rust の typed Runtime、repository records、native tests、reader documentation で担保します。
+
+54 path の file-level decision は machine ledger [`reference_file_inventory.json`](../../tests/conformance/reference_file_inventory.json) が authoritative です。英語の逐文件 table は [WI-642 file-level record](reference-file-comparison.md#wi-642--reference-rebaseline-batch-56) を参照してください。object/adopter repository は shared Runtime、明示的な `--repo`、isolated Contract/evidence/knowledge、dynamic verification、fail-closed lifecycle、visible human Outcome を継承し、source history や source 固有 toolchain は継承しません。
 # Reference file comparison
 
 このページは Rust project と maintainer が提供する local reference source を file ごとに比較する方法を説明します。
@@ -26,7 +30,7 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `a9224aed77b5c317b53c4551a9eec306d91ee330` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `2112b34ccc9a1384dd4bf8aa790c49e5746d5314`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `4232bb2d1062b5376ae2b7b247c0ae906392585f`。
 - 比較に使う reviewed Runtime: `ai-cockpit v0.2.85`、binary SHA256 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
@@ -351,7 +355,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
@@ -360,18 +364,18 @@ review に使用した Runtime は v0.2.85、binary digest は
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set と append-only ledger はともに 5,175 path/record です。今回の
-rebaseline で retired path はありません。Deferred record は予定された比較であり parity claim ではなく、
-changed current path は 890 件です。capability/profile slice に `migrate-gap` は残っていません。
+rebaseline で retired path はありません。すべての path は classification 済みで、deferred と `migrate-gap`
+はありません。WI-642 は最後の 54 changed path を一件ずつ再確認しました。
 
 | Metric | Count |
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 680 |
+| `implemented-different-by-design` | 729 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 170 |
-| `deferred-next-batch` | 54 |
+| `reference-only` | 175 |
+| `deferred-next-batch` | 0 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |

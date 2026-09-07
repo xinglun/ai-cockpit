@@ -42422,435 +42422,742 @@
     },
     {
       "referencePath": ".ai/knowledge/work-items/fix-lockfile-noindex-20260903.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "docs/reference/implementation-knowledge.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: this source-generated Work Item knowledge record is historical/provider material, not a portable Runtime wire contract. Rust keeps repository-scoped knowledge projection and an explicit reference-only boundary; the source JSON bytes are not copied or treated as authority.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/knowledge/work-items/fix-release-python-pin-20260903.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "docs/reference/implementation-knowledge.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: this source-generated Work Item knowledge record is historical/provider material, not a portable Runtime wire contract. Rust keeps repository-scoped knowledge projection and an explicit reference-only boundary; the source JSON bytes are not copied or treated as authority.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/knowledge/work-items/release-post-publish-projection-v0-5-71-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "docs/reference/implementation-knowledge.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: this source-generated Work Item knowledge record is historical/provider material, not a portable Runtime wire contract. Rust keeps repository-scoped knowledge projection and an explicit reference-only boundary; the source JSON bytes are not copied or treated as authority.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/knowledge/work-items/repository-release-publish-v0-5-71-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "docs/reference/implementation-knowledge.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: this source-generated Work Item knowledge record is historical/provider material, not a portable Runtime wire contract. Rust keeps repository-scoped knowledge projection and an explicit reference-only boundary; the source JSON bytes are not copied or treated as authority.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/knowledge/work-items/wi-ci-performance-governance-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "reference-only",
+      "rustCounterparts": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "docs/reference/implementation-knowledge.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: this source-generated Work Item knowledge record is historical/provider material, not a portable Runtime wire contract. Rust keeps repository-scoped knowledge projection and an explicit reference-only boundary; the source JSON bytes are not copied or treated as authority.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.archive-manifest.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.contract.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.outcome.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.outcome.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-lockfile-sync-20260826.summary.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.archive-manifest.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.contract.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.outcome.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.outcome.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/dependabot-ruff-0165-sync-20260902.summary.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.archive-manifest.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.contract.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.outcome.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.outcome.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-lockfile-noindex-20260903.summary.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-release-python-pin-20260903.archive-manifest.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-release-python-pin-20260903.contract.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-release-python-pin-20260903.outcome.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-release-python-pin-20260903.outcome.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/fix-release-python-pin-20260903.summary.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.archive-manifest.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.contract.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.outcome.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.outcome.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/release-post-publish-projection-v0-5-71-20260826.summary.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.archive-manifest.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.contract.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.outcome.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.outcome.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/repository-release-publish-v0-5-71-20260826.summary.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.archive-manifest.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.contract.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.outcome.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.outcome.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/archive/2026/wi-ci-performance-governance-20260826.summary.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        ".ai/work-items/archive/",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/outcome-report.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: these generated archive Contract, Summary, Outcome, and manifest records express historical lifecycle evidence. The Rust target preserves the semantic archive/evidence/decision boundary with different typed bytes and repository layout; source history is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/external-handoffs/run-release-rehearsal-v0-5-71-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: the provider handoff record is source-local operational history. Rust represents the same explicit, identity-bound external handoff boundary through typed repository records and reader documentation without copying the source JSON.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/recovery-receipts/dependabot-lockfile-sync-20260826-2.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source recovery receipts are historical evidence with provider-specific shape. Rust preserves append-only recovery, identity binding, and fail-closed validation in its own Protocol and repository surfaces; source receipt bytes are not imported.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/recovery-receipts/dependabot-lockfile-sync-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source recovery receipts are historical evidence with provider-specific shape. Rust preserves append-only recovery, identity binding, and fail-closed validation in its own Protocol and repository surfaces; source receipt bytes are not imported.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/starts/dependabot-lockfile-sync-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source start snapshots are generated lifecycle history. Rust records a repository-bound Contract/start state through typed Runtime services and explicit lifecycle documentation; the source snapshot bytes are not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/starts/dependabot-ruff-0165-sync-20260902.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source start snapshots are generated lifecycle history. Rust records a repository-bound Contract/start state through typed Runtime services and explicit lifecycle documentation; the source snapshot bytes are not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/starts/fix-lockfile-noindex-20260903.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source start snapshots are generated lifecycle history. Rust records a repository-bound Contract/start state through typed Runtime services and explicit lifecycle documentation; the source snapshot bytes are not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/starts/fix-release-python-pin-20260903.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source start snapshots are generated lifecycle history. Rust records a repository-bound Contract/start state through typed Runtime services and explicit lifecycle documentation; the source snapshot bytes are not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/starts/release-post-publish-projection-v0-5-71-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source start snapshots are generated lifecycle history. Rust records a repository-bound Contract/start state through typed Runtime services and explicit lifecycle documentation; the source snapshot bytes are not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/starts/repository-release-publish-v0-5-71-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source start snapshots are generated lifecycle history. Rust records a repository-bound Contract/start state through typed Runtime services and explicit lifecycle documentation; the source snapshot bytes are not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": ".ai/work-items/starts/wi-ci-performance-governance-20260826.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/repository-workflow.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: source start snapshots are generated lifecycle history. Rust records a repository-bound Contract/start state through typed Runtime services and explicit lifecycle documentation; the source snapshot bytes are not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "docs/reference/ci-performance-baseline.json",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/tests/cost_observation.rs",
+        "crates/cockpit-cli/tests/performance.rs",
+        "docs/reference/performance-diagnosis.md",
+        "docs/reference/verification-cost.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: the source performance baseline is an observation artifact, not a Runtime authority or portable threshold. Rust keeps measured cost observations and dynamic verification guidance in native tests and tri-language performance docs; source JSON is not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "docs/superpowers/plans/2026-08-26-wi-ci-performance-governance.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/performance-diagnosis.md",
+        "docs/reference/verification-cost.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: this internal planning/specification page records source-project process history. Its portable verification-cost and governance lessons are documented in the Rust reference pages; source planning prose is not copied into Runtime authority.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "docs/superpowers/specs/2026-08-26-wi-ci-performance-governance-design.md",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "docs/reference/performance-diagnosis.md",
+        "docs/reference/verification-cost.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: this internal planning/specification page records source-project process history. Its portable verification-cost and governance lessons are documented in the Rust reference pages; source planning prose is not copied into Runtime authority.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     },
     {
       "referencePath": "tests/test_ci_performance_baseline.py",
-      "batch": "rebaseline-delta",
-      "classification": "deferred-next-batch",
-      "rustCounterparts": [],
-      "reason": "New path at local reference commit a9224aed77b5c317b53c4551a9eec306d91ee330; semantic comparison is required before any parity claim.",
-      "sourceChangedSincePrevious": true
+      "batch": "WI-642-reference-rebaseline-batch-56",
+      "classification": "implemented-different-by-design",
+      "rustCounterparts": [
+        "crates/cockpit-verification/tests/cost_observation.rs",
+        "crates/cockpit-cli/tests/performance.rs",
+        "docs/reference/performance-diagnosis.md",
+        "docs/reference/reference-file-comparison.md"
+      ],
+      "reason": "Re-read at the pinned local reference commit: the source performance test corpus is represented by Rust-native cost observation/CLI tests and dynamic verification documentation. Python implementation and source test bytes are intentionally not copied.",
+      "sourceChangedSincePrevious": true,
+      "previousClassification": "deferred-next-batch"
     }
   ]
 }
