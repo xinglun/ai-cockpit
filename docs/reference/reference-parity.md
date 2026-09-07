@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-629-reference-rebaseline-batch-51
+lastVerifiedBy: WI-631-reference-rebaseline-batch-52
 capabilityClaims:
   - reference_parity
 ---
@@ -37,9 +37,9 @@ awaiting re-review, and retired paths. No network reference or source-content
 copy is required for parity checks; see [Reference file comparison](reference-file-comparison.md)
 for the rebaseline receipt and procedure.
 
-### Current ledger snapshot (WI-629)
+### Current ledger snapshot (WI-631)
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=484 implemented-equivalent=1 not-applicable=8 reference-only=126 deferred-next-batch=294 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `98f12b18b978db509fc884a8a6225afeb7f10df5`
 and the reviewed Runtime `ai-cockpit v0.2.85` with binary digest
@@ -778,6 +778,7 @@ are rewritten here.
 | WI-628 — WI-627 documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-628-doc-promotion-wi627.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-628-doc-promotion-wi627.contract.json`; verification `.ai/evidence/WI-628-doc-promotion-wi627.verification.json`; finalization `.ai/decisions/WI-628-doc-promotion-wi627.finalize.json`; close `.ai/decisions/WI-628-doc-promotion-wi627.close.json`. |
 | WI-629 — reference rebaseline batch 51 | Implemented | [Work Item](../work-items/WI-629-reference-rebaseline-batch-51.md); terminal lifecycle: archive `.ai/work-items/archive/WI-629-reference-rebaseline-batch-51.contract.json`; verification `.ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json`; finalization `.ai/decisions/WI-629-reference-rebaseline-batch-51.finalize.json`; close `.ai/decisions/WI-629-reference-rebaseline-batch-51.close.json`. |
 | WI-630 — WI-629 documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-630-doc-promotion-wi629.md); terminal lifecycle: archive `.ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json`; verification `.ai/evidence/WI-630-doc-promotion-wi629.verification.json`; finalization `.ai/decisions/WI-630-doc-promotion-wi629.finalize.json`; close `.ai/decisions/WI-630-doc-promotion-wi629.close.json`. |
+| WI-631 — reference rebaseline batch 52 | In progress → Implemented after verified close | [Work Item](../work-items/WI-631-reference-rebaseline-batch-52.md); terminal lifecycle: archive `.ai/work-items/archive/WI-631-reference-rebaseline-batch-52.contract.json`; verification `.ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json`; finalization `.ai/decisions/WI-631-reference-rebaseline-batch-52.finalize.json`; close `.ai/decisions/WI-631-reference-rebaseline-batch-52.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 
@@ -857,3 +858,15 @@ Attached object/adopter repositories inherit the shared Runtime, explicit
 repository context, isolated Contract/evidence/knowledge, fail-closed
 lifecycle, and human Outcome handoff. They do not inherit source Python,
 Make, provider decisions, or source wire formats.
+
+## WI-631 — reference rebaseline batch 52
+
+WI-631 re-read the next sixty source-changed non-history paths at the pinned
+local reference commit. Forty-four portable responsibilities are implemented
+differently by the Rust Runtime, native tests, CI/release boundaries, or
+tri-language documentation; sixteen source response, registry, and assessment
+records remain `reference-only`. No `migrate-gap` was found. See the [WI-631
+file-level record](reference-file-comparison.md#wi-631--reference-rebaseline-batch-52).
+Attached object/adopter repositories inherit the same shared Runtime semantics,
+explicit repository context, isolated evidence/knowledge, and visible human
+Outcome; source implementation and wire formats remain outside the target.
