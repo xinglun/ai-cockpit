@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-638-reference-rebaseline-batch-54
+lastVerifiedBy: WI-640-reference-rebaseline-batch-55
 capabilityClaims:
   - reference_parity
 ---
@@ -26,7 +26,7 @@ published Runtime identity、ledger count を一元管理し、実行可能な c
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `a9224aed77b5c317b53c4551a9eec306d91ee330` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `98f12b18b978db509fc884a8a6225afeb7f10df5`。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `2112b34ccc9a1384dd4bf8aa790c49e5746d5314`。
 - 比較に使う reviewed Runtime: `ai-cockpit v0.2.85`、binary SHA256 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
@@ -351,12 +351,12 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=626 implemented-equivalent=1 not-applicable=8 reference-only=164 deferred-next-batch=114 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=680 implemented-equivalent=1 not-applicable=8 reference-only=170 deferred-next-batch=54 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
 review に使用した Runtime は v0.2.85、binary digest は
-`sha256:9002dd5465fd22b258b2d158c30d071090fb225feb936601f0b495a393f7dbce` です。
+`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set と append-only ledger はともに 5,175 path/record です。今回の
@@ -367,11 +367,11 @@ changed current path は 890 件です。capability/profile slice に `migrate-g
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 626 |
+| `implemented-different-by-design` | 680 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 164 |
-| `deferred-next-batch` | 114 |
+| `reference-only` | 170 |
+| `deferred-next-batch` | 54 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -1873,3 +1873,15 @@ install-plan wizard test、Java fixture test）は source/provider または fix
 これは semantic parity であり、source Python/Make、provider decision、fixture bytes、source JSON wire の
 parity ではありません。attached object/adopter は shared Runtime、explicit `--repo`、isolated
 Contract/evidence/knowledge、dynamic verification、fail-closed lifecycle、可視 human Outcome を継承します。
+
+## WI-640 — reference rebaseline batch 55
+
+WI-640 は pinned commit `a9224aed77b5c317b53c4551a9eec306d91ee330` の deferred 60 path を一件ずつ再確認しました。
+54 path は implemented-different-by-design、6 path は reference-only（stack fixture、interactive wizard、
+historical knowledge record）です。この batch に deferred-next-batch や migrate-gap は残りません。以前の ledger
+に source-change marker がない path は `sourceChangedSincePrevious=false` と明示します。これは prior digest claim
+が無かったことを示し、再確認を省略した意味ではありません。全 path の分類、counterpart、reason は
+[machine ledger](../../tests/conformance/reference_file_inventory.json) が authoritative で、英語 page に完全な表を
+載せています。attached object/adopter は shared external Runtime、明示的 `--repo`、isolated Contract/evidence/knowledge、
+dynamic verification、fail-closed lifecycle、visible human Outcome を継承しますが、source の Python/Shell/Make、
+provider decision、stack fixture、JSON wire はコピーしません。
