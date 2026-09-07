@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9bac7eb477ec550d05e2ba27a962440d4a6b6a1b6a0e927e520265440f8ebebb",
+      "workItemId": "WI-642-reference-rebaseline-batch-56"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-review-policy at 2026-09-07T08:34:53Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-642-reference-rebaseline-batch-56.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json"
+          ],
+          "inference": false,
+          "text": "Compare the remaining 54 deferred reference paths one by one, classify each honestly, synchronize the conformance inventory and tri-language reader-facing parity documentation, and verify adopter inheritance."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-642-reference-rebaseline-batch-56"
+  },
+  "finalReportDigest": "sha256:0349325559e08bbe8b9fc7e9f44920e438ce098b2872657b0725c85133ec7779",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:02afbaaa64d0175e9d3b9eb2d60911fea65401a7233fc8e84beabf4436ce0c34",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-642-reference-rebaseline-batch-56.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-review-policy",
+    "decidedAt": "2026-09-07T08:34:53Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-642-reference-rebaseline-batch-56.verification.json"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "Reviewed the six-batch reference comparison evidence, hosted checks, merged PR, synchronized default branch, and exact branch/worktree cleanup.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-07T08:35:00Z",
+  "workItemId": "WI-642-reference-rebaseline-batch-56"
+}
