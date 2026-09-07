@@ -7,6 +7,10 @@ workItemId: WI-627-reference-rebaseline
 status: implemented
 authority: canonical
 lastVerifiedBy: WI-627-reference-rebaseline
+terminalArchive: .ai/work-items/archive/WI-627-reference-rebaseline.contract.json
+terminalVerification: .ai/evidence/WI-627-reference-rebaseline.verification.json
+terminalFinalization: .ai/decisions/WI-627-reference-rebaseline.finalize.json
+terminalDecision: .ai/decisions/WI-627-reference-rebaseline.close.json
 ---
 
 # WI-627 — Reference file inventory の rebaseline
