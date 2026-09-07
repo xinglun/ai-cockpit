@@ -4,9 +4,13 @@ title: WI-636 - Batch 53 documentation promotion
 description: Batch 53 recovery lineage の terminal close 後に三言語 projection を昇格します。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-636-batch-53-documentation-promotion
-status: in-progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-636-batch-53-documentation-promotion
+terminalArchive: .ai/work-items/archive/WI-636-batch-53-documentation-promotion.contract.json
+terminalVerification: .ai/evidence/WI-636-batch-53-documentation-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-636-batch-53-documentation-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-636-batch-53-documentation-promotion.close.json
 ---
 
 [English](WI-636-batch-53-documentation-promotion.md) · [简体中文](WI-636-batch-53-documentation-promotion.zh-CN.md)

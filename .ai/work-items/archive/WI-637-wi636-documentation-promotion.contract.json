@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "Three-language WI-636 pages contain terminal metadata from immutable close evidence.",
+    "Three-language parity rows show WI-636 implemented with exact evidence paths.",
+    "Documentation and parity gates pass without changing immutable evidence bytes."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "2f9b6afb5833c9c6a2d5e32019690b2ad5ef0539",
+  "createdAt": "2026-09-07T05:31:31Z",
+  "goal": "Make the closed batch 53 documentation promotion Work Item self-describing in all supported languages.",
+  "intent": "Promote WI-636 documentation projections after its reviewed close.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source",
+    "reference source",
+    "object repositories",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b072a3c937ca8d76029cb6776d8ae34807a117ff95ecdad29915438f7f8fd300",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-637-wi636-documentation-promotion",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-637-wi636-documentation-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-636-batch-53-documentation-promotion.md",
+    "docs/work-items/WI-636-batch-53-documentation-promotion.zh-CN.md",
+    "docs/work-items/WI-636-batch-53-documentation-promotion.ja.md",
+    "docs/work-items/WI-637-wi636-documentation-promotion.md",
+    "docs/work-items/WI-637-wi636-documentation-promotion.zh-CN.md",
+    "docs/work-items/WI-637-wi636-documentation-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-637-wi636-documentation-promotion"
+}
