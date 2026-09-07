@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d5832f4b9da35e89343d119595fa92029861ab7b",
+    "name": "codex/wi-631-reference-rebaseline-batch-52-retry",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1245a45f783235b2dac167c96b8b650e8eae65e988204b275f2df81010888698",
+  "operationId": "github-pr-627-local-finalization-20260907",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "23ecc3737b93a760391ceb0074ffb653547064df",
+    "headRevision": "d5832f4b9da35e89343d119595fa92029861ab7b",
+    "mergeCommit": "b18b8a10bcf5a1da4679778fee164a21df5bd7b7",
+    "number": 627,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed GitHub PR #627 merged after all hosted checks passed; exact Work Item branch and dedicated worktree will be removed after default-branch synchronization.",
+  "receiptId": "github-pr-627-local-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-631-reference-rebaseline-batch-52-retry",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi631-reference-rebaseline-batch-52-retry"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T02:54:10Z",
+  "workItemId": "WI-631-reference-rebaseline-batch-52",
+  "worktree": {
+    "branch": "codex/wi-631-reference-rebaseline-batch-52-retry",
+    "headRevision": "d5832f4b9da35e89343d119595fa92029861ab7b",
+    "path": "/private/tmp/ai-cockpit-wi631-reference-rebaseline-batch-52-retry",
+    "worktreeId": "WI-631-reference-rebaseline-batch-52"
+  }
+}

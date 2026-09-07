@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a373e8abe40f5f4c1bb320ae4c56379a56a1bfce254eb6d6f99b3c5a86f7d325",
+      "workItemId": "WI-631-reference-rebaseline-batch-52"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-07T02:54:10Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-631-reference-rebaseline-batch-52.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-631-reference-rebaseline-batch-52.contract.json"
+          ],
+          "inference": false,
+          "text": "建立可审计的参考源重新基线第 52 批，所有判断保持语义对齐而不复制源实现。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-631-reference-rebaseline-batch-52.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-631-reference-rebaseline-batch-52"
+  },
+  "finalReportDigest": "sha256:694eaf611605b3092fd037821fb9c36a0009ce98d4edaaadec31c9d97d9e6808",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:22af9c1af89e3f95d6235d641a49ba107eaa207cd6ac1f7453440a6776015d5f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-631-reference-rebaseline-batch-52.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T02:54:10Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md repository lifecycle"
+    ],
+    "reason": "Reviewed PR #627 merged; archive, verification, finalization, synchronized main, and exact cleanup are complete.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-07T02:58:13Z",
+  "workItemId": "WI-631-reference-rebaseline-batch-52"
+}
