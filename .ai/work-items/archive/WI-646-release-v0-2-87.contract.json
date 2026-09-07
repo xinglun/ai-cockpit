@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "版本与 release metadata 一致，公开 tag 与下载 artifact 可校验安装。",
+    "发布 workflow、adopter acceptance、SBOM/attestation 均成功，且隔离环境清理证明保留。",
+    "安装 v0.2.87 后 inspect/status/doctor 通过，主线 ready_on_base，随后回到参考源逐批比对。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b55b9732ef3b72f1b9402f2748c3a809cb8323c7",
+  "createdAt": "2026-09-07T11:15:16Z",
+  "goal": "发布、安装并验证 v0.2.87，确保 Runtime 与对象工程安装边界可复现。",
+  "intent": "发布 v0.2.87，包含已验证的参考比对文档版本绑定修复，并用公开 Release binary 完成安装与 adopter 验收。",
+  "mode": "code",
+  "outOfScope": [
+    "参考源 checkout、对象工程、全局 Agent/MCP 配置、历史 .ai archive/evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2820fbf2de9f3262a0f54c2197a60079a365e03e760294d21efcfda686d7c4f0",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-646-release-v0-2-87",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi646-release-v0-2-87"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/reference/**",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/work-items/WI-646-release-v0-2-87.md",
+    "docs/work-items/WI-646-release-v0-2-87.zh-CN.md",
+    "docs/work-items/WI-646-release-v0-2-87.ja.md",
+    "tests/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-646-release-v0-2-87"
+}

@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "版本与 release metadata 一致，公开 tag 与下载 artifact 可校验安装。",
+    "发布 workflow、adopter acceptance、SBOM/attestation 均成功，且隔离环境清理证明保留。",
+    "安装 v0.2.87 后 inspect/status/doctor 通过，主线 ready_on_base，随后回到参考源逐批比对。"
+  ],
+  "createdAt": "2026-09-07T11:38:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a0e8b2e002f29f5e48bc9622eaa5c9386f8ead25b8c2f00a646617214053917d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-646-release-v0-2-87.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-646-release-v0-2-87.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-646-release-v0-2-87.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d30564c6ce001535eaa2b7cdb47b5f1eac35074da2295391f2827f4518afc12d",
+      "workItemId": "WI-646-release-v0-2-87"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-646-release-v0-2-87.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-646-release-v0-2-87.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-646-release-v0-2-87.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-646-release-v0-2-87.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-646-release-v0-2-87.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-646-release-v0-2-87.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-646-release-v0-2-87.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-646-release-v0-2-87.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-646-release-v0-2-87.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-646-release-v0-2-87.contract.json"
+          ],
+          "inference": false,
+          "text": "发布、安装并验证 v0.2.87，确保 Runtime 与对象工程安装边界可复现。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-646-release-v0-2-87.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-646-release-v0-2-87"
+  },
+  "taskReportDigest": "sha256:940f204ca23436da8bb3e756a425fa3b2531797a6c2690be8ca65c27a0b43608",
+  "taskReportMarkdownDigest": "sha256:dfbf0452422021de1435394d57b18b42fd43bca912204d02538aa736371bbc4e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-646-release-v0-2-87.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-646-release-v0-2-87"
+}
