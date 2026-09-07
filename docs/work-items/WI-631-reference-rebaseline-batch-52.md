@@ -4,9 +4,13 @@ title: WI-631 - Reference rebaseline batch 52
 description: Re-read the next 60 source-changed reference paths without copying source implementation.
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-631-reference-rebaseline-batch-52
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-631-reference-rebaseline-batch-52
+terminalArchive: .ai/work-items/archive/WI-631-reference-rebaseline-batch-52.contract.json
+terminalVerification: .ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json
+terminalFinalization: .ai/decisions/WI-631-reference-rebaseline-batch-52.finalize.json
+terminalDecision: .ai/decisions/WI-631-reference-rebaseline-batch-52.close.json
 ---
 
 # WI-631 - Reference rebaseline batch 52
