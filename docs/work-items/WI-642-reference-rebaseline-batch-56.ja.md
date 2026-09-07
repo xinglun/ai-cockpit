@@ -4,7 +4,7 @@ title: WI-642 — reference rebaseline batch 56
 description: pinned reference の file-by-file comparison を完了し、source implementation はコピーしない。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-642-reference-rebaseline-batch-56
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-642-reference-rebaseline-batch-56
 terminalArchive: .ai/work-items/archive/WI-642-reference-rebaseline-batch-56.contract.json

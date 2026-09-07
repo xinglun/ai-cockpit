@@ -29,11 +29,11 @@
     "terminal-projection"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-643-wi642-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "local",
+    "pullRequest": "not-requested",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-643-wi642-doc-promotion"
   },
   "risk": "low",
