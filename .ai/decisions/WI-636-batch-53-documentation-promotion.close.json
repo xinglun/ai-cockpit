@@ -1,0 +1,152 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-636-batch-53-documentation-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b072a3c937ca8d76029cb6776d8ae34807a117ff95ecdad29915438f7f8fd300",
+      "workItemId": "WI-636-batch-53-documentation-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-636-batch-53-documentation-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-636-batch-53-documentation-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.recovery.faa37c43f5b895e893a525ef40b2d03317d9063cd939e7001078248d84ff6242.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-636-batch-53-documentation-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-635-batch-53-final-revalidation.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-636-batch-53-documentation-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-635-batch-53-final-revalidation.finalize.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-636-batch-53-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-636-batch-53-documentation-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-636-batch-53-documentation-promotion.verification.json",
+            ".ai/decisions/WI-636-batch-53-documentation-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-07T05:28:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-636-batch-53-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-636-batch-53-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-636-batch-53-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-636-batch-53-documentation-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Align tri-language Work Item documentation and parity rows with authoritative closed/recovered receipts without changing facts or historical bytes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-636-batch-53-documentation-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-636-batch-53-documentation-promotion"
+  },
+  "finalReportDigest": "sha256:34bf1e47a59f907400c661c830dec69aae528b03537026e9d408c13842e7b9a3",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:cd27223efb54e272251651e627a9bb3e78a5dfa66cd39255aaf07b6603ff8ecd",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-636-batch-53-documentation-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T05:28:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-636-batch-53-documentation-promotion.verification.json",
+      ".ai/decisions/WI-636-batch-53-documentation-promotion.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "Batch 53 documentation projections match authoritative lifecycle receipts and all hosted checks passed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-07T05:26:49Z",
+  "workItemId": "WI-636-batch-53-documentation-promotion"
+}
