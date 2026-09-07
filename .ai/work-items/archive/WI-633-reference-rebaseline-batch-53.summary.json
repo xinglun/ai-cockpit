@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-07T03:37:08Z",
+  "checkpointContractDigest": "sha256:0418fc8d21b834d6429cadb9ad55bf620853eaa9c1f489c1940cb2a7ec921b89",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f6ea14b94cab3511f2ee39f14dbc24c58ffc96a55fb6e52d5eb1fd5b0440bedf",
+      "recorded": true,
+      "recordedAt": "2026-09-07T03:37:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9f57f18d6a65c373d8440520cf39956e590adaca9694ccf67feec21b79086353",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-633-reference-rebaseline-batch-53"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:c0d98019616797b641c3ecdf4324b24821cdcac0027700987f6d02bdba3940e5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f6ea14b94cab3511f2ee39f14dbc24c58ffc96a55fb6e52d5eb1fd5b0440bedf",
+      "previousContractHash": "sha256:f6ea14b94cab3511f2ee39f14dbc24c58ffc96a55fb6e52d5eb1fd5b0440bedf",
+      "reason": "Correct the current Contract evidence class to Runtime-supported verification; the initial custom class names were not executable evidence classes and the batch gate itself remains the authoritative verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-07T04:01:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9f57f18d6a65c373d8440520cf39956e590adaca9694ccf67feec21b79086353",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-633-reference-rebaseline-batch-53"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9f57f18d6a65c373d8440520cf39956e590adaca9694ccf67feec21b79086353",
+  "createdAt": "2026-09-07T03:36:26Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-07T04:03:08Z",
+  "preflightContractDigest": "sha256:0418fc8d21b834d6429cadb9ad55bf620853eaa9c1f489c1940cb2a7ec921b89",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9f57f18d6a65c373d8440520cf39956e590adaca9694ccf67feec21b79086353",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-07T04:03:08Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-633-reference-rebaseline-batch-53"
+}

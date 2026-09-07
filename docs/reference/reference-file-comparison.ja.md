@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-631-reference-rebaseline-batch-52
+lastVerifiedBy: WI-633-reference-rebaseline-batch-53
 capabilityClaims:
   - reference_parity
 ---
@@ -351,7 +351,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=571 implemented-equivalent=1 not-applicable=8 reference-only=159 deferred-next-batch=174 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
@@ -367,11 +367,11 @@ changed current path は 890 件です。capability/profile slice に `migrate-g
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 528 |
+| `implemented-different-by-design` | 571 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 142 |
-| `deferred-next-batch` | 234 |
+| `reference-only` | 159 |
+| `deferred-next-batch` | 174 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -1854,3 +1854,7 @@ WI-629 は pinned commit `a9224aed77b5c317b53c4551a9eec306d91ee330` の current 
 ## WI-631 — reference rebaseline batch 52
 
 WI-631 は pinned local reference commit `a9224aed77b5c317b53c4551a9eec306d91ee330` の次の source-changed non-history 60 パスを一件ずつ再確認しました。44 件は `implemented-different-by-design`、16 件の回答・registry・assessment は `reference-only` とし、`migrate-gap` はありません。完全な file-level record は [WI-631 Work Item](../work-items/WI-631-reference-rebaseline-batch-52.ja.md) を参照してください。Rust は shared Runtime、repository-native test、CI/release boundary、tri-language reader documentation で責務を担い、source Python、Make、provider decision、JSON wire はコピーしません。
+
+## WI-633 — reference rebaseline batch 53
+
+WI-633 は pinned local reference commit の次の source-changed non-history 60 パスを一件ずつ再確認しました。43 件の portable responsibility は shared Rust Runtime、repository-native test、CI/release boundary、reader documentation が別設計で担います。17 件の provider 生成物、catalog、shard/benchmark tooling、aggregate report、adopter feature-parity test は `reference-only` です。`migrate-gap` はありません。完全な path、counterpart、理由、previous classification は [WI-633 record](../work-items/WI-633-reference-rebaseline-batch-53.ja.md) と machine ledger に記録しています。attached object/adopter は同じ Runtime semantics と isolation boundary を継承し、source Python/Make、provider catalog、generated release artifact、source wire はコピーしません。

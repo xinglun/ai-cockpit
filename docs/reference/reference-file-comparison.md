@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-631-reference-rebaseline-batch-52
+lastVerifiedBy: WI-633-reference-rebaseline-batch-53
 capabilityClaims:
   - reference_parity
 ---
@@ -261,7 +261,7 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=528 implemented-equivalent=1 not-applicable=8 reference-only=142 deferred-next-batch=234 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=571 implemented-equivalent=1 not-applicable=8 reference-only=159 deferred-next-batch=174 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
@@ -279,11 +279,11 @@ The reviewed Runtime is v0.2.85 with binary digest
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 528 |
+| `implemented-different-by-design` | 571 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 142 |
-| `deferred-next-batch` | 234 |
+| `reference-only` | 159 |
+| `deferred-next-batch` | 174 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -2493,3 +2493,21 @@ Item](../work-items/WI-631-reference-rebaseline-batch-52.md). The target
 preserves portable responsibilities through the shared Rust Runtime,
 repository-native tests, CI/release boundaries, and tri-language reader docs;
 source Python, Make, provider decisions, and JSON wire formats are not copied.
+
+## WI-633 — reference rebaseline batch 53
+
+WI-633 re-read the next 60 source-changed, non-history paths at the pinned local
+reference commit `a9224aed77b5c317b53c4551a9eec306d91ee330`. Forty-three paths
+are `implemented-different-by-design`: their portable responsibilities are
+represented by the shared Rust Runtime, repository-native tests, CI/release
+boundaries, or reader documentation. Seventeen source/provider-generated
+artifacts, catalogs, shard/benchmark tooling, and adopter feature-parity tests
+remain `reference-only`; they are not portable Runtime authority or target wire
+contracts. No `migrate-gap` was found. The complete file-level mapping is in the
+[WI-633 Work Item](../work-items/WI-633-reference-rebaseline-batch-53.md).
+
+Attached object/adopter repositories inherit the same shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, dynamic verification,
+fail-closed lifecycle, and visible human Outcome. They do not inherit source
+Python/Make implementation, provider catalogs, generated release artifacts,
+or source-local wire formats.

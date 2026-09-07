@@ -94,6 +94,7 @@ WI620_BATCH = "WI-620-reference-release-governance-batch"
 WI621_BATCH = "WI-621-reference-installer-lifecycle-batch"
 WI629_BATCH = "WI-629-reference-rebaseline-batch-51"
 WI631_BATCH = "WI-631-reference-rebaseline-batch-52"
+WI633_BATCH = "WI-633-reference-rebaseline-batch-53"
 
 # WI-629 re-reads the first 60 non-history paths whose source bytes changed
 # after the latest local rebaseline.  The path list is intentionally explicit:
@@ -250,6 +251,152 @@ WI631_REFERENCE_ONLY_PATHS = {
     "docs/reference/pre-release-documentation-alignment.json",
     "docs/reference/pre-release-documentation-alignment.md",
     "scripts/ai_check_reference_impact.py",
+}
+
+# WI-633 re-reads the next 60 source-changed non-history paths after WI-631.
+# This is an explicit bounded batch: source/provider implementation bytes are
+# compared to the Rust-native boundary, never copied into the target.
+WI633_REFERENCE_PATHS = (
+    "scripts/ai_close_work_item.py",
+    "scripts/ai_cross_wi_integration.py",
+    "scripts/ai_diff_bound_reuse.py",
+    "scripts/ai_environment_reuse.py",
+    "scripts/ai_evidence_binding.py",
+    "scripts/ai_evidence_dependencies.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_generate_human_report.py",
+    "scripts/ai_generate_knowledge_record.py",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_generate_task_outcome.py",
+    "scripts/ai_generate_work_item_status.py",
+    "scripts/ai_governance_cost.py",
+    "scripts/ai_install_plan.py",
+    "scripts/ai_installer_adopter_capability_manifest.py",
+    "scripts/ai_installer_catalog.json",
+    "scripts/ai_knowledge_projection_benchmark.py",
+    "scripts/ai_knowledge_query.py",
+    "scripts/ai_onboard.py",
+    "scripts/ai_outcome_gate.py",
+    "scripts/ai_parallel_verification.py",
+    "scripts/ai_performance_diagnosis.py",
+    "scripts/ai_post_archive_recovery.py",
+    "scripts/ai_render_task_outcome.py",
+    "scripts/ai_render_task_outcome_multilingual.py",
+    "scripts/ai_start.py",
+    "scripts/ai_verification_policy.py",
+    "scripts/ai_verification_runtime.py",
+    "scripts/ai_verify.py",
+    "scripts/check_changed_critical_coverage.py",
+    "scripts/check_governance_complexity.py",
+    "scripts/check_release_distribution.py",
+    "scripts/check_supply_chain.py",
+    "scripts/determine_governance_profile.py",
+    "scripts/end_to_end_adoption_validation.py",
+    "scripts/installer/legacy.py",
+    "scripts/quality_measurements.py",
+    "scripts/quality_shard_workspace.py",
+    "scripts/quality_test_manifest.py",
+    "scripts/release_archive.py",
+    "scripts/sync_published_release_projection.py",
+    "target/quality/project-test-aggregate/receipt.json",
+    "target/release-v0-5-69-provider-release/provider-release.receipt.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/ci-release-evidence.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/provenance.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/release-digests.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/release-source.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/release.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/sbom.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/v0.5.69.tar.gz",
+    "target/release-v0-5-69-provider-release/rehearsal-artifact-32284965833/release-rehearsal.json",
+    "target/release-v0-5-69-provider-release/rehearsal.receipt.json",
+    "templates/agents/AI_COCKPIT_RULES.md",
+    "templates/make/Makefile.ai",
+    "tests/test_adopter_feature_parity.py",
+    "tests/test_adoption_e2e.py",
+    "tests/test_ai_adoption_reality_report.py",
+    "tests/test_ai_archive_work_item.py",
+    "tests/test_ai_check_backtrack.py",
+    "tests/test_ai_check_summary.py",
+)
+WI633_REFERENCE_ONLY_PATHS = {
+    "scripts/ai_cross_wi_integration.py",
+    "scripts/ai_installer_adopter_capability_manifest.py",
+    "scripts/ai_installer_catalog.json",
+    "scripts/ai_knowledge_projection_benchmark.py",
+    "scripts/quality_shard_workspace.py",
+    "target/quality/project-test-aggregate/receipt.json",
+    "target/release-v0-5-69-provider-release/provider-release.receipt.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/ci-release-evidence.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/provenance.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/release-digests.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/release-source.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/release.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/sbom.json",
+    "target/release-v0-5-69-provider-release/public-assets-32286215124/v0.5.69.tar.gz",
+    "target/release-v0-5-69-provider-release/rehearsal-artifact-32284965833/release-rehearsal.json",
+    "target/release-v0-5-69-provider-release/rehearsal.receipt.json",
+    "tests/test_adopter_feature_parity.py",
+}
+WI633_COUNTERPARTS = {
+    "scripts/ai_generate_knowledge_record.py": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-knowledge/tests/query.rs",
+        "crates/cockpit-repository/tests/knowledge_projection.rs",
+        "docs/reference/implementation-knowledge.md",
+    ],
+    "scripts/ai_generate_work_item_status.py": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/work-item-status-interface.md",
+    ],
+    "scripts/ai_governance_cost.py": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/reference/governance-cost-metrics.md",
+    ],
+    "scripts/ai_knowledge_query.py": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-knowledge/tests/query.rs",
+        "docs/reference/implementation-knowledge.md",
+    ],
+    "scripts/ai_outcome_gate.py": [
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "docs/reference/outcome-report.md",
+    ],
+    "scripts/ai_performance_diagnosis.py": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-verification/tests/cost_observation.rs",
+        "docs/reference/performance-diagnosis.md",
+    ],
+    "scripts/ai_verification_runtime.py": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-verification/tests/execution.rs",
+        "crates/cockpit-verification/tests/graph.rs",
+        "docs/reference/verification-cost.md",
+    ],
+    "tests/test_ai_adoption_reality_report.py": [
+        "crates/cockpit-repository/tests/project_governance.rs",
+        "tests/release/adopter_acceptance.sh",
+        "docs/reference/adoption-reality-report.md",
+    ],
+    "scripts/quality_shard_workspace.py": [
+        ".github/workflows/ci.yml",
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "docs/reference/ci-quality-gates.md",
+    ],
+    "scripts/ai_cross_wi_integration.py": [
+        "docs/reference/cross-wi-integration.md",
+        "docs/reference/reference-parity.md",
+        ".ai/work-items/archive/",
+    ],
 }
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
@@ -7772,6 +7919,50 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
                 errors.append(f"{path}: WI-631 result needs counterparts or explicit boundary classification")
             if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
                 errors.append(f"{path}: WI-631 cannot leave deferred or migrate-gap")
+    if any(
+        isinstance(record, dict) and record.get("batch") == WI633_BATCH
+        for record in records
+    ):
+        wi633_records = [
+            record
+            for record in records
+            if isinstance(record, dict)
+            and record.get("batch") == WI633_BATCH
+            and record.get("referencePath") in WI633_REFERENCE_PATHS
+        ]
+        expected_wi633_paths = set(WI633_REFERENCE_PATHS) & current_reference_paths
+        actual_wi633_paths = {record.get("referencePath") for record in wi633_records}
+        if actual_wi633_paths != expected_wi633_paths:
+            errors.append(
+                "WI-633 rebaseline paths do not match the explicit sixty-file set: "
+                f"expected {sorted(expected_wi633_paths)!r}, got {sorted(actual_wi633_paths)!r}"
+            )
+        if len(wi633_records) != len(expected_wi633_paths):
+            errors.append(
+                f"WI-633 batch must contain {len(expected_wi633_paths)} records, found {len(wi633_records)}"
+            )
+        expected_wi633_classifications = Counter(
+            "reference-only" if path in WI633_REFERENCE_ONLY_PATHS
+            else "implemented-different-by-design"
+            for path in expected_wi633_paths
+        )
+        wi633_classifications = Counter(record.get("classification") for record in wi633_records)
+        if wi633_classifications != expected_wi633_classifications:
+            errors.append(
+                "WI-633 classifications do not match the bounded semantic/boundary decisions"
+            )
+        for record in wi633_records:
+            path = record.get("referencePath")
+            if record.get("sourceChangedSincePrevious") is not True:
+                errors.append(f"{path}: WI-633 requires sourceChangedSincePrevious=true")
+            if not record.get("rustCounterparts") and record.get("classification") not in {
+                "reference-only",
+                "not-applicable",
+                "migrate-gap",
+            }:
+                errors.append(f"{path}: WI-633 result needs counterparts or explicit boundary classification")
+            if record.get("classification") in {"deferred-next-batch", "migrate-gap"}:
+                errors.append(f"{path}: WI-633 cannot leave deferred or migrate-gap")
     expected_count = manifest.get("referenceTrackedFileCount")
     if expected_count != len(current_record_paths):
         errors.append(
@@ -8737,6 +8928,67 @@ def apply_wi631_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi633_batch(manifest: dict[str, Any]) -> int:
+    """Resolve the explicit next 60 paths in the rebaseline delta."""
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    paths = set(WI633_REFERENCE_PATHS)
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        if path not in paths:
+            continue
+        if record.get("batch") == WI633_BATCH:
+            updated += 1
+            continue
+        if record.get("classification") != "deferred-next-batch":
+            raise ValueError(f"{path}: WI-633 expects a deferred source-changed record")
+        if record.get("sourceChangedSincePrevious") is not True:
+            raise ValueError(f"{path}: WI-633 requires sourceChangedSincePrevious=true")
+        previous = record.get("previousClassification") or record.get("classification")
+        classification = (
+            "reference-only" if path in WI633_REFERENCE_ONLY_PATHS
+            else "implemented-different-by-design"
+        )
+        counterparts = record.get("rustCounterparts")
+        if not isinstance(counterparts, list) or not counterparts:
+            counterparts = WI633_COUNTERPARTS.get(path)
+        if not counterparts:
+            # A reference-only source/provider artifact has no portable Rust
+            # implementation; retain an explicit reader boundary for audit.
+            counterparts = ["docs/reference/reference-file-comparison.md"]
+        if classification == "reference-only":
+            reason = (
+                "Re-read at the pinned local reference commit: this source/provider-generated "
+                "surface is not a portable Runtime authority or target wire contract. The "
+                "listed target docs/harnesses record the boundary without copying source "
+                "bytes or promoting source-local evidence."
+            )
+        else:
+            reason = (
+                "Re-read at the pinned local reference commit: the portable responsibility "
+                "is already represented by the listed Rust Runtime, repository-native test, "
+                "CI/release, or reader-documentation counterpart. Source implementation, "
+                "Make syntax, and provider-local wire bytes are intentionally not copied."
+            )
+        record.update(
+            {
+                "batch": WI633_BATCH,
+                "classification": classification,
+                "rustCounterparts": counterparts,
+                "reason": reason,
+                "previousClassification": previous,
+            }
+        )
+        updated += 1
+    if updated != len(WI633_REFERENCE_PATHS):
+        raise ValueError(
+            f"expected {len(WI633_REFERENCE_PATHS)} WI-633 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -8782,6 +9034,7 @@ def main() -> int:
     parser.add_argument("--apply-wi621-batch", action="store_true")
     parser.add_argument("--apply-wi629-batch", action="store_true")
     parser.add_argument("--apply-wi631-batch", action="store_true")
+    parser.add_argument("--apply-wi633-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -8821,6 +9074,7 @@ def main() -> int:
         args.apply_wi621_batch,
         args.apply_wi629_batch,
         args.apply_wi631_batch,
+        args.apply_wi633_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -9059,6 +9313,13 @@ def main() -> int:
     if args.apply_wi631_batch:
         try:
             apply_wi631_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi633_batch:
+        try:
+            apply_wi633_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1
