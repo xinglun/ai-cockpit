@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
+lastVerifiedBy: WI-627-reference-rebaseline
 capabilityClaims:
   - reference_parity
 ---
@@ -28,10 +28,20 @@ identity、current ledger count を束縛し、三言語 page を同時に検査
 comparison 更新後の stale header を防ぎます。
 
 維持されている semantic reference は `AI_COCKPIT_REFERENCE_ROOT` で選択する local checkout で、現在は
-commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。file-level ledger はこの commit、以前の
+commit `a9224aed77b5c317b53c4551a9eec306d91ee330` に固定します。file-level ledger はこの commit、以前の
 public source ledger の historical metadata、再確認待ちの changed path、retired path を記録します。
 parity check に network source や source content の copy は必要ありません。rebaseline の receipt と手順は
 [Reference file comparison](reference-file-comparison.ja.md) を参照してください。
+
+### Current ledger snapshot (WI-627)
+
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
+
+Current snapshot は Rust baseline `98f12b18b978db509fc884a8a6225afeb7f10df5` と、
+review 済み `ai-cockpit v0.2.85`（binary digest
+`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）を使用します。
+現在の reference は 5,175 path、deferred は 354 path です。deferred は次の semantic comparison
+batch を示すだけで、parity claim ではありません。
 
 ## Truth state
 
@@ -680,6 +690,7 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 | WI-624 — WI-622 ドキュメント昇格リカバリ | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-624-wi622-doc-promotion-recovery.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.contract.json`; verification `.ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json`; finalization `.ai/decisions/WI-624-wi622-doc-promotion-recovery.finalize.json`; close `.ai/decisions/WI-624-wi622-doc-promotion-recovery.close.json`. |
 | WI-625 — v0.2.84 release と adopter acceptance | Recovered | [Work Item](../work-items/WI-625-release-v0-2-84.ja.md); immutable な失敗公開履歴を保持し、予約済み `v0.2.84` タグは公開 Release ではない。リリース境界は WI-626 が継続する。 |
 | WI-626 — v0.2.85 release と adopter acceptance | Implemented | [Work Item](../work-items/WI-626-release-v0-2-85.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-626-release-v0-2-85.contract.json`; verification `.ai/evidence/WI-626-release-v0-2-85.verification.json`; finalization `.ai/decisions/WI-626-release-v0-2-85.finalize.json`; close `.ai/decisions/WI-626-release-v0-2-85.close.json`. |
+| WI-627 — reference inventory rebaseline | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-627-reference-rebaseline.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-627-reference-rebaseline.contract.json`; verification `.ai/evidence/WI-627-reference-rebaseline.verification.json`; finalization `.ai/decisions/WI-627-reference-rebaseline.finalize.json`; close `.ai/decisions/WI-627-reference-rebaseline.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 

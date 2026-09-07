@@ -5992,6 +5992,19 @@ def validate(manifest: dict[str, Any], expected_source: str, expected_target: st
     }
     if changed_records != changed_path_set:
         errors.append("sourceChangedSincePrevious records do not match referenceChangedPaths")
+    # A rebaseline gives every source-changed path a new current decision
+    # (normally ``rebaseline-delta``/deferred) while preserving the previous
+    # batch record in-place for audit. Historical batch assertions below must
+    # therefore validate only the paths still owned by that batch; otherwise
+    # a legitimate rebaseline is reported as a missing/incorrect old batch.
+    # The full current path set was already checked above, and changed paths
+    # remain covered by the generic record/changed-set checks.
+    current_reference_paths -= changed_path_set
+    records = [
+        record
+        for record in records
+        if record.get("referencePath") not in changed_path_set
+    ]
     if expected_source == EXPECTED_REFERENCE_COMMIT:
         wi437_records = [
             record

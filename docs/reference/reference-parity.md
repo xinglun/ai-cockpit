@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
+lastVerifiedBy: WI-627-reference-rebaseline
 capabilityClaims:
   - reference_parity
 ---
@@ -31,11 +31,21 @@ comparison update cannot leave a stale presentation header.
 
 The maintained semantic reference is the local checkout selected by
 `AI_COCKPIT_REFERENCE_ROOT`, currently pinned to commit
-`fde3380f81fea5fd2e288f7a8849f737dc074060`. The file-level ledger records this
+`a9224aed77b5c317b53c4551a9eec306d91ee330`. The file-level ledger records this
 commit, the previous public-source ledger as historical metadata, changed paths
 awaiting re-review, and retired paths. No network reference or source-content
 copy is required for parity checks; see [Reference file comparison](reference-file-comparison.md)
 for the rebaseline receipt and procedure.
+
+### Current ledger snapshot (WI-627)
+
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
+
+The current snapshot uses Rust baseline `98f12b18b978db509fc884a8a6225afeb7f10df5`
+and the reviewed Runtime `ai-cockpit v0.2.85` with binary digest
+`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`.
+It contains 5,175 current paths and 354 deferred paths; deferred means the
+next semantic comparison batch, not a parity claim.
 
 ## Truth states
 
@@ -764,6 +774,7 @@ are rewritten here.
 | WI-624 — WI-622 documentation promotion recovery | In progress → Implemented after verified close | [Work Item](../work-items/WI-624-wi622-doc-promotion-recovery.md); terminal lifecycle: archive `.ai/work-items/archive/WI-624-wi622-doc-promotion-recovery.contract.json`; verification `.ai/evidence/WI-624-wi622-doc-promotion-recovery.verification.json`; finalization `.ai/decisions/WI-624-wi622-doc-promotion-recovery.finalize.json`; close `.ai/decisions/WI-624-wi622-doc-promotion-recovery.close.json`. |
 | WI-625 — v0.2.84 release and adopter acceptance | Recovered | [Work Item](../work-items/WI-625-release-v0-2-84.md); immutable failed publication history is retained; the reserved `v0.2.84` tag was not a public Release and WI-626 continues the release boundary. |
 | WI-626 — v0.2.85 release and adopter acceptance | Implemented | [Work Item](../work-items/WI-626-release-v0-2-85.md); terminal lifecycle: archive `.ai/work-items/archive/WI-626-release-v0-2-85.contract.json`; verification `.ai/evidence/WI-626-release-v0-2-85.verification.json`; finalization `.ai/decisions/WI-626-release-v0-2-85.finalize.json`; close `.ai/decisions/WI-626-release-v0-2-85.close.json`. |
+| WI-627 — reference inventory rebaseline | In progress → Implemented after verified close | [Work Item](../work-items/WI-627-reference-rebaseline.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-627-reference-rebaseline.contract.json`; verification `.ai/evidence/WI-627-reference-rebaseline.verification.json`; finalization `.ai/decisions/WI-627-reference-rebaseline.finalize.json`; close `.ai/decisions/WI-627-reference-rebaseline.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 

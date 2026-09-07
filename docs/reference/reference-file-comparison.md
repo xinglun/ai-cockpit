@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
+lastVerifiedBy: WI-627-reference-rebaseline
 capabilityClaims:
   - reference_parity
 ---
@@ -28,10 +28,10 @@ check is executable and fails closed when any translated page drifts.
 
 - Current reference checkout: the local Git checkout supplied through
   `AI_COCKPIT_REFERENCE_ROOT`, pinned for current comparison work to
-  `fde3380f81fea5fd2e288f7a8849f737dc074060` in
+  `a9224aed77b5c317b53c4551a9eec306d91ee330` in
   `tests/conformance/reference-source.lock`.
-- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `8adac3379d8cb3e7a3dc59c70d6fb0b26176b990`.
-- Runtime used for the comparison work: the reviewed `ai-cockpit v0.2.85` binary, SHA256 `sha256:9002dd5465fd22b258b2d158c30d071090fb225feb936601f0b495a393f7dbce`.
+- Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `98f12b18b978db509fc884a8a6225afeb7f10df5`.
+- Runtime used for the comparison work: the reviewed `ai-cockpit v0.2.85` binary, SHA256 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -109,8 +109,8 @@ The target and every adopter inherit the shared external Runtime, isolated
 repository context, Contract/evidence/knowledge records, and human Outcome
 boundary. They do not inherit source-specific installers, Make targets,
 provider decisions, or generated history. The current ledger contains 4,262
-`generated-history`, 546 `implemented-different-by-design`, 1
-`implemented-equivalent`, 8 `not-applicable`, 140 `reference-only`, and 74
+`generated-history`, 426 `implemented-different-by-design`, 1
+`implemented-equivalent`, 8 `not-applicable`, 124 `reference-only`, and 354
 `deferred-next-batch` records; `migrate-gap` remains zero.
 
 ## First batch: governance entrypoints
@@ -261,33 +261,32 @@ green parity.
 
 ## Current ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=563 implemented-equivalent=1 not-applicable=8 reference-only=141 deferred-next-batch=56 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
 
 The machine-checked table below is the single source for the current snapshot;
 the same canonical keys are used in all three language pages. The current
-reference set has 4,450 paths. The append-only ledger has 5,119 records because
-it retains 669 retired paths from the previous reference baseline. Deferred
-records remain scheduled work, not parity claims. The rebaseline records 160
-changed current paths, and the capability/profile slice has no remaining
-`migrate-gap` records:
+reference set has 5,175 paths and the append-only ledger currently has 5,175
+records; no paths were retired in this rebaseline. Deferred records remain
+scheduled work, not parity claims. The rebaseline records 890 changed current
+paths, and the capability/profile slice has no remaining `migrate-gap` records:
 
 This comparison uses the Rust baseline recorded above; the ledger's historical
 target commit remains recorded separately in the machine inventory.
 The reviewed Runtime is v0.2.85 with binary digest
-`sha256:9002dd5465fd22b258b2d158c30d071090fb225feb936601f0b495a393f7dbce`.
+`sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`.
 
 | Metric | Count |
 | --- | ---: |
-| `current-tracked-paths` | 4,450 |
-| `generated-history` | 3,681 |
-| `implemented-different-by-design` | 563 |
+| `current-tracked-paths` | 5,175 |
+| `generated-history` | 4,262 |
+| `implemented-different-by-design` | 426 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 141 |
-| `deferred-next-batch` | 56 |
+| `reference-only` | 124 |
+| `deferred-next-batch` | 354 |
 | `migrate-gap` | 0 |
-| `retired-reference-paths` | 669 |
-| `append-only-ledger-records` | 5,119 |
+| `retired-reference-paths` | 0 |
+| `append-only-ledger-records` | 5,175 |
 
 1. `.ai/project/adopter-capability-manifest.json` is retired from the current
    local checkout. Its prior decision is retained in `retiredReferencePaths`;

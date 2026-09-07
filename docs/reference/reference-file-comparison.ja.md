@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-621-reference-installer-lifecycle-batch
+lastVerifiedBy: WI-627-reference-rebaseline
 capabilityClaims:
   - reference_parity
 ---
@@ -25,9 +25,9 @@ sidecar を single source とします。reference commit、review 済み Rust b
 published Runtime identity、ledger count を一元管理し、実行可能な check は三言語
 ページの drift を fail-closed で拒否します。
 
-- 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `fde3380f81fea5fd2e288f7a8849f737dc074060` に固定します。
-- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `8adac3379d8cb3e7a3dc59c70d6fb0b26176b990`。
-- 比較に使う reviewed Runtime: `ai-cockpit v0.2.85`、binary SHA256 `sha256:9002dd5465fd22b258b2d158c30d071090fb225feb936601f0b495a393f7dbce`。
+- 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `a9224aed77b5c317b53c4551a9eec306d91ee330` に固定します。
+- Rust baseline: [xinglun/ai-cockpit](https://github.com/xinglun/ai-cockpit) の `origin/main`、commit `98f12b18b978db509fc884a8a6225afeb7f10df5`。
+- 比較に使う reviewed Runtime: `ai-cockpit v0.2.85`、binary SHA256 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`。
 
 inventory ledger は現在、local checkout に明示的に rebaseline されています。従来の
 `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger は previous target revision と digest を記録し、
@@ -87,7 +87,7 @@ source checkout に翻訳がない場合も、target の tri-language page を c
 | `docs/reference/work-item-lifecycle-closure.md` | implemented-different-by-design (WI-504, revalidated) | tri-language closure、finalize/recovery、ready-on-base check。source Make/Python recovery orchestration は Rust command ではありません。 |
 | `docs/reference/work-item-lifecycle-closure.ja.md` | implemented-different-by-design | Japanese closure と historical recovery boundary。provider-specific route は外部責任です。 |
 
-Target と各 adopter は shared external Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承します。source-specific installer、Make target、provider decision、generated history は継承しません。現在の ledger は 4,262 `generated-history`、546 `implemented-different-by-design`、1 `implemented-equivalent`、8 `not-applicable`、140 `reference-only`、74 `deferred-next-batch` で、`migrate-gap` は zero です。
+Target と各 adopter は shared external Runtime、isolated repository context、Contract/evidence/knowledge record、human Outcome boundary を継承します。source-specific installer、Make target、provider decision、generated history は継承しません。現在の ledger は 4,262 `generated-history`、426 `implemented-different-by-design`、1 `implemented-equivalent`、8 `not-applicable`、124 `reference-only`、354 `deferred-next-batch` で、`migrate-gap` は zero です。
 
 ## WI-621 — reference installer / lifecycle safety parity
 
@@ -351,7 +351,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=4450 generated-history=3681 implemented-different-by-design=563 implemented-equivalent=1 not-applicable=8 reference-only=141 deferred-next-batch=56 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
@@ -359,23 +359,22 @@ review に使用した Runtime は v0.2.85、binary digest は
 `sha256:9002dd5465fd22b258b2d158c30d071090fb225feb936601f0b495a393f7dbce` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
-key を使います。現在の reference set は 4,450 path です。append-only ledger は、以前の reference
-baseline から retired になった 669 path を保持するため 5,119 record です。Deferred record は予定された
-比較であり parity claim ではありません。Rebaseline は changed current path 160 件を記録し、capability/profile
-slice に `migrate-gap` は残っていません。
+key を使います。現在の reference set と append-only ledger はともに 5,175 path/record です。今回の
+rebaseline で retired path はありません。Deferred record は予定された比較であり parity claim ではなく、
+changed current path は 890 件です。capability/profile slice に `migrate-gap` は残っていません。
 
 | Metric | Count |
 | --- | ---: |
-| `current-tracked-paths` | 4,450 |
-| `generated-history` | 3,681 |
-| `implemented-different-by-design` | 563 |
+| `current-tracked-paths` | 5,175 |
+| `generated-history` | 4,262 |
+| `implemented-different-by-design` | 426 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 141 |
-| `deferred-next-batch` | 56 |
+| `reference-only` | 124 |
+| `deferred-next-batch` | 354 |
 | `migrate-gap` | 0 |
-| `retired-reference-paths` | 669 |
-| `append-only-ledger-records` | 5,119 |
+| `retired-reference-paths` | 0 |
+| `append-only-ledger-records` | 5,175 |
 
 1. `.ai/project/adopter-capability-manifest.json` は現在の local checkout から retired になりました。以前の判断は
    `retiredReferencePaths` に保持され、installer-surface は external boundary のままですが、current record ではありません。
