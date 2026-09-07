@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-639-wi638-documentation-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:28cd5b6a43a4bf4649d1fac9670009ef382664630ffa6afabd1658f5328a3342",
+      "workItemId": "WI-639-wi638-documentation-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-639-wi638-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-639-wi638-documentation-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-639-wi638-documentation-promotion.verification.json",
+            ".ai/decisions/WI-639-wi638-documentation-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-07T06:52:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-639-wi638-documentation-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-639-wi638-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-639-wi638-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-639-wi638-documentation-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-639-wi638-documentation-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize the WI-638 tri-language Work Item pages and parity rows to their verified terminal state."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-639-wi638-documentation-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-639-wi638-documentation-promotion"
+  },
+  "finalReportDigest": "sha256:d6b5163d0903b0feaad9942bca46185371bd741fe11f71bd1ca86f3053f370cc",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:f8e234d22c0379e3501291b94a83e82e472d64851b2b35415576af42d4a5cb62",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-639-wi638-documentation-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T06:52:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-639-wi638-documentation-promotion.verification.json",
+      ".ai/decisions/WI-639-wi638-documentation-promotion.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-file-comparison.md"
+    ],
+    "reason": "Reviewed PR #637, hosted checks, merge synchronization, finalization, and exact branch/worktree cleanup are complete.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-07T06:51:50Z",
+  "workItemId": "WI-639-wi638-documentation-promotion"
+}
