@@ -4,9 +4,13 @@ title: WI-637——WI-636 文档晋级
 description: 根据不可变生命周期证据晋级已关闭 WI-636 的文档投影。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-637-wi636-documentation-promotion
-status: in-progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-637-wi636-documentation-promotion
+terminalArchive: .ai/work-items/archive/WI-637-wi636-documentation-promotion.contract.json
+terminalVerification: .ai/evidence/WI-637-wi636-documentation-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-637-wi636-documentation-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-637-wi636-documentation-promotion.close.json
 ---
 
 [English](WI-637-wi636-documentation-promotion.md) · [日本語](WI-637-wi636-documentation-promotion.ja.md)

@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ec7deb259f4721647012768ea343c175b7b32b8a",
+    "name": "codex/wi-637-wi636-documentation-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b8ecb3e668092792cb6278affe8ecb8a9a44003047c50c29f79e6f2853400d7c",
+  "operationId": "github-pr-635-local-finalization-20260907",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "2f9b6afb5833c9c6a2d5e32019690b2ad5ef0539",
+    "headRevision": "ec7deb259f4721647012768ea343c175b7b32b8a",
+    "mergeCommit": "e8b14ce6da14d35d3bb81df792d9c6bbb9ffb19e",
+    "number": 635,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #635, all hosted checks, merged head, synchronized default branch, and exact branch/worktree cleanup.",
+  "receiptId": "github-pr-635-local-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-637-wi636-documentation-promotion",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-637-wi636-documentation-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T05:46:00Z",
+  "workItemId": "WI-637-wi636-documentation-promotion",
+  "worktree": {
+    "branch": "codex/wi-637-wi636-documentation-promotion",
+    "headRevision": "ec7deb259f4721647012768ea343c175b7b32b8a",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-637-wi636-documentation-promotion",
+    "worktreeId": "WI-637-wi636-documentation-promotion"
+  }
+}
