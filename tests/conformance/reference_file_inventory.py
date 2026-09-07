@@ -92,6 +92,79 @@ WI598_BATCH = "WI-598-reference-test-parity-batch-48"
 WI601_BATCH = "WI-601-reference-test-parity-batch-49"
 WI620_BATCH = "WI-620-reference-release-governance-batch"
 WI621_BATCH = "WI-621-reference-installer-lifecycle-batch"
+WI629_BATCH = "WI-629-reference-rebaseline-batch-51"
+
+# WI-629 re-reads the first 60 non-history paths whose source bytes changed
+# after the latest local rebaseline.  The path list is intentionally explicit:
+# a future source refresh cannot silently expand this batch.  The changed
+# source files remain reference/provider material; the target records the
+# Rust-native boundary instead of copying source Make/Python/JSON bytes.
+WI629_REFERENCE_PATHS = (
+    ".ai/cockpit/README.ja.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/adoption.ja.md",
+    ".ai/cockpit/work-items/index.json",
+    ".ai/cockpit/work-items/wi-06-status-interface.status.json",
+    ".ai/guards/changed_critical_coverage_policy.json",
+    ".ai/guards/coverage_policy.yaml",
+    ".ai/project/adopter-capability-manifest.json",
+    ".ai/quality/governance-routing.yaml",
+    ".ai/schemas/adopter-capability-manifest.schema.json",
+    ".ai/schemas/cross-wi-integration-report.schema.json",
+    ".ai/schemas/evidence-binding.schema.json",
+    ".ai/schemas/governance-cost-report.schema.json",
+    ".ai/schemas/implementation-knowledge-dependency-index.schema.json",
+    ".ai/schemas/implementation-knowledge-index.schema.json",
+    ".ai/schemas/implementation-knowledge-query.schema.json",
+    ".ai/schemas/implementation-knowledge-record.schema.json",
+    ".ai/schemas/parallel-verification-plan.schema.json",
+    ".ai/schemas/performance-diagnosis-report.schema.json",
+    ".ai/schemas/task_outcome.schema.json",
+    ".ai/schemas/work-item-status-interface.schema.json",
+    ".github/workflows/compatibility.yml",
+    ".github/workflows/release.yml",
+    ".github/workflows/smoke.yml",
+    "AGENTS.md",
+    "GEMINI.md",
+    "Makefile",
+    "docs/README.ja.md",
+    "docs/README.md",
+    "docs/README.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/features/human-benefit-report.ja.md",
+    "docs/features/human-benefit-report.md",
+    "docs/features/human-benefit-report.zh-CN.md",
+    "docs/features/task-outcome-report.ja.md",
+    "docs/features/task-outcome-report.md",
+    "docs/features/task-outcome-report.zh-CN.md",
+    "docs/features/work-item-parallelism.ja.md",
+    "docs/features/work-item-parallelism.md",
+    "docs/features/work-item-parallelism.zh-CN.md",
+    "docs/getting-started/first-work-item.ja.md",
+    "docs/getting-started/first-work-item.md",
+    "docs/getting-started/first-work-item.zh-CN.md",
+    "docs/getting-started/security-release-verification.ja.md",
+    "docs/getting-started/security-release-verification.md",
+    "docs/getting-started/security-release-verification.zh-CN.md",
+    "docs/getting-started/standard-adoption-guide.ja.md",
+    "docs/getting-started/standard-adoption-guide.md",
+    "docs/getting-started/standard-adoption-guide.zh-CN.md",
+    "docs/maintainers/task-outcome-events.md",
+    "docs/operations/quality-gates.ja.md",
+    "docs/operations/quality-gates.md",
+    "docs/operations/quality-gates.zh-CN.md",
+    "docs/operations/work-item-lifecycle.ja.md",
+    "docs/operations/work-item-lifecycle.md",
+    "docs/operations/work-item-lifecycle.zh-CN.md",
+    "docs/reference/adoption-reality-report.md",
+    "docs/reference/agent-parallel-work-items.md",
+)
+WI629_REFERENCE_ONLY_PATHS = {
+    ".ai/project/adopter-capability-manifest.json",
+    ".ai/schemas/adopter-capability-manifest.schema.json",
+}
 WI270_DOC_CONCEPTS = {
     "docs/concepts/decision-states.ja.md": ("ja",),
     "docs/concepts/decision-states.md": ("en",),
@@ -8387,6 +8460,93 @@ def apply_wi621_batch(manifest: dict[str, Any]) -> int:
     return updated
 
 
+def apply_wi629_batch(manifest: dict[str, Any]) -> int:
+    """Resolve the explicit first 60 paths in the rebaseline delta."""
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        raise ValueError("records must be a list")
+    paths = set(WI629_REFERENCE_PATHS)
+    updated = 0
+    for record in records:
+        path = record.get("referencePath") if isinstance(record, dict) else None
+        if path not in paths:
+            continue
+        if record.get("classification") != "deferred-next-batch":
+            raise ValueError(f"{path}: WI-629 expects a deferred source-changed record")
+        if record.get("sourceChangedSincePrevious") is not True:
+            raise ValueError(f"{path}: WI-629 requires sourceChangedSincePrevious=true")
+        if path in WI629_REFERENCE_ONLY_PATHS:
+            classification = "reference-only"
+            reason = (
+                "The source-side adopter capability manifest/schema is a provider and "
+                "installer projection. Rust exposes truthful request-scoped capability "
+                "and status views, but does not claim the source manifest or its JSON "
+                "wire format as Runtime authority."
+            )
+        elif path.startswith(".ai/cockpit/"):
+            classification = "implemented-different-by-design"
+            reason = (
+                "Re-read at the pinned source commit: source cockpit prose and generated "
+                "status projections remain source-local. The Rust target carries the "
+                "same reader, lifecycle, and status semantics through its attached "
+                "adapter, request-scoped Runtime, and tri-language documentation; "
+                "source Make commands and generated JSON bytes are not copied."
+            )
+        elif path.startswith(".ai/guards/") or path.startswith(".ai/quality/"):
+            classification = "implemented-different-by-design"
+            reason = (
+                "Re-read at the pinned source commit: this source guard/routing policy "
+                "is represented by typed Rust governance controls, the dynamic quality "
+                "route, and the reviewed gate manifest. Source YAML/JSON policy bytes "
+                "and Python runner semantics are not copied into the Runtime."
+            )
+        elif path.startswith(".ai/schemas/"):
+            classification = "implemented-different-by-design"
+            reason = (
+                "Re-read at the pinned source commit: this schema describes a source "
+                "projection or provider-facing record. Rust preserves the governed "
+                "semantic boundary with typed Protocol/Runtime validation and explicit "
+                "legacy/non-wire compatibility; the source JSON schema is not copied."
+            )
+        elif path.startswith(".github/") or path == "Makefile":
+            classification = "implemented-different-by-design"
+            reason = (
+                "Re-read at the pinned source commit: source workflow/build orchestration "
+                "is provider-specific. Rust keeps its own reviewed CI, release, gate, and "
+                "adopter harnesses with explicit repository context; source Python/Make "
+                "commands and workflow bytes are not copied."
+            )
+        elif path in {"AGENTS.md", "GEMINI.md"}:
+            classification = "implemented-different-by-design"
+            reason = (
+                "Re-read at the pinned source commit: source Agent guidance is inherited "
+                "semantically through the Rust attached adapter and .ai reader route. "
+                "The target keeps explicit --repo, human review, visible Outcome, and "
+                "reviewed cleanup without installing provider-global rules."
+            )
+        else:
+            classification = "implemented-different-by-design"
+            reason = (
+                "Re-read at the pinned source commit: the maintained reader page is "
+                "represented by the Rust tri-language documentation and Runtime-native "
+                "lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire "
+                "formats are not copied, and adopter inheritance remains explicit."
+            )
+        record.update(
+            {
+                "batch": WI629_BATCH,
+                "classification": classification,
+                "reason": reason,
+            }
+        )
+        updated += 1
+    if updated != len(WI629_REFERENCE_PATHS):
+        raise ValueError(
+            f"expected {len(WI629_REFERENCE_PATHS)} WI-629 records, found {updated}"
+        )
+    return updated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path)
@@ -8430,6 +8590,7 @@ def main() -> int:
     parser.add_argument("--apply-wi601-batch", action="store_true")
     parser.add_argument("--apply-wi620-batch", action="store_true")
     parser.add_argument("--apply-wi621-batch", action="store_true")
+    parser.add_argument("--apply-wi629-batch", action="store_true")
     args = parser.parse_args()
 
     # ``--check`` is a read-only operation.  Do not let an accidentally
@@ -8467,6 +8628,7 @@ def main() -> int:
         args.apply_wi601_batch,
         args.apply_wi620_batch,
         args.apply_wi621_batch,
+        args.apply_wi629_batch,
     )
     if args.check and (args.reference or args.target or args.rebaseline_from or any(apply_options)):
         parser.error(
@@ -8691,6 +8853,13 @@ def main() -> int:
     if args.apply_wi621_batch:
         try:
             apply_wi621_batch(manifest)
+        except ValueError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.apply_wi629_batch:
+        try:
+            apply_wi629_batch(manifest)
         except ValueError as error:
             print(f"ERROR: {error}", file=sys.stderr)
             return 1

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-627-reference-rebaseline
+lastVerifiedBy: WI-629-reference-rebaseline-batch-51
 capabilityClaims:
   - reference_parity
 ---
@@ -33,14 +33,14 @@ public source ledger の historical metadata、再確認待ちの changed path�
 parity check に network source や source content の copy は必要ありません。rebaseline の receipt と手順は
 [Reference file comparison](reference-file-comparison.ja.md) を参照してください。
 
-### Current ledger snapshot (WI-627)
+### Current ledger snapshot (WI-629)
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=484 implemented-equivalent=1 not-applicable=8 reference-only=126 deferred-next-batch=294 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `98f12b18b978db509fc884a8a6225afeb7f10df5` と、
 review 済み `ai-cockpit v0.2.85`（binary digest
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`）を使用します。
-現在の reference は 5,175 path、deferred は 354 path です。deferred は次の semantic comparison
+現在の reference は 5,175 path、deferred は 294 path です。deferred は次の semantic comparison
 batch を示すだけで、parity claim ではありません。
 
 ## Truth state
@@ -691,7 +691,7 @@ acceptance を含みます。object repository の recovery は外部 read-only 
 | WI-625 — v0.2.84 release と adopter acceptance | Recovered | [Work Item](../work-items/WI-625-release-v0-2-84.ja.md); immutable な失敗公開履歴を保持し、予約済み `v0.2.84` タグは公開 Release ではない。リリース境界は WI-626 が継続する。 |
 | WI-626 — v0.2.85 release と adopter acceptance | Implemented | [Work Item](../work-items/WI-626-release-v0-2-85.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-626-release-v0-2-85.contract.json`; verification `.ai/evidence/WI-626-release-v0-2-85.verification.json`; finalization `.ai/decisions/WI-626-release-v0-2-85.finalize.json`; close `.ai/decisions/WI-626-release-v0-2-85.close.json`. |
 | WI-627 — reference inventory rebaseline | Implemented | [Work Item](../work-items/WI-627-reference-rebaseline.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-627-reference-rebaseline.contract.json`; verification `.ai/evidence/WI-627-reference-rebaseline.verification.json`; finalization `.ai/decisions/WI-627-reference-rebaseline.finalize.json`; close `.ai/decisions/WI-627-reference-rebaseline.close.json`. |
-| WI-628 — WI-627 ドキュメント昇格 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-628-doc-promotion-wi627.ja.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-628-doc-promotion-wi627.contract.json`; verification `.ai/evidence/WI-628-doc-promotion-wi627.verification.json`; finalization `.ai/decisions/WI-628-doc-promotion-wi627.finalize.json`; close `.ai/decisions/WI-628-doc-promotion-wi627.close.json`. |
+| WI-628 — WI-627 ドキュメント昇格 | Implemented | [Work Item](../work-items/WI-628-doc-promotion-wi627.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-628-doc-promotion-wi627.contract.json`; verification `.ai/evidence/WI-628-doc-promotion-wi627.verification.json`; finalization `.ai/decisions/WI-628-doc-promotion-wi627.finalize.json`; close `.ai/decisions/WI-628-doc-promotion-wi627.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 
@@ -731,3 +731,9 @@ Python/Make implementation、interactive stack installer、provider policy value
 ## WI-621 — reference installer / lifecycle safety parity
 
 WI-621 は current deferred installer、adoption、lifecycle safety test 18 件を一件ずつ再読しました。17 件の portable responsibility は Rust Runtime、repository-native test、release/adopter harness、documentation が意図した別設計で担います。Source interactive wizard は `reference-only` であり、Rust の boundary は immutable artifact install と explicit `attach --repo` です。`migrate-gap` はありません。[WI-621 ledger](reference-file-comparison.ja.md#wi-621--reference-installer--lifecycle-safety-parity) を参照してください。
+
+## WI-629 — reference rebaseline batch 51
+
+WI-629 は pinned local reference commit で bytes が変更された current non-history path の先頭 60 件を一件ずつ再確認しました。58 件の portable responsibility は Rust Runtime、repository-native test、CI/release boundary、tri-language reader documentation が別設計で担います。source adopter capability manifest と schema は `reference-only` です。Rust は truthful な request-scoped capability/status view を提供し、source installer manifest と JSON wire format は copy しません。`migrate-gap` はありません。[WI-629 file-level record](reference-file-comparison.ja.md#wi-629--reference-rebaseline-batch-51) を参照してください。
+
+Attached object/adopter repository は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、fail-closed lifecycle、人間向け Outcome を継承しますが、source Python、Make、provider decision、source wire は継承しません。

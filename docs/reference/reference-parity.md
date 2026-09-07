@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-627-reference-rebaseline
+lastVerifiedBy: WI-629-reference-rebaseline-batch-51
 capabilityClaims:
   - reference_parity
 ---
@@ -37,14 +37,14 @@ awaiting re-review, and retired paths. No network reference or source-content
 copy is required for parity checks; see [Reference file comparison](reference-file-comparison.md)
 for the rebaseline receipt and procedure.
 
-### Current ledger snapshot (WI-627)
+### Current ledger snapshot (WI-629)
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=484 implemented-equivalent=1 not-applicable=8 reference-only=126 deferred-next-batch=294 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `98f12b18b978db509fc884a8a6225afeb7f10df5`
 and the reviewed Runtime `ai-cockpit v0.2.85` with binary digest
 `sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50`.
-It contains 5,175 current paths and 354 deferred paths; deferred means the
+It contains 5,175 current paths and 294 deferred paths; deferred means the
 next semantic comparison batch, not a parity claim.
 
 ## Truth states
@@ -775,7 +775,7 @@ are rewritten here.
 | WI-625 — v0.2.84 release and adopter acceptance | Recovered | [Work Item](../work-items/WI-625-release-v0-2-84.md); immutable failed publication history is retained; the reserved `v0.2.84` tag was not a public Release and WI-626 continues the release boundary. |
 | WI-626 — v0.2.85 release and adopter acceptance | Implemented | [Work Item](../work-items/WI-626-release-v0-2-85.md); terminal lifecycle: archive `.ai/work-items/archive/WI-626-release-v0-2-85.contract.json`; verification `.ai/evidence/WI-626-release-v0-2-85.verification.json`; finalization `.ai/decisions/WI-626-release-v0-2-85.finalize.json`; close `.ai/decisions/WI-626-release-v0-2-85.close.json`. |
 | WI-627 — reference inventory rebaseline | Implemented | [Work Item](../work-items/WI-627-reference-rebaseline.md); terminal lifecycle: archive `.ai/work-items/archive/WI-627-reference-rebaseline.contract.json`; verification `.ai/evidence/WI-627-reference-rebaseline.verification.json`; finalization `.ai/decisions/WI-627-reference-rebaseline.finalize.json`; close `.ai/decisions/WI-627-reference-rebaseline.close.json`. |
-| WI-628 — WI-627 documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-628-doc-promotion-wi627.md); planned terminal lifecycle: archive `.ai/work-items/archive/WI-628-doc-promotion-wi627.contract.json`; verification `.ai/evidence/WI-628-doc-promotion-wi627.verification.json`; finalization `.ai/decisions/WI-628-doc-promotion-wi627.finalize.json`; close `.ai/decisions/WI-628-doc-promotion-wi627.close.json`. |
+| WI-628 — WI-627 documentation promotion | Implemented | [Work Item](../work-items/WI-628-doc-promotion-wi627.md); terminal lifecycle: archive `.ai/work-items/archive/WI-628-doc-promotion-wi627.contract.json`; verification `.ai/evidence/WI-628-doc-promotion-wi627.verification.json`; finalization `.ai/decisions/WI-628-doc-promotion-wi627.finalize.json`; close `.ai/decisions/WI-628-doc-promotion-wi627.close.json`. |
 
 ## WI-601 — reference test parity batch 49
 
@@ -839,3 +839,19 @@ implemented differently by the Rust Runtime, repository-native tests,
 release/adopter harnesses, or documentation. The source interactive wizard is
 `reference-only`; explicit immutable artifact installation and `attach --repo`
 are the Rust boundary. No `migrate-gap` was found. See the [WI-621 ledger](reference-file-comparison.md#wi-621--reference-installer-and-lifecycle-safety-parity).
+
+## WI-629 — reference rebaseline batch 51
+
+WI-629 re-read the first sixty current non-history paths whose bytes changed at
+the pinned local reference commit. Fifty-eight portable responsibilities are
+implemented differently by the Rust Runtime, repository-native tests,
+CI/release boundaries, or tri-language reader documentation. The source
+adopter capability manifest and schema remain `reference-only`; Rust exposes
+truthful request-scoped capability/status views and does not copy the source
+installer manifest or JSON wire format. No `migrate-gap` was found. See the
+[WI-629 file-level record](reference-file-comparison.md#wi-629--reference-rebaseline-batch-51-first-60-changed-paths).
+
+Attached object/adopter repositories inherit the shared Runtime, explicit
+repository context, isolated Contract/evidence/knowledge, fail-closed
+lifecycle, and human Outcome handoff. They do not inherit source Python,
+Make, provider decisions, or source wire formats.

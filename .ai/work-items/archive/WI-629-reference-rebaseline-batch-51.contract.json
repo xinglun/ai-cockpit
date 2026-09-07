@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "台账首批60条路径全部从deferred-next-batch转为有证据的最终分类",
+    "每条路径都记录Rust对应物、语义理由和明确的不照抄边界",
+    "新增的adopter capability manifest语义不被误报为Rust完整能力；若为外部或参考边界必须显式记录",
+    "三语文档保持同一批次范围和计数且无过期状态声明",
+    "reference inventory、metadata、文档和静态检查全部通过",
+    "当前Runtime与对象工程继承边界保持显式--repo、隔离Evidence和可见Outcome"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d2b1b35640660e9abc3858524b3ffbb24fcc7908",
+  "createdAt": "2026-09-07T00:58:03Z",
+  "goal": "完成首批60条参考源变更的证据化语义复核，更新三语比对文档和机器台账，保证对象工程继承边界清晰且不引入源工程脚手架或线格式。",
+  "intent": "逐个重新比对参考源最新提交中首批60个发生变化的路径，并将每个路径的语义决定、Rust对应物和不照抄边界登记到台账。发现属于当前范围的缺陷就在本WI内修复并重新验证。",
+  "mode": "code",
+  "outOfScope": [
+    "参考源仓库内容和对象工程代码",
+    "源Python脚本、Shell脚本、Makefile和JSON线格式的复制",
+    "Runtime架构拆分、性能优化和发布流程"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0402ed7e609bb2001af951728a30342f89498f356b5f3bc16d74e72e1d48f164",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-629-reference-rebaseline-batch-51",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi629-reference-rebaseline-batch-51"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/conformance/reference_file_inventory.json",
+    "tests/conformance/reference_file_inventory.py",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/work-items/WI-629-reference-rebaseline-batch-51.md",
+    "docs/work-items/WI-629-reference-rebaseline-batch-51.zh-CN.md",
+    "docs/work-items/WI-629-reference-rebaseline-batch-51.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-629-reference-rebaseline-batch-51"
+}

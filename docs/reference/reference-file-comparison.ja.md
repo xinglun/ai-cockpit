@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-627-reference-rebaseline
+lastVerifiedBy: WI-629-reference-rebaseline-batch-51
 capabilityClaims:
   - reference_parity
 ---
@@ -351,7 +351,7 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 ## 現在の ledger snapshot
 
-<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=426 implemented-equivalent=1 not-applicable=8 reference-only=124 deferred-next-batch=354 migrate-gap=0 -->
+<!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=484 implemented-equivalent=1 not-applicable=8 reference-only=126 deferred-next-batch=294 migrate-gap=0 -->
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
@@ -367,11 +367,11 @@ changed current path は 890 件です。capability/profile slice に `migrate-g
 | --- | ---: |
 | `current-tracked-paths` | 5,175 |
 | `generated-history` | 4,262 |
-| `implemented-different-by-design` | 426 |
+| `implemented-different-by-design` | 484 |
 | `implemented-equivalent` | 1 |
 | `not-applicable` | 8 |
-| `reference-only` | 124 |
-| `deferred-next-batch` | 354 |
+| `reference-only` | 126 |
+| `deferred-next-batch` | 294 |
 | `migrate-gap` | 0 |
 | `retired-reference-paths` | 0 |
 | `append-only-ledger-records` | 5,175 |
@@ -1844,3 +1844,9 @@ dynamic verification、fail-closed evidence/lifecycle、release identity、人�
 boundary も同じです。source Python test、Make target、interactive stack installer、provider
 policy value、source JSON wire format は継承しません。これは semantic parity であり、source
 implementation/wire parity ではありません。[WI-620 Work Item](../work-items/WI-620-reference-release-governance-batch.ja.md) を参照してください。
+
+## WI-629 — reference rebaseline batch 51
+
+WI-629 は pinned commit `a9224aed77b5c317b53c4551a9eec306d91ee330` の current source-changed non-history path 60 件を一件ずつ再確認しました。58 件は Rust Runtime、repository-native test、CI/release boundary、または tri-language reader documentation が別設計で担当します。`.ai/project/adopter-capability-manifest.json` と schema は `reference-only` のままです。Rust は truthful な request-scoped capability/status view を提供し、source installer manifest や JSON wire format は copy しません。この batch に `migrate-gap` はありません。
+
+60 件の file-level decision（Rust counterpart、non-claim、adopter inheritance を含む）は [WI-629 Work Item](../work-items/WI-629-reference-rebaseline-batch-51.ja.md) に記録しています。各 attach 済み object/adopter は shared Runtime、explicit repository context、isolated Contract/evidence/knowledge、fail-closed lifecycle、人間向け Outcome を継承し、source Python、Make、provider decision、source wire は継承しません。

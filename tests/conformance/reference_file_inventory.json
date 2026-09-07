@@ -941,13 +941,13 @@
     },
     {
       "referencePath": ".ai/cockpit/README.ja.md",
-      "batch": "WI-437-reference-rebaseline-governance",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".ai/README.md",
         "docs/reference/agent-workflow.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source cockpit prose and generated status projections remain source-local. The Rust target carries the same reader, lifecycle, and status semantics through its attached adapter, request-scoped Runtime, and tri-language documentation; source Make commands and generated JSON bytes are not copied.",
       "previousBatch": "WI-437-reference-rebaseline-governance",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -955,14 +955,14 @@
     },
     {
       "referencePath": ".ai/cockpit/README.md",
-      "batch": "WI-437-reference-rebaseline-governance",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".ai/README.md",
         "docs/reference/agent-workflow.md",
         "docs/reference/outcome-report.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source cockpit prose and generated status projections remain source-local. The Rust target carries the same reader, lifecycle, and status semantics through its attached adapter, request-scoped Runtime, and tri-language documentation; source Make commands and generated JSON bytes are not copied.",
       "previousBatch": "WI-437-reference-rebaseline-governance",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -970,13 +970,13 @@
     },
     {
       "referencePath": ".ai/cockpit/adoption.ja.md",
-      "batch": "WI-437-reference-rebaseline-governance",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/README.ja.md",
         "docs/getting-started/adopter-configuration.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source cockpit prose and generated status projections remain source-local. The Rust target carries the same reader, lifecycle, and status semantics through its attached adapter, request-scoped Runtime, and tri-language documentation; source Make commands and generated JSON bytes are not copied.",
       "previousBatch": "WI-437-reference-rebaseline-governance",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -1089,8 +1089,8 @@
     },
     {
       "referencePath": ".ai/cockpit/work-items/index.json",
-      "batch": "capability-status-projection",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/src/lib.rs",
@@ -1098,7 +1098,7 @@
         "crates/cockpit-mcp/src/lib.rs",
         "docs/reference/commands.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source cockpit prose and generated status projections remain source-local. The Rust target carries the same reader, lifecycle, and status semantics through its attached adapter, request-scoped Runtime, and tri-language documentation; source Make commands and generated JSON bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "capability-status-projection",
       "previousClassification": "implemented-different-by-design",
@@ -1106,8 +1106,8 @@
     },
     {
       "referencePath": ".ai/cockpit/work-items/wi-06-status-interface.status.json",
-      "batch": "capability-status-projection",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/src/lib.rs",
@@ -1115,7 +1115,7 @@
         "crates/cockpit-mcp/src/lib.rs",
         "docs/reference/commands.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source cockpit prose and generated status projections remain source-local. The Rust target carries the same reader, lifecycle, and status semantics through its attached adapter, request-scoped Runtime, and tri-language documentation; source Make commands and generated JSON bytes are not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "capability-status-projection",
       "previousClassification": "implemented-different-by-design",
@@ -2266,14 +2266,14 @@
     },
     {
       "referencePath": ".ai/guards/changed_critical_coverage_policy.json",
-      "batch": "WI-437-reference-rebaseline-governance",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "tests/conformance/reference_file_inventory.py",
         "tests/ci/governance_integrity_gate.py",
         "crates/cockpit-repository/src/governance_controls.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this source guard/routing policy is represented by typed Rust governance controls, the dynamic quality route, and the reviewed gate manifest. Source YAML/JSON policy bytes and Python runner semantics are not copied into the Runtime.",
       "previousBatch": "WI-437-reference-rebaseline-governance",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -2291,14 +2291,14 @@
     },
     {
       "referencePath": ".ai/guards/coverage_policy.yaml",
-      "batch": "WI-437-reference-rebaseline-governance",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "tests/ci/governance_integrity_gate.py",
         "crates/cockpit-repository/src/governance_controls.rs",
         "docs/reference/ci-quality-gates.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this source guard/routing policy is represented by typed Rust governance controls, the dynamic quality route, and the reviewed gate manifest. Source YAML/JSON policy bytes and Python runner semantics are not copied into the Runtime.",
       "previousBatch": "WI-437-reference-rebaseline-governance",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -2646,8 +2646,8 @@
     },
     {
       "referencePath": ".ai/project/adopter-capability-manifest.json",
-      "batch": "capability-status-projection",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "reference-only",
       "rustCounterparts": [
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/src/lib.rs",
@@ -2656,7 +2656,7 @@
         "crates/cockpit-repository/tests/project_governance.rs",
         "docs/capabilities.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source-side adopter capability manifest/schema is a provider and installer projection. Rust exposes truthful request-scoped capability and status views, but does not claim the source manifest or its JSON wire format as Runtime authority.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "capability-status-projection",
       "previousClassification": "implemented-different-by-design",
@@ -2715,15 +2715,15 @@
     },
     {
       "referencePath": ".ai/quality/governance-routing.yaml",
-      "batch": "WI-437-reference-rebaseline-governance",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/ci.yml",
         "tests/ci/quality_route.py",
         "tests/ci/run_repository_gates.py",
         "docs/reference/ci-quality-gates.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this source guard/routing policy is represented by typed Rust governance controls, the dynamic quality route, and the reviewed gate manifest. Source YAML/JSON policy bytes and Python runner semantics are not copied into the Runtime.",
       "previousBatch": "WI-437-reference-rebaseline-governance",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -2731,13 +2731,13 @@
     },
     {
       "referencePath": ".ai/schemas/adopter-capability-manifest.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "reference-only",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "The source-side adopter capability manifest/schema is a provider and installer projection. Rust exposes truthful request-scoped capability and status views, but does not claim the source manifest or its JSON wire format as Runtime authority.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2755,13 +2755,13 @@
     },
     {
       "referencePath": ".ai/schemas/cross-wi-integration-report.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2769,13 +2769,13 @@
     },
     {
       "referencePath": ".ai/schemas/evidence-binding.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2793,13 +2793,13 @@
     },
     {
       "referencePath": ".ai/schemas/governance-cost-report.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2807,13 +2807,13 @@
     },
     {
       "referencePath": ".ai/schemas/implementation-knowledge-dependency-index.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2821,13 +2821,13 @@
     },
     {
       "referencePath": ".ai/schemas/implementation-knowledge-index.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2835,13 +2835,13 @@
     },
     {
       "referencePath": ".ai/schemas/implementation-knowledge-query.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2849,13 +2849,13 @@
     },
     {
       "referencePath": ".ai/schemas/implementation-knowledge-record.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2873,13 +2873,13 @@
     },
     {
       "referencePath": ".ai/schemas/parallel-verification-plan.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2887,13 +2887,13 @@
     },
     {
       "referencePath": ".ai/schemas/performance-diagnosis-report.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -2911,15 +2911,15 @@
     },
     {
       "referencePath": ".ai/schemas/task_outcome.schema.json",
-      "batch": "WI-437-reference-rebaseline-governance",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-mcp/src/lib.rs",
         "docs/reference/outcome-report.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "previousBatch": "WI-437-reference-rebaseline-governance",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -2957,13 +2957,13 @@
     },
     {
       "referencePath": ".ai/schemas/work-item-status-interface.schema.json",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "crates/cockpit-repository/src/lib.rs",
         "crates/cockpit-protocol/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: this schema describes a source projection or provider-facing record. Rust preserves the governed semantic boundary with typed Protocol/Runtime validation and explicit legacy/non-wire compatibility; the source JSON schema is not copied.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -30960,8 +30960,8 @@
     },
     {
       "referencePath": ".github/workflows/compatibility.yml",
-      "batch": "WI-464-reference-file-comparison-batch-24",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/ci.yml",
         "tests/ci/quality_route.py",
@@ -30970,7 +30970,7 @@
         "docs/capabilities.md",
         "docs/release/distribution.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source workflow/build orchestration is provider-specific. Rust keeps its own reviewed CI, release, gate, and adopter harnesses with explicit repository context; source Python/Make commands and workflow bytes are not copied.",
       "previousBatch": "WI-464-reference-file-comparison-batch-24",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -30978,8 +30978,8 @@
     },
     {
       "referencePath": ".github/workflows/release.yml",
-      "batch": "WI-464-reference-file-comparison-batch-24",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/release.yml",
         "tests/release/workflow_policy.sh",
@@ -30988,7 +30988,7 @@
         "tests/release/adopter_upgrade_acceptance.sh",
         "docs/release/distribution.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source workflow/build orchestration is provider-specific. Rust keeps its own reviewed CI, release, gate, and adopter harnesses with explicit repository context; source Python/Make commands and workflow bytes are not copied.",
       "previousBatch": "WI-464-reference-file-comparison-batch-24",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -30996,8 +30996,8 @@
     },
     {
       "referencePath": ".github/workflows/smoke.yml",
-      "batch": "WI-464-reference-file-comparison-batch-24",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/ci.yml",
         ".github/workflows/release.yml",
@@ -31007,7 +31007,7 @@
         "docs/reference/reference-file-comparison.md",
         "docs/release/distribution.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source workflow/build orchestration is provider-specific. Rust keeps its own reviewed CI, release, gate, and adopter harnesses with explicit repository context; source Python/Make commands and workflow bytes are not copied.",
       "previousBatch": "WI-464-reference-file-comparison-batch-24",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31025,15 +31025,15 @@
     },
     {
       "referencePath": "AGENTS.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "AGENTS.md",
         ".ai/README.md",
         "docs/reference/agent-workflow.md",
         "crates/cockpit-agent/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source Agent guidance is inherited semantically through the Rust attached adapter and .ai reader route. The target keeps explicit --repo, human review, visible Outcome, and reviewed cleanup without installing provider-global rules.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31060,15 +31060,15 @@
     },
     {
       "referencePath": "GEMINI.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".ai/README.md",
         "crates/cockpit-agent/src/lib.rs",
         "crates/cockpit-agent/tests/install.rs",
         "docs/reference/agent-workflow.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source Agent guidance is inherited semantically through the Rust attached adapter and .ai reader route. The target keeps explicit --repo, human review, visible Outcome, and reviewed cleanup without installing provider-global rules.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31087,15 +31087,15 @@
     },
     {
       "referencePath": "Makefile",
-      "batch": "WI-464-reference-file-comparison-batch-24",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         ".github/workflows/ci.yml",
         "tests/ci/run_repository_gates.py",
         "docs/reference/commands.md",
         "Cargo.toml"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: source workflow/build orchestration is provider-specific. Rust keeps its own reviewed CI, release, gate, and adopter harnesses with explicit repository context; source Python/Make commands and workflow bytes are not copied.",
       "previousBatch": "WI-464-reference-file-comparison-batch-24",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31139,15 +31139,15 @@
     },
     {
       "referencePath": "docs/README.ja.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/README.ja.md",
         "docs/current/README.ja.md",
         "docs/getting-started/README.ja.md",
         "docs/reference/README.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31155,15 +31155,15 @@
     },
     {
       "referencePath": "docs/README.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/README.md",
         "docs/current/README.md",
         "docs/getting-started/README.md",
         "docs/reference/README.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31171,15 +31171,15 @@
     },
     {
       "referencePath": "docs/README.zh-CN.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/README.zh-CN.md",
         "docs/current/README.zh-CN.md",
         "docs/getting-started/README.zh-CN.md",
         "docs/reference/README.zh-CN.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31454,14 +31454,14 @@
     },
     {
       "referencePath": "docs/capabilities.ja.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/capabilities.ja.md",
         "docs/reference/capability-truth-matrix.md",
         "docs/reference/commands.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31469,14 +31469,14 @@
     },
     {
       "referencePath": "docs/capabilities.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/capabilities.md",
         "docs/reference/capability-truth-matrix.md",
         "docs/reference/commands.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31484,14 +31484,14 @@
     },
     {
       "referencePath": "docs/capabilities.zh-CN.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/capabilities.zh-CN.md",
         "docs/reference/capability-truth-matrix.md",
         "docs/reference/commands.zh-CN.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31698,8 +31698,8 @@
     },
     {
       "referencePath": "docs/features/human-benefit-report.ja.md",
-      "batch": "WI-475-reference-file-comparison-batch-25",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/human-benefit-report.ja.md",
         "docs/features/task-outcome-report.ja.md",
@@ -31708,7 +31708,7 @@
         "crates/cockpit-cli/tests/outcome_handoff.rs",
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-475-reference-file-comparison-batch-25",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31716,8 +31716,8 @@
     },
     {
       "referencePath": "docs/features/human-benefit-report.md",
-      "batch": "WI-475-reference-file-comparison-batch-25",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/human-benefit-report.md",
         "docs/features/task-outcome-report.md",
@@ -31726,7 +31726,7 @@
         "crates/cockpit-cli/tests/outcome_handoff.rs",
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-475-reference-file-comparison-batch-25",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31734,8 +31734,8 @@
     },
     {
       "referencePath": "docs/features/human-benefit-report.zh-CN.md",
-      "batch": "WI-475-reference-file-comparison-batch-25",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/human-benefit-report.zh-CN.md",
         "docs/features/task-outcome-report.zh-CN.md",
@@ -31744,7 +31744,7 @@
         "crates/cockpit-cli/tests/outcome_handoff.rs",
         "crates/cockpit-mcp/tests/rpc.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-475-reference-file-comparison-batch-25",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31764,12 +31764,12 @@
     },
     {
       "referencePath": "docs/features/task-outcome-report.ja.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/task-outcome-report.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -31777,8 +31777,8 @@
     },
     {
       "referencePath": "docs/features/task-outcome-report.md",
-      "batch": "WI-441-reference-entrypoint-parity",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/task-outcome-report.md",
         "docs/reference/outcome-report.md",
@@ -31786,7 +31786,7 @@
         "crates/cockpit-cli/src/main.rs",
         "crates/cockpit-mcp/src/lib.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-441-reference-entrypoint-parity",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -31794,12 +31794,12 @@
     },
     {
       "referencePath": "docs/features/task-outcome-report.zh-CN.md",
-      "batch": "governance-entrypoints",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/features/task-outcome-report.zh-CN.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "governance-entrypoints",
       "previousClassification": "implemented-different-by-design",
@@ -31807,15 +31807,15 @@
     },
     {
       "referencePath": "docs/features/work-item-parallelism.ja.md",
-      "batch": "WI-270-reference-contract-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/work-items/WI-123-parallel-contract-boundary.ja.md",
         "docs/reference/configuration.ja.md",
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/tests/parallel_boundary.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-270-reference-contract-batch",
       "previousClassification": "implemented-different-by-design",
@@ -31823,15 +31823,15 @@
     },
     {
       "referencePath": "docs/features/work-item-parallelism.md",
-      "batch": "WI-270-reference-contract-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/work-items/WI-123-parallel-contract-boundary.md",
         "docs/reference/configuration.md",
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/tests/parallel_boundary.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-270-reference-contract-batch",
       "previousClassification": "implemented-different-by-design",
@@ -31839,15 +31839,15 @@
     },
     {
       "referencePath": "docs/features/work-item-parallelism.zh-CN.md",
-      "batch": "WI-270-reference-contract-batch",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/work-items/WI-123-parallel-contract-boundary.zh-CN.md",
         "docs/reference/configuration.zh-CN.md",
         "crates/cockpit-protocol/src/lib.rs",
         "crates/cockpit-repository/tests/parallel_boundary.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-270-reference-contract-batch",
       "previousClassification": "implemented-different-by-design",
@@ -32061,14 +32061,14 @@
     },
     {
       "referencePath": "docs/getting-started/first-work-item.ja.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/first-work-item.ja.md",
         "docs/reference/agent-workflow.ja.md",
         "docs/reference/outcome-report.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32076,14 +32076,14 @@
     },
     {
       "referencePath": "docs/getting-started/first-work-item.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/first-work-item.md",
         "docs/reference/agent-workflow.md",
         "docs/reference/outcome-report.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32091,14 +32091,14 @@
     },
     {
       "referencePath": "docs/getting-started/first-work-item.zh-CN.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/first-work-item.zh-CN.md",
         "docs/reference/agent-workflow.zh-CN.md",
         "docs/reference/outcome-report.zh-CN.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32160,14 +32160,14 @@
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.ja.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/security-release-verification.ja.md",
         "docs/release/distribution.ja.md",
         "docs/getting-started/installation-security.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32175,14 +32175,14 @@
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/security-release-verification.md",
         "docs/release/distribution.md",
         "docs/getting-started/installation-security.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32190,14 +32190,14 @@
     },
     {
       "referencePath": "docs/getting-started/security-release-verification.zh-CN.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/security-release-verification.zh-CN.md",
         "docs/release/distribution.zh-CN.md",
         "docs/getting-started/installation-security.zh-CN.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32205,14 +32205,14 @@
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.ja.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/standard-adoption-guide.ja.md",
         "docs/getting-started/installation.ja.md",
         "docs/getting-started/first-work-item.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32220,14 +32220,14 @@
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/standard-adoption-guide.md",
         "docs/getting-started/installation.md",
         "docs/getting-started/first-work-item.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32235,14 +32235,14 @@
     },
     {
       "referencePath": "docs/getting-started/standard-adoption-guide.zh-CN.md",
-      "batch": "getting-started-onboarding",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/getting-started/standard-adoption-guide.zh-CN.md",
         "docs/getting-started/installation.zh-CN.md",
         "docs/getting-started/first-work-item.zh-CN.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "getting-started-onboarding",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32311,8 +32311,8 @@
     },
     {
       "referencePath": "docs/maintainers/task-outcome-events.md",
-      "batch": "WI-475-reference-file-comparison-batch-25",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/task-outcome-events.md",
         "docs/reference/task-outcome-events.zh-CN.md",
@@ -32322,7 +32322,7 @@
         "crates/cockpit-repository/tests/task_outcome_events.rs",
         "crates/cockpit-cli/tests/outcome_handoff.rs"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-475-reference-file-comparison-batch-25",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32341,8 +32341,8 @@
     },
     {
       "referencePath": "docs/operations/quality-gates.ja.md",
-      "batch": "WI-475-reference-file-comparison-batch-25",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/ci-quality-gates.ja.md",
         "docs/reference/governance-integrity-gate.ja.md",
@@ -32351,7 +32351,7 @@
         ".github/workflows/ci.yml",
         "docs/release/distribution.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-475-reference-file-comparison-batch-25",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32359,8 +32359,8 @@
     },
     {
       "referencePath": "docs/operations/quality-gates.md",
-      "batch": "WI-475-reference-file-comparison-batch-25",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/ci-quality-gates.md",
         "docs/reference/governance-integrity-gate.md",
@@ -32369,7 +32369,7 @@
         ".github/workflows/ci.yml",
         "docs/release/distribution.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-475-reference-file-comparison-batch-25",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32377,8 +32377,8 @@
     },
     {
       "referencePath": "docs/operations/quality-gates.zh-CN.md",
-      "batch": "WI-475-reference-file-comparison-batch-25",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/ci-quality-gates.zh-CN.md",
         "docs/reference/governance-integrity-gate.zh-CN.md",
@@ -32387,7 +32387,7 @@
         ".github/workflows/ci.yml",
         "docs/release/distribution.zh-CN.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-475-reference-file-comparison-batch-25",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32425,14 +32425,14 @@
     },
     {
       "referencePath": "docs/operations/work-item-lifecycle.ja.md",
-      "batch": "WI-482-reference-file-comparison-batch-26",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/agent-workflow.ja.md",
         "docs/reference/outcome-report.ja.md",
         "docs/reference/reference-file-comparison.ja.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-482-reference-file-comparison-batch-26",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32440,14 +32440,14 @@
     },
     {
       "referencePath": "docs/operations/work-item-lifecycle.md",
-      "batch": "WI-482-reference-file-comparison-batch-26",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/agent-workflow.md",
         "docs/reference/outcome-report.md",
         "docs/reference/reference-file-comparison.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-482-reference-file-comparison-batch-26",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32455,14 +32455,14 @@
     },
     {
       "referencePath": "docs/operations/work-item-lifecycle.zh-CN.md",
-      "batch": "WI-482-reference-file-comparison-batch-26",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/agent-workflow.zh-CN.md",
         "docs/reference/outcome-report.zh-CN.md",
         "docs/reference/reference-file-comparison.zh-CN.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-482-reference-file-comparison-batch-26",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",
@@ -32583,8 +32583,8 @@
     },
     {
       "referencePath": "docs/reference/adoption-reality-report.md",
-      "batch": "WI-327-reference-file-comparison-batch-07",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/capabilities.md",
         "docs/release/distribution.md",
@@ -32593,7 +32593,7 @@
         "crates/cockpit-repository/tests/project_governance.rs",
         "tests/release/adopter_acceptance.sh"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "sourceChangedSincePrevious": true,
       "previousBatch": "WI-327-reference-file-comparison-batch-07",
       "previousClassification": "implemented-different-by-design",
@@ -32601,8 +32601,8 @@
     },
     {
       "referencePath": "docs/reference/agent-parallel-work-items.md",
-      "batch": "WI-482-reference-file-comparison-batch-26",
-      "classification": "deferred-next-batch",
+      "batch": "WI-629-reference-rebaseline-batch-51",
+      "classification": "implemented-different-by-design",
       "rustCounterparts": [
         "docs/reference/cross-work-item-dedup.md",
         "docs/reference/affected-verification.md",
@@ -32610,7 +32610,7 @@
         "AGENTS.md",
         ".ai/README.md"
       ],
-      "reason": "Source path changed between fde3380f81fea5fd2e288f7a8849f737dc074060 and a9224aed77b5c317b53c4551a9eec306d91ee330; the previous decision is retained as history and must be re-reviewed.",
+      "reason": "Re-read at the pinned source commit: the maintained reader page is represented by the Rust tri-language documentation and Runtime-native lifecycle/evidence boundaries. Source prose, Make syntax, and JSON wire formats are not copied, and adopter inheritance remains explicit.",
       "previousBatch": "WI-482-reference-file-comparison-batch-26",
       "previousClassification": "implemented-different-by-design",
       "rebaselineBatch": "rebaseline-delta",

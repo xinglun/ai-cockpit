@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "台账首批60条路径全部从deferred-next-batch转为有证据的最终分类",
+    "每条路径都记录Rust对应物、语义理由和明确的不照抄边界",
+    "新增的adopter capability manifest语义不被误报为Rust完整能力；若为外部或参考边界必须显式记录",
+    "三语文档保持同一批次范围和计数且无过期状态声明",
+    "reference inventory、metadata、文档和静态检查全部通过",
+    "当前Runtime与对象工程继承边界保持显式--repo、隔离Evidence和可见Outcome"
+  ],
+  "createdAt": "2026-09-07T00:58:53Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c9a57f2bc50bbe47067962491f1200d2649656c3ed937e68c2105c522ba956e4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0a4a62c1ccfa5b47bf1ad4659f7a60a2350de2cdf1c2732ac18a900aa69041f8",
+      "workItemId": "WI-629-reference-rebaseline-batch-51"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-629-reference-rebaseline-batch-51.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-629-reference-rebaseline-batch-51.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-629-reference-rebaseline-batch-51.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-629-reference-rebaseline-batch-51.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-629-reference-rebaseline-batch-51.contract.json"
+          ],
+          "inference": false,
+          "text": "完成首批60条参考源变更的证据化语义复核，更新三语比对文档和机器台账，保证对象工程继承边界清晰且不引入源工程脚手架或线格式。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-629-reference-rebaseline-batch-51.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-629-reference-rebaseline-batch-51"
+  },
+  "taskReportDigest": "sha256:2a94f5cb87df98d00ebe19bd0acb0f75114025d99255860d4c2b7f658b44295f",
+  "taskReportMarkdownDigest": "sha256:7aaf696507e96d3db6520796169c96a68da20bcb09fcf096cb87de61f0f00395",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-629-reference-rebaseline-batch-51.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-629-reference-rebaseline-batch-51"
+}
