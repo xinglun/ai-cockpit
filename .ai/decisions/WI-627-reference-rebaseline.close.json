@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-627-reference-rebaseline.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:541903d9b180e4c4849663a55fa4a31ec4b3de7c4258d397f9de551da4c2ccdd",
+      "workItemId": "WI-627-reference-rebaseline"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-627-reference-rebaseline.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-627-reference-rebaseline.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-627-reference-rebaseline.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-627-reference-rebaseline.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-627-reference-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-627-reference-rebaseline.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-627-reference-rebaseline.verification.json",
+            ".ai/decisions/WI-627-reference-rebaseline.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner at 2026-09-07T00:08:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-627-reference-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-627-reference-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-627-reference-rebaseline.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-627-reference-rebaseline.contract.json"
+          ],
+          "inference": false,
+          "text": "建立可审计的最新本地参考源基线，为后续批量逐文件语义比对提供不丢失、不误报的台账。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-627-reference-rebaseline.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-627-reference-rebaseline"
+  },
+  "finalReportDigest": "sha256:c92ddf55fdb98046b2f2ac9cce946e8ee3368d25ea09efded787999f0111a7e7",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:be78be3e8476938ac279983898fb76ad36fd5433da7025635d5160017a4391c3",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-627-reference-rebaseline.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T00:08:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-627-reference-rebaseline.verification.json",
+      ".ai/decisions/WI-627-reference-rebaseline.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-file-comparison.md"
+    ],
+    "reason": "Reviewed PR #622 passed all hosted checks; reference rebaseline is complete and archive/finalization/cleanup evidence is verified.",
+    "resumeCondition": "If the local reference source changes, open a new bounded rebaseline Work Item."
+  },
+  "timestamp": "2026-09-07T00:08:02Z",
+  "workItemId": "WI-627-reference-rebaseline"
+}
