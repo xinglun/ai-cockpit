@@ -1,0 +1,144 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:356e5b3d460072e45851229eb2d94b6d0e3c2f7d10e0042db270ff416d561f88",
+      "workItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-633-reference-rebaseline-batch-53.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.recovery.json",
+            ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json",
+            ".ai/decisions/WI-635-batch-53-final-revalidation.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via repository-owner at 2026-09-07T06:00:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the same bounded batch 53 delivery with all required reference-parity entry projections registered and verified."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery"
+  },
+  "finalReportDigest": "sha256:91dbf78567dc1d5c5aa15442f3d8b3ca05bf335fc39f3c9ff9efd313044d3e0e",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner",
+    "decidedAt": "2026-09-07T06:00:00Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.recovery.json",
+      ".ai/evidence/WI-635-batch-53-final-revalidation.verification.json",
+      ".ai/decisions/WI-635-batch-53-final-revalidation.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "Superseded by WI-635 after fresh parity revalidation, reviewed PR, provider finalization, and close; predecessor bytes remain immutable.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-07T05:10:42Z",
+  "workItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery"
+}

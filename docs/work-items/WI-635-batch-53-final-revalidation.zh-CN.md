@@ -4,9 +4,13 @@ title: WI-635 - 第 53 批最终重新验证
 description: 通过一个与仓库绑定的后继项，为已合并的第 53 批 parity 投影生成新鲜证据。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-635-batch-53-final-revalidation
-status: in-progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-635-batch-53-final-revalidation
+terminalArchive: .ai/work-items/archive/WI-635-batch-53-final-revalidation.contract.json
+terminalVerification: .ai/evidence/WI-635-batch-53-final-revalidation.verification.json
+terminalFinalization: .ai/decisions/WI-635-batch-53-final-revalidation.finalize.json
+terminalDecision: .ai/decisions/WI-635-batch-53-final-revalidation.close.json
 ---
 
 [English](WI-635-batch-53-final-revalidation.md) · [日本語](WI-635-batch-53-final-revalidation.ja.md)

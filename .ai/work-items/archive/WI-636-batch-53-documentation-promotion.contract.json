@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "All three parity documents reflect the authoritative closed/recovered status and exact receipt paths.",
+    "Tri-language Work Item documents have terminal metadata consistent with their authoritative lifecycle.",
+    "Promotion preserves historical bytes and passes documentation, parity, and status gates."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "32f701cb2aef9d57dcbc690e89c7132f1ea8dc0a",
+  "createdAt": "2026-09-07T05:12:03Z",
+  "goal": "Align tri-language Work Item documentation and parity rows with authoritative closed/recovered receipts without changing facts or historical bytes.",
+  "intent": "Promote the terminal documentation projections for the closed batch 53 recovery lineage.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime code",
+    " source-template copying",
+    " release artifacts",
+    " object repositories",
+    " global Agent/MCP configuration",
+    " and immutable .ai archive/evidence/decision bytes."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:84800e86cbf7b0908b6d7b4c2950a17352770848cb17c2693bad097289ca00d4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-636-batch-53-documentation-promotion",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-636-batch-53-documentation-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-633-reference-rebaseline-batch-53.md",
+    "docs/work-items/WI-633-reference-rebaseline-batch-53.zh-CN.md",
+    "docs/work-items/WI-633-reference-rebaseline-batch-53.ja.md",
+    "docs/work-items/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.md",
+    "docs/work-items/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.zh-CN.md",
+    "docs/work-items/WI-634-reference-rebaseline-batch-53-doc-gate-recovery.ja.md",
+    "docs/work-items/WI-635-batch-53-final-revalidation.md",
+    "docs/work-items/WI-635-batch-53-final-revalidation.zh-CN.md",
+    "docs/work-items/WI-635-batch-53-final-revalidation.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-636-batch-53-documentation-promotion"
+}

@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-owner",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "6ffbc049f3aa263b8c23f4f8eb2631b29f7b1c45",
+    "name": "codex/wi-635-batch-53-final-revalidation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:494accaa2e604dd7472bad42515ebe33d0ed43ba5a304f3be8e1067728f8c2a4",
+  "operationId": "github-pr-633-local-finalization-20260907",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "ec7a2c77bc95de65341fab2bb47a7f231f240115",
+    "headRevision": "6ffbc049f3aa263b8c23f4f8eb2631b29f7b1c45",
+    "mergeCommit": "32f701cb2aef9d57dcbc690e89c7132f1ea8dc0a",
+    "number": 633,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #633, all hosted checks, merged head, synchronized default branch, and exact branch/worktree cleanup.",
+  "receiptId": "github-pr-633-local-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-635-batch-53-final-revalidation",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-635-batch-53-final-revalidation"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T05:45:00Z",
+  "workItemId": "WI-635-batch-53-final-revalidation",
+  "worktree": {
+    "branch": "codex/wi-635-batch-53-final-revalidation",
+    "headRevision": "6ffbc049f3aa263b8c23f4f8eb2631b29f7b1c45",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-635-batch-53-final-revalidation",
+    "worktreeId": "WI-635-batch-53-final-revalidation"
+  }
+}
