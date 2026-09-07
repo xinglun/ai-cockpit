@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-631-reference-rebaseline-batch-52
+lastVerifiedBy: WI-633-reference-rebaseline-batch-53
 capabilityClaims:
   - reference_parity
 ---
@@ -676,6 +676,7 @@ public/N-1 验收。对象工程恢复仍是外部只读交接；本仓库不重
 | WI-630——WI-629 文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-630-doc-promotion-wi629.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-630-doc-promotion-wi629.contract.json`; verification `.ai/evidence/WI-630-doc-promotion-wi629.verification.json`; finalization `.ai/decisions/WI-630-doc-promotion-wi629.finalize.json`; close `.ai/decisions/WI-630-doc-promotion-wi629.close.json`。 |
 | WI-631——参考源重新基线第 52 批 | 已实现 | [Work Item](../work-items/WI-631-reference-rebaseline-batch-52.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-631-reference-rebaseline-batch-52.contract.json`; verification `.ai/evidence/WI-631-reference-rebaseline-batch-52.verification.json`; finalization `.ai/decisions/WI-631-reference-rebaseline-batch-52.finalize.json`; close `.ai/decisions/WI-631-reference-rebaseline-batch-52.close.json`. |
 | WI-632——WI-631 终态文档晋级 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-632-doc-promotion-wi631.zh-CN.md); 计划终态 lifecycle: archive `.ai/work-items/archive/WI-632-doc-promotion-wi631.contract.json`; verification `.ai/evidence/WI-632-doc-promotion-wi631.verification.json`; finalization `.ai/decisions/WI-632-doc-promotion-wi631.finalize.json`; close `.ai/decisions/WI-632-doc-promotion-wi631.close.json`。 |
+| WI-633——参考源重新基线第 53 批 | 已实现 | [Work Item](../work-items/WI-633-reference-rebaseline-batch-53.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-633-reference-rebaseline-batch-53.contract.json`; verification `.ai/evidence/WI-633-reference-rebaseline-batch-53.verification.json`; finalization `.ai/decisions/WI-633-reference-rebaseline-batch-53.finalize.json`; close `.ai/decisions/WI-633-reference-rebaseline-batch-53.close.json`。 |
 
 ## WI-601——参考源测试对等批次 49
 
@@ -721,3 +722,7 @@ WI-629 逐个复核固定本地参考提交中首批 60 条当前、非历史且
 ## WI-631：参考源重新基线第 52 批
 
 WI-631 在固定本地参考提交上逐一复核下一批 60 条 source-changed 非历史路径。其中 44 条可移植责任由 Rust Runtime、原生测试、CI/release 边界或三语文档以不同设计承载；16 条响应、注册表和评估记录保持 `reference-only`。本批没有 `migrate-gap`。详见 [WI-631 逐文件记录](reference-file-comparison.zh-CN.md#wi-631参考源重新基线第-52-批)。对象/adopter 工程继承同一 shared Runtime 语义、显式 repository context、隔离 evidence/knowledge 和可见 human Outcome；源实现及 wire 格式不进入目标。
+
+## WI-633：参考源重新基线第 53 批
+
+WI-633 在固定本地参考提交上逐一复核后续 60 条 source-changed 路径。43 项可移植责任由 Rust Runtime、原生测试、CI/release 边界或三语文档以不同设计承载；17 项源产物保持 `reference-only`，没有 `migrate-gap`。详见 [WI-633 逐文件台账](reference-file-comparison.zh-CN.md#wi-633参考源重新基线第-53-批)。对象工程继承 shared Runtime、显式 repository context、隔离的 Contract/evidence/knowledge 和可见 human Outcome；不复制源 Python、shell 或 wire 格式。
