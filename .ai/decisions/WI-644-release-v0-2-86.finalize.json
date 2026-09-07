@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-review-policy",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "44999515ae79bc502cbb69af980235fab7736b8d",
+    "name": "codex/wi-644-release-v0-2-86",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:00a395f58b864fea25ed6c70f552a28c2cbf3fa9f5301f228ebc286f79256945",
+  "operationId": "github-pr-642-finalization-20260907",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "fc43073b87b42cee1607d6ab558461022dea6c43",
+    "headRevision": "44999515ae79bc502cbb69af980235fab7736b8d",
+    "mergeCommit": "e361ff93ec11d2a568cee2ae7c85f820a448f020",
+    "number": 642,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #642 passed all hosted checks and was merged; the exact Work Item branch and dedicated worktree were removed after default-branch synchronization.",
+  "receiptId": "github-pr-642-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-644-release-v0-2-86",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-644-release-v0-2-86"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T09:50:00Z",
+  "workItemId": "WI-644-release-v0-2-86",
+  "worktree": {
+    "branch": "codex/wi-644-release-v0-2-86",
+    "headRevision": "44999515ae79bc502cbb69af980235fab7736b8d",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-644-release-v0-2-86",
+    "worktreeId": "WI-644-release-v0-2-86"
+  }
+}
