@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4d294f240ef328e14ac2ff6e2c0c751bf1e35fb0b7af7b6d6f3b43f6db711f91",
+      "workItemId": "WI-645-reference-doc-runtime-version-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json",
+            ".ai/decisions/WI-645-reference-doc-runtime-version-binding.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-review-policy at 2026-09-07T11:16:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "六个三语参考比对页面的当前快照正文与 reference-comparison-metadata.json 保持一致，并由测试强制验证。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-645-reference-doc-runtime-version-binding"
+  },
+  "finalReportDigest": "sha256:b075b3aed971664d14157637b890080c6186b080661cb00d080d7c31eadcd37c",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:9be79c8d0134a87d8d8a5c26ea1b1458990dc179cdbeb965aa8b928a608b1ab8",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-645-reference-doc-runtime-version-binding.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-review-policy",
+    "decidedAt": "2026-09-07T11:16:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json",
+      ".ai/decisions/WI-645-reference-doc-runtime-version-binding.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:canonical delivery order"
+    ],
+    "reason": "Reviewed PR #643 passed all hosted checks; merged commit 02a5641359f4e77d68cf20e2275c9feac9ecf2ba is synchronized on main, finalization is verified, and the exact branch/worktree are removed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-07T11:13:17Z",
+  "workItemId": "WI-645-reference-doc-runtime-version-binding"
+}

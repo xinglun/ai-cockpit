@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "repository-review-policy",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fc40c291234c48c0dfd7a7481f92fe3990af0bd0",
+    "name": "codex/wi-645-reference-doc-runtime-version-binding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:09c61f508604167261788851e3fc705adf651988c9436b85b1677da58874f78e",
+  "operationId": "github-pr-643-finalization-20260907",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "f9b185b537589dc6e9ebdf7b71fc81f0a6e3a4f4",
+    "headRevision": "fc40c291234c48c0dfd7a7481f92fe3990af0bd0",
+    "mergeCommit": "02a5641359f4e77d68cf20e2275c9feac9ecf2ba",
+    "number": 643,
+    "url": "not-requested"
+  },
+  "reason": "Reviewed PR #643 passed hosted checks and was merged; exact Work Item branch and dedicated worktree are scheduled for removal after receipt verification.",
+  "receiptId": "github-pr-643-finalization-20260907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-645-reference-doc-runtime-version-binding",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi645-reference-doc-runtime-version-binding"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:60f51dc9b95c7ecd64f8d03181e6e2acf6ba3220ee0ed5f433d8ef69b6d7a0f7",
+  "runtimeVersion": "0.2.86",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T11:13:00Z",
+  "workItemId": "WI-645-reference-doc-runtime-version-binding",
+  "worktree": {
+    "branch": "codex/wi-645-reference-doc-runtime-version-binding",
+    "headRevision": "fc40c291234c48c0dfd7a7481f92fe3990af0bd0",
+    "path": "/private/tmp/ai-cockpit-wi645-reference-doc-runtime-version-binding",
+    "worktreeId": "WI-645-reference-doc-runtime-version-binding"
+  }
+}

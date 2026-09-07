@@ -4,9 +4,13 @@ title: WI-645 — reference comparison Runtime version binding
 description: 現在の reference-comparison Runtime projection を machine-readable metadata と同期させる。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-645-reference-doc-runtime-version-binding
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-645-reference-doc-runtime-version-binding
+terminalArchive: .ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json
+terminalVerification: .ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json
+terminalFinalization: .ai/decisions/WI-645-reference-doc-runtime-version-binding.finalize.json
+terminalDecision: .ai/decisions/WI-645-reference-doc-runtime-version-binding.close.json
 ---
 
 # WI-645 — reference comparison Runtime version binding

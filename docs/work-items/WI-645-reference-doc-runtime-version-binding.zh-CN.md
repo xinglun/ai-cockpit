@@ -4,9 +4,13 @@ title: WI-645——参考源比对 Runtime 版本绑定
 description: 让当前参考源比对文档中的 Runtime 投影与机器可读 metadata 保持同步。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-645-reference-doc-runtime-version-binding
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-645-reference-doc-runtime-version-binding
+terminalArchive: .ai/work-items/archive/WI-645-reference-doc-runtime-version-binding.contract.json
+terminalVerification: .ai/evidence/WI-645-reference-doc-runtime-version-binding.verification.json
+terminalFinalization: .ai/decisions/WI-645-reference-doc-runtime-version-binding.finalize.json
+terminalDecision: .ai/decisions/WI-645-reference-doc-runtime-version-binding.close.json
 ---
 
 # WI-645——参考源比对 Runtime 版本绑定
