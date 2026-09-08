@@ -29,7 +29,11 @@
     "repository": {
       "head": "1111111111111111111111111111111111111111",
       "branch": "main",
-      "dirty": false
+      "dirty": false,
+      "trackedFileCount": 10,
+      "changedPathCount": 0,
+      "largeChangedFile": false,
+      "historicalWorkItemCount": 0
     },
     "dataScale": {
       "trackedFileCount": 10,
@@ -74,6 +78,16 @@
     }
   ],
   "scenario": "small-clean",
-  "scenarioMatrix": [{"name": "small-clean", "status": "measured"}],
+  "scenarioMatrix": [
+    {"name": "small-clean", "status": "measured", "reason": "clean_repository_and_scale_match"},
+    {"name": "many-files-clean", "status": "not_measured", "reason": "not selected for this invocation"},
+    {"name": "single-file-change", "status": "not_measured", "reason": "not selected for this invocation"},
+    {"name": "multi-file-change", "status": "not_measured", "reason": "not selected for this invocation"},
+    {"name": "large-file-change", "status": "not_measured", "reason": "not selected for this invocation"},
+    {"name": "many-historical-wi", "status": "not_measured", "reason": "not selected for this invocation"},
+    {"name": "concurrent-validation-requests", "status": "not_measured", "reason": "not selected for this invocation"},
+    {"name": "resident-mcp-repeat-query", "status": "not_measured", "reason": "not selected for this invocation"},
+    {"name": "current-repository", "status": "not_measured", "reason": "not selected for this invocation"}
+  ],
   "budgets": [{"name": "status", "metric": "warm.p95Ms", "maxValueMs": 25}]
 }

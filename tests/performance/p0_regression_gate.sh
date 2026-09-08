@@ -6,6 +6,9 @@ if [[ $# -ne 2 ]]; then
   exit 2
 fi
 
+script_dir=$(cd "$(dirname "$0")" && pwd -P)
+export PYTHONPATH="$script_dir${PYTHONPATH:+:$PYTHONPATH}"
+
 # This gate consumes captured evidence only. Schema 1 keeps the existing
 # identity-bound release fixture contract. Schema 2 is the P0 evidence
 # contract: Runtime identities may differ, but repository identity, evidence
@@ -16,6 +19,8 @@ import builtins
 import math
 import pathlib
 import sys
+
+from runtime_benchmark_scenarios import scenario_matrix_entry
 
 baseline_path = pathlib.Path(sys.argv[1])
 candidate_path = pathlib.Path(sys.argv[2])
@@ -124,6 +129,18 @@ RESOURCE_METRICS = (
     "runtimeChildProcesses",
     "peakMemoryBytes",
     "processesSpawned",
+)
+
+SCENARIO_NAMES = (
+    "small-clean",
+    "many-files-clean",
+    "single-file-change",
+    "multi-file-change",
+    "large-file-change",
+    "many-historical-wi",
+    "concurrent-validation-requests",
+    "resident-mcp-repeat-query",
+    "current-repository",
 )
 
 
@@ -253,8 +270,20 @@ def validate_p0_record(value, label):
         for field in ("os", "machine", "filesystem", "repository", "dataScale"):
             if field not in environment:
                 failures.append(f"environment_field_missing:{label}:{field}")
-        if not isinstance(environment.get("repository"), dict):
+        repository = environment.get("repository")
+        if not isinstance(repository, dict):
             failures.append(f"environment_repository_missing:{label}")
+        else:
+            for field in ("dirty", "trackedFileCount", "changedPathCount", "largeChangedFile", "historicalWorkItemCount"):
+                if field not in repository:
+                    failures.append(f"scenario_fact_missing:{label}:{field}")
+            if not isinstance(repository.get("dirty"), bool):
+                failures.append(f"scenario_fact_invalid:{label}:dirty")
+            for field in ("trackedFileCount", "changedPathCount", "historicalWorkItemCount"):
+                if not isinstance(repository.get(field), int) or repository.get(field) < 0:
+                    failures.append(f"scenario_fact_invalid:{label}:{field}")
+            if not isinstance(repository.get("largeChangedFile"), bool):
+                failures.append(f"scenario_fact_invalid:{label}:largeChangedFile")
         if not isinstance(environment.get("dataScale"), dict):
             failures.append(f"environment_data_scale_missing:{label}")
     phases = value.get("phaseMetrics")
@@ -282,6 +311,40 @@ def validate_p0_record(value, label):
     matrix = value.get("scenarioMatrix")
     if not isinstance(matrix, list) or not matrix:
         failures.append(f"scenario_matrix_missing:{label}")
+    else:
+        matrix_by_name = {}
+        for entry in matrix:
+            if not isinstance(entry, dict) or not isinstance(entry.get("name"), str):
+                failures.append(f"scenario_matrix_entry_malformed:{label}")
+                continue
+            name = entry["name"]
+            if name in matrix_by_name:
+                failures.append(f"scenario_matrix_duplicate:{label}:{name}")
+            matrix_by_name[name] = entry
+        if set(matrix_by_name) != set(SCENARIO_NAMES):
+            failures.append(f"scenario_matrix_names_mismatch:{label}")
+        scenario = value.get("scenario")
+        if scenario not in SCENARIO_NAMES:
+            failures.append(f"scenario_invalid:{label}")
+        elif isinstance(environment, dict) and isinstance(environment.get("repository"), dict):
+            repository = environment["repository"]
+            try:
+                expected = scenario_matrix_entry(
+                    scenario,
+                    dirty=repository["dirty"],
+                    tracked_file_count=repository["trackedFileCount"],
+                    changed_path_count=repository["changedPathCount"],
+                    large_changed_file=repository["largeChangedFile"],
+                    historical_work_item_count=repository["historicalWorkItemCount"],
+                )
+            except (KeyError, TypeError, ValueError):
+                expected = None
+            selected = matrix_by_name.get(scenario)
+            if expected is None or selected is None or selected != expected:
+                failures.append(f"scenario_fact_mismatch:{label}:{scenario}")
+            for name, entry in matrix_by_name.items():
+                if name != scenario and entry != {"name": name, "status": "not_measured", "reason": "not selected for this invocation"}:
+                    failures.append(f"unselected_scenario_mismatch:{label}:{name}")
     cache_reasons = value.get("cacheInvalidationReasons")
     cache_issue = validate_metric(cache_reasons, f"{label}:cacheInvalidationReasons")
     if cache_issue:

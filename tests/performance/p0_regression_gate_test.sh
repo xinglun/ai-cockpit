@@ -18,4 +18,22 @@ if "$gate" "$fixtures/p0-baseline.json" "$fixtures/p0-candidate-incomparable-env
   echo "P0 gate accepted incomparable environments" >&2
   exit 1
 fi
+python3 - "$gate" "$fixtures/p0-baseline.json" "$fixtures/p0-candidate-pass.json" <<'PY'
+import json
+import pathlib
+import subprocess
+import sys
+import tempfile
+
+gate, baseline, candidate = sys.argv[1:]
+with tempfile.TemporaryDirectory() as directory:
+    forged_path = pathlib.Path(directory) / "forged.json"
+    forged = json.loads(pathlib.Path(candidate).read_text(encoding="utf-8"))
+    forged["environment"]["repository"]["dirty"] = True
+    forged_path.write_text(json.dumps(forged), encoding="utf-8")
+    result = subprocess.run([gate, baseline, str(forged_path)], capture_output=True, text=True)
+    if result.returncode == 0:
+        raise SystemExit("P0 gate accepted a forged clean scenario")
+print("P0 gate rejected a forged scenario")
+PY
 echo "P0 performance regression gate passed identity, evidence, and negative checks"
