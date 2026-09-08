@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-689-wi685-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-08T16:37:48Z",
-  "checkpointContractDigest": "sha256:cd36ce76dd379d9f1285859741f11f71a2b44612d7ae9e6bd9c1688f371b02ca",
+  "checkpointContractDigest": "sha256:29d7f4b0b285abeb5d84b105815b193d48b4fd36ec6e57ff5ea74dc5dace447f",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -45,12 +45,12 @@
   "checkpointRepositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
   "createdAt": "2026-09-08T16:36:13Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:cd36ce76dd379d9f1285859741f11f71a2b44612d7ae9e6bd9c1688f371b02ca",
+    "contractDigest": "sha256:29d7f4b0b285abeb5d84b105815b193d48b4fd36ec6e57ff5ea74dc5dace447f",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "The repository owner authorized continuation of this narrowly scoped documentation-promotion Work Item under the declared Contract. It only projects already verified WI-685 terminal evidence and does not assert new implementation behavior or user-visible benefit.",
-    "recordedAt": "2026-09-08T16:41:40Z",
+    "reason": "The repository owner authorized continuation of this narrowly scoped documentation-promotion Work Item under the declared Contract, now bound to PR #688. It only projects already verified WI-685 terminal evidence and does not assert new implementation behavior or user-visible benefit.",
+    "recordedAt": "2026-09-08T16:42:30Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
@@ -58,15 +58,15 @@
     "workItemId": "WI-689-wi685-doc-promotion"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-08T16:41:39Z",
-  "preflightContractDigest": "sha256:cd36ce76dd379d9f1285859741f11f71a2b44612d7ae9e6bd9c1688f371b02ca",
+  "preflightAt": "2026-09-08T16:43:19Z",
+  "preflightContractDigest": "sha256:29d7f4b0b285abeb5d84b105815b193d48b4fd36ec6e57ff5ea74dc5dace447f",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-08T16:41:35.072195+00:00",
+  "updatedAt": "2026-09-08T16:43:19.689384+00:00",
   "verification": [
     {
       "check": "project-command-0",
