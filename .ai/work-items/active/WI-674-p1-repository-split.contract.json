@@ -7,7 +7,7 @@
     "英、中、日 Work Item 与 reference parity 投影准确描述范围、依赖、兼容性和未验证事项；不宣称未测量的性能或认知收益。"
   ],
   "authority": "authorized",
-  "baseRevision": "4950da8c34ee818fd3763b6b60f3154f19a2f146",
+  "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
   "createdAt": "2026-09-08T11:44:27Z",
   "goal": "完成一组可验证的 Repository 内部模块拆分：每个职责有清晰边界和依赖记录，公共 API、序列化格式、错误行为、持久化布局及现有判定语义保持兼容；每次拆分都有相关行为测试和仓库要求的检查证据。",
   "intent": "在不改变外部行为的前提下，识别并逐步拆分 cockpit-repository 中的生命周期与恢复、证据存储及有效性验证、执行上下文与可执行文件身份、状态及历史投影职责，降低模块耦合并保持可审计性。",

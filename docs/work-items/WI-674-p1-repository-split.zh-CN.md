@@ -36,7 +36,7 @@ lastVerifiedBy: WI-674-p1-repository-split
 ## 兼容性
 
 基线为远程默认分支 `origin/main` 的
-`0b92a420ad76c5f9ce5ea80ae6c6870fcd45b130`。本次变更移动既有实现，不增加协议字段。
+`c1f1f1d9f17ec2242a59f287a4368bd6bda5993e`。本次变更移动既有实现，不增加协议字段。
 公共函数、序列化产物、错误路径、持久化路径和状态语义预期保持字节及行为兼容；最终
 仍需以下完整 workspace 与 hosted 检查确认。
 

@@ -39,7 +39,7 @@ introduced.
 ## Compatibility
 
 The base is remote default `origin/main` at
-`0b92a420ad76c5f9ce5ea80ae6c6870fcd45b130`. The change moves existing
+`c1f1f1d9f17ec2242a59f287a4368bd6bda5993e`. The change moves existing
 implementations and adds no protocol fields. Public functions, serialized
 artifacts, error paths, persistence paths, and status semantics are intended to
 remain byte- and behavior-compatible; this statement is subject to the final

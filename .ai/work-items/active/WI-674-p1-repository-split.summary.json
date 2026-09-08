@@ -40,6 +40,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-674-p1-repository-split"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5824ddba7dcffd99989598b5925cbc821acc4109f2cb52c42b15ccaa3713f58c",
+      "previousContractHash": "sha256:b30eb29463e692964207a5e6e9d3c43e53149bef05fda9acdf2857581c180798",
+      "reason": "Remote default branch advanced from 4950da8 to c1f1f1d; rebase this independent structural Work Item onto the newest origin/main, including the resolved WI-675 parity projection, while preserving WI-674 scope and compatibility boundaries.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T12:38:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-674-p1-repository-split"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:e92cfcf48ec69326b17e65c125b30ce484a9abe3fca250e7cad0fcd4ba52312a",
@@ -51,7 +71,7 @@
   "preflightContractDigest": "sha256:b30eb29463e692964207a5e6e9d3c43e53149bef05fda9acdf2857581c180798",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:e92cfcf48ec69326b17e65c125b30ce484a9abe3fca250e7cad0fcd4ba52312a",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -63,6 +83,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-08T12:38:04Z"
+  },
   "verificationRecoveryReconciled": "sha256:ba9cd632c7ac920741644857ea3c6ba04759ccb1634bc344142f370312cc4788",
   "workItemId": "WI-674-p1-repository-split"
 }

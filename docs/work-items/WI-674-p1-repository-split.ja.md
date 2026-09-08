@@ -36,7 +36,7 @@ internal import で対応します。新しい crate や framework は導入し�
 ## Compatibility
 
 base は remote default `origin/main` の
-`0b92a420ad76c5f9ce5ea80ae6c6870fcd45b130` です。既存 implementation の移動だけを行い、
+`c1f1f1d9f17ec2242a59f287a4368bd6bda5993e` です。既存 implementation の移動だけを行い、
 protocol field は追加しません。公開 function、serialized artifact、error path、persistence
 path、status semantics は bytes と挙動の互換性を維持する想定です。最終確認には下記の
 workspace および hosted check が必要です。
