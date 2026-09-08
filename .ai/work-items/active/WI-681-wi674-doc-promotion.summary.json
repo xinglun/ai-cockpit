@@ -78,14 +78,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T13:47:04Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T14:10:31Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:f99b103759a8069fb0f9b0418c4db1ec94127dfed881a2a1cb34cfaa92451443",
   "workItemId": "WI-681-wi674-doc-promotion"
 }
