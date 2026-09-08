@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T07:28:33Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-664-state-transition-boundary.verification.json",
+    ".ai/work-items/active/WI-664-state-transition-boundary.outcome.json",
+    ".ai/work-items/active/WI-664-state-transition-boundary.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md:preflight-before-verification",
+    "AGENTS.md:canonical-delivery-order",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:4c4e3bcc7dac2533e3c8e042ab3e78b9a36d40644f8909edd61e21be1f67d573",
+  "predecessorEventsDigest": "sha256:35f258d8b86cf9db32076e5a355682334c423321c8854c56d2af57e2667fceec",
+  "predecessorOutcomeDigest": "sha256:63c5b0ad81f2236d63a89c6b5092eca8a8fc30eb709e2c094c8c323cde267986",
+  "predecessorSummaryDigest": "sha256:d9e7f39c3c7a70f05541d5a5b7724f5059067ce443cfb95e2c093d268990e93e",
+  "predecessorWorkItemId": "WI-664-state-transition-boundary",
+  "reason": "The first verification became contradictory after finalize-plan bound the real PR context. Preserve the blocked projection and retry the same bounded Work Item with fresh preflight and verification against the finalized Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a non-red preflight and fresh verification with the finalized PR resource context, then retry finish and archive without changing the governed source files.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-664-state-transition-boundary"
+}
