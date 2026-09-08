@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "The three-language WI-693 pages document this narrow projection boundary and bind immutable WI-691 evidence.",
+    "The WI-691 English, Simplified Chinese, and Japanese parity rows match the deterministic closed-Work-Item projection, including exact evidence paths and punctuation conventions.",
+    "Documentation acceptance, parity/status checks, and diff validation pass without runtime or governance behavior changes."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "f7f8b5d02c3a1649e44875ffe5733a4cab19c58c",
+  "createdAt": "2026-09-08T17:36:44Z",
+  "goal": "Synchronize the WI-691 three-language Work Item and reference-parity projections with its archived Contract, verification, finalization, and close evidence.",
+  "intent": "Promote the closed WI-691 documentation projection from immutable governance evidence and correct the tri-language parity spelling without changing runtime behavior.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust source",
+    " tests",
+    " Runtime implementation",
+    " generated governance records",
+    " lifecycle semantics",
+    " Outcome wording",
+    " performance strategy",
+    " governance rules",
+    " other Work Items",
+    " and existing historical evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d0ee18c599b19f3348f20562b3e4fa394c100eb31eda74d8514114eecf3f4f31",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-693-wi691-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-693-wi691-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-693-wi691-doc-promotion.md",
+    "docs/work-items/WI-693-wi691-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-693-wi691-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-693-wi691-doc-promotion"
+}
