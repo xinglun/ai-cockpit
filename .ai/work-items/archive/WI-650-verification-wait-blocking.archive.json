@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T01:11:31Z",
+  "files": {
+    "contractDigest": "sha256:0ce89e10454d4265aee9f2e5dce9e180429fab2bd1ecdca36428bfe2e4d005a0",
+    "contractPath": ".ai/work-items/archive/WI-650-verification-wait-blocking.contract.json",
+    "eventsDigest": "sha256:2225ea18b9ddc272b9c87a868b5f1fa43f8ecba4776aaa8e139777c2f715eeb8",
+    "eventsPath": ".ai/work-items/archive/WI-650-verification-wait-blocking.events.jsonl",
+    "outcomeDigest": "sha256:1e0db827e82eb391eafd65b1dc6ecaa50359d51e9c504ed1db9caab4cad42a0c",
+    "outcomePath": ".ai/work-items/archive/WI-650-verification-wait-blocking.outcome.json",
+    "summaryDigest": "sha256:2175897288a911eb5d06ad8dab51c87c77a26c9968e66eca5db507c79b1d87a6",
+    "summaryPath": ".ai/work-items/archive/WI-650-verification-wait-blocking.summary.json",
+    "taskReportDigest": "sha256:9a08dcd521e6ddca5394c0d594bd5763a5c38a27c5e90d4d48bb193be4f4a058",
+    "taskReportMarkdownDigest": "sha256:50f16549eccff9792957fdf7c31d103874071ec7c93ca4cc079cfcc1b56e47ed",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-650-verification-wait-blocking.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-650-verification-wait-blocking.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-650-verification-wait-blocking"
+}

@@ -3,7 +3,7 @@
     "An isolated micro-benchmark (not the full CLI, to remove unrelated startup/git/identity noise) quantifies the busy-poll overhead separately for a near-instant command and a multi-second command before changing any production code.",
     "On cfg(unix), execute_captured waits for the child via a dedicated thread's blocking child.wait() plus a bounded mpsc recv_timeout on the main thread, instead of a sleep(10ms) polling loop; on timeout, the process is killed by pid and the final exit status is still collected, matching current timeout/kill/process-tree-cleanup semantics exactly.",
     "cfg(windows) code path is textually unchanged.",
-    "A new regression test exercises: a command that completes well under the poll interval, a command that runs past its deadline and must be killed (timed_out=true, passed=false), and confirms output capture and exit-code identity are unaffected.",
+    "New regression tests exercise a command that completes well under the poll interval, a command that runs past its deadline and must be killed (timed_out=true, passed=false), and confirm output capture and exit-code identity are unaffected.",
     "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass; no governance decision, evidence schema, or required-check semantics change.",
     "Before/after measurement on this repository (WI-647 corrected harness or an equivalent isolated benchmark) shows a real, quantified reduction for short verification commands and no regression for long-running ones; no assumed speedup is claimed."
   ],
@@ -29,11 +29,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-650-verification-wait-blocking",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/648",
     "worktree": "/private/tmp/ai-cockpit-wi650-verification-wait-blocking"
   },
   "risk": "normal",

@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "An isolated micro-benchmark (not the full CLI, to remove unrelated startup/git/identity noise) quantifies the busy-poll overhead separately for a near-instant command and a multi-second command before changing any production code.",
+    "On cfg(unix), execute_captured waits for the child via a dedicated thread's blocking child.wait() plus a bounded mpsc recv_timeout on the main thread, instead of a sleep(10ms) polling loop; on timeout, the process is killed by pid and the final exit status is still collected, matching current timeout/kill/process-tree-cleanup semantics exactly.",
+    "cfg(windows) code path is textually unchanged.",
+    "New regression tests exercise a command that completes well under the poll interval, a command that runs past its deadline and must be killed (timed_out=true, passed=false), and confirm output capture and exit-code identity are unaffected.",
+    "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass; no governance decision, evidence schema, or required-check semantics change.",
+    "Before/after measurement on this repository (WI-647 corrected harness or an equivalent isolated benchmark) shows a real, quantified reduction for short verification commands and no regression for long-running ones; no assumed speedup is claimed."
+  ],
+  "createdAt": "2026-09-08T01:11:28Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:58c43d1fba02afd42371ec7ffa00f43628d88bf3c37eecf8fbe5bace8f14cee0",
+  "evidenceRefs": [
+    ".ai/evidence/WI-650-verification-wait-blocking.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-650-verification-wait-blocking.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-650-verification-wait-blocking.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7a1191a51fd81fa6c7026dfc389aed2a7854c92a63c13afb624edbaade49fa0f",
+      "workItemId": "WI-650-verification-wait-blocking"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-650-verification-wait-blocking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-650-verification-wait-blocking.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-650-verification-wait-blocking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-650-verification-wait-blocking.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-650-verification-wait-blocking.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-650-verification-wait-blocking.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-650-verification-wait-blocking.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-650-verification-wait-blocking.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-650-verification-wait-blocking.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-650-verification-wait-blocking.contract.json"
+          ],
+          "inference": false,
+          "text": "Reduce short verification-command latency by removing avoidable fixed-interval polling wait, on Unix only (verified via macOS testing), while preserving the existing timeout, process-tree termination, and output-capture guarantees exactly; the Windows path is left unchanged since it cannot be verified here."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-650-verification-wait-blocking.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-650-verification-wait-blocking"
+  },
+  "taskReportDigest": "sha256:9a08dcd521e6ddca5394c0d594bd5763a5c38a27c5e90d4d48bb193be4f4a058",
+  "taskReportMarkdownDigest": "sha256:50f16549eccff9792957fdf7c31d103874071ec7c93ca4cc079cfcc1b56e47ed",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-650-verification-wait-blocking.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-650-verification-wait-blocking"
+}
