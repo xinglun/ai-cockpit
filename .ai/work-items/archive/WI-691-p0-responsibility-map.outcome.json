@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "The three-language map cites the current latest-main entry points and call chains for CLI/MCP, observation and snapshots, Contract/policy/evidence validation, governance decisions, lifecycle transitions, execution/scheduling, status/Outcome/human-decision projection, and persistence/recovery.",
+    "The map identifies authoritative fact sources, permitted file/Git/process/record I/O, validation/decision/display ownership, concrete duplicate observation or mixed responsibility, dependency direction, and reusable mechanisms with current file:line citations.",
+    "For P1-B, P2-A, P2-B, P2-C, and P3, the map records a concrete problem, target boundary, compatibility risk, and verification method without prescribing a broad interface design.",
+    "The three language pages and parity projections are consistent and preserve the documentation-only boundary."
+  ],
+  "createdAt": "2026-09-08T17:23:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:da28fb79b74d5da2320e7aa153fa86e69fc5f3582ab8de7fb67a201dfd9f5b44",
+  "evidenceRefs": [
+    ".ai/evidence/WI-691-p0-responsibility-map.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-691-p0-responsibility-map.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-691-p0-responsibility-map.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:051cf90af0787747b7f6c0930e7f2abdc849a37860bbc87ab7003229fcd57e0b",
+      "workItemId": "WI-691-p0-responsibility-map"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-691-p0-responsibility-map.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-691-p0-responsibility-map.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-691-p0-responsibility-map.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-691-p0-responsibility-map.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-691-p0-responsibility-map.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-691-p0-responsibility-map.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-691-p0-responsibility-map.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-691-p0-responsibility-map.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-691-p0-responsibility-map.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-691-p0-responsibility-map.contract.json"
+          ],
+          "inference": false,
+          "text": "Document the latest main responsibility boundaries, authoritative fact sources, allowed I/O, dependency direction, reusable mechanisms, and bounded candidate refactors without changing runtime behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-691-p0-responsibility-map.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-691-p0-responsibility-map"
+  },
+  "taskReportDigest": "sha256:41b780c6e1d3dbd5b27864c4bf154c62f7dd0bf3a8e81c4cc989528370769c50",
+  "taskReportMarkdownDigest": "sha256:ce081d7cf5a2b095fa669b9d7eb0d4d2b764a7d8cb5d45101f1bf3d3683c156c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-691-p0-responsibility-map.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-691-p0-responsibility-map"
+}

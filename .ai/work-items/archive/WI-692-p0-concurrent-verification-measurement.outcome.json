@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "Measure at least 20 rounds of N concurrent bare verify requests against one clean, repository-bound fixture using an external executable and preserve raw per-request results, order, exit codes, process counts, end-to-end latency, and environment identity.",
+    "Measure same-identity concurrent requests, distinct command identities, explicit failure propagation, cancellation or platform-unavailability, and resource-contention behavior; report execution count, total latency, queue/wait latency, and resource peaks as available or unavailable with reasons.",
+    "Inspect the production call graph and prove whether PhysicalSingleFlightCoordinator has a real caller; do not treat its unit tests or a synthetic coordinator invocation as production evidence.",
+    "Preserve repository isolation, Work Item and authorization boundaries, fail-closed behavior, deterministic evidence binding, and existing verification semantics; this Work Item must not modify Rust production code or weaken any gate.",
+    "Accept a future optimization hypothesis only if duplicate physical execution and a measurable target cost are demonstrated; otherwise record an explicit decline and the successor prerequisites.",
+    "Deliver reproducible measurement code, raw evidence, a three-language Work Item record, parity registration, correctness checks, platform limits, unknowns, and the final governance state."
+  ],
+  "createdAt": "2026-09-08T18:08:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:89a75bc9b4e6517e4b3b3333e82037ad4477528daacd46d2c42db7c05d6c5f18",
+  "evidenceRefs": [
+    ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
+      "workItemId": "WI-692-p0-concurrent-verification-measurement"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "Measure whether concurrent verification requests for the same repository and command duplicate physical execution, and produce an evidence-backed accept-or-decline decision for a future coordinator integration without changing production governance behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-692-p0-concurrent-verification-measurement"
+  },
+  "taskReportDigest": "sha256:cf8d6125807ce192be78849782263da33de6e1b925430840ce55ff577431d4bc",
+  "taskReportMarkdownDigest": "sha256:57028ca3db8a05a08233133af6eb569ade4eabbe775f12b5e7db55f8f250ed5b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}

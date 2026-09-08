@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T18:21:20Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/693",
+    ".ai/evidence/WI-695-wi692-doc-promotion.verification.json",
+    "git:origin/main@2a71c72a02ff2c66924ca9b56fa6b3c20805d091"
+  ],
+  "policyRefs": [
+    "AGENTS.md:latest-remote-default-base",
+    "AGENTS.md:parallel-work-item-isolation",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:7b13ea3f73f3c7098867f8f5f5489f341d29b7dcfa1a4cb11799c5c24da990dc",
+  "predecessorEventsDigest": "sha256:15e24f6fb3f6a881433005de91770c2984751bcc5c7c0ddf1459ae4d0abf859e",
+  "predecessorOutcomeDigest": "sha256:c89f531604e9bbf545324fe45088b62171357505c6976574a173198512e0ac0f",
+  "predecessorSummaryDigest": "sha256:50ad7d27d5d9464c1707e797301cb9cc4b84eeaf402c4b86579d56c206e49f4c",
+  "predecessorWorkItemId": "WI-695-wi692-doc-promotion",
+  "reason": "The Runtime correctly invalidated the prior WI-695 verification after binding PR #693 and required recovery. Retry the same bounded documentation promotion verification from the exact current Contract and snapshot; preserve all prior evidence without weakening any gate or changing runtime behavior.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun the current documentation verification after the retry marker, rerun preflight until non-red, then finish/archive/finalize/close with the actual reviewed PR context and preserved evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-695-wi692-doc-promotion"
+}

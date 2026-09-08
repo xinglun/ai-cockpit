@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T18:02:59Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/691",
+    ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json",
+    ".ai/decisions/WI-692-p0-concurrent-verification-measurement.preflight-review.d1ee7939ae6c4b0fb32f21da7f9aba06bfc1e812bb80dd54ac0ac6a392b1b825.json",
+    "git:origin/main@a96c13967d0147d401dd780b0a0272400178a977"
+  ],
+  "policyRefs": [
+    "AGENTS.md:latest-remote-default-base",
+    "AGENTS.md:parallel-work-item-isolation",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:9b21491a9d5456aa6496f83265c80f34912400b19d5f5852d49dfb59990bad8a",
+  "predecessorEventsDigest": "sha256:34c419dc9354f55701b8c0fe074483125f05d9db0c375f8c70bdc15b9f791e45",
+  "predecessorOutcomeDigest": "sha256:e75a95a1be0b5265628a8aeef6827215f800e4ddbfcb6db8eb8e1e343ed77a52",
+  "predecessorSummaryDigest": "sha256:0d66008a24a54556c380efd74ae075645b7c533080c8269acdd2715ec773ad57",
+  "predecessorWorkItemId": "WI-692-p0-concurrent-verification-measurement",
+  "reason": "The Runtime correctly invalidated the prior verification after binding PR #691 and required recovery. Retry the same bounded WI-692 verification from the exact current Contract and snapshot; preserve all prior failed-preflight and verification evidence without weakening any gate or changing production behavior.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun the current Work Item verification after the retry marker, rerun preflight until non-red, then finish/archive/finalize/close with the actual reviewed PR context and preserved evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}

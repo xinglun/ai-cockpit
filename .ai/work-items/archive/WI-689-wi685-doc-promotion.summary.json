@@ -1,0 +1,77 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-689-wi685-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-689-wi685-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T16:37:48Z",
+  "checkpointContractDigest": "sha256:29d7f4b0b285abeb5d84b105815b193d48b4fd36ec6e57ff5ea74dc5dace447f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:9a068ef5bb3141c6a83e1f04baf918fcb5a5e6ee960bf882de8599c23acff237",
+      "recorded": true,
+      "recordedAt": "2026-09-08T16:37:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b5a7a4fdc59a780d08b392d3b90b7ea7be9e4ba85a7d9630008f5f8341af68cd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-689-wi685-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:cd36ce76dd379d9f1285859741f11f71a2b44612d7ae9e6bd9c1688f371b02ca",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9a068ef5bb3141c6a83e1f04baf918fcb5a5e6ee960bf882de8599c23acff237",
+      "previousContractHash": "sha256:9a068ef5bb3141c6a83e1f04baf918fcb5a5e6ee960bf882de8599c23acff237",
+      "reason": "Include the three WI-689 language pages and their three parity registration rows required for Hosted governance self-registration; the existing documentation-only intent and no-runtime-change boundary are unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T16:41:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-689-wi685-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
+  "createdAt": "2026-09-08T16:36:13Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:29d7f4b0b285abeb5d84b105815b193d48b4fd36ec6e57ff5ea74dc5dace447f",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "The repository owner authorized continuation of this narrowly scoped documentation-promotion Work Item under the declared Contract, now bound to PR #688. It only projects already verified WI-685 terminal evidence and does not assert new implementation behavior or user-visible benefit.",
+    "recordedAt": "2026-09-08T16:42:30Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
+    "schemaVersion": 1,
+    "workItemId": "WI-689-wi685-doc-promotion"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T16:43:19Z",
+  "preflightContractDigest": "sha256:29d7f4b0b285abeb5d84b105815b193d48b4fd36ec6e57ff5ea74dc5dace447f",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T16:43:52Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-689-wi685-doc-promotion"
+}

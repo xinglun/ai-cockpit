@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "56d56d433f1e431489094c66d8dddfef498a87d8",
+    "name": "codex/wi-685-p1-status-fact-reuse",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:a534edf5b0e8b343300cb765e6ab4eac0816ed234ef6e0b80ab7a4a67ec9ee16",
+  "operationId": "github-pr-686-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "2dee60a8aa97ba229d117cb210b245894b3347d2",
+    "headRevision": "56d56d433f1e431489094c66d8dddfef498a87d8",
+    "mergeCommit": "3152d9274f99af473779cb7ccf2101aa59bff10c",
+    "number": 686,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/686"
+  },
+  "reason": "PR #686 was merged after all hosted checks passed; the exact WI-685 branch and dedicated worktree were removed and the synchronized default branch now contains the reviewed merge commit.",
+  "receiptId": "ai-cockpit-WI-685-p1-status-fact-reuse-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-685-p1-status-fact-reuse",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/686",
+    "worktree": "/private/tmp/ai-cockpit-wi-685-p1-status-fact-reuse"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T16:28:20Z",
+  "workItemId": "WI-685-p1-status-fact-reuse",
+  "worktree": {
+    "branch": "codex/wi-685-p1-status-fact-reuse",
+    "headRevision": "56d56d433f1e431489094c66d8dddfef498a87d8",
+    "path": "/private/tmp/ai-cockpit-wi-685-p1-status-fact-reuse",
+    "worktreeId": "WI-685-p1-status-fact-reuse"
+  }
+}

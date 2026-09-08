@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5b58debce9bc96d9a196bffd7e83cd2b669479bd3593f4cbe8b930d8add8da13",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "Explicit user authorization confirms the bounded measurement Work Item, its no-production-change boundary, evidence requirements, and pause/resume recovery rule.",
+  "recordedAt": "2026-09-08T17:09:30Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:808a048c4ea40b137886e40c5442c585ed9fc0e62b92ab193d7da7be962515b6",
+  "schemaVersion": 1,
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}

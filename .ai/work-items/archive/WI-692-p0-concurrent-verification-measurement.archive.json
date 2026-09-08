@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T18:08:30Z",
+  "files": {
+    "contractDigest": "sha256:b2d3dfeb853de99b3f194495b434afd347d47a90266366cf8086d8338f6be130",
+    "contractPath": ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json",
+    "eventsDigest": "sha256:295f3b2c0f19e41a59e8da06d5416c33661239a97524a335d072b82159739318",
+    "eventsPath": ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.events.jsonl",
+    "outcomeDigest": "sha256:97ad8fdb60d4e46a423c1ea4f37196dd94326ee72a8d84b696db1845c0a17c9b",
+    "outcomePath": ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.outcome.json",
+    "summaryDigest": "sha256:342f364c966cb13963c6978d6ee2874eea6329cae78673f4aee712a22cec0731",
+    "summaryPath": ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json",
+    "taskReportDigest": "sha256:cf8d6125807ce192be78849782263da33de6e1b925430840ce55ff577431d4bc",
+    "taskReportMarkdownDigest": "sha256:57028ca3db8a05a08233133af6eb569ade4eabbe775f12b5e7db55f8f250ed5b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}

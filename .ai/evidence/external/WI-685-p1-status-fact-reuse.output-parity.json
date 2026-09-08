@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-685-p1-status-fact-reuse",
+  "normalization": "remove only .compatibility.runtimeDigest because baseline/candidate binary identities differ; all other status fields retained",
+  "cases": {
+    "clean": {
+      "baselineExitCode": 0,
+      "candidateExitCode": 0,
+      "baselineNormalizedSha256": "c15015449a54b666369bbe90600a0aa7a3ecf89b796ccd7aa1e3bdbf3d236bbb",
+      "candidateNormalizedSha256": "c15015449a54b666369bbe90600a0aa7a3ecf89b796ccd7aa1e3bdbf3d236bbb",
+      "equal": true
+    },
+    "singleFileChanged": {
+      "fixture": "docs/WI-685-temporary-single-file-change.md",
+      "baselineExitCode": 0,
+      "candidateExitCode": 0,
+      "baselineNormalizedSha256": "3fd59eb1ec63bf753c2f3f3662816033ada94a9e84ad21684c75a13f35034861",
+      "candidateNormalizedSha256": "3fd59eb1ec63bf753c2f3f3662816033ada94a9e84ad21684c75a13f35034861",
+      "equal": true
+    },
+    "malformedTransition": {
+      "fixture": ".ai/decisions/WI-190-finalization-plan-order.finalize.malformed.json",
+      "baselineExitCode": 0,
+      "candidateExitCode": 0,
+      "baselineNormalizedSha256": "a9b65e14dbbda3d30369095ded2bb8dacc7762c602c29fdcd80a5c6469c494e5",
+      "candidateNormalizedSha256": "a9b65e14dbbda3d30369095ded2bb8dacc7762c602c29fdcd80a5c6469c494e5",
+      "equal": true
+    }
+  },
+  "runtimeIdentity": {
+    "baselineRuntimeDigest": "sha256:54c8481cc55c236d0767b57808ef3fd263e0d71115d416f84e36f792aed06fc3",
+    "candidateRuntimeDigest": "sha256:9c20283cfa2cb6413c5fcb4bb69562aa8473e3811e3e6e7db75c5456044b3c20"
+  },
+  "stderr": "empty for all six CLI calls",
+  "evidenceFiles": [
+    "WI-685-p1-status-fact-reuse.baseline-final-clean-status.json",
+    "WI-685-p1-status-fact-reuse.candidate-final-clean-status.json",
+    "WI-685-p1-status-fact-reuse.baseline-final-changed-status.json",
+    "WI-685-p1-status-fact-reuse.candidate-final-changed-status.json",
+    "WI-685-p1-status-fact-reuse.baseline-final-malformed-status.json",
+    "WI-685-p1-status-fact-reuse.candidate-final-malformed-status.json"
+  ]
+}

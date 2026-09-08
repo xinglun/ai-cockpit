@@ -1,0 +1,886 @@
+{
+  "callGraphEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.call-graph.dev-faacc6a3.json",
+  "decision": {
+    "productionBehaviorChanged": false,
+    "reason": "Four independent CLI requests produced four physical executions per round, but the production call-graph inventory found no caller for PhysicalSingleFlightCoordinator. The observed duplication is therefore an independent-process baseline, not evidence that the in-process coordinator can be safely wired into a live request path.",
+    "state": "declined_for_now",
+    "successorPrerequisites": [
+      "Measure a real in-process MCP or service request path with the same repository, Work Item, command, Runtime and toolchain identity.",
+      "Bind per-request authorization and evidence receipts before sharing any physical result.",
+      "Measure failure, timeout, cancellation, waiter exit and nested Cargo resource behavior on that path."
+    ]
+  },
+  "decisionBoundary": {
+    "acceptIntegrationOnlyIf": [
+      "same-identity requests demonstrate duplicate physical execution",
+      "the duplicated cost is material in a declared target scenario",
+      "identity, authorization, evidence binding, failure, cancellation and resource limits remain explicit"
+    ],
+    "otherwise": "decline coordinator integration and record prerequisites for a successor Work Item",
+    "productionCoordinatorCaller": "not established by this harness; inspect call-graph evidence separately",
+    "sameIdentityPhysicalExecutionCount": "sum receipt.processesSpawned per independent CLI request"
+  },
+  "environment": {
+    "capturedAt": "2026-09-08T19:02:00.427449+00:00",
+    "coldCacheClaim": false,
+    "identityProbe": {
+      "inspectExitCode": 0,
+      "inspectStderr": "",
+      "statusExitCode": 0,
+      "statusStderr": ""
+    },
+    "measurementBeforeIdentityProbe": true,
+    "platform": {
+      "filesystem": {
+        "available": true,
+        "value": "/"
+      },
+      "machine": "arm64",
+      "python": "3.14.4",
+      "release": "25.6.0",
+      "system": "Darwin"
+    },
+    "repository": {
+      "branch": "",
+      "head": "99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+      "path": "/private/tmp/ai-cockpit-wi-692-fixture",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "snapshotDigest": "sha256:498bd847591479782b525b9584e30dd078327c5d899022faa5ffe32d98c880ab",
+      "status": "",
+      "trackedFileCount": 9955
+    },
+    "runtime": {
+      "fileSha256": "faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+      "reportedDigest": "sha256:faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+      "reportedVersion": "0.2.87",
+      "versionExitCode": 0,
+      "versionOutput": "ai-cockpit 0.2.87"
+    }
+  },
+  "kind": "concurrent-verification-measurement-summary",
+  "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+  "rawSampleOrder": "round order, then requestIndex order; no sorting before grouping",
+  "scenarios": {
+    "cancellation": {
+      "concurrency": 1,
+      "executionCountPerRound": [],
+      "failedRequests": 1,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+      "requestLatency": {
+        "p50Ms": 110.781,
+        "p95Ms": 110.781,
+        "p99Ms": 110.781,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          110.781
+        ],
+        "reliable": {
+          "p50": false,
+          "p95": false,
+          "p99": false
+        },
+        "sampleCount": 1,
+        "unavailableReason": {
+          "p50": "insufficient_samples:1<5",
+          "p95": "insufficient_samples:1<20",
+          "p99": "insufficient_samples:1<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 1,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 1,
+      "roundWallClock": {
+        "p50Ms": 111.062,
+        "p95Ms": 111.062,
+        "p99Ms": 111.062,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          111.062
+        ],
+        "reliable": {
+          "p50": false,
+          "p95": false,
+          "p99": false
+        },
+        "sampleCount": 1,
+        "unavailableReason": {
+          "p50": "insufficient_samples:1<5",
+          "p95": "insufficient_samples:1<20",
+          "p99": "insufficient_samples:1<100"
+        }
+      },
+      "scenario": "cancellation",
+      "successfulRequests": 0
+    },
+    "distinct-command-identity": {
+      "concurrency": 4,
+      "executionCountPerRound": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "failedRequests": 0,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+      "requestLatency": {
+        "p50Ms": 418.462,
+        "p95Ms": 443.831,
+        "p99Ms": 455.158,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          455.075,
+          455.158,
+          441.112,
+          444.082,
+          443.249,
+          443.295,
+          443.09,
+          443.191,
+          443.941,
+          427.008,
+          443.778,
+          443.831,
+          439.114,
+          439.287,
+          438.784,
+          438.929,
+          431.731,
+          431.944,
+          431.484,
+          431.902,
+          401.247,
+          401.381,
+          401.435,
+          401.527,
+          419.534,
+          414.858,
+          414.702,
+          414.871,
+          417.954,
+          417.347,
+          417.975,
+          417.663,
+          418.462,
+          418.503,
+          418.191,
+          418.369,
+          439.601,
+          442.101,
+          443.691,
+          441.011,
+          424.793,
+          424.683,
+          424.784,
+          424.506,
+          419.279,
+          418.693,
+          409.974,
+          419.05,
+          420.497,
+          406.838,
+          406.644,
+          420.33,
+          416.069,
+          421.935,
+          416.973,
+          416.337,
+          426.275,
+          425.646,
+          425.458,
+          425.925,
+          416.086,
+          415.795,
+          415.933,
+          415.523,
+          399.976,
+          411.948,
+          412.11,
+          412.062,
+          412.458,
+          412.619,
+          413.054,
+          412.615,
+          414.842,
+          414.523,
+          413.911,
+          414.083,
+          412.892,
+          412.96,
+          412.314,
+          412.223
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 80,
+        "unavailableReason": {
+          "p99": "insufficient_samples:80<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 4,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 20,
+      "roundWallClock": {
+        "p50Ms": 419.93,
+        "p95Ms": 444.314,
+        "p99Ms": 455.535,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          455.535,
+          443.678,
+          444.314,
+          439.646,
+          432.322,
+          402.002,
+          419.93,
+          418.339,
+          418.856,
+          444.178,
+          425.246,
+          419.605,
+          420.854,
+          422.359,
+          426.713,
+          416.474,
+          412.644,
+          413.439,
+          415.283,
+          413.473
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "scenario": "distinct-command-identity",
+      "successfulRequests": 80
+    },
+    "failure-propagation": {
+      "concurrency": 4,
+      "executionCountPerRound": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "failedRequests": 80,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+      "requestLatency": {
+        "p50Ms": 456.819,
+        "p95Ms": 560.746,
+        "p99Ms": 628.202,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          415.733,
+          415.848,
+          415.999,
+          415.893,
+          429.304,
+          428.96,
+          428.741,
+          430.219,
+          407.119,
+          405.508,
+          405.573,
+          385.826,
+          417.366,
+          412.823,
+          404.603,
+          412.66,
+          429.288,
+          428.951,
+          428.706,
+          428.566,
+          427.722,
+          427.177,
+          428.052,
+          427.468,
+          415.446,
+          415.349,
+          415.307,
+          405.186,
+          416.393,
+          463.382,
+          456.819,
+          456.37,
+          513.745,
+          513.779,
+          513.469,
+          513.864,
+          476.466,
+          467.153,
+          478.424,
+          478.322,
+          527.722,
+          527.529,
+          510.129,
+          527.427,
+          459.329,
+          459.356,
+          459.214,
+          459.016,
+          423.44,
+          427.762,
+          423.509,
+          423.2,
+          465.276,
+          475.354,
+          420.415,
+          470.161,
+          627.828,
+          626.337,
+          625.476,
+          628.202,
+          513.127,
+          511.863,
+          512.035,
+          513.587,
+          469.135,
+          519.175,
+          518.872,
+          518.956,
+          514.506,
+          505.461,
+          513.003,
+          495.168,
+          560.746,
+          534.384,
+          549.933,
+          549.802,
+          389.571,
+          416.463,
+          418.874,
+          417.889
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 80,
+        "unavailableReason": {
+          "p99": "insufficient_samples:80<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 4,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 20,
+      "roundWallClock": {
+        "p50Ms": 459.726,
+        "p95Ms": 561.109,
+        "p99Ms": 628.583,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          416.354,
+          430.587,
+          407.581,
+          417.782,
+          429.677,
+          428.421,
+          415.779,
+          463.8,
+          514.224,
+          478.795,
+          528.091,
+          459.726,
+          428.228,
+          475.779,
+          628.583,
+          513.984,
+          519.58,
+          514.864,
+          561.109,
+          419.257
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "scenario": "failure-propagation",
+      "successfulRequests": 0
+    },
+    "resource-contention": {
+      "concurrency": 4,
+      "executionCountPerRound": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "failedRequests": 0,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+      "requestLatency": {
+        "p50Ms": 487.204,
+        "p95Ms": 553.715,
+        "p99Ms": 762.14,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          494.673,
+          461.458,
+          495.421,
+          495.675,
+          482.943,
+          470.017,
+          482.066,
+          481.852,
+          549.047,
+          553.715,
+          553.284,
+          549.648,
+          483.313,
+          483.486,
+          487.293,
+          487.204,
+          489.501,
+          498.79,
+          508.8,
+          508.625,
+          499.468,
+          499.07,
+          499.619,
+          499.361,
+          486.383,
+          470.728,
+          485.508,
+          485.411,
+          508.452,
+          506.883,
+          506.785,
+          505.41,
+          481.271,
+          473.898,
+          485.611,
+          481.126,
+          480.231,
+          480.303,
+          480.126,
+          479.86,
+          496.739,
+          496.466,
+          496.198,
+          496.481,
+          715.096,
+          762.032,
+          762.14,
+          762.087,
+          494.173,
+          495.362,
+          495.293,
+          484.15,
+          476.218,
+          487.966,
+          487.7,
+          487.162,
+          502.185,
+          501.245,
+          503.483,
+          501.878,
+          486.343,
+          484.103,
+          465.377,
+          483.923,
+          478.186,
+          465.627,
+          478.072,
+          478.191,
+          486.566,
+          487.025,
+          487.145,
+          485.228,
+          469.72,
+          469.64,
+          469.467,
+          469.731,
+          495.747,
+          475.657,
+          495.833,
+          495.891
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 80,
+        "unavailableReason": {
+          "p99": "insufficient_samples:80<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 4,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 20,
+      "roundWallClock": {
+        "p50Ms": 488.366,
+        "p95Ms": 554.042,
+        "p99Ms": 762.528,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          496.051,
+          483.282,
+          554.042,
+          487.641,
+          509.218,
+          500.063,
+          486.721,
+          508.868,
+          485.947,
+          480.699,
+          497.057,
+          762.528,
+          495.754,
+          488.366,
+          503.897,
+          486.727,
+          478.627,
+          487.5,
+          470.081,
+          496.307
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "scenario": "resource-contention",
+      "successfulRequests": 80
+    },
+    "same-identity": {
+      "concurrency": 4,
+      "executionCountPerRound": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "failedRequests": 0,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+      "requestLatency": {
+        "p50Ms": 439.569,
+        "p95Ms": 454.216,
+        "p99Ms": 979.695,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          431.589,
+          434.868,
+          431.721,
+          433.067,
+          423.464,
+          417.464,
+          423.351,
+          428.198,
+          444.16,
+          443.806,
+          446.141,
+          443.585,
+          432.974,
+          432.956,
+          432.643,
+          438.487,
+          437.876,
+          438.191,
+          438.117,
+          438.272,
+          433.45,
+          438.358,
+          438.43,
+          438.393,
+          442.865,
+          443.783,
+          443.194,
+          441.667,
+          450.916,
+          407.95,
+          451.204,
+          450.675,
+          453.953,
+          454.034,
+          431.752,
+          454.216,
+          440.44,
+          434.137,
+          434.49,
+          434.415,
+          439.201,
+          439.929,
+          439.687,
+          439.417,
+          446.788,
+          446.458,
+          446.996,
+          446.605,
+          439.231,
+          439.569,
+          439.835,
+          438.447,
+          423.159,
+          430.688,
+          423.323,
+          425.093,
+          444.068,
+          444.51,
+          444.124,
+          443.661,
+          441.373,
+          441.267,
+          441.544,
+          426.102,
+          952.649,
+          979.472,
+          979.695,
+          979.558,
+          428.463,
+          429.666,
+          428.495,
+          428.254,
+          441.253,
+          428.375,
+          441.0,
+          441.28,
+          444.176,
+          445.219,
+          444.217,
+          444.063
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 80,
+        "unavailableReason": {
+          "p99": "insufficient_samples:80<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 4,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 20,
+      "roundWallClock": {
+        "p50Ms": 441.652,
+        "p95Ms": 454.629,
+        "p99Ms": 980.096,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          449.352,
+          428.633,
+          446.54,
+          438.849,
+          438.663,
+          438.841,
+          444.526,
+          451.68,
+          454.629,
+          440.897,
+          440.305,
+          447.341,
+          440.214,
+          431.191,
+          444.879,
+          441.92,
+          980.096,
+          430.099,
+          441.652,
+          445.62
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "scenario": "same-identity",
+      "successfulRequests": 80
+    }
+  },
+  "schemaVersion": 1
+}

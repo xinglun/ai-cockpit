@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T15:27:07Z",
+  "files": {
+    "contractDigest": "sha256:576ef5f1155a7832dc77a0d1d9f394dbd24e1c7fd88ae61f561a0be64b10eeae",
+    "contractPath": ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.contract.json",
+    "eventsDigest": "sha256:3c7de05e3741b8020908196c0215ddad5bab326115e5ed205191a4575b28ff38",
+    "eventsPath": ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.events.jsonl",
+    "outcomeDigest": "sha256:604e4fe0f6049aee8c6604fcb8cf0bfaaa8b32270cdf7c2072107f12f3079b8a",
+    "outcomePath": ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.outcome.json",
+    "summaryDigest": "sha256:047f6a3042745cb67a72a8336d9dbe18218cf7a04e9757254031ddc1a1acda3c",
+    "summaryPath": ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json",
+    "taskReportDigest": "sha256:139d686c36a766876beecaa67c0df485b3c576671c489c2edbc5c3159574bf28",
+    "taskReportMarkdownDigest": "sha256:cd75a7d8168456ed99c00e5675cf142ac462432f712ef8886f039138292c2073",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+}
