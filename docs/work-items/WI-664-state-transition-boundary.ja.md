@@ -8,6 +8,10 @@ audience:
   - reviewer
 status: implemented
 lastVerifiedBy: WI-664-state-transition-boundary
+terminalArchive: .ai/work-items/archive/WI-664-state-transition-boundary.contract.json
+terminalVerification: .ai/evidence/WI-664-state-transition-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-664-state-transition-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-664-state-transition-boundary.close.json
 authority: canonical
 ---
 
