@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Measure at least 20 rounds of N concurrent bare verify requests against one clean, repository-bound fixture using an external executable and preserve raw per-request results, order, exit codes, process counts, end-to-end latency, and environment identity.",
+    "Measure same-identity concurrent requests, distinct command identities, explicit failure propagation, cancellation or platform-unavailability, and resource-contention behavior; report execution count, total latency, queue/wait latency, and resource peaks as available or unavailable with reasons.",
+    "Inspect the production call graph and prove whether PhysicalSingleFlightCoordinator has a real caller; do not treat its unit tests or a synthetic coordinator invocation as production evidence.",
+    "Preserve repository isolation, Work Item and authorization boundaries, fail-closed behavior, deterministic evidence binding, and existing verification semantics; this Work Item must not modify Rust production code or weaken any gate.",
+    "Accept a future optimization hypothesis only if duplicate physical execution and a measurable target cost are demonstrated; otherwise record an explicit decline and the successor prerequisites.",
+    "Deliver reproducible measurement code, raw evidence, a three-language Work Item record, parity registration, correctness checks, platform limits, unknowns, and the final governance state."
+  ],
+  "decisionState": "green",
+  "evidenceDigest": "sha256:45ec62c10f52b38071d1af300c5767259f1633ff834874c99c198429ecd53787",
+  "evidenceRefs": [
+    ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a3a787ba4ed413f0b4aa37fb613f80a04bb94295fee79fc72c9788cdeeb78dd5",
+      "workItemId": "WI-692-p0-concurrent-verification-measurement"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "Measure whether concurrent verification requests for the same repository and command duplicate physical execution, and produce an evidence-backed accept-or-decline decision for a future coordinator integration without changing production governance behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-692-p0-concurrent-verification-measurement"
+  },
+  "taskReportDigest": "sha256:fb78154fb99d71a70152b9b4d8e71f86f10f32c1e5e076d59fc1e788560e39dc",
+  "taskReportMarkdownDigest": "sha256:9c0e99e7f549c773bc8188e6aa28cbb3e8ff0b42eb199b7b6889977d16b06d11",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}
