@@ -466,6 +466,97 @@ fn create_work_item_scaffold(
     })
 }
 
+/// Facts gathered for one checkpoint request. This is the observation phase;
+/// governance and persistence consume the same Contract, Git snapshot, and
+/// digests rather than capturing a second snapshot in the use case body.
+struct CheckpointObservation {
+    contract_path: PathBuf,
+    contract: Contract,
+    snapshot: RepositorySnapshot,
+    current_snapshot_digest: String,
+    current_contract_digest: String,
+}
+
+fn checkpoint_observe(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<CheckpointObservation, ObserverError> {
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let git = cockpit_git::GitRepository::discover(root).map_err(|error| ObserverError::State {
+        path: root.to_path_buf(),
+        message: error.to_string(),
+    })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.to_path_buf(),
+        message: error.to_string(),
+    })?;
+    let current_snapshot_digest = snapshot_digest(&snapshot)?.to_string();
+    let current_contract_digest = contract_digest(&contract_path)?.to_string();
+    Ok(CheckpointObservation {
+        contract_path,
+        contract,
+        snapshot,
+        current_snapshot_digest,
+        current_contract_digest,
+    })
+}
+
+/// Governance-only checks over already observed checkpoint facts. The
+/// existing governance decision remains the single policy authority and is
+/// evaluated against the captured snapshot; this helper does not persist.
+fn checkpoint_governance_checks(
+    root: &Path,
+    summary_path: &Path,
+    summary: &serde_json::Value,
+    preflight_state: &str,
+    observation: &CheckpointObservation,
+) -> Result<(), ObserverError> {
+    if summary["preflightRepositorySnapshotDigest"]
+        .as_str()
+        .is_none_or(|value| value != observation.current_snapshot_digest)
+    {
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "checkpoint requires a preflight result for the current repository snapshot"
+                .into(),
+        });
+    }
+    if summary["preflightContractDigest"]
+        .as_str()
+        .is_none_or(|value| value != observation.current_contract_digest)
+    {
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "checkpoint requires a preflight result for the current contract".into(),
+        });
+    }
+    require_green_or_yellow_preflight_governance(
+        root,
+        &observation.contract_path,
+        &observation.contract,
+        &observation.snapshot,
+        preflight_state,
+    )?;
+    // `before_edit` is the authorization-to-edit boundary. Once any
+    // verification result exists, recording that checkpoint would rewrite
+    // phase ordering and could make post-verification work appear authorized
+    // before execution. Keep this reference-defined boundary fail-closed.
+    if summary
+        .get("verification")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|entries| !entries.is_empty())
+    {
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "before_edit checkpoint must be recorded before required verification".into(),
+        });
+    }
+    Ok(())
+}
+
 pub fn checkpoint_work_item(
     root: &Path,
     work_item_id: &str,
@@ -496,8 +587,8 @@ pub fn checkpoint_work_item(
             ),
         });
     }
-    let preflight_state = summary["preflightState"].as_str().unwrap_or("");
-    if !matches!(preflight_state, "green" | "yellow") {
+    let preflight_state = summary["preflightState"].as_str().unwrap_or("").to_string();
+    if !matches!(preflight_state.as_str(), "green" | "yellow") {
         return Err(ObserverError::State {
             path: path.clone(),
             message: format!(
@@ -505,70 +596,17 @@ pub fn checkpoint_work_item(
             ),
         });
     }
-    let contract_path = root
-        .join(".ai/work-items/active")
-        .join(format!("{work_item_id}.contract.json"));
-    let contract = read_contract(&contract_path)?;
-    let git =
-        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
-            path: root.clone(),
-            message: error.to_string(),
-        })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
-    let current_snapshot_digest = snapshot_digest(&snapshot)?.to_string();
-    if summary["preflightRepositorySnapshotDigest"]
-        .as_str()
-        .is_none_or(|value| value != current_snapshot_digest)
-    {
-        return Err(ObserverError::State {
-            path: path.clone(),
-            message: "checkpoint requires a preflight result for the current repository snapshot"
-                .into(),
-        });
-    }
-    let current_contract_digest = contract_digest(&contract_path)?.to_string();
-    if summary["preflightContractDigest"]
-        .as_str()
-        .is_none_or(|value| value != current_contract_digest)
-    {
-        return Err(ObserverError::State {
-            path: path.clone(),
-            message: "checkpoint requires a preflight result for the current contract".into(),
-        });
-    }
-    require_green_or_yellow_preflight_governance(
-        &root,
-        &contract_path,
-        &contract,
-        &snapshot,
-        preflight_state,
-    )?;
-    // `before_edit` is the authorization-to-edit boundary. Once any
-    // verification result exists, recording that checkpoint would rewrite
-    // phase ordering and could make post-verification work appear authorized
-    // before execution. Keep this reference-defined boundary fail-closed.
-    if summary
-        .get("verification")
-        .and_then(serde_json::Value::as_array)
-        .is_some_and(|entries| !entries.is_empty())
-    {
-        return Err(ObserverError::State {
-            path: path.clone(),
-            message: "before_edit checkpoint must be recorded before required verification".into(),
-        });
-    }
+    let observation = checkpoint_observe(&root, work_item_id)?;
+    checkpoint_governance_checks(&root, &path, &summary, &preflight_state, &observation)?;
     let timestamp = now();
-    if contract.checkpoint_policy.is_some() {
+    if observation.contract.checkpoint_policy.is_some() {
         append_checkpoint_evidence(
             &mut summary,
             &root,
-            &contract,
+            &observation.contract,
             "before_edit",
-            &snapshot,
-            &current_contract_digest,
+            &observation.snapshot,
+            &observation.current_contract_digest,
             0,
             &timestamp,
         )?;
@@ -576,8 +614,8 @@ pub fn checkpoint_work_item(
     summary["checkpointCount"] = 1.into();
     summary["state"] = "checkpointed".into();
     summary["checkpointAt"] = timestamp.clone().into();
-    summary["checkpointContractDigest"] = current_contract_digest.into();
-    summary["checkpointRepositorySnapshotDigest"] = current_snapshot_digest.into();
+    summary["checkpointContractDigest"] = observation.current_contract_digest.into();
+    summary["checkpointRepositorySnapshotDigest"] = observation.current_snapshot_digest.into();
     summary["updatedAt"] = timestamp.clone().into();
     atomic_json(&path, &summary)?;
     Ok(LifecycleReceipt {

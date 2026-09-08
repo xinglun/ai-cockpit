@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T18:20:59Z",
+  "files": {
+    "contractDigest": "sha256:7f8d8ccbfd3245eea8ce40d43b3e8259ade51f77781173c35b4a193a14998582",
+    "contractPath": ".ai/work-items/archive/WI-694-p2a-checkpoint-boundary.contract.json",
+    "eventsDigest": "sha256:5316868e5f951adc93dc0e06c00d9776dff0ebee05bcdfda76d8bb5c19d81981",
+    "eventsPath": ".ai/work-items/archive/WI-694-p2a-checkpoint-boundary.events.jsonl",
+    "outcomeDigest": "sha256:3c7547271b707699761b1b0ad77bdade197c148d925050f254341188c02a0076",
+    "outcomePath": ".ai/work-items/archive/WI-694-p2a-checkpoint-boundary.outcome.json",
+    "summaryDigest": "sha256:2d62696ad68c3f1e3fccd4537ed175269600fc442c718a316cfe8ad236c3ba40",
+    "summaryPath": ".ai/work-items/archive/WI-694-p2a-checkpoint-boundary.summary.json",
+    "taskReportDigest": "sha256:5dcead349712668fb5e4d57c1afa6f11e56ae9bb463937139de36802e3a5f95e",
+    "taskReportMarkdownDigest": "sha256:d4cf8be5e5c37a3124a1e941b91ca1417e1bd4dd0fe6f84af12a7230f66b6dab",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-694-p2a-checkpoint-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-694-p2a-checkpoint-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-694-p2a-checkpoint-boundary"
+}
