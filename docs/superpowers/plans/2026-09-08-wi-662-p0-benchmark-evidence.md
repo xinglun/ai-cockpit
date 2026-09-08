@@ -3,7 +3,7 @@
 ## Contract
 
 - Work Item: `WI-662-p0-benchmark-evidence`
-- Base: `origin/main` at `a9d508d77c833409c91dd46fe47545a5ed03475c`
+- Base: `origin/main` at `1c4893a242f077de7c112e984726d9fc6d821e7d`
 - Scope: `tests/performance/**`, `tests/ci/repository_gate_manifest.json`, this Work Item record, reference parity rows, and this plan.
 - Out of scope: production Runtime behavior, repository-global Agent/MCP configuration, and P1-P3 optimizations.
 - North Star: preserve Calibrated Human-Agent Trust while making performance evidence trustworthy.
