@@ -15,6 +15,15 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
+## Outcome presentation release note
+
+The reader-facing `work-item outcome` command now defaults to a deterministic
+four-part summary: Result, Key changes, Remaining uncertainty, and Human next
+step. The complete audit handoff remains available with `--view full` (or MCP
+`view: "full"`). This is a presentation-only change: machine JSON, validation,
+authorization, exit codes, and persisted evidence are unchanged. No user-study
+or risk-reduction benefit is claimed by this release note.
+
 The current release artifact naming is `ai-cockpit-v0.2.87-<target>.tar.gz` or
 the corresponding Windows archive. This becomes the installation baseline only
 after the public Release and post-release acceptance are complete.

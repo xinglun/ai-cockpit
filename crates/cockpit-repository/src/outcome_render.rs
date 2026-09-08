@@ -67,6 +67,14 @@ fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderI
     }
 }
 
+/// Select the human-facing Outcome projection without changing the underlying
+/// OutcomeV2 or TaskOutcomeReport data.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum OutcomeRenderView {
+    Summary,
+    Full,
+}
+
 /// Render the repository Outcome as an explicit, human-facing handoff.
 ///
 /// This is intentionally shared by the CLI and MCP adapters. The OutcomeV2
@@ -74,6 +82,471 @@ fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderI
 /// it for a conversation. Contract text remains in its original language and
 /// no governance decision is inferred or translated.
 pub fn render_human_outcome(input: &OutcomeRenderInput, language: &str) -> String {
+    render_full_outcome(input, language)
+}
+
+/// Render either the reader-first summary or the complete audit handoff.
+pub fn render_human_outcome_with_view(
+    input: &OutcomeRenderInput,
+    language: &str,
+    view: OutcomeRenderView,
+) -> String {
+    match view {
+        OutcomeRenderView::Summary => render_summary_outcome(input, language),
+        OutcomeRenderView::Full => render_full_outcome(input, language),
+    }
+}
+
+/// Render the complete evidence-oriented handoff explicitly.
+pub fn render_full_human_outcome(input: &OutcomeRenderInput, language: &str) -> String {
+    render_human_outcome_with_view(input, language, OutcomeRenderView::Full)
+}
+
+fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String {
+    let outcome = &input.outcome;
+    let language = normalized_language(language);
+    let historical_kind = outcome.historical_status.as_deref();
+    let historical = historical_kind.is_some();
+    let superseded = historical_kind == Some("superseded");
+    let (marker, status) = if superseded {
+        match language {
+            "zh" => ("🟡", "历史已替代"),
+            "ja" => ("🟡", "履歴として置換済み"),
+            _ => ("🟡", "Superseded historical item"),
+        }
+    } else {
+        outcome_status(&outcome.state, outcome.decision_state.as_ref(), language)
+    };
+    let report = &outcome.human_benefit_report;
+    let task_report = outcome.task_outcome_report.as_ref();
+    let not_recorded = match language {
+        "zh" => "未记录",
+        "ja" => "未記録",
+        _ => "Not recorded",
+    };
+    let (result_title, key_changes, uncertainty, next_action, status_labels) = match language {
+        "zh" => (
+            "结果",
+            "关键变化",
+            "剩余不确定性",
+            "人的下一步",
+            ("验证状态", "生命周期状态", "人工决定状态", "治理信号"),
+        ),
+        "ja" => (
+            "結果",
+            "主な変更",
+            "残る不確実性",
+            "人間の次のアクション",
+            (
+                "検証状態",
+                "ライフサイクル状態",
+                "人間の判断状态",
+                "ガバナンスシグナル",
+            ),
+        ),
+        _ => (
+            "Result",
+            "Key changes",
+            "Remaining uncertainty",
+            "Human next step",
+            (
+                "Verification",
+                "Lifecycle",
+                "Human decision",
+                "Governance signal",
+            ),
+        ),
+    };
+    let raw_lifecycle = input.lifecycle_status.clone();
+    let lifecycle = localized_lifecycle_status(raw_lifecycle.clone(), language);
+    let decision_projection = input.human_decision.clone();
+    let human_decision_status = localized_human_decision_status(&decision_projection, language);
+    let governance_signal = localized_governance_signal(outcome.decision_state.as_ref(), language);
+    let localized_summary = if historical {
+        if superseded {
+            match language {
+                "zh" => {
+                    "该 Work Item 已作为历史 predecessor 被显式替代；原始证据未被重写，也未按当前 Runtime 重验证。"
+                }
+                "ja" => {
+                    "この Work Item は履歴 predecessor として明示的に置換されました。元の evidence は書き換えず、現在の Runtime では再検証していません。"
+                }
+                _ => {
+                    "This Work Item was explicitly superseded as a historical predecessor; original evidence was not rewritten or revalidated under the current Runtime."
+                }
+            }
+        } else {
+            match language {
+                "zh" => "历史验证证据未按当前 Runtime 重新验证；这不是当前失败。",
+                "ja" => {
+                    "履歴の検証 evidence は現在の Runtime で再検証されていません。現在の失敗ではありません。"
+                }
+                _ => {
+                    "Historical verification evidence was not revalidated under the current Runtime; this is not a current failure."
+                }
+            }
+        }
+    } else {
+        localized_outcome_summary(&outcome.state, outcome.decision_state.as_ref(), language)
+    };
+
+    let mut result_items = vec![
+        format!("{}: {status}", status_labels.0),
+        format!("{}: {lifecycle}", status_labels.1),
+        format!("{}: {human_decision_status}", status_labels.2),
+        format!("{}: {governance_signal}", status_labels.3),
+        localized_summary.to_string(),
+    ];
+    result_items.push(localized_evidence_refs(
+        &outcome.evidence_refs,
+        language,
+        not_recorded,
+    ));
+
+    let key_change_items = task_report
+        .map(|report| {
+            summary_claims_with_evidence(&report.sections.delivered_changes, language, "change")
+        })
+        .unwrap_or_default();
+    let key_change_items = if key_change_items.is_empty() {
+        vec![not_recorded.to_string()]
+    } else {
+        key_change_items
+    };
+
+    let invalid_evidence = match language {
+        "zh" => "验证证据无效或与当前 Work Item / repository 不匹配，已停止。",
+        "ja" => {
+            "検証 evidence が無効、または Work Item / repository と一致しないため停止しました。"
+        }
+        _ => {
+            "Verification evidence is invalid or does not match this Work Item/repository; stopped."
+        }
+    };
+    let not_ready = localized_not_ready_status(outcome, language);
+    let failed_gate = if historical {
+        None
+    } else {
+        outcome
+            .failed_gate
+            .as_deref()
+            .or_else(|| task_report.and_then(|report| report.failed_gate.as_deref()))
+    };
+    let failed_gate_item = failed_gate.map(|gate| {
+        let label = match language {
+            "zh" => "失败 gate",
+            "ja" => "失敗した gate",
+            _ => "Failed gate",
+        };
+        format!("{label}: {gate}")
+    });
+    let recovery_action = failed_gate.map(|gate| {
+        let label = match language {
+            "zh" => "恢复条件",
+            "ja" => "復旧条件",
+            _ => "Recovery condition",
+        };
+        format!("{label}: {}", localized_recovery_action(gate, language))
+    });
+    let mut uncertainty_items = Vec::new();
+    let mut stop_items = task_report
+        .map(|report| claim_texts(&report.sections.forced_stops))
+        .unwrap_or_default();
+    if historical {
+        stop_items.clear();
+    } else if stop_items.is_empty()
+        && matches!(
+            outcome.state,
+            OutcomeState::NotReady | OutcomeState::Unknown
+        )
+    {
+        stop_items.push(not_ready.clone());
+    }
+    uncertainty_items.extend(stop_items);
+    if !historical && outcome.decision_state == Some(DecisionState::Red) {
+        push_unique(&mut uncertainty_items, invalid_evidence.to_string());
+    }
+    if let Some(item) = failed_gate_item {
+        push_unique(&mut uncertainty_items, item);
+    }
+    if let Some(action) = recovery_action {
+        push_unique(&mut uncertainty_items, action);
+    }
+    if let Some(report) = task_report {
+        for claim in report
+            .sections
+            .risks
+            .iter()
+            .chain(report.sections.warnings.iter())
+            .chain(report.sections.residual_risks.iter())
+        {
+            for item in summary_claims_with_evidence(std::slice::from_ref(claim), language, "risk")
+            {
+                push_unique(&mut uncertainty_items, item);
+            }
+        }
+        for claim in &report.sections.limitations {
+            for item in
+                summary_claims_with_evidence(std::slice::from_ref(claim), language, "limitation")
+            {
+                push_unique(&mut uncertainty_items, item);
+            }
+        }
+    }
+    let mut unknowns_all = outcome.unknowns.clone();
+    unknowns_all.extend(report.unknowns.iter().cloned());
+    unknowns_all.sort();
+    unknowns_all.dedup();
+    uncertainty_items.extend(unknowns_all);
+    if report.user_visible_changes.is_empty() && report.affected_users.is_empty() {
+        let no_benefit = match language {
+            "zh" => "用户可见收益尚未声明。",
+            "ja" => "ユーザー向けの効果はまだ宣言されていません。",
+            _ => "User-visible benefit has not been declared.",
+        };
+        push_unique(&mut uncertainty_items, no_benefit.to_string());
+    }
+    if uncertainty_items.is_empty() {
+        uncertainty_items.push(localized_risk_absence(task_report, language));
+    } else if !uncertainty_items.iter().any(|item| {
+        item.starts_with("Risk findings:")
+            || item.starts_with("风险评估：")
+            || item.starts_with("リスク評価：")
+    }) {
+        push_unique(
+            &mut uncertainty_items,
+            localized_risk_absence(task_report, language),
+        );
+    }
+
+    let finalization_pending = outcome
+        .unknowns
+        .iter()
+        .any(|unknown| unknown == "resource_finalization_pending");
+    let next = localized_summary_next_action(
+        language,
+        outcome,
+        &raw_lifecycle,
+        historical,
+        superseded,
+        input.archived_unclosed,
+        finalization_pending,
+        &decision_projection,
+    );
+    let decision_detail = match &decision_projection {
+        HumanDecisionProjection::Missing => human_decision_status.clone(),
+        HumanDecisionProjection::Valid {
+            decision,
+            assurance,
+        } => render_human_decision(decision, assurance.as_deref(), language, not_recorded),
+        HumanDecisionProjection::Invalid(reason) => {
+            let label = match language {
+                "zh" => "未知：结构化人工决定记录无效",
+                "ja" => "不明：構造化された人間の判断記録が無効です",
+                _ => "Unknown: structured human decision record is invalid",
+            };
+            format!("{label} ({reason})")
+        }
+    };
+    let full_report_hint = match language {
+        "zh" => {
+            "完整证据报告：CLI 使用 ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full；MCP 使用 work_item_outcome 的 view: full。"
+        }
+        "ja" => {
+            "完全な evidence report：CLI は ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full、MCP は work_item_outcome の view: full を使用します。"
+        }
+        _ => {
+            "Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome."
+        }
+    };
+    let header = format!(
+        "Outcome: {marker} {status} — {}\n{result_title}",
+        outcome.work_item_id
+    );
+    format!(
+        "{header}\n- {}\n- {}\n- {}\n- {}\n- {}\n- {}\n\n{key_changes}\n{}\n\n{uncertainty}\n{}\n\n{next_action}\n- {next}\n- {decision_detail}\n- {full_report_hint}",
+        result_items[0],
+        result_items[1],
+        result_items[2],
+        result_items[3],
+        result_items[4],
+        result_items[5],
+        bullet_lines(&key_change_items, not_recorded),
+        bullet_lines(&uncertainty_items, not_recorded),
+    )
+}
+
+fn normalized_language(language: &str) -> &str {
+    match language {
+        "zh" | "ja" => language,
+        _ => "en",
+    }
+}
+
+fn push_unique(items: &mut Vec<String>, item: String) {
+    if !item.trim().is_empty() && !items.iter().any(|existing| existing == &item) {
+        items.push(item);
+    }
+}
+
+fn summary_claims_with_evidence(
+    claims: &[OutcomeClaim],
+    language: &str,
+    kind: &str,
+) -> Vec<String> {
+    claims
+        .iter()
+        .filter(|claim| !claim.text.trim().is_empty())
+        .map(|claim| {
+            let text = if kind == "risk" {
+                calibrated_risk_claims(std::slice::from_ref(claim), language)
+                    .into_iter()
+                    .next()
+                    .unwrap_or_else(|| claim.text.clone())
+            } else {
+                format_claim(claim, language, kind)
+            };
+            if claim.evidence_refs.is_empty() {
+                text
+            } else {
+                format!(
+                    "{text} [{}]",
+                    localized_evidence_refs(&claim.evidence_refs, language, "Not recorded")
+                )
+            }
+        })
+        .collect()
+}
+
+fn localized_evidence_refs(refs: &[String], language: &str, not_recorded: &str) -> String {
+    let label = match language {
+        "zh" => "证据引用",
+        "ja" => "evidence 参照",
+        _ => "Evidence refs",
+    };
+    if refs.is_empty() {
+        format!("{label}: {not_recorded}")
+    } else {
+        format!("{label}: {}", refs.join(", "))
+    }
+}
+
+fn localized_not_ready_status(outcome: &OutcomeV2, language: &str) -> String {
+    let has = |code: &str| outcome.unknowns.iter().any(|unknown| unknown == code);
+    if has("evidence_stale") {
+        return match language {
+            "zh" => "当前 repository 快照中的验证证据已过期，不能宣称当前结果。".into(),
+            "ja" => "現在の repository snapshot に対する検証 evidence が期限切れで、current result は主張できません。".into(),
+            _ => "Verification evidence is stale for the current repository snapshot; a current result cannot be claimed.".into(),
+        };
+    }
+    if has("resource_finalization_pending") {
+        return match language {
+            "zh" => "验证可能有效，但 provider finalization 证据缺失或无效；不能作为终态。".into(),
+            "ja" => "検証は有効な可能性がありますが、provider finalization evidence が欠落または無効で、終端状態にはできません。".into(),
+            _ => "Verification may be valid, but provider finalization evidence is missing or invalid; the outcome is not terminal.".into(),
+        };
+    }
+    if has("close_decision_pending") || has("close_decision_invalid") {
+        return match language {
+            "zh" => "验证可能有效，但必需的人工 close 决定缺失或无效；不能作为已关闭。".into(),
+            "ja" => "検証は有効な可能性がありますが、必要な人間の close 判断が欠落または無効で、closed とは言えません。".into(),
+            _ => "Verification may be valid, but the required human close decision is missing or invalid; the item is not closed.".into(),
+        };
+    }
+    if has("evidence_contradictory")
+        || has("evidence_unknown")
+        || has("outcome_report_invalid")
+        || has("identity_mismatch")
+    {
+        return match language {
+            "zh" => "验证证据无法确认或与当前上下文不一致；结果已停止。".into(),
+            "ja" => "検証 evidence を確認できないか現在の context と一致せず、結果は停止しています。".into(),
+            _ => "Verification evidence could not be confirmed or does not match this context; the outcome is stopped.".into(),
+        };
+    }
+    match language {
+        "zh" => "必需的验证证据尚未生成，不能宣称完成。".into(),
+        "ja" => "必須の検証 evidence がまだなく、完了とは言えません。".into(),
+        _ => "Required verification evidence is not present; completion cannot be claimed.".into(),
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+fn localized_summary_next_action(
+    language: &str,
+    outcome: &OutcomeV2,
+    lifecycle: &str,
+    historical: bool,
+    superseded: bool,
+    archived_unclosed: bool,
+    finalization_pending: bool,
+    decision: &HumanDecisionProjection,
+) -> String {
+    if historical {
+        return if superseded {
+            match language {
+                "zh" => "保留原始历史证据；后续工作由 successor Work Item 负责，不要重新解释为当前失败。".into(),
+                "ja" => "元の履歴 evidence を保持し、後続作業は successor Work Item で行います。現在の失敗とは解釈しません。".into(),
+                _ => "Preserve the historical evidence; the successor owns follow-up work, and this is not a current failure.".into(),
+            }
+        } else {
+            match language {
+                "zh" => "保留历史证据；如需当前结果，再用当前 Runtime 重新验证，不要将其解释为当前失败。".into(),
+                "ja" => "履歴 evidence を保持し、current result が必要な場合だけ現在の Runtime で再検証してください。現在の失敗とは解釈しません。".into(),
+                _ => "Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.".into(),
+            }
+        };
+    }
+    if archived_unclosed {
+        return match (language, finalization_pending) {
+            ("zh", true) => "先完成 provider finalization：清理并删除该 Work Item 的精确分支和工作树，记录 finalization receipt，运行 finalize-verify，随后 close。".into(),
+            ("ja", true) => "まず provider finalization を完了します。対象 Work Item の正確な branch と worktree を cleanup/delete し、finalization receipt を記録して finalize-verify を実行し、その後 close してください。".into(),
+            (_, true) => "Complete provider finalization first: clean up and delete the exact Work Item branch and worktree, record the finalization receipt, run finalize-verify, then close.".into(),
+            ("zh", false) => "审阅归档证据后记录明确的人工 close 决定；完成 close 前不得开始下一个 Work Item。".into(),
+            ("ja", false) => "アーカイブ evidence を確認して明示的な人間の close 判断を記録してください。close 完了前に次の Work Item を開始しないでください。".into(),
+            (_, false) => "Review the archive evidence and record the explicit human close decision; do not start another Work Item until close is complete.".into(),
+        };
+    }
+    if lifecycle == "closed" {
+        return match language {
+            "zh" => "该 Work Item 已关闭；本次交接不需要新的人工决定。不要把验证状态扩展解释为其他授权。".into(),
+            "ja" => "この Work Item はクローズ済みです。この handoff で新たな人間の判断は不要です。検証状態を別の権限として解釈しないでください。".into(),
+            _ => "This Work Item is closed; no new human decision is required by this handoff. Do not broaden verification into another authorization.".into(),
+        };
+    }
+    if let HumanDecisionProjection::Valid { .. } = decision {
+        return match language {
+            "zh" => "人工决定已记录；仅按该决定的明确范围继续，不能从验证状态推导更高授权。".into(),
+            "ja" => "人間の判断は記録済みです。その明示された範囲だけに従い、検証状態から上位の権限を推論しないでください。".into(),
+            _ => "A human decision is recorded; follow only its explicit scope and do not infer broader authorization from verification.".into(),
+        };
+    }
+    if outcome
+        .unknowns
+        .iter()
+        .any(|unknown| unknown == "evidence_stale")
+    {
+        return match language {
+            "zh" => "获取当前 repository 快照对应的有效验证证据并重新验证；在此之前保持停止。".into(),
+            "ja" => "現在の repository snapshot に対応する有効な検証 evidence を取得して再検証してください。それまでは停止します。".into(),
+            _ => "Obtain valid verification evidence for the current repository snapshot and verify again; remain stopped until then.".into(),
+        };
+    }
+    match (language, &outcome.state, outcome.decision_state.as_ref()) {
+        ("zh", OutcomeState::Verified, _) => "审阅证据后再决定是否继续；🟢 不代表已授权合并或发布。".into(),
+        ("zh", _, Some(DecisionState::Red)) => "修复无效证据并重新验证；在此之前保持停止。".into(),
+        ("zh", _, _) => "补齐缺失证据并重新验证；在此之前保持停止。".into(),
+        ("ja", OutcomeState::Verified, _) => "証拠を確認してから続行を判断してください。🟢 はマージやリリースの承認ではありません。".into(),
+        ("ja", _, Some(DecisionState::Red)) => "無効な evidence を修復して再検証してください。それまでは停止します。".into(),
+        ("ja", _, _) => "不足している evidence を補い、再検証してください。それまでは停止状態を維持します。".into(),
+        (_, OutcomeState::Verified, _) => "Review the evidence before deciding whether to proceed; 🟢 does not authorize merge or release.".into(),
+        (_, _, Some(DecisionState::Red)) => "Repair the invalid evidence and verify again; remain stopped until then.".into(),
+        (_, _, _) => "Repair the missing evidence and verify again; remain stopped until then.".into(),
+    }
+}
+
+fn render_full_outcome(input: &OutcomeRenderInput, language: &str) -> String {
     let outcome = &input.outcome;
     let language = match language {
         "zh" | "ja" => language,

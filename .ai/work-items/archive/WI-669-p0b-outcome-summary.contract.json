@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "默认人工 Outcome 包含结果、关键变化、剩余不确定性、人的下一步四个阅读优先部分，并在结果中分开表达验证、生命周期和人工决定。",
+    "摘要仅基于现有 OutcomeV2 和 TaskOutcomeReport 数据按确定性规则生成，不调用 LLM 或外部服务。",
+    "CLI 与 MCP 共用摘要逻辑，对相同输入表达相同事实；机器 JSON 契约保持不变。",
+    "完整报告保留审计信息并有明确查看方式；阻断项、待人工决定、证据无效或过期状态不得因摘要长度被隐藏；可截断的其他列表显示省略数量和完整查看方式。",
+    "原始证据文本只作为数据处理，不能成为摘要指令或授权来源。",
+    "使用真实 Outcome 结构覆盖普通完成、阻断项、多列表、多语言、缺失收益、历史/已替代、过期/无效证据。",
+    "文档与发布说明明确记录默认行为变化。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "67efcdfee26bce306c93c8c7d1526e430fcdba8c",
+  "createdAt": "2026-09-08T09:01:36Z",
+  "goal": "为 CLI 与 MCP 提供共享的确定性四段式默认摘要，并提供明确的完整证据查看入口；保持机器 JSON、判定规则、授权语义与持久化格式兼容。",
+  "intent": "降低 Outcome 默认阅读成本，同时保持证据校准与人工决定边界。",
+  "mode": "implementation",
+  "outOfScope": [
+    "协议 schema、机器 JSON 字段和序列化格式",
+    "验证规则、退出码、授权语义、历史证据和归档记录",
+    "其他 Work Item 的 worktree、分支、PR 及架构拆分",
+    "LLM、外部服务和网络依赖",
+    "P1-A、P1-B、P2 及治理原则后续 Work Item"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6f45a4bd6bb8b1abe22c4a8b2418238d9f9381b0d2478cd78f8594ae2f8390f5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-669-p0b-outcome-summary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/668",
+    "worktree": "/private/tmp/ai-cockpit-wi-669-p0b-outcome-summary"
+  },
+  "risk": "medium",
+  "scope": [
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-669-p0b-outcome-summary"
+}

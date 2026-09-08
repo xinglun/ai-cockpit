@@ -73,6 +73,12 @@ fn mcp_tool_schema(name: &str) -> Value {
             properties["language"] = string_property(
                 "Presentation language: en, zh, or ja (regional forms are accepted).",
             );
+            properties["view"] = json!({
+                "type": "string",
+                "enum": ["summary", "full"],
+                "default": "summary",
+                "description": "Human handoff projection; summary is the reader-first default and full retains the complete audit report."
+            });
             let mut schema = object_schema(properties, &[]);
             schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
             schema
@@ -301,7 +307,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
     let allowed = match name {
         "status" | "work_item_list" | "repository_observe" | "capability_show" => &[][..],
         "work_item_get" | "work_item_validate" => &["workItemId", "id"][..],
-        "work_item_outcome" => &["workItemId", "id", "language"][..],
+        "work_item_outcome" => &["workItemId", "id", "language", "view"][..],
         "work_item_status" => &["workItemId", "id", "all"][..],
         "blockers" | "safe_actions" | "preflight" => &["contract"][..],
         "knowledge_query" => &["topic", "component", "state", "workItemId"][..],
@@ -324,6 +330,16 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             if name == "work_item_outcome" {
                 optional_string(object, "language", name)?;
+                if let Some(view) = object.get("view") {
+                    let view = view.as_str().ok_or_else(|| {
+                        format!("invalid arguments for {name}: view must be a string")
+                    })?;
+                    if !matches!(view, "summary" | "full") {
+                        return Err(format!(
+                            "invalid arguments for {name}: view must be summary or full"
+                        ));
+                    }
+                }
             }
         }
         "work_item_status" => {
@@ -1016,7 +1032,15 @@ fn work_item_outcome(
     let input = cockpit_repository::outcome_render_input_with_runtime(repo, id, runtime)
         .map_err(|error| error.to_string())?;
     let language = requested_language(arguments);
-    let handoff = cockpit_repository::render_human_outcome(&input, language);
+    let view = arguments
+        .get("view")
+        .and_then(Value::as_str)
+        .map(|view| match view {
+            "full" => cockpit_repository::OutcomeRenderView::Full,
+            _ => cockpit_repository::OutcomeRenderView::Summary,
+        })
+        .unwrap_or(cockpit_repository::OutcomeRenderView::Summary);
+    let handoff = cockpit_repository::render_human_outcome_with_view(&input, language, view);
     Ok(json!({
         "workItemId": id,
         "outcome": input.outcome,
