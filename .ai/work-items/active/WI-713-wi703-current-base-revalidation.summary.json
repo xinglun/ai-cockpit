@@ -77,14 +77,13 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-703-wi669-current-base-revalidation.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T22:16:14Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T22:31:58Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:1eb8fd38400891a2e342d546ff7346da154edbd02da3ebafa2b772a0b64114f8",
   "workItemId": "WI-713-wi703-current-base-revalidation"
 }
