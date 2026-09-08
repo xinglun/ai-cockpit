@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "The repository promotion helper deterministically updates the three WI-663 pages and three parity rows from its closed terminal evidence, while the docs-only Work Item remains within its declared scope."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a9d508d77c833409c91dd46fe47545a5ed03475c",
+  "createdAt": "2026-09-08T07:56:19Z",
+  "goal": "Update the tri-language WI-663 Work Item pages and reference parity rows to the deterministic verified-close projection without changing code, evidence, or governance facts.",
+  "intent": "Promote the closed WI-663 Outcome trust-expression documentation projection from immutable terminal evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    ".ai/**",
+    "docs/reference/outcome-report*"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1f2c86ebd91512cf5c006eff6b0dec18016337115cdc9d261aee4866890f7765",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-666-wi663-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-666-wi663-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-663-wi659-outcome-trust-replacement.md",
+    "docs/work-items/WI-663-wi659-outcome-trust-replacement.zh-CN.md",
+    "docs/work-items/WI-663-wi659-outcome-trust-replacement.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-666-wi663-doc-promotion.md",
+    "docs/work-items/WI-666-wi663-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-666-wi663-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-666-wi663-doc-promotion"
+}

@@ -4,9 +4,13 @@ title: WI-663——WI-659 Outcome 信任表达 successor
 description: 从最新默认分支重新绑定并验证已经落地的 P0-A Outcome 信任表达，不改写前序证据。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-663-wi659-outcome-trust-replacement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-663-wi659-outcome-trust-replacement
+terminalArchive: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.contract.json
+terminalVerification: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json
+terminalFinalization: .ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json
+terminalDecision: .ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json
 ---
 
 # WI-663——WI-659 Outcome 信任表达 successor

@@ -4,9 +4,13 @@ title: WI-663 — WI-659 Outcome trust replacement
 description: Revalidate the already-landed P0-A Outcome trust-expression delivery from the latest default branch without rewriting predecessor evidence.
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-663-wi659-outcome-trust-replacement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-663-wi659-outcome-trust-replacement
+terminalArchive: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.contract.json
+terminalVerification: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json
+terminalFinalization: .ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json
+terminalDecision: .ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json
 ---
 
 # WI-663 — WI-659 Outcome trust replacement
