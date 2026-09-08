@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f55cb6dd47d158c447a8958703e7eb44f5ff95dc",
+    "name": "codex/wi-661-wi660-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f5e44d48747e5664459c2e836d7c1aba4ad66cc75bc26df4e398af18db6e927c",
+  "operationId": "github-pr-660-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9b53118fa992c917242a837b17592ffd660ddd23",
+    "headRevision": "f55cb6dd47d158c447a8958703e7eb44f5ff95dc",
+    "mergeCommit": "f642bf3bdb25a3fdf9f85a401e2e3cec228daa8d",
+    "number": 660,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/660"
+  },
+  "reason": "PR #660 passed all hosted checks, merged as f642bf3bdb25a3fdf9f85a401e2e3cec228daa8d, main was fast-forward synchronized, and the exact WI-661 branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-661-wi660-doc-promotion-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-661-wi660-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/660",
+    "worktree": "/private/tmp/ai-cockpit-wi-661-wi660-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T06:57:35Z",
+  "workItemId": "WI-661-wi660-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-661-wi660-doc-promotion",
+    "headRevision": "f55cb6dd47d158c447a8958703e7eb44f5ff95dc",
+    "path": "/private/tmp/ai-cockpit-wi-661-wi660-doc-promotion",
+    "worktreeId": "WI-661-wi660-doc-promotion"
+  }
+}
