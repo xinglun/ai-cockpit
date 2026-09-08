@@ -2,7 +2,7 @@
   "acceptanceCriteria": [
     "render_human_outcome no longer takes a repository root path and performs no filesystem or crate-internal validation calls; it only formats an already-assembled input struct and a language code.",
     "A new use-case function assembles the render input (OutcomeV2, the human-decision projection, and the archived-unclosed fact) by calling outcome_v2_with_runtime plus the existing close_decision_is_valid_for_status/load_human_decision logic exactly once each; that logic is not duplicated.",
-    "All four existing call sites (crates/cockpit-cli/src/main.rs WorkItemCommand::Outcome, print_lifecycle_result, emit_blocked_lifecycle_handoff; crates/cockpit-mcp/src/lib.rs work_item_outcome) are migrated to the new assemble-then-render flow.",
+    "The four existing call sites (crates/cockpit-cli/src/main.rs WorkItemCommand::Outcome, print_lifecycle_result, emit_blocked_lifecycle_handoff; crates/cockpit-mcp/src/lib.rs work_item_outcome) are migrated to the new assemble-then-render flow.",
     "render_human_outcome is directly unit-testable by constructing its input struct in memory, with no repository directory or filesystem required.",
     "Behavioral parity is proven for: missing human decision, invalid/malformed human decision, valid approved human decision, an archived-but-unclosed Work Item, and a historical/superseded Work Item -- same rendered text before and after this refactor for each case.",
     "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass; CLI/MCP JSON output, exit codes, and governance semantics are unchanged."
@@ -34,11 +34,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-653-outcome-render-purification",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/650",
     "worktree": "/private/tmp/ai-cockpit-wi653-outcome-render-purification"
   },
   "risk": "normal",

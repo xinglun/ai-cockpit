@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "render_human_outcome no longer takes a repository root path and performs no filesystem or crate-internal validation calls; it only formats an already-assembled input struct and a language code.",
+    "A new use-case function assembles the render input (OutcomeV2, the human-decision projection, and the archived-unclosed fact) by calling outcome_v2_with_runtime plus the existing close_decision_is_valid_for_status/load_human_decision logic exactly once each; that logic is not duplicated.",
+    "The four existing call sites (crates/cockpit-cli/src/main.rs WorkItemCommand::Outcome, print_lifecycle_result, emit_blocked_lifecycle_handoff; crates/cockpit-mcp/src/lib.rs work_item_outcome) are migrated to the new assemble-then-render flow.",
+    "render_human_outcome is directly unit-testable by constructing its input struct in memory, with no repository directory or filesystem required.",
+    "Behavioral parity is proven for: missing human decision, invalid/malformed human decision, valid approved human decision, an archived-but-unclosed Work Item, and a historical/superseded Work Item -- same rendered text before and after this refactor for each case.",
+    "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass; CLI/MCP JSON output, exit codes, and governance semantics are unchanged."
+  ],
+  "createdAt": "2026-09-08T02:04:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fa304bbaeedd23d956214d14cef9cff0830ebebf9412e52281e9176432a6eb10",
+  "evidenceRefs": [
+    ".ai/evidence/WI-653-outcome-render-purification.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-653-outcome-render-purification.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-653-outcome-render-purification.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb8795066d0b6d860b569c41e673d44e06f64b29253534449478f9bbbbce5498",
+      "workItemId": "WI-653-outcome-render-purification"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-653-outcome-render-purification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-653-outcome-render-purification.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-653-outcome-render-purification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-653-outcome-render-purification.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-653-outcome-render-purification.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-653-outcome-render-purification.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-653-outcome-render-purification.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-653-outcome-render-purification.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-653-outcome-render-purification.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-653-outcome-render-purification.contract.json"
+          ],
+          "inference": false,
+          "text": "render_human_outcome becomes a pure function over a fully-assembled input struct, with a new use-case function that assembles that input (OutcomeV2 plus the human-decision projection and archived-unclosed fact) in one place; all four call sites share it; no output, JSON schema, exit code, or governance semantics changes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-653-outcome-render-purification.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-653-outcome-render-purification"
+  },
+  "taskReportDigest": "sha256:dbaa19587f847f571b031cd803b9cbc0425e8ada132c383afe745a95d80ec81a",
+  "taskReportMarkdownDigest": "sha256:0bfd07bcaaeabb0c01fa9865912364f5d523659b621308b2cb44a3d9528af87e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-653-outcome-render-purification.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-653-outcome-render-purification"
+}
