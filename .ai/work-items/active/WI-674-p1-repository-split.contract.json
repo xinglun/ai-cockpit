@@ -31,11 +31,11 @@
     "documentation_parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-674-p1-repository-split",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/674",
     "worktree": "/private/tmp/ai-cockpit-wi-674-p1-repository-split"
   },
   "risk": "normal",
