@@ -47,6 +47,19 @@ snapshot、identity、evidence 和 fail-closed 决策，不复制参考源的安
 仍是机器上共享安装的一份外部 binary；每个 adopter 都必须显式使用 `--repo`，并拥有
 独立的 `.ai/` 状态。
 
+## 已确认的瓶颈：status 的历史投影成本
+
+WI-648 找到了本仓库中 `status` 耗时约 1.8 秒（而 `inspect`/`doctor`/`observe`
+均低于 110 ms）的根本原因：在 `status_with_runtime` 的五个 readiness 步骤中，
+唯一的成本来源是 `historical_finalization_inventory`
+(`crates/cockpit-repository/src/lib.rs:3832`)。对于每一个 `runtimeVersion`/
+`runtimeDigest` 与当前运行 Runtime 不一致的 `.ai/decisions/*.finalize.json`
+历史 receipt，它都会调用 `resolve_resource_finalization_head`，而该函数自身又会
+从头重新扫描同一个 `.ai/decisions` 目录，导致总成本是 O(decisions 条目数 ×
+历史 receipt 数)，而不是 O(条目数)。WI-648 仅做诊断，未改动这段代码路径。
+完整测量过程与 P1 阶段的候选修复方案见
+`docs/work-items/WI-648-status-bottleneck-diagnosis.md`。
+
 ## 对象工程继承
 
 adopter repository 可以使用相同的 identity-bound fixture 和 regression gate，但使用各自 repository 与 Runtime identity。共享 Runtime 不保存全局 budget 或 current project，一个 repository 的耗时不能授权另一个 repository 的 Work Item。

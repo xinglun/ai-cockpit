@@ -48,6 +48,19 @@ fail-closed の判定は変わりません。参照源のインストール手�
 マシン上で共有する外部 binary のままです。各 adopter は明示的な `--repo` と独立した
 `.ai/` 状態を使用します。
 
+## 確認済みボトルネック: status の履歴投影コスト
+
+WI-648 は、本リポジトリで `status` が約1.8秒かかる（`inspect`/`doctor`/`observe`
+は110ms未満）根本原因を、`status_with_runtime` の5つの readiness ステップの中で
+唯一のコスト要因である `historical_finalization_inventory`
+(`crates/cockpit-repository/src/lib.rs:3832`) と特定した。`runtimeVersion`/
+`runtimeDigest` が現在実行中の Runtime と一致しない `.ai/decisions/*.finalize.json`
+のレガシー receipt ごとに `resolve_resource_finalization_head` を呼び出すが、
+この関数自体が同じ `.ai/decisions` ディレクトリをゼロから再スキャンするため、
+コストは O(エントリ数) ではなく O(decisionsエントリ数 × レガシーreceipt数) となる。
+本 WI-648 は診断のみであり、このコードパスは変更していない。詳細な計測と
+P1 での修正候補は `docs/work-items/WI-648-status-bottleneck-diagnosis.md` を参照。
+
 ## Object project への継承
 
 Adopter repository は同じ identity-bound fixture と regression gate を使えますが、repository/Runtime identity はそれぞれ固有です。Shared Runtime は global budget/current project を保存せず、ある repository の timing が別 repository の Work Item を認可することもありません。

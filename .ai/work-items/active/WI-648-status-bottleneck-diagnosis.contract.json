@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "Per-step timing breakdown of status_with_runtime's five readiness steps is recorded with a reproducible method (temporary, never-committed instrumentation with exact line citations and commands).",
+    "The dominant cost (historical_finalization_inventory) is attributed to a specific code path (resolve_resource_finalization_head re-scanning .ai/decisions per outer-loop item) with line citations, and the O(n^2) vs O(n) distinction is empirically supported, not assumed.",
+    "A control measurement against a freshly attached empty repository shows the same steps cost <1ms, isolating the cost to accumulated repository history rather than a fixed per-call cost.",
+    "A partial-reproduction experiment (real receipts without their archive companions) is reported honestly, including that it did not reproduce the full cost, to avoid overclaiming a simpler explanation than the evidence supports.",
+    "No Rust source, test, or governance file changes; cargo fmt/clippy/test --workspace remain unaffected from the current passing baseline.",
+    "A concrete, narrowly-scoped, semantics-preserving candidate fix is recommended for the next P1 Work Item, without implementing it here."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-07T23:55:20Z",
+  "goal": "Hand the next P1 optimization Work Item a verified, line-cited bottleneck instead of a guess: identify which of status's internal readiness steps dominates its cost, and why, using reproducible temporary profiling that is never committed.",
+  "intent": "Root-cause, with reproducible evidence, why ai-cockpit status is ~20-40x slower than inspect/doctor/observe on this repository, before any optimization is attempted (P0 bottleneck ranking).",
+  "mode": "implementation",
+  "outOfScope": [
+    "Implementing any fix for the identified O(n^2) historical_finalization_inventory cost",
+    "The 8-scenario fixture matrix",
+    " phase instrumentation surfaced in CLI JSON output",
+    " or any other P0/P1 item not directly needed to attribute status's cost",
+    "Any change to crates/cockpit-repository",
+    " crates/cockpit-cli",
+    " or any other Rust source"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-648-status-bottleneck-diagnosis",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi648-status-bottleneck-diagnosis"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-648-status-bottleneck-diagnosis.md",
+    "docs/work-items/WI-648-status-bottleneck-diagnosis.ja.md",
+    "docs/work-items/WI-648-status-bottleneck-diagnosis.zh-CN.md",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/reference/governance-performance-budget.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-648-status-bottleneck-diagnosis"
+}

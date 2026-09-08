@@ -72,6 +72,20 @@ snapshot, identity, evidence, and fail-closed decisions. They do not copy the
 reference install flow: the Runtime remains one externally installed binary,
 and each adopter binds it with an explicit `--repo` and its own `.ai/` state.
 
+## Confirmed bottleneck: status history-projection cost
+
+WI-648 root-caused `status`'s ~1.8 s latency on this repository (vs. <110 ms
+for `inspect`/`doctor`/`observe`) to `historical_finalization_inventory`
+(`crates/cockpit-repository/src/lib.rs:3832`), the only cost driver among
+`status_with_runtime`'s five readiness steps. For every legacy
+`.ai/decisions/*.finalize.json` receipt whose `runtimeVersion`/`runtimeDigest`
+does not match the currently running Runtime, it calls
+`resolve_resource_finalization_head`, which itself re-scans the same
+`.ai/decisions` directory from scratch — an O(decision-entries × legacy
+receipts) cost, not O(entries). This is diagnosis only; WI-648 does not change
+this code path. See `docs/work-items/WI-648-status-bottleneck-diagnosis.md`
+for the full measurement and the candidate P1 fix.
+
 ## Object-project inheritance
 
 Adopter repositories can use the same identity-bound fixture and regression
