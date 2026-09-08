@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "43a569c7999df9c3a211c662d1373a3a4686939b",
+    "name": "codex/wi-688-wi683-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:eb0f3c759ac8697691d17edcff987a81a2e0b1d9a0662824ba9d4025fe651af0",
+  "operationId": "github-pr-685-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "dc2a507922156fdb3516307031748c2778c64e6f",
+    "headRevision": "43a569c7999df9c3a211c662d1373a3a4686939b",
+    "mergeCommit": "71b895a2e41cd8b18fadb441b11b42b7660f7174",
+    "number": 685,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/685"
+  },
+  "reason": "PR #685 passed all hosted checks and merged as 71b895a2e41cd8b18fadb441b11b42b7660f7174; origin/main was fast-forward synchronized, and the exact WI-688 branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "github-pr-685-finalization-20260908",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-688-wi683-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/685",
+    "worktree": "/private/tmp/ai-cockpit-wi-688-wi683-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T16:11:22Z",
+  "workItemId": "WI-688-wi683-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-688-wi683-doc-promotion",
+    "headRevision": "43a569c7999df9c3a211c662d1373a3a4686939b",
+    "path": "/private/tmp/ai-cockpit-wi-688-wi683-doc-promotion",
+    "worktreeId": "WI-688-wi683-doc-promotion"
+  }
+}
