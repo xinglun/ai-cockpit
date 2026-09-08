@@ -1,0 +1,37 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T13:33:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.contract.json",
+    ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.summary.json",
+    ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.outcome.json",
+    ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.events.jsonl",
+    ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.archive.json",
+    ".ai/evidence/WI-677-wi657-lifecycle-concurrency-successor.verification.json",
+    ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/673"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/reference-parity.md"
+  ],
+  "predecessorContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
+  "predecessorEventsDigest": "sha256:f2ad40ab5eaea660695d7a9c89da600f2b68648e3c1cf755964c298647663fbe",
+  "predecessorOutcomeDigest": "sha256:f66c6a2ea18d4d87a47101666a0fc6188ce16ea51a543d9950968a2691548a84",
+  "predecessorSummaryDigest": "sha256:2500a4d8fc92b0c0158453b93582f77b16f6a244f3b0d6e2684f42dd40964018",
+  "predecessorWorkItemId": "WI-677-wi657-lifecycle-concurrency-successor",
+  "reason": "WI-677 reached an immutable verified archive and pre-merge finalization receipt, then the remote default branch advanced and the PR became conflicting. Rebase after archive would invalidate the immutable Contract/base/head bindings. Preserve every WI-677 archive, evidence, Outcome, event, and finalization byte; WI-681 redelivers the same lifecycle concurrency and recovery boundary from the latest origin/main base.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-681 from origin/main 8bf7a301484e78844678de32fec1aa1b5d42a56e with the lifecycle concurrency/recovery implementation replayed without rewriting WI-677 predecessor bytes; create a new PR and record finalization only after the final head, then complete reviewed merge, provider cleanup, finalize-verify, close, and parity promotion.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-681-wi677-lifecycle-concurrency-recovery",
+  "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
+}

@@ -13,6 +13,8 @@
     "unrelated repository split changes"
   ],
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "predecessorContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
+  "predecessorWorkItemId": "WI-677-wi657-lifecycle-concurrency-successor",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",

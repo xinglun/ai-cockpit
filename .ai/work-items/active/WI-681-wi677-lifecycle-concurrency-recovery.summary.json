@@ -4,6 +4,8 @@
   "createdAt": "2026-09-08T13:38:40Z",
   "mode": "implementation",
   "preflightState": "not_run",
+  "predecessorContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
+  "predecessorWorkItemId": "WI-677-wi657-lifecycle-concurrency-successor",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "implementation_active",
