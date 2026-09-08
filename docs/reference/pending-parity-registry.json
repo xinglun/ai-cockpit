@@ -1,4 +1,38 @@
 {
-  "entries": [],
+  "entries": [
+    {
+      "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+      "createdAt": "2026-09-08T03:58:00Z",
+      "expectedRecords": {
+        "contract": ".ai/work-items/archive/WI-656-outcome-trust-expression.contract.json",
+        "finalize": ".ai/decisions/WI-656-outcome-trust-expression.finalize.json",
+        "verification": ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
+      },
+      "headRevision": "02953a1429e416583e7e80e775c845202320f76b",
+      "parityRows": [
+        {
+          "path": "docs/reference/reference-parity.md",
+          "row": "| WI-656 — Outcome trust expression | In progress | [Work Item](../work-items/WI-656-outcome-trust-expression.md); archive `.ai/work-items/archive/WI-656-outcome-trust-expression.contract.json`; verification `.ai/evidence/WI-656-outcome-trust-expression.verification.json`; finalization `.ai/decisions/WI-656-outcome-trust-expression.finalize.json`; close `.ai/decisions/WI-656-outcome-trust-expression.close.json`. |"
+        },
+        {
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "row": "| WI-656 — Outcome 信任表达 | 进行中 | [Work Item](../work-items/WI-656-outcome-trust-expression.zh-CN.md)；archive `.ai/work-items/archive/WI-656-outcome-trust-expression.contract.json`；verification `.ai/evidence/WI-656-outcome-trust-expression.verification.json`；finalization `.ai/decisions/WI-656-outcome-trust-expression.finalize.json`；close `.ai/decisions/WI-656-outcome-trust-expression.close.json`。 |"
+        },
+        {
+          "path": "docs/reference/reference-parity.ja.md",
+          "row": "| WI-656 — Outcome trust expression | In progress | [Work Item](../work-items/WI-656-outcome-trust-expression.ja.md); archive `.ai/work-items/archive/WI-656-outcome-trust-expression.contract.json`; verification `.ai/evidence/WI-656-outcome-trust-expression.verification.json`; finalization `.ai/decisions/WI-656-outcome-trust-expression.finalize.json`; close `.ai/decisions/WI-656-outcome-trust-expression.close.json`. |"
+        }
+      ],
+      "provider": "github",
+      "pullRequest": {
+        "number": 653,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/653"
+      },
+      "registryBaseRevision": "577eb15d59a22299f23622bcdec3eca639d45bfa",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "in_progress",
+      "workItemId": "WI-656-outcome-trust-expression"
+    }
+  ],
   "schemaVersion": 1
 }
