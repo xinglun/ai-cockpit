@@ -4,9 +4,13 @@ title: WI-662——P0 可信性能基准证据
 description: 在任何 Runtime 优化前建立保持采样顺序且绑定证据的性能基准。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-662-p0-benchmark-evidence
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-662-p0-benchmark-evidence
+terminalArchive: .ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json
+terminalVerification: .ai/evidence/WI-662-p0-benchmark-evidence.verification.json
+terminalFinalization: .ai/decisions/WI-662-p0-benchmark-evidence.finalize.json
+terminalDecision: .ai/decisions/WI-662-p0-benchmark-evidence.close.json
 ---
 
 # WI-662——P0 可信性能基准证据

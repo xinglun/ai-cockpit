@@ -4,9 +4,13 @@ title: WI-662 — P0 benchmark evidence
 description: Establish an order-preserving, evidence-bound performance benchmark before any runtime optimization.
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-662-p0-benchmark-evidence
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-662-p0-benchmark-evidence
+terminalArchive: .ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json
+terminalVerification: .ai/evidence/WI-662-p0-benchmark-evidence.verification.json
+terminalFinalization: .ai/decisions/WI-662-p0-benchmark-evidence.finalize.json
+terminalDecision: .ai/decisions/WI-662-p0-benchmark-evidence.close.json
 ---
 
 # WI-662 — P0 benchmark evidence
