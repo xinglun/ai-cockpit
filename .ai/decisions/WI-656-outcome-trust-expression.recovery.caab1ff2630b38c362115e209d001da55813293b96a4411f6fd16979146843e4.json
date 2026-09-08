@@ -1,0 +1,37 @@
+{
+  "actor": "xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T05:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-656-outcome-trust-expression.archive.json",
+    ".ai/work-items/archive/WI-656-outcome-trust-expression.contract.json",
+    ".ai/work-items/archive/WI-656-outcome-trust-expression.summary.json",
+    ".ai/work-items/archive/WI-656-outcome-trust-expression.outcome.json",
+    ".ai/work-items/archive/WI-656-outcome-trust-expression.events.jsonl",
+    ".ai/evidence/WI-656-outcome-trust-expression.verification.json",
+    ".ai/decisions/WI-656-outcome-trust-expression.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/653",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34185517336"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:6828f41325eb27b1a547cfd408e513a62e1a77bd3e6471b4fdbf7c71bf007442",
+  "predecessorEventsDigest": "sha256:8f098e85ea2bcf4359a5b36d1535d6a04fab48a7479283474628c72303ecc03d",
+  "predecessorOutcomeDigest": "sha256:eeddf331da6233d53972e2879b2c7d1c7b7bdf38bca505accf905bddc5a76365",
+  "predecessorSummaryDigest": "sha256:4ff84309d42ba57aa3c073a3a743e3afd723cfc81126f5a1563394843bbac6f1",
+  "predecessorWorkItemId": "WI-656-outcome-trust-expression",
+  "reason": "WI-656 is an immutable verified delivery with an unmerged PR whose hosted quality gate exposed an in-scope clippy failure in the new test helper. Preserve every predecessor archive, verification, finalization, branch, and PR byte; redeliver the same bounded P0-A implementation from the latest remote default branch with the test-helper repair and complete fresh governance evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create WI-658 from origin/main at the current remote default revision, bind the actual provider PR before verification, register complete tri-language parity lifecycle evidence before archive, fix the clippy failure without changing Outcome semantics, pass hosted quality, finalize, merge, close, and clean the exact successor branch/worktree.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-658-wi656-outcome-trust-repair",
+  "workItemId": "WI-656-outcome-trust-expression"
+}
