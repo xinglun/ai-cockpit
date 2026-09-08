@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "human:user",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "86f8535f170afc9da79db48308f322f69e9fe8ca",
+    "name": "codex/wi-702-p2-incremental-merkle-trust-audit",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f7a977908da89cbfbf19e800d4c60b5b1a723b3dbb2b5d46abaa146225669d8b",
+  "operationId": "operation-WI-702-p2-incremental-merkle-trust-audit-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "83a3bb6b4d8072d2c273bec349581ce2441510cc",
+    "headRevision": "86f8535f170afc9da79db48308f322f69e9fe8ca",
+    "number": 700,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/700"
+  },
+  "reason": "PR #700 is awaiting hosted review and merge; the exact reviewed branch and dedicated worktree are clean, while this provider-side receipt records the unmerged boundary without claiming completion.",
+  "receiptId": "ai-cockpit-WI-702-p2-incremental-merkle-trust-audit-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-702-p2-incremental-merkle-trust-audit",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/700",
+    "worktree": "/private/tmp/ai-cockpit-wi-702-p2-incremental-merkle-trust-audit"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T21:47:38Z",
+  "workItemId": "WI-702-p2-incremental-merkle-trust-audit",
+  "worktree": {
+    "branch": "codex/wi-702-p2-incremental-merkle-trust-audit",
+    "headRevision": "86f8535f170afc9da79db48308f322f69e9fe8ca",
+    "path": "/private/tmp/ai-cockpit-wi-702-p2-incremental-merkle-trust-audit",
+    "worktreeId": "WI-702-p2-incremental-merkle-trust-audit"
+  }
+}
