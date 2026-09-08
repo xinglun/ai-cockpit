@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:user-request",
+  "decidedAt": "2026-09-08T08:07:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/663",
+    ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+    "git:origin/main@a9d508d77c833409c91dd46fe47545a5ed03475c"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    "AGENTS.md:latest-remote-default-base",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:e9ced14c748112cf6a3498e96626aea5a7eb15fd7c19afbefcdaf8abea1d3bfb",
+  "predecessorEventsDigest": "sha256:5b8fe0125d053dffa0b55543836f896891f6c08977f849e9e058ebc5ad1837f7",
+  "predecessorOutcomeDigest": "sha256:5d443ea06cf8fd2a4ddbf5d0a353d48503ee39cb4d1d9bda3e8ce053140acaca",
+  "predecessorSummaryDigest": "sha256:ea264601b231db9b79868a407c67a8fdc781e5a09b30b982af051111d7f12097",
+  "predecessorWorkItemId": "WI-662-p0-benchmark-evidence",
+  "reason": "The latest-default-base amendment invalidated the predecessor retry binding as designed; append the current Contract/Summary binding before rebuilding evidence for origin/main at a9d508d7.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun all Contract verification commands and preflight against the latest synchronized default-base binding, then finish with current evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}

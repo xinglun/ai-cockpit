@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:user-request",
+  "decidedAt": "2026-09-08T08:02:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/663",
+    ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+    ".ai/work-items/active/WI-662-p0-benchmark-evidence.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:35243b17a11a0d5f473f7d40686d693409a5a81b88bd98c76da96593f7ef2fb6",
+  "predecessorEventsDigest": "sha256:259d76267504aae5a0059caf993d8fdcc9f573265114911928bf9c66d068b07c",
+  "predecessorOutcomeDigest": "sha256:ab6dfd0301d4197f2c3dda0fe226da876739494849b9d05b1f09d1b6f18c08e2",
+  "predecessorSummaryDigest": "sha256:5cff856074103cd83c65829c0b5eec577d16b5c6f840848b75d54e6b4e0dad79",
+  "predecessorWorkItemId": "WI-662-p0-benchmark-evidence",
+  "reason": "The governed verification is current and green, but finish stopped because the append-only event stream already contains the predecessor completion event; append a current retry binding so the Runtime recovery path can record the corrected finish projection without rewriting historical events.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run preflight against the current green evidence, then retry finish with the current retry marker and preserve all predecessor events.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}

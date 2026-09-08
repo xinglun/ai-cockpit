@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:user-request",
+  "decidedAt": "2026-09-08T08:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/663",
+    ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+    ".ai/work-items/active/WI-662-p0-benchmark-evidence.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
+  "predecessorEventsDigest": "sha256:60646b2840ea4f4945b7ec272569925796d20580eef62d1cf00cbec88e76e210",
+  "predecessorOutcomeDigest": "sha256:c62af533fa81471ffc4d0946c57a462e7cfec8ae217f952a53365aed4f318390",
+  "predecessorSummaryDigest": "sha256:abad98f58e351f291db2ec5a8ab128e4d19d01a0ecca8b3c660ba3d897dee73d",
+  "predecessorWorkItemId": "WI-662-p0-benchmark-evidence",
+  "reason": "The amended Contract verification is current and green, but the Runtime finish retry again stopped at its append-only completion-event guard after preflight consumed the marker; append the current recovery binding without rewriting historical events.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run preflight and retry finish with the current marker, preserving the immutable event stream and current verification evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}

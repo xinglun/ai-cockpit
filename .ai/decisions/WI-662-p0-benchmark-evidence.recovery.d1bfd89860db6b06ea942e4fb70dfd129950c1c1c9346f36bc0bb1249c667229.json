@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:user-request",
+  "decidedAt": "2026-09-08T08:03:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/663",
+    ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+    "docs/superpowers/plans/2026-09-08-wi-662-p0-benchmark-evidence.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md:latest-remote-default-base",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:35243b17a11a0d5f473f7d40686d693409a5a81b88bd98c76da96593f7ef2fb6",
+  "predecessorEventsDigest": "sha256:60646b2840ea4f4945b7ec272569925796d20580eef62d1cf00cbec88e76e210",
+  "predecessorOutcomeDigest": "sha256:3dcde8e8cb8ee31b37e57ff86bccaf03fbf73dfcb1d70d46d3cf34c52099305a",
+  "predecessorSummaryDigest": "sha256:27b1a718cc5a64fa42867a146d189013b0aed06e27fede5646d03e6a9863696f",
+  "predecessorWorkItemId": "WI-662-p0-benchmark-evidence",
+  "reason": "Review found the P0 plan still bound to an older default-branch revision and missing the gate-manifest registration context; amend the same Work Item plan and rerun the governed evidence cycle against origin/main at fb96ffb7.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Correct the plan base and manifest scope, amend and revalidate the Contract, rerun all focused checks and preflight, then finish only with current evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}
