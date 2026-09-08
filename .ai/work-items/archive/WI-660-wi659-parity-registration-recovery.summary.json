@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-660-wi659-parity-registration-recovery.contract.json",
+    ".ai/work-items/archive/WI-660-wi659-parity-registration-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T06:25:08Z",
+  "checkpointContractDigest": "sha256:d63bdbebe9a4c688f9cdd924d09a8f2979415b84a27d7d6906e9f7b36346693b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d2bd88233068cfb0c5c2c0ee513b5cd607bfec544fd5885afed5e61e9554dbcf",
+  "createdAt": "2026-09-08T06:22:42Z",
+  "mode": "code",
+  "preflightAt": "2026-09-08T06:31:50Z",
+  "preflightContractDigest": "sha256:d63bdbebe9a4c688f9cdd924d09a8f2979415b84a27d7d6906e9f7b36346693b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d2bd88233068cfb0c5c2c0ee513b5cd607bfec544fd5885afed5e61e9554dbcf",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T06:32:00Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-660-wi659-parity-registration-recovery"
+}

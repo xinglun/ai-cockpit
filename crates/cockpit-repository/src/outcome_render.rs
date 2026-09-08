@@ -1,5 +1,5 @@
 use cockpit_core::DecisionState;
-use cockpit_protocol::{HumanDecision, OutcomeClaim, OutcomeState, OutcomeV2};
+use cockpit_protocol::{HumanDecision, OutcomeClaim, OutcomeState, OutcomeV2, TaskOutcomeReport};
 use serde_json::Value;
 use std::fs;
 use std::path::Path;
@@ -31,10 +31,25 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     };
     let report = &outcome.human_benefit_report;
     let task_report = outcome.task_outcome_report.as_ref();
-    let none = match language {
-        "zh" => "无",
-        "ja" => "なし",
-        _ => "None",
+    let not_recorded = match language {
+        "zh" => "未记录",
+        "ja" => "未記録",
+        _ => "Not recorded",
+    };
+    let status_labels = match language {
+        "zh" => ("验证状态", "生命周期状态", "人工决定状态", "治理信号"),
+        "ja" => (
+            "検証状態",
+            "ライフサイクル状態",
+            "人間の判断状態",
+            "ガバナンスシグナル",
+        ),
+        _ => (
+            "Verification",
+            "Lifecycle",
+            "Human decision",
+            "Governance signal",
+        ),
     };
     let (
         title,
@@ -121,6 +136,13 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             "Verification evidence is invalid or does not match this Work Item/repository; stopped."
         }
     };
+    let decision_projection = load_human_decision(root, &outcome.work_item_id);
+    let lifecycle = localized_lifecycle_status(
+        lifecycle_status(root, outcome, historical, superseded),
+        language,
+    );
+    let human_decision_status = localized_human_decision_status(&decision_projection, language);
+    let governance_signal = localized_governance_signal(outcome.decision_state.as_ref(), language);
     let mut next = if historical {
         if superseded {
             match language {
@@ -236,11 +258,30 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
     unknowns_all.extend(report.unknowns.iter().cloned());
     unknowns_all.sort();
     unknowns_all.dedup();
-    let mut remaining_risks = unknowns_all.clone();
+    let mut remaining_risks = Vec::new();
     if let Some(task_report) = task_report {
-        remaining_risks.extend(claim_texts(&task_report.sections.risks));
-        remaining_risks.extend(claim_texts(&task_report.sections.warnings));
-        remaining_risks.extend(claim_texts(&task_report.sections.residual_risks));
+        remaining_risks.extend(calibrated_risk_claims(
+            &task_report.sections.risks,
+            language,
+        ));
+        remaining_risks.extend(calibrated_risk_claims(
+            &task_report.sections.warnings,
+            language,
+        ));
+        remaining_risks.extend(calibrated_risk_claims(
+            &task_report.sections.residual_risks,
+            language,
+        ));
+        remaining_risks.extend(
+            task_report
+                .sections
+                .limitations
+                .iter()
+                .map(|claim| format_claim(claim, language, "limitation")),
+        );
+    }
+    if remaining_risks.is_empty() {
+        remaining_risks.push(localized_risk_absence(task_report, language));
     }
     remaining_risks.sort();
     remaining_risks.dedup();
@@ -271,12 +312,12 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             }
         } else {
             match language {
-                "zh" => "该 Work Item 的历史验证证据未按当前 Runtime 重新验证；这不是当前失败。",
+                "zh" => "历史验证证据未按当前 Runtime 重新验证；这不是当前失败。",
                 "ja" => {
-                    "この Work Item の履歴 verification evidence は現在の Runtime で再検証されていません。現在の失敗ではありません。"
+                    "履歴の検証 evidence は現在の Runtime で再検証されていません。現在の失敗ではありません。"
                 }
                 _ => {
-                    "This Work Item has historical verification evidence that was not revalidated under the current Runtime; it is not a current failure."
+                    "Historical verification evidence was not revalidated under the current Runtime; this is not a current failure."
                 }
             }
         }
@@ -316,10 +357,18 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             .map(|reference| format!("{status}: {reference}"))
             .collect()
     };
-    let decision_items = match load_human_decision(root, &outcome.work_item_id) {
-        HumanDecisionProjection::Missing => Vec::new(),
-        HumanDecisionProjection::Valid(decision) => {
-            vec![render_human_decision(&decision, language, none)]
+    let decision_items = match &decision_projection {
+        HumanDecisionProjection::Missing => vec![human_decision_status.clone()],
+        HumanDecisionProjection::Valid {
+            decision,
+            assurance,
+        } => {
+            vec![render_human_decision(
+                decision,
+                assurance.as_deref(),
+                language,
+                not_recorded,
+            )]
         }
         HumanDecisionProjection::Invalid(reason) => {
             let label = match language {
@@ -353,22 +402,30 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
         .map(|report| claim_texts(&report.sections.avoided_impact))
         .unwrap_or_default();
     let header = format!(
-        "Outcome: {marker} {status} — {}\n{title}",
-        outcome.work_item_id
+        "Outcome: {marker} {status} — {}\n{title}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}",
+        outcome.work_item_id,
+        status_labels.0,
+        status,
+        status_labels.1,
+        lifecycle,
+        status_labels.2,
+        human_decision_status,
+        status_labels.3,
+        governance_signal,
     );
     format!(
         "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
-        bullet_lines(&completed_items, none),
-        bullet_lines(&problems_found, none),
-        bullet_lines(&stop_items, none),
-        bullet_lines(&resolved_items, none),
-        bullet_lines(&avoided_items, none),
-        bullet_lines(&remaining_risks, none),
-        bullet_lines(&unknowns_all, none),
-        bullet_lines(&decision_items, none),
-        bullet_lines(&verification_items, none),
-        bullet_lines(&impact_items, none),
-        bullet_lines(&outcome.evidence_refs, none),
+        bullet_lines(&completed_items, not_recorded),
+        bullet_lines(&problems_found, not_recorded),
+        bullet_lines(&stop_items, not_recorded),
+        bullet_lines(&resolved_items, not_recorded),
+        bullet_lines(&avoided_items, not_recorded),
+        bullet_lines(&remaining_risks, not_recorded),
+        bullet_lines(&unknowns_all, not_recorded),
+        bullet_lines(&decision_items, not_recorded),
+        bullet_lines(&verification_items, not_recorded),
+        bullet_lines(&impact_items, not_recorded),
+        bullet_lines(&outcome.evidence_refs, not_recorded),
     )
 }
 
@@ -416,6 +473,89 @@ fn claim_texts(claims: &[OutcomeClaim]) -> Vec<String> {
         .collect()
 }
 
+fn format_claim(claim: &OutcomeClaim, language: &str, kind: &str) -> String {
+    let text = if claim.inference {
+        format!("Inference: {}", claim.text)
+    } else {
+        claim.text.clone()
+    };
+    if kind == "limitation" {
+        match language {
+            "zh" => format!("限制：{text}"),
+            "ja" => format!("制限：{text}"),
+            _ => format!("Limitation: {text}"),
+        }
+    } else {
+        text
+    }
+}
+
+fn calibrated_risk_claims(claims: &[OutcomeClaim], language: &str) -> Vec<String> {
+    claims
+        .iter()
+        .filter(|claim| !claim.text.trim().is_empty())
+        .map(|claim| {
+            let lower = claim.text.to_ascii_lowercase();
+            if lower.contains("test")
+                && lower.contains("weak")
+                && (lower.contains("no ") || lower.contains("not "))
+            {
+                let scope = if claim.evidence_refs.is_empty() {
+                    match language {
+                        "zh" => "引用的检查范围未记录".into(),
+                        "ja" => "参照された検査範囲は未記録".into(),
+                        _ => "the referenced check scope is not recorded".into(),
+                    }
+                } else {
+                    claim.evidence_refs.join(", ")
+                };
+                match language {
+                    "zh" => format!(
+                        "测试弱化扫描：在所引用的检查范围（{scope}）内未触发规则；这不等于证明测试未被弱化。"
+                    ),
+                    "ja" => format!(
+                        "テスト弱化スキャン：参照された検査範囲（{scope}）ではルールは発動していません。テストが弱化されていないことの証明ではありません。"
+                    ),
+                    _ => format!(
+                        "Test-weakening scan: no trigger was recorded for the referenced check scope ({scope}); this does not prove that tests were not weakened."
+                    ),
+                }
+            } else {
+                format_claim(claim, language, "risk")
+            }
+        })
+        .collect()
+}
+
+fn localized_risk_absence(task_report: Option<&TaskOutcomeReport>, language: &str) -> String {
+    if task_report.is_none() {
+        return match language {
+            "zh" => "风险评估：未记录。".into(),
+            "ja" => "リスク評価：未記録。".into(),
+            _ => "Risk findings: Not recorded.".into(),
+        };
+    }
+    let has_evidence = task_report.is_some_and(|report| {
+        report
+            .bindings
+            .evidence_refs
+            .iter()
+            .any(|reference| !reference.trim().is_empty())
+    });
+    if !has_evidence {
+        return match language {
+            "zh" => "风险评估：未评估；没有可用的证据范围。".into(),
+            "ja" => "リスク評価：未評価。利用可能な evidence 範囲がありません。".into(),
+            _ => "Risk findings: Not assessed; no usable evidence scope is recorded.".into(),
+        };
+    }
+    match language {
+        "zh" => "风险评估：未记录；现有证据未声明已完成风险检查。".into(),
+        "ja" => "リスク評価：未記録。現存する evidence はリスク検査の完了を宣言していません。".into(),
+        _ => "Risk findings: Not recorded; the available evidence does not declare that a risk check was completed.".into(),
+    }
+}
+
 fn bullet_lines(items: &[String], none: &str) -> String {
     if items.is_empty() {
         format!("- {none}")
@@ -453,16 +593,135 @@ fn outcome_status(
             &DecisionState::Yellow
         }
     });
+    let marker = match decision_state {
+        DecisionState::Green => "🟢",
+        DecisionState::Yellow => "🟡",
+        DecisionState::Red => "🔴",
+    };
+    let label = match (language, state) {
+        ("zh", OutcomeState::Verified) => "已声明的验证通过",
+        ("zh", OutcomeState::Partial) => "部分验证",
+        ("zh", OutcomeState::NotReady) => "验证尚未就绪",
+        ("zh", OutcomeState::Unknown) => "验证状态未知",
+        ("ja", OutcomeState::Verified) => "宣言された検証済み",
+        ("ja", OutcomeState::Partial) => "検証は一部のみ",
+        ("ja", OutcomeState::NotReady) => "検証未準備",
+        ("ja", OutcomeState::Unknown) => "検証状態不明",
+        (_, OutcomeState::Verified) => "Declared verification passed",
+        (_, OutcomeState::Partial) => "Partial verification",
+        (_, OutcomeState::NotReady) => "Verification not ready",
+        (_, OutcomeState::Unknown) => "Verification status unknown",
+    };
+    (marker, label)
+}
+
+fn lifecycle_status(
+    root: &Path,
+    outcome: &OutcomeV2,
+    historical: bool,
+    superseded: bool,
+) -> String {
+    if historical {
+        return if superseded {
+            "historical_superseded".into()
+        } else {
+            "historical".into()
+        };
+    }
+    let archive_contract = root
+        .join(".ai/work-items/archive")
+        .join(format!("{}.contract.json", outcome.work_item_id));
+    if archive_contract.is_file() {
+        if crate::close_decision_is_valid_for_status(
+            root,
+            &outcome.work_item_id,
+            &outcome.repository_id,
+        ) {
+            return "closed".into();
+        }
+        return "archived".into();
+    }
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.summary.json", outcome.work_item_id));
+    fs::read(&summary_path)
+        .ok()
+        .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+        .and_then(|summary| {
+            summary
+                .get("state")
+                .and_then(Value::as_str)
+                .map(str::to_owned)
+        })
+        .unwrap_or_else(|| "unknown".into())
+}
+
+fn localized_lifecycle_status(status: String, language: &str) -> String {
+    match (language, status.as_str()) {
+        ("zh", "implementation_active") => "实施中".into(),
+        ("zh", "checkpointed") => "已建立检查点".into(),
+        ("zh", "finish_ready") => "已具备 finish 条件".into(),
+        ("zh", "blocked") => "已阻断".into(),
+        ("zh", "archived") => "已归档".into(),
+        ("zh", "closed") => "已关闭".into(),
+        ("zh", "historical") => "历史记录".into(),
+        ("zh", "historical_superseded") => "历史记录（已替代）".into(),
+        ("zh", _) => "状态未知".into(),
+        ("ja", "implementation_active") => "実装中".into(),
+        ("ja", "checkpointed") => "チェックポイント済み".into(),
+        ("ja", "finish_ready") => "finish 準備完了".into(),
+        ("ja", "blocked") => "ブロック中".into(),
+        ("ja", "archived") => "アーカイブ済み".into(),
+        ("ja", "closed") => "クローズ済み".into(),
+        ("ja", "historical") => "履歴".into(),
+        ("ja", "historical_superseded") => "履歴（置換済み）".into(),
+        ("ja", _) => "状態不明".into(),
+        (_, "implementation_active") => "Implementation active".into(),
+        (_, "checkpointed") => "Checkpointed".into(),
+        (_, "finish_ready") => "Ready to finish".into(),
+        (_, "blocked") => "Blocked".into(),
+        (_, "archived") => "Archived".into(),
+        (_, "closed") => "Closed".into(),
+        (_, "historical") => "Historical".into(),
+        (_, "historical_superseded") => "Superseded historical record".into(),
+        (_, _) => "Unknown".into(),
+    }
+}
+
+fn localized_human_decision_status(decision: &HumanDecisionProjection, language: &str) -> String {
+    match decision {
+        HumanDecisionProjection::Missing => match language {
+            "zh" => "未记录".into(),
+            "ja" => "未記録".into(),
+            _ => "Not recorded".into(),
+        },
+        HumanDecisionProjection::Valid { decision, .. } => match language {
+            "zh" => format!("已记录：{}", decision.decision),
+            "ja" => format!("記録済み：{}", decision.decision),
+            _ => format!("Recorded: {}", decision.decision),
+        },
+        HumanDecisionProjection::Invalid(_) => match language {
+            "zh" => "未知：结构化人工决定记录无效".into(),
+            "ja" => "不明：構造化された人間の判断記録が無効".into(),
+            _ => "Unknown: structured human decision record is invalid".into(),
+        },
+    }
+}
+
+fn localized_governance_signal(decision_state: Option<&DecisionState>, language: &str) -> String {
     match (language, decision_state) {
-        ("zh", DecisionState::Green) => ("🟢", "成功"),
-        ("zh", DecisionState::Yellow) => ("🟡", "需要关注"),
-        ("zh", DecisionState::Red) => ("🔴", "停止"),
-        ("ja", DecisionState::Green) => ("🟢", "成功"),
-        ("ja", DecisionState::Yellow) => ("🟡", "要確認"),
-        ("ja", DecisionState::Red) => ("🔴", "停止"),
-        (_, DecisionState::Green) => ("🟢", "Success"),
-        (_, DecisionState::Yellow) => ("🟡", "Needs attention"),
-        (_, DecisionState::Red) => ("🔴", "Stop"),
+        ("zh", Some(DecisionState::Green)) => "绿色；不是人工批准".into(),
+        ("zh", Some(DecisionState::Yellow)) => "黄色；需要关注，不是人工批准".into(),
+        ("zh", Some(DecisionState::Red)) => "红色；必须停止，不是人工批准".into(),
+        ("zh", None) => "未知".into(),
+        ("ja", Some(DecisionState::Green)) => "緑。人間の承認ではありません".into(),
+        ("ja", Some(DecisionState::Yellow)) => "黄。人間の承認ではありません".into(),
+        ("ja", Some(DecisionState::Red)) => "赤。停止が必要で、人間の承認ではありません".into(),
+        ("ja", None) => "不明".into(),
+        (_, Some(DecisionState::Green)) => "Green; not a human approval".into(),
+        (_, Some(DecisionState::Yellow)) => "Yellow; not a human approval".into(),
+        (_, Some(DecisionState::Red)) => "Red; stop required, not a human approval".into(),
+        (_, None) => "Unknown".into(),
     }
 }
 
@@ -509,7 +768,10 @@ fn localized_outcome_summary(
 #[derive(Debug)]
 enum HumanDecisionProjection {
     Missing,
-    Valid(HumanDecision),
+    Valid {
+        decision: HumanDecision,
+        assurance: Option<String>,
+    },
     Invalid(&'static str),
 }
 
@@ -549,6 +811,20 @@ fn load_human_decision(root: &Path, work_item_id: &str) -> HumanDecisionProjecti
     let Some(structured) = record.get("structuredDecision").cloned() else {
         return HumanDecisionProjection::Invalid("structured decision is missing");
     };
+    let assurance = record
+        .get("assurance")
+        .or_else(|| structured.get("assurance"))
+        .and_then(Value::as_str)
+        .filter(|value| {
+            matches!(
+                *value,
+                "self_declared"
+                    | "repository_verified"
+                    | "provider_verified"
+                    | "enterprise_verified"
+            )
+        })
+        .map(str::to_owned);
     let Ok(decision): Result<HumanDecision, _> = serde_json::from_value(structured) else {
         return HumanDecisionProjection::Invalid(
             "structured decision fields are incomplete or unknown",
@@ -572,14 +848,23 @@ fn load_human_decision(root: &Path, work_item_id: &str) -> HumanDecisionProjecti
             "decision record summary does not match structured decision",
         );
     }
-    HumanDecisionProjection::Valid(decision)
+    HumanDecisionProjection::Valid {
+        decision,
+        assurance,
+    }
 }
 
-fn render_human_decision(decision: &HumanDecision, language: &str, none: &str) -> String {
+fn render_human_decision(
+    decision: &HumanDecision,
+    assurance: Option<&str>,
+    language: &str,
+    not_recorded: &str,
+) -> String {
     let (
         decision_label,
         actor_label,
         authority_label,
+        assurance_label,
         reason_label,
         evidence_label,
         policy_label,
@@ -590,6 +875,7 @@ fn render_human_decision(decision: &HumanDecision, language: &str, none: &str) -
             "决定",
             "执行人",
             "授权来源",
+            "保证级别",
             "理由",
             "证据引用",
             "策略引用",
@@ -600,6 +886,7 @@ fn render_human_decision(decision: &HumanDecision, language: &str, none: &str) -
             "判断",
             "実行者",
             "権限の出所",
+            "保証レベル",
             "理由",
             "evidence 参照",
             "policy 参照",
@@ -610,6 +897,7 @@ fn render_human_decision(decision: &HumanDecision, language: &str, none: &str) -
             "Decision",
             "Actor",
             "Authority source",
+            "Assurance level",
             "Reason",
             "Evidence refs",
             "Policy refs",
@@ -618,18 +906,24 @@ fn render_human_decision(decision: &HumanDecision, language: &str, none: &str) -
         ),
     };
     let evidence_refs = if decision.evidence_refs.is_empty() {
-        none.to_string()
+        not_recorded.to_string()
     } else {
         decision.evidence_refs.join(", ")
     };
     let policy_refs = if decision.policy_refs.is_empty() {
-        none.to_string()
+        not_recorded.to_string()
     } else {
         decision.policy_refs.join(", ")
     };
-    let resume_condition = decision.resume_condition.as_deref().unwrap_or(none);
+    let resume_condition = decision.resume_condition.as_deref().unwrap_or(not_recorded);
+    let unknown_assurance = match language {
+        "zh" => "未知",
+        "ja" => "不明",
+        _ => "Unknown",
+    };
+    let assurance = assurance.unwrap_or(unknown_assurance);
     format!(
-        "{decision_label}: {}\n  {actor_label}: {}\n  {authority_label}: {}\n  {reason_label}: {}\n  {evidence_label}: {evidence_refs}\n  {policy_label}: {policy_refs}\n  {decided_label}: {}\n  {resume_label}: {resume_condition}",
+        "{decision_label}: {}\n  {actor_label}: {}\n  {authority_label}: {}\n  {assurance_label}: {assurance}\n  {reason_label}: {}\n  {evidence_label}: {evidence_refs}\n  {policy_label}: {policy_refs}\n  {decided_label}: {}\n  {resume_label}: {resume_condition}",
         decision.decision,
         decision.actor,
         decision.authority_source,
