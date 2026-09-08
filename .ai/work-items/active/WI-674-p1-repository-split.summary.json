@@ -72,14 +72,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T12:50:06Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T12:55:56Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:d604f677b26dfeed2db4fcae608ecc1b5b7a2de7ff7da05ddc439d63e49c7f46",
   "workItemId": "WI-674-p1-repository-split"
 }

@@ -6,6 +6,7 @@
     "cargo fmt --all -- --check、相关 cargo test、cargo clippy --locked --workspace --all-targets --all-features -- -D warnings、文档/治理检查和 Runtime verify 均有证据。",
     "英、中、日 Work Item 与 reference parity 投影准确描述范围、依赖、兼容性和未验证事项；不宣称未测量的性能或认知收益。"
   ],
+  "createdAt": "2026-09-08T12:55:56Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:d604f677b26dfeed2db4fcae608ecc1b5b7a2de7ff7da05ddc439d63e49c7f46",
   "evidenceRefs": [
@@ -25,8 +26,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -84,7 +85,7 @@
             ".ai/evidence/WI-674-p1-repository-split.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -129,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-674-p1-repository-split"
   },
-  "taskReportDigest": "sha256:a29610a0ba85044fc3b27b66c4e2fed069eec0cf61c216f363ada0547eb2ba23",
-  "taskReportMarkdownDigest": "sha256:0b9b0a4e37f56be9f8ab15965cea2e7b50f5209a940efcf06d11b1c104148e29",
+  "taskReportDigest": "sha256:d475a793d7be8e361392399cb036af0c27f9652e52c82e9886c7e403fd8589cc",
+  "taskReportMarkdownDigest": "sha256:874c90f080bbcddeaf3cd10439398f528de7b5720aa1cfaedbba064af4132653",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
