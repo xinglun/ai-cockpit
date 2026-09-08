@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T18:54:35Z",
-  "checkpointContractDigest": "sha256:a36225477cfd7da38d413f1d47260f5f5c94cb2f2649d6994a452ce6c917c9a5",
+  "checkpointContractDigest": "sha256:2bb1a7eb287e02c409a59ee2e149216adab93c6628a1008bb492fdeb304d441d",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,8 +42,8 @@
   "checkpointRepositorySnapshotDigest": "sha256:cf23e212f42baecb7ef6a62534ca1e8752c0abd378bdd82737dfb79be0523d9a",
   "createdAt": "2026-09-08T18:50:29Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T18:56:51Z",
-  "preflightContractDigest": "sha256:a36225477cfd7da38d413f1d47260f5f5c94cb2f2649d6994a452ce6c917c9a5",
+  "preflightAt": "2026-09-08T18:58:26Z",
+  "preflightContractDigest": "sha256:2bb1a7eb287e02c409a59ee2e149216adab93c6628a1008bb492fdeb304d441d",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:cf23e212f42baecb7ef6a62534ca1e8752c0abd378bdd82737dfb79be0523d9a",
   "preflightState": "green",
