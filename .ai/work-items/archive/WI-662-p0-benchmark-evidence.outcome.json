@@ -5,8 +5,9 @@
     "baseline/candidate 允许 Runtime 身份不同，同时验证各自证据完整性及环境可比性，并保留既有 gate 的负向回归覆盖。",
     "交付场景矩阵、阶段耗时和资源指标；平台无法可靠取得的指标显式标记不可用；本 WI 不改变生产治理运行行为。"
   ],
+  "createdAt": "2026-09-08T09:01:58Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:5cf0b3f84cbe82b4b788d1e492884ad5aa030ff00aab5de3ef390379514efe46",
+  "evidenceDigest": "sha256:4c13ad6c681f8494986e4a440f36316556fcc53d90f04a7704e3f7d6e55b867c",
   "evidenceRefs": [
     ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
   ],
@@ -24,15 +25,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:fe6e1754dd03e4b2dce2ef3c2d1be9982fefae35d11ec5c4b2bb8b4d933041cf",
+      "repositorySnapshotDigest": "sha256:4269e4c9ee26dfbf8f2baf5250b8cf87433b79abda1e94e42dee504370ab7dc6",
       "workItemId": "WI-662-p0-benchmark-evidence"
     },
     "format": "ai-cockpit.task-outcome",
@@ -64,7 +65,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-662-p0-benchmark-evidence.summary.json"
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -76,7 +77,7 @@
             ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -102,7 +103,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-662-p0-benchmark-evidence.contract.json"
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json"
           ],
           "inference": false,
           "text": "修正 cold/warm 分组并交付原始样本、分位数可靠性、环境与资源指标及 comparator 证据，为后续优化预算提供可审计瓶颈排序。"
@@ -111,7 +112,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-662-p0-benchmark-evidence.contract.json"
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -121,8 +122,8 @@
     "status": "verified",
     "workItemId": "WI-662-p0-benchmark-evidence"
   },
-  "taskReportDigest": "sha256:21636db2552a3eb58df9c0c4ae4ff71a2f1c2d580db1157bad64fec52e565219",
-  "taskReportMarkdownDigest": "sha256:9eacd72e35b134efeffce4eff821fae00f3365e3da2f6ec91f9b2c810011a6a1",
+  "taskReportDigest": "sha256:f9dd520790cc59bb2274f1e9d4710859af213f7ab69bc7a03ccc4970a2b85052",
+  "taskReportMarkdownDigest": "sha256:76cf29d8f441451bdccc2827f994a903bf2324423d894d436aaa46e95ec97b33",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

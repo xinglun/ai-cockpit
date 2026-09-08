@@ -4,7 +4,7 @@
       ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:fe6e1754dd03e4b2dce2ef3c2d1be9982fefae35d11ec5c4b2bb8b4d933041cf",
+    "repositorySnapshotDigest": "sha256:4269e4c9ee26dfbf8f2baf5250b8cf87433b79abda1e94e42dee504370ab7dc6",
     "workItemId": "WI-662-p0-benchmark-evidence"
   },
   "format": "ai-cockpit.task-outcome",
@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-662-p0-benchmark-evidence.summary.json"
+          ".ai/work-items/archive/WI-662-p0-benchmark-evidence.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -48,7 +48,7 @@
           ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-662-p0-benchmark-evidence.contract.json"
+          ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json"
         ],
         "inference": false,
         "text": "修正 cold/warm 分组并交付原始样本、分位数可靠性、环境与资源指标及 comparator 证据，为后续优化预算提供可审计瓶颈排序。"
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-662-p0-benchmark-evidence.contract.json"
+          ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

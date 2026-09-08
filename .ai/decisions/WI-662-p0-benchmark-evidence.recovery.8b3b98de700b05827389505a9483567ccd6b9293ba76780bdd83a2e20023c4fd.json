@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:user-request",
+  "decidedAt": "2026-09-08T09:00:46Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/663",
+    ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+    ".ai/work-items/active/WI-662-p0-benchmark-evidence.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:e9ced14c748112cf6a3498e96626aea5a7eb15fd7c19afbefcdaf8abea1d3bfb",
+  "predecessorEventsDigest": "sha256:5b8fe0125d053dffa0b55543836f896891f6c08977f849e9e058ebc5ad1837f7",
+  "predecessorOutcomeDigest": "sha256:a5491a671896166a6975e4e3c56ce17d5f4f4ae4c49b2944cf4b5a30b74d4e36",
+  "predecessorSummaryDigest": "sha256:aeead13cf4fe6cb31f3c13a1d150b6efa950689c6b4fb63eb7c79a97ced56e1d",
+  "predecessorWorkItemId": "WI-662-p0-benchmark-evidence",
+  "reason": "The current Contract checks and preflight are green, but finish stopped at the append-only lifecycle guard because the historical event stream already contains a completion event. Preserve all prior events and append a current retry binding before retrying the governed finish projection.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run preflight against the current green evidence, retry finish, then archive only with current evidence and preserve all predecessor events.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}
