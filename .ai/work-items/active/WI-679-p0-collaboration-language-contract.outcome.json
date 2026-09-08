@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "A1: docs/reference/collaboration-language-contract.md(+zh-CN/ja) covers the seven communication nodes with trigger/source, state, must-present info, human-decision need, options' effect/authorization scope, next step/stop boundary, and missing-info/misunderstanding/cancellation handling.",
+    "A2: preserves existing Outcome/decision-state/Receipt/block-recovery meanings from glossary.md, protocol spec, and outcome-report.md; introduces no new state/marker/command; any clarification is labeled as such.",
+    "A3: explicitly distinguishes authorization reuse (identity-binding match) vs new authorization (Contract/snapshot changed) vs pure technical recovery (retry/successor/supersede).",
+    "A4: states ten checkable semantic invariants, each citing current evidence and naming any automated-check gap explicitly.",
+    "A5: marks its own verification boundary (doc-structure checks and reviewer reading only; no automated cross-entry-point check, no user study) and lists follow-on Work Items rather than claiming them delivered.",
+    "A6: docs/reference/README.md, README.zh-CN.md, README.ja.md each gain exactly one new index entry; no other entry altered.",
+    "A7: tests/docs/documentation_acceptance.sh passes for the new and modified files."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:94ca10b33d8bef8dbfb8bc254b0da556edcfe91437f3a2090707cf539bbd9cca",
+      "workItemId": "WI-679-p0-collaboration-language-contract"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-679-p0-collaboration-language-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-679-p0-collaboration-language-contract.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-679-p0-collaboration-language-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-679-p0-collaboration-language-contract.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-679-p0-collaboration-language-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "A new user or contributor can read one page to understand current state, authorization scope, and stop boundaries at each collaboration moment, and hand off to another Agent/session without losing that understanding."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-679-p0-collaboration-language-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-679-p0-collaboration-language-contract"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-679-p0-collaboration-language-contract"
+}
