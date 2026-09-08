@@ -1,0 +1,96 @@
+{
+  "acceptanceCriteria": [
+    "Record a fresh baseline before the candidate on base c1f1f1d9f17ec2242a59f287a4368bd6bda5993e; use the corrected order-preserving benchmark, retain raw samples, warm-up count, sample count, percentile method, environment, and unavailable resource metrics without filling them with zero.",
+    "Validate the duplicate decisions-directory scan hypothesis with a bounded counter or equivalent evidence, then compare unchanged baseline and candidate on the same many-historical-WI status scenario and the required behavior scenarios.",
+    "Materialize transition candidates once per immutable historical inventory observation and reuse them only inside that observation; preserve canonical receipts, transitions, malformed records, filename digest failures, forks, governance append validation, missing decisions, path anomalies, and repository/work-item isolation semantics.",
+    "Do not introduce a process-global or cross-repository cache, cross-request snapshot, authorization bypass, evidence rebinding, or output-order change; preserve deterministic outputs, errors, evidence bindings, and exit codes.",
+    "Accept the candidate only if fresh same-toolchain evidence shows the target status path improves without exceeding the Contract's correctness or resource budgets; otherwise record an explicit reject decision and do not claim a benefit. The final verification budget is inspect warm.p95 <= 250 ms, status warm.p95 <= 10000 ms, doctor warm.p95 <= 100 ms, and observe warm.p95 <= 250 ms; target-path acceptance additionally requires status warm p50 and p95 to be lower than baseline and no other measured stage to exceed 125% of its baseline p95. p95 requires at least 20 warm samples; p99 remains unknown below 100 samples.",
+    "Record the old PR #671 hosted-quality failure as preserved audit evidence: it was an open draft based on 4950da8c and failed the quality gate because delivery parity/documentation was incomplete; it is not a reviewed or merge-authorizing result.",
+    "Record in this Contract that on 2026-09-08 the human first instructed the Agent to pause at a suitable point for later manual resume, then explicitly confirmed continuation and authorized human:user-request continuation through provider or lifecycle interruptions; preserve that exact interruption/resume scope and evidence here, and do not treat it as a fabricated GitHub review or approval.",
+    "Complete the repository's three-language Work Item documentation and parity registration for this Work Item, and retain Runtime verification, hosted checks, finalization, and human-visible Outcome evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
+  "createdAt": "2026-09-08T12:36:02Z",
+  "goal": "Redeliver and independently verify the P1 historical finalization inventory optimization from the latest default branch after the failed PR #671 attempt, using fresh evidence before accepting or rejecting the bounded candidate-set reuse hypothesis.",
+  "intent": "Reduce request-internal repeated scans of the decisions directory on the measured historical-finalization status path while preserving Calibrated Human-Agent Trust, evidence validity, repository isolation, authorization boundaries, deterministic governance outcomes, and recovery behavior.",
+  "mode": "code",
+  "outOfScope": [
+    "P0 benchmark behavior except consuming its corrected measurement contract",
+    "all other production code and unrelated refactors",
+    "request-spanning or process-global caches",
+    "DAG scheduling and PhysicalSingleFlightCoordinator",
+    "IncrementalMerkle and broad incremental indexing",
+    "large-file I/O, polling, MCP architecture, in-process Git, PGO, and compiler changes",
+    "authorization, evidence, repository-isolation, recovery, or governance rule weakening",
+    "historical evidence and generated Runtime records outside this Work Item",
+    "other agents' worktrees, branches, Work Items, and PRs"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:538e1b19464e0e0b9c03e789513d9f812354d37d544dd8beca8f2c9d7327aa98",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_quality",
+    "finalization",
+    "human_outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-678-p1-historical-inventory-redelivery",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-678-p1-historical-inventory-redelivery"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "docs/work-items/WI-678-p1-historical-inventory-redelivery.md",
+    "docs/work-items/WI-678-p1-historical-inventory-redelivery.zh-CN.md",
+    "docs/work-items/WI-678-p1-historical-inventory-redelivery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.baseline.final.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.candidate.final.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.environment-comparability.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.p0-gate.out",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.p0-gate.err",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.baseline.inspect.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.baseline.status.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.baseline.doctor.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.baseline.observe.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.candidate.inspect.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.candidate.status.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.candidate.doctor.json",
+    ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.candidate.observe.json"
+    ,".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.acceptance.json"
+  ],
+  "sources": [
+    "origin/main c1f1f1d9f17ec2242a59f287a4368bd6bda5993e, the latest remote default branch observed before Work Item creation",
+    "PR #671 https://github.com/xinglun/ai-cockpit/pull/671, draft historical attempt with hosted quality failure preserved as audit context",
+    "codex/wi-673-p1-historical-inventory commit 5f918300 and preserved old Work Item evidence in /private/tmp/ai-cockpit-wi-673-p1-historical-inventory",
+    "crates/cockpit-repository/src/lib.rs historical_finalization_inventory and resolver call path",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs finalization failure and recovery coverage",
+    "tests/performance/runtime_benchmark.sh and runtime_benchmark_stats.py corrected order-preserving measurement harness",
+    "P0 evidence and bottleneck ranking recorded by WI-662 and related performance evidence on the repository default branch"
+    ,".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.environment-comparability.json and the final raw baseline/candidate records"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace",
+    "same-toolchain clean-main and candidate many-historical-WI benchmark with at least 20 warm samples per variant",
+    "baseline/candidate normalized inspect status doctor and observe output comparison, including exit codes and error-path fixtures",
+    "bounded decisions-directory read counter and resource/identity isolation checks",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "tests/docs/parity_status_check_test.sh",
+    "tests/docs/pending_parity_registry_test.sh",
+    "tests/docs/work_item_status_consistency_test.sh"
+  ],
+  "workItemId": "WI-678-p1-historical-inventory-redelivery"
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-678-p1-historical-inventory-redelivery",
+  "kind": "benchmark_acceptance",
+  "sourceEvidence": {
+    "baseline": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.baseline.final.json",
+    "candidate": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.candidate.final.json",
+    "comparability": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.environment-comparability.json"
+  },
+  "scenario": "many-historical-wi",
+  "warmSampleCount": 20,
+  "percentileMethod": "nearest-rank-on-sorted-samples",
+  "p99": "unknown:20<100",
+  "budgetsMs": {
+    "inspect": 250,
+    "status": 10000,
+    "doctor": 100,
+    "observe": 250
+  },
+  "resultsMs": {
+    "baseline": {
+      "inspect": {"p50": 103.721, "p95": 121.594},
+      "status": {"p50": 4491.409, "p95": 6715.885},
+      "doctor": {"p50": 49.075, "p95": 51.487},
+      "observe": {"p50": 136.658, "p95": 149.930}
+    },
+    "candidate": {
+      "inspect": {"p50": 86.235, "p95": 88.746},
+      "status": {"p50": 3018.387, "p95": 3084.516},
+      "doctor": {"p50": 49.896, "p95": 61.930},
+      "observe": {"p50": 137.895, "p95": 158.856}
+    }
+  },
+  "acceptance": {
+    "statusTargetP50Improved": true,
+    "statusTargetP95Improved": true,
+    "nonTargetP95AtMost125PercentBaseline": true,
+    "allMeasuredP95WithinBudget": true,
+    "normalizedGovernanceOutputsEqual": true,
+    "exitCodesEqual": true,
+    "decision": "accept_candidate_with_explicit_formal_gate_platform_limitation"
+  },
+  "runtimeVerification": {
+    "documentationAcceptance": {
+      "passed": true,
+      "outputDigest": "sha256:d05818cac667afbf64896f981a2786e0f3a8856935df30516523d61721ea41e7"
+    },
+    "statusConsistency": {
+      "passed": true,
+      "outputDigest": "sha256:701e424c3164f59370c863b7ef060650913ce633a04ad1b52986f1fccd81aeca"
+    }
+  },
+  "limitations": [
+    "The formal P0 comparator failed closed because runtime_benchmark.sh could not obtain a filesystem type on this Darwin host; the same-host APFS comparability manifest is retained and no unavailable metric was filled with zero.",
+    "Only the many-historical-wi scenario was measured for this WI; the remaining scenario matrix entries remain explicitly not_measured.",
+    "CPU, I/O, memory, cache invalidation, resident MCP, and internal phase timings were unavailable from the current Runtime/harness and are not claimed as improvements."
+  ]
+}

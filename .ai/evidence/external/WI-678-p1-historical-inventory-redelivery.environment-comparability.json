@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-678-p1-historical-inventory-redelivery",
+  "kind": "benchmark_environment_comparability",
+  "method": "same-host independent verification because runtime_benchmark.sh cannot obtain a filesystem type on this Darwin host",
+  "host": {
+    "system": "Darwin",
+    "release": "25.6.0",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "processor": "arm",
+    "cpuCount": 10,
+    "mountEvidence": [
+      "/dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)",
+      "/dev/disk3s5 on /System/Volumes/Data (apfs, local, journaled, nobrowse, protect, root data)"
+    ],
+    "manualComparisonKey": "sha256:9a4b85e8705665118c8a86f1f35e86483b5183481cca8172bc20ca85481b9ff9"
+  },
+  "repository": {
+    "path": "/private/tmp/ai-cockpit-wi-678-baseline-repo",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "head": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
+    "dirty": false,
+    "trackedFileCount": 9795,
+    "trackedBytes": 62541904,
+    "historicalWorkItemCount": 592
+  },
+  "variants": {
+    "baseline": {
+      "runtimeVersion": "0.2.87",
+      "runtimeDigest": "sha256:5170e81a0fe3738686b13f374802963cbb4c72fbca021c37963970c3ff3d526b",
+      "binaryDigest": "sha256:5170e81a0fe3738686b13f374802963cbb4c72fbca021c37963970c3ff3d526b",
+      "rawEvidence": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.baseline.final.json"
+    },
+    "candidate": {
+      "runtimeVersion": "0.2.87",
+      "runtimeDigest": "sha256:55c8adaa4781ca194eaf072c4e437295119279efc45d762823ea5c83b1b9f570",
+      "binaryDigest": "sha256:55c8adaa4781ca194eaf072c4e437295119279efc45d762823ea5c83b1b9f570",
+      "rawEvidence": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.candidate.final.json"
+    }
+  },
+  "correctedHarnessLimitation": {
+    "state": "unavailable",
+    "reason": "runtime_benchmark.sh stat -f %T returned '/' on Darwin and therefore marked filesystem type unavailable; no metric was replaced with zero",
+    "formalP0Gate": "failed_closed_environment_comparison_unavailable",
+    "gateEvidence": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.p0-gate.out"
+  },
+  "outputComparison": {
+    "commands": ["inspect", "status", "doctor", "observe"],
+    "exitCodes": {"baseline": 0, "candidate": 0},
+    "normalizedEquality": {"inspect": true, "status": true, "doctor": true, "observe": true},
+    "normalization": "removed only runtime identity and per-run timestamp/headDigest fields"
+  }
+}
