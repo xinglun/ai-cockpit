@@ -1,0 +1,464 @@
+{
+  "binaryDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "budgets": [],
+  "cacheInvalidationReasons": {
+    "available": false,
+    "reason": "runtime_does_not_expose_cache_invalidation_events"
+  },
+  "capturedAt": "2026-09-08T18:51:23Z",
+  "environment": {
+    "comparisonKey": "unavailable:filesystem_comparison",
+    "dataScale": {
+      "trackedBytes": 75325549,
+      "trackedFileCount": 10044
+    },
+    "filesystem": {
+      "available": false,
+      "reason": "filesystem_type_unavailable",
+      "type": null
+    },
+    "machine": {
+      "cpuCount": 10,
+      "name": "arm64",
+      "processor": "arm"
+    },
+    "os": {
+      "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+      "release": "25.6.0",
+      "system": "Darwin"
+    },
+    "repository": {
+      "branch": "main",
+      "changedPathCount": 0,
+      "dirty": false,
+      "head": "513e7e72523097893c658ec76c25706fd5b266b8",
+      "historicalWorkItemCount": 604,
+      "largeChangedFile": false,
+      "trackedBytes": 75325549,
+      "trackedBytesAvailable": true,
+      "trackedBytesUnavailableReason": null,
+      "trackedFileCount": 10044
+    }
+  },
+  "measurementModel": {
+    "firstMeasurement": "first measured independent CLI process after Runtime identity probes; not true cold cache",
+    "residentMcp": {
+      "reason": "harness invokes the external CLI and has no resident MCP transport",
+      "status": "not_measured"
+    },
+    "warmMeasurement": "independent CLI processes after one OS-cache warmup process",
+    "warmupCount": 1
+  },
+  "phaseMetrics": {
+    "evidenceAndGovernance": {
+      "available": false,
+      "reason": "runtime_does_not_expose_phase_timing"
+    },
+    "fileReadHashParse": {
+      "available": false,
+      "reason": "runtime_does_not_expose_io_counters"
+    },
+    "gitSnapshot": {
+      "available": false,
+      "reason": "runtime_does_not_expose_git_counters"
+    },
+    "outcomeProjectionSerialization": {
+      "available": false,
+      "reason": "runtime_does_not_expose_phase_timing"
+    },
+    "processStartupAndRuntimeIdentity": {
+      "available": false,
+      "reason": "runtime_does_not_expose_phase_timing"
+    },
+    "schedulingSubprocessCapture": {
+      "available": false,
+      "reason": "runtime_does_not_expose_internal_process_timing"
+    }
+  },
+  "preMeasurementProbeCount": 3,
+  "preMeasurementProbes": [
+    {
+      "elapsedMs": 5.685,
+      "kind": "runtime_identity",
+      "name": "runtime-version"
+    },
+    {
+      "elapsedMs": 109.311,
+      "kind": "runtime_identity",
+      "name": "inspect"
+    },
+    {
+      "elapsedMs": 4138.854,
+      "kind": "repository_identity",
+      "name": "status"
+    }
+  ],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "requestedWarmMeasurements": 20,
+  "resourceMetrics": {
+    "actualHashedBytes": {
+      "available": false,
+      "reason": "runtime_does_not_expose_io_counters"
+    },
+    "actualReadBytes": {
+      "available": false,
+      "reason": "runtime_does_not_expose_io_counters"
+    },
+    "gitCalls": {
+      "available": false,
+      "reason": "runtime_does_not_expose_git_counters"
+    },
+    "metadataGitCalls": {
+      "available": true,
+      "scope": "benchmark metadata collection",
+      "value": 4
+    },
+    "peakMemoryBytes": {
+      "available": false,
+      "reason": "platform_metric_unavailable"
+    },
+    "processesSpawned": {
+      "available": true,
+      "scope": "direct external CLI invocations including identity probes and warmups",
+      "value": 91
+    },
+    "runtimeChildProcesses": {
+      "available": false,
+      "reason": "runtime_does_not_expose_process_tree"
+    }
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "samples": [
+    {
+      "e2eMeaning": "wall-clock process invocation through output capture",
+      "firstMeasurementMs": 95.527,
+      "name": "inspect",
+      "rawSamplesMs": [
+        95.527,
+        91.862,
+        95.569,
+        112.109,
+        90.743,
+        90.865,
+        92.209,
+        89.31,
+        89.661,
+        91.874,
+        91.789,
+        91.292,
+        89.935,
+        89.215,
+        91.012,
+        90.784,
+        90.564,
+        92.687,
+        89.15,
+        89.087,
+        89.687
+      ],
+      "sampleCount": 21,
+      "warm": {
+        "p50Ms": 90.784,
+        "p95Ms": 95.569,
+        "p99Ms": null,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "warmSamplesMs": [
+        91.862,
+        95.569,
+        112.109,
+        90.743,
+        90.865,
+        92.209,
+        89.31,
+        89.661,
+        91.874,
+        91.789,
+        91.292,
+        89.935,
+        89.215,
+        91.012,
+        90.784,
+        90.564,
+        92.687,
+        89.15,
+        89.087,
+        89.687
+      ],
+      "warmupCount": 1,
+      "warmupSamplesMs": [
+        89.909
+      ]
+    },
+    {
+      "e2eMeaning": "wall-clock process invocation through output capture",
+      "firstMeasurementMs": 3579.072,
+      "name": "status",
+      "rawSamplesMs": [
+        3579.072,
+        14397.471,
+        3709.928,
+        3794.021,
+        3778.461,
+        3761.368,
+        3750.642,
+        3747.841,
+        3666.107,
+        3841.744,
+        3926.826,
+        3714.786,
+        3717.011,
+        3644.304,
+        3634.669,
+        3637.498,
+        3692.195,
+        3690.572,
+        3646.306,
+        3711.874,
+        3641.89
+      ],
+      "sampleCount": 21,
+      "warm": {
+        "p50Ms": 3711.874,
+        "p95Ms": 3926.826,
+        "p99Ms": null,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "warmSamplesMs": [
+        14397.471,
+        3709.928,
+        3794.021,
+        3778.461,
+        3761.368,
+        3750.642,
+        3747.841,
+        3666.107,
+        3841.744,
+        3926.826,
+        3714.786,
+        3717.011,
+        3644.304,
+        3634.669,
+        3637.498,
+        3692.195,
+        3690.572,
+        3646.306,
+        3711.874,
+        3641.89
+      ],
+      "warmupCount": 1,
+      "warmupSamplesMs": [
+        3631.966
+      ]
+    },
+    {
+      "e2eMeaning": "wall-clock process invocation through output capture",
+      "firstMeasurementMs": 63.97,
+      "name": "doctor",
+      "rawSamplesMs": [
+        63.97,
+        56.803,
+        57.563,
+        56.71,
+        56.015,
+        55.974,
+        56.363,
+        57.825,
+        57.388,
+        56.068,
+        55.951,
+        55.407,
+        54.444,
+        54.304,
+        56.101,
+        55.134,
+        54.691,
+        55.923,
+        58.034,
+        56.32,
+        56.745
+      ],
+      "sampleCount": 21,
+      "warm": {
+        "p50Ms": 56.068,
+        "p95Ms": 57.825,
+        "p99Ms": null,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "warmSamplesMs": [
+        56.803,
+        57.563,
+        56.71,
+        56.015,
+        55.974,
+        56.363,
+        57.825,
+        57.388,
+        56.068,
+        55.951,
+        55.407,
+        54.444,
+        54.304,
+        56.101,
+        55.134,
+        54.691,
+        55.923,
+        58.034,
+        56.32,
+        56.745
+      ],
+      "warmupCount": 1,
+      "warmupSamplesMs": [
+        56.219
+      ]
+    },
+    {
+      "e2eMeaning": "wall-clock process invocation through output capture",
+      "firstMeasurementMs": 159.401,
+      "name": "observe",
+      "rawSamplesMs": [
+        159.401,
+        145.833,
+        142.212,
+        146.41,
+        141.621,
+        142.18,
+        142.617,
+        144.192,
+        144.412,
+        147.043,
+        143.413,
+        144.414,
+        145.533,
+        143.434,
+        145.232,
+        146.001,
+        146.258,
+        143.995,
+        144.655,
+        142.34,
+        144.389
+      ],
+      "sampleCount": 21,
+      "warm": {
+        "p50Ms": 144.389,
+        "p95Ms": 146.41,
+        "p99Ms": null,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "warmSamplesMs": [
+        145.833,
+        142.212,
+        146.41,
+        141.621,
+        142.18,
+        142.617,
+        144.192,
+        144.412,
+        147.043,
+        143.413,
+        144.414,
+        145.533,
+        143.434,
+        145.232,
+        146.001,
+        146.258,
+        143.995,
+        144.655,
+        142.34,
+        144.389
+      ],
+      "warmupCount": 1,
+      "warmupSamplesMs": [
+        145.178
+      ]
+    }
+  ],
+  "scenario": "many-historical-wi",
+  "scenarioMatrix": [
+    {
+      "name": "small-clean",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "many-files-clean",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "single-file-change",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "multi-file-change",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "large-file-change",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "many-historical-wi",
+      "reason": "historical_work_item_scale_match",
+      "status": "measured"
+    },
+    {
+      "name": "concurrent-validation-requests",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "resident-mcp-repeat-query",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "current-repository",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    }
+  ],
+  "schemaVersion": 2,
+  "source": "explicit-external-binary"
+}

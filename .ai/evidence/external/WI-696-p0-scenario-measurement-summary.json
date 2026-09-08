@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "kind": "p0-scenario-measurement-summary",
+  "workItemId": "WI-696-p0-scenario-measurement",
+  "measurementSet": {
+    "sourceRevision": "513e7e72523097893c658ec76c25706fd5b266b8",
+    "binarySource": "development release build from the Work Item branch; copied outside the measured repository",
+    "runtimeVersion": "0.2.87",
+    "runtimeDigest": "sha256:faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+    "binaryDigest": "sha256:faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+    "warmSampleCount": 20,
+    "quantileMethod": "nearest-rank-on-sorted-samples",
+    "firstMeasurement": "first measured independent CLI process after three Runtime identity probes; not true cold cache",
+    "warmMeasurement": "independent CLI processes after one OS-cache warmup process",
+    "residentMcp": {"status": "not_measured", "reason": "portable harness has no resident MCP transport"},
+    "p99": {"status": "not_reliable", "reason": "20 warm samples are below the 100-sample floor"}
+  },
+  "scenarios": {
+    "small-clean": {
+      "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.small-clean.budgeted2.dev-faacc6a3.json",
+      "repositoryId": "sha256:7cb5447f4c86b748d49d83f8285f863f3c6a3731db32bb6b8ad992bfef4ac196",
+      "trackedFiles": 15,
+      "trackedBytes": 1913,
+      "dirty": false,
+      "changedPaths": 0,
+      "p95Ms": {"inspect": 63.067, "status": 85.517, "doctor": 14.547, "observe": 60.704},
+      "p50Ms": {"inspect": 60.39, "status": 82.696, "doctor": 14.088, "observe": 59.106},
+      "firstMeasurementMs": {"inspect": 59.89, "status": 80.91, "doctor": 14.911, "observe": 61.269},
+      "budget": ".ai/evidence/external/WI-696-p0-scenario-measurement-budgets/small-clean.json"
+    },
+    "single-file-change": {
+      "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.single-file-change.budgeted2.dev-faacc6a3.json",
+      "repositoryId": "sha256:036ce17d34818cba948cab4ffffee68e2aeab8684f838dafc230d80ca2128eae",
+      "trackedFiles": 8,
+      "trackedBytes": 1832,
+      "dirty": true,
+      "changedPaths": 1,
+      "p95Ms": {"inspect": 75.741, "status": 103.28, "doctor": 14.472, "observe": 72.722},
+      "p50Ms": {"inspect": 71.913, "status": 93.616, "doctor": 14.174, "observe": 71.838},
+      "firstMeasurementMs": {"inspect": 71.094, "status": 93.226, "doctor": 14.903, "observe": 71.805},
+      "budget": ".ai/evidence/external/WI-696-p0-scenario-measurement-budgets/single-file-change.json"
+    },
+    "multi-file-change": {
+      "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.multi-file-change.budgeted2.dev-faacc6a3.json",
+      "repositoryId": "sha256:036ce17d34818cba948cab4ffffee68e2aeab8684f838dafc230d80ca2128eae",
+      "trackedFiles": 8,
+      "trackedBytes": 1836,
+      "dirty": true,
+      "changedPaths": 3,
+      "p95Ms": {"inspect": 74.644, "status": 99.833, "doctor": 14.832, "observe": 73.432},
+      "p50Ms": {"inspect": 72.872, "status": 95.43, "doctor": 14.5, "observe": 72.077},
+      "firstMeasurementMs": {"inspect": 71.614, "status": 96.687, "doctor": 15.086, "observe": 74.735},
+      "budget": ".ai/evidence/external/WI-696-p0-scenario-measurement-budgets/multi-file-change.json"
+    },
+    "large-file-change": {
+      "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.large-file-change.budgeted2.dev-faacc6a3.json",
+      "repositoryId": "sha256:b6794c8ace4da8e1414eb4321b379b8e8dea2c88198730d931cc5fe022a1e743",
+      "trackedFiles": 6,
+      "trackedBytes": 1050328,
+      "dirty": true,
+      "changedPaths": 1,
+      "largeChangedFile": true,
+      "p95Ms": {"inspect": 78.973, "status": 101.456, "doctor": 14.499, "observe": 77.739},
+      "p50Ms": {"inspect": 75.946, "status": 99.895, "doctor": 14.077, "observe": 75.675},
+      "firstMeasurementMs": {"inspect": 75.86, "status": 99.602, "doctor": 14.956, "observe": 76.915},
+      "budget": ".ai/evidence/external/WI-696-p0-scenario-measurement-budgets/large-file-change.json"
+    },
+    "many-files-clean": {
+      "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.many-files-clean.budgeted2.dev-faacc6a3.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "sourceHead": "513e7e72523097893c658ec76c25706fd5b266b8",
+      "trackedFiles": 10044,
+      "trackedBytes": 75325549,
+      "historicalWorkItems": 604,
+      "dirty": false,
+      "p95Ms": {"inspect": 92.159, "status": 3126.662, "doctor": 59.46, "observe": 148.613},
+      "p50Ms": {"inspect": 90.097, "status": 3095.188, "doctor": 57.552, "observe": 144.646},
+      "firstMeasurementMs": {"inspect": 110.689, "status": 3052.684, "doctor": 64.856, "observe": 155.359},
+      "budget": ".ai/evidence/external/WI-696-p0-scenario-measurement-budgets/many-files-clean.json"
+    },
+    "many-historical-wi": {
+      "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.many-historical-wi.budgeted2.dev-faacc6a3.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "sourceHead": "513e7e72523097893c658ec76c25706fd5b266b8",
+      "trackedFiles": 10044,
+      "trackedBytes": 75325549,
+      "historicalWorkItems": 604,
+      "dirty": false,
+      "p95Ms": {"inspect": 93.238, "status": 3588.843, "doctor": 61.779, "observe": 148.943},
+      "p50Ms": {"inspect": 91.236, "status": 3103.234, "doctor": 60.358, "observe": 145.194},
+      "firstMeasurementMs": {"inspect": 92.628, "status": 3109.273, "doctor": 79.887, "observe": 172.454},
+      "budget": ".ai/evidence/external/WI-696-p0-scenario-measurement-budgets/many-historical-wi.json"
+    }
+  },
+  "resourceMetrics": {
+    "directCliProcessesPerScenario": 91,
+    "benchmarkMetadataGitCallsPerScenario": 4,
+    "actualReadBytes": {"available": false, "reason": "runtime_does_not_expose_io_counters"},
+    "actualHashedBytes": {"available": false, "reason": "runtime_does_not_expose_io_counters"},
+    "runtimeGitCalls": {"available": false, "reason": "runtime_does_not_expose_git_counters"},
+    "runtimeChildProcesses": {"available": false, "reason": "runtime_does_not_expose_process_tree"},
+    "peakMemoryBytes": {"available": false, "reason": "platform_metric_unavailable"},
+    "cacheInvalidationReasons": {"available": false, "reason": "runtime_does_not_expose_cache_invalidation_events"},
+    "filesystemType": {"available": false, "reason": "Darwin stat output was not a trustworthy filesystem type for the comparator"}
+  },
+  "bottleneckOrdering": [
+    {"rank": 1, "path": "status on many-historical-wi", "warmP95Ms": 3588.843, "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.many-historical-wi.budgeted2.dev-faacc6a3.json"},
+    {"rank": 2, "path": "status on many-files-clean", "warmP95Ms": 3126.662, "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.many-files-clean.budgeted2.dev-faacc6a3.json"},
+    {"rank": 3, "path": "observe on large repositories", "warmP95Ms": 148.943, "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.many-historical-wi.budgeted2.dev-faacc6a3.json"},
+    {"rank": 4, "path": "inspect on large repositories", "warmP95Ms": 93.238, "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.many-historical-wi.budgeted2.dev-faacc6a3.json"},
+    {"rank": 5, "path": "doctor on all measured repositories", "warmP95Ms": 61.779, "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.many-historical-wi.budgeted2.dev-faacc6a3.json"}
+  ],
+  "optimizationBudget": {
+    "guardrailBasis": "maximum observed warm p95 across repeated development measurements plus a bounded noise allowance; values are regression ceilings, not claimed improvements",
+    "targetRuleForSuccessor": "For a measured target path, require a pre-registered improvement threshold based on paired baseline noise; do not infer an improvement from cache hit rate or one run.",
+    "primaryTarget": "status on many historical Work Items and many-file clean repositories",
+    "nonTargetRule": "No key scenario may exceed its scenario budget; failures, dirty/unknown paths, and unavailable metrics remain fail-closed.",
+    "futureCandidateComparison": "Use p0_regression_gate.sh with the matching scenario budget and two complete records; this platform's unknown filesystem type makes actual cross-runtime comparison fail closed until a trustworthy environment key is available."
+  },
+  "concurrency": {
+    "evidence": ".ai/evidence/external/WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+    "runtimeDigest": "sha256:faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+    "repositoryHead": "99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+    "sameIdentity": {"rounds": 20, "concurrency": 4, "physicalExecutionsPerRound": 4, "roundP50Ms": 441.652, "roundP95Ms": 454.629, "requestP50Ms": 439.569, "requestP95Ms": 454.216},
+    "resourceContention": {"rounds": 20, "concurrency": 4, "physicalExecutionsPerRound": 4, "roundP50Ms": 488.366, "roundP95Ms": 554.042, "requestP50Ms": 487.204, "requestP95Ms": 553.715},
+    "failurePropagation": {"rounds": 20, "concurrency": 4, "physicalExecutionsPerRound": 4, "failedRequests": 80, "roundP50Ms": 459.726, "roundP95Ms": 561.109, "requestP50Ms": 456.819, "requestP95Ms": 560.746},
+    "cancellation": {"rounds": 1, "percentilesReliable": false},
+    "decision": "declined_for_now",
+    "reason": "The public measurement launches independent CLI processes and current origin/main has zero production callers of PhysicalSingleFlightCoordinator; it is not safe evidence for in-process sharing."
+  },
+  "residentMcp": {"status": "not_measured", "reason": "No resident MCP transport was exposed by the portable harness; successor must measure the real in-process path."},
+  "correctness": {"productionBehaviorChanged": false, "runtimeOptimizationApplied": false, "governanceSemanticsWeakened": false}
+}

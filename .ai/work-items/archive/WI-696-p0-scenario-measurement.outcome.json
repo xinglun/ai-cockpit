@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "每个可复现场景至少保留 20 个 warm 样本、首次测量样本、预热次数、原始顺序和 nearest-rank 分位数；样本不足时不声明可靠 p95/p99。",
+    "测量 small-clean、many-files-clean、single-file-change、multi-file-change、large-file-change、many-historical-wi；并发验证和 resident MCP 明确绑定既有证据或 not_measured 原因，不合成数据。",
+    "每个记录绑定 Runtime 版本/文件摘要、仓库身份/快照、OS、硬件、文件系统、数据规模、git metadata 计数和实际 CLI 进程数；内部阶段、读取/哈希字节、子进程、峰值内存和缓存失效无法取得时明确不可用，不填零。",
+    "交付按实际端到端 p50/p95 与现有内部证据排序的瓶颈及优化预算/后续前置条件；不修改生产治理行为、不宣称性能收益。"
+  ],
+  "createdAt": "2026-09-08T19:30:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:edc15785437aea0421883124c297638bd6809dc50b65103618a1b6960a6d1bf4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:952605d68fcaab7f0277f83587cc4c6ce0a4ed5ae39ef434818220b1e532d8fa",
+      "workItemId": "WI-696-p0-scenario-measurement"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-696-p0-scenario-measurement.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-696-p0-scenario-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "使用现有 runtime_benchmark.sh 对可复现场景矩阵进行有界测量，保留原始样本、环境、Runtime 身份、不可用指标原因和当前路径的瓶颈排序，为后续每项优化提供绑定 baseline；明确并发与 resident MCP 的测量边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-696-p0-scenario-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-696-p0-scenario-measurement"
+  },
+  "taskReportDigest": "sha256:8b7d6eb120d921ad1480fb50c8d841e57706ad551ba83020b7f9a1f7421a22c2",
+  "taskReportMarkdownDigest": "sha256:fa79cc367700adaa859a75d78e2ac286c77ea661caf1a229998ece952cfc3737",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-696-p0-scenario-measurement.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-696-p0-scenario-measurement"
+}
