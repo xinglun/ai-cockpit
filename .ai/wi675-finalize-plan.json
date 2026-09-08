@@ -1,0 +1,8 @@
+{
+  "branch": "codex/wi-675-wi670-doc-promotion",
+  "worktree": "/private/tmp/ai-cockpit-wi-675-wi670-doc-promotion",
+  "baseBranch": "main",
+  "baseRemote": "origin",
+  "provider": "github",
+  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/670"
+}

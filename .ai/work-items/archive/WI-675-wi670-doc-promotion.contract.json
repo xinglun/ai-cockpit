@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "Synchronize only the nine scoped Markdown projection paths required by the WI-670 closed-work-item promotion check and this WI self-registration.",
+    "Preserve the immutable WI-670 Contract language, Outcome-rendering evidence references, finalization and close bindings, and three-language parity semantics.",
+    "Pass documentation acceptance, parity, status consistency, governance integrity, and closed-work-item promotion checks on the exact reviewed head.",
+    "Keep user_visible_benefit_not_declared explicit and do not claim a user-visible or performance benefit from this documentation projection."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f65eec0672b084513c94411bbf7a9410e4b5382d",
+  "createdAt": "2026-09-08T11:51:39Z",
+  "goal": "Synchronize the WI-670 Work Item pages and reference-parity rows so the closed-work-item promotion gate passes.",
+  "intent": "Promote the closed WI-670 Outcome-rendering successor into the governed three-language documentation projection without changing behavior or historical evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "production code",
+    "tests",
+    "governance rules",
+    "immutable WI-670 lifecycle records",
+    "other Work Items",
+    "other agents worktrees and branches",
+    "hosted provider behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e45f062ce62c90dc31586a54ec219dae68cee225e79550ff0dfa336e1a98503c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_quality",
+    "finalization",
+    "human_outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-675-wi670-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/670",
+    "worktree": "/private/tmp/ai-cockpit-wi-675-wi670-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-670-wi653-outcome-render-successor.md",
+    "docs/work-items/WI-670-wi653-outcome-render-successor.zh-CN.md",
+    "docs/work-items/WI-670-wi653-outcome-render-successor.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-675-wi670-doc-promotion.md",
+    "docs/work-items/WI-675-wi670-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-675-wi670-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-675-wi670-doc-promotion"
+}

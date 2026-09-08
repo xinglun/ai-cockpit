@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-670——WI-653 Outcome 展示层 successor"
 description: "从最新默认分支重新交付 P1-A Outcome 展示边界，在渲染前组装仓库事实。"
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-670-wi653-outcome-render-successor
 lastVerifiedBy: WI-670-wi653-outcome-render-successor
+terminalArchive: .ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json
+terminalVerification: .ai/evidence/WI-670-wi653-outcome-render-successor.verification.json
+terminalFinalization: .ai/decisions/WI-670-wi653-outcome-render-successor.finalize.json
+terminalDecision: .ai/decisions/WI-670-wi653-outcome-render-successor.close.json
 ---
 
 [English](WI-670-wi653-outcome-render-successor.md) · [日本語](WI-670-wi653-outcome-render-successor.ja.md)

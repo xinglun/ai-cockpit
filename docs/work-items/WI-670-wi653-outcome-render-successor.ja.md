@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-670 — WI-653 Outcome 表示層 successor"
 description: "最新の default branch から P1-A の Outcome 表示境界を再配信し、描画前に repository facts を組み立てる。"
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-670-wi653-outcome-render-successor
 lastVerifiedBy: WI-670-wi653-outcome-render-successor
+terminalArchive: .ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json
+terminalVerification: .ai/evidence/WI-670-wi653-outcome-render-successor.verification.json
+terminalFinalization: .ai/decisions/WI-670-wi653-outcome-render-successor.finalize.json
+terminalDecision: .ai/decisions/WI-670-wi653-outcome-render-successor.close.json
 ---
 
 [English](WI-670-wi653-outcome-render-successor.md) · [简体中文](WI-670-wi653-outcome-render-successor.zh-CN.md)
