@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T21:40:29Z",
-  "checkpointContractDigest": "sha256:bc25c28a199486d5c64bbc6a8679c61c67aa7177958332875bf8e82d5ff75cdf",
+  "checkpointContractDigest": "sha256:84a5481a19a3b1fdf4d761163cee7b20c35d27098ba3f70b8decd63a0009456b",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,13 +37,33 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-702-wi701-parity-order-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:84a5481a19a3b1fdf4d761163cee7b20c35d27098ba3f70b8decd63a0009456b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3430e772bae06e55bf57d0c0e386f6a7b52314c7ad2df5705db032c43a5d4972",
+      "previousContractHash": "sha256:bc25c28a199486d5c64bbc6a8679c61c67aa7177958332875bf8e82d5ff75cdf",
+      "reason": "Bind the verified GitHub PR #701 branch, base, worktree, and exact head context before terminal finish and archive.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:49:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-702-wi701-parity-order-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
   "createdAt": "2026-09-08T21:34:52Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T21:48:14Z",
-  "preflightContractDigest": "sha256:bc25c28a199486d5c64bbc6a8679c61c67aa7177958332875bf8e82d5ff75cdf",
+  "preflightAt": "2026-09-08T21:52:56Z",
+  "preflightContractDigest": "sha256:84a5481a19a3b1fdf4d761163cee7b20c35d27098ba3f70b8decd63a0009456b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
   "preflightState": "green",
@@ -57,6 +77,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:5820605472dd97e74849024d6915ec2ee5f06e5241a4eee2432c1111fe041c67",
+  "verificationRecoveryReconciled": "sha256:b4d8055e04c09fd21e96fbcdd0897d959ca5da704a2bd4878e9ef1190c713b28",
   "workItemId": "WI-702-wi701-parity-order-recovery"
 }
