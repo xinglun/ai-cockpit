@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-701-wi700-current-base-revalidation.summary.json"
   ],
   "checkpointAt": "2026-09-08T21:04:06Z",
-  "checkpointContractDigest": "sha256:2cdb61284a250d716bac69b34bf35c6e65231136ed0903ca4e53a702a12c5b9b",
+  "checkpointContractDigest": "sha256:044dea2ea36b1850705b1964bc6a4a0cbb036176d743e0d5b166468a978078cf",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -60,6 +60,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-701-wi700-current-base-revalidation"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:044dea2ea36b1850705b1964bc6a4a0cbb036176d743e0d5b166468a978078cf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:892ab02ffeeb4f66d12446e6100b34856263fe9742865cb324f87abbd49f896c",
+      "previousContractHash": "sha256:2cdb61284a250d716bac69b34bf35c6e65231136ed0903ca4e53a702a12c5b9b",
+      "reason": "Bind the actual reviewed GitHub PR #699 resource context before the final fresh verification and terminal lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:18:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fc033cee3d4ad282467f3f48faca22d5ab9d2fdeee9523140235222fa907881",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-701-wi700-current-base-revalidation"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3fc033cee3d4ad282467f3f48faca22d5ab9d2fdeee9523140235222fa907881",
@@ -72,8 +92,8 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-08T21:17:01Z",
-  "preflightContractDigest": "sha256:2cdb61284a250d716bac69b34bf35c6e65231136ed0903ca4e53a702a12c5b9b",
+  "preflightAt": "2026-09-08T21:21:47Z",
+  "preflightContractDigest": "sha256:044dea2ea36b1850705b1964bc6a4a0cbb036176d743e0d5b166468a978078cf",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:3fc033cee3d4ad282467f3f48faca22d5ab9d2fdeee9523140235222fa907881",
   "preflightState": "green",
@@ -137,14 +157,13 @@
       "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T21:04:06Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T21:21:51Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:d177b1440bafc4997481e2790fbf4f8827edd29aeb7963529ba3f19bb1840742",
   "workItemId": "WI-701-wi700-current-base-revalidation"
 }
