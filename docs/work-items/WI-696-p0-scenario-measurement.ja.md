@@ -4,9 +4,13 @@ title: "WI-696 — P0 シナリオ計測"
 description: "既存の P0 ベンチマークで実シナリオ行列を計測し、ボトルネック順序と有界な後続予算を証拠化する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-696-p0-scenario-measurement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-696-p0-scenario-measurement
+terminalArchive: .ai/work-items/archive/WI-696-p0-scenario-measurement.contract.json
+terminalVerification: .ai/evidence/WI-696-p0-scenario-measurement.verification.json
+terminalFinalization: .ai/decisions/WI-696-p0-scenario-measurement.finalize.json
+terminalDecision: .ai/decisions/WI-696-p0-scenario-measurement.close.json
 ---
 
 [English](WI-696-p0-scenario-measurement.md) · [简体中文](WI-696-p0-scenario-measurement.zh-CN.md)
@@ -38,11 +42,12 @@ lastVerifiedBy: WI-696-p0-scenario-measurement
 
 予算ファイルは `.ai/evidence/external/WI-696-p0-scenario-measurement-budgets/` にある。これは反復した開発計測と有界なノイズ余裕から作った regression ceiling であり、性能向上の主張ではない。後続 WI は target path と paired baseline/candidate の改善閾値を先に Contract 化し、非対象シナリオの予算を守り、完全で比較可能な環境 evidence による `p0_regression_gate.sh` を通す必要がある。本 Work Item は実装最適化を行わない。
 
-## 外部検証の制限
+## 過去の検証制限
 
-リポジトリ全体の documentation acceptance、status consistency、
-`closed-work-item --check-all` は、別 Work Item の WI-694 ドキュメント昇格が
-まだ `in_progress` のため fail closed している。正確な出力は
+以前のリポジトリ全体の documentation acceptance、status consistency、
+`closed-work-item --check-all` は、別 Work Item の WI-694 ドキュメント昇格のため
+fail closed した。正確な過去の出力は
 `.ai/evidence/external/WI-696-p0-scenario-measurement.validation-limitation.json`
-に保存した。この Work Item は WI-694 のファイル、他 agent の worktree、branch、PR、
-evidence を変更しない。WI-694 完了後にこれらの検証を再実行する。
+に保存している。WI-697 はその WI-694 のドキュメント投影を昇格済みであり、WI-699
+は WI-696 の投影について同じリポジトリ全体の検証を再実行する。この Work Item は
+WI-694 または WI-696 の過去の evidence を変更せず、性能向上も主張しない。
