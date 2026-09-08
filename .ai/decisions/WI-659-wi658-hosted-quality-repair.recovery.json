@@ -1,0 +1,29 @@
+{
+  "actor": "xinglun",
+  "authoritySource": "explicit repository-owner authorization to continue after PR #658 became incompatible with the synchronized default branch",
+  "decidedAt": "2026-09-08T15:45:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "PR #658 is conflicting against origin/main@9b53118fa992c917242a837b17592ffd660ddd23",
+    "PR #659 merged WI-660 into origin/main",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.archive.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:9edb6ad32a96a58486d71c5a842320658ee9f08f707896b828015e3a8d682c56",
+  "predecessorEventsDigest": "sha256:9f422569c7ff61fe8394a9d4cd303f7bdeac341cb708651a1f0e70ccb722743f",
+  "predecessorOutcomeDigest": "sha256:c6909bb43ec2c68ebc4fd298a90e859f0499381afe56da991712048f29b2e5cd",
+  "predecessorSummaryDigest": "sha256:39f61d48135a40eb9aedda45360bd3a75cc573b5bf74bc2210f4ab0953a60c76",
+  "predecessorWorkItemId": "WI-659-wi658-hosted-quality-repair",
+  "reason": "After WI-660 and its documentation promotion merged, WI-659 PR #658 became conflicting against origin/main@9b53118f. Preserve WI-659 archive and evidence bytes and create a fresh replacement from the latest remote default branch for the same P0-A hosted-quality revalidation and delivery.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-663 must complete its own Contract, preflight, checkpoint, verification, hosted checks, finalization, archive, reviewed PR merge, synchronization, and close before any completion claim.",
+  "runtimeDigest": "sha256:8a1804e4f6bd7a10ccc07c4cbfbdd88c89c96b638ba6380480a60f8648ec1f66",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-663-wi659-outcome-trust-replacement",
+  "workItemId": "WI-659-wi658-hosted-quality-repair"
+}
