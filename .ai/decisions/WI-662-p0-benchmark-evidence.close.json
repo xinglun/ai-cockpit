@@ -1,0 +1,134 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4269e4c9ee26dfbf8f2baf5250b8cf87433b79abda1e94e42dee504370ab7dc6",
+      "workItemId": "WI-662-p0-benchmark-evidence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+            ".ai/decisions/WI-662-p0-benchmark-evidence.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/pull/663"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via human:user-request at 2026-09-08T09:22:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "修正 cold/warm 分组并交付原始样本、分位数可靠性、环境与资源指标及 comparator 证据，为后续优化预算提供可审计瓶颈排序。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-662-p0-benchmark-evidence"
+  },
+  "finalReportDigest": "sha256:80a5460824e5aad867ca2754f4a6e6c410a423dd4a05f560c83eece76756b4a6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:9064619b92a57cab7346a42fcf6ffd34bc446f37a5d4a7e2b722286b17472130",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-662-p0-benchmark-evidence.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "human:user-request",
+    "decidedAt": "2026-09-08T09:22:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+      ".ai/decisions/WI-662-p0-benchmark-evidence.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/663"
+    ],
+    "policyRefs": [
+      "AGENTS.md:work-item-change-discipline",
+      ".ai/README.md:work-item-lifecycle"
+    ],
+    "reason": "人类已确认并授权在 hosted checks 通过后合并；archive、provider finalization、精确 cleanup 与 finalize-verify 均已完成。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-08T09:21:09Z",
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}

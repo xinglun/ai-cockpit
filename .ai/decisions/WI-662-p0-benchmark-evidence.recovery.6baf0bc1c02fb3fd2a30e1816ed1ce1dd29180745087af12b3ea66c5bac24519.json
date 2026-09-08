@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:user-request",
+  "decidedAt": "2026-09-08T08:06:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/663",
+    ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+    "git:origin/main@a9d508d77c833409c91dd46fe47545a5ed03475c"
+  ],
+  "policyRefs": [
+    "AGENTS.md:latest-remote-default-base",
+    "AGENTS.md:parallel-work-item-isolation",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
+  "predecessorEventsDigest": "sha256:5b8fe0125d053dffa0b55543836f896891f6c08977f849e9e058ebc5ad1837f7",
+  "predecessorOutcomeDigest": "sha256:5d443ea06cf8fd2a4ddbf5d0a353d48503ee39cb4d1d9bda3e8ce053140acaca",
+  "predecessorSummaryDigest": "sha256:a4abd3c236d705f6bce097f0ede807f049b741f0f4c9fcc5045801c056b11e7b",
+  "predecessorWorkItemId": "WI-662-p0-benchmark-evidence",
+  "reason": "The remote default branch advanced through parallel reviewed merges; rebind this Work Item to origin/main at a9d508d7 after synchronizing the isolated branch, preserving the prior finish evidence as immutable recovery history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Update the Contract and P0 plan to origin/main at a9d508d7, revalidate, rerun all checks and preflight, then finish with current evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}

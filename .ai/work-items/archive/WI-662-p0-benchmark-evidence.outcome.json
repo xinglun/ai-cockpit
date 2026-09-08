@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "固定序列 120、20、22、21 先按原始顺序分组，首次样本必须为 120；样本不足时不得宣称可靠 p95/p99。",
+    "证据保留原始样本、预热次数、样本数和分位数计算方法，并区分首次测量 CLI、OS 缓存预热后的独立 CLI 进程和常驻 MCP 请求。",
+    "baseline/candidate 允许 Runtime 身份不同，同时验证各自证据完整性及环境可比性，并保留既有 gate 的负向回归覆盖。",
+    "交付场景矩阵、阶段耗时和资源指标；平台无法可靠取得的指标显式标记不可用；本 WI 不改变生产治理运行行为。"
+  ],
+  "createdAt": "2026-09-08T09:01:58Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4c13ad6c681f8494986e4a440f36316556fcc53d90f04a7704e3f7d6e55b867c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4269e4c9ee26dfbf8f2baf5250b8cf87433b79abda1e94e42dee504370ab7dc6",
+      "workItemId": "WI-662-p0-benchmark-evidence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "修正 cold/warm 分组并交付原始样本、分位数可靠性、环境与资源指标及 comparator 证据，为后续优化预算提供可审计瓶颈排序。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-662-p0-benchmark-evidence"
+  },
+  "taskReportDigest": "sha256:f9dd520790cc59bb2274f1e9d4710859af213f7ab69bc7a03ccc4970a2b85052",
+  "taskReportMarkdownDigest": "sha256:76cf29d8f441451bdccc2827f994a903bf2324423d894d436aaa46e95ec97b33",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}

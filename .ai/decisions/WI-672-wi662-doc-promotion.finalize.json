@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:user-request",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "62c63dde025cedf975506798c23132eaa7624494",
+    "name": "codex/wi-672-wi662-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5482405313c5cc1cdedbee92dfce970fc76a76c8dcd24ffc3d323558d8a36186",
+  "operationId": "github-pr-667-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "61dd164b2d714bc657f9253bf28d6053c9f66977",
+    "headRevision": "62c63dde025cedf975506798c23132eaa7624494",
+    "mergeCommit": "68437d45b9b15530e02ba922b44e43dcadf15978",
+    "number": 667,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/667"
+  },
+  "reason": "PR #667 passed all hosted checks and was merged as 68437d45; the exact Work Item branch and worktree were deleted after main was fast-forward synchronized. Human authorization was recorded at https://github.com/xinglun/ai-cockpit/pull/667#issuecomment-5582914140.",
+  "receiptId": "github-pr-667-finalization-20260908",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-672-wi662-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/667",
+    "worktree": "/private/tmp/ai-cockpit-wi-672-wi662-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T09:44:00Z",
+  "workItemId": "WI-672-wi662-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-672-wi662-doc-promotion",
+    "headRevision": "62c63dde025cedf975506798c23132eaa7624494",
+    "path": "/private/tmp/ai-cockpit-wi-672-wi662-doc-promotion",
+    "worktreeId": "WI-672-wi662-doc-promotion"
+  }
+}
