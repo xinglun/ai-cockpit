@@ -17834,7 +17834,16 @@ fn now() -> String {
 }
 
 fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), ObserverError> {
-    let temporary = path.with_extension(format!("tmp-{}", std::process::id()));
+    // A process-id-only temp name collides when two calls in the same
+    // process race the same destination path (e.g. two threads finishing
+    // the same Work Item): both compute the identical temp path, and
+    // whichever renames second finds its own temp file already consumed by
+    // the other, failing with a misleading "not found" on the destination
+    // path. The same collision was already solved elsewhere in this file
+    // (write_cap_immutable, the parallel-slot lease writers) by pairing the
+    // pid with NEXT_ATOMIC_WRITE_ID; apply the same fix here.
+    let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
+    let temporary = path.with_extension(format!("tmp-{}-{sequence}", std::process::id()));
     fs::write(&temporary, bytes).map_err(|source| ObserverError::Read {
         path: temporary.clone(),
         source,

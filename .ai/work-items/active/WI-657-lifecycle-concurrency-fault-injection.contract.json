@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "A new test forces two threads to call finish_work_item concurrently for the same Work Item and asserts at least one succeeds, no result surfaces a raw filesystem race artifact, and summary.json/outcome.json remain valid JSON",
+    "atomic_write no longer collides on temp file names under same-process concurrent writes to the same destination path, verified by repeated fault-injection runs",
+    "The unresolved rollback-clobber risk in finish_work_item_internal is explicitly documented as a known, deferred limitation rather than silently left unmentioned"
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T04:56:44Z",
+  "goal": "Prove via controlled concurrent fault injection (not speculation) whether the lifecycle finish path is safe under two same-process callers racing the same Work Item, fix the atomic_write temp-filename collision this uncovered, and explicitly document a second, deeper rollback-clobber issue that is out of scope to fix here",
+  "intent": "Fault-inject concurrent finish_work_item calls for the same Work Item to find real concurrency defects (P2-C), fix any found, and document what is deliberately deferred",
+  "mode": "implementation",
+  "outOfScope": [
+    "Redesigning finish_work_item's rollback into a mutual-exclusion or compare-and-swap safe mechanism (documented as a deferred follow-up",
+    " not fixed here)",
+    "Any change to archive_work_item or close_work_item_with_structured_decision"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-657-lifecycle-concurrency-fault-injection",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi657-lifecycle-concurrency-fault-injection"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "docs/work-items/WI-657-lifecycle-concurrency-fault-injection.md",
+    "docs/work-items/WI-657-lifecycle-concurrency-fault-injection.ja.md",
+    "docs/work-items/WI-657-lifecycle-concurrency-fault-injection.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-657-lifecycle-concurrency-fault-injection"
+}
