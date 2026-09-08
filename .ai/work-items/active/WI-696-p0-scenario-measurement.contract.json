@@ -34,7 +34,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-696-p0-scenario-measurement",
     "provider": "github",
-    "pullRequest": "pending",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/695",
     "worktree": "/private/tmp/ai-cockpit-wi-696-p0-scenario-measurement"
   },
   "risk": "normal",
