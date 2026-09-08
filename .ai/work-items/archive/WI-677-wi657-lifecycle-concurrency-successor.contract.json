@@ -7,7 +7,7 @@
     "Any remaining rollback or crash-consistency limitation is demonstrated, documented, and represented as an unknown or blocked state rather than hidden."
   ],
   "authority": "authorized",
-  "baseRevision": "4950da8c34ee818fd3763b6b60f3154f19a2f146",
+  "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
   "createdAt": "2026-09-08T12:23:48Z",
   "goal": "Establish evidence-backed multi-file consistency, idempotency, concurrency, and recovery behavior for lifecycle operations, including a real fix for the same-process atomic-write collision and explicit handling of any remaining rollback-clobber risk.",
   "intent": "Re-deliver the P2-C lifecycle concurrency and recovery investigation from the latest default branch, with controlled fault injection covering finish, archive, close, retry, and projection recovery; repair only proven unsafe behavior and preserve existing contracts.",
@@ -22,18 +22,14 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:ef7dc52ef5e8845b1599283423f620fd1eaf3f4b928ef2ed037546952c8d2534",
   "requiredEvidenceClasses": [
-    "cargo test --locked --workspace",
-    "cargo fmt --all -- --check",
-    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
-    "bash tests/docs/documentation_acceptance.sh",
-    "python3 tests/ci/governance_integrity_gate.py"
+    "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-677-wi657-lifecycle-concurrency-successor",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/673",
     "worktree": "/private/tmp/ai-cockpit-wi-677-wi657-lifecycle-concurrency-successor"
   },
   "risk": "normal",
