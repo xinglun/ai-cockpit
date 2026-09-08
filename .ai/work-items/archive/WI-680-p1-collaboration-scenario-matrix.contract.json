@@ -29,11 +29,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-680-p1-collaboration-scenario-matrix",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/680",
     "worktree": "/private/tmp/ai-cockpit-wi-680-p1-collaboration-scenario-matrix"
   },
   "risk": "low",
