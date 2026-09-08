@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:user-request",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f3d21b84a987c784a4c4da699b6ef1af805453d8",
+    "name": "codex/wi-662-p0-benchmark-evidence",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:52a62daa7f81e7d7a4054d3b1564aec8f7d7176788f89f19bc7ab3ecb9a89f1b",
+  "operationId": "operation-WI-662-p0-benchmark-evidence-pr-663",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a9d508d77c833409c91dd46fe47545a5ed03475c",
+    "headRevision": "f3d21b84a987c784a4c4da699b6ef1af805453d8",
+    "mergeCommit": "ce4fbc0b60a2ca98739ae62f5a2b1fd7319bdbcf",
+    "number": 663,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/663"
+  },
+  "reason": "Record the authorized provider merge and exact branch/worktree cleanup while preserving the immutable P0 evidence and PR binding.",
+  "receiptId": "receipt-WI-662-p0-benchmark-evidence-pr-663",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-662-p0-benchmark-evidence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/663",
+    "worktree": "/private/tmp/ai-cockpit-wi-662-p0-benchmark-evidence"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T09:19:05Z",
+  "workItemId": "WI-662-p0-benchmark-evidence",
+  "worktree": {
+    "branch": "codex/wi-662-p0-benchmark-evidence",
+    "headRevision": "f3d21b84a987c784a4c4da699b6ef1af805453d8",
+    "path": "/private/tmp/ai-cockpit-wi-662-p0-benchmark-evidence",
+    "worktreeId": "wi-662-p0-benchmark-evidence"
+  }
+}
