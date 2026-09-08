@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-698-p1-observation-context-boundary.contract.json",
-    ".ai/work-items/active/WI-698-p1-observation-context-boundary.summary.json"
+    ".ai/work-items/archive/WI-698-p1-observation-context-boundary.contract.json",
+    ".ai/work-items/archive/WI-698-p1-observation-context-boundary.summary.json"
   ],
   "checkpointAt": "2026-09-08T19:38:46Z",
-  "checkpointContractDigest": "sha256:bb508aa226cd29708fc6d5ee81439bdfaf3645a96409c866ac96bf56d3609458",
+  "checkpointContractDigest": "sha256:711905a24fe6504d49b8a7372e1b3c1d3e07710e84b86535ed8e0315ef215fb9",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -60,6 +60,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-698-p1-observation-context-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:711905a24fe6504d49b8a7372e1b3c1d3e07710e84b86535ed8e0315ef215fb9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6c00764bf987c2306ec1e8bfb79e471640aeae0b12c0d525cd44290d88fbf153",
+      "previousContractHash": "sha256:bb508aa226cd29708fc6d5ee81439bdfaf3645a96409c866ac96bf56d3609458",
+      "reason": "Recorded the legitimate finalize-plan resource-context binding for PR #697 so the previous verification receipt can be replaced by a fresh receipt bound to the real hosted PR.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T20:18:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dda95e5a9b079b20c8938505b9e01b976961bda69013301e2362ec596661eb27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-698-p1-observation-context-boundary"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:dda95e5a9b079b20c8938505b9e01b976961bda69013301e2362ec596661eb27",
@@ -72,8 +92,8 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-08T20:13:31Z",
-  "preflightContractDigest": "sha256:bb508aa226cd29708fc6d5ee81439bdfaf3645a96409c866ac96bf56d3609458",
+  "preflightAt": "2026-09-08T20:22:42Z",
+  "preflightContractDigest": "sha256:711905a24fe6504d49b8a7372e1b3c1d3e07710e84b86535ed8e0315ef215fb9",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:dda95e5a9b079b20c8938505b9e01b976961bda69013301e2362ec596661eb27",
   "preflightState": "green",
@@ -137,14 +157,13 @@
       "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T20:04:10.077120+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T20:22:49Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:8f2a14d9fe8b78ec05a0ed9bbe39cdd0cdf4fd4d25144ceb454f8722f36a8739",
   "workItemId": "WI-698-p1-observation-context-boundary"
 }
