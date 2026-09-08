@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:2bb1a7eb287e02c409a59ee2e149216adab93c6628a1008bb492fdeb304d441d",
-  "createdAt": "2026-09-08T18:58:21Z",
+  "createdAt": "2026-09-08T19:06:38Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 19087,
-      "executionElapsedMs": 18895,
+      "elapsedMs": 5065,
+      "executionElapsedMs": 4857,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 19087,
-    "executionElapsedMs": 18895,
+    "elapsedMs": 5065,
+    "executionElapsedMs": 4857,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 18895,
+      "executionElapsedMs": 4857,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:cf23e212f42baecb7ef6a62534ca1e8752c0abd378bdd82737dfb79be0523d9a",
+      "repositorySnapshotDigest": "sha256:89deaa018347979a8a11d2de5bb55f470996e186c1a6bddc940a5f4afcdf8436",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-697-wi694-doc-promotion"
   },
-  "receiptDigest": "sha256:19e19adf13bf81cb05b34b0e59d82f7d3b17f04bd9dd4d6c252900a9b2531a49",
+  "receiptDigest": "sha256:f9d80be1ecb2949382c8576668dc70565b2f47a3ca058ec99deb92f31b9f7b72",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:cf23e212f42baecb7ef6a62534ca1e8752c0abd378bdd82737dfb79be0523d9a",
+  "repositorySnapshotDigest": "sha256:89deaa018347979a8a11d2de5bb55f470996e186c1a6bddc940a5f4afcdf8436",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
   "runtimeVersion": "0.2.87",
   "workItemId": "WI-697-wi694-doc-promotion"
