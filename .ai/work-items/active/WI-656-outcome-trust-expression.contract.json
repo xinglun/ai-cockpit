@@ -25,54 +25,54 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-656-outcome-trust-expression",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/653",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-656"
   },
   "risk": "high: trust-calibration presentation changes across CLI and MCP; protocol and governance semantics must remain unchanged",
   "scenarioCoverage": [
     {
-      "scenario": "current_verified_without_human_approval",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "The handoff distinguishes validated verification from a human approval and renders an explicit unknown or not-recorded human decision.",
-      "verificationPlan": "Use a real verified OutcomeV2 with no close decision and assert the shared renderer in English, Simplified Chinese, and Japanese.",
-      "evidence": []
+      "required": true,
+      "scenario": "current_verified_without_human_approval",
+      "status": "unverified",
+      "verificationPlan": "Use a real verified OutcomeV2 with no close decision and assert the shared renderer in English, Simplified Chinese, and Japanese."
     },
     {
-      "scenario": "failed_missing_stale_or_invalid_evidence",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "Missing, stale, contradictory, and invalid evidence retain distinct non-green facts and recovery meaning.",
-      "verificationPlan": "Construct real OutcomeV2 values for NotReady, Partial, and Unknown plus corresponding evidence/decision records and assert their rendered facts.",
-      "evidence": []
+      "required": true,
+      "scenario": "failed_missing_stale_or_invalid_evidence",
+      "status": "unverified",
+      "verificationPlan": "Construct real OutcomeV2 values for NotReady, Partial, and Unknown plus corresponding evidence/decision records and assert their rendered facts."
     },
     {
-      "scenario": "historical_and_superseded_outcome",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "Historical and superseded outcomes remain historical and are not projected as current failure or current authorization.",
-      "verificationPlan": "Render real historical_status values and assert the stable historical wording in all supported languages.",
-      "evidence": []
+      "required": true,
+      "scenario": "historical_and_superseded_outcome",
+      "status": "unverified",
+      "verificationPlan": "Render real historical_status values and assert the stable historical wording in all supported languages."
     },
     {
-      "scenario": "risk_scope_and_empty_fields",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "Empty or missing risk records are not rendered as no risk; explicit scope and limitations remain visible.",
-      "verificationPlan": "Use real reports with empty risk sections, explicit non-risk claims, limitations, and test-weakening findings.",
-      "evidence": []
+      "required": true,
+      "scenario": "risk_scope_and_empty_fields",
+      "status": "unverified",
+      "verificationPlan": "Use real reports with empty risk sections, explicit non-risk claims, limitations, and test-weakening findings."
     },
     {
-      "scenario": "cli_mcp_human_handoff_parity",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "CLI and MCP human handoffs express identical facts for the same OutcomeV2 input.",
-      "verificationPlan": "Exercise the CLI and repository-bound MCP tool with the same generated repository fixture and compare localized handoff text.",
-      "evidence": []
+      "required": true,
+      "scenario": "cli_mcp_human_handoff_parity",
+      "status": "unverified",
+      "verificationPlan": "Exercise the CLI and repository-bound MCP tool with the same generated repository fixture and compare localized handoff text."
     }
   ],
   "scope": [
