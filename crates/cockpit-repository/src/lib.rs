@@ -92,10 +92,18 @@ pub use status_projection::{status, status_with_runtime};
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
+#[cfg(test)]
+static HISTORICAL_FINALIZATION_DECISIONS_READ_DIR_COUNT: AtomicU64 = AtomicU64::new(0);
 const MAX_RECEIPT_INDEX_BYTES: u64 = 8 * 1024 * 1024;
 const MAX_REUSABLE_RECEIPT_BYTES: u64 = 1024 * 1024;
 const MAX_VERIFICATION_IDENTITY_FILE_BYTES: u64 = 1024 * 1024;
 const MAX_EXTERNAL_EVIDENCE_BYTES: usize = 4 * 1024 * 1024;
+
+#[inline]
+fn record_historical_finalization_decisions_read_dir() {
+    #[cfg(test)]
+    HISTORICAL_FINALIZATION_DECISIONS_READ_DIR_COUNT.fetch_add(1, Ordering::SeqCst);
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum LanguageSignal {
@@ -5749,6 +5757,30 @@ fn resolve_resource_finalization_head(
     root: &Path,
     work_item_id: &str,
 ) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let decisions = root.join(".ai/decisions");
+    record_historical_finalization_decisions_read_dir();
+    let prefix = format!("{work_item_id}.finalize.");
+    let canonical_name = format!("{work_item_id}.finalize.json");
+    let candidates = fs::read_dir(&decisions)
+        .map_err(|source| ObserverError::Read {
+            path: decisions,
+            source,
+        })?
+        .flatten()
+        .filter_map(|entry| {
+            let name = entry.file_name().to_string_lossy().into_owned();
+            (name != canonical_name && name.starts_with(&prefix) && name.ends_with(".json"))
+                .then_some((entry.path(), name))
+        })
+        .collect::<Vec<_>>();
+    resolve_resource_finalization_head_with_candidates(root, work_item_id, candidates)
+}
+
+fn resolve_resource_finalization_head_with_candidates(
+    root: &Path,
+    work_item_id: &str,
+    candidates: Vec<(PathBuf, String)>,
+) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
     let canonical = resource_finalization_decision_path(root, work_item_id);
     let mut receipt = read_resource_finalization_receipt(&canonical)?;
     let mut path = canonical;
@@ -5763,19 +5795,8 @@ fn resolve_resource_finalization_head(
             path: path.clone(),
             message: error.to_string(),
         })?;
-    let prefix = format!("{work_item_id}.finalize.");
-    let canonical_name = format!("{work_item_id}.finalize.json");
-    let mut candidates = fs::read_dir(root.join(".ai/decisions"))
-        .map_err(|source| ObserverError::Read {
-            path: root.join(".ai/decisions"),
-            source,
-        })?
-        .flatten()
-        .filter_map(|entry| {
-            let name = entry.file_name().to_string_lossy().into_owned();
-            (name != canonical_name && name.starts_with(&prefix) && name.ends_with(".json"))
-                .then_some((entry.path(), name))
-        })
+    let mut candidates = candidates
+        .into_iter()
         .map(|(candidate, name)| {
             let value = read_resource_finalization_transition(&candidate)?;
             let encoded = serde_json::to_value(&value).map_err(|error| ObserverError::State {
@@ -12330,5 +12351,147 @@ mod environment_identity_tests {
         let first = digest(&[("PATH", "/usr/bin"), ("PWD", "/repo")]);
         let second = digest(&[("PATH", "/opt/toolchain"), ("PWD", "/repo")]);
         assert_ne!(first, second);
+    }
+}
+
+#[cfg(test)]
+mod historical_finalization_inventory_tests {
+    use super::*;
+    use serde_json::json;
+    use std::sync::atomic::Ordering;
+
+    fn legacy_receipt(work_item_id: &str, repository_id: &str) -> serde_json::Value {
+        json!({
+            "schemaVersion": 1,
+            "receiptId": format!("{work_item_id}-receipt"),
+            "operationId": format!("{work_item_id}-operation"),
+            "repositoryId": repository_id,
+            "workItemId": work_item_id,
+            "runtimeVersion": "legacy-runtime",
+            "runtimeDigest": Digest::sha256_bytes(b"legacy-runtime"),
+            "provider": "github",
+            "pullRequest": {
+                "number": 1,
+                "url": format!("https://example.invalid/{work_item_id}"),
+                "headRevision": "head",
+                "baseBranch": "main",
+                "baseRemote": "origin",
+                "baseRevision": "base"
+            },
+            "branch": {
+                "name": format!("feature/{work_item_id}"),
+                "remote": "origin",
+                "headRevision": "head"
+            },
+            "worktree": {
+                "worktreeId": format!("worktree-{work_item_id}"),
+                "path": format!("/tmp/{work_item_id}"),
+                "branch": format!("feature/{work_item_id}"),
+                "headRevision": "head"
+            },
+            "before": {
+                "pullRequest": "unmerged",
+                "branch": "present",
+                "worktree": "clean"
+            },
+            "after": {
+                "pullRequest": "unmerged",
+                "branch": "present",
+                "worktree": "clean"
+            },
+            "result": {
+                "disposition": "blocked",
+                "failureCodes": ["unmerged_pull_request"],
+                "unknownCodes": []
+            },
+            "actor": "human:test",
+            "authoritySource": "test",
+            "reason": "inventory scan counter fixture",
+            "timestamp": "2026-09-08T00:00:00Z"
+        })
+    }
+
+    #[test]
+    fn historical_inventory_scans_decisions_once_per_observation() {
+        let root = tempfile::tempdir().unwrap();
+        let decisions = root.path().join(".ai/decisions");
+        fs::create_dir_all(&decisions).unwrap();
+        let repository_id = repository_id(root.path()).to_string();
+        let alpha = legacy_receipt("WI-LEGACY-ALPHA", &repository_id);
+        let beta = legacy_receipt("WI-LEGACY-BETA", &repository_id);
+        fs::write(
+            decisions.join("WI-LEGACY-ALPHA.finalize.json"),
+            serde_json::to_vec_pretty(&alpha).unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            decisions.join("WI-LEGACY-BETA.finalize.json"),
+            serde_json::to_vec_pretty(&beta).unwrap(),
+        )
+        .unwrap();
+
+        let mut alpha_head = alpha.clone();
+        alpha_head["receiptId"] = "WI-LEGACY-ALPHA-head".into();
+        alpha_head["operationId"] = "WI-LEGACY-ALPHA-head-operation".into();
+        alpha_head["pullRequest"]["mergeCommit"] = "merge-alpha".into();
+        alpha_head["before"] = alpha["after"].clone();
+        alpha_head["after"]["pullRequest"] = "merged".into();
+        alpha_head["result"] = json!({
+            "disposition": "retained",
+            "failureCodes": [],
+            "unknownCodes": []
+        });
+        let transition: ResourceFinalizationTransitionReceipt = serde_json::from_value(json!({
+            "schemaVersion": 1,
+            "transitionId": "WI-LEGACY-ALPHA-transition-1",
+            "sequence": 1,
+            "predecessorReceiptDigest": cockpit_protocol::digest_json(&alpha).unwrap(),
+            "receipt": alpha_head
+        }))
+        .unwrap();
+        let transition_value = serde_json::to_value(&transition).unwrap();
+        let transition_digest = cockpit_protocol::digest_json(&transition_value).unwrap();
+        fs::write(
+            decisions.join(format!(
+                "WI-LEGACY-ALPHA.finalize.{}.json",
+                transition_digest
+                    .to_string()
+                    .strip_prefix("sha256:")
+                    .unwrap()
+            )),
+            serde_json::to_vec_pretty(&transition_value).unwrap(),
+        )
+        .unwrap();
+
+        HISTORICAL_FINALIZATION_DECISIONS_READ_DIR_COUNT.store(0, Ordering::SeqCst);
+        let current = RuntimeContext {
+            runtime_version: "current-runtime".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"current-runtime"),
+        };
+        let inventory = historical_finalization_inventory(root.path(), Some(&current)).unwrap();
+
+        assert_eq!(inventory.len(), 2);
+        assert_eq!(
+            inventory
+                .iter()
+                .find(|item| item.work_item_id == "WI-LEGACY-ALPHA")
+                .unwrap()
+                .sequence,
+            1
+        );
+        assert_eq!(
+            inventory
+                .iter()
+                .find(|item| item.work_item_id == "WI-LEGACY-BETA")
+                .unwrap()
+                .sequence,
+            0
+        );
+        assert_eq!(
+            HISTORICAL_FINALIZATION_DECISIONS_READ_DIR_COUNT.load(Ordering::SeqCst),
+            1,
+            "one immutable inventory observation must materialize the decisions listing once"
+        );
     }
 }
