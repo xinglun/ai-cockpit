@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "Fix workspace formatting without weakening lint gates or changing Outcome behavior.",
+    "Preserve CLI/MCP human handoff semantics, machine JSON, exit codes, authorization semantics, and persistence layout.",
+    "Register the successor in English, Simplified Chinese, and Japanese Work Item/reference-parity projections before verification.",
+    "Pass fresh local verification and the hosted quality checks on the exact successor head.",
+    "Do not infer unsupported user-visible benefit or human approval."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T05:42:06Z",
+  "goal": "Make the WI-658 outcome-trust repair pass the exact hosted workspace-format gate while preserving Outcome semantics, machine JSON, exit codes, authorization semantics, persistence layout, and immutable predecessor history.",
+  "intent": "Repair the immutable WI-658 delivery only where hosted quality found a formatting defect, then reverify the successor head.",
+  "mode": "code",
+  "outOfScope": [
+    "production behavior changes; WI-658 archived records; PR #656 history; unrelated Work Items; new performance; lifecycle; observation; execution; governance policy behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_quality",
+    "finalization",
+    "human_outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-659-wi658-hosted-quality-repair-final",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-659-final"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-659-wi658-hosted-quality-repair.ja.md",
+    "docs/work-items/WI-659-wi658-hosted-quality-repair.md",
+    "docs/work-items/WI-659-wi658-hosted-quality-repair.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-659-wi658-hosted-quality-repair"
+}

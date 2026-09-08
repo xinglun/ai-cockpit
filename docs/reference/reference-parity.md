@@ -918,3 +918,5 @@ context, isolated records, dynamic verification, fail-closed lifecycle, and
 visible human Outcome; source implementation bytes and provider-local wire
 formats remain outside the target.
 See the [WI-640 file-level record](reference-file-comparison.md#wi-640--reference-rebaseline-batch-55).
+
+| WI-659 — WI-658 hosted quality repair | In progress → Implemented after verified close | [Work Item](../work-items/WI-659-wi658-hosted-quality-repair.md); archive `.ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json`; verification `.ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json`; finalization `.ai/decisions/WI-659-wi658-hosted-quality-repair.finalize.json`; close `.ai/decisions/WI-659-wi658-hosted-quality-repair.close.json`. |

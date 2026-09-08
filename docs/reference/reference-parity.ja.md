@@ -783,3 +783,5 @@ reader documentation に投影されます。target と attached adopter は sha
 context、isolated records、dynamic verification、fail-closed lifecycle、visible human Outcome を継承し、source bytes
 や provider-local wire format はコピーしません。
 [WI-640 file-level record](reference-file-comparison.ja.md#wi-640--reference-rebaseline-batch-55) を参照してください。
+
+| WI-659 — WI-658 hosted quality 修正 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-659-wi658-hosted-quality-repair.ja.md); archive `.ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json`; verification `.ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json`; finalization `.ai/decisions/WI-659-wi658-hosted-quality-repair.finalize.json`; close `.ai/decisions/WI-659-wi658-hosted-quality-repair.close.json`. |

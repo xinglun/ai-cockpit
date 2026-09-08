@@ -19,7 +19,8 @@ capabilityClaims:
 人間向けの handoff を表示します。機械処理用の安定した `OutcomeV2` が必要な
 場合は `--json` を指定します。
 
-先頭行は常に `Outcome: 🔴/🟡/🟢 ...` です。CLI stdout と MCP の
+先頭行は常に `Outcome: 🔴/🟡/🟢 ...` です。たとえば緑は汎用的な成功ではなく
+`Outcome: 🟢 宣言された検証済み` と表示されます。CLI stdout と MCP の
 `content[0].text` が handoff を直接返すため、Agent や UI は折りたたんだログに
 隠してはいけません。`work_item_status` は別の read-only status projection です。
 archive 後の lifecycle phase は `archived` で、repository に bind された confirmed
@@ -35,7 +36,7 @@ top-level の `finish`、`archive`、`close` は既存の stdout lifecycle JSON 
 `ai-cockpit work-item outcome --repo <repository> --id <work-item>` で durable handoff
 を決定的に再生できます。
 
-表示順は、結果と状態、完了したこと、発見された問題、発動した停止、解決した問題、
+表示順は、結果と検証・ライフサイクル・人間の判断・ガバナンスシグナルを分けて示し、完了したこと、発見された問題、発動した停止、解決した問題、
 回避したリスク、残存リスク、不明点、人間の判断、検証と証拠、影響、次のアクションです。
 
 状態マーカーは判断のシグナルであり、リリース承認ではありません。
@@ -44,10 +45,26 @@ top-level の `finish`、`archive`、`close` は既存の stdout lifecycle JSON 
 - `🟡` 部分完了、未準備、または不明です。修復または調査が必要です。
 - `🔴` 必須の制御、権限、または範囲が無効です。停止して復旧してください。
 
-空の章は `なし` と明示します。推論でガバナンス判断を補完することはなく、
-緑の結果も merge、release、公開、安全性を承認するものではありません。
+空のデータを肯定的な事実として扱いません。証拠が足りない場合、リスク所見は
+`未記録` または `未評価` と表示します。指定された検査範囲でリスクが見つからなかったと
+言えるのは、明示的な evidence-backed claim がある場合だけです。その他の空の章は
+`未記録` と表示します。推論でガバナンス判断を補完することはなく、緑の結果も merge、
+release、公開、安全性を承認するものではありません。
 
-緑は、Runtime が `evidenceSchemaVersion=2` の検証証拠を読み取り、現在の Work Item
+レポートは四つの軸を分けて表示します。
+
+- 検証状態は `OutcomeState` を示します。例: `宣言された検証済み`。
+- ライフサイクル状態は実装中、チェックポイント、finish 準備完了、archive、close の投影を示します。
+- 人間の判断は `未記録`、`記録済み: <判断>`、または `不明` であり、検証状態から推測しません。
+- ガバナンスシグナルは緑・黄・赤のシグナルであり、人間の承認ではないことを明示します。
+
+有効な構造化された人間の判断には、実行者、権限の出所、evidence と policy の参照、保証レベルも表示します。
+保証レベルの事実がない場合は `不明` とし、表示層が権限の出所や evidence を高い保証レベルへ昇格させることはありません。
+
+テスト弱化の表示は検査範囲に限定します。弱化ルールが発動していないことは、参照された検査範囲で
+発動が記録されなかったことだけを示し、テストが弱化されていない証明ではありません。
+
+緑のマーカーは、Runtime が `evidenceSchemaVersion=2` の検証証拠を読み取り、現在の Work Item
 と repository に結び付いており、鮮度と digest が有効だと確認した場合だけ表示します。
 証拠の欠落または snapshot の期限切れは黄色、改ざん・不正形式・identity 不一致・
 digest 不一致は赤色です。同じ検証を `finish`、`archive`、`close` でも行い、証拠ファイル

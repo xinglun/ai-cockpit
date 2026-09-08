@@ -1,0 +1,29 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.contract.json",
+    ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T05:44:56Z",
+  "checkpointContractDigest": "sha256:96e4b6f9d7d8d73f26b7577b19d10b39a741d9456ea8952386736f217d76262a",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:baf0e25018771548db79bca456386d0431516ba1a2059ed83d5373b2e6e6fb04",
+  "createdAt": "2026-09-08T05:42:06Z",
+  "mode": "code",
+  "preflightAt": "2026-09-08T06:09:30Z",
+  "preflightContractDigest": "sha256:96e4b6f9d7d8d73f26b7577b19d10b39a741d9456ea8952386736f217d76262a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:baf0e25018771548db79bca456386d0431516ba1a2059ed83d5373b2e6e6fb04",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T05:44:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:e8781058438c998d475df40f7d8e35997b83e71a6eec51123e7804778d21d201",
+  "workItemId": "WI-659-wi658-hosted-quality-repair"
+}
