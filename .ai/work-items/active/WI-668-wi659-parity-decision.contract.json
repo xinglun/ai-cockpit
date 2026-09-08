@@ -31,11 +31,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-668-wi659-parity-decision",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/665",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-668-wi659-parity-decision"
   },
   "risk": "low",
