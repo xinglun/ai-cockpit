@@ -1,0 +1,148 @@
+{
+  "acceptanceCriteria": [
+    "Measure at least 20 rounds of N concurrent bare verify requests against one clean, repository-bound fixture using an external executable and preserve raw per-request results, order, exit codes, process counts, end-to-end latency, and environment identity.",
+    "Measure same-identity concurrent requests, distinct command identities, explicit failure propagation, cancellation or platform-unavailability, and resource-contention behavior; report execution count, total latency, queue/wait latency, and resource peaks as available or unavailable with reasons.",
+    "Inspect the production call graph and prove whether PhysicalSingleFlightCoordinator has a real caller; do not treat its unit tests or a synthetic coordinator invocation as production evidence.",
+    "Preserve repository isolation, Work Item and authorization boundaries, fail-closed behavior, deterministic evidence binding, and existing verification semantics; this Work Item must not modify Rust production code or weaken any gate.",
+    "Accept a future optimization hypothesis only if duplicate physical execution and a measurable target cost are demonstrated; otherwise record an explicit decline and the successor prerequisites.",
+    "Deliver reproducible measurement code, raw evidence, a three-language Work Item record, parity registration, correctness checks, platform limits, unknowns, and the final governance state."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a96c13967d0147d401dd780b0a0272400178a977",
+  "createdAt": "2026-09-08T17:05:41Z",
+  "goal": "Measure whether concurrent verification requests for the same repository and command duplicate physical execution, and produce an evidence-backed accept-or-decline decision for a future coordinator integration without changing production governance behavior.",
+  "intent": "Repository owner authorized continuation of the AI Cockpit performance initiative. Before wiring PhysicalSingleFlightCoordinator, measure the real concurrent verification request path and preserve the Calibrated Human-Agent Trust boundary.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/**",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/runtime_benchmark_stats.py",
+    "tests/performance/runtime_benchmark_scenarios.py",
+    "tests/performance/regression_gate.sh",
+    "tests/performance/p0_regression_gate.sh",
+    "tests/ci/**",
+    "PhysicalSingleFlightCoordinator production callers",
+    "resident MCP cache",
+    "IncrementalMerkle",
+    "in-process Git",
+    "PGO",
+    "any production behavior change"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:808a048c4ea40b137886e40c5442c585ed9fc0e62b92ab193d7da7be962515b6",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-692-p0-concurrent-verification-measurement",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/691",
+    "worktree": "/private/tmp/ai-cockpit-wi-692-p0-concurrent-verification-measurement"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.same-identity.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json"
+      ],
+      "expected": "Each independent CLI request preserves the same repository, command and Runtime identity; the observed physical execution count is recorded rather than inferred.",
+      "required": true,
+      "scenario": "same-identity concurrent verification requests",
+      "status": "unverified",
+      "verificationPlan": "Run at least 20 rounds with bounded concurrency against one clean fixture and retain ordered per-request receipts, exit codes and wall times."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.distinct-identity.json"
+      ],
+      "expected": "Requests with different command identities are not counted as the same physical execution.",
+      "required": true,
+      "scenario": "distinct command identities",
+      "status": "unverified",
+      "verificationPlan": "Run paired concurrent requests with distinct explicit commands and bind command, Runtime and repository identities in raw evidence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.failure.json"
+      ],
+      "expected": "A failing command cannot produce a successful governance result or stale success receipt.",
+      "required": true,
+      "scenario": "failure propagation",
+      "status": "unverified",
+      "verificationPlan": "Run a bounded concurrent failing command and preserve every exit code, stderr classification and absence or presence of receipt."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.cancellation.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json"
+      ],
+      "expected": "Cancellation either preserves the existing cleanup and timeout guarantee or is explicitly unavailable on the platform; no busy-wait or success claim is introduced.",
+      "required": true,
+      "scenario": "cancellation",
+      "status": "unverified",
+      "verificationPlan": "Attempt one bounded cancellation run; record process-tree cleanup and mark platform-unavailable metrics explicitly when the platform cannot provide them."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.resource-contention.json"
+      ],
+      "expected": "Concurrent requests report execution count, total time, queue or wait time and resource peaks without filling unavailable metrics with zero.",
+      "required": true,
+      "scenario": "resource contention",
+      "status": "unverified",
+      "verificationPlan": "Repeat the same-identity run at bounded concurrency and capture available process, CPU, memory and I/O metrics with reasons for unavailable values."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.call-graph.json"
+      ],
+      "expected": "The evidence distinguishes real production callers from unit tests and synthetic coordinator invocations.",
+      "required": true,
+      "scenario": "PhysicalSingleFlightCoordinator production call graph",
+      "status": "unverified",
+      "verificationPlan": "Search production crates and bind the exact caller inventory and source revision; retain existing coordinator tests as correctness evidence only."
+    }
+  ],
+  "scope": [
+    "tests/performance/concurrent_verification_benchmark.py",
+    "tests/performance/concurrent_verification_benchmark_test.py",
+    ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.*",
+    "docs/work-items/WI-692-p0-concurrent-verification-measurement.md",
+    "docs/work-items/WI-692-p0-concurrent-verification-measurement.zh-CN.md",
+    "docs/work-items/WI-692-p0-concurrent-verification-measurement.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "origin/main at base revision 99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/runtime_benchmark_stats.py",
+    "tests/performance/README.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/physical_execution.rs",
+    "crates/cockpit-verification/tests/execution.rs",
+    "Human authorization: repository owner explicitly authorized continuation and pause/resume recovery on 2026-09-08; preserve the authorization and evidence boundary."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/performance/concurrent_verification_benchmark_test.py",
+    "python3 tests/performance/concurrent_verification_benchmark.py <runtime-binary> <fixture-repository> <evidence.json>",
+    "cargo test --locked --workspace",
+    "python3 tests/ci/governance_integrity_gate.py --repo .",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "git diff --check"
+  ],
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}
