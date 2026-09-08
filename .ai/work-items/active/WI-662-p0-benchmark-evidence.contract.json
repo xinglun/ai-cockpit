@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "固定序列 120、20、22、21 先按原始顺序分组，首次样本必须为 120；样本不足时不得宣称可靠 p95/p99。",
+    "证据保留原始样本、预热次数、样本数和分位数计算方法，并区分首次测量 CLI、OS 缓存预热后的独立 CLI 进程和常驻 MCP 请求。",
+    "baseline/candidate 允许 Runtime 身份不同，同时验证各自证据完整性及环境可比性，并保留既有 gate 的负向回归覆盖。",
+    "交付场景矩阵、阶段耗时和资源指标；平台无法可靠取得的指标显式标记不可用；本 WI 不改变生产治理运行行为。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "fb96ffb7c2431af7790e46956d49250e6cfa2ba4",
+  "createdAt": "2026-09-08T06:42:10Z",
+  "goal": "修正 cold/warm 分组并交付原始样本、分位数可靠性、环境与资源指标及 comparator 证据，为后续优化预算提供可审计瓶颈排序。",
+  "intent": "按性能专项 P0 建立可信且可比较的运行时基准，降低错误测量风险，不改变治理运行行为。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "src/**",
+    ".cursor/**",
+    ".codex/**"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d2bd88233068cfb0c5c2c0ee513b5cd607bfec544fd5885afed5e61e9554dbcf",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-662-p0-benchmark-evidence",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-662-p0-benchmark-evidence"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/performance/**",
+    "docs/work-items/WI-662-p0-benchmark-evidence.md",
+    "docs/work-items/WI-662-p0-benchmark-evidence.zh-CN.md",
+    "docs/work-items/WI-662-p0-benchmark-evidence.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/superpowers/plans/2026-09-08-wi-662-p0-benchmark-evidence.md",
+    ".ai/**"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/regression_gate.sh",
+    "tests/performance/p0_regression_gate.sh",
+    "tests/performance/runtime_benchmark_stats.py",
+    "tests/performance/README.md",
+    "docs/reference/test-weakening-guard.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/performance/runtime_benchmark_stats_test.py",
+    "bash tests/performance/regression_gate_test.sh",
+    "bash tests/performance/p0_regression_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}
