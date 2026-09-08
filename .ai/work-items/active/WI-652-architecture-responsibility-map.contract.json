@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "The document maps entry points (CLI/MCP), observation/snapshot capture, Contract/policy/evidence validation, governance judgment, lifecycle transitions, command execution/scheduling, status/Outcome/human-decision projection, and persistence/recovery to their current authoritative source and owning file/function, with file:line citations.",
+    "The document cites concrete, line-referenced examples of duplicate fact reads across functions, functions that mix observation+decision+persistence, and any circular or one-directional dependency between lib.rs and governance_controls.rs/project_governance.rs.",
+    "The document names what is already well-separated and reusable as-is (e.g. RepositorySnapshot, RuntimeContext, the pure validators in governance_controls.rs, the capability-scoped file-I/O primitives) so later Work Items build on them instead of duplicating them.",
+    "For each of P1-B, P2-A, P2-B, P2-C, and P3, the document states the specific problem, the target responsibility boundary, the concrete compatibility risk, and how it would be verified -- without prescribing a full interface design.",
+    "The document states plainly where PhysicalSingleFlightCoordinator and the verification DAG/scheduler live relative to governance-decision code (crate-level separation already exists), as the factual basis for the P3 Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T02:05:04Z",
+  "goal": "Produce a reference document giving every subsequent architecture Work Item (P1-B observation context, P2-A lifecycle/storage extraction, P2-B state types, P2-C multi-file consistency, P3 physical execution boundary) a shared, cited factual basis: which layer currently owns each fact, where duplicate reads and mixed responsibilities exist, what is already well-separated and reusable, and for each candidate refactor a concrete problem statement, target boundary, compatibility risk, and verification method.",
+  "intent": "Document the current responsibility and dependency boundaries of the AI Cockpit Runtime before further architecture refactoring: crates/cockpit-repository/src/lib.rs is 18220 lines and mixes observation (file/git reads), governance decision, lifecycle coordination, evidence storage, and persistence inside single functions across most of its functional clusters. This Work Item is fact-finding and planning only; it does not change any code.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Any code change; this Work Item documents current behavior only",
+    "Designing new trait/Port interfaces in detail; only naming candidate boundaries and open questions",
+    "WI-653 (Outcome render purification)",
+    " already delivered separately"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-652-architecture-responsibility-map",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi652-architecture-responsibility-map"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/architecture-responsibility-map-2026-09.md",
+    "docs/reference/architecture-responsibility-map-2026-09.ja.md",
+    "docs/reference/architecture-responsibility-map-2026-09.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-652-architecture-responsibility-map"
+}
