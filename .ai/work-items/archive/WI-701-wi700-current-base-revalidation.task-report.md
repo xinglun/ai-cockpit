@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-701-wi700-current-base-revalidation.contract.json
-- Changed path: .ai/work-items/active/WI-701-wi700-current-base-revalidation.summary.json
+- Changed path: .ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json
+- Changed path: .ai/work-items/archive/WI-701-wi700-current-base-revalidation.summary.json
 
 ## Findings
 

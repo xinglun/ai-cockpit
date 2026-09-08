@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-701-wi700-current-base-revalidation.contract.json",
-    ".ai/work-items/active/WI-701-wi700-current-base-revalidation.summary.json"
+    ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json",
+    ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.summary.json"
   ],
   "checkpointAt": "2026-09-08T21:04:06Z",
   "checkpointContractDigest": "sha256:044dea2ea36b1850705b1964bc6a4a0cbb036176d743e0d5b166468a978078cf",
