@@ -4,9 +4,13 @@ title: “WI-694 — P2-A checkpoint 职责边界”
 description: “在一个完整生命周期用例中分离 checkpoint 的观察、治理校验和持久化职责。”
 audience: [maintainer, reviewer]
 workItemId: WI-694-p2a-checkpoint-boundary
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-694-p2a-checkpoint-boundary
+terminalArchive: .ai/work-items/archive/WI-694-p2a-checkpoint-boundary.contract.json
+terminalVerification: .ai/evidence/WI-694-p2a-checkpoint-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-694-p2a-checkpoint-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-694-p2a-checkpoint-boundary.close.json
 ---
 
 [English](WI-694-p2a-checkpoint-boundary.md) · [日本語](WI-694-p2a-checkpoint-boundary.ja.md)
