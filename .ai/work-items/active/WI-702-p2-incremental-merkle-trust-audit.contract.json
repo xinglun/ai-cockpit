@@ -1,0 +1,104 @@
+{
+  "acceptanceCriteria": [
+    "A1: Record the current IncrementalMerkle call graph and establish whether it can influence a protected governance decision; no production caller or decision-evidence binding may be invented.",
+    "A2: Do not reuse a digest solely from size and mtime; same-length content changed with restored mtime must be reread and produce the correct digest, or the result must be explicitly unknown.",
+    "A3: Cover replacement, deletion, rename, and file-to-directory type changes with deterministic, fail-closed behavior and preserve path isolation.",
+    "A4: A detectable content-identity change during a read must return an explicit error rather than silently reusing or claiming a stable digest.",
+    "A5: Preserve repository identity, authorization boundaries, evidence semantics, and exit behavior; do not expand IncrementalMerkle into a production caller or make a performance claim in this Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "83a3bb6b4d8072d2c273bec349581ce2441510cc",
+  "createdAt": "2026-09-08T21:06:36Z",
+  "goal": "Validate the trust boundary of IncrementalMerkle before any future incremental computation is considered.",
+  "intent": "The existing cache hint uses size and mtime, which cannot prove content identity. Preserve Calibrated Human-Agent Trust by failing closed or re-reading when content stability is not proven, while confirming whether the helper can affect protected decisions.",
+  "mode": "code",
+  "outOfScope": [
+    "All crates and production governance call paths outside crates/cockpit-git/src/lib.rs.",
+    "WI-698 observation context, WI-647 status history scan, WI-648 verification wait, WI-685 status fact reuse, and all other agents' worktrees, branches, pull requests, and evidence.",
+    "Expanding IncrementalMerkle into a production caller, adding filesystem notifications or cross-request caches, changing evidence format, or claiming performance benefit.",
+    "P3 resident MCP cache, in-process Git, PGO, release publication, global configuration, and historical evidence rewriting."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2daecbf7dab6acf84de4e0e589c693b9b2dee426879910fa08fa5755afe1a7eb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-702-p2-incremental-merkle-trust-audit",
+    "provider": "github",
+    "pullRequest": "pending:WI-702-p2-incremental-merkle-trust-audit",
+    "worktree": "/private/tmp/ai-cockpit-wi-702-p2-incremental-merkle-trust-audit"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "scenario": "production-call-graph-and-protected-decision-boundary",
+      "required": true,
+      "status": "unverified",
+      "expected": "The current call graph shows IncrementalMerkle is not used by a protected governance decision, or identifies the exact protected caller before any implementation change.",
+      "verificationPlan": "Search the current repository call graph, inspect the relevant crate tests, and retain the result in the Work Item evidence and tri-language report.",
+      "evidence": []
+    },
+    {
+      "scenario": "same-length-content-change-with-restored-mtime",
+      "required": true,
+      "status": "unverified",
+      "expected": "A same-length content change with restored mtime is reread and yields the new digest, or returns explicit unknown rather than reusing the old digest.",
+      "verificationPlan": "Add and run a focused cockpit-git test that changes content, restores the original mtime, refreshes, and compares the root digest.",
+      "evidence": []
+    },
+    {
+      "scenario": "replacement-deletion-rename-and-type-change",
+      "required": true,
+      "status": "unverified",
+      "expected": "Replacement, deletion, rename, and file-to-directory changes are handled deterministically and fail closed when the declared path is no longer a regular file.",
+      "verificationPlan": "Add and run focused cockpit-git tests covering each filesystem transition and retain the test receipt.",
+      "evidence": []
+    },
+    {
+      "scenario": "detectable-change-during-read",
+      "required": true,
+      "status": "unverified",
+      "expected": "A detectable metadata change across a read returns an explicit content-identity error and never silently claims a stable digest.",
+      "verificationPlan": "Exercise the before/after metadata stability guard with a deterministic test seam and retain the focused test receipt.",
+      "evidence": []
+    },
+    {
+      "scenario": "repository-and-work-item-isolation",
+      "required": true,
+      "status": "unverified",
+      "expected": "The audit and implementation remain bound to this repository, Work Item, declared paths, and current observation; no other agent tree or evidence is touched.",
+      "verificationPlan": "Run the governance integrity gate, inspect changed paths and Work Item bindings, and retain the isolation evidence.",
+      "evidence": []
+    }
+  ],
+  "scope": [
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/snapshot.rs",
+    "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.md",
+    "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.zh-CN.md",
+    "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/snapshot.rs",
+    ".ai/evidence/external/WI-696-p0-scenario-measurement-summary.json",
+    "docs/work-items/WI-696-p0-scenario-measurement.md",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "Human authorization: repository owner explicitly authorized continuation while other agents have active isolated Work Items; this Work Item must not touch their worktrees, branches, pull requests, or evidence."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-git",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /private/tmp/wi702-governance-integrity.json",
+    "git diff --check"
+  ],
+  "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+}
