@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "retry",
+  "workItemId": "WI-674-p1-repository-split",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-674-p1-repository-split",
+  "predecessorContractDigest": "sha256:babc9088a628839ad6679148501b68b0bedae85d1ae4ab9390b65473b6a1559e",
+  "predecessorSummaryDigest": "sha256:0c6c89569414807243517901688a88f27f1cd5f976f7c71dcb03f8abb5650e93",
+  "predecessorOutcomeDigest": "sha256:d799aaa0c5021e25175830446563ee6973568382adbee4bfed3c35815cf2146a",
+  "predecessorEventsDigest": "sha256:c17325ebd4a65f5732e995c6b73f67a1abcf5e460ae18da5b698d6f3112a87b5",
+  "runtimeVersion": "0.2.87",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "reason": "Retry the current WI after the Runtime rejected the previous verification as stale when the PR-674 finalization context was bound; rerun current preflight, verification, and finish.",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-674-p1-repository-split.outcome.json",
+    ".ai/evidence/WI-674-p1-repository-split.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/674"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "decidedAt": "2026-09-08T12:54:43Z",
+  "resumeCondition": "Record fresh verification evidence bound to the PR-674 finalization context, rerun preflight, then retry finish."
+}

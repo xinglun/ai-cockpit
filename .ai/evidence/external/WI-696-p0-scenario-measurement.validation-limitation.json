@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-696-p0-scenario-measurement",
+  "observedAt": "2026-09-08T19:23:33Z",
+  "scope": "external_gate_dependency",
+  "reason": "The repository-wide documentation gates are currently blocked by a separate active Work Item and were not changed here.",
+  "commands": [
+    {
+      "command": "bash tests/docs/documentation_acceptance.sh",
+      "exitCode": 1,
+      "observedOutput": "documentation acceptance passed; ERROR: docs/work-items/WI-694-p2a-checkpoint-boundary.md: status 'in_progress'; expected one of implemented from authoritative parity and terminal decision"
+    },
+    {
+      "command": "bash tests/docs/work_item_status_consistency_test.sh",
+      "exitCode": 1,
+      "observedOutput": "work item status consistency passed; ERROR: docs/work-items/WI-694-p2a-checkpoint-boundary.md: status 'in_progress'; expected one of implemented from authoritative parity and terminal decision"
+    },
+    {
+      "command": "python3 tests/docs/promote_closed_work_item.py --repo /private/tmp/ai-cockpit-wi-696-p0-scenario-measurement --check-all",
+      "exitCode": 1,
+      "observedOutput": "closed Work Item promotion failed: WI-694-p2a-checkpoint-boundary: promotion required for docs/work-items/WI-694-p2a-checkpoint-boundary.md, docs/reference/reference-parity.md, docs/work-items/WI-694-p2a-checkpoint-boundary.zh-CN.md, docs/reference/reference-parity.zh-CN.md, docs/work-items/WI-694-p2a-checkpoint-boundary.ja.md, docs/reference/reference-parity.ja.md"
+    }
+  ],
+  "boundary": "WI-696 does not modify WI-694 files, another agent's worktree, branch, PR, hosted-provider state, or evidence. Re-run these checks after the external WI-694 documentation promotion is complete."
+}

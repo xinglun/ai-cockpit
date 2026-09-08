@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-685-p1-status-fact-reuse",
+  "candidateCommit": "42e305027921504d3a33a95a0688857ad36ab873",
+  "scenario": "many-historical-wi",
+  "measurementPolicy": {
+    "warmSampleCount": 20,
+    "p95Reliable": true,
+    "p99Reliable": false,
+    "firstMeasurement": "first measured independent CLI after identity probes; not true cold cache",
+    "warmMeasurement": "independent CLI processes after one OS-cache warmup process",
+    "preMeasurementProbeCount": 3
+  },
+  "environment": {
+    "hardware": "10 CPU arm64",
+    "os": "macOS-26.6.2 / Darwin 25.6.0",
+    "filesystem": {
+      "available": false,
+      "reason": "filesystem_type_unavailable"
+    },
+    "baseline": {
+      "head": "2dee60a8aa97ba229d117cb210b245894b3347d2",
+      "trackedFileCount": 9834,
+      "trackedBytes": 62644994,
+      "historicalWorkItemCount": 594
+    },
+    "candidate": {
+      "head": "42e305027921504d3a33a95a0688857ad36ab873",
+      "trackedFileCount": 9834,
+      "trackedBytes": 62657407,
+      "historicalWorkItemCount": 594
+    }
+  },
+  "rawEvidence": {
+    "forwardBaseline": {
+      "file": "WI-685-p1-status-fact-reuse.baseline-final-forward-round20.json",
+      "sha256": "3984fa07805698abd2e9110d42653d100784e39e4b31fe7f8da61503c8b8a5f"
+    },
+    "forwardCandidate": {
+      "file": "WI-685-p1-status-fact-reuse.candidate-final-forward-round20.json",
+      "sha256": "466cb86229a401db60a6bf97f62a63cbeeef9d3089369cd47fe21342ab9c5968"
+    },
+    "reverseBaseline": {
+      "file": "WI-685-p1-status-fact-reuse.baseline-final-reverse-round20.json",
+      "sha256": "c349dbda8e5459e821339a3f713f8baf13807a348beb17b0b9158423e8f94d8a"
+    },
+    "reverseCandidate": {
+      "file": "WI-685-p1-status-fact-reuse.candidate-final-reverse-round20.json",
+      "sha256": "f41c736814139047e46f0cd2f64a4ea2c99e4a5eefc10673a09c10ae86b9c902"
+    },
+    "baselineRound40": {
+      "file": "WI-685-p1-status-fact-reuse.baseline-round40.json",
+      "sha256": "3a02988f7e56dbbbe4851c31922c9d1c56b88781c46997524ed8ac35bf1d6017"
+    },
+    "candidateRound40LoadNoise": {
+      "file": "WI-685-p1-status-fact-reuse.candidate-round40-load-noise.json",
+      "sha256": "879639163d68b6c84c3753523b195e70baf8d6d2199a6a5a7c64b4343791b266"
+    }
+  },
+  "pairedResults": {
+    "forward": {
+      "order": "baseline then candidate",
+      "baseline": {
+        "inspect": {
+          "firstMs": 64.742,
+          "p50Ms": 64.283,
+          "p95Ms": 65.346,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "status": {
+          "firstMs": 2190.87,
+          "p50Ms": 2058.544,
+          "p95Ms": 2165.179,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "doctor": {
+          "firstMs": 58.456,
+          "p50Ms": 54.746,
+          "p95Ms": 56.572,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "observe": {
+          "firstMs": 122.814,
+          "p50Ms": 115.146,
+          "p95Ms": 117.723,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        }
+      },
+      "candidate": {
+        "inspect": {
+          "firstMs": 64.884,
+          "p50Ms": 63.751,
+          "p95Ms": 65.193,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "status": {
+          "firstMs": 1606.268,
+          "p50Ms": 1565.1,
+          "p95Ms": 1596.771,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "doctor": {
+          "firstMs": 62.961,
+          "p50Ms": 55.372,
+          "p95Ms": 57.1,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "observe": {
+          "firstMs": 124.332,
+          "p50Ms": 115.01,
+          "p95Ms": 116.673,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        }
+      },
+      "statusDeltaPct": {
+        "p50": -23.976,
+        "p95": -26.249
+      },
+      "status": {
+        "baselineP50Ms": 2058.544,
+        "baselineP95Ms": 2165.179,
+        "candidateP50Ms": 1565.1,
+        "candidateP95Ms": 1596.771,
+        "p50DeltaPct": -23.976,
+        "p95DeltaPct": -26.249
+      },
+      "nonTargetP95DeltaPct": {
+        "inspect": -0.234,
+        "doctor": 0.933,
+        "observe": -0.891
+      }
+    },
+    "reverse": {
+      "order": "candidate then baseline",
+      "baseline": {
+        "inspect": {
+          "firstMs": 67.146,
+          "p50Ms": 63.876,
+          "p95Ms": 64.873,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "status": {
+          "firstMs": 2054.73,
+          "p50Ms": 2051.134,
+          "p95Ms": 2104.867,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "doctor": {
+          "firstMs": 59.387,
+          "p50Ms": 54.643,
+          "p95Ms": 56.39,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "observe": {
+          "firstMs": 124.815,
+          "p50Ms": 115.352,
+          "p95Ms": 116.292,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        }
+      },
+      "candidate": {
+        "inspect": {
+          "firstMs": 62.569,
+          "p50Ms": 64.023,
+          "p95Ms": 66.048,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "status": {
+          "firstMs": 1557.189,
+          "p50Ms": 1559.946,
+          "p95Ms": 1653.997,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "doctor": {
+          "firstMs": 66.094,
+          "p50Ms": 55.543,
+          "p95Ms": 57.106,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        },
+        "observe": {
+          "firstMs": 122.598,
+          "p50Ms": 114.838,
+          "p95Ms": 116.155,
+          "p99Ms": null,
+          "sampleCount": 20,
+          "p95Reliable": true
+        }
+      },
+      "statusDeltaPct": {
+        "p50": -23.943,
+        "p95": -21.425
+      },
+      "status": {
+        "baselineP50Ms": 2051.134,
+        "baselineP95Ms": 2104.867,
+        "candidateP50Ms": 1559.946,
+        "candidateP95Ms": 1653.997,
+        "p50DeltaPct": -23.943,
+        "p95DeltaPct": -21.425
+      },
+      "nonTargetP95DeltaPct": {
+        "inspect": 1.812,
+        "doctor": 1.27,
+        "observe": -0.118
+      }
+    }
+  },
+  "budgetDecision": {
+    "statusP50ImprovementAtLeastPct": 10,
+    "statusP50ObservedPct": [
+      23.976,
+      23.943
+    ],
+    "statusP95ImprovementAtLeastPct": 5,
+    "statusP95ObservedPct": [
+      26.249,
+      21.425
+    ],
+    "nonTargetP95Budget": {
+      "maxRelativeRegressionPct": 25,
+      "maxAbsoluteRegressionMs": 20
+    },
+    "decision": "pass_on_two_final_paired_round20_runs; retain pre-box round40 load-noise run as adverse but non-comparable evidence"
+  },
+  "resourceMetrics": {
+    "actualReadBytes": {
+      "available": false,
+      "reason": "runtime_does_not_expose_io_counters"
+    },
+    "actualHashedBytes": {
+      "available": false,
+      "reason": "runtime_does_not_expose_io_counters"
+    },
+    "gitCalls": {
+      "available": false,
+      "reason": "runtime_does_not_expose_git_counters"
+    },
+    "runtimeChildProcesses": {
+      "available": false,
+      "reason": "runtime_does_not_expose_process_tree"
+    },
+    "peakMemoryBytes": {
+      "available": false,
+      "reason": "platform_metric_unavailable"
+    }
+  }
+}

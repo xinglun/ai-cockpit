@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9b21491a9d5456aa6496f83265c80f34912400b19d5f5852d49dfb59990bad8a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Explicit user authorization confirms continuation of this bounded measurement Work Item after binding the reviewed PR https://github.com/xinglun/ai-cockpit/pull/691; the no-production-change boundary, evidence requirements, pause/resume recovery rule, and six high-risk scenarios remain in force. This fresh receipt authorizes the next lifecycle step for the exact current Contract and repository snapshot.",
+  "recordedAt": "2026-09-08T18:00:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
+  "schemaVersion": 1,
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}

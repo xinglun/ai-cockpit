@@ -1,0 +1,141 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-689-wi685-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
+      "workItemId": "WI-689-wi685-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-689-wi685-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-689-wi685-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-689-wi685-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-689-wi685-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-689-wi685-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-689-wi685-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-689-wi685-doc-promotion.verification.json",
+            ".ai/decisions/WI-689-wi685-doc-promotion.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/pull/688"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-08T16:59:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-689-wi685-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-689-wi685-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-689-wi685-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-689-wi685-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize WI-685 documentation with its immutable archive, verification, finalization, and close evidence without changing implementation or governance semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-689-wi685-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-689-wi685-doc-promotion"
+  },
+  "finalReportDigest": "sha256:ff1394c3e38319bb3a0bd0a321e9db589bef50e4fde9d3fe4aea2a2ebfc40e0c",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:079e1a7214b164024453e5e65a3faa8b71d6bf1fe1a8302fbb3bd63f377e482c",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-689-wi685-doc-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-08T16:59:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-689-wi685-doc-promotion.verification.json",
+      ".ai/decisions/WI-689-wi685-doc-promotion.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/688"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Repository owner authorized continuation; PR #688 was reviewed, all hosted checks passed, merged, and exact branch/worktree finalization was verified.",
+    "resumeCondition": "No resume condition; Work Item is closed. Further documentation promotion requires a new independently governed Work Item."
+  },
+  "timestamp": "2026-09-08T16:58:20Z",
+  "workItemId": "WI-689-wi685-doc-promotion"
+}

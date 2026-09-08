@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-699-wi696-doc-promotion.summary.json",
+    ".ai/evidence/WI-699-wi696-doc-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/696"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:d43ba55a7a94d8c4b025206fb8f331c48878bc792ff0535238a9d2bd2cfbcfae",
+  "predecessorEventsDigest": "sha256:3242e97af68487043868122dd914573b2209c14d6860ba5b5b1b7d2e8f525270",
+  "predecessorOutcomeDigest": "sha256:0a81b9107239c0abfe4ca6dcef00fc19ba483fa543e2bdffc510ca360c0e8d78",
+  "predecessorSummaryDigest": "sha256:be13fb3c0b5f75578fa46e041390fce5df1366b6b1c9f1decdc000fab2c60a14",
+  "predecessorWorkItemId": "WI-699-wi696-doc-promotion",
+  "reason": "Append a retry receipt after parity projection changed the repository snapshot and the first replacement verification was generated from a worktree that did not match the Contract resource context; preserve the stale-evidence stop and retry history without touching other agents' isolated Work Items.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Restore the checkpointed retry state, rerun verification in the Contract-bound worktree, then finish/archive/finalize/finalize-verify/close.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-699-wi696-doc-promotion"
+}

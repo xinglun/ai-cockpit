@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "WI-685 documentation reflects terminal status and links to immutable verification, archive, finalization, and close evidence.",
+    "All three language variants and parity projections remain consistent.",
+    "The official closed Work Item promotion helper passes for WI-685."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "e897c41baa723645be1c8b0f0182486492014262",
+  "createdAt": "2026-09-08T16:36:13Z",
+  "goal": "Synchronize WI-685 documentation with its immutable archive, verification, finalization, and close evidence without changing implementation or governance semantics.",
+  "intent": "Promote terminal WI-685 status-fact-reuse documentation and parity projections.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust source",
+    " tests",
+    " Runtime implementation",
+    " other Work Items",
+    " and historical archive records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f5c1fcfd53583c7ffda683ad4888514f5b7cfbfa5a10cf08a93da80ff330626d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-689-wi685-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/688",
+    "worktree": "/private/tmp/ai-cockpit-wi-689-wi685-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-685-p1-status-fact-reuse.md",
+    "docs/work-items/WI-685-p1-status-fact-reuse.zh-CN.md",
+    "docs/work-items/WI-685-p1-status-fact-reuse.ja.md",
+    "docs/work-items/WI-689-wi685-doc-promotion.md",
+    "docs/work-items/WI-689-wi685-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-689-wi685-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-685-p1-status-fact-reuse"
+  ],
+  "workItemId": "WI-689-wi685-doc-promotion"
+}

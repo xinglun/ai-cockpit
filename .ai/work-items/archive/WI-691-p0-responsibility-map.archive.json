@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T17:23:21Z",
+  "files": {
+    "contractDigest": "sha256:e1d4f478bd0142b4c5519b021ac878efa34a5eda35f4e921cd0885f5d3127e7e",
+    "contractPath": ".ai/work-items/archive/WI-691-p0-responsibility-map.contract.json",
+    "eventsDigest": "sha256:56e58e8baee421345546f5ff28a59e4ef0abbf87020b06f48eed62b915f39a8c",
+    "eventsPath": ".ai/work-items/archive/WI-691-p0-responsibility-map.events.jsonl",
+    "outcomeDigest": "sha256:317b3313209c2bb14d1c0f66ff4c964fb34bc8402f1d737d49b86e5bee8a5c1d",
+    "outcomePath": ".ai/work-items/archive/WI-691-p0-responsibility-map.outcome.json",
+    "summaryDigest": "sha256:fa596ac4d7fe8a71e1ca0e7ebe525de7ec9b9e2c85d972f7aca52554609a9a2c",
+    "summaryPath": ".ai/work-items/archive/WI-691-p0-responsibility-map.summary.json",
+    "taskReportDigest": "sha256:41b780c6e1d3dbd5b27864c4bf154c62f7dd0bf3a8e81c4cc989528370769c50",
+    "taskReportMarkdownDigest": "sha256:ce081d7cf5a2b095fa669b9d7eb0d4d2b764a7d8cb5d45101f1bf3d3683c156c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-691-p0-responsibility-map.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-691-p0-responsibility-map.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-691-p0-responsibility-map"
+}

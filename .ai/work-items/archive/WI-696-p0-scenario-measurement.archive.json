@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T19:34:28Z",
+  "files": {
+    "contractDigest": "sha256:2ee00b7fa5577e8e780989cfc7fabec0a7099d4283802c7e6f714a19c0f9c84f",
+    "contractPath": ".ai/work-items/archive/WI-696-p0-scenario-measurement.contract.json",
+    "eventsDigest": "sha256:a2c8df49cc0f23e74a88e261dc2354bf550cc19209d201f73af36f1db7bc6d17",
+    "eventsPath": ".ai/work-items/archive/WI-696-p0-scenario-measurement.events.jsonl",
+    "outcomeDigest": "sha256:12fbc42ad4d7b1045c4945b03a163774d3e9359018be3341eed356b88b10617a",
+    "outcomePath": ".ai/work-items/archive/WI-696-p0-scenario-measurement.outcome.json",
+    "summaryDigest": "sha256:2bae38a9d53937f2eee1725e42f2fe9e36c98ca883ccaecd5581fa0bae26ad36",
+    "summaryPath": ".ai/work-items/archive/WI-696-p0-scenario-measurement.summary.json",
+    "taskReportDigest": "sha256:8b7d6eb120d921ad1480fb50c8d841e57706ad551ba83020b7f9a1f7421a22c2",
+    "taskReportMarkdownDigest": "sha256:fa79cc367700adaa859a75d78e2ac286c77ea661caf1a229998ece952cfc3737",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-696-p0-scenario-measurement.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-696-p0-scenario-measurement.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-696-p0-scenario-measurement"
+}

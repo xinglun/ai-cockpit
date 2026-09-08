@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "The official closed-Work-Item promotion helper updates exactly the six WI-683 projection documents from immutable terminal evidence.",
+    "The generated WI-683 finalization and close decisions remain byte-preserved and validate against the merged PR and cleanup receipt.",
+    "Documentation, governance, status-consistency, and hosted checks pass without changing runtime or public protocol behavior."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "dc2a507922156fdb3516307031748c2778c64e6f",
+  "createdAt": "2026-09-08T15:45:58Z",
+  "goal": "Synchronize the three-language WI-683 Work Item pages and reference-parity rows with immutable archive, verification, finalization, and close evidence without changing implementation or governance semantics.",
+  "intent": "Promote the terminal documentation projection for the verified and closed WI-683 lifecycle concurrency recovery Work Item.",
+  "mode": "implementation",
+  "outOfScope": [
+    "All Rust source",
+    "tests",
+    "contracts",
+    "runtime behavior",
+    "historical archive bytes",
+    "unrelated Work Items",
+    "implementation or policy changes."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cd4f5ad85da50ef58318013fb4eaf688f2039753a4f3ec573dbc3fb72c716518",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-688-wi683-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/685",
+    "worktree": "/private/tmp/ai-cockpit-wi-688-wi683-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-683-p2c-lifecycle-concurrency-recovery.md",
+    "docs/work-items/WI-683-p2c-lifecycle-concurrency-recovery.zh-CN.md",
+    "docs/work-items/WI-683-p2c-lifecycle-concurrency-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/decisions/WI-683-p2c-lifecycle-concurrency-recovery.finalize.json",
+    ".ai/decisions/WI-683-p2c-lifecycle-concurrency-recovery.close.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-683-p2c-lifecycle-concurrency-recovery"
+  ],
+  "workItemId": "WI-688-wi683-doc-promotion"
+}

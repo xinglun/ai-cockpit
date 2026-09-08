@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-674-p1-repository-split.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+      "workItemId": "WI-674-p1-repository-split"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-674-p1-repository-split.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-674-p1-repository-split.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-674-p1-repository-split.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-674-p1-repository-split.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-674-p1-repository-split.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-674-p1-repository-split.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-674-p1-repository-split.verification.json",
+            ".ai/decisions/WI-674-p1-repository-split.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via repository-owner:xinglun at 2026-09-08T13:23:27Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-674-p1-repository-split.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-674-p1-repository-split.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-674-p1-repository-split.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-674-p1-repository-split.contract.json"
+          ],
+          "inference": false,
+          "text": "完成一组可验证的 Repository 内部模块拆分：每个职责有清晰边界和依赖记录，公共 API、序列化格式、错误行为、持久化布局及现有判定语义保持兼容；每次拆分都有相关行为测试和仓库要求的检查证据。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-674-p1-repository-split.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-674-p1-repository-split"
+  },
+  "finalReportDigest": "sha256:43bc1b050c3b215c1ed228444b397a7a96b9a0806724717a54617c7708f59342",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5b2ea88bb7acfcaadf72852b5f9f276d4c7ad0f4bab6a39731150472f195db78",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-674-p1-repository-split.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "repository-owner:xinglun",
+    "decidedAt": "2026-09-08T13:23:27Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-674-p1-repository-split.verification.json",
+      ".ai/decisions/WI-674-p1-repository-split.finalize.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "PR #674 已合并；验证、归档、finalization、分支及工作树清理均已完成。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-08T13:23:27Z",
+  "workItemId": "WI-674-p1-repository-split"
+}

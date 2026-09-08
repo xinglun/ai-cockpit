@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-685-p1-status-fact-reuse",
+  "repositoryHead": "42e305027921504d3a33a95a0688857ad36ab873",
+  "dataScale": {
+    "canonicalFinalizationReceiptFiles": 395,
+    "oldRuntimeCanonicalReceipts": 395,
+    "transitionFiles": 156
+  },
+  "baselinePath": {
+    "decisionDirectoryEnumerations": 396,
+    "transitionCandidatesParsedUpperBound": 156
+  },
+  "candidatePath": {
+    "decisionDirectoryEnumerations": 2,
+    "transitionCandidatesParsedPerObservation": 156
+  },
+  "reduction": {
+    "decisionDirectoryEnumerationReduction": 394,
+    "ratio": "198x fewer enumerations under this repository shape"
+  },
+  "proof": {
+    "sourceIndexBuild": "FinalizationTransitionIndex::from_directory runs once per status_with_runtime observation; inventory consumes its immutable values.",
+    "test": "historical_finalization_transition_is_parsed_once_per_observation passed; two independently built indexes each parsed one fixture transition.",
+    "noCrossRequestCache": true,
+    "noCrossRepositoryCache": true,
+    "noCrossWorkItemCache": true
+  },
+  "runtimeIdentity": {
+    "baselineDigest": "sha256:54c8481cc55c236d0767b57808ef3fd263e0d71115d416f84e36f792aed06fc3",
+    "baselineBinarySha256": "54c8481cc55c236d0767b57808ef3fd263e0d71115d416f84e36f792aed06fc3",
+    "candidateDigest": "sha256:9c20283cfa2cb6413c5fcb4bb69562aa8473e3811e3e6e7db75c5456044b3c20",
+    "candidateBinarySha256": "9c20283cfa2cb6413c5fcb4bb69562aa8473e3811e3e6e7db75c5456044b3c20"
+  }
+}

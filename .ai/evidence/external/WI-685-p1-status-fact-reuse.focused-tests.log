@@ -1,0 +1,62 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
+     Running unittests src/lib.rs (/private/tmp/ai-cockpit-wi-685-target/debug/deps/cockpit_repository-c410e33f372b268b)
+
+running 2 tests
+test status_projection::transition_index_tests::indexed_resolution_preserves_canonical_error_precedence ... ok
+test status_projection::transition_index_tests::historical_finalization_transition_is_parsed_once_per_observation ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.01s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+     Running tests/resource_finalization_transition.rs (/private/tmp/ai-cockpit-wi-685-target/debug/deps/resource_finalization_transition-196f9eb29b6520aa)
+
+running 29 tests
+test first_record_recovery_rejects_non_direct_input_when_predecessor_is_absent ... ok
+test canonical_record_rejects_pull_request_base_that_differs_from_archived_contract ... ok
+test canonical_verify_rejects_stored_pull_request_base_that_differs_from_archived_contract ... ok
+test forked_and_symlinked_transition_candidates_fail_closed ... ok
+test close_rejects_retained_finalization_before_writing_decision ... ok
+test closed_legacy_finalization_projects_as_historical_instead_of_runtime_failure ... ok
+test historical_direct_merge_plan_includes_deterministic_receipt_fields ... ok
+test historical_direct_merge_plan_suggested_receipt_can_be_applied_via_finalize ... ok
+test bounded_same_work_item_post_finalize_evidence_append_is_accepted ... ok
+test bundled_direct_merge_can_bind_contract_base_separately_from_merge_parent ... ok
+test historical_runtime_recovery_rejects_foreign_and_tampered_bindings ... ok
+test historical_runtime_recovery_allows_shared_retained_close_without_rewriting_predecessor ... ok
+test historical_runtime_recovery_rejects_symlink_destination ... ok
+test historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing ... ok
+test legacy_local_shared_retained_from_older_runtime_is_still_low_assurance ... ok
+test historical_direct_merge_plan_suggested_receipt_can_be_completed_and_applied ... ok
+test historical_direct_merge_without_pr_is_verifiable_and_closeable ... ok
+test legacy_local_shared_retained_is_projected_without_manual_recovery_marker ... ok
+test post_close_reconciliation_appends_deleted_head_without_rewriting_close ... ok
+test post_close_reconciliation_rejects_foreign_transition_runtime_identity ... ok
+test stale_missing_foreign_runtime_and_contract_transitions_fail_closed ... ok
+test symlinked_governance_append_receipt_fails_closed ... ok
+test symlinked_post_finalize_evidence_fails_closed ... ok
+test wi190_topology_appends_two_transitions_and_resolves_deleted_head ... ok
+test wi191_governance_receipt_append_allows_bounded_merge_observation ... ok
+test incomplete_or_invalid_json_post_finalize_evidence_fails_closed ... ok
+test modified_deleted_or_renamed_post_finalize_evidence_fails_closed ... ok
+test unrelated_or_malformed_governance_append_fails_closed ... ok
+test malformed_or_cross_bound_post_finalize_evidence_fails_closed ... ok
+
+test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 16.04s
+
+     Running tests/status_projection.rs (/private/tmp/ai-cockpit-wi-685-target/debug/deps/status_projection-86e54fa312651df8)
+
+running 11 tests
+test current_archive_without_close_blocks_new_work_item_entry ... ok
+test legacy_closed_archive_does_not_block_new_work_item_entry ... ok
+test all_work_item_status_rejects_foreign_contract_identity ... ok
+test status_projection_is_read_only_and_contains_fact_counts ... ok
+test all_work_item_status_keeps_malformed_member_as_visible_unknown ... ok
+test all_work_item_status_is_sorted_counted_and_digest_stable ... ok
+test concurrent_all_work_item_status_is_repository_isolated ... ok
+test invalid_close_decision_never_promotes_archived_status ... ok
+test foreign_close_repository_identity_never_promotes_archived_status ... ok
+test status_projection_isolated_between_repositories ... ok
+test status_projection_distinguishes_archived_from_valid_closed_decision ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.86s
+

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T12:55:27Z",
+  "files": {
+    "contractDigest": "sha256:0911eb6f533faec81fb246076da3031cf9beb1838447d55d414424d9380f150c",
+    "contractPath": ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.contract.json",
+    "eventsDigest": "sha256:f2ad40ab5eaea660695d7a9c89da600f2b68648e3c1cf755964c298647663fbe",
+    "eventsPath": ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.events.jsonl",
+    "outcomeDigest": "sha256:dc951a09bb90e8dce2c937a028284929ca0d914d42c6a57260441f7740b9d1b7",
+    "outcomePath": ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.outcome.json",
+    "summaryDigest": "sha256:88938c52ddca8676ee6b8eb026942db4b360ca2d1b77f2c6903f845dd8b46051",
+    "summaryPath": ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.summary.json",
+    "taskReportDigest": "sha256:8d17b5fc5f3326e4d543d5dd3eb96279911d47d713a6c4fc14d2209a0012670c",
+    "taskReportMarkdownDigest": "sha256:6464212ddf100e5c2aa20f320790b8be69b30af104937d10644bb5dc5b373bfd",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
+}

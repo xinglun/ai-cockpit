@@ -1,0 +1,127 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:952605d68fcaab7f0277f83587cc4c6ce0a4ed5ae39ef434818220b1e532d8fa",
+      "workItemId": "WI-696-p0-scenario-measurement"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-08T19:48:22Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-696-p0-scenario-measurement.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-696-p0-scenario-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "使用现有 runtime_benchmark.sh 对可复现场景矩阵进行有界测量，保留原始样本、环境、Runtime 身份、不可用指标原因和当前路径的瓶颈排序，为后续每项优化提供绑定 baseline；明确并发与 resident MCP 的测量边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-696-p0-scenario-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-696-p0-scenario-measurement"
+  },
+  "finalReportDigest": "sha256:69a633a3c361a7b6d044df7bee54bef096f490fdede4b5a385c1323cb0587add",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d7e11b142a7f528733ca9e35d86f232b0de1d32cec67328aadc6e7939279fc20",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-696-p0-scenario-measurement.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-08T19:48:22Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-696-p0-scenario-measurement.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Approved closure of the measured P0 baseline: evidence is complete, no production optimization was claimed, and the next status bottleneck investigation remains a separate successor decision.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-08T19:49:48Z",
+  "workItemId": "WI-696-p0-scenario-measurement"
+}

@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "每个可复现场景至少保留 20 个 warm 样本、首次测量样本、预热次数、原始顺序和 nearest-rank 分位数；样本不足时不声明可靠 p95/p99。",
+    "测量 small-clean、many-files-clean、single-file-change、multi-file-change、large-file-change、many-historical-wi；并发验证和 resident MCP 明确绑定既有证据或 not_measured 原因，不合成数据。",
+    "每个记录绑定 Runtime 版本/文件摘要、仓库身份/快照、OS、硬件、文件系统、数据规模、git metadata 计数和实际 CLI 进程数；内部阶段、读取/哈希字节、子进程、峰值内存和缓存失效无法取得时明确不可用，不填零。",
+    "交付按实际端到端 p50/p95 与现有内部证据排序的瓶颈及优化预算/后续前置条件；不修改生产治理行为、不宣称性能收益。"
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "105b8de5390dc2676bb983f03e673b11fadce060",
+  "createdAt": "2026-09-08T18:43:43Z",
+  "goal": "使用现有 runtime_benchmark.sh 对可复现场景矩阵进行有界测量，保留原始样本、环境、Runtime 身份、不可用指标原因和当前路径的瓶颈排序，为后续每项优化提供绑定 baseline；明确并发与 resident MCP 的测量边界。",
+  "intent": "建立真实场景的 P0 性能基准证据，在不改变治理运行行为的前提下给出瓶颈排序与后续优化预算。",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "src/**",
+    "tests/**",
+    "Runtime implementation",
+    "governance semantics",
+    "authorization rules",
+    "other Work Items",
+    "other agents' worktrees, branches, PRs, and hosted-provider behavior",
+    "production optimization"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:658e422aa9ef1aa1be00992c34182e523049d570e2079d970d9148863a681592",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-696-p0-scenario-measurement",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/695",
+    "worktree": "/private/tmp/ai-cockpit-wi-696-p0-scenario-measurement"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/**",
+    "docs/work-items/WI-696-p0-scenario-measurement.md",
+    "docs/work-items/WI-696-p0-scenario-measurement.zh-CN.md",
+    "docs/work-items/WI-696-p0-scenario-measurement.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/superpowers/plans/2026-09-09-wi-696-p0-scenario-measurement.md"
+  ],
+  "sources": [
+    "Human authorization: repository owner explicitly authorized continuation while other agents have active isolated Work Items; this Work Item must not touch their worktrees, branches, PRs, or evidence."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/performance/runtime_benchmark_stats_test.py",
+    "bash tests/performance/p0_regression_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "git diff --check"
+  ],
+  "workItemId": "WI-696-p0-scenario-measurement"
+}

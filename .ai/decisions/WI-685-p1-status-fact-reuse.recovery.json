@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:user-request",
+  "decidedAt": "2026-09-09T00:00:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-685-p1-status-fact-reuse.outcome.json",
+    ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/686",
+    "/private/tmp/wi-685-finalize-plan.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/work-item-lifecycle-closure.md"
+  ],
+  "predecessorContractDigest": "sha256:b9bc5bc2b71cf0478a1d0f4c2ed11a8d6a17a9ad50b3689499ba7dc8166544d0",
+  "predecessorEventsDigest": "sha256:8d62af302a7f36c9764b8bdc5aff4f98498ff0debfd87fb192925c5e09542e5a",
+  "predecessorOutcomeDigest": "sha256:602d082b496fd73a6becb9838c79c153a0ca0e206bb9a5e1920d5a862beb94bf",
+  "predecessorSummaryDigest": "sha256:2e17ad2363d57615cbed4af5ba74d6bda58b37603380534067836eb5320c63ad",
+  "predecessorWorkItemId": "WI-685-p1-status-fact-reuse",
+  "reason": "Retry WI-685 after binding the real PR #686 finalization context invalidated the earlier verification receipt; preserve the failed finish Outcome and rerun current WI-level verification under the bound provider context. The repository owner explicitly authorized continuation and evidence preservation.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh WI-level verification evidence bound to the current Contract and PR #686, obtain a green preflight, then retry finish and continue the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-685-p1-status-fact-reuse"
+}
