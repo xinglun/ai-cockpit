@@ -1,3 +1,4 @@
+use super::project_governance::{ProjectGovernanceFacts, observe_project_governance};
 use super::*;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -952,6 +953,252 @@ pub(super) struct ExecutableComponent {
     pub(super) _file: fs::File,
 }
 
+/// A lifecycle boundary at which repository facts are allowed to be reused.
+/// A context captured for one phase must not silently cross an execution or
+/// persistence mutation boundary.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ObservationPhase {
+    BeforeGovernance,
+    AfterExecution,
+    BeforePersistence,
+}
+
+impl ObservationPhase {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::BeforeGovernance => "before_governance",
+            Self::AfterExecution => "after_execution",
+            Self::BeforePersistence => "before_persistence",
+        }
+    }
+}
+
+/// The consistency state of an explicitly captured observation phase.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ObservationConsistency {
+    Stable,
+}
+
+/// Validated, request-scoped facts for one observation phase.  This is a
+/// value object rather than a cache: `validate_current` must succeed before a
+/// caller uses it after any possible repository or execution mutation.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ObservationContext {
+    repository_id: Digest,
+    runtime: Option<RuntimeContext>,
+    phase: ObservationPhase,
+    snapshot: RepositorySnapshot,
+    snapshot_digest: Digest,
+    configuration_digest: Digest,
+    policy_digest: Option<Digest>,
+    contract_digest: Option<Digest>,
+    contract_path: Option<PathBuf>,
+    project_governance: ProjectGovernanceFacts,
+    observation: RepositoryObservation,
+    unknowns: Vec<String>,
+    consistency: ObservationConsistency,
+    root: PathBuf,
+}
+
+impl ObservationContext {
+    pub fn repository_id(&self) -> &Digest {
+        &self.repository_id
+    }
+
+    pub fn runtime(&self) -> Option<&RuntimeContext> {
+        self.runtime.as_ref()
+    }
+
+    pub const fn phase(&self) -> ObservationPhase {
+        self.phase
+    }
+
+    pub fn root(&self) -> &Path {
+        &self.root
+    }
+
+    pub fn snapshot(&self) -> &RepositorySnapshot {
+        &self.snapshot
+    }
+
+    pub fn snapshot_digest(&self) -> &Digest {
+        &self.snapshot_digest
+    }
+
+    pub fn configuration_digest(&self) -> &Digest {
+        &self.configuration_digest
+    }
+
+    pub fn policy_digest(&self) -> Option<&Digest> {
+        self.policy_digest.as_ref()
+    }
+
+    pub fn contract_digest(&self) -> Option<&Digest> {
+        self.contract_digest.as_ref()
+    }
+
+    pub fn observation(&self) -> &RepositoryObservation {
+        &self.observation
+    }
+
+    pub fn project_governance(&self) -> &ProjectGovernanceProjection {
+        self.project_governance.projection()
+    }
+
+    pub(crate) fn project_governance_facts(&self) -> &ProjectGovernanceFacts {
+        &self.project_governance
+    }
+
+    pub fn unknowns(&self) -> &[String] {
+        &self.unknowns
+    }
+
+    pub const fn consistency(&self) -> ObservationConsistency {
+        self.consistency
+    }
+
+    /// Confirm that the captured facts still describe the current repository.
+    /// This deliberately takes a fresh observation boundary; a struct holding
+    /// an old snapshot is not treated as an atomic multi-file transaction.
+    pub fn validate_current(&self) -> Result<(), ObserverError> {
+        let git = cockpit_git::GitRepository::discover(&self.root).map_err(|error| {
+            ObserverError::State {
+                path: self.root.clone(),
+                message: error.to_string(),
+            }
+        })?;
+        let current_snapshot = git.snapshot().map_err(|error| ObserverError::State {
+            path: self.root.clone(),
+            message: error.to_string(),
+        })?;
+        let current_snapshot_digest = snapshot_digest(&current_snapshot)?;
+        let current_repository_id = repository_id(&self.root);
+        let current_configuration_digest = governance_configuration_digest(&self.root)?;
+        if current_repository_id != self.repository_id {
+            return Err(ObserverError::State {
+                path: self.root.join(".ai/cockpit.toml"),
+                message: "observation phase repository identity changed".into(),
+            });
+        }
+        if current_configuration_digest != self.configuration_digest {
+            return Err(ObserverError::State {
+                path: self.root.join(".ai"),
+                message: "observation phase governance configuration changed".into(),
+            });
+        }
+        if let (Some(path), Some(expected)) = (&self.contract_path, &self.contract_digest) {
+            let current = contract_identity_digest(path)?;
+            if &current != expected {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "observation phase Contract identity changed".into(),
+                });
+            }
+        }
+        if current_snapshot_digest != self.snapshot_digest {
+            return Err(ObserverError::State {
+                path: self.root.clone(),
+                message: "observation phase repository snapshot changed".into(),
+            });
+        }
+        Ok(())
+    }
+
+    pub fn require_phase(&self, expected: ObservationPhase) -> Result<(), ObserverError> {
+        if self.phase != expected {
+            return Err(ObserverError::State {
+                path: self.root.join(".ai"),
+                message: format!(
+                    "observation phase cannot be reused: captured={}, required={}",
+                    self.phase.as_str(),
+                    expected.as_str()
+                ),
+            });
+        }
+        self.validate_current()
+    }
+}
+
+const GOVERNANCE_INPUT_PATHS: [&str; 6] = [
+    ".ai/cockpit.toml",
+    ".ai/project.json",
+    ".ai/policy.json",
+    ".ai/project/capabilities.json",
+    ".ai/project/success_criteria.json",
+    ".ai/project/profile-policy.json",
+];
+
+fn governance_configuration_digest(root: &Path) -> Result<Digest, ObserverError> {
+    let mut bytes = Vec::new();
+    for relative in GOVERNANCE_INPUT_PATHS {
+        bytes.extend_from_slice(relative.as_bytes());
+        bytes.push(0);
+        let path = root.join(relative);
+        match fs::symlink_metadata(&path) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                bytes.extend_from_slice(b"symlink");
+            }
+            Ok(metadata) if metadata.file_type().is_file() => {
+                bytes.extend_from_slice(&fs::read(&path).map_err(|source| {
+                    ObserverError::Read {
+                        path: path.clone(),
+                        source,
+                    }
+                })?);
+            }
+            Ok(_) => bytes.extend_from_slice(b"invalid"),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                bytes.extend_from_slice(b"missing");
+            }
+            Err(source) => {
+                return Err(ObserverError::Read { path, source });
+            }
+        }
+        bytes.push(0);
+    }
+    Ok(Digest::sha256_bytes(&bytes))
+}
+
+fn governance_policy_digest(root: &Path) -> Result<Option<Digest>, ObserverError> {
+    let path = root.join(".ai/policy.json");
+    let metadata = match fs::symlink_metadata(&path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(source) => return Err(ObserverError::Read { path, source }),
+    };
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return Ok(Some(Digest::sha256_bytes(b"invalid-policy-file")));
+    }
+    let bytes = fs::read(&path).map_err(|source| ObserverError::Read { path, source })?;
+    Ok(Some(Digest::sha256_bytes(&bytes)))
+}
+
+fn contract_identity_digest(path: &Path) -> Result<Digest, ObserverError> {
+    let metadata = fs::symlink_metadata(path).map_err(|source| ObserverError::Read {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return Err(ObserverError::State {
+            path: path.to_path_buf(),
+            message: "observation Contract must be a regular non-symlink file".into(),
+        });
+    }
+    let value: serde_json::Value =
+        serde_json::from_slice(&fs::read(path).map_err(|source| ObserverError::Read {
+            path: path.to_path_buf(),
+            source,
+        })?)
+        .map_err(|error| ObserverError::State {
+            path: path.to_path_buf(),
+            message: error.to_string(),
+        })?;
+    cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+        path: path.to_path_buf(),
+        message: error.to_string(),
+    })
+}
+
 /// Request-scoped repository state.  A context captures one immutable Git
 /// snapshot and memoizes the derived observation for the lifetime of the
 /// request.  Callers that need fresh facts must create a new context instead
@@ -1032,6 +1279,70 @@ impl RepositoryExecutionContext {
             path: self.root.join(".ai"),
             message: "repository observation was not initialized".into(),
         })
+    }
+
+    /// Capture one validated set of facts for a lifecycle phase.  The
+    /// before/after checks cover source state, attached repository identity,
+    /// and governance configuration without widening the snapshot lifetime.
+    pub fn observe_phase(
+        &self,
+        phase: ObservationPhase,
+        runtime: Option<&RuntimeContext>,
+        contract_digest: Option<Digest>,
+    ) -> Result<ObservationContext, ObserverError> {
+        self.observe_phase_with_bindings(phase, runtime, contract_digest, None)
+    }
+
+    pub fn observe_phase_with_contract(
+        &self,
+        phase: ObservationPhase,
+        runtime: Option<&RuntimeContext>,
+        contract_path: &Path,
+    ) -> Result<ObservationContext, ObserverError> {
+        let contract_path =
+            fs::canonicalize(contract_path).map_err(|source| ObserverError::Read {
+                path: contract_path.to_path_buf(),
+                source,
+            })?;
+        if !contract_path.starts_with(&self.root) {
+            return Err(ObserverError::State {
+                path: contract_path,
+                message: "observation Contract escapes repository root".into(),
+            });
+        }
+        let contract_digest = contract_identity_digest(&contract_path)?;
+        self.observe_phase_with_bindings(phase, runtime, Some(contract_digest), Some(contract_path))
+    }
+
+    fn observe_phase_with_bindings(
+        &self,
+        phase: ObservationPhase,
+        runtime: Option<&RuntimeContext>,
+        contract_digest: Option<Digest>,
+        contract_path: Option<PathBuf>,
+    ) -> Result<ObservationContext, ObserverError> {
+        let observation = self.observe()?.clone();
+        let captured_snapshot_digest = snapshot_digest(&self.snapshot)?;
+        let project_governance =
+            observe_project_governance(&self.root, &self.repository_id, &captured_snapshot_digest)?;
+        let context = ObservationContext {
+            repository_id: self.repository_id.clone(),
+            runtime: runtime.cloned(),
+            phase,
+            snapshot: self.snapshot.clone(),
+            snapshot_digest: captured_snapshot_digest,
+            configuration_digest: governance_configuration_digest(&self.root)?,
+            policy_digest: governance_policy_digest(&self.root)?,
+            contract_digest,
+            contract_path,
+            project_governance: project_governance.clone(),
+            observation,
+            unknowns: project_governance.projection().unknowns.clone(),
+            consistency: ObservationConsistency::Stable,
+            root: self.root.clone(),
+        };
+        context.validate_current()?;
+        Ok(context)
     }
 }
 
