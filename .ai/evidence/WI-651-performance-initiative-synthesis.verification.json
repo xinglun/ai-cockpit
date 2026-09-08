@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:961bcb35e3f222dbbf0967a41ae9f417f39e7531998c5ac397e0bb446201d4f8",
-  "createdAt": "2026-09-08T01:19:27Z",
+  "contractDigest": "sha256:ef78a761fccd500966db0c7ed9c0571980c6728ffbeda8295b41f549066a18bb",
+  "createdAt": "2026-09-08T01:21:56Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 182889,
-      "executionElapsedMs": 182428,
+      "elapsedMs": 114856,
+      "executionElapsedMs": 114546,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 182889,
-    "executionElapsedMs": 182428,
-    "filesHashed": 16,
-    "filesRead": 19,
+    "elapsedMs": 114856,
+    "executionElapsedMs": 114546,
+    "filesHashed": 10,
+    "filesRead": 13,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,11 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/performance-initiative-2026-09.ja.md",
-        "docs/reference/performance-initiative-2026-09.md",
-        "docs/reference/performance-initiative-2026-09.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
       "dependencyConfidence": "unknown",
@@ -48,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 182428,
+      "executionElapsedMs": 114546,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -78,9 +74,9 @@
           "commandDigest": "sha256:d28fa8945545ef946875d2c70b49bc3d02c1cbdcdb76211ae3e1e9cdacb27bd9",
           "contentDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
           "diff": {
-            "baseCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
-            "changedPathsDigest": "sha256:95d7333b96b8c1560fa89a3706165e75c667163455d1f0418d20098ecb6da151",
-            "headCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e"
+            "baseCommit": "04c3f086e2b44907214f9a292686e7a0d553a129",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "04c3f086e2b44907214f9a292686e7a0d553a129"
           },
           "environmentDigest": "sha256:8821aa2ee9f521ede038c27e0a3b1bcd0d3da256d99b60ddbe833825104aa949",
           "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
@@ -91,12 +87,12 @@
           "stage": "task",
           "toolchainDigest": "sha256:55a5c4e40f6f930201133025c136270210ca51b8520d039178b89cf5405dcbd2"
         },
-        "createdAtEpochSeconds": 1788830184,
-        "expiresAtEpochSeconds": 1788916584,
+        "createdAtEpochSeconds": 1788830401,
+        "expiresAtEpochSeconds": 1788916801,
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:074566de8e8c8ca4bf8a0163ad1f94564e9d1d2fa6743803bb70cbce2b4c764f",
+        "outputDigest": "sha256:1851d5219680fda412547c85e31f4a8af7e70e4750fc223a4a336e51fa0b8c72",
         "passed": true,
-        "receiptId": "sha256:2d04000237906d6756495c63c56fba808932a30b769ff32a26f990ae31621da3",
+        "receiptId": "sha256:755779d618fa976d073da956868ab690915f124034ea8680447e1489839e1691",
         "schemaVersion": 2
       }
     ],
@@ -107,12 +103,12 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:074566de8e8c8ca4bf8a0163ad1f94564e9d1d2fa6743803bb70cbce2b4c764f",
+        "outputDigest": "sha256:1851d5219680fda412547c85e31f4a8af7e70e4750fc223a4a336e51fa0b8c72",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
         "reason": "binding_mismatch",
-        "receiptId": "sha256:2d04000237906d6756495c63c56fba808932a30b769ff32a26f990ae31621da3",
+        "receiptId": "sha256:755779d618fa976d073da956868ab690915f124034ea8680447e1489839e1691",
         "reused": false,
         "satisfiedBy": "execution",
         "state": "stale",
@@ -123,7 +119,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-651-performance-initiative-synthesis"
   },
-  "receiptDigest": "sha256:dbd52dfa49162a0de96346d1d3be08d339a0759b53bc26f33306354a42275a4d",
+  "receiptDigest": "sha256:5fd748b5eaf1e36fa39e65708d4d9fbb043b9ab4b0ba280b0688ea034caf39f5",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

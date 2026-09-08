@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Every one of WI-647, WI-648, WI-649, WI-650 is summarized with its actual measured before/after numbers (not restated claims) and a link to its own Work Item doc.",
+    "The streaming-hash and bounded-parallel-read P1 candidates are evaluated against actual measured data from this repository (inspect filesRead/filesHashed counts, largest tracked file sizes) and a documented decision (pursue or decline) is recorded with that evidence.",
+    "IncrementalMerkle and PhysicalSingleFlightCoordinator are confirmed, by direct source inspection recorded in this document, to have no non-test production caller; the decision not to wire them in without a concrete measured concurrent-duplication or cache-correctness need is recorded explicitly, not silently assumed.",
+    "P3 candidates (resident MCP cache, in-process git, PGO) are recorded as not pursued because no P0-P2 measurement in this initiative identified a bottleneck they would address, with the specific reasoning stated rather than a blanket deferral.",
+    "The document states outstanding P0 scope explicitly not completed (8-scenario fixture matrix, phase-level resource-metric exposure on status/doctor/observe, persistent-MCP measurement, identity-tolerant dev comparator) as known gaps, not silently dropped."
+  ],
+  "createdAt": "2026-09-08T01:21:59Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e5b2c1e2f4942539719c8e434ea0f429feea638bc38f8368492c0c71a4026313",
+  "evidenceRefs": [
+    ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
+      "workItemId": "WI-651-performance-initiative-synthesis"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-651-performance-initiative-synthesis.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-651-performance-initiative-synthesis.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-651-performance-initiative-synthesis.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-651-performance-initiative-synthesis.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-651-performance-initiative-synthesis.contract.json"
+          ],
+          "inference": false,
+          "text": "Deliver a single reference document that inventories the four delivered Work Items (WI-647..650), their measured before/after evidence, and a decision plus supporting measurement for each remaining P1-P3 candidate, so a future contributor has a verified starting point instead of re-deriving the same measurements."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-651-performance-initiative-synthesis.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-651-performance-initiative-synthesis"
+  },
+  "taskReportDigest": "sha256:beb468ae6761c533240f2a90116441fda2f0d2e203b4dbafcf4c7030d0d835f5",
+  "taskReportMarkdownDigest": "sha256:654cf96a7ae33fd70ce4887b3c4c87fdff06af226d0886864aa4e7c82107cf0a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-651-performance-initiative-synthesis.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-651-performance-initiative-synthesis"
+}

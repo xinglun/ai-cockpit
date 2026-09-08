@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T01:22:00Z",
+  "files": {
+    "contractDigest": "sha256:fa5509c8fc71b72a9b7681587b62faf6cc29d5abea5b16a4c955831efb006f4e",
+    "contractPath": ".ai/work-items/archive/WI-651-performance-initiative-synthesis.contract.json",
+    "eventsDigest": "sha256:660b0393077e24ac48226f25e69165a0cc370cbb438af739eaec1dd808f51da4",
+    "eventsPath": ".ai/work-items/archive/WI-651-performance-initiative-synthesis.events.jsonl",
+    "outcomeDigest": "sha256:af0516e152e3ae63562d9976d0158ad7365c5a7750426e50b577a026ca7c1a19",
+    "outcomePath": ".ai/work-items/archive/WI-651-performance-initiative-synthesis.outcome.json",
+    "summaryDigest": "sha256:16e7bfb12cc445b9c5e005399f7d0d66ca02b1789e32a7bb8b667590e0fd2e99",
+    "summaryPath": ".ai/work-items/archive/WI-651-performance-initiative-synthesis.summary.json",
+    "taskReportDigest": "sha256:beb468ae6761c533240f2a90116441fda2f0d2e203b4dbafcf4c7030d0d835f5",
+    "taskReportMarkdownDigest": "sha256:654cf96a7ae33fd70ce4887b3c4c87fdff06af226d0886864aa4e7c82107cf0a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-651-performance-initiative-synthesis.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-651-performance-initiative-synthesis.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-651-performance-initiative-synthesis"
+}

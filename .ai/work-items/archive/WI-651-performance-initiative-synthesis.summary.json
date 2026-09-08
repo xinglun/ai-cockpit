@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-651-performance-initiative-synthesis.contract.json",
+    ".ai/work-items/archive/WI-651-performance-initiative-synthesis.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T01:13:56Z",
+  "checkpointContractDigest": "sha256:ef78a761fccd500966db0c7ed9c0571980c6728ffbeda8295b41f549066a18bb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:961bcb35e3f222dbbf0967a41ae9f417f39e7531998c5ac397e0bb446201d4f8",
+      "recorded": true,
+      "recordedAt": "2026-09-08T01:13:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-651-performance-initiative-synthesis"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ef78a761fccd500966db0c7ed9c0571980c6728ffbeda8295b41f549066a18bb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:961bcb35e3f222dbbf0967a41ae9f417f39e7531998c5ac397e0bb446201d4f8",
+      "previousContractHash": "sha256:961bcb35e3f222dbbf0967a41ae9f417f39e7531998c5ac397e0bb446201d4f8",
+      "reason": "Bind the reviewed PR resource context before the final verification rerun required by the Runtime lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T01:19:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-651-performance-initiative-synthesis"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
+  "createdAt": "2026-09-08T01:13:40Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T01:21:56Z",
+  "preflightContractDigest": "sha256:ef78a761fccd500966db0c7ed9c0571980c6728ffbeda8295b41f549066a18bb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T01:21:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-651-performance-initiative-synthesis"
+}

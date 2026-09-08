@@ -26,11 +26,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-651-performance-initiative-synthesis",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/649",
     "worktree": "/private/tmp/ai-cockpit-wi651-performance-initiative-synthesis"
   },
   "risk": "normal",
