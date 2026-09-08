@@ -199,13 +199,13 @@
       "workItemId": "WI-662-p0-benchmark-evidence"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:38f76ccc8c057d5bbd63773aa26fe09fef02976909e99eccc5ff998583fd6305",
+  "checkpointRepositorySnapshotDigest": "sha256:07d95f6de9ec14139e2777efd3f019d4b14893ec9167a595f7052592337275e0",
   "createdAt": "2026-09-08T06:42:10Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T08:21:42Z",
+  "preflightAt": "2026-09-08T08:39:42Z",
   "preflightContractDigest": "sha256:e9ced14c748112cf6a3498e96626aea5a7eb15fd7c19afbefcdaf8abea1d3bfb",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:38f76ccc8c057d5bbd63773aa26fe09fef02976909e99eccc5ff998583fd6305",
+  "preflightRepositorySnapshotDigest": "sha256:07d95f6de9ec14139e2777efd3f019d4b14893ec9167a595f7052592337275e0",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",

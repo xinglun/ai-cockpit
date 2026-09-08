@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:e9ced14c748112cf6a3498e96626aea5a7eb15fd7c19afbefcdaf8abea1d3bfb",
-  "createdAt": "2026-09-08T08:21:42Z",
+  "createdAt": "2026-09-08T08:39:42Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 210,
-      "executionElapsedMs": 27,
+      "elapsedMs": 200,
+      "executionElapsedMs": 26,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 210,
-    "executionElapsedMs": 27,
-    "filesHashed": 19,
-    "filesRead": 19,
+    "elapsedMs": 200,
+    "executionElapsedMs": 26,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,15 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/superpowers/plans/2026-09-08-wi-662-p0-benchmark-evidence.md",
-        "tests/performance/README.ja.md",
-        "tests/performance/README.md",
-        "tests/performance/README.zh-CN.md",
-        "tests/performance/runtime_benchmark.sh",
-        "tests/performance/runtime_benchmark_scenarios.py",
-        "tests/performance/runtime_benchmark_stats_test.py"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "a9d508d77c833409c91dd46fe47545a5ed03475c",
       "dependencyConfidence": "unknown",
@@ -52,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 27,
+      "executionElapsedMs": 26,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:38f76ccc8c057d5bbd63773aa26fe09fef02976909e99eccc5ff998583fd6305",
+      "repositorySnapshotDigest": "sha256:07d95f6de9ec14139e2777efd3f019d4b14893ec9167a595f7052592337275e0",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -100,9 +92,9 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-662-p0-benchmark-evidence"
   },
-  "receiptDigest": "sha256:7c121bb03dc7752a92e25fc9523d2bff147780243c7155284e9ef73cc2e6ff13",
+  "receiptDigest": "sha256:8a63b68c156105527c3fd94fc1444fd49356a9902af92a512bfb9825bf038fb8",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:38f76ccc8c057d5bbd63773aa26fe09fef02976909e99eccc5ff998583fd6305",
+  "repositorySnapshotDigest": "sha256:07d95f6de9ec14139e2777efd3f019d4b14893ec9167a595f7052592337275e0",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
   "runtimeVersion": "0.2.87",
   "workItemId": "WI-662-p0-benchmark-evidence"
