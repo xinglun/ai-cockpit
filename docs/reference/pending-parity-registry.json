@@ -28,7 +28,7 @@
         "number": 673,
         "url": "https://github.com/xinglun/ai-cockpit/pull/673"
       },
-      "registryBaseRevision": "9e1ebbc509b54591e3855bca50aa4839bd5b7ad3",
+      "registryBaseRevision": "c42abffa9902ec3558b15f27d8a406d681c4bf81",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
