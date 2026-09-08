@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "human:repository-owner",
+  "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+  "createdAt": "2026-09-08T13:38:40Z",
+  "goal": "Serialize one Work Item lifecycle across processes and fail closed under interrupted or duplicate finish archive close operations without changing external contracts",
+  "intent": "Redeliver lifecycle concurrency and recovery coordination from the latest default base",
+  "mode": "implementation",
+  "outOfScope": [
+    "new storage system",
+    "microservices",
+    "protocol redesign",
+    "unrelated repository split changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-681-wi677-lifecycle-concurrency-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-681-wi677-lifecycle-concurrency-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/evidence_store.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-681-wi677-lifecycle-concurrency-recovery"
+}
