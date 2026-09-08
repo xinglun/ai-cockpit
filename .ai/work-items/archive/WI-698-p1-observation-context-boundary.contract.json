@@ -28,10 +28,52 @@
     "baseRemote": "origin",
     "branch": "codex/wi-698-p1-observation-context-boundary",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/697",
     "worktree": "/private/tmp/ai-cockpit-wi-698-p1-observation-context-boundary"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Repeated governance reads in one valid phase use the same repository, Runtime, Contract/config/policy, snapshot, and observed-fact identities without a hidden second observation.",
+      "required": true,
+      "scenario": "stable observation reuses one request-scoped context",
+      "status": "unverified",
+      "verificationPlan": "Run focused RepositoryExecutionContext and governance tests with call counters and assert one captured phase context and stable facts."
+    },
+    {
+      "evidence": [],
+      "expected": "The observation phase is marked inconsistent or returns an unknown result; it cannot produce a green governance input.",
+      "required": true,
+      "scenario": "repository files change while observation is being read",
+      "status": "unverified",
+      "verificationPlan": "Use a controlled mutation during observation and assert the before/after source snapshot identity mismatch is visible and fail closed."
+    },
+    {
+      "evidence": [],
+      "expected": "cockpit/profile/policy declaration identity changes invalidate the phase context instead of being silently mixed with the original snapshot.",
+      "required": true,
+      "scenario": "governance configuration changes during observation",
+      "status": "unverified",
+      "verificationPlan": "Mutate a bound governance declaration between phase captures and assert configuration identity mismatch and unknown state."
+    },
+    {
+      "evidence": [],
+      "expected": "A context from another repository or a changed attached identity is rejected with the existing fail-closed identity behavior.",
+      "required": true,
+      "scenario": "repository identity changes or root does not match",
+      "status": "unverified",
+      "verificationPlan": "Bind two isolated repositories and tamper the attached identity input; assert snapshot-root or repository-identity mismatch."
+    },
+    {
+      "evidence": [],
+      "expected": "A context captured before execution cannot authorize after-execution or persistence facts; the caller must capture and validate a new phase.",
+      "required": true,
+      "scenario": "execution-phase mutation requires a fresh boundary",
+      "status": "unverified",
+      "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured."
+    }
+  ],
   "scope": [
     "crates/cockpit-repository/src/execution_context.rs",
     "crates/cockpit-repository/src/project_governance.rs",
@@ -63,48 +105,6 @@
     "crates/cockpit-repository/tests/verification_context.rs",
     "crates/cockpit-git/src/lib.rs:212-450",
     "Human authorization: repository owner explicitly authorized completing the full architecture initiative and its WI lifecycle."
-  ],
-  "scenarioCoverage": [
-    {
-      "scenario": "stable observation reuses one request-scoped context",
-      "required": true,
-      "expected": "Repeated governance reads in one valid phase use the same repository, Runtime, Contract/config/policy, snapshot, and observed-fact identities without a hidden second observation.",
-      "verificationPlan": "Run focused RepositoryExecutionContext and governance tests with call counters and assert one captured phase context and stable facts.",
-      "evidence": [],
-      "status": "unverified"
-    },
-    {
-      "scenario": "repository files change while observation is being read",
-      "required": true,
-      "expected": "The observation phase is marked inconsistent or returns an unknown result; it cannot produce a green governance input.",
-      "verificationPlan": "Use a controlled mutation during observation and assert the before/after source snapshot identity mismatch is visible and fail closed.",
-      "evidence": [],
-      "status": "unverified"
-    },
-    {
-      "scenario": "governance configuration changes during observation",
-      "required": true,
-      "expected": "cockpit/profile/policy declaration identity changes invalidate the phase context instead of being silently mixed with the original snapshot.",
-      "verificationPlan": "Mutate a bound governance declaration between phase captures and assert configuration identity mismatch and unknown state.",
-      "evidence": [],
-      "status": "unverified"
-    },
-    {
-      "scenario": "repository identity changes or root does not match",
-      "required": true,
-      "expected": "A context from another repository or a changed attached identity is rejected with the existing fail-closed identity behavior.",
-      "verificationPlan": "Bind two isolated repositories and tamper the attached identity input; assert snapshot-root or repository-identity mismatch.",
-      "evidence": [],
-      "status": "unverified"
-    },
-    {
-      "scenario": "execution-phase mutation requires a fresh boundary",
-      "required": true,
-      "expected": "A context captured before execution cannot authorize after-execution or persistence facts; the caller must capture and validate a new phase.",
-      "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured.",
-      "evidence": [],
-      "status": "unverified"
-    }
   ],
   "state": "implementation_active",
   "verification": [
