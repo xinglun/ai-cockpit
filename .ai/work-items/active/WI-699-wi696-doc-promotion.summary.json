@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-699-wi696-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-699-wi696-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T19:54:55Z",
+  "checkpointContractDigest": "sha256:27ceb687b3fcf862a69e7dc78bedd33ccbd65a726cfc08df3c72435794fd2543",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:787c7b82522579a72b26bbad54f241fa7b3d6b0537b8a83a11cdf2ee956d3f5f",
+  "createdAt": "2026-09-08T19:52:52Z",
+  "failedGate": "finish.governance",
+  "mode": "docs",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-08T20:03:59Z",
+  "preflightContractDigest": "sha256:27ceb687b3fcf862a69e7dc78bedd33ccbd65a726cfc08df3c72435794fd2543",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:787c7b82522579a72b26bbad54f241fa7b3d6b0537b8a83a11cdf2ee956d3f5f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T20:04:16Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:a89c2b73a7de7c7baa87b0a86408df42d94eef449cde560cb124142548b9461c",
+  "workItemId": "WI-699-wi696-doc-promotion"
+}

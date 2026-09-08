@@ -4,9 +4,13 @@ title: "WI-696 — P0 scenario measurement"
 description: "Run the existing P0 benchmark against the real scenario matrix and bind a bottleneck order and guarded follow-up budget."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-696-p0-scenario-measurement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-696-p0-scenario-measurement
+terminalArchive: .ai/work-items/archive/WI-696-p0-scenario-measurement.contract.json
+terminalVerification: .ai/evidence/WI-696-p0-scenario-measurement.verification.json
+terminalFinalization: .ai/decisions/WI-696-p0-scenario-measurement.finalize.json
+terminalDecision: .ai/decisions/WI-696-p0-scenario-measurement.close.json
 ---
 
 [简体中文](WI-696-p0-scenario-measurement.zh-CN.md) · [日本語](WI-696-p0-scenario-measurement.ja.md)
@@ -106,12 +110,13 @@ latency, CPU, I/O, memory, or user-visible improvement. Existing WI-685 status
 fact reuse and WI-692 independent-CLI concurrency evidence remain separately
 bound and are not silently folded into this measurement.
 
-## External validation limitation
+## Historical validation limitation
 
-The repository-wide documentation acceptance, status-consistency, and
-`closed-work-item --check-all` checks currently fail closed on the separate
-WI-694 documentation promotion, which is still `in_progress`. The exact
-outputs are retained in
+An earlier repository-wide documentation acceptance, status-consistency, and
+`closed-work-item --check-all` run failed closed on the separate WI-694
+documentation promotion. The exact historical output is retained in
 `.ai/evidence/external/WI-696-p0-scenario-measurement.validation-limitation.json`.
-This Work Item does not modify WI-694 files or another agent's worktree,
-branch, PR, or evidence. Rerun these checks after WI-694 promotion completes.
+WI-697 subsequently promoted the WI-694 documentation projection; WI-699
+reruns the same repository-wide checks for the WI-696 projection. This Work
+Item does not modify WI-694 or WI-696 historical evidence and does not claim a
+performance benefit.

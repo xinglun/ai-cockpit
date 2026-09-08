@@ -4,9 +4,13 @@ title: "WI-696——P0 场景测量"
 description: "使用现有 P0 基准测量真实场景矩阵，绑定瓶颈排序和有界后续预算。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-696-p0-scenario-measurement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-696-p0-scenario-measurement
+terminalArchive: .ai/work-items/archive/WI-696-p0-scenario-measurement.contract.json
+terminalVerification: .ai/evidence/WI-696-p0-scenario-measurement.verification.json
+terminalFinalization: .ai/decisions/WI-696-p0-scenario-measurement.finalize.json
+terminalDecision: .ai/decisions/WI-696-p0-scenario-measurement.close.json
 ---
 
 [English](WI-696-p0-scenario-measurement.md) · [日本語](WI-696-p0-scenario-measurement.ja.md)
@@ -40,11 +44,12 @@ lastVerifiedBy: WI-696-p0-scenario-measurement
 
 预算文件位于 `.ai/evidence/external/WI-696-p0-scenario-measurement-budgets/`。它们是基于重复开发测量和有界噪声余量的回归上限，不是性能收益声明。后续优化必须为目标路径预先登记 paired baseline/candidate 和改善阈值，保持所有非目标场景预算，并通过完整且环境可比的 `p0_regression_gate.sh` 证据。本 Work Item 不实施大文件流式哈希、轮询替换、并行读/哈希、single-flight、增量 Merkle、resident MCP 缓存、进程内 Git 或 PGO。
 
-## 外部验证限制
+## 历史验证限制
 
-仓库级 documentation acceptance、status consistency 和
-`closed-work-item --check-all` 当前因独立的 WI-694 文档晋级仍为
-`in_progress` 而 fail closed。精确输出保存在
+早先的仓库级 documentation acceptance、status consistency 和
+`closed-work-item --check-all` 曾因独立的 WI-694 文档晋级而 fail closed；精确
+历史输出保存在
 `.ai/evidence/external/WI-696-p0-scenario-measurement.validation-limitation.json`。
-本 Work Item 不修改 WI-694 文件，也不触碰其他 agent 的 worktree、分支、PR
-或证据；WI-694 完成后必须重新运行这些检查。
+WI-697 随后已晋级 WI-694 的文档投影；WI-699 将为 WI-696 的投影重新运行同一
+组仓库级检查。本 Work Item 不修改 WI-694 或 WI-696 的历史证据，也不宣称性能
+收益。
