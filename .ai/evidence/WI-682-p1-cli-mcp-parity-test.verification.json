@@ -1,0 +1,103 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:023f05d0fa67997fb3ea2fc43c71d893c729f87c0661cc23e01f8ea3e6a6150b",
+  "createdAt": "2026-09-08T14:12:09Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 105117,
+      "executionElapsedMs": 104879,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+      "runtimeVersion": "0.2.87",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 105117,
+    "executionElapsedMs": 104879,
+    "filesHashed": 7,
+    "filesRead": 7,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 104879,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:71ab2564b816074cb461a58e2da1716da0562fa9864dd431418b69486f26d0c4",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-682-p1-cli-mcp-parity-test"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:9301e936cd4a0c045f825081bc685e2ec4ffb4964521da65cdd4b8d735a0d91b",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+    "runtimeVersion": "0.2.87",
+    "workItemId": "WI-682-p1-cli-mcp-parity-test"
+  },
+  "receiptDigest": "sha256:1c1daed7a250f822032256fe1f1e0796dde043c2825c91fc01be9e073b86bca5",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:71ab2564b816074cb461a58e2da1716da0562fa9864dd431418b69486f26d0c4",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "workItemId": "WI-682-p1-cli-mcp-parity-test"
+}
