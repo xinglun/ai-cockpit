@@ -59,6 +59,9 @@ pub fn status_with_runtime(
         path: root.clone(),
         message: error.to_string(),
     })?;
+    let finalization_transition_index = runtime
+        .map(|_| FinalizationTransitionIndex::from_directory(&root))
+        .transpose()?;
     let active_artifacts = active_artifact_variants(&ai.join("work-items/active"))?
         .into_iter()
         .map(|variant| variant.name)
@@ -69,6 +72,7 @@ pub fn status_with_runtime(
         &snapshot,
         &config.repository_id,
         runtime,
+        finalization_transition_index.as_ref(),
     )?;
     Ok(RepositoryStatus {
         protocol_version: config.protocol_version,
@@ -112,7 +116,13 @@ fn repository_readiness_from_snapshot(
     snapshot: &RepositorySnapshot,
     expected_repository_id: &str,
 ) -> Result<RepositoryReadiness, ObserverError> {
-    repository_readiness_from_snapshot_with_runtime(root, snapshot, expected_repository_id, None)
+    repository_readiness_from_snapshot_with_runtime(
+        root,
+        snapshot,
+        expected_repository_id,
+        None,
+        None,
+    )
 }
 
 fn repository_readiness_from_snapshot_with_runtime(
@@ -120,6 +130,7 @@ fn repository_readiness_from_snapshot_with_runtime(
     snapshot: &RepositorySnapshot,
     expected_repository_id: &str,
     runtime: Option<&RuntimeContext>,
+    finalization_transition_index: Option<&FinalizationTransitionIndex>,
 ) -> Result<RepositoryReadiness, ObserverError> {
     let current_branch = git_text(root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
         .filter(|value| !value.is_empty());
@@ -129,7 +140,12 @@ fn repository_readiness_from_snapshot_with_runtime(
     let unclosed_archived_work_items =
         unclosed_archived_work_items_with_id(root, expected_repository_id)?;
     let historical_debt = classify_historical_debt(root, &unclosed_archived_work_items);
-    let historical_finalization = historical_finalization_inventory(root, runtime)?;
+    let historical_finalization = match (runtime, finalization_transition_index) {
+        (Some(runtime), Some(index)) => {
+            historical_finalization_inventory_with_index(root, runtime, index)?
+        }
+        _ => historical_finalization_inventory(root, runtime)?,
+    };
     let active_work_items = count_suffix(&root.join(".ai/work-items/active"), ".contract.json");
     let orphaned_active_artifacts = orphaned_active_artifact_names(root)?;
 
@@ -193,6 +209,133 @@ fn repository_readiness_from_snapshot_with_runtime(
         orphaned_active_artifacts,
         historical_finalization,
     })
+}
+
+#[derive(Clone, Debug)]
+pub(super) enum IndexedFinalizationTransition {
+    Valid {
+        path: PathBuf,
+        digest: Digest,
+        value: ResourceFinalizationTransitionReceipt,
+    },
+    Invalid {
+        path: PathBuf,
+        message: String,
+    },
+}
+
+#[derive(Clone, Debug, Default)]
+pub(super) struct FinalizationTransitionIndex {
+    pub(super) by_work_item: BTreeMap<String, Vec<IndexedFinalizationTransition>>,
+    #[cfg(test)]
+    parsed_transition_count: usize,
+}
+
+impl FinalizationTransitionIndex {
+    fn from_directory(root: &Path) -> Result<Self, ObserverError> {
+        let decisions = root.join(".ai/decisions");
+        let entries = match fs::read_dir(&decisions) {
+            Ok(entries) => entries,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                return Ok(Self::default());
+            }
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: decisions,
+                    source,
+                });
+            }
+        };
+        let mut index = Self::default();
+        for entry in entries {
+            let entry = entry.map_err(|source| ObserverError::Read {
+                path: decisions.clone(),
+                source,
+            })?;
+            let name = entry.file_name().to_string_lossy().into_owned();
+            let Some((work_item_id, suffix)) = name.split_once(".finalize.") else {
+                continue;
+            };
+            if suffix == "json"
+                || !suffix.ends_with(".json")
+                || validate_work_item_id(work_item_id).is_err()
+            {
+                continue;
+            }
+            let path = entry.path();
+            let indexed = match read_resource_finalization_transition(&path) {
+                Ok(value) => match serde_json::to_value(&value)
+                    .map_err(|error| error.to_string())
+                    .and_then(|encoded| {
+                        cockpit_protocol::digest_json(&encoded).map_err(|error| error.to_string())
+                    }) {
+                    Ok(digest) => {
+                        let expected = format!(
+                            "{work_item_id}.finalize.{}.json",
+                            digest
+                                .to_string()
+                                .strip_prefix("sha256:")
+                                .unwrap_or_default()
+                        );
+                        if name == expected {
+                            #[cfg(test)]
+                            {
+                                index.parsed_transition_count += 1;
+                            }
+                            IndexedFinalizationTransition::Valid {
+                                path,
+                                digest,
+                                value,
+                            }
+                        } else {
+                            IndexedFinalizationTransition::Invalid {
+                                path,
+                                message:
+                                    "resource finalization transition filename digest mismatch"
+                                        .into(),
+                            }
+                        }
+                    }
+                    Err(message) => IndexedFinalizationTransition::Invalid { path, message },
+                },
+                Err(error) => IndexedFinalizationTransition::Invalid {
+                    path,
+                    message: error.to_string(),
+                },
+            };
+            index
+                .by_work_item
+                .entry(work_item_id.to_owned())
+                .or_default()
+                .push(indexed);
+        }
+        for candidates in index.by_work_item.values_mut() {
+            candidates.sort_by(|left, right| {
+                let left_path = match left {
+                    IndexedFinalizationTransition::Valid { path, .. }
+                    | IndexedFinalizationTransition::Invalid { path, .. } => path,
+                };
+                let right_path = match right {
+                    IndexedFinalizationTransition::Valid { path, .. }
+                    | IndexedFinalizationTransition::Invalid { path, .. } => path,
+                };
+                left_path.cmp(right_path)
+            });
+        }
+        Ok(index)
+    }
+
+    pub(super) fn candidates(&self, work_item_id: &str) -> &[IndexedFinalizationTransition] {
+        self.by_work_item
+            .get(work_item_id)
+            .map(Vec::as_slice)
+            .unwrap_or(&[])
+    }
+
+    #[cfg(test)]
+    fn parsed_transition_count(&self) -> usize {
+        self.parsed_transition_count
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -502,6 +645,15 @@ pub(super) fn historical_finalization_inventory(
     let Some(runtime) = runtime else {
         return Ok(Vec::new());
     };
+    let index = FinalizationTransitionIndex::from_directory(root)?;
+    historical_finalization_inventory_with_index(root, runtime, &index)
+}
+
+fn historical_finalization_inventory_with_index(
+    root: &Path,
+    runtime: &RuntimeContext,
+    index: &FinalizationTransitionIndex,
+) -> Result<Vec<HistoricalFinalizationInventoryItem>, ObserverError> {
     let decisions = root.join(".ai/decisions");
     let entries = match fs::read_dir(&decisions) {
         Ok(entries) => entries,
@@ -580,7 +732,7 @@ pub(super) fn historical_finalization_inventory(
             continue;
         }
         let Ok((head, head_path, head_digest, sequence)) =
-            resolve_resource_finalization_head(root, work_item_id)
+            resolve_resource_finalization_head_with_index(root, work_item_id, index)
         else {
             inventory.push(HistoricalFinalizationInventoryItem {
                 work_item_id: work_item_id.into(),
@@ -669,4 +821,107 @@ fn archive_requires_close(root: &Path, work_item_id: &str) -> bool {
             .get("closeRequired")
             .and_then(serde_json::Value::as_bool)
             == Some(true)
+}
+
+#[cfg(test)]
+mod transition_index_tests {
+    use super::*;
+    use serde_json::json;
+
+    fn legacy_receipt(work_item_id: &str, repository_id: &str) -> serde_json::Value {
+        json!({
+            "schemaVersion": 1,
+            "receiptId": format!("{work_item_id}-receipt"),
+            "operationId": format!("{work_item_id}-operation"),
+            "repositoryId": repository_id,
+            "workItemId": work_item_id,
+            "runtimeVersion": "legacy-runtime",
+            "runtimeDigest": Digest::sha256_bytes(b"legacy-runtime"),
+            "provider": "github",
+            "pullRequest": {
+                "number": 1,
+                "url": format!("https://example.invalid/{work_item_id}"),
+                "headRevision": "head",
+                "baseBranch": "main",
+                "baseRemote": "origin",
+                "baseRevision": "base"
+            },
+            "branch": {
+                "name": format!("feature/{work_item_id}"),
+                "remote": "origin",
+                "headRevision": "head"
+            },
+            "worktree": {
+                "worktreeId": format!("worktree-{work_item_id}"),
+                "path": format!("/tmp/{work_item_id}"),
+                "branch": format!("feature/{work_item_id}"),
+                "headRevision": "head"
+            },
+            "before": {
+                "pullRequest": "unmerged",
+                "branch": "present",
+                "worktree": "clean"
+            },
+            "after": {
+                "pullRequest": "unmerged",
+                "branch": "present",
+                "worktree": "clean"
+            },
+            "result": {
+                "disposition": "blocked",
+                "failureCodes": ["unmerged_pull_request"],
+                "unknownCodes": []
+            },
+            "actor": "human:test",
+            "authoritySource": "test",
+            "reason": "transition index counter fixture",
+            "timestamp": "2026-09-08T00:00:00Z"
+        })
+    }
+
+    #[test]
+    fn historical_finalization_transition_is_parsed_once_per_observation() {
+        let root = tempfile::tempdir().expect("tempdir");
+        let decisions = root.path().join(".ai/decisions");
+        fs::create_dir_all(&decisions).expect("decisions");
+        let repository_id = repository_id(root.path()).to_string();
+        let predecessor = legacy_receipt("WI-INDEX-ALPHA", &repository_id);
+        let mut head = predecessor.clone();
+        head["receiptId"] = "WI-INDEX-ALPHA-head".into();
+        head["operationId"] = "WI-INDEX-ALPHA-head-operation".into();
+        head["before"] = predecessor["after"].clone();
+        head["after"]["pullRequest"] = "merged".into();
+        head["result"] = json!({
+            "disposition": "retained",
+            "failureCodes": [],
+            "unknownCodes": []
+        });
+        let transition = json!({
+            "schemaVersion": 1,
+            "transitionId": "WI-INDEX-ALPHA-transition-1",
+            "sequence": 1,
+            "predecessorReceiptDigest": cockpit_protocol::digest_json(&predecessor).expect("digest"),
+            "receipt": head
+        });
+        let transition_digest = cockpit_protocol::digest_json(&transition).expect("digest");
+        fs::write(
+            decisions.join(format!(
+                "WI-INDEX-ALPHA.finalize.{}.json",
+                transition_digest
+                    .to_string()
+                    .strip_prefix("sha256:")
+                    .expect("sha256 prefix")
+            )),
+            serde_json::to_vec_pretty(&transition).expect("encode"),
+        )
+        .expect("transition");
+
+        let first =
+            FinalizationTransitionIndex::from_directory(root.path()).expect("first observation");
+        assert_eq!(first.parsed_transition_count(), 1);
+
+        let second =
+            FinalizationTransitionIndex::from_directory(root.path()).expect("second observation");
+        assert_eq!(second.parsed_transition_count(), 1);
+    }
 }
