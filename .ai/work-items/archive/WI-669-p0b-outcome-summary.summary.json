@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-669-p0b-outcome-summary.contract.json",
-    ".ai/work-items/active/WI-669-p0b-outcome-summary.summary.json"
+    ".ai/work-items/archive/WI-669-p0b-outcome-summary.contract.json",
+    ".ai/work-items/archive/WI-669-p0b-outcome-summary.summary.json"
   ],
   "checkpointAt": "2026-09-08T09:23:15Z",
-  "checkpointContractDigest": "sha256:247fffcd153ec07d820b29e930c5a6aab8286d9f43c253f71108fc3f33b0e302",
+  "checkpointContractDigest": "sha256:f8ea55a3d0412eab9eaf039847f19544561d1656e7f4eee85f6dca1304aaa3f4",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -44,25 +44,21 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:f8f3700373e196959b427e999289eb5fb2908955508938d64c90ee65311165c3",
   "createdAt": "2026-09-08T09:01:36Z",
-  "failedGate": "finish.governance",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T09:33:48Z",
-  "preflightContractDigest": "sha256:247fffcd153ec07d820b29e930c5a6aab8286d9f43c253f71108fc3f33b0e302",
+  "preflightAt": "2026-09-08T09:46:22Z",
+  "preflightContractDigest": "sha256:f8ea55a3d0412eab9eaf039847f19544561d1656e7f4eee85f6dca1304aaa3f4",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:f8f3700373e196959b427e999289eb5fb2908955508938d64c90ee65311165c3",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T09:34:40Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T09:46:28Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:5d43fec20f0603500f2787ab35d2941fe224c19dc2b4068029245f7d9ca4ca9e",
   "workItemId": "WI-669-p0b-outcome-summary"
 }
