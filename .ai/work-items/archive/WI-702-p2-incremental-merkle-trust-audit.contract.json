@@ -30,50 +30,50 @@
     "baseRemote": "origin",
     "branch": "codex/wi-702-p2-incremental-merkle-trust-audit",
     "provider": "github",
-    "pullRequest": "pending:WI-702-p2-incremental-merkle-trust-audit",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/700",
     "worktree": "/private/tmp/ai-cockpit-wi-702-p2-incremental-merkle-trust-audit"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "production-call-graph-and-protected-decision-boundary",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "The current call graph shows IncrementalMerkle is not used by a protected governance decision, or identifies the exact protected caller before any implementation change.",
-      "verificationPlan": "Search the current repository call graph, inspect the relevant crate tests, and retain the result in the Work Item evidence and tri-language report.",
-      "evidence": []
+      "required": true,
+      "scenario": "production-call-graph-and-protected-decision-boundary",
+      "status": "unverified",
+      "verificationPlan": "Search the current repository call graph, inspect the relevant crate tests, and retain the result in the Work Item evidence and tri-language report."
     },
     {
-      "scenario": "same-length-content-change-with-restored-mtime",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "A same-length content change with restored mtime is reread and yields the new digest, or returns explicit unknown rather than reusing the old digest.",
-      "verificationPlan": "Add and run a focused cockpit-git test that changes content, restores the original mtime, refreshes, and compares the root digest.",
-      "evidence": []
+      "required": true,
+      "scenario": "same-length-content-change-with-restored-mtime",
+      "status": "unverified",
+      "verificationPlan": "Add and run a focused cockpit-git test that changes content, restores the original mtime, refreshes, and compares the root digest."
     },
     {
-      "scenario": "replacement-deletion-rename-and-type-change",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "Replacement, deletion, rename, and file-to-directory changes are handled deterministically and fail closed when the declared path is no longer a regular file.",
-      "verificationPlan": "Add and run focused cockpit-git tests covering each filesystem transition and retain the test receipt.",
-      "evidence": []
+      "required": true,
+      "scenario": "replacement-deletion-rename-and-type-change",
+      "status": "unverified",
+      "verificationPlan": "Add and run focused cockpit-git tests covering each filesystem transition and retain the test receipt."
     },
     {
-      "scenario": "detectable-change-during-read",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "A detectable metadata change across a read returns an explicit content-identity error and never silently claims a stable digest.",
-      "verificationPlan": "Exercise the before/after metadata stability guard with a deterministic test seam and retain the focused test receipt.",
-      "evidence": []
+      "required": true,
+      "scenario": "detectable-change-during-read",
+      "status": "unverified",
+      "verificationPlan": "Exercise the before/after metadata stability guard with a deterministic test seam and retain the focused test receipt."
     },
     {
-      "scenario": "repository-and-work-item-isolation",
-      "required": true,
-      "status": "unverified",
+      "evidence": [],
       "expected": "The audit and implementation remain bound to this repository, Work Item, declared paths, and current observation; no other agent tree or evidence is touched.",
-      "verificationPlan": "Run the governance integrity gate, inspect changed paths and Work Item bindings, and retain the isolation evidence.",
-      "evidence": []
+      "required": true,
+      "scenario": "repository-and-work-item-isolation",
+      "status": "unverified",
+      "verificationPlan": "Run the governance integrity gate, inspect changed paths and Work Item bindings, and retain the isolation evidence."
     }
   ],
   "scope": [

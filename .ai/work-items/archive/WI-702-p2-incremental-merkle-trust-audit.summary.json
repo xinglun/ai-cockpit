@@ -57,11 +57,11 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-702-p2-incremental-merkle-trust-audit.contract.json",
-    ".ai/work-items/active/WI-702-p2-incremental-merkle-trust-audit.summary.json"
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.summary.json"
   ],
   "checkpointAt": "2026-09-08T21:13:06Z",
-  "checkpointContractDigest": "sha256:1bf31d582236b64cbf08c9ea5315336a441c50dee88da4d427e38c295d08b082",
+  "checkpointContractDigest": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -97,11 +97,30 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:42c81262736ed2d11a9e5ec0c14bb1e1ac235aaa9787592cc5559a677e9d0d56",
+      "previousContractHash": "sha256:1bf31d582236b64cbf08c9ea5315336a441c50dee88da4d427e38c295d08b082",
+      "reason": "Bind the already-created reviewed PR #700 resource finalization plan after the earlier verification; preserve the stale predecessor receipt and require fresh current-bound verification before finish.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:30:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ec0a5b390a29d4b752694a674e399b891e2284e8453c6a1d42ab364fa2fd076d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:ec0a5b390a29d4b752694a674e399b891e2284e8453c6a1d42ab364fa2fd076d",
   "createdAt": "2026-09-08T21:06:36Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.md",
@@ -111,14 +130,12 @@
     "state": "resolved"
   },
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T21:28:02Z",
-  "preflightContractDigest": "sha256:1bf31d582236b64cbf08c9ea5315336a441c50dee88da4d427e38c295d08b082",
+  "preflightAt": "2026-09-08T21:33:49Z",
+  "preflightContractDigest": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:ec0a5b390a29d4b752694a674e399b891e2284e8453c6a1d42ab364fa2fd076d",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -180,14 +197,13 @@
       "verificationPlan": "Run the governance integrity gate, inspect changed paths and Work Item bindings, and retain the isolation evidence."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T21:28:06Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T21:33:49Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:dff60554e90f764107223b47214e6afcecc29a2fb1d3b1fdd50bdf56b9ff3036",
   "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
 }
