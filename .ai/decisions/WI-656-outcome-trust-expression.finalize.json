@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "pre-merge-resource-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "02953a1429e416583e7e80e775c845202320f76b",
+    "name": "codex/wi-656-outcome-trust-expression",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d4238647411612d5f7abf8e3e760bbfa62047b76d1fa4efe78a9760f79e87ad0",
+  "operationId": "github-pr-653-awaiting-merge-close-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+    "headRevision": "02953a1429e416583e7e80e775c845202320f76b",
+    "number": 653,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/653"
+  },
+  "reason": "PR #653 is open and unmerged; retain the exact reviewed branch and worktree until hosted checks pass, review, merge, and cleanup are observed.",
+  "receiptId": "github-pr-653-pre-merge-20260908",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-656-outcome-trust-expression",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/653",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-656"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T03:50:58Z",
+  "workItemId": "WI-656-outcome-trust-expression",
+  "worktree": {
+    "branch": "codex/wi-656-outcome-trust-expression",
+    "headRevision": "02953a1429e416583e7e80e775c845202320f76b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-656",
+    "worktreeId": "WI-656-outcome-trust-expression"
+  }
+}
