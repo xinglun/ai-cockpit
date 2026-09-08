@@ -34,7 +34,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-683-p2c-lifecycle-concurrency-recovery",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/683",
     "worktree": "/private/tmp/ai-cockpit-wi-683-p2c-lifecycle-concurrency-recovery"
   },
   "risk": "normal",

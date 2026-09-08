@@ -71,17 +71,53 @@
     ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.task-report.md"
   ],
   "checkpointAt": "2026-09-08T15:05:20Z",
-  "checkpointContractDigest": "sha256:b5a0e7c53289a7b6ddfa1e5db1383f8e09b700817f4c34455180c542ae210970",
+  "checkpointContractDigest": "sha256:2e7bb247fa3888874577c5455e33f8c3308c73ad3c2ef86fa8de5c7bddeb7cdc",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b5a0e7c53289a7b6ddfa1e5db1383f8e09b700817f4c34455180c542ae210970",
+      "recorded": true,
+      "recordedAt": "2026-09-08T15:05:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cd4f5ad85da50ef58318013fb4eaf688f2039753a4f3ec573dbc3fb72c716518",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:2e7bb247fa3888874577c5455e33f8c3308c73ad3c2ef86fa8de5c7bddeb7cdc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b5a0e7c53289a7b6ddfa1e5db1383f8e09b700817f4c34455180c542ae210970",
+      "previousContractHash": "sha256:b5a0e7c53289a7b6ddfa1e5db1383f8e09b700817f4c34455180c542ae210970",
+      "reason": "Finalize-plan bound the real reviewed PR #683; revalidate the amended resource context and invalidate predecessor verification for fresh exact-head verification without rewriting immutable evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T15:21:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cd4f5ad85da50ef58318013fb4eaf688f2039753a4f3ec573dbc3fb72c716518",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:cd4f5ad85da50ef58318013fb4eaf688f2039753a4f3ec573dbc3fb72c716518",
   "createdAt": "2026-09-08T14:57:34Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:b5a0e7c53289a7b6ddfa1e5db1383f8e09b700817f4c34455180c542ae210970",
+    "contractDigest": "sha256:2e7bb247fa3888874577c5455e33f8c3308c73ad3c2ef86fa8de5c7bddeb7cdc",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
     "reason": "The repository owner authorized continuation of this bounded WI-683 Work Item under the declared Contract. Unknown user-visible benefit remains explicit; this receipt does not assert verification, hosted checks, merge, or completion.",
-    "recordedAt": "2026-09-08T15:20:17Z",
+    "recordedAt": "2026-09-08T15:25:47Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:cd4f5ad85da50ef58318013fb4eaf688f2039753a4f3ec573dbc3fb72c716518",
@@ -102,8 +138,8 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
   "predecessorWorkItemId": "WI-677-wi657-lifecycle-concurrency-successor",
-  "preflightAt": "2026-09-08T15:20:30Z",
-  "preflightContractDigest": "sha256:b5a0e7c53289a7b6ddfa1e5db1383f8e09b700817f4c34455180c542ae210970",
+  "preflightAt": "2026-09-08T15:26:01Z",
+  "preflightContractDigest": "sha256:2e7bb247fa3888874577c5455e33f8c3308c73ad3c2ef86fa8de5c7bddeb7cdc",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:cd4f5ad85da50ef58318013fb4eaf688f2039753a4f3ec573dbc3fb72c716518",
   "preflightState": "green",
@@ -111,13 +147,13 @@
   "recoveryDecisionPath": ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-08T15:20:30.743677+00:00",
+  "updatedAt": "2026-09-08T15:26:01.271498+00:00",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:b6ddc70b0ca452677e514f38a687ec0853eedd3d88d83b3b01c04effb958483f",
+  "verificationRecoveryReconciled": "sha256:44d1b75466443e8fc06c1cc148323457ac75c807dd562dd9d0ef07f48b9ec9f9",
   "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
 }
