@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "checkpoint_work_item's body is split into a private observation helper (reads summary.json, contract.json, and captures the git snapshot; returns a typed struct of gathered facts), a private governance-check helper (checkpoint's own state/duplicate/freshness/verification-ordering validation over the gathered facts, plus the existing unchanged call to require_green_or_yellow_preflight_governance), and the remaining persistence/receipt-construction code in checkpoint_work_item itself. The governance-check helper is not claimed to be I/O-free: require_green_or_yellow_preflight_governance still performs its own observation internally, unchanged from today; only checkpoint_work_item's own body is reorganized in this Work Item.",
+    "All 17 existing test files that call checkpoint_work_item pass unchanged, with no new test added or removed assertion, proving the split is behavior-identical.",
+    "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass.",
+    "The architecture-responsibility-map document (once WI-652 merges) should be updated to record this as the first proven P2-A use case; this Work Item's own doc states that follow-up explicitly since the map file does not exist on this branch yet."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T02:35:39Z",
+  "goal": "Split checkpoint_work_item's body into three internal, same-file helper functions matching Observation / Governance / Evidence+Projection boundaries, with zero change to the public function signature, error messages, field names, write order, or any observable behavior. This is a same-crate, same-file, no-new-public-API reorganization -- not a cross-module or cross-crate extraction -- chosen deliberately after WI-654 showed the safety cost of deeper changes to adjacent governance code.",
+  "intent": "P2-A (extract lifecycle/storage/execution/projection responsibilities), first complete use case per the P0 map's recommendation to start with the smallest lifecycle function: checkpoint_work_item mixes observation (read summary/contract, capture git snapshot), governance decision (state/preflight-freshness/verification-ordering checks), and persistence (atomic_json write, LifecycleReceipt construction) inline in one function body. checkpoint_work_item already has test coverage across 17 test files in cockpit-repository/tests, giving a real regression net for a same-file, same-signature internal reorganization.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Any change to checkpoint_work_item's public signature",
+    " error message text",
+    " or the JSON fields it writes",
+    "Extracting to a new module",
+    " file",
+    " or crate; this Work Item proves the responsibility boundary within the existing file first",
+    "finish_work_item",
+    " archive_work_item",
+    " close_work_item_with_structured_decision -- larger",
+    " higher-risk functions left for future Work Items only after this smallest case is proven",
+    "Introducing a trait/Port abstraction; none of the extracted helpers have more than one real implementation",
+    " so no substitution point is justified yet"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-655-checkpoint-responsibility-split",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi655-checkpoint-responsibility-split"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "docs/work-items/WI-655-checkpoint-responsibility-split.md",
+    "docs/work-items/WI-655-checkpoint-responsibility-split.ja.md",
+    "docs/work-items/WI-655-checkpoint-responsibility-split.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-655-checkpoint-responsibility-split"
+}

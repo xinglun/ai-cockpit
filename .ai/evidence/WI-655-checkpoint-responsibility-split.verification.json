@@ -1,0 +1,133 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:679ca3d504b226f0ae7a95ae114b1638c158016b4a52a2c8381cffba15cc24a5",
+  "createdAt": "2026-09-08T04:15:31Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 189194,
+      "executionElapsedMs": 188460,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+      "runtimeVersion": "0.2.87",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 189194,
+    "executionElapsedMs": 188460,
+    "filesHashed": 18,
+    "filesRead": 21,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-655-checkpoint-responsibility-split.ja.md",
+        "docs/work-items/WI-655-checkpoint-responsibility-split.md",
+        "docs/work-items/WI-655-checkpoint-responsibility-split.zh-CN.md"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 188460,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:776f722e5f2bdc1c8fa0a12a79cbced12daa970e6cd34f5fb9f1275356b932e4",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-655-checkpoint-responsibility-split"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [
+      {
+        "context": {
+          "commandDigest": "sha256:f4e065f35ae2869e19fd5a846a22ff9da89c9c23ce4a173c2600667802840149",
+          "contentDigest": "sha256:776f722e5f2bdc1c8fa0a12a79cbced12daa970e6cd34f5fb9f1275356b932e4",
+          "diff": {
+            "baseCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+            "changedPathsDigest": "sha256:507840f7aeee53d5c7ad302423f94e2e7d0206a05d20e655432cc042245ebf62",
+            "headCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e"
+          },
+          "environmentDigest": "sha256:c6be7dab482129ad9b0d428e390419f7a531bb01acc12097dd7627cdef93aa57",
+          "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
+          "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+          "profileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+          "runner": "local",
+          "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+          "stage": "task",
+          "toolchainDigest": "sha256:55a5c4e40f6f930201133025c136270210ca51b8520d039178b89cf5405dcbd2"
+        },
+        "createdAtEpochSeconds": 1788840742,
+        "expiresAtEpochSeconds": 1788927142,
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:f9305071d668fc0d1c0ac5babb62696ee56f13e587cf06833aba86bd2b076e02",
+        "passed": true,
+        "receiptId": "sha256:070fe01144ec4e9688ba14111a57507a4df04f62239c158b8737aa334a2492e1",
+        "schemaVersion": 2
+      }
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 1,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:f9305071d668fc0d1c0ac5babb62696ee56f13e587cf06833aba86bd2b076e02",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "binding_mismatch",
+        "receiptId": "sha256:070fe01144ec4e9688ba14111a57507a4df04f62239c158b8737aa334a2492e1",
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "stale",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+    "runtimeVersion": "0.2.87",
+    "workItemId": "WI-655-checkpoint-responsibility-split"
+  },
+  "receiptDigest": "sha256:37d59bddb3e16d76f3134c7d30063c5c0c31bdebd1b811588a11c35630411291",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:776f722e5f2bdc1c8fa0a12a79cbced12daa970e6cd34f5fb9f1275356b932e4",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "workItemId": "WI-655-checkpoint-responsibility-split"
+}
