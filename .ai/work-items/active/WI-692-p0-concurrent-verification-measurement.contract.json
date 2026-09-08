@@ -40,73 +40,84 @@
     "baseRemote": "origin",
     "branch": "codex/wi-692-p0-concurrent-verification-measurement",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/691",
     "worktree": "/private/tmp/ai-cockpit-wi-692-p0-concurrent-verification-measurement"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "same-identity concurrent verification requests",
-      "status": "unverified",
-      "required": true,
       "evidence": [
         ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.same-identity.json",
         ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json"
       ],
       "expected": "Each independent CLI request preserves the same repository, command and Runtime identity; the observed physical execution count is recorded rather than inferred.",
+      "required": true,
+      "scenario": "same-identity concurrent verification requests",
+      "status": "unverified",
       "verificationPlan": "Run at least 20 rounds with bounded concurrency against one clean fixture and retain ordered per-request receipts, exit codes and wall times."
     },
     {
-      "scenario": "distinct command identities",
-      "status": "unverified",
-      "required": true,
       "evidence": [
         ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.distinct-identity.json"
       ],
       "expected": "Requests with different command identities are not counted as the same physical execution.",
+      "required": true,
+      "scenario": "distinct command identities",
+      "status": "unverified",
       "verificationPlan": "Run paired concurrent requests with distinct explicit commands and bind command, Runtime and repository identities in raw evidence."
     },
     {
-      "scenario": "failure propagation",
-      "status": "unverified",
-      "required": true,
       "evidence": [
         ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.failure.json"
       ],
       "expected": "A failing command cannot produce a successful governance result or stale success receipt.",
+      "required": true,
+      "scenario": "failure propagation",
+      "status": "unverified",
       "verificationPlan": "Run a bounded concurrent failing command and preserve every exit code, stderr classification and absence or presence of receipt."
     },
     {
-      "scenario": "cancellation",
-      "status": "unverified",
-      "required": true,
       "evidence": [
         ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.cancellation.json",
         ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json"
       ],
       "expected": "Cancellation either preserves the existing cleanup and timeout guarantee or is explicitly unavailable on the platform; no busy-wait or success claim is introduced.",
+      "required": true,
+      "scenario": "cancellation",
+      "status": "unverified",
       "verificationPlan": "Attempt one bounded cancellation run; record process-tree cleanup and mark platform-unavailable metrics explicitly when the platform cannot provide them."
     },
     {
-      "scenario": "resource contention",
-      "status": "unverified",
-      "required": true,
       "evidence": [
         ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.resource-contention.json"
       ],
       "expected": "Concurrent requests report execution count, total time, queue or wait time and resource peaks without filling unavailable metrics with zero.",
+      "required": true,
+      "scenario": "resource contention",
+      "status": "unverified",
       "verificationPlan": "Repeat the same-identity run at bounded concurrency and capture available process, CPU, memory and I/O metrics with reasons for unavailable values."
     },
     {
-      "scenario": "PhysicalSingleFlightCoordinator production call graph",
-      "status": "unverified",
-      "required": true,
       "evidence": [
         ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.call-graph.json"
       ],
       "expected": "The evidence distinguishes real production callers from unit tests and synthetic coordinator invocations.",
+      "required": true,
+      "scenario": "PhysicalSingleFlightCoordinator production call graph",
+      "status": "unverified",
       "verificationPlan": "Search production crates and bind the exact caller inventory and source revision; retain existing coordinator tests as correctness evidence only."
     }
+  ],
+  "scope": [
+    "tests/performance/concurrent_verification_benchmark.py",
+    "tests/performance/concurrent_verification_benchmark_test.py",
+    ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.*",
+    "docs/work-items/WI-692-p0-concurrent-verification-measurement.md",
+    "docs/work-items/WI-692-p0-concurrent-verification-measurement.zh-CN.md",
+    "docs/work-items/WI-692-p0-concurrent-verification-measurement.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
   ],
   "sources": [
     "origin/main at base revision 99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
@@ -120,17 +131,6 @@
     "crates/cockpit-verification/tests/physical_execution.rs",
     "crates/cockpit-verification/tests/execution.rs",
     "Human authorization: repository owner explicitly authorized continuation and pause/resume recovery on 2026-09-08; preserve the authorization and evidence boundary."
-  ],
-  "scope": [
-    "tests/performance/concurrent_verification_benchmark.py",
-    "tests/performance/concurrent_verification_benchmark_test.py",
-    ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.*",
-    "docs/work-items/WI-692-p0-concurrent-verification-measurement.md",
-    "docs/work-items/WI-692-p0-concurrent-verification-measurement.zh-CN.md",
-    "docs/work-items/WI-692-p0-concurrent-verification-measurement.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
   ],
   "state": "implementation_active",
   "verification": [

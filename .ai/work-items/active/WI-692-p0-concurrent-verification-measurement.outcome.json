@@ -8,7 +8,7 @@
     "Deliver reproducible measurement code, raw evidence, a three-language Work Item record, parity registration, correctness checks, platform limits, unknowns, and the final governance state."
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:52b1dc9d23aa44836b024aec8a05722d130316d09ecd0d248b9d0b2a563a8567",
+  "evidenceDigest": "sha256:a8242f79c2b94f980b72e4677aac76dd4e59b98d85206d7420435a7bf2db96f5",
   "evidenceRefs": [
     ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
   ],
