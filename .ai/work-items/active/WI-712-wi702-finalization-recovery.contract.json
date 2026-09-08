@@ -33,14 +33,50 @@
     "documentation_parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-712-wi702-finalization-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/705",
     "worktree": "/private/tmp/ai-cockpit-wi-712-wi702-finalization-recovery"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json"
+      ],
+      "expected": "Every WI-702 archive, verification, recovery predecessor digest, and canonical finalization root remains unchanged while WI-712 adds only successor evidence.",
+      "required": true,
+      "scenario": "immutable_predecessor_preservation",
+      "status": "verified",
+      "verificationPlan": "Hash the predecessor files before and after the WI-712 lifecycle, validate the recovery receipt bindings, and run the governance integrity gate."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+        "https://github.com/xinglun/ai-cockpit/pull/700"
+      ],
+      "expected": "The installed Runtime rejects a post-merge finalization transition when the reviewed range contains a non-finalization path, and the successor records that boundary without claiming a valid transition.",
+      "required": true,
+      "scenario": "non_append_finalization_drift_fails_closed",
+      "status": "verified",
+      "verificationPlan": "Run the bounded finalize attempt against the preserved WI-702 root, retain its rejection evidence, and validate the successor recovery decision and parity projection."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+      ],
+      "expected": "WI-712 completes its own review, verification, finalization, exact branch/worktree cleanup, structured close, and closed-document promotion with one linear Runtime chain.",
+      "required": false,
+      "scenario": "successor_finalization_and_exact_cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run preflight, checkpoint, full verification, finish, archive, finalize-plan/finalize/finalize-verify, close, and promote_closed_work_item --check-all; inspect all resulting bindings."
+    }
+  ],
   "scope": [
     ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
     ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json",
@@ -64,42 +100,6 @@
     "docs/work-items/WI-712-wi702-finalization-recovery.md",
     "docs/work-items/WI-712-wi702-finalization-recovery.zh-CN.md",
     "docs/work-items/WI-712-wi702-finalization-recovery.ja.md"
-  ],
-  "scenarioCoverage": [
-    {
-      "scenario": "immutable_predecessor_preservation",
-      "required": true,
-      "expected": "Every WI-702 archive, verification, recovery predecessor digest, and canonical finalization root remains unchanged while WI-712 adds only successor evidence.",
-      "verificationPlan": "Hash the predecessor files before and after the WI-712 lifecycle, validate the recovery receipt bindings, and run the governance integrity gate.",
-      "evidence": [
-        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
-        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
-        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json"
-      ],
-      "status": "verified"
-    },
-    {
-      "scenario": "non_append_finalization_drift_fails_closed",
-      "required": true,
-      "expected": "The installed Runtime rejects a post-merge finalization transition when the reviewed range contains a non-finalization path, and the successor records that boundary without claiming a valid transition.",
-      "verificationPlan": "Run the bounded finalize attempt against the preserved WI-702 root, retain its rejection evidence, and validate the successor recovery decision and parity projection.",
-      "evidence": [
-        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
-        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
-        "https://github.com/xinglun/ai-cockpit/pull/700"
-      ],
-      "status": "verified"
-    },
-    {
-      "scenario": "successor_finalization_and_exact_cleanup",
-      "required": true,
-      "expected": "WI-712 completes its own review, verification, finalization, exact branch/worktree cleanup, structured close, and closed-document promotion with one linear Runtime chain.",
-      "verificationPlan": "Run preflight, checkpoint, full verification, finish, archive, finalize-plan/finalize/finalize-verify, close, and promote_closed_work_item --check-all; inspect all resulting bindings.",
-      "evidence": [
-        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
-      ],
-      "status": "unverified"
-    }
   ],
   "sources": [
     "AGENTS.md",

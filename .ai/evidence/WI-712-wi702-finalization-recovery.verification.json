@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:74021afb147a81b2b6b55aa4178ceacfbe2f070c30ebd4abdbee69f221769179",
-  "createdAt": "2026-09-08T23:03:40Z",
+  "contractDigest": "sha256:4b2833a6fd1968ac0213a850b99ae6c39887d669b22823fb4575f1bb95c273c5",
+  "createdAt": "2026-09-08T23:13:40Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 153706,
-      "executionElapsedMs": 153111,
+      "elapsedMs": 152645,
+      "executionElapsedMs": 152241,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 153706,
-    "executionElapsedMs": 153111,
-    "filesHashed": 30,
-    "filesRead": 32,
+    "elapsedMs": 152645,
+    "executionElapsedMs": 152241,
+    "filesHashed": 10,
+    "filesRead": 12,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,18 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/pending-parity-registry.json",
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.ja.md",
-        "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.md",
-        "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.zh-CN.md",
-        "docs/work-items/WI-712-wi702-finalization-recovery.ja.md",
-        "docs/work-items/WI-712-wi702-finalization-recovery.md",
-        "docs/work-items/WI-712-wi702-finalization-recovery.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "d97159a3f70e5ad59328b0d4e5249edf7931e84e",
       "dependencyConfidence": "unknown",
@@ -55,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 153111,
+      "executionElapsedMs": 152241,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -87,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:17eb47d11ebd6cd33bcfef1fc3f0c243a12126fdcb3fddc840dd50f62bc6d2b1",
+        "outputDigest": "sha256:990dd30119a2b97aa5de635382c80aa8f0ca57806a201ceadd4ef4ee78e6e2ec",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -103,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-712-wi702-finalization-recovery"
   },
-  "receiptDigest": "sha256:baaf6d5aaf6340c364745f01af959fbddadf8a8e17ad4e6c8ba058515f4b77b7",
+  "receiptDigest": "sha256:c6a97f0829231e9e43650ef5d894403b5d6e7d97ada828b45471a62b0c25df66",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

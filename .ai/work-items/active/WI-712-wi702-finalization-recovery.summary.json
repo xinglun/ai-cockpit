@@ -1,11 +1,79 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "predecessor archive and canonical pre-merge finalization bindings",
+          "path": ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json",
+          "type": "immutable-evidence",
+          "verification": "WI-712 fresh verification and governance integrity gate"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "successor recovery decision and rejected append-only transition boundary",
+          "path": ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+          "type": "recovery-decision",
+          "verification": "Runtime recovery binding and parity documentation"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "PR #700 merge, hosted checks, synchronized main, and exact cleanup",
+          "path": "https://github.com/xinglun/ai-cockpit/pull/700",
+          "type": "hosted-review",
+          "verification": "Recorded in WI-702 historical evidence and WI-712 recovery Contract"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "English, Simplified Chinese, and Japanese parity rows",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation",
+          "verification": "documentation_acceptance.sh and parity_status_check.sh passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "current Runtime identity and fresh verification receipt",
+          "path": ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+          "type": "verification",
+          "verification": "Fresh verify passed; finalization and close remain post-merge gates"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "declared governance and documentation checks",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "governance integrity, documentation acceptance, parity, and pending-registry checks passed; post-close promotion remains pending"
+        }
+      ]
+    }
+  ],
   "changedPaths": [
     ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
     ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json",
     ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-08T22:38:51Z",
-  "checkpointContractDigest": "sha256:74021afb147a81b2b6b55aa4178ceacfbe2f070c30ebd4abdbee69f221769179",
+  "checkpointContractDigest": "sha256:4b2833a6fd1968ac0213a850b99ae6c39887d669b22823fb4575f1bb95c273c5",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -61,32 +129,114 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-712-wi702-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:0caa5fa45e6d8cc34d64be2e25be2bd10717bec976cd528017db9e8c1db8ce65",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9a0950e290f8a050911c4033ea3458f00c893561efedf6a12a870e432008699c",
+      "previousContractHash": "sha256:74021afb147a81b2b6b55aa4178ceacfbe2f070c30ebd4abdbee69f221769179",
+      "reason": "Bind the real reviewed PR #705 resource context before archive; invalidate the pre-PR verification binding and require fresh verification against the exact branch, worktree, base, provider, and PR identity.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T23:06:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-712-wi702-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4b2833a6fd1968ac0213a850b99ae6c39887d669b22823fb4575f1bb95c273c5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9a0950e290f8a050911c4033ea3458f00c893561efedf6a12a870e432008699c",
+      "previousContractHash": "sha256:0caa5fa45e6d8cc34d64be2e25be2bd10717bec976cd528017db9e8c1db8ce65",
+      "reason": "Keep the post-merge finalization and exact-cleanup scenario explicitly unverified but non-required before PR merge; do not claim post-merge evidence prematurely while allowing the pre-merge Work Item lifecycle to proceed.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T23:10:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-712-wi702-finalization-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
   "createdAt": "2026-09-08T22:34:32Z",
-  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+      ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "WI-712 is narrowly scoped to restore an auditable post-merge governance boundary for WI-702, preserve immutable evidence, and avoid claiming any performance benefit.",
+    "state": "resolved"
+  },
   "mode": "code",
-  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
   "predecessorWorkItemId": "WI-702-p2-incremental-merkle-trust-audit",
-  "preflightAt": "2026-09-08T23:03:41Z",
-  "preflightContractDigest": "sha256:74021afb147a81b2b6b55aa4178ceacfbe2f070c30ebd4abdbee69f221769179",
+  "preflightAt": "2026-09-08T23:13:46Z",
+  "preflightContractDigest": "sha256:4b2833a6fd1968ac0213a850b99ae6c39887d669b22823fb4575f1bb95c273c5",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T23:04:07Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json"
+      ],
+      "expected": "Every WI-702 archive, verification, recovery predecessor digest, and canonical finalization root remains unchanged while WI-712 adds only successor evidence.",
+      "required": true,
+      "scenario": "immutable_predecessor_preservation",
+      "status": "verified",
+      "verificationPlan": "Hash the predecessor files before and after the WI-712 lifecycle, validate the recovery receipt bindings, and run the governance integrity gate."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+        "https://github.com/xinglun/ai-cockpit/pull/700"
+      ],
+      "expected": "The installed Runtime rejects a post-merge finalization transition when the reviewed range contains a non-finalization path, and the successor records that boundary without claiming a valid transition.",
+      "required": true,
+      "scenario": "non_append_finalization_drift_fails_closed",
+      "status": "verified",
+      "verificationPlan": "Run the bounded finalize attempt against the preserved WI-702 root, retain its rejection evidence, and validate the successor recovery decision and parity projection."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+        "https://github.com/xinglun/ai-cockpit/pull/705"
+      ],
+      "expected": "WI-712 completes its own review, verification, finalization, exact branch/worktree cleanup, structured close, and closed-document promotion with one linear Runtime chain.",
+      "required": false,
+      "scenario": "successor_finalization_and_exact_cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run preflight, checkpoint, full verification, finish, archive, finalize-plan/finalize/finalize-verify, close, and promote_closed_work_item --check-all; inspect all resulting bindings."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T23:13:51Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:6afe8d4b27d9134f0f4ff261396d1990ecdfa10f2e814a456341728f5c112999",
   "workItemId": "WI-712-wi702-finalization-recovery"
 }
