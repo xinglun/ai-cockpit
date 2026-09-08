@@ -8,7 +8,7 @@
         "finalize": ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.finalize.json",
         "verification": ".ai/evidence/WI-677-wi657-lifecycle-concurrency-successor.verification.json"
       },
-      "headRevision": "47d6f9b47728de4090bf56d1e208e30f7a8858fb",
+      "headRevision": "8a2d28870c43c059eeb91e92df54e4f0a51d400e",
       "parityRows": [
         {
           "path": "docs/reference/reference-parity.md",
@@ -28,7 +28,7 @@
         "number": 673,
         "url": "https://github.com/xinglun/ai-cockpit/pull/673"
       },
-      "registryBaseRevision": "47d6f9b47728de4090bf56d1e208e30f7a8858fb",
+      "registryBaseRevision": "8a2d28870c43c059eeb91e92df54e4f0a51d400e",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
