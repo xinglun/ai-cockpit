@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Fix workspace formatting without weakening lint gates or changing Outcome behavior.",
+    "Preserve CLI/MCP human handoff semantics, machine JSON, exit codes, authorization semantics, and persistence layout.",
+    "Register the successor in English, Simplified Chinese, and Japanese Work Item/reference-parity projections before verification.",
+    "Pass fresh local verification and the hosted quality checks on the exact successor head.",
+    "Do not infer unsupported user-visible benefit or human approval."
+  ],
+  "createdAt": "2026-09-08T06:15:23Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:eaf27ec8c7494a5fa56c051105655907637a0e395cadbb2f3d18a81592f96b88",
+  "evidenceRefs": [
+    ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:baf0e25018771548db79bca456386d0431516ba1a2059ed83d5373b2e6e6fb04",
+      "workItemId": "WI-659-wi658-hosted-quality-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the WI-658 outcome-trust repair pass the exact hosted workspace-format gate while preserving Outcome semantics, machine JSON, exit codes, authorization semantics, persistence layout, and immutable predecessor history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-659-wi658-hosted-quality-repair"
+  },
+  "taskReportDigest": "sha256:4046561aec69b9283ab48e87d523ad01d569827e61da2be528c09326d4e73ec8",
+  "taskReportMarkdownDigest": "sha256:b9150e8cda1b8f4eb535d7544d6396da5bb589e5c0ca6b80ff89104da6184940",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-659-wi658-hosted-quality-repair"
+}

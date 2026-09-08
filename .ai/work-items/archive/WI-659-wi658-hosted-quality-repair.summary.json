@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T05:44:56Z",
+  "checkpointContractDigest": "sha256:6cb52b19d37c4901eb9d8f61e20b83c75380b910a9789a180728527ce63a0721",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:96e4b6f9d7d8d73f26b7577b19d10b39a741d9456ea8952386736f217d76262a",
+      "recorded": true,
+      "recordedAt": "2026-09-08T05:44:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:baf0e25018771548db79bca456386d0431516ba1a2059ed83d5373b2e6e6fb04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-659-wi658-hosted-quality-repair"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6cb52b19d37c4901eb9d8f61e20b83c75380b910a9789a180728527ce63a0721",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:96e4b6f9d7d8d73f26b7577b19d10b39a741d9456ea8952386736f217d76262a",
+      "previousContractHash": "sha256:96e4b6f9d7d8d73f26b7577b19d10b39a741d9456ea8952386736f217d76262a",
+      "reason": "finalize-plan bound the real PR resource context and changed the Contract digest; invalidate the pre-plan verification binding and require fresh preflight and verification on the exact PR-bound Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T06:12:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:baf0e25018771548db79bca456386d0431516ba1a2059ed83d5373b2e6e6fb04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-659-wi658-hosted-quality-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:baf0e25018771548db79bca456386d0431516ba1a2059ed83d5373b2e6e6fb04",
+  "createdAt": "2026-09-08T05:42:06Z",
+  "mode": "code",
+  "preflightAt": "2026-09-08T06:15:23Z",
+  "preflightContractDigest": "sha256:6cb52b19d37c4901eb9d8f61e20b83c75380b910a9789a180728527ce63a0721",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:baf0e25018771548db79bca456386d0431516ba1a2059ed83d5373b2e6e6fb04",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T06:15:23Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-659-wi658-hosted-quality-repair"
+}
