@@ -918,3 +918,5 @@ context, isolated records, dynamic verification, fail-closed lifecycle, and
 visible human Outcome; source implementation bytes and provider-local wire
 formats remain outside the target.
 See the [WI-640 file-level record](reference-file-comparison.md#wi-640--reference-rebaseline-batch-55).
+
+| WI-660 — WI-659 parity-registration recovery | In progress → Implemented after verified close | [Work Item](../work-items/WI-660-wi659-parity-registration-recovery.md); archive `.ai/work-items/archive/WI-660-wi659-parity-registration-recovery.contract.json`; verification `.ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json`; finalization `.ai/decisions/WI-660-wi659-parity-registration-recovery.finalize.json`; close `.ai/decisions/WI-660-wi659-parity-registration-recovery.close.json`. |

@@ -783,3 +783,5 @@ reader documentation に投影されます。target と attached adopter は sha
 context、isolated records、dynamic verification、fail-closed lifecycle、visible human Outcome を継承し、source bytes
 や provider-local wire format はコピーしません。
 [WI-640 file-level record](reference-file-comparison.ja.md#wi-640--reference-rebaseline-batch-55) を参照してください。
+
+| WI-660 — WI-659 parity 登録 recovery | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-660-wi659-parity-registration-recovery.ja.md); archive `.ai/work-items/archive/WI-660-wi659-parity-registration-recovery.contract.json`; verification `.ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json`; finalization `.ai/decisions/WI-660-wi659-parity-registration-recovery.finalize.json`; close `.ai/decisions/WI-660-wi659-parity-registration-recovery.close.json`. |

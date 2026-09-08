@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-660-wi659-parity-registration-recovery.contract.json",
+    ".ai/work-items/active/WI-660-wi659-parity-registration-recovery.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-08T06:22:42Z",
+  "mode": "code",
+  "preflightAt": "2026-09-08T06:24:24Z",
+  "preflightContractDigest": "sha256:3095522aa741290a08dc8e5327300bbee9d37a05a4428d7e1df1f7eb0c00e459",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:d2bd88233068cfb0c5c2c0ee513b5cd607bfec544fd5885afed5e61e9554dbcf",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-08T06:22:43Z",
+  "workItemId": "WI-660-wi659-parity-registration-recovery"
+}
