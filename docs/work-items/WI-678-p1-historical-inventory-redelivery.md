@@ -82,4 +82,5 @@ documentation acceptance and status consistency remain blocked by the
 concurrently maintained WI-674 document retaining `status: in_progress`.
 That out-of-scope failure is preserved in
 `.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.documentation-regression.json`.
+The closed-Work-Item promotion check is bound by the same evidence.
 No production change is accepted from this candidate.

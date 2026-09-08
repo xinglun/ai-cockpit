@@ -78,3 +78,4 @@ pass しましたが、リポジトリ全体の documentation acceptance と sta
 この範囲外の失敗は
 `.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.documentation-regression.json`
 に保存しています。この candidate による production change は採用しません。
+closed Work Item promotion check も同じ evidence に結び付けています。

@@ -68,4 +68,5 @@ p95 为 `105.029 ms`，超过 `100 ms` 预算。归一化治理输出和退出�
 仓库级 documentation acceptance 和 status consistency 仍被并行维护的 WI-674 文档
 `status: in_progress` 阻塞。该范围外失败保存在
 `.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.documentation-regression.json`。
+closed Work Item promotion check 也由同一证据绑定。
 本 candidate 不接受任何生产变更。
