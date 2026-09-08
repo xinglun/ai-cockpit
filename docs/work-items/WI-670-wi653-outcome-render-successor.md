@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-670 — WI-653 Outcome render successor"
 description: "Redeliver the P1-A Outcome presentation boundary from the latest default branch with repository facts assembled before rendering."
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-670-wi653-outcome-render-successor
 lastVerifiedBy: WI-670-wi653-outcome-render-successor
+terminalArchive: .ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json
+terminalVerification: .ai/evidence/WI-670-wi653-outcome-render-successor.verification.json
+terminalFinalization: .ai/decisions/WI-670-wi653-outcome-render-successor.finalize.json
+terminalDecision: .ai/decisions/WI-670-wi653-outcome-render-successor.close.json
 ---
 
 [简体中文](WI-670-wi653-outcome-render-successor.zh-CN.md) · [日本語](WI-670-wi653-outcome-render-successor.ja.md)

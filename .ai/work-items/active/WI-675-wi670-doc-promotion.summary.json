@@ -1,0 +1,28 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-08T11:54:19Z",
+  "checkpointContractDigest": "sha256:c9940a2333767a39eba088fdcc70f7eaaa92a7302019db0d8185071eee61cfd6",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:565f5a57ce63fd3893e6befeef765d2009507dc843d7feaa3faed9c5ae6ddb67",
+  "createdAt": "2026-09-08T11:51:39Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-670-wi653-outcome-render-successor.md",
+      "docs/reference/reference-parity.md",
+      "tests/docs/promote_closed_work_item.py"
+    ],
+    "reason": "This Work Item is the narrowly bounded documentation projection required by the closed-WI-670 promotion gate; it preserves immutable lifecycle evidence and makes no production, governance, user-visible, or performance claim.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T11:54:07Z",
+  "preflightContractDigest": "sha256:c9940a2333767a39eba088fdcc70f7eaaa92a7302019db0d8185071eee61cfd6",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:565f5a57ce63fd3893e6befeef765d2009507dc843d7feaa3faed9c5ae6ddb67",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T11:54:19Z",
+  "workItemId": "WI-675-wi670-doc-promotion"
+}
