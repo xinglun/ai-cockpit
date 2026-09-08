@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-661-wi660-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-661-wi660-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-661-wi660-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-661-wi660-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-08T06:46:23Z",
-  "checkpointContractDigest": "sha256:1dc9a18aaaaa4c70acf24c6390a826adebccbd5b0c30e6de8559a6ac6da4d486",
+  "checkpointContractDigest": "sha256:81e2f358447489a585bfbfc9a5200c74893dc63ea3347f0df08e932f1c2593e7",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,24 +40,45 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-661-wi660-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:81e2f358447489a585bfbfc9a5200c74893dc63ea3347f0df08e932f1c2593e7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1dc9a18aaaaa4c70acf24c6390a826adebccbd5b0c30e6de8559a6ac6da4d486",
+      "previousContractHash": "sha256:018bcf5efd40e68843f04d24945c07454f4fe4e269631dd5b5b80ac6f0093a1b",
+      "reason": "finalize-plan bound the actual PR #660 resource context and changed the Contract digest; invalidate pre-plan verification binding and require fresh verification on the exact PR-bound Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T06:47:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a030f2978870838ec5ef0fefc6bf3575b8a14575ee3c2c0851a664b194225d3b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-661-wi660-doc-promotion"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:a030f2978870838ec5ef0fefc6bf3575b8a14575ee3c2c0851a664b194225d3b",
   "createdAt": "2026-09-08T06:41:30Z",
   "mode": "docs",
-  "preflightAt": "2026-09-08T06:47:02Z",
-  "preflightContractDigest": "sha256:018bcf5efd40e68843f04d24945c07454f4fe4e269631dd5b5b80ac6f0093a1b",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightAt": "2026-09-08T06:52:20Z",
+  "preflightContractDigest": "sha256:81e2f358447489a585bfbfc9a5200c74893dc63ea3347f0df08e932f1c2593e7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:a030f2978870838ec5ef0fefc6bf3575b8a14575ee3c2c0851a664b194225d3b",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T06:46:23Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:018bcf5efd40e68843f04d24945c07454f4fe4e269631dd5b5b80ac6f0093a1b",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T06:46:49Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T06:52:33Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-661-wi660-doc-promotion"
 }
