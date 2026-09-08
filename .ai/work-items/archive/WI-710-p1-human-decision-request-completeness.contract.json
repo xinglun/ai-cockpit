@@ -25,11 +25,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-710-p1-human-decision-request-completeness",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/702",
     "worktree": "/private/tmp/ai-cockpit-wi-710-p1-human-decision-request-completeness"
   },
   "risk": "low",

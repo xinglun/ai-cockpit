@@ -6,14 +6,17 @@
     "A4: cargo fmt --check and cargo clippy --test contract_preflight -- -D warnings pass.",
     "A5: no existing assertion is removed or weakened; no production source file is modified."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-08T21:57:25Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:85fef1293e384f639f9246d4d659071b4fb49a10d8c3eb67ea66222fed0ddb96",
   "evidenceRefs": [
     ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,11 +24,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -35,27 +37,25 @@
       "repositorySnapshotDigest": "sha256:10e03a58fd36268c8a7f214e17ae8e66a5892aae49e89a282cd9014c1f191d60",
       "workItemId": "WI-710-p1-human-decision-request-completeness"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-710-p1-human-decision-request-completeness.summary.json"
+            ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-710-p1-human-decision-request-completeness.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-710-p1-human-decision-request-completeness.summary.json"
+            ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-710-p1-human-decision-request-completeness.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-710-p1-human-decision-request-completeness.summary.json"
         }
       ],
       "evidence": [
@@ -74,15 +74,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -93,7 +85,7 @@
             ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -103,15 +95,23 @@
             ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-710-p1-human-decision-request-completeness.contract.json"
+            ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json"
           ],
           "inference": false,
           "text": "A regression that silently empties any part of a structured human decision request is caught automatically by cargo test on two independent real scenarios (an empty scaffold and a high-risk scenario-coverage gate), instead of relying on manual review."
@@ -120,23 +120,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-710-p1-human-decision-request-completeness.contract.json"
+            ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-710-p1-human-decision-request-completeness"
   },
+  "taskReportDigest": "sha256:d5c52fb7bdc54056bc821024c080ad2cb3078dcbf0a586f80a5a0641c2723653",
+  "taskReportMarkdownDigest": "sha256:404d29aba1897a0823adfb07bff2ee06e13339a1c8b4cef5111cd4d1583dec2b",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-710-p1-human-decision-request-completeness"
 }

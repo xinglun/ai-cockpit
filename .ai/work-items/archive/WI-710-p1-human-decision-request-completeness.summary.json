@@ -57,15 +57,14 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-710-p1-human-decision-request-completeness.contract.json",
-    ".ai/work-items/active/WI-710-p1-human-decision-request-completeness.summary.json"
+    ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json",
+    ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.summary.json"
   ],
   "checkpointAt": "2026-09-08T21:48:17Z",
-  "checkpointContractDigest": "sha256:3e22c22edd6d8725efb44b867f6002623fc5171e25d2747a71730b073afb1dc4",
+  "checkpointContractDigest": "sha256:73d4ab201f33399e890db7d466432b920b664d14b0916adcd3cb7e5e650f539f",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:10e03a58fd36268c8a7f214e17ae8e66a5892aae49e89a282cd9014c1f191d60",
   "createdAt": "2026-09-08T21:46:44Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "crates/cockpit-repository/tests/contract_preflight.rs is the only modified file (git diff --stat)",
@@ -75,23 +74,20 @@
     "state": "resolved"
   },
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T21:54:29Z",
-  "preflightContractDigest": "sha256:3e22c22edd6d8725efb44b867f6002623fc5171e25d2747a71730b073afb1dc4",
+  "preflightAt": "2026-09-08T21:57:25Z",
+  "preflightContractDigest": "sha256:73d4ab201f33399e890db7d466432b920b664d14b0916adcd3cb7e5e650f539f",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:10e03a58fd36268c8a7f214e17ae8e66a5892aae49e89a282cd9014c1f191d60",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T21:54:34Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T21:57:25Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:0e688c15c00c40945cce5bcaa128db2f0299bba3c9df870be88e7d146ccdec03",
   "workItemId": "WI-710-p1-human-decision-request-completeness"
 }
