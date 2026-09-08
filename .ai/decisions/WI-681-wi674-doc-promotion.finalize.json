@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ed9b7bb49c8a9f7bfcc81f4e5e6590e64610f6eb",
+    "name": "codex/wi-681-wi674-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:acc6d67dc4dd05fdb9d13694463a084edd77f0e9bccb76be971de94366beb5bb",
+  "operationId": "github-pr-677-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+    "headRevision": "ed9b7bb49c8a9f7bfcc81f4e5e6590e64610f6eb",
+    "mergeCommit": "2258c90acf6019638a9a3b054c6eb010d53e8ad1",
+    "number": 677,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/677"
+  },
+  "reason": "PR #677 was merged under explicit repository-owner authorization; the exact branch and dedicated worktree are the resources designated for post-merge cleanup, and the missing Runtime receipt is repaired with the deleted disposition.",
+  "receiptId": "ai-cockpit-WI-681-wi674-doc-promotion-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-681-wi674-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/677",
+    "worktree": "/private/tmp/ai-cockpit-wi-681-wi674-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T14:41:32Z",
+  "workItemId": "WI-681-wi674-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-681-wi674-doc-promotion",
+    "headRevision": "ed9b7bb49c8a9f7bfcc81f4e5e6590e64610f6eb",
+    "path": "/private/tmp/ai-cockpit-wi-681-wi674-doc-promotion",
+    "worktreeId": "WI-681-wi674-doc-promotion"
+  }
+}
