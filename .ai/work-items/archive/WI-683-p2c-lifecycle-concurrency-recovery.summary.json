@@ -60,8 +60,8 @@
     ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.finalize.json",
     ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.recovery.json",
     ".ai/evidence/WI-677-wi657-lifecycle-concurrency-successor.verification.json",
-    ".ai/work-items/active/WI-683-p2c-lifecycle-concurrency-recovery.contract.json",
-    ".ai/work-items/active/WI-683-p2c-lifecycle-concurrency-recovery.summary.json",
+    ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.contract.json",
+    ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json",
     ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.archive.json",
     ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.contract.json",
     ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.events.jsonl",
@@ -146,14 +146,13 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T15:26:01.271498+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T15:26:56Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:44d1b75466443e8fc06c1cc148323457ac75c807dd562dd9d0ef07f48b9ec9f9",
   "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
 }

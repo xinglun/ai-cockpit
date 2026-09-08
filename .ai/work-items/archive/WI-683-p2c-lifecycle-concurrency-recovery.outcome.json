@@ -1,0 +1,214 @@
+{
+  "acceptanceResults": [
+    "Controlled same-process and cross-process finish calls for one Work Item serialize to one authoritative commit and preserve valid JSON projections.",
+    "Archive, close, recovery-decision recording, and active-artifact reconciliation do not duplicate history or display an incomplete operation as completed under concurrent or interrupted execution.",
+    "Missing or corrupt projections fail closed, terminal states cannot be downgraded by a losing failure projection, and duplicate operations return an explicit conflict or idempotent result.",
+    "The public JSON schema, lifecycle semantics, archive layout, Runtime compatibility, and predecessor archive bytes remain unchanged; recovery and parity records link the immutable predecessor to this successor.",
+    "The declared Rust, formatting, Clippy, documentation, governance, and hosted verification checks pass on the exact successor head before reviewed merge and cleanup."
+  ],
+  "createdAt": "2026-09-08T15:26:56Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:44d1b75466443e8fc06c1cc148323457ac75c807dd562dd9d0ef07f48b9ec9f9",
+  "evidenceRefs": [
+    ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cd4f5ad85da50ef58318013fb4eaf688f2039753a4f3ec573dbc3fb72c716518",
+      "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-677-wi657-lifecycle-concurrency-successor.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Serialize one Work Item lifecycle across processes and fail closed under interrupted or duplicate finish archive close operations without changing external contracts"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+  },
+  "taskReportDigest": "sha256:139d686c36a766876beecaa67c0df485b3c576671c489c2edbc5c3159574bf28",
+  "taskReportMarkdownDigest": "sha256:cd75a7d8168456ed99c00e5675cf142ac462432f712ef8886f039138292c2073",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+}
