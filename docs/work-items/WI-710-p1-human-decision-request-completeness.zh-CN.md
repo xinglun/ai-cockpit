@@ -4,9 +4,13 @@ title: "WI-710——P1 人工决定请求完整性测试"
 description: "补齐 WI-681 指出的不变量9缺口:扩展两个既有的 preflight 测试,断言 HumanDecisionRequest 的每个字段均非空。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-710-p1-human-decision-request-completeness
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-710-p1-human-decision-request-completeness
+terminalArchive: .ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json
+terminalVerification: .ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json
+terminalFinalization: .ai/decisions/WI-710-p1-human-decision-request-completeness.finalize.json
+terminalDecision: .ai/decisions/WI-710-p1-human-decision-request-completeness.close.json
 ---
 
 [English](WI-710-p1-human-decision-request-completeness.md) · [日本語](WI-710-p1-human-decision-request-completeness.ja.md)

@@ -4,9 +4,13 @@ title: "WI-710 — P1 human decision request completeness test"
 description: "Closes the invariant-9 gap named by WI-681: extends two existing preflight tests to assert every HumanDecisionRequest field is non-empty."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-710-p1-human-decision-request-completeness
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-710-p1-human-decision-request-completeness
+terminalArchive: .ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json
+terminalVerification: .ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json
+terminalFinalization: .ai/decisions/WI-710-p1-human-decision-request-completeness.finalize.json
+terminalDecision: .ai/decisions/WI-710-p1-human-decision-request-completeness.close.json
 ---
 
 [简体中文](WI-710-p1-human-decision-request-completeness.zh-CN.md) · [日本語](WI-710-p1-human-decision-request-completeness.ja.md)

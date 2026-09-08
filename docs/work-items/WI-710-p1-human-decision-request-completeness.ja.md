@@ -4,9 +4,13 @@ title: "WI-710 — P1 人間決定請求の完全性テスト"
 description: "WI-681 が指摘した不変量9の欠落を埋める:既存の二つの preflight テストを拡張し、HumanDecisionRequest の全フィールドが非空であることを断言する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-710-p1-human-decision-request-completeness
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-710-p1-human-decision-request-completeness
+terminalArchive: .ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json
+terminalVerification: .ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json
+terminalFinalization: .ai/decisions/WI-710-p1-human-decision-request-completeness.finalize.json
+terminalDecision: .ai/decisions/WI-710-p1-human-decision-request-completeness.close.json
 ---
 
 [English](WI-710-p1-human-decision-request-completeness.md) · [简体中文](WI-710-p1-human-decision-request-completeness.zh-CN.md)
