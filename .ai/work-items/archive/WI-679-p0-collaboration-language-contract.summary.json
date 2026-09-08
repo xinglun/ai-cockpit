@@ -1,0 +1,116 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "## Communication nodes (sections 1-7)",
+          "path": "docs/reference/collaboration-language-contract.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "## What this contract is, and is not",
+          "path": "docs/reference/collaboration-language-contract.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "### 2. Authorization request (reuse vs new vs recovery)",
+          "path": "docs/reference/collaboration-language-contract.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "## Ten semantic invariants",
+          "path": "docs/reference/collaboration-language-contract.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "## Current unknowns and follow-on work",
+          "path": "docs/reference/collaboration-language-contract.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "Collaboration language contract index entry",
+          "path": "docs/reference/README.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "results[0]",
+          "path": ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json",
+          "type": "command-output",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json",
+    ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T12:56:24Z",
+  "checkpointContractDigest": "sha256:e765d6145f79eab9c5917612e90d964dd9af5ab4642c46daefa057802662f5e6",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:94ca10b33d8bef8dbfb8bc254b0da556edcfe91437f3a2090707cf539bbd9cca",
+  "createdAt": "2026-09-08T12:41:43Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/collaboration-language-contract.md sections 1-7 map exactly the seven moments named in the intent",
+      "docs/reference/collaboration-language-contract.md '## Current unknowns and follow-on work' names the excluded scenario-matrix/automated-check/handoff-tooling work as follow-on rather than claiming delivery",
+      "Contract outOfScope explicitly excludes external participant recruitment/invitation/interview/evaluation"
+    ],
+    "reason": "Delivered document scope matches declared intent: a docs-only cross-cutting map of the seven communication moments citing existing canonical sources, excluding external participant evaluation, scenario-matrix generation, automated invariant checks, and handoff-completeness tooling (named as follow-on Work Items).",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-08T12:59:29Z",
+  "preflightContractDigest": "sha256:e765d6145f79eab9c5917612e90d964dd9af5ab4642c46daefa057802662f5e6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:94ca10b33d8bef8dbfb8bc254b0da556edcfe91437f3a2090707cf539bbd9cca",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T12:59:29Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-679-p0-collaboration-language-contract"
+}

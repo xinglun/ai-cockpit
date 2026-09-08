@@ -31,11 +31,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-679-p0-collaboration-language-contract",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/675",
     "worktree": "/private/tmp/ai-cockpit-wi-679-p0-collaboration-language-contract"
   },
   "risk": "low",

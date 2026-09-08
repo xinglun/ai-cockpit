@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T12:59:34Z",
+  "files": {
+    "contractDigest": "sha256:810b81be9112852535b2d0a74118e3563d25408a7c6388ee6025281d34ce4fe5",
+    "contractPath": ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json",
+    "eventsDigest": "sha256:b5f12fd7e06013ed2ca14df0c1eae4ad2ef8f0fd6324c3fc5cd8d159f3d17f0f",
+    "eventsPath": ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.events.jsonl",
+    "outcomeDigest": "sha256:9ba67ae128266da10a4dd6a41355abc4005b8ad21b588ea82c5022d66195376c",
+    "outcomePath": ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.outcome.json",
+    "summaryDigest": "sha256:f3568b3aedcb2c4369080ea6faa22259da9b5140032c1ec78a90bda210370ccd",
+    "summaryPath": ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.summary.json",
+    "taskReportDigest": "sha256:edf2283d3a335662cec67603e2db4ca9128ac1b5338af3cb335ce90a7aedd547",
+    "taskReportMarkdownDigest": "sha256:a3f81371b04c890b3551384b56b8cdb3b8869a84c855ce35234903a55b328052",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-679-p0-collaboration-language-contract"
+}
