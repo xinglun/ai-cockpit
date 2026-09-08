@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T14:30:13Z",
+  "files": {
+    "contractDigest": "sha256:3a0235da942767d3e6e308e4a301d672c9c67072d2c4f574109b61a24fb4193b",
+    "contractPath": ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.contract.json",
+    "eventsDigest": "sha256:40c22c1c4b1a869265c43fc5b7467e61cf9716b0e411735af8df1c5bc0355b7c",
+    "eventsPath": ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.events.jsonl",
+    "outcomeDigest": "sha256:eb677efd66efb3099294e4ac6211d36aea0bd9afef1712c09ff61a632ab21ee6",
+    "outcomePath": ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.outcome.json",
+    "summaryDigest": "sha256:8c8b872abb2d8ec508dc0184bf5d3a8b3052d88f40de16e593b9fbbe0aae9699",
+    "summaryPath": ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.summary.json",
+    "taskReportDigest": "sha256:2063b3cac05f4da5a3ed94905900c462fd63581fbe75bd86f1885b4c9b214da2",
+    "taskReportMarkdownDigest": "sha256:b54b3ae979a8a8e510d7aff95a11e4eeeb89e72cc984f2c81157f457c3293d02",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-678-p1-historical-inventory-redelivery"
+}

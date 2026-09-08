@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-678-p1-historical-inventory-redelivery.contract.json",
-    ".ai/work-items/active/WI-678-p1-historical-inventory-redelivery.summary.json"
+    ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.contract.json",
+    ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.summary.json"
   ],
   "checkpointAt": "2026-09-08T12:37:57Z",
   "checkpointContractDigest": "sha256:5b40a0a123a720ab3e3351c8ef0246e4bcbaa98fd931bc9a039ed15385e55194",
@@ -202,24 +202,23 @@
       "workItemId": "WI-678-p1-historical-inventory-redelivery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:67c7c24670aab1a3afbe4788e43837b93f935b96085c2cb95af210399a37737b",
+  "checkpointRepositorySnapshotDigest": "sha256:f9f015f69a5c729db75660a306ab116c023c0a9d0eb599e451a2d5085885e4e4",
   "createdAt": "2026-09-08T12:36:02Z",
   "mode": "code",
-  "preflightAt": "2026-09-08T14:18:56Z",
+  "preflightAt": "2026-09-08T14:29:45Z",
   "preflightContractDigest": "sha256:5b40a0a123a720ab3e3351c8ef0246e4bcbaa98fd931bc9a039ed15385e55194",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:67c7c24670aab1a3afbe4788e43837b93f935b96085c2cb95af210399a37737b",
+  "preflightRepositorySnapshotDigest": "sha256:f9f015f69a5c729db75660a306ab116c023c0a9d0eb599e451a2d5085885e4e4",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T12:37:57Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T14:29:50Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:30e16c3c57c5b9e396bb22613f865712b0a7a2176f607d1de124adbc76851a62",
   "workItemId": "WI-678-p1-historical-inventory-redelivery"
 }

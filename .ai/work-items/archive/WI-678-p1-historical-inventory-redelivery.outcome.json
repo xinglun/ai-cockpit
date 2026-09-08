@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "Record a fresh baseline before the candidate on the original start base c1f1f1d9f17ec2242a59f287a4368bd6bda5993e; after the remote default advanced and this branch was rebased to 8bf7a301484e78844678de32fec1aa1b5d42a56e, rerun the final baseline and candidate on that latest base. Use the corrected order-preserving benchmark, retain every raw round, warm-up count, sample count, percentile method, environment, and unavailable resource metrics without filling them with zero.",
+    "Validate the duplicate decisions-directory scan hypothesis with a bounded counter or equivalent evidence, then compare unchanged baseline and candidate on the same many-historical-WI status scenario and the required behavior scenarios.",
+    "Materialize transition candidates once per immutable historical inventory observation and reuse them only inside that observation; preserve canonical receipts, transitions, malformed records, filename digest failures, forks, governance append validation, missing decisions, path anomalies, and repository/work-item isolation semantics.",
+    "Do not introduce a process-global or cross-repository cache, cross-request snapshot, authorization bypass, evidence rebinding, or output-order change; preserve deterministic outputs, errors, evidence bindings, and exit codes.",
+    "Accept the candidate only if fresh same-toolchain evidence shows the target status path improves without exceeding the Contract's correctness or resource budgets; otherwise record an explicit reject decision and do not claim a performance benefit. A rejected experiment still delivers the human-visible trust benefit of preventing an unproven optimization from entering the governed default branch. The final verification budget is inspect warm.p95 <= 250 ms, status warm.p95 <= 10000 ms, doctor warm.p95 <= 100 ms, and observe warm.p95 <= 250 ms; target-path acceptance additionally requires status warm p50 and p95 to be lower than baseline and no other measured stage to exceed 125% of its baseline p95. p95 requires at least 20 warm samples; p99 remains unknown below 100 samples.",
+    "Record the old PR #671 hosted-quality failure as preserved audit evidence: it was an open draft based on 4950da8c and failed the quality gate because delivery parity/documentation was incomplete; it is not a reviewed or merge-authorizing result.",
+    "Record in this Contract that on 2026-09-08 the human first instructed the Agent to pause at a suitable point for later manual resume, then explicitly confirmed continuation and authorized human:user-request continuation through provider or lifecycle interruptions; preserve that exact interruption/resume scope and evidence here, and do not treat it as a fabricated GitHub review or approval.",
+    "Complete the repository's three-language Work Item documentation and parity registration for this Work Item, and retain Runtime verification, hosted checks, finalization, and human-visible Outcome evidence. If a repository-wide documentation check fails only on another concurrently maintained Work Item, preserve the exact failure as external evidence, do not modify that Work Item or narrow the check, and surface the scope-boundary blocker in the Outcome."
+  ],
+  "createdAt": "2026-09-08T14:29:50Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b6e04aba003e6a32e080f1b85192afadb6049d773f2f15e24f56f572e5856301",
+  "evidenceRefs": [
+    ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f9f015f69a5c729db75660a306ab116c023c0a9d0eb599e451a2d5085885e4e4",
+      "workItemId": "WI-678-p1-historical-inventory-redelivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver and independently verify the P1 historical finalization inventory optimization from the latest default branch after the failed PR #671 attempt, using fresh evidence before accepting or rejecting the bounded candidate-set reuse hypothesis."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-678-p1-historical-inventory-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-678-p1-historical-inventory-redelivery"
+  },
+  "taskReportDigest": "sha256:2063b3cac05f4da5a3ed94905900c462fd63581fbe75bd86f1885b4c9b214da2",
+  "taskReportMarkdownDigest": "sha256:b54b3ae979a8a8e510d7aff95a11e4eeeb89e72cc984f2c81157f457c3293d02",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-678-p1-historical-inventory-redelivery"
+}
