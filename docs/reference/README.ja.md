@@ -26,6 +26,7 @@ route index は一般利用者の journey と正確な machine-facing detail を
 - [Configuration reference](configuration.ja.md) — `.ai/cockpit.toml`、profile、generated record。
 - [Troubleshooting と recovery](troubleshooting.ja.md) — stop state と安全な次の action。
 - [人間向け Outcome](outcome-report.ja.md) — 読みやすい結果、リスク、証拠、次の action。
+- [協作不変量カバレッジ](collaboration-invariant-coverage.ja.md) — 十の協作言語不変量を既存の自動テストカバレッジへ対応付け、正確なテストを引用し、残る欠落を示す。
 - [Governance Profile](governance-profiles.ja.md) — リスクに応じた Light/Standard/Strict route と assurance boundary。
 - [Cockpit Status の読み方](how-to-read-cockpit-status.ja.md) — 人向けの色、証拠、次の action の読み順。
 - [Agent ワークフローとレビュー境界](agent-workflow.ja.md) — Work Item、Outcome、release、安全規則の本 project 向け適用。

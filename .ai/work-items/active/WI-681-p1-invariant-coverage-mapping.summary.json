@@ -1,0 +1,29 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-681-p1-invariant-coverage-mapping.contract.json",
+    ".ai/work-items/active/WI-681-p1-invariant-coverage-mapping.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T13:44:36Z",
+  "checkpointContractDigest": "sha256:18b2e96530ef37cc60b8c172637b8298708f8d32aa0793b035b218ab429ac5c2",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ed59cfda39dfb7b04fd1e30c73e371225072cd95aca7bf64eab19f2c90fad90c",
+  "createdAt": "2026-09-08T13:41:05Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-08T13:44:46Z",
+  "preflightContractDigest": "sha256:18b2e96530ef37cc60b8c172637b8298708f8d32aa0793b035b218ab429ac5c2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ed59cfda39dfb7b04fd1e30c73e371225072cd95aca7bf64eab19f2c90fad90c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T13:44:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:0a95408fa4e572e122ba57ef3a474ab5e4b6da1f8cbe23275bda5ea1a497e03a",
+  "workItemId": "WI-681-p1-invariant-coverage-mapping"
+}

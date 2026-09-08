@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "A1: docs/reference/collaboration-invariant-coverage.md(+zh-CN/ja) states, for all ten invariants, whether automated coverage exists today, citing the exact test file and function name for each Yes/Partial row, verified by direct reading of the current test source.",
+    "A2: gaps are stated precisely (which case is not covered), not just 'no test exists', and each gap names a concrete reuse-based follow-on approach citing an existing pattern to extend.",
+    "A3: no claim in this document overstates coverage; a Partial row explains exactly what is and is not covered.",
+    "A4: docs/reference/README.md(+zh-CN/ja) gain exactly one new index entry each.",
+    "A5: WI-681 registers itself in the reference-parity ledger with the pre-archive status, added before this Work Item's own verification-evidence commit.",
+    "A6: bash tests/docs/documentation_acceptance.sh passes for all new and modified files."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+  "createdAt": "2026-09-08T13:41:05Z",
+  "goal": "A maintainer or reviewer can see, for each invariant, whether an automated regression test already protects it and exactly which one, instead of having to search or re-derive this themselves, and can see a concrete, reuse-based plan for the remaining gaps.",
+  "intent": "Map each of the ten collaboration-language semantic invariants (from WI-679) to existing automated test coverage in this repository, citing exact test file/function names verified by direct source reading, and name remaining gaps precisely, per explicit repository-owner delegation to continue the AI Cockpit collaboration-language initiative. This is a reuse-first survey, not new test code: per the initiative's own scoping, writing the identified missing tests is deferred to bounded follow-on Work Items named in the delivered document.",
+  "mode": "docs",
+  "outOfScope": [
+    "writing the four identified missing tests themselves (follow-on Work Items)",
+    "any change to CLI/MCP behavior; Contract/Outcome schema; lifecycle state machine",
+    "any change to existing test files"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-681-p1-invariant-coverage-mapping",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-681-p1-invariant-coverage-mapping"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/collaboration-invariant-coverage.md",
+    "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+    "docs/reference/collaboration-invariant-coverage.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/work-items/WI-681-p1-invariant-coverage-mapping.md",
+    "docs/work-items/WI-681-p1-invariant-coverage-mapping.zh-CN.md",
+    "docs/work-items/WI-681-p1-invariant-coverage-mapping.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-674-p1-repository-split.md",
+    "docs/work-items/WI-674-p1-repository-split.zh-CN.md",
+    "docs/work-items/WI-674-p1-repository-split.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-681-p1-invariant-coverage-mapping"
+}
