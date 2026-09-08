@@ -64,7 +64,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-714-wi712-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-714-wi712-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -102,7 +102,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-714-wi712-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-714-wi712-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Make the closed-Work-Item promotion and repository governance checks pass for WI-712 by updating the six required closed-document/parity projections, registering this documentation-promotion Work Item in the required tri-language pre-archive projections, and recording independent verification."
@@ -111,7 +111,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-714-wi712-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-714-wi712-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -121,7 +121,7 @@
     "status": "verified",
     "workItemId": "WI-714-wi712-doc-promotion"
   },
-  "taskReportDigest": "sha256:a6f04c8f219d53310cde862939fc56473011f0ec30f634dcffc2c8ed86fe4401",
+  "taskReportDigest": "sha256:5d280db0a3d0e818f892fc265e1d7b17b13d3a6c0aa93b1bbad2ad76a7cde563",
   "taskReportMarkdownDigest": "sha256:9f2ef2892822b066b7cab4e27f6f1363c9c0d13191222aebe78e055cc845cb0b",
   "unknowns": [
     "user_visible_benefit_not_declared"
