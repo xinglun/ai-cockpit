@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-674-p1-repository-split.summary.json"
   ],
   "checkpointAt": "2026-09-08T11:44:36Z",
-  "checkpointContractDigest": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
+  "checkpointContractDigest": "sha256:babc9088a628839ad6679148501b68b0bedae85d1ae4ab9390b65473b6a1559e",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -64,16 +64,13 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
   "createdAt": "2026-09-08T11:44:27Z",
-  "failedGate": "finish.verification",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T12:48:20Z",
-  "preflightContractDigest": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
+  "preflightAt": "2026-09-08T12:55:37Z",
+  "preflightContractDigest": "sha256:babc9088a628839ad6679148501b68b0bedae85d1ae4ab9390b65473b6a1559e",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-08T12:50:06Z",
@@ -83,6 +80,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:970e6617310d2524c42ea182210b853f33ca99a5f889ba49e988d4bf3e40808d",
+  "verificationRecoveryReconciled": "sha256:d604f677b26dfeed2db4fcae608ecc1b5b7a2de7ff7da05ddc439d63e49c7f46",
   "workItemId": "WI-674-p1-repository-split"
 }
