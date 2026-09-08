@@ -26,7 +26,7 @@
     ".ai/work-items/archive/WI-703-wi669-current-base-revalidation.task-report.md"
   ],
   "checkpointAt": "2026-09-08T22:16:14Z",
-  "checkpointContractDigest": "sha256:62549363f17fae456301fc486e503559694d0fc029407dddb4097734512f0204",
+  "checkpointContractDigest": "sha256:036e518e1a9d8287593cd5aad986ceb9a388bf7b454aa4e7c5c9f6482151f8d2",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -64,25 +64,27 @@
       "workItemId": "WI-713-wi703-current-base-revalidation"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:db28a094bd1632610951cf9fa8066807553b6e86d973eb6bc35ea10b737d9135",
+  "checkpointRepositorySnapshotDigest": "sha256:8666edd9fdd4e8a5bd26ee43795a8b5939a0fc40603c3b37ca872097934120ec",
   "createdAt": "2026-09-08T22:15:29Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:76d5ebe5d44653c919197c11878a90c7f7fd708d1d851f8e32a9213b8a457f66",
   "predecessorWorkItemId": "WI-703-wi669-current-base-revalidation",
-  "preflightAt": "2026-09-08T22:16:10Z",
-  "preflightContractDigest": "sha256:62549363f17fae456301fc486e503559694d0fc029407dddb4097734512f0204",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:db28a094bd1632610951cf9fa8066807553b6e86d973eb6bc35ea10b737d9135",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-08T22:31:25Z",
+  "preflightContractDigest": "sha256:036e518e1a9d8287593cd5aad986ceb9a388bf7b454aa4e7c5c9f6482151f8d2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8666edd9fdd4e8a5bd26ee43795a8b5939a0fc40603c3b37ca872097934120ec",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-703-wi669-current-base-revalidation.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-08T22:16:14Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:3e225d495994d7f54ce860fe55db0129d8c8f6abbc3cd71f8e98ff6b6729b65c",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T22:25:26Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:1eb8fd38400891a2e342d546ff7346da154edbd02da3ebafa2b772a0b64114f8",
   "workItemId": "WI-713-wi703-current-base-revalidation"
 }
