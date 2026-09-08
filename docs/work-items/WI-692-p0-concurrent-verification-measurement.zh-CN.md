@@ -4,9 +4,13 @@ title: "WI-692——P0 并发验证测量"
 description: "在考虑接入 PhysicalSingleFlightCoordinator 前，测量真实并发验证请求路径。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-692-p0-concurrent-verification-measurement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-692-p0-concurrent-verification-measurement
+terminalArchive: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json
+terminalVerification: .ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json
+terminalFinalization: .ai/decisions/WI-692-p0-concurrent-verification-measurement.finalize.json
+terminalDecision: .ai/decisions/WI-692-p0-concurrent-verification-measurement.close.json
 ---
 
 [English](WI-692-p0-concurrent-verification-measurement.md) · [日本語](WI-692-p0-concurrent-verification-measurement.ja.md)

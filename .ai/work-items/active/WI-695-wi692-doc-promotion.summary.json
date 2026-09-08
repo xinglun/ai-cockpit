@@ -1,0 +1,82 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-08T18:17:38Z",
+  "checkpointContractDigest": "sha256:da672f944bcc0de4bc0bff5cec50943386405137d9687b27c4082d2c95e57adc",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:3b86ebd9c046b90eacd4bc6a609567030754fd8ba47b8444afb309a9ad5c8568",
+      "recorded": true,
+      "recordedAt": "2026-09-08T18:17:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-695-wi692-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:cc89febdebbbdde20171b0049b8de8f426d47cebe721406fc0ef1d12a07ac434",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b86ebd9c046b90eacd4bc6a609567030754fd8ba47b8444afb309a9ad5c8568",
+      "previousContractHash": "sha256:3b86ebd9c046b90eacd4bc6a609567030754fd8ba47b8444afb309a9ad5c8568",
+      "reason": "Bind the immutable WI-692 archive, verification, finalization, close, promotion helper, and repository policy sources to the documentation-promotion Contract; the scope already includes the three-language WI-695 record and no runtime behavior.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T18:18:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-695-wi692-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:da672f944bcc0de4bc0bff5cec50943386405137d9687b27c4082d2c95e57adc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b86ebd9c046b90eacd4bc6a609567030754fd8ba47b8444afb309a9ad5c8568",
+      "previousContractHash": "sha256:cc89febdebbbdde20171b0049b8de8f426d47cebe721406fc0ef1d12a07ac434",
+      "reason": "Bind the exact documentation acceptance, parity, status consistency, and diff verification commands before collecting required verification evidence; no production or governance behavior changes.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T18:20:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:38132947c48e259a9567dec0af2a5779437d18ebd874b88e1f1be793d4f56956",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-695-wi692-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:658e422aa9ef1aa1be00992c34182e523049d570e2079d970d9148863a681592",
+  "createdAt": "2026-09-08T18:16:48Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T18:22:01Z",
+  "preflightContractDigest": "sha256:da672f944bcc0de4bc0bff5cec50943386405137d9687b27c4082d2c95e57adc",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:658e422aa9ef1aa1be00992c34182e523049d570e2079d970d9148863a681592",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T18:17:38Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fd112cb2c5d092bccb4389e12516f83b86e0e469cafd5437bf6c3ceace1cee4b",
+  "workItemId": "WI-695-wi692-doc-promotion"
+}
