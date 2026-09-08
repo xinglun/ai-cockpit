@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c05adc8efb660a585d51fb3174ac4dcd183e6b33",
+    "name": "codex/wi-691-p0-responsibility-map",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e1d4f478bd0142b4c5519b021ac878efa34a5eda35f4e921cd0885f5d3127e7e",
+  "operationId": "github-pr-689-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+    "headRevision": "c05adc8efb660a585d51fb3174ac4dcd183e6b33",
+    "mergeCommit": "62731f23ef0197f08f4c41b5093bae13c0152c65",
+    "number": 689,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/689"
+  },
+  "reason": "PR #689 was merged after all hosted checks passed; the exact WI-691 branch and dedicated worktree were removed and the synchronized default branch now contains the reviewed merge commit.",
+  "receiptId": "ai-cockpit-WI-691-p0-responsibility-map-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-691-p0-responsibility-map",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/689",
+    "worktree": "/private/tmp/ai-cockpit-wi-691-p0-responsibility-map"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T17:33:03Z",
+  "workItemId": "WI-691-p0-responsibility-map",
+  "worktree": {
+    "branch": "codex/wi-691-p0-responsibility-map",
+    "headRevision": "c05adc8efb660a585d51fb3174ac4dcd183e6b33",
+    "path": "/private/tmp/ai-cockpit-wi-691-p0-responsibility-map",
+    "worktreeId": "WI-691-p0-responsibility-map"
+  }
+}
