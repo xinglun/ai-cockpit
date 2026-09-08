@@ -7,14 +7,17 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-677-wi657-lifecycle-concurrency-successor
 ---
 
-# WI-677 — WI-657 lifecycle concurrency and recovery successor
+# WI-677 — WI-657 lifecycle concurrency and recovery successor (recovered)
 
-This successor re-delivers the P2-C boundary from the current `origin/main`.
+This predecessor delivered the P2-C boundary, but its archived PR became
+conflicting after the remote default branch advanced. WI-681 redelivers the
+same boundary from the newer base; this historical record and its evidence are
+not rewritten.
 The archived WI-657 branch fixed a same-process temporary-file collision but
 was based on an older default branch and left a documented rollback-clobber
 gap. Its evidence remains historical; this Work Item does not rewrite it.

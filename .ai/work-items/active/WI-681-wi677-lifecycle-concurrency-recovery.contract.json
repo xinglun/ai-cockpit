@@ -1,5 +1,11 @@
 {
-  "acceptanceCriteria": [],
+  "acceptanceCriteria": [
+    "Controlled same-process and cross-process finish calls for one Work Item serialize to one authoritative commit and preserve valid JSON projections.",
+    "Archive, close, recovery-decision recording, and active-artifact reconciliation do not duplicate history or display an incomplete operation as completed under concurrent or interrupted execution.",
+    "Missing or corrupt projections fail closed, terminal states cannot be downgraded by a losing failure projection, and duplicate operations return an explicit conflict or idempotent result.",
+    "The public JSON schema, lifecycle semantics, archive layout, Runtime compatibility, and predecessor archive bytes remain unchanged; recovery and parity records link the immutable predecessor to this successor.",
+    "The declared Rust, formatting, Clippy, documentation, governance, and hosted verification checks pass on the exact successor head before reviewed merge and cleanup."
+  ],
   "authority": "human:repository-owner",
   "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
   "createdAt": "2026-09-08T13:38:40Z",
@@ -14,11 +20,14 @@
   ],
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "predecessorContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
+  "recoveryDecisionPath": ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.recovery.json",
   "predecessorWorkItemId": "WI-677-wi657-lifecycle-concurrency-successor",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
-  "requiredEvidenceClasses": [],
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
   "resourceContext": {
     "baseBranch": "unknown",
     "baseRemote": "unknown",
@@ -32,10 +41,34 @@
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/src/lifecycle.rs",
     "crates/cockpit-repository/src/evidence_store.rs",
-    "crates/cockpit-repository/tests/lifecycle_concurrency.rs"
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    ".gitignore",
+    "docs/reference/pending-parity-registry.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.md",
+    "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.ja.md",
+    "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.zh-CN.md",
+    "docs/work-items/WI-681-wi677-lifecycle-concurrency-recovery.md",
+    "docs/work-items/WI-681-wi677-lifecycle-concurrency-recovery.ja.md",
+    "docs/work-items/WI-681-wi677-lifecycle-concurrency-recovery.zh-CN.md"
   ],
-  "sources": [],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/evidence_store.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.md"
+  ],
   "state": "implementation_active",
-  "verification": [],
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi681-governance-integrity.json",
+    "git diff --check"
+  ],
   "workItemId": "WI-681-wi677-lifecycle-concurrency-recovery"
 }

@@ -1,38 +1,4 @@
 {
-  "entries": [
-    {
-      "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
-      "createdAt": "2026-09-08T13:05:47Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.contract.json",
-        "finalize": ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.finalize.json",
-        "verification": ".ai/evidence/WI-677-wi657-lifecycle-concurrency-successor.verification.json"
-      },
-      "headRevision": "8a2d28870c43c059eeb91e92df54e4f0a51d400e",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-677 — WI-657 lifecycle concurrency and recovery successor | In progress | [Work Item](../work-items/WI-677-wi657-lifecycle-concurrency-successor.md); terminal lifecycle: archive `.ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.contract.json`; verification `.ai/evidence/WI-677-wi657-lifecycle-concurrency-successor.verification.json`; finalization `.ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.finalize.json`; close `.ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.close.json`. |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-677——WI-657 生命周期并发与恢复 successor | 进行中 | [Work Item](../work-items/WI-677-wi657-lifecycle-concurrency-successor.zh-CN.md)；终态 lifecycle: archive `.ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.contract.json`；verification `.ai/evidence/WI-677-wi657-lifecycle-concurrency-successor.verification.json`；finalization `.ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.finalize.json`；close `.ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.close.json`。 |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-677 — WI-657 lifecycle concurrency and recovery successor | In progress | [Work Item](../work-items/WI-677-wi657-lifecycle-concurrency-successor.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-677-wi657-lifecycle-concurrency-successor.contract.json`; verification `.ai/evidence/WI-677-wi657-lifecycle-concurrency-successor.verification.json`; finalization `.ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.finalize.json`; close `.ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.close.json`. |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 673,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/673"
-      },
-      "registryBaseRevision": "6520f6001e32e57caf4d6eb86fbcd2b7c52820aa",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
-    }
-  ],
+  "entries": [],
   "schemaVersion": 1
 }

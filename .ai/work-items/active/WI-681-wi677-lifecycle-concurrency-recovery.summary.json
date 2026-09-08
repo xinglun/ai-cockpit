@@ -1,14 +1,32 @@
 {
   "changedPaths": [],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-08T13:51:18Z",
+  "checkpointContractDigest": "sha256:a090e1ed1d6a20db4e686d2ab51e37317d84c87f1d3ede88f418781a55f00789",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e0d4c7fa66beb24d6d862adba1fee63a269b879b69921ac75efa87ade6963a67",
   "createdAt": "2026-09-08T13:38:40Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/src/evidence_store.rs",
+      "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+      "docs/work-items/WI-681-wi677-lifecycle-concurrency-recovery.md"
+    ],
+    "reason": "The successor preserves the predecessor's P2-C intent while redelivering the lock, atomic-write, fail-closed projection, and recovery boundary from the latest default base without changing public contracts or introducing a new storage system.",
+    "state": "resolved"
+  },
   "mode": "implementation",
-  "preflightState": "not_run",
   "predecessorContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
   "predecessorWorkItemId": "WI-677-wi657-lifecycle-concurrency-successor",
+  "preflightAt": "2026-09-08T13:51:07Z",
+  "preflightContractDigest": "sha256:a090e1ed1d6a20db4e686d2ab51e37317d84c87f1d3ede88f418781a55f00789",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:e0d4c7fa66beb24d6d862adba1fee63a269b879b69921ac75efa87ade6963a67",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-09-08T13:38:40Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T13:51:34.597250+00:00",
   "workItemId": "WI-681-wi677-lifecycle-concurrency-recovery"
 }

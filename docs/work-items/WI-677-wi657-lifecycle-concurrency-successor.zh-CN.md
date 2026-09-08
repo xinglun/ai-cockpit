@@ -7,14 +7,15 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-677-wi657-lifecycle-concurrency-successor
 ---
 
-# WI-677——WI-657 生命周期并发与恢复 successor
+# WI-677——WI-657 生命周期并发与恢复 successor（已恢复）
 
-本 successor 从当前 `origin/main` 重新交付 P2-C。已归档的 WI-657 分支修复了
+本 predecessor 已交付 P2-C，但远程默认分支前进后其归档 PR 发生冲突。WI-681
+从更新后的基线重新交付相同边界；本历史记录及其证据不改写。已归档的 WI-657 分支修复了
 同一进程临时文件名冲突，但基线已经过时，并明确留下了回滚覆盖风险；其证据
 保持历史不变，本 Work Item 不改写它。
 

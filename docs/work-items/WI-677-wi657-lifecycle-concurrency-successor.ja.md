@@ -7,14 +7,16 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-677-wi657-lifecycle-concurrency-successor
 ---
 
-# WI-677 — WI-657 ライフサイクル並行性・復旧 successor
+# WI-677 — WI-657 ライフサイクル並行性・復旧 successor（recovered）
 
-この successor は現在の `origin/main` から P2-C を再配信する。アーカイブ済み
+この predecessor は P2-C を配信したが、remote default branch の進行後に archive 済み
+PR が conflict になった。WI-681 が新しい base から同じ境界を再配信する。履歴と
+証拠は書き換えない。アーカイブ済み
 WI-657 branch は同一プロセスの一時ファイル名衝突を修正したが、default branch
 から遅れており、rollback が競合した成功を上書きし得る gap も記録していた。
 その歴史的証拠は変更せず、本 Work Item で再検証する。
