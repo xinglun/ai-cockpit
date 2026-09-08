@@ -1,0 +1,130 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-700-wi698-base-revalidation.contract.json",
+    ".ai/work-items/active/WI-700-wi698-base-revalidation.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T20:36:06Z",
+  "checkpointContractDigest": "sha256:3df4b8a3c7f37aa0713486a7dd7df48c9ae7c257140a89e2a7800f4cd200d3d1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:e0e63db45de7b6dc7718e56bff947abf2d3725b2f16ff257ff41d659d06443aa",
+      "recorded": true,
+      "recordedAt": "2026-09-08T20:36:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f8840896291603e6e37b539d4b3fc0b55134fc6dede1c8bbdc0e14e95335839d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-700-wi698-base-revalidation"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:3df4b8a3c7f37aa0713486a7dd7df48c9ae7c257140a89e2a7800f4cd200d3d1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e0e63db45de7b6dc7718e56bff947abf2d3725b2f16ff257ff41d659d06443aa",
+      "previousContractHash": "sha256:e0e63db45de7b6dc7718e56bff947abf2d3725b2f16ff257ff41d659d06443aa",
+      "reason": "Bind the recovered successor to the immutable WI-698 predecessor lineage, declare the required observation scenarios, and record the GitHub main/origin delivery context before fresh verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T20:36:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f8840896291603e6e37b539d4b3fc0b55134fc6dede1c8bbdc0e14e95335839d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-700-wi698-base-revalidation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f8840896291603e6e37b539d4b3fc0b55134fc6dede1c8bbdc0e14e95335839d",
+  "createdAt": "2026-09-08T20:33:56Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-698-p1-observation-context-boundary.md",
+      "crates/cockpit-repository/tests/repository_context.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-08T20:44:38Z",
+  "preflightContractDigest": "sha256:3df4b8a3c7f37aa0713486a7dd7df48c9ae7c257140a89e2a7800f4cd200d3d1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f8840896291603e6e37b539d4b3fc0b55134fc6dede1c8bbdc0e14e95335839d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "expected": "Repeated governance reads in one valid phase use the same repository, Runtime, Contract/config/policy, snapshot, and observed-fact identities without a hidden second observation.",
+      "required": true,
+      "scenario": "stable observation reuses one request-scoped context",
+      "status": "verified",
+      "verificationPlan": "Run focused RepositoryExecutionContext and governance tests with call counters and assert one captured phase context and stable facts."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs"
+      ],
+      "expected": "The observation phase is marked inconsistent or returns an unknown result; it cannot produce a green governance input.",
+      "required": true,
+      "scenario": "repository files change while observation is being read",
+      "status": "verified",
+      "verificationPlan": "Use a controlled mutation during observation and assert the before/after source snapshot identity mismatch is visible and fail closed."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs"
+      ],
+      "expected": "cockpit/profile/policy declaration identity changes invalidate the phase context instead of being silently mixed with the original snapshot.",
+      "required": true,
+      "scenario": "governance configuration changes during observation",
+      "status": "verified",
+      "verificationPlan": "Mutate a bound governance declaration between phase captures and assert configuration identity mismatch and unknown state."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs"
+      ],
+      "expected": "A context from another repository or a changed attached identity is rejected with the existing fail-closed identity behavior.",
+      "required": true,
+      "scenario": "repository identity changes or root does not match",
+      "status": "verified",
+      "verificationPlan": "Bind two isolated repositories and tamper the attached identity input; assert snapshot-root or repository-identity mismatch."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs"
+      ],
+      "expected": "A context captured before execution cannot authorize after-execution or persistence facts; the caller must capture and validate a new phase.",
+      "required": true,
+      "scenario": "execution-phase mutation requires a fresh boundary",
+      "status": "verified",
+      "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T20:36:06Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:b99a46eef95b1f3bdccd1e7eecedf5067ea82631c7c633aaf678d69b46815a79",
+  "workItemId": "WI-700-wi698-base-revalidation"
+}
