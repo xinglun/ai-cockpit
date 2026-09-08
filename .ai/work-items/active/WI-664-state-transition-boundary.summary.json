@@ -1,0 +1,68 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-664-state-transition-boundary.contract.json",
+    ".ai/work-items/active/WI-664-state-transition-boundary.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T07:13:44Z",
+  "checkpointContractDigest": "sha256:9deca6f1515812420be58042f35053d8021dd89e34aa0f5f3ce2f0a53bd4330c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:be2c3a0c9ec95befd2fc6506bf2d77f7e3b5045e24d324dcc925406fa4b832ae",
+      "recorded": true,
+      "recordedAt": "2026-09-08T07:13:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23371c0d677f9c01036a34ef177f323fcb2ac3f2596551533d33bf50c4228c2d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-664-state-transition-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9deca6f1515812420be58042f35053d8021dd89e34aa0f5f3ce2f0a53bd4330c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:be2c3a0c9ec95befd2fc6506bf2d77f7e3b5045e24d324dcc925406fa4b832ae",
+      "previousContractHash": "sha256:be2c3a0c9ec95befd2fc6506bf2d77f7e3b5045e24d324dcc925406fa4b832ae",
+      "reason": "Register the Work Item in the required tri-language reference parity projections so documentation acceptance remains complete; the parity files are documentation-only and do not expand implementation authority.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T07:19:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5e4ff66b2b1a040dc0ab4d0b183b9356f34b87e12960e76ec66f0e10676ce761",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-664-state-transition-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:5e4ff66b2b1a040dc0ab4d0b183b9356f34b87e12960e76ec66f0e10676ce761",
+  "createdAt": "2026-09-08T07:10:27Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-08T07:22:58Z",
+  "preflightContractDigest": "sha256:9deca6f1515812420be58042f35053d8021dd89e34aa0f5f3ce2f0a53bd4330c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5e4ff66b2b1a040dc0ab4d0b183b9356f34b87e12960e76ec66f0e10676ce761",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T07:23:37Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:7bc9b74830329fa6b4fb5ea53d94969d4470b99748ff932d24c2ea7379ad9e9a",
+  "workItemId": "WI-664-state-transition-boundary"
+}
