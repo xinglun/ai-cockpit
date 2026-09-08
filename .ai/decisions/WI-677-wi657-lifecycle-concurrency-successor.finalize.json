@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "human:user",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "8a2d28870c43c059eeb91e92df54e4f0a51d400e",
+    "name": "codex/wi-677-wi657-lifecycle-concurrency-successor",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:0911eb6f533faec81fb246076da3031cf9beb1838447d55d414424d9380f150c",
+  "operationId": "operation-WI-677-wi657-lifecycle-concurrency-successor-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
+    "headRevision": "8a2d28870c43c059eeb91e92df54e4f0a51d400e",
+    "number": 673,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/673"
+  },
+  "reason": "PR #673 is awaiting review and merge; the exact branch and dedicated worktree are clean, while the provider-side receipt records the unmerged boundary without claiming completion.",
+  "receiptId": "operation-WI-677-wi657-lifecycle-concurrency-successor-awaiting-merge-close",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-677-wi657-lifecycle-concurrency-successor",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/673",
+    "worktree": "/private/tmp/ai-cockpit-wi-677-wi657-lifecycle-concurrency-successor"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T13:06:30Z",
+  "workItemId": "WI-677-wi657-lifecycle-concurrency-successor",
+  "worktree": {
+    "branch": "codex/wi-677-wi657-lifecycle-concurrency-successor",
+    "headRevision": "8a2d28870c43c059eeb91e92df54e4f0a51d400e",
+    "path": "/private/tmp/ai-cockpit-wi-677-wi657-lifecycle-concurrency-successor",
+    "worktreeId": "WI-677-wi657-lifecycle-concurrency-successor"
+  }
+}
