@@ -10,7 +10,7 @@
     "Complete the repository's three-language Work Item documentation and parity registration for this Work Item, and retain Runtime verification, hosted checks, finalization, and human-visible Outcome evidence."
   ],
   "authority": "authorized",
-  "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
+  "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
   "createdAt": "2026-09-08T12:36:02Z",
   "goal": "Redeliver and independently verify the P1 historical finalization inventory optimization from the latest default branch after the failed PR #671 attempt, using fresh evidence before accepting or rejecting the bounded candidate-set reuse hypothesis.",
   "intent": "Reduce request-internal repeated scans of the decisions directory on the measured historical-finalization status path while preserving Calibrated Human-Agent Trust, evidence validity, repository isolation, authorization boundaries, deterministic governance outcomes, and recovery behavior.",

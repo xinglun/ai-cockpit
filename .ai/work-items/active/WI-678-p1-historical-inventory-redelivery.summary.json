@@ -120,6 +120,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-678-p1-historical-inventory-redelivery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:42362d48e7f8915cb85e3d00c8a85da33151d96396539323483115148d08902d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2f1fe192af92b64cf5ee23475118818ca2e2600e3c9cc53097ca00969ce078f8",
+      "previousContractHash": "sha256:34e7848ae62d2b638f68cf21798e7c73dda992d9c1d0920ca5d299c0ad5b6226",
+      "reason": "Rebind the Contract baseRevision to the latest remote default branch 8bf7a301 after WI-674 close advanced the PR base; preserve the original c1f1f1d9 start base and fresh measurements while making CI base binding exact.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T13:26:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2be934874eacbcf68c9e5ca1769ec139e59ae9875ebe82f1d9f3690b569fd034",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-678-p1-historical-inventory-redelivery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:97f32e9e4f791cfecbdcd0e25212b05b99d341fc0c673ab49a1e670db05acd22",
@@ -141,9 +161,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:34e7848ae62d2b638f68cf21798e7c73dda992d9c1d0920ca5d299c0ad5b6226",
+    "contractHash": "sha256:42362d48e7f8915cb85e3d00c8a85da33151d96396539323483115148d08902d",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T13:13:04Z"
+    "recordedAt": "2026-09-08T13:26:36Z"
   },
   "verificationRecoveryReconciled": "sha256:89d1f8f745de1482b1f2b93b14cb8cbf017610370b211aeeec737f7977706d8f",
   "workItemId": "WI-678-p1-historical-inventory-redelivery"
