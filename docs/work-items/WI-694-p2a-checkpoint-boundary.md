@@ -4,9 +4,13 @@ title: "WI-694 — P2-A checkpoint responsibility boundary"
 description: "Separate checkpoint observation, governance validation, and persistence within one complete lifecycle use case."
 audience: [maintainer, reviewer]
 workItemId: WI-694-p2a-checkpoint-boundary
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-694-p2a-checkpoint-boundary
+terminalArchive: .ai/work-items/archive/WI-694-p2a-checkpoint-boundary.contract.json
+terminalVerification: .ai/evidence/WI-694-p2a-checkpoint-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-694-p2a-checkpoint-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-694-p2a-checkpoint-boundary.close.json
 ---
 
 [简体中文](WI-694-p2a-checkpoint-boundary.zh-CN.md) · [日本語](WI-694-p2a-checkpoint-boundary.ja.md)

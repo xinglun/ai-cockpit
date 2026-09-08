@@ -4,9 +4,13 @@ title: “WI-694 — P2-A checkpoint 責任境界”
 description: “一つの lifecycle use case 内で checkpoint の観測、ガバナンス検証、永続化を分離する。”
 audience: [maintainer, reviewer]
 workItemId: WI-694-p2a-checkpoint-boundary
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-694-p2a-checkpoint-boundary
+terminalArchive: .ai/work-items/archive/WI-694-p2a-checkpoint-boundary.contract.json
+terminalVerification: .ai/evidence/WI-694-p2a-checkpoint-boundary.verification.json
+terminalFinalization: .ai/decisions/WI-694-p2a-checkpoint-boundary.finalize.json
+terminalDecision: .ai/decisions/WI-694-p2a-checkpoint-boundary.close.json
 ---
 
 [English](WI-694-p2a-checkpoint-boundary.md) · [简体中文](WI-694-p2a-checkpoint-boundary.zh-CN.md)
