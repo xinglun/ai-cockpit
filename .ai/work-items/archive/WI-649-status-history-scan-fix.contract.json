@@ -27,11 +27,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-649-status-history-scan-fix",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/647",
     "worktree": "/private/tmp/ai-cockpit-wi649-status-history-scan-fix"
   },
   "risk": "normal",

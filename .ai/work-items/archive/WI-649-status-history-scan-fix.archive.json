@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T00:46:59Z",
+  "files": {
+    "contractDigest": "sha256:9f91bb31e3edfaa313945249e63203dbf4a3e2e0d43f9a5b04f205f96231d0a3",
+    "contractPath": ".ai/work-items/archive/WI-649-status-history-scan-fix.contract.json",
+    "eventsDigest": "sha256:570e0d14e3d5dbc72090af81fd29ef617f0c7e0fbda8b37250a0084b15fbaa95",
+    "eventsPath": ".ai/work-items/archive/WI-649-status-history-scan-fix.events.jsonl",
+    "outcomeDigest": "sha256:fb6eda61260f77258a6241d1f2998ffecf758157d2ac3c02e56fcd48f7db0eca",
+    "outcomePath": ".ai/work-items/archive/WI-649-status-history-scan-fix.outcome.json",
+    "summaryDigest": "sha256:0d72b400464301fff1c8587dbb60c5bf3bf59cdad24a5d8109cd65dac437f75b",
+    "summaryPath": ".ai/work-items/archive/WI-649-status-history-scan-fix.summary.json",
+    "taskReportDigest": "sha256:7e19534ceffd1653455eae5d4c571c8d9537ee5d32d7d4767d0b2ce57044731e",
+    "taskReportMarkdownDigest": "sha256:d6fd58307dbcfb4b4aac4f2b0fea1e052702d5da4309dc5dc3cb3edba74c26a9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-649-status-history-scan-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-649-status-history-scan-fix.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-649-status-history-scan-fix"
+}

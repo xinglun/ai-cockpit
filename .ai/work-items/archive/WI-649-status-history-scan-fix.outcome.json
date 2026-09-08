@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "historical_finalization_inventory reads the .ai/decisions directory listing exactly once per call (materialized), builds an in-memory work_item_id -> transition-candidate index from that single listing, and resolve_resource_finalization_head_with_candidates consumes pre-filtered candidates instead of calling fs::read_dir per outer-loop item.",
+    "resolve_resource_finalization_head (used by finalize/finalize-verify/finalize-recovery-plan call sites) keeps its existing signature, behavior, and per-call directory scan unchanged; only historical_finalization_inventory's internal call path changes.",
+    "A new regression test proves historical_finalization_inventory produces byte-identical HistoricalFinalizationInventoryItem output before and after the change for a fixture with multiple legacy receipts, including at least one with a resolved transition chain and one that fails resolution.",
+    "The corrected runtime_benchmark.sh harness (WI-647) measures status cold/warm latency before and after this change on this repository, with raw samples retained; the candidate must not regress inspect/doctor/observe and must show a measured reduction in status latency proportional to the removed re-scans, not an assumed one.",
+    "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass; no governance decision, evidence semantics, or JSON field changes."
+  ],
+  "createdAt": "2026-09-08T00:46:56Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0f9f7b719f63677a336480d99f22a8f8aa332e743724540444200b59cd4e6acc",
+  "evidenceRefs": [
+    ".ai/evidence/WI-649-status-history-scan-fix.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-649-status-history-scan-fix.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-649-status-history-scan-fix.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d164a8bff5e19a4ac469b868277928fb8259bb336db1d4ecf49bf452c09186db",
+      "workItemId": "WI-649-status-history-scan-fix"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-649-status-history-scan-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-649-status-history-scan-fix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-649-status-history-scan-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-649-status-history-scan-fix.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-649-status-history-scan-fix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-649-status-history-scan-fix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-649-status-history-scan-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-649-status-history-scan-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-649-status-history-scan-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-649-status-history-scan-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "Reduce ai-cockpit status latency on repositories with accumulated history (measured at ~1.8s on this repository) by removing redundant directory re-scanning, while producing byte-identical HistoricalFinalizationInventoryItem output for every existing receipt."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-649-status-history-scan-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-649-status-history-scan-fix"
+  },
+  "taskReportDigest": "sha256:7e19534ceffd1653455eae5d4c571c8d9537ee5d32d7d4767d0b2ce57044731e",
+  "taskReportMarkdownDigest": "sha256:d6fd58307dbcfb4b4aac4f2b0fea1e052702d5da4309dc5dc3cb3edba74c26a9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-649-status-history-scan-fix.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-649-status-history-scan-fix"
+}
