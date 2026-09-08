@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:cd36ce76dd379d9f1285859741f11f71a2b44612d7ae9e6bd9c1688f371b02ca",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "The repository owner authorized continuation of this narrowly scoped documentation-promotion Work Item under the declared Contract. It only projects already verified WI-685 terminal evidence and does not assert new implementation behavior or user-visible benefit.",
+  "recordedAt": "2026-09-08T16:41:40Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:652ea4c54e1fa4aa1af5c267a098416e5d4e97882a43e1d5822b0196d6837ba7",
+  "schemaVersion": 1,
+  "workItemId": "WI-689-wi685-doc-promotion"
+}

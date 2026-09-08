@@ -4,9 +4,13 @@ title: "WI-685——P1 status 事实复用"
 description: "在包含大量历史 Work Item 的仓库中，于一次 status 观察内复用不可变 finalization transition 事实。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-685-p1-status-fact-reuse
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-685-p1-status-fact-reuse
+terminalArchive: .ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json
+terminalVerification: .ai/evidence/WI-685-p1-status-fact-reuse.verification.json
+terminalFinalization: .ai/decisions/WI-685-p1-status-fact-reuse.finalize.json
+terminalDecision: .ai/decisions/WI-685-p1-status-fact-reuse.close.json
 ---
 
 [English](WI-685-p1-status-fact-reuse.md) · [日本語](WI-685-p1-status-fact-reuse.ja.md)

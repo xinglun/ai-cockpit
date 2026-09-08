@@ -4,9 +4,13 @@ title: "WI-685 — P1 status 事実の再利用"
 description: "多数の履歴 Work Item を持つ repository で、1 回の status 観測内に immutable な finalization transition 事実を再利用します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-685-p1-status-fact-reuse
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-685-p1-status-fact-reuse
+terminalArchive: .ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json
+terminalVerification: .ai/evidence/WI-685-p1-status-fact-reuse.verification.json
+terminalFinalization: .ai/decisions/WI-685-p1-status-fact-reuse.finalize.json
+terminalDecision: .ai/decisions/WI-685-p1-status-fact-reuse.close.json
 ---
 
 [English](WI-685-p1-status-fact-reuse.md) · [简体中文](WI-685-p1-status-fact-reuse.zh-CN.md)
