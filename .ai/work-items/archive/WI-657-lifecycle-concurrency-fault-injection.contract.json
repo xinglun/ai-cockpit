@@ -21,11 +21,11 @@
   "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-657-lifecycle-concurrency-fault-injection",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/655",
     "worktree": "/private/tmp/ai-cockpit-wi657-lifecycle-concurrency-fault-injection"
   },
   "risk": "normal",

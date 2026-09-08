@@ -1,29 +1,28 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-657-lifecycle-concurrency-fault-injection.contract.json",
-    ".ai/work-items/active/WI-657-lifecycle-concurrency-fault-injection.summary.json"
+    ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.contract.json",
+    ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.summary.json"
   ],
   "checkpointAt": "2026-09-08T04:56:57Z",
-  "checkpointContractDigest": "sha256:9a9098b35893611a70f5b17369edb89f76cc3badb417764108de37d9c43ca9e1",
+  "checkpointContractDigest": "sha256:fb3b87432cee4c452b67504661f9d13a680ca25e1213bde595297c95419b53d3",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:6450f901a55c9f03aa0f0b6fb4cf4e695c8e6ef10b04f94b4b818429aeaa711b",
   "createdAt": "2026-09-08T04:56:44Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T05:01:06Z",
-  "preflightContractDigest": "sha256:9a9098b35893611a70f5b17369edb89f76cc3badb417764108de37d9c43ca9e1",
+  "preflightAt": "2026-09-08T05:04:16Z",
+  "preflightContractDigest": "sha256:fb3b87432cee4c452b67504661f9d13a680ca25e1213bde595297c95419b53d3",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:6450f901a55c9f03aa0f0b6fb4cf4e695c8e6ef10b04f94b4b818429aeaa711b",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T04:56:57Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T05:11:05Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:e0a91187da110dd8ba4fe281e7ecc05f4063507c2a5318fcef711c8133d93849",
   "workItemId": "WI-657-lifecycle-concurrency-fault-injection"
 }

@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:9a9098b35893611a70f5b17369edb89f76cc3badb417764108de37d9c43ca9e1",
-  "createdAt": "2026-09-08T05:01:06Z",
+  "contractDigest": "sha256:fb3b87432cee4c452b67504661f9d13a680ca25e1213bde595297c95419b53d3",
+  "createdAt": "2026-09-08T05:04:16Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 240071,
-      "executionElapsedMs": 239407,
+      "elapsedMs": 165938,
+      "executionElapsedMs": 165530,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 240071,
-    "executionElapsedMs": 239407,
-    "filesHashed": 20,
-    "filesRead": 23,
+    "elapsedMs": 165938,
+    "executionElapsedMs": 165530,
+    "filesHashed": 10,
+    "filesRead": 13,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,13 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
-        "docs/work-items/WI-657-lifecycle-concurrency-fault-injection.ja.md",
-        "docs/work-items/WI-657-lifecycle-concurrency-fault-injection.md",
-        "docs/work-items/WI-657-lifecycle-concurrency-fault-injection.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
       "dependencyConfidence": "unknown",
@@ -50,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 239407,
+      "executionElapsedMs": 165530,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -80,9 +74,9 @@
           "commandDigest": "sha256:744bf554bbf697624b685a4a461cd3b2b6bb6342d3decf8888e6ebf028a5395a",
           "contentDigest": "sha256:6450f901a55c9f03aa0f0b6fb4cf4e695c8e6ef10b04f94b4b818429aeaa711b",
           "diff": {
-            "baseCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
-            "changedPathsDigest": "sha256:a907cac5696b1fa322ffc1ee5fce188b76fd6ce367f55de03e7e13452caab1a0",
-            "headCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e"
+            "baseCommit": "34af50d0df4d99bddb5cd56e377fdd5021bd34cb",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "34af50d0df4d99bddb5cd56e377fdd5021bd34cb"
           },
           "environmentDigest": "sha256:da6fc701912390d77c06a57c9a361d156e90ec86cd5749d07e7018c66fee4b1f",
           "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
@@ -93,12 +87,12 @@
           "stage": "task",
           "toolchainDigest": "sha256:55a5c4e40f6f930201133025c136270210ca51b8520d039178b89cf5405dcbd2"
         },
-        "createdAtEpochSeconds": 1788843426,
-        "expiresAtEpochSeconds": 1788929826,
+        "createdAtEpochSeconds": 1788843690,
+        "expiresAtEpochSeconds": 1788930090,
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ee22ce35d67670a5ce09c9c80f708ea98105de255274bf300ad622ec38da50ad",
+        "outputDigest": "sha256:6800f4b3c66ac35a0a7808195c8d7e9815af5181f6169eb75e389361fd18c7fe",
         "passed": true,
-        "receiptId": "sha256:98da56a76ebc5aad21e92ff7094f59769ba7aa3aea01b620aaf151eba2233bb7",
+        "receiptId": "sha256:5453286a3c73d20b011e5080a35ad4c383e5a79ec90f4721154b59142ae4d1bf",
         "schemaVersion": 2
       }
     ],
@@ -109,12 +103,12 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ee22ce35d67670a5ce09c9c80f708ea98105de255274bf300ad622ec38da50ad",
+        "outputDigest": "sha256:6800f4b3c66ac35a0a7808195c8d7e9815af5181f6169eb75e389361fd18c7fe",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
         "reason": "binding_mismatch",
-        "receiptId": "sha256:98da56a76ebc5aad21e92ff7094f59769ba7aa3aea01b620aaf151eba2233bb7",
+        "receiptId": "sha256:5453286a3c73d20b011e5080a35ad4c383e5a79ec90f4721154b59142ae4d1bf",
         "reused": false,
         "satisfiedBy": "execution",
         "state": "stale",
@@ -125,7 +119,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-657-lifecycle-concurrency-fault-injection"
   },
-  "receiptDigest": "sha256:c6d32f72734a042f112326d71403d1556ba1536039255a96d1605ffa311b0e2b",
+  "receiptDigest": "sha256:1078e0a24e3fd1d86e192ab4a92cc4fded39402c0e15320467cc352120f2a71a",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:6450f901a55c9f03aa0f0b6fb4cf4e695c8e6ef10b04f94b4b818429aeaa711b",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

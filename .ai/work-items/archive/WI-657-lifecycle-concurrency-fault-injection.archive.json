@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T05:11:18Z",
+  "files": {
+    "contractDigest": "sha256:0f4e1d6ee8aa07f1fc8fb2e8d849e6a191ae70ec1f63e7f898cc6b76a38e2e45",
+    "contractPath": ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.contract.json",
+    "eventsDigest": "sha256:e9608318c788e5c5378d37901eb73512ca37a986e67d7942a0fb04240548acb4",
+    "eventsPath": ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.events.jsonl",
+    "outcomeDigest": "sha256:20a66d4e903e5cc610140fc23bb6e07c3668e221241d21d8bfd1f3a3dba8d2f5",
+    "outcomePath": ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.outcome.json",
+    "summaryDigest": "sha256:49468dcb2b403a32ca983b469593bbfb090600b577aa49aeaf533d41739c249c",
+    "summaryPath": ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.summary.json",
+    "taskReportDigest": "sha256:5be98119830c9173ff692d676089ef02a520998518567df3fbb652af4dea9c6b",
+    "taskReportMarkdownDigest": "sha256:ec2a1ed9b99ed119cf354b0993509855c1277b96fbea8bfa4a7d5aa2408c07d4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-657-lifecycle-concurrency-fault-injection"
+}

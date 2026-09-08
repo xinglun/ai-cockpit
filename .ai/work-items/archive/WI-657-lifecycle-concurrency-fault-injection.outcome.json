@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "A new test forces two threads to call finish_work_item concurrently for the same Work Item and asserts at least one succeeds, no result surfaces a raw filesystem race artifact, and summary.json/outcome.json remain valid JSON",
+    "atomic_write no longer collides on temp file names under same-process concurrent writes to the same destination path, verified by repeated fault-injection runs",
+    "The unresolved rollback-clobber risk in finish_work_item_internal is explicitly documented as a known, deferred limitation rather than silently left unmentioned"
+  ],
+  "createdAt": "2026-09-08T05:11:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:01ddfcbf1ff5ef5499a8958689f2b9326cc3ece0a62d5899a9cc28de03235152",
+  "evidenceRefs": [
+    ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6450f901a55c9f03aa0f0b6fb4cf4e695c8e6ef10b04f94b4b818429aeaa711b",
+      "workItemId": "WI-657-lifecycle-concurrency-fault-injection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove via controlled concurrent fault injection (not speculation) whether the lifecycle finish path is safe under two same-process callers racing the same Work Item, fix the atomic_write temp-filename collision this uncovered, and explicitly document a second, deeper rollback-clobber issue that is out of scope to fix here"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-657-lifecycle-concurrency-fault-injection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-657-lifecycle-concurrency-fault-injection"
+  },
+  "taskReportDigest": "sha256:5be98119830c9173ff692d676089ef02a520998518567df3fbb652af4dea9c6b",
+  "taskReportMarkdownDigest": "sha256:ec2a1ed9b99ed119cf354b0993509855c1277b96fbea8bfa4a7d5aa2408c07d4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-657-lifecycle-concurrency-fault-injection.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-657-lifecycle-concurrency-fault-injection"
+}
