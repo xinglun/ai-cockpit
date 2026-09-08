@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "checkpoint_work_item's body is split into a private observation helper (reads summary.json, contract.json, and captures the git snapshot; returns a typed struct of gathered facts), a private governance-check helper (checkpoint's own state/duplicate/freshness/verification-ordering validation over the gathered facts, plus the existing unchanged call to require_green_or_yellow_preflight_governance), and the remaining persistence/receipt-construction code in checkpoint_work_item itself. The governance-check helper is not claimed to be I/O-free: require_green_or_yellow_preflight_governance still performs its own observation internally, unchanged from today; only checkpoint_work_item's own body is reorganized in this Work Item.",
+    "All 17 existing test files that call checkpoint_work_item pass unchanged, with no new test added or removed assertion, proving the split is behavior-identical.",
+    "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass.",
+    "The architecture-responsibility-map document (once WI-652 merges) should be updated to record this as the first proven P2-A use case; this Work Item's own doc states that follow-up explicitly since the map file does not exist on this branch yet."
+  ],
+  "createdAt": "2026-09-08T04:21:18Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:60e949f80b8b7194bab37bc4dcb349017f5a097dab79cdf565da8f993c80aa2f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:776f722e5f2bdc1c8fa0a12a79cbced12daa970e6cd34f5fb9f1275356b932e4",
+      "workItemId": "WI-655-checkpoint-responsibility-split"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-655-checkpoint-responsibility-split.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-655-checkpoint-responsibility-split.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.contract.json"
+          ],
+          "inference": false,
+          "text": "Split checkpoint_work_item's body into three internal, same-file helper functions matching Observation / Governance / Evidence+Projection boundaries, with zero change to the public function signature, error messages, field names, write order, or any observable behavior. This is a same-crate, same-file, no-new-public-API reorganization -- not a cross-module or cross-crate extraction -- chosen deliberately after WI-654 showed the safety cost of deeper changes to adjacent governance code."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-655-checkpoint-responsibility-split"
+  },
+  "taskReportDigest": "sha256:53af982656d15ae9e598071ab338c16754a993b2a0da67ed10091ea48700ca12",
+  "taskReportMarkdownDigest": "sha256:c4b828a4dbe81523f4ed966a6b70cb670fc428cf69159fa04ac323645924fc0e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-655-checkpoint-responsibility-split.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-655-checkpoint-responsibility-split"
+}

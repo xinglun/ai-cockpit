@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T04:21:18Z",
+  "files": {
+    "contractDigest": "sha256:891dbabb32995d014bc6cfcd8a80101657edeab4d94eeb35a2ebfc43459345a1",
+    "contractPath": ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.contract.json",
+    "eventsDigest": "sha256:e2888c35607405fbed65b12cf8c144468c7aff975a73062593a2ab9e93d7f69d",
+    "eventsPath": ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.events.jsonl",
+    "outcomeDigest": "sha256:c933c1730a5774a7cb2134472c8eda3fad0dafb14cf9c1392580760c34cd0fd2",
+    "outcomePath": ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.outcome.json",
+    "summaryDigest": "sha256:ad79f9e5e08547176e9cb2f75f45a8a817254edf93e8afe1bf6648d5ff039fc3",
+    "summaryPath": ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.summary.json",
+    "taskReportDigest": "sha256:53af982656d15ae9e598071ab338c16754a993b2a0da67ed10091ea48700ca12",
+    "taskReportMarkdownDigest": "sha256:c4b828a4dbe81523f4ed966a6b70cb670fc428cf69159fa04ac323645924fc0e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-655-checkpoint-responsibility-split"
+}

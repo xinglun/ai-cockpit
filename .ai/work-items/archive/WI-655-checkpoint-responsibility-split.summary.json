@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-655-checkpoint-responsibility-split.contract.json",
-    ".ai/work-items/active/WI-655-checkpoint-responsibility-split.summary.json"
+    ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.contract.json",
+    ".ai/work-items/archive/WI-655-checkpoint-responsibility-split.summary.json"
   ],
   "checkpointAt": "2026-09-08T02:35:58Z",
-  "checkpointContractDigest": "sha256:679ca3d504b226f0ae7a95ae114b1638c158016b4a52a2c8381cffba15cc24a5",
+  "checkpointContractDigest": "sha256:26f7b294b306bc3797635e01cd52bd5eb8c7314738715b257752aa1d95da684c",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,26 +40,45 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-655-checkpoint-responsibility-split"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:26f7b294b306bc3797635e01cd52bd5eb8c7314738715b257752aa1d95da684c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1f2a844a0933fa55015f7a79c02f9f09bfffdeaf4a45bb093b21c98c96009550",
+      "previousContractHash": "sha256:679ca3d504b226f0ae7a95ae114b1638c158016b4a52a2c8381cffba15cc24a5",
+      "reason": "Bind the reviewed PR resource context before the final verification rerun required by the Runtime lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T04:16:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:776f722e5f2bdc1c8fa0a12a79cbced12daa970e6cd34f5fb9f1275356b932e4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-655-checkpoint-responsibility-split"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:776f722e5f2bdc1c8fa0a12a79cbced12daa970e6cd34f5fb9f1275356b932e4",
   "createdAt": "2026-09-08T02:35:39Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T04:15:35Z",
-  "preflightContractDigest": "sha256:679ca3d504b226f0ae7a95ae114b1638c158016b4a52a2c8381cffba15cc24a5",
+  "preflightAt": "2026-09-08T04:21:14Z",
+  "preflightContractDigest": "sha256:26f7b294b306bc3797635e01cd52bd5eb8c7314738715b257752aa1d95da684c",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:776f722e5f2bdc1c8fa0a12a79cbced12daa970e6cd34f5fb9f1275356b932e4",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T02:35:58Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T04:21:18Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:953a6b784b8353fb8e1cd540e90aaa28419bc57b8448169961d7f00ccf698ee8",
   "workItemId": "WI-655-checkpoint-responsibility-split"
 }
