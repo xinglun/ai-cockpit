@@ -22,22 +22,29 @@
     ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.task-report.md"
   ],
   "checkpointAt": "2026-09-08T06:48:35Z",
-  "checkpointContractDigest": "sha256:061574955955f72718da02bf3c00746d1fa6f0b8ecd9f20f16a6d174f657b41b",
+  "checkpointContractDigest": "sha256:1fe3a3c316f69bbbedbbb6a5eaf8e9b98cfec5b4ccc9929784a57f6e8ee2e7f0",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:d2bd88233068cfb0c5c2c0ee513b5cd607bfec544fd5885afed5e61e9554dbcf",
+  "checkpointRepositorySnapshotDigest": "sha256:2015c2b034198baf6bb95122331ffa283219775cc4687bf4411f7614a7ff66e0",
   "createdAt": "2026-09-08T06:45:34Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:9edb6ad32a96a58486d71c5a842320658ee9f08f707896b828015e3a8d682c56",
   "predecessorWorkItemId": "WI-659-wi658-hosted-quality-repair",
-  "preflightAt": "2026-09-08T06:52:05Z",
+  "preflightAt": "2026-09-08T07:09:25Z",
   "preflightContractDigest": "sha256:1fe3a3c316f69bbbedbbb6a5eaf8e9b98cfec5b4ccc9929784a57f6e8ee2e7f0",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:8dd5efaf22f3f89dc12ae903b4fc3f7ca72010972d71ec2744b22d1963afa5bd",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2015c2b034198baf6bb95122331ffa283219775cc4687bf4411f7614a7ff66e0",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-659-wi658-hosted-quality-repair.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-08T06:48:35Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:8530349d8094064de4795a37ef36e731b16942aba0a2e72176bb7af104b13d5c",
   "workItemId": "WI-663-wi659-outcome-trust-replacement"
 }

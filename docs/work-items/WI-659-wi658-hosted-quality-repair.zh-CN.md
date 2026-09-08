@@ -5,7 +5,7 @@ description: 携带已记录的 P0-A 实现重新交付，并修复唯一的 hos
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-659-wi658-hosted-quality-repair
 predecessorWorkItemId: WI-658-wi656-outcome-trust-repair
-status: in_progress
+status: recovered
 authority: human:repository-owner:xinglun
 lastVerifiedBy: WI-659-wi658-hosted-quality-repair
 ---

@@ -5,7 +5,7 @@ description: Re-deliver the recorded P0-A implementation with the one hosted wor
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-659-wi658-hosted-quality-repair
 predecessorWorkItemId: WI-658-wi656-outcome-trust-repair
-status: in_progress
+status: recovered
 authority: human:repository-owner:xinglun
 lastVerifiedBy: WI-659-wi658-hosted-quality-repair
 ---

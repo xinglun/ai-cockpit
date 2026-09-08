@@ -5,7 +5,7 @@ description: 記録済みの P0-A 実装を再配信し、唯一の hosted works
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-659-wi658-hosted-quality-repair
 predecessorWorkItemId: WI-658-wi656-outcome-trust-repair
-status: in_progress
+status: recovered
 authority: human:repository-owner:xinglun
 lastVerifiedBy: WI-659-wi658-hosted-quality-repair
 ---
