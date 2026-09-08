@@ -9,7 +9,7 @@
     "文档与发布说明明确记录默认行为变化，并保留 WI-703 的不可变 archive/evidence 与 successor lineage。"
   ],
   "authority": "authorized",
-  "baseRevision": "00700d88647246622729bca2d623eafd779eb1f3",
+  "baseRevision": "d97159a3f70e5ad59328b0d4e5249edf7931e84e",
   "createdAt": "2026-09-08T22:15:29Z",
   "goal": "在不改变机器契约、判定规则、退出码、授权语义或历史证据的前提下，交付共享的确定性四段式摘要和明确的完整报告入口。",
   "intent": "从当前远程默认分支重新交付 P0-B Outcome 摘要与完整证据下钻，降低默认阅读成本并保持校准信任边界。",

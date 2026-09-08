@@ -28,6 +28,42 @@
   "checkpointAt": "2026-09-08T22:16:14Z",
   "checkpointContractDigest": "sha256:62549363f17fae456301fc486e503559694d0fc029407dddb4097734512f0204",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:62549363f17fae456301fc486e503559694d0fc029407dddb4097734512f0204",
+      "recorded": true,
+      "recordedAt": "2026-09-08T22:16:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:db28a094bd1632610951cf9fa8066807553b6e86d973eb6bc35ea10b737d9135",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-713-wi703-current-base-revalidation"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:3e225d495994d7f54ce860fe55db0129d8c8f6abbc3cd71f8e98ff6b6729b65c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:62549363f17fae456301fc486e503559694d0fc029407dddb4097734512f0204",
+      "previousContractHash": "sha256:62549363f17fae456301fc486e503559694d0fc029407dddb4097734512f0204",
+      "reason": "origin/main advanced to d97159a3f70e5ad59328b0d4e5249edf7931e84e, including 7f7edcd3, while WI-713 was in progress; merge the latest default-base commits, preserve the P0-B presentation-only scope, and invalidate pre-amendment verification before rerunning it.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T22:25:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:376fbe14c778f7090da3353321a3c19f3116e52be684e9bb0f6fea84a6a74b82",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-713-wi703-current-base-revalidation"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:db28a094bd1632610951cf9fa8066807553b6e86d973eb6bc35ea10b737d9135",
   "createdAt": "2026-09-08T22:15:29Z",
   "mode": "implementation",
@@ -37,11 +73,16 @@
   "preflightContractDigest": "sha256:62549363f17fae456301fc486e503559694d0fc029407dddb4097734512f0204",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:db28a094bd1632610951cf9fa8066807553b6e86d973eb6bc35ea10b737d9135",
-  "preflightState": "yellow",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-703-wi669-current-base-revalidation.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-08T22:16:14Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:3e225d495994d7f54ce860fe55db0129d8c8f6abbc3cd71f8e98ff6b6729b65c",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-08T22:25:26Z"
+  },
   "workItemId": "WI-713-wi703-current-base-revalidation"
 }
