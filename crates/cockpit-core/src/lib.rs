@@ -19,6 +19,73 @@ pub enum WorkItemState {
     Cancelled,
 }
 
+/// A lifecycle transition is a domain operation, not an authorization or
+/// evidence operation.  Callers must still perform the observation,
+/// governance, and persistence checks required by the surrounding workflow.
+#[derive(Clone, Debug, PartialEq, Eq, Error)]
+pub enum WorkItemTransitionError {
+    #[error("illegal Work Item lifecycle transition from {from:?} to {to:?}")]
+    Illegal {
+        from: WorkItemState,
+        to: WorkItemState,
+    },
+}
+
+impl WorkItemState {
+    /// Return whether `next` is an explicitly supported lifecycle successor.
+    ///
+    /// Recovery states deliberately return to the normal preflight or
+    /// implementation path.  There is no implicit backward transition, skip
+    /// over `Archived`, or transition out of a terminal state.
+    pub fn can_transition_to(&self, next: &Self) -> bool {
+        use WorkItemState::*;
+
+        matches!(
+            (self, next),
+            (Created, PreflightReady | Cancelled)
+                | (
+                    PreflightReady,
+                    ImplementationActive | Blocked | Stale | Cancelled
+                )
+                | (
+                    ImplementationActive,
+                    VerificationPending | Paused | Blocked | Stale | Cancelled
+                )
+                | (
+                    VerificationPending,
+                    FinishReady | Paused | Blocked | Stale | Cancelled
+                )
+                | (FinishReady, Archived | Blocked | Stale | Cancelled)
+                | (Archived, Closed)
+                | (Paused, ImplementationActive | Cancelled)
+                | (Blocked, PreflightReady | Cancelled)
+                | (Stale, PreflightReady | Cancelled)
+        )
+    }
+
+    /// Apply a checked transition without performing I/O or making a
+    /// governance decision.  The returned state is still only a domain value;
+    /// persistence and authorization remain the caller's responsibility.
+    pub fn transition_to(self, next: Self) -> Result<Self, WorkItemTransitionError> {
+        if self.can_transition_to(&next) {
+            Ok(next)
+        } else {
+            Err(WorkItemTransitionError::Illegal {
+                from: self,
+                to: next,
+            })
+        }
+    }
+
+    pub const fn is_terminal(&self) -> bool {
+        matches!(self, Self::Closed | Self::Cancelled)
+    }
+
+    pub const fn is_recovery_state(&self) -> bool {
+        matches!(self, Self::Paused | Self::Blocked | Self::Stale)
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum EvolutionClass {
     L0,

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T07:34:59Z",
+  "files": {
+    "contractDigest": "sha256:b71a80c3ac88db57334f30879a2b9e0b7202e4c05bffb8fe61a99916faeaab7e",
+    "contractPath": ".ai/work-items/archive/WI-664-state-transition-boundary.contract.json",
+    "eventsDigest": "sha256:8887f8ad5659473a64a0fca389f888f35bd2c7aac3bc06ef0bd42a335a015edc",
+    "eventsPath": ".ai/work-items/archive/WI-664-state-transition-boundary.events.jsonl",
+    "outcomeDigest": "sha256:378c153381acde68fd4cba3087f9cd50db72d7dd29a3e09f139b3d6f01ea6c74",
+    "outcomePath": ".ai/work-items/archive/WI-664-state-transition-boundary.outcome.json",
+    "summaryDigest": "sha256:ca8ad6d4af90bcd3b766acd0a11bbee4b691ec3aae543515df5a8a6c21b9f67c",
+    "summaryPath": ".ai/work-items/archive/WI-664-state-transition-boundary.summary.json",
+    "taskReportDigest": "sha256:0f0f9721192a5c39f67114f8a3cd852e3dc915a7a367e340620e4cbbb43a1338",
+    "taskReportMarkdownDigest": "sha256:98c5f4b7eceff6d870cad58b0cea10ca78fd3af709541e56b72bc5d3f47c2c2b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-664-state-transition-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-664-state-transition-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-664-state-transition-boundary"
+}

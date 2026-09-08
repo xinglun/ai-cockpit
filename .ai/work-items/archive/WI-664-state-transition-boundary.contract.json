@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "WorkItemState exposes a pure legal-transition predicate and checked transition operation covering the canonical forward path, explicit recovery states, and terminal states; illegal backward, skipped, and post-terminal transitions fail closed.",
+    "Lifecycle transition checks do not read files, call Git, execute commands, infer human authority, or synthesize evidence; existing DecisionState, AuthorityState, and EvidenceState remain independent types.",
+    "Existing snake_case serialization for lifecycle and governance enums remains compatible, and historical/unknown records are not rewritten; tests cover old values, illegal transitions, and recovery/terminal behavior.",
+    "Tri-language Work Item documentation records before/after responsibility boundaries, unchanged external contracts, compatibility, verification, risks, and P3 physical-execution audit evidence.",
+    "Focused core tests, workspace tests, governance checks, and hosted PR checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "fb96ffb7c2431af7790e46956d49250e6cfa2ba4",
+  "createdAt": "2026-09-08T07:10:27Z",
+  "goal": "A typed, pure lifecycle transition boundary rejects illegal state changes without changing serialized records or granting authorization, while documentation records the separation and verification evidence.",
+  "intent": "Make lifecycle transitions explicit and keep lifecycle state separate from evidence, governance decision, authority, and historical projection.",
+  "mode": "code",
+  "outOfScope": [
+    "crates/cockpit-repository/**",
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-verification/**",
+    "generated .ai records",
+    "provider workflows",
+    "history migration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a030f2978870838ec5ef0fefc6bf3575b8a14575ee3c2c0851a664b194225d3b",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_ci"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-664-state-transition-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/662",
+    "worktree": "/private/tmp/ai-cockpit-wi-664-state-transition-boundary"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-core/tests/domain_types.rs",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-664-state-transition-boundary.md",
+    "docs/work-items/WI-664-state-transition-boundary.zh-CN.md",
+    "docs/work-items/WI-664-state-transition-boundary.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-664-state-transition-boundary"
+}
