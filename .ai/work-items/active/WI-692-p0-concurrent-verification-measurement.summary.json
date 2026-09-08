@@ -47,7 +47,7 @@
     ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
   ],
   "checkpointAt": "2026-09-08T17:09:47Z",
-  "checkpointContractDigest": "sha256:052f1302f9d3aa0f4dcd20c756efa3c5ab7ce369d343e796caf513a6d0208a27",
+  "checkpointContractDigest": "sha256:1cf7bb5eb8722ca19f1f5698bd38dfbfbfa8c0475196f7b00d52dd29e4ebb584",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -125,7 +125,7 @@
       "workItemId": "WI-692-p0-concurrent-verification-measurement"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a3a787ba4ed413f0b4aa37fb613f80a04bb94295fee79fc72c9788cdeeb78dd5",
+  "checkpointRepositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
   "createdAt": "2026-09-08T17:05:41Z",
   "decisionEvidence": {
     "contractDigest": "sha256:052f1302f9d3aa0f4dcd20c756efa3c5ab7ce369d343e796caf513a6d0208a27",
@@ -152,11 +152,11 @@
   },
   "mode": "code",
   "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T17:50:56Z",
-  "preflightContractDigest": "sha256:052f1302f9d3aa0f4dcd20c756efa3c5ab7ce369d343e796caf513a6d0208a27",
+  "preflightAt": "2026-09-08T17:58:03Z",
+  "preflightContractDigest": "sha256:1cf7bb5eb8722ca19f1f5698bd38dfbfbfa8c0475196f7b00d52dd29e4ebb584",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a3a787ba4ed413f0b4aa37fb613f80a04bb94295fee79fc72c9788cdeeb78dd5",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -220,11 +220,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:1cf7bb5eb8722ca19f1f5698bd38dfbfbfa8c0475196f7b00d52dd29e4ebb584",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T17:54:44Z"
-  },
-  "verificationRecoveryReconciled": "sha256:45ec62c10f52b38071d1af300c5767259f1633ff834874c99c198429ecd53787",
+  "verificationRecoveryReconciled": "sha256:52b1dc9d23aa44836b024aec8a05722d130316d09ecd0d248b9d0b2a563a8567",
   "workItemId": "WI-692-p0-concurrent-verification-measurement"
 }

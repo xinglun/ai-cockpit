@@ -8,7 +8,7 @@
     "Deliver reproducible measurement code, raw evidence, a three-language Work Item record, parity registration, correctness checks, platform limits, unknowns, and the final governance state."
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:45ec62c10f52b38071d1af300c5767259f1633ff834874c99c198429ecd53787",
+  "evidenceDigest": "sha256:52b1dc9d23aa44836b024aec8a05722d130316d09ecd0d248b9d0b2a563a8567",
   "evidenceRefs": [
     ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a3a787ba4ed413f0b4aa37fb613f80a04bb94295fee79fc72c9788cdeeb78dd5",
+      "repositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
       "workItemId": "WI-692-p0-concurrent-verification-measurement"
     },
     "format": "ai-cockpit.task-outcome",
@@ -130,7 +130,7 @@
     "status": "verified",
     "workItemId": "WI-692-p0-concurrent-verification-measurement"
   },
-  "taskReportDigest": "sha256:fb78154fb99d71a70152b9b4d8e71f86f10f32c1e5e076d59fc1e788560e39dc",
+  "taskReportDigest": "sha256:8f78ae63286b96b45fbd6f7c0666c5f66756a475d7dd687a99529f5f70a3b301",
   "taskReportMarkdownDigest": "sha256:9c0e99e7f549c773bc8188e6aa28cbb3e8ff0b42eb199b7b6889977d16b06d11",
   "unknowns": [
     "user_visible_benefit_not_declared"
