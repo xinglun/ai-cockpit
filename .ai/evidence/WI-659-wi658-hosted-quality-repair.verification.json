@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:7bacd051cb78f8a6b7b62f4b5d3e831f46e76a4be7a29e93a81d50ac7f555701",
-  "createdAt": "2026-09-08T06:12:12Z",
+  "contractDigest": "sha256:9edb6ad32a96a58486d71c5a842320658ee9f08f707896b828015e3a8d682c56",
+  "createdAt": "2026-09-08T06:19:31Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 182473,
-      "executionElapsedMs": 182048,
+      "elapsedMs": 160339,
+      "executionElapsedMs": 160048,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,11 +25,11 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 182473,
-    "executionElapsedMs": 182048,
+    "elapsedMs": 160339,
+    "executionElapsedMs": 160048,
     "filesHashed": 5,
     "filesRead": 5,
-    "gitCalls": 8,
+    "gitCalls": 6,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
     "nodesPlanned": 1,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 182048,
+      "executionElapsedMs": 160048,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:1c4a1a1b0c08b624ba6638c016ee2b41d40ad7f6f30062a73591b6fdcf4eaab4",
+        "outputDigest": "sha256:1fb32f9d88f4f043836d4d2c53a41794e9d065d484648ba243ebe3dac6f8bb98",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-659-wi658-hosted-quality-repair"
   },
-  "receiptDigest": "sha256:fbb0b73185878cf4aec7b70276761844a26fd838577ad2679912e3b4bf255723",
+  "receiptDigest": "sha256:5e7f19c98b9a19587bd099625460ca6679a9462ef5bc3c5c1c3d138c55c06107",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:c60db803e90901153b2c893be3380bd0b323068df321802e0e19f6c4f8c1dc09",
   "runtimeDigest": "sha256:8a1804e4f6bd7a10ccc07c4cbfbdd88c89c96b638ba6380480a60f8648ec1f66",

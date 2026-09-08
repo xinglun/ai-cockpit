@@ -5,14 +5,17 @@
     "WI-658 archive, verification evidence, and recovery lineage remain byte-for-byte preserved; WI-659 evidence binds its own current Contract and repository snapshot.",
     "CLI and MCP behavior remains covered by the inherited WI-658 tests; no unsupported human benefit, approval, merge, or release is inferred."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-08T06:19:47Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cff7857c7b32a102922578427bda80f6b671cd86e49885db61be1f9d8b12150f",
   "evidenceRefs": [
     ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
   ],
-  "failedGate": "finish.verification",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,11 +23,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -34,10 +36,8 @@
       "repositorySnapshotDigest": "sha256:c60db803e90901153b2c893be3380bd0b323068df321802e0e19f6c4f8c1dc09",
       "workItemId": "WI-659-wi658-hosted-quality-repair"
     },
-    "failedGate": "finish.verification",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -136,15 +136,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -155,7 +147,7 @@
             ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -165,10 +157,18 @@
             ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -189,16 +189,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-659-wi658-hosted-quality-repair"
   },
+  "taskReportDigest": "sha256:beabeccb74d7c2b19b1592d15ee031f9f811bf3dea112f254f462b51f6711744",
+  "taskReportMarkdownDigest": "sha256:7be909a4eef802a26e39b3e4321db55c034ad2861b0f0c3e9a976bda642f5ca4",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-659-wi658-hosted-quality-repair"
 }

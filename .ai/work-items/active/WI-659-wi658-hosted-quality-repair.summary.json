@@ -13,7 +13,7 @@
     ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.md"
   ],
   "checkpointAt": "2026-09-08T05:37:36Z",
-  "checkpointContractDigest": "sha256:7bacd051cb78f8a6b7b62f4b5d3e831f46e76a4be7a29e93a81d50ac7f555701",
+  "checkpointContractDigest": "sha256:9edb6ad32a96a58486d71c5a842320658ee9f08f707896b828015e3a8d682c56",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -53,7 +53,6 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:c60db803e90901153b2c893be3380bd0b323068df321802e0e19f6c4f8c1dc09",
   "createdAt": "2026-09-08T05:33:23Z",
-  "failedGate": "finish.verification",
   "intentAlignment": {
     "evidence": [
       "crates/cockpit-repository/src/outcome_render.rs",
@@ -66,31 +65,23 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:bcfa14dbfc5f47b1e92e6ac044c408df5ab9c56a4f2819c1433df8c5b4749b48",
   "predecessorWorkItemId": "WI-658-wi656-outcome-trust-repair",
-  "preflightAt": "2026-09-08T06:16:35Z",
+  "preflightAt": "2026-09-08T06:19:31Z",
   "preflightContractDigest": "sha256:9edb6ad32a96a58486d71c5a842320658ee9f08f707896b828015e3a8d682c56",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:c60db803e90901153b2c893be3380bd0b323068df321802e0e19f6c4f8c1dc09",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T06:16:03Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T06:19:47Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:9edb6ad32a96a58486d71c5a842320658ee9f08f707896b828015e3a8d682c56",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T06:16:17Z"
-  },
-  "verificationRecoveryReconciled": "sha256:6b61c9ac2ca0c27dc7778be425351f5f066818ffb6b37b2a37f8a1d41be99b3e",
   "workItemId": "WI-659-wi658-hosted-quality-repair"
 }
