@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-701-wi700-current-base-revalidation.summary.json"
+          ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-701-wi700-current-base-revalidation.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-701-wi700-current-base-revalidation.summary.json"
+          ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-701-wi700-current-base-revalidation.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-701-wi700-current-base-revalidation.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-701-wi700-current-base-revalidation.contract.json"
+          ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json"
         ],
         "inference": false,
         "text": "Bind a fresh successor Contract to the current remote default base 83a3bb6b4d8072d2c273bec349581ce2441510cc, preserve the WI-698 to WI-700 lineage, and complete fresh verification, hosted review, and terminal lifecycle closure."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-701-wi700-current-base-revalidation.contract.json"
+          ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
