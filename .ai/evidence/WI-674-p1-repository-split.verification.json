@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:b30eb29463e692964207a5e6e9d3c43e53149bef05fda9acdf2857581c180798",
-  "createdAt": "2026-09-08T12:35:10Z",
+  "contractDigest": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
+  "createdAt": "2026-09-08T12:48:20Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 155088,
-      "executionElapsedMs": 154438,
+      "elapsedMs": 187050,
+      "executionElapsedMs": 186663,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 155088,
-    "executionElapsedMs": 154438,
+    "elapsedMs": 187050,
+    "executionElapsedMs": 186663,
     "filesHashed": 10,
     "filesRead": 13,
     "gitCalls": 6,
@@ -38,19 +38,19 @@
     "planReceipt": {
       "affectedPaths": [],
       "assurance": "repository_verified",
-      "baseRevision": "4950da8c34ee818fd3763b6b60f3154f19a2f146",
+      "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
       "dependencyConfidence": "unknown",
       "escalations": [],
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 154438,
+      "executionElapsedMs": 186663,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:e92cfcf48ec69326b17e65c125b30ce484a9abe3fca250e7cad0fcd4ba52312a",
+      "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -72,11 +72,11 @@
       {
         "context": {
           "commandDigest": "sha256:924166a64fc3fabb77f03d4dcdb530cc619d221f4167a8aa03e719310ed80423",
-          "contentDigest": "sha256:e92cfcf48ec69326b17e65c125b30ce484a9abe3fca250e7cad0fcd4ba52312a",
+          "contentDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
           "diff": {
-            "baseCommit": "11c879ccd19ffef1990c88c31d772af915e9d3e5",
+            "baseCommit": "eebce988ba54750462ec0f0a625f1553a04a60e8",
             "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-            "headCommit": "11c879ccd19ffef1990c88c31d772af915e9d3e5"
+            "headCommit": "eebce988ba54750462ec0f0a625f1553a04a60e8"
           },
           "environmentDigest": "sha256:b888512a98bd1896a5446e3acc47cc867eb850fce850045d85e9da65a2c7c339",
           "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
@@ -87,12 +87,12 @@
           "stage": "task",
           "toolchainDigest": "sha256:55a5c4e40f6f930201133025c136270210ca51b8520d039178b89cf5405dcbd2"
         },
-        "createdAtEpochSeconds": 1788870755,
-        "expiresAtEpochSeconds": 1788957155,
+        "createdAtEpochSeconds": 1788871513,
+        "expiresAtEpochSeconds": 1788957913,
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:17ad5c1e86bbc1381e23c09f50a498d3afad3b7125e49af3059bea15df6c0f30",
+        "outputDigest": "sha256:63daf75179525bc0a9891be5f7e8d6918db378d3e89a149222ebd4c1fd1cb72b",
         "passed": true,
-        "receiptId": "sha256:63ead46692f7e61caf1fa800c2aaf30b74265158aff5c12f8ac99a4cc019d97e",
+        "receiptId": "sha256:6bc50a074f7fef01a9fc706a577fe6b6c1ffe14db84bfb56a1af39be22a0d325",
         "schemaVersion": 2
       }
     ],
@@ -103,12 +103,12 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:17ad5c1e86bbc1381e23c09f50a498d3afad3b7125e49af3059bea15df6c0f30",
+        "outputDigest": "sha256:63daf75179525bc0a9891be5f7e8d6918db378d3e89a149222ebd4c1fd1cb72b",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
         "reason": "binding_mismatch",
-        "receiptId": "sha256:63ead46692f7e61caf1fa800c2aaf30b74265158aff5c12f8ac99a4cc019d97e",
+        "receiptId": "sha256:6bc50a074f7fef01a9fc706a577fe6b6c1ffe14db84bfb56a1af39be22a0d325",
         "reused": false,
         "satisfiedBy": "execution",
         "state": "stale",
@@ -119,9 +119,9 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-674-p1-repository-split"
   },
-  "receiptDigest": "sha256:f48336939113672c65ee4786729cbe4fb317eace8ca989408e0aaff0c0cbbf42",
+  "receiptDigest": "sha256:c94c5e04394ada5fbfc1fe4362084be45bdd869f0b328a69adba06f7fe1d34bd",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:e92cfcf48ec69326b17e65c125b30ce484a9abe3fca250e7cad0fcd4ba52312a",
+  "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
   "runtimeVersion": "0.2.87",
   "workItemId": "WI-674-p1-repository-split"

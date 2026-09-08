@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-674-p1-repository-split.summary.json"
   ],
   "checkpointAt": "2026-09-08T11:44:36Z",
-  "checkpointContractDigest": "sha256:b30eb29463e692964207a5e6e9d3c43e53149bef05fda9acdf2857581c180798",
+  "checkpointContractDigest": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,16 +62,16 @@
       "workItemId": "WI-674-p1-repository-split"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:e92cfcf48ec69326b17e65c125b30ce484a9abe3fca250e7cad0fcd4ba52312a",
+  "checkpointRepositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
   "createdAt": "2026-09-08T11:44:27Z",
   "failedGate": "finish.governance",
   "mode": "implementation",
   "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T12:35:11Z",
-  "preflightContractDigest": "sha256:b30eb29463e692964207a5e6e9d3c43e53149bef05fda9acdf2857581c180798",
+  "preflightAt": "2026-09-08T12:48:20Z",
+  "preflightContractDigest": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:e92cfcf48ec69326b17e65c125b30ce484a9abe3fca250e7cad0fcd4ba52312a",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -83,11 +83,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T12:38:04Z"
-  },
-  "verificationRecoveryReconciled": "sha256:ba9cd632c7ac920741644857ea3c6ba04759ccb1634bc344142f370312cc4788",
+  "verificationRecoveryReconciled": "sha256:970e6617310d2524c42ea182210b853f33ca99a5f889ba49e988d4bf3e40808d",
   "workItemId": "WI-674-p1-repository-split"
 }
