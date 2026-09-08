@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-681-wi674-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-681-wi674-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-681-wi674-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-681-wi674-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "使 WI-674 的关闭状态在中、日、英三语言 Work Item 与 reference-parity 文档中与 Runtime 终态证据一致，解除 closed-work-item promotion 检查阻断。"
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-681-wi674-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-681-wi674-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
