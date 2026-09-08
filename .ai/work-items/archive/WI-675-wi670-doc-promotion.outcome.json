@@ -65,7 +65,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-675-wi670-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-675-wi670-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -103,7 +103,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-675-wi670-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-675-wi670-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Synchronize the WI-670 Work Item pages and reference-parity rows so the closed-work-item promotion gate passes."
@@ -112,7 +112,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-675-wi670-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-675-wi670-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -122,7 +122,7 @@
     "status": "verified",
     "workItemId": "WI-675-wi670-doc-promotion"
   },
-  "taskReportDigest": "sha256:e4bbce46d4b32f8c26f6b0f5f0041a6aa3ffc574124a5d6170ab10f2eb98ff51",
+  "taskReportDigest": "sha256:49f0c19a8b77ceb7d842ba71a9b01360a885d96243e5b25ae3206b1c679c2654",
   "taskReportMarkdownDigest": "sha256:9b2690993fec3289e144e89a6578439cad418ac1f5e4327590732d73dbcfcacd",
   "unknowns": [
     "user_visible_benefit_not_declared"
