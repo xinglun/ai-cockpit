@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "A temporary, never-committed instrumentation measurement (atomic counters on repository_id and snapshot_digest, reverted before any commit) is recorded showing the actual per-request call counts on a representative preflight/checkpoint request against an attached fixture repository.",
+    "The initially-planned fix (reusing contract.repository_id inside project_governance_unknowns instead of calling repository_id(&root)) is implemented as a trial, then verified against contract_freshness_findings's actual behavior; if that verification shows the substitution is not behavior-preserving, the trial is reverted and the finding is documented instead of shipped.",
+    "The document explains precisely why contract.repository_id is not a safe stand-in for a freshly-computed repository_id at the point project_governance_unknowns runs: contract_freshness_findings records a stale_contract finding on mismatch but does not stop the governance decision from continuing, so a foreign/stale Contract can still reach project_governance_unknowns with an unverified repository_id.",
+    "The document states what a safe fix would require (threading one freshly-resolved repository_id through contract_freshness_findings, governance_decision_for_contract_base_internal_with_archive, and project_governance_unknowns) and why that wider signature change is not made in this Work Item.",
+    "This Work Item's doc notes that docs/reference/architecture-responsibility-map-2026-09.md (delivered by the separate, not-yet-merged WI-652) should be corrected to reflect this finding once merged; the correction is not made here since that file does not exist on this branch.",
+    "No production code changes in the final state of this Work Item; cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass against the unchanged workspace."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T02:22:40Z",
+  "goal": "Determine, by measurement and by verifying the actual behavior of contract_freshness_findings, whether the repository_id(&root) call inside project_governance_unknowns is safely eliminable by reusing contract.repository_id. If it is not (as investigation found: contract_freshness_findings flags mismatches without halting downstream evaluation, so contract.repository_id is not a reliably-fresh proxy), document the finding and decline the change rather than ship an unverified behavior difference.",
+  "intent": "P1-B (explicit observation context), narrowly scoped: instrumented measurement of a real preflight/checkpoint request on an attached fixture repository showed repository_id(&root) called 3 times and snapshot_digest(snapshot) called 2 times within one logical request. The initial hypothesis was that the repository_id(&root) call inside project_governance_unknowns is redundant with an identity contract_freshness_findings already validated earlier in the same decision. Verifying that hypothesis against the actual source (contract_freshness_findings only records a finding on mismatch; it does not return early or block further evaluation) showed the hypothesis is false in the foreign/stale-contract case, so the substitution was not shipped.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Threading a single freshly-resolved repository_id through contract_freshness_findings, governance_decision_for_contract_base_internal_with_archive, and project_governance_unknowns -- a safe fix is possible in principle but requires changing the signatures of core governance-decision functions (which the P0 map found have 2-4 near-duplicate _internal/_with_archive/_with_runtime variants each, used far beyond preflight); left for a future Work Item.",
+    "Threading a single snapshot_digest computation through governance_decision_for_contract_base_internal_with_archive, apply_preflight_review_evidence, and preflight_work_item_internal -- declined in this Work Item for the same reason; left for a future Work Item only if a future measurement on a dirty-tree scenario shows the git-subprocess cost is actually significant.",
+    "The repository_id check inside contract_freshness_findings, which is a genuine fresh identity-mismatch validation, not incidental duplication, and must not be removed or bypassed.",
+    "project_governance_projection and project_success_criteria, which are called from different, non-overlapping entry points (not duplicated within one request) and are left unchanged."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-654-observation-context-dedup",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi654-observation-context-dedup"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-654-observation-context-dedup.md",
+    "docs/work-items/WI-654-observation-context-dedup.ja.md",
+    "docs/work-items/WI-654-observation-context-dedup.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-654-observation-context-dedup"
+}

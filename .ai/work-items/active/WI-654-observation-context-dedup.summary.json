@@ -1,0 +1,85 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-654-observation-context-dedup.contract.json",
+    ".ai/work-items/active/WI-654-observation-context-dedup.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T02:23:02Z",
+  "checkpointContractDigest": "sha256:c50a6e395e2ef5293d2df82d3a784e1075dbf117599ed1427289a1bca6c663ff",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:651b9e64976fc787492a4af5bfab9f50c2cff611593412f7e386d5883a366a58",
+      "recorded": true,
+      "recordedAt": "2026-09-08T02:23:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-654-observation-context-dedup"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:442e0f77a25180b31bd5439d42c3e67ba15238f64bbe39c46bb1d1f4082812ef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:651b9e64976fc787492a4af5bfab9f50c2cff611593412f7e386d5883a366a58",
+      "previousContractHash": "sha256:651b9e64976fc787492a4af5bfab9f50c2cff611593412f7e386d5883a366a58",
+      "reason": "Corrected the Contract after implementation investigation: the initially-planned fix (reuse contract.repository_id inside project_governance_unknowns) was found unsafe upon verifying contract_freshness_findings's actual behavior (it flags a stale_contract finding on mismatch but does not halt downstream evaluation, so contract.repository_id is not a reliably-fresh proxy for the current repository_id). Scope narrowed to documentation only; no production code change is shipped.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T02:25:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-654-observation-context-dedup"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:c50a6e395e2ef5293d2df82d3a784e1075dbf117599ed1427289a1bca6c663ff",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:651b9e64976fc787492a4af5bfab9f50c2cff611593412f7e386d5883a366a58",
+      "previousContractHash": "sha256:442e0f77a25180b31bd5439d42c3e67ba15238f64bbe39c46bb1d1f4082812ef",
+      "reason": "Removed docs/reference/architecture-responsibility-map-2026-09.md from scope: that file is delivered by the separate, not-yet-merged WI-652 and does not exist on this branch, so it cannot be amended here. The P0-map follow-up is deferred and noted in this Work Item's own doc instead.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T02:27:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0af27e22fb427893bbbf70ddc1925c1b862947ccb2a9c473d2b45e82de1b5976",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-654-observation-context-dedup"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0af27e22fb427893bbbf70ddc1925c1b862947ccb2a9c473d2b45e82de1b5976",
+  "createdAt": "2026-09-08T02:22:40Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T02:31:17Z",
+  "preflightContractDigest": "sha256:c50a6e395e2ef5293d2df82d3a784e1075dbf117599ed1427289a1bca6c663ff",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0af27e22fb427893bbbf70ddc1925c1b862947ccb2a9c473d2b45e82de1b5976",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T02:23:02Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:63736c73c1b72ccb6ddff18aed934b794800e57a63342d721ac18541405c03cb",
+  "workItemId": "WI-654-observation-context-dedup"
+}
