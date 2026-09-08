@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "84cc7c9e0802bc7b9f88a7a693cb7f02d410ca46",
+    "name": "codex/wi-692-p0-concurrent-verification-measurement",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b2d3dfeb853de99b3f194495b434afd347d47a90266366cf8086d8338f6be130",
+  "operationId": "github-pr-691-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a96c13967d0147d401dd780b0a0272400178a977",
+    "headRevision": "84cc7c9e0802bc7b9f88a7a693cb7f02d410ca46",
+    "mergeCommit": "52f1d2ab0933184391e1b0746d56fbb4477542ae",
+    "number": 691,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/691"
+  },
+  "reason": "PR #691 was merged after all hosted checks passed; the exact WI-692 branch and dedicated worktree were removed, the remote and local branch are gone, and the synchronized default branch now contains the reviewed merge commit.",
+  "receiptId": "ai-cockpit-WI-692-p0-concurrent-verification-measurement-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-692-p0-concurrent-verification-measurement",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/691",
+    "worktree": "/private/tmp/ai-cockpit-wi-692-p0-concurrent-verification-measurement"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T18:14:05Z",
+  "workItemId": "WI-692-p0-concurrent-verification-measurement",
+  "worktree": {
+    "branch": "codex/wi-692-p0-concurrent-verification-measurement",
+    "headRevision": "84cc7c9e0802bc7b9f88a7a693cb7f02d410ca46",
+    "path": "/private/tmp/ai-cockpit-wi-692-p0-concurrent-verification-measurement",
+    "worktreeId": "WI-692-p0-concurrent-verification-measurement"
+  }
+}
