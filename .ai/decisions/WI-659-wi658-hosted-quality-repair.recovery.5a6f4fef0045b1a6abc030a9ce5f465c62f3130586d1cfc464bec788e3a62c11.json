@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T07:52:09Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.archive.json",
+    ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json",
+    ".ai/decisions/WI-659-wi658-hosted-quality-repair.recovery.json",
+    ".ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json",
+    "https://github.com/xinglun/ai-cockpit/pull/661"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "docs/reference/repository-workflow.md:recovery-and-adoption"
+  ],
+  "predecessorContractDigest": "sha256:9edb6ad32a96a58486d71c5a842320658ee9f08f707896b828015e3a8d682c56",
+  "predecessorEventsDigest": "sha256:9f422569c7ff61fe8394a9d4cd303f7bdeac341cb708651a1f0e70ccb722743f",
+  "predecessorOutcomeDigest": "sha256:c6909bb43ec2c68ebc4fd298a90e859f0499381afe56da991712048f29b2e5cd",
+  "predecessorSummaryDigest": "sha256:39f61d48135a40eb9aedda45360bd3a75cc573b5bf74bc2210f4ab0953a60c76",
+  "predecessorWorkItemId": "WI-659-wi658-hosted-quality-repair",
+  "reason": "WI-663 is the reviewed-delivery replacement that completed verification, hosted checks, merge, finalization, exact cleanup, and close for the same P0-A lineage. Supersede WI-659 as immutable historical evidence so its missing unmerged-PR finalization receipt is not treated as an open current delivery; preserve every WI-659 byte and continue only from closed WI-663.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue only from the closed successor WI-663; do not reopen or rewrite WI-659 historical bytes.",
+  "runtimeDigest": "sha256:8a1804e4f6bd7a10ccc07c4cbfbdd88c89c96b638ba6380480a60f8648ec1f66",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-663-wi659-outcome-trust-replacement",
+  "workItemId": "WI-659-wi658-hosted-quality-repair"
+}
