@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T06:42:35Z",
-  "checkpointContractDigest": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
+  "checkpointContractDigest": "sha256:e9ced14c748112cf6a3498e96626aea5a7eb15fd7c19afbefcdaf8abea1d3bfb",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -177,25 +177,46 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-662-p0-benchmark-evidence"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e9ced14c748112cf6a3498e96626aea5a7eb15fd7c19afbefcdaf8abea1d3bfb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e74c98d45e24adaae95a71f4574d0bb23d3a05185b2a425ddadd50a0d2b1d79e",
+      "previousContractHash": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
+      "reason": "Rebind the Work Item Contract and P0 plan to the latest remote default branch a9d508d7 after synchronizing parallel reviewed merges; scope, authority, and acceptance remain unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T07:58:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fe6e1754dd03e4b2dce2ef3c2d1be9982fefae35d11ec5c4b2bb8b4d933041cf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-662-p0-benchmark-evidence"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:903d5e9333e7988b87eef518d60b57a16f2f069c2a216420cc3adbd22281fb82",
+  "checkpointRepositorySnapshotDigest": "sha256:38f76ccc8c057d5bbd63773aa26fe09fef02976909e99eccc5ff998583fd6305",
   "createdAt": "2026-09-08T06:42:10Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T07:55:27Z",
-  "preflightContractDigest": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
+  "preflightAt": "2026-09-08T08:21:42Z",
+  "preflightContractDigest": "sha256:e9ced14c748112cf6a3498e96626aea5a7eb15fd7c19afbefcdaf8abea1d3bfb",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:903d5e9333e7988b87eef518d60b57a16f2f069c2a216420cc3adbd22281fb82",
+  "preflightRepositorySnapshotDigest": "sha256:38f76ccc8c057d5bbd63773aa26fe09fef02976909e99eccc5ff998583fd6305",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "finish_ready",
-  "updatedAt": "2026-09-08T07:55:31Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T07:58:27Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
+  "verificationRecoveryReconciled": "sha256:5cf0b3f84cbe82b4b788d1e492884ad5aa030ff00aab5de3ef390379514efe46",
   "workItemId": "WI-662-p0-benchmark-evidence"
 }

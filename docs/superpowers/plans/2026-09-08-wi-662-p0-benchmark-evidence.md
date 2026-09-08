@@ -3,7 +3,7 @@
 ## Contract
 
 - Work Item: `WI-662-p0-benchmark-evidence`
-- Base: `origin/main` at `fb96ffb7c2431af7790e46956d49250e6cfa2ba4`
+- Base: `origin/main` at `a9d508d77c833409c91dd46fe47545a5ed03475c`
 - Scope: `tests/performance/**`, `tests/ci/repository_gate_manifest.json`, this Work Item record, reference parity rows, and this plan.
 - Out of scope: production Runtime behavior, repository-global Agent/MCP configuration, and P1-P3 optimizations.
 - North Star: preserve Calibrated Human-Agent Trust while making performance evidence trustworthy.
@@ -24,6 +24,9 @@ changing the governed Runtime path.
 2. Update the benchmark harness to emit schema-versioned evidence containing
    raw samples, measurement model, Runtime/repository identity, environment,
    scenario metadata, phase/resource fields, and explicit unavailable reasons.
+   A selected scenario is marked measured only when the captured repository
+   facts prove its declared shape; unsupported concurrent and resident-MCP
+   paths remain not measured.
 3. Extend the comparator with a versioned evidence path that permits distinct
    Runtime identities only when each record is complete and the comparison
    environment is equivalent. Keep the legacy gate and its negative tests.

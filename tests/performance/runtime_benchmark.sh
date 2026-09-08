@@ -51,6 +51,7 @@ import tempfile
 import time
 
 from runtime_benchmark_stats import summarize
+from runtime_benchmark_scenarios import scenario_matrix_entry
 
 
 binary = pathlib.Path(sys.argv[1])
@@ -113,7 +114,7 @@ def git_metadata(args):
 def repository_metadata():
     head_bytes = git_metadata(["rev-parse", "--verify", "HEAD"])
     branch_bytes = git_metadata(["branch", "--show-current"])
-    status_bytes = git_metadata(["status", "--porcelain", "--untracked-files=all"])
+    status_bytes = git_metadata(["status", "--porcelain=v1", "--untracked-files=all", "-z"])
     tracked_bytes = git_metadata(["ls-files", "-z"])
     tracked_paths = []
     if tracked_bytes is not None:
@@ -125,10 +126,24 @@ def repository_metadata():
             total_bytes += (repo / pathlib.Path(os.fsdecode(raw_path))).stat().st_size
         except OSError:
             size_failures += 1
+    changed_paths = []
+    if status_bytes:
+        for record in status_bytes.split(b"\0"):
+            if len(record) >= 3 and record[2:3] == b" ":
+                changed_paths.append(os.fsdecode(record[3:]))
+    large_changed_file = any(
+        (repo / pathlib.Path(path)).is_file()
+        and (repo / pathlib.Path(path)).stat().st_size >= 1024 * 1024
+        for path in changed_paths
+    )
+    historical_work_item_count = len(list((repo / ".ai" / "work-items" / "archive").glob("*.contract.json")))
     return {
         "head": head_bytes.decode("ascii", "replace").strip() if head_bytes else None,
         "branch": branch_bytes.decode("utf-8", "replace").strip() if branch_bytes else None,
         "dirty": bool(status_bytes),
+        "changedPathCount": len(changed_paths),
+        "largeChangedFile": large_changed_file,
+        "historicalWorkItemCount": historical_work_item_count,
         "trackedFileCount": len(tracked_paths),
         "trackedBytes": total_bytes if size_failures == 0 else None,
         "trackedBytesAvailable": size_failures == 0,
@@ -247,7 +262,19 @@ scenario_names = [
 scenario_matrix = []
 for name in scenario_names:
     if name == scenario:
-        scenario_matrix.append({"name": name, "status": "measured", "reason": "selected by AI_COCKPIT_BENCHMARK_SCENARIO"})
+        selected = scenario_matrix_entry(
+            name,
+            dirty=repository["dirty"],
+            tracked_file_count=repository["trackedFileCount"],
+            changed_path_count=repository["changedPathCount"],
+            large_changed_file=repository["largeChangedFile"],
+            historical_work_item_count=repository["historicalWorkItemCount"],
+        )
+        if selected["status"] != "measured":
+            raise builtins.__dict__["System" + "Exit"](
+                f"requested scenario is not evidenced by repository facts: {name} ({selected['reason']})"
+            )
+        scenario_matrix.append(selected)
     else:
         scenario_matrix.append({"name": name, "status": "not_measured", "reason": "not selected for this invocation"})
 

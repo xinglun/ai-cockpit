@@ -45,3 +45,8 @@ child process 数、peak memory は unavailable と記録し、zero にはしま
 P0 の scenario matrix は、小規模/大量ファイルの clean repository、単一/複数/大規模ファイル変更、大量の
 historical Work Item、複数 concurrent validation request、常駐 MCP の repeat query を含みます。1 回の invocation
 は指定された repository に束縛され、未選択の scenario は `not_measured` と記録し、結果を合成しません。
+取得した事実が形状を証明できる場合だけ measured とします。`small-clean` は clean かつ tracked file 100 件以下、
+`many-files-clean` は clean かつ 1,000 件以上、`single-file-change`/`multi-file-change` は変更 path が
+1 件/2 件以上、`large-file-change` は 1 MiB 以上の変更 file、`many-historical-wi` は archived Work Item
+100 件以上を要求します。Portable harness は concurrent request や常駐 MCP transport を実行しないため、これらは
+明示的に `not_measured` のままです。

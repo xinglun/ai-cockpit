@@ -7,6 +7,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
 from runtime_benchmark_stats import PERCENTILE_MINIMUMS, QUANTILE_METHOD, summarize  # noqa: E402
+from runtime_benchmark_scenarios import scenario_matrix_entry  # noqa: E402
 
 
 class RuntimeBenchmarkStatsTest(unittest.TestCase):
@@ -45,6 +46,63 @@ class RuntimeBenchmarkStatsTest(unittest.TestCase):
     def test_empty_samples_are_rejected(self):
         with self.assertRaises(ValueError):
             summarize("status", [])
+
+    def test_clean_scenario_requires_a_clean_repository(self):
+        entry = scenario_matrix_entry(
+            "small-clean",
+            dirty=True,
+            tracked_file_count=12,
+            changed_path_count=2,
+            large_changed_file=False,
+            historical_work_item_count=0,
+        )
+
+        self.assertEqual(entry["status"], "not_measured")
+        self.assertEqual(entry["reason"], "repository_dirty")
+
+    def test_scenario_scale_and_change_facts_are_checked(self):
+        small = scenario_matrix_entry(
+            "small-clean",
+            dirty=False,
+            tracked_file_count=12,
+            changed_path_count=0,
+            large_changed_file=False,
+            historical_work_item_count=0,
+        )
+        many = scenario_matrix_entry(
+            "many-files-clean",
+            dirty=False,
+            tracked_file_count=12,
+            changed_path_count=0,
+            large_changed_file=False,
+            historical_work_item_count=0,
+        )
+        single = scenario_matrix_entry(
+            "single-file-change",
+            dirty=True,
+            tracked_file_count=12,
+            changed_path_count=1,
+            large_changed_file=False,
+            historical_work_item_count=0,
+        )
+
+        self.assertEqual(small["status"], "measured")
+        self.assertEqual(many["status"], "not_measured")
+        self.assertEqual(many["reason"], "tracked_file_count_below_1000")
+        self.assertEqual(single["status"], "measured")
+
+    def test_unsupported_execution_shapes_cannot_be_claimed_as_measured(self):
+        entry = scenario_matrix_entry(
+            "concurrent-validation-requests",
+            dirty=False,
+            tracked_file_count=12,
+            changed_path_count=0,
+            large_changed_file=False,
+            historical_work_item_count=0,
+        )
+
+        self.assertEqual(entry["status"], "not_measured")
+        self.assertEqual(entry["reason"], "harness_does_not_measure_concurrency")
 
 
 if __name__ == "__main__":

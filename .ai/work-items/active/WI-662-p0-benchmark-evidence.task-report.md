@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
+- Verification evidence is valid; user-visible benefit remains explicitly unknown.
 
 ## Task overview
 

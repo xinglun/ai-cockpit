@@ -71,4 +71,11 @@ The P0 scenario matrix names small and many-file clean repositories, single-,
 multi-, and large-file changes, many historical Work Items, concurrent
 validation requests, and resident MCP repeat queries. A single invocation is
 bound to its supplied repository and reports unselected scenarios as
-`not_measured`; it does not synthesize their results.
+`not_measured`; it does not synthesize their results. A requested scenario is
+measured only when captured facts prove its shape: `small-clean` is clean with
+at most 100 tracked files, `many-files-clean` is clean with at least 1,000,
+`single-file-change`/`multi-file-change` have exactly one/at least two changed
+paths, `large-file-change` has a changed file of at least 1 MiB, and
+`many-historical-wi` has at least 100 archived Work Items. The portable harness
+does not execute concurrent requests or resident MCP transport, so those
+scenarios remain explicitly `not_measured`.

@@ -40,4 +40,8 @@ request-scoped 和 identity-bound，不创建全局 repository cache，也不复
 
 P0 场景矩阵包含小型/大量文件的干净仓库、单文件/多文件/大文件修改、大量历史 Work Item、多个并发验证
 请求以及常驻 MCP 重复查询。一次脚本调用绑定所提供的仓库，未选择的场景报告为 `not_measured`，不会
-伪造结果。
+伪造结果。只有仓库事实证明场景形状时才会标记为已测量：`small-clean` 要求干净且最多 100 个 tracked
+文件，`many-files-clean` 要求干净且至少 1,000 个 tracked 文件，`single-file-change`/`multi-file-change`
+要求恰好一个/至少两个变更路径，`large-file-change` 要求存在至少 1 MiB 的变更文件，
+`many-historical-wi` 要求至少 100 个归档 Work Item。便携脚本不执行并发请求或常驻 MCP 传输，因此这两个
+场景继续明确记录为 `not_measured`。
