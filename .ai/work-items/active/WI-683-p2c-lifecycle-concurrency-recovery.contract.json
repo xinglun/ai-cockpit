@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "Controlled same-process and cross-process finish calls for one Work Item serialize to one authoritative commit and preserve valid JSON projections.",
+    "Archive, close, recovery-decision recording, and active-artifact reconciliation do not duplicate history or display an incomplete operation as completed under concurrent or interrupted execution.",
+    "Missing or corrupt projections fail closed, terminal states cannot be downgraded by a losing failure projection, and duplicate operations return an explicit conflict or idempotent result.",
+    "The public JSON schema, lifecycle semantics, archive layout, Runtime compatibility, and predecessor archive bytes remain unchanged; recovery and parity records link the immutable predecessor to this successor.",
+    "The declared Rust, formatting, Clippy, documentation, governance, and hosted verification checks pass on the exact successor head before reviewed merge and cleanup."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "2dee60a8aa97ba229d117cb210b245894b3347d2",
+  "createdAt": "2026-09-08T14:57:34Z",
+  "goal": "Serialize one Work Item lifecycle across processes and fail closed under interrupted or duplicate finish archive close operations without changing external contracts",
+  "intent": "Redeliver the P2-C lifecycle concurrency and recovery boundary from the latest default base under a unique Work Item identity after the prior WI-681 numeric identity collision",
+  "mode": "implementation",
+  "outOfScope": [
+    "new storage system",
+    "microservices",
+    "protocol redesign",
+    "unrelated repository split changes",
+    "modifying other agents worktrees branches contracts evidence or archived Work Items"
+  ],
+  "predecessorContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
+  "predecessorWorkItemId": "WI-677-wi657-lifecycle-concurrency-successor",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-677-wi657-lifecycle-concurrency-successor.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6f9119a9fda0733b343c112dee0908e6d961f999b7f219c84c5b1775b26f76ac",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-683-p2c-lifecycle-concurrency-recovery",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-683-p2c-lifecycle-concurrency-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/evidence_store.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    ".gitignore",
+    "docs/reference/pending-parity-registry.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-683-p2c-lifecycle-concurrency-recovery.md",
+    "docs/work-items/WI-683-p2c-lifecycle-concurrency-recovery.ja.md",
+    "docs/work-items/WI-683-p2c-lifecycle-concurrency-recovery.zh-CN.md"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/evidence_store.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+}

@@ -1088,11 +1088,7 @@ pub fn finish_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    let result = finish_work_item_internal(root, work_item_id, None);
-    if let Err(error) = &result {
-        let _ = persist_blocked_lifecycle_outcome(root, work_item_id, error);
-    }
-    result
+    finish_work_item_internal(root, work_item_id, None)
 }
 
 /// Finish a Work Item while requiring evidence produced by the current
@@ -1104,14 +1100,28 @@ pub fn finish_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    let result = finish_work_item_internal(root, work_item_id, Some(runtime));
+    finish_work_item_internal(root, work_item_id, Some(runtime))
+}
+
+fn finish_work_item_internal(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<LifecycleReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let canonical_root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&canonical_root, work_item_id)?;
+    let result = finish_work_item_internal_unlocked(&canonical_root, work_item_id, current_runtime);
     if let Err(error) = &result {
-        let _ = persist_blocked_lifecycle_outcome(root, work_item_id, error);
+        let _ = persist_blocked_lifecycle_outcome(&canonical_root, work_item_id, error);
     }
     result
 }
 
-fn finish_work_item_internal(
+fn finish_work_item_internal_unlocked(
     root: &Path,
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
@@ -2377,6 +2387,7 @@ pub fn record_recovery_decision(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let contract_path = work_item_artifact_path(&root, work_item_id, "contract.json")?;
     let summary_path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
     let contract = read_contract(&contract_path)?;
