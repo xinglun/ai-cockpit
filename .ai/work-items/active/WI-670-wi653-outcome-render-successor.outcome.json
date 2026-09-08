@@ -5,14 +5,17 @@
     "Behavioral parity and cargo fmt, clippy, workspace tests, documentation and governance checks pass on this successor head.",
     "Reviewers can verify that the presentation boundary is pure while governance facts remain evidence-bound."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-08T11:45:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b902ad3d9f402db0835ee10c19126fca69a32757a2dc4aa2e3a72f410c4aa27c",
   "evidenceRefs": [
     ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,11 +23,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -34,10 +36,8 @@
       "repositorySnapshotDigest": "sha256:e45f062ce62c90dc31586a54ec219dae68cee225e79550ff0dfa336e1a98503c",
       "workItemId": "WI-670-wi653-outcome-render-successor"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -58,15 +58,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -85,7 +77,7 @@
             ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -95,10 +87,18 @@
             ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -119,16 +119,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-670-wi653-outcome-render-successor"
   },
+  "taskReportDigest": "sha256:a5875d6f55ea6f5a0b35fba5d6fd57d5e874b562c32788e4de05c9e18345052b",
+  "taskReportMarkdownDigest": "sha256:5e0cb95cbc96068f4f282c5205b7484e480dea895bc6b7d9fc6bcc88ed0ed6b8",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-670-wi653-outcome-render-successor"
 }
