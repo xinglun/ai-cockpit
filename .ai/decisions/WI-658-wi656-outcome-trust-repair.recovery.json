@@ -1,0 +1,28 @@
+{
+  "actor": "xinglun",
+  "authoritySource": "explicit repository-owner authorization recorded in the user request",
+  "decidedAt": "2026-09-08T05:33:23Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json",
+    "PR #656 hosted quality job 101944859339: workspace_format"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:bcfa14dbfc5f47b1e92e6ac044c408df5ab9c56a4f2819c1433df8c5b4749b48",
+  "predecessorEventsDigest": "sha256:c5e76135b0012499622ad225f77ca13fc5e0de0b4cc36804c49c36a2a2eedd1a",
+  "predecessorOutcomeDigest": "sha256:16363a3f975124e3ce8b7a378eeb3ea0c4e882ad617cd1a949fea8da77f8f86d",
+  "predecessorSummaryDigest": "sha256:d81c7a2f911b1f63ab9c7088ad135289a474576be87706738e113e4f5a5a1299",
+  "predecessorWorkItemId": "WI-658-wi656-outcome-trust-repair",
+  "reason": "WI-658 was archived before the hosted quality route reported its sole workspace_format failure; create a successor repair Work Item for the formatting-only correction without rewriting WI-658 history or reviving PR #656 as current verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-659 must complete its own Contract, preflight, checkpoint, verification, and hosted quality checks before any merge or close decision is considered.",
+  "runtimeDigest": "sha256:8a1804e4f6bd7a10ccc07c4cbfbdd88c89c96b638ba6380480a60f8648ec1f66",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-659-wi658-hosted-quality-repair",
+  "workItemId": "WI-658-wi656-outcome-trust-repair"
+}
