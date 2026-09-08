@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-recovery",
+  "decidedAt": "2026-09-08T20:58:18Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-700-wi698-base-revalidation.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/698",
+    "https://github.com/xinglun/ai-cockpit/pull/696"
+  ],
+  "policyRefs": [
+    "docs/capabilities.zh-CN.md"
+  ],
+  "predecessorContractDigest": "sha256:1bd4188679443577b68fcd73a55f71ea758bd1d7448b895b5edcbcfd2bd6442d",
+  "predecessorEventsDigest": "sha256:a4efb2686b547f362d0391aa8c7c763981a77607cad026d353ebe33dd249335d",
+  "predecessorOutcomeDigest": "sha256:a885be792a7f8ec08a976ff08795b698700fa7520084c6d6437d0c5f43f13191",
+  "predecessorSummaryDigest": "sha256:a736f81fbfb1c51aeb4be5059b540578f3aa8356d687a2cf8e567782029a43cc",
+  "predecessorWorkItemId": "WI-700-wi698-base-revalidation",
+  "reason": "WI-699 was merged after WI-700 archive, advancing origin/main from a142ed57 to 07075a77; PR #698 therefore remains bound to a stale base and must be revalidated from the new default branch while preserving the WI-700 archive and evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the successor verification, hosted PR review, provider finalization, and human close, then close the WI-700 and WI-698 predecessor lineage.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-701-wi700-current-base-revalidation",
+  "workItemId": "WI-700-wi698-base-revalidation"
+}
