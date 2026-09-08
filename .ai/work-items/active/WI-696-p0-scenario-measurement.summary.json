@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T18:44:50Z",
-  "checkpointContractDigest": "sha256:2a5f269cbe53cf4feed2993c52026a80997cd28124c8a4bb6e662c1d4f68d66a",
+  "checkpointContractDigest": "sha256:bbf3f31172fafca5c855270e87f9a1c4b04643eaf7c04416457143b282283261",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -57,15 +57,35 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-696-p0-scenario-measurement"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bbf3f31172fafca5c855270e87f9a1c4b04643eaf7c04416457143b282283261",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fd901024f5ad21ea617eb3f13bf2604508ce98e098076548d774669fb8df221f",
+      "previousContractHash": "sha256:2a5f269cbe53cf4feed2993c52026a80997cd28124c8a4bb6e662c1d4f68d66a",
+      "reason": "The remote default branch advanced with the reviewed WI-697 documentation promotion; rebind this unchanged Work Item to origin/main at 105b8de5390dc2676bb983f03e673b11fadce060 after the isolated rebase.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T19:27:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:952605d68fcaab7f0277f83587cc4c6ce0a4ed5ae39ef434818220b1e532d8fa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-696-p0-scenario-measurement"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:08450d33e0f0396d2fd73abcfa9db7f04a8a379965e2175cb1e8f8dfd0a7385e",
+  "checkpointRepositorySnapshotDigest": "sha256:952605d68fcaab7f0277f83587cc4c6ce0a4ed5ae39ef434818220b1e532d8fa",
   "createdAt": "2026-09-08T18:43:43Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T19:22:48Z",
-  "preflightContractDigest": "sha256:2a5f269cbe53cf4feed2993c52026a80997cd28124c8a4bb6e662c1d4f68d66a",
+  "preflightAt": "2026-09-08T19:28:05Z",
+  "preflightContractDigest": "sha256:bbf3f31172fafca5c855270e87f9a1c4b04643eaf7c04416457143b282283261",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:08450d33e0f0396d2fd73abcfa9db7f04a8a379965e2175cb1e8f8dfd0a7385e",
+  "preflightRepositorySnapshotDigest": "sha256:952605d68fcaab7f0277f83587cc4c6ce0a4ed5ae39ef434818220b1e532d8fa",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -77,6 +97,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:c545e8c153a67f1c89a8b1d694912e4859cab7c059779e28c38da60419b496d9",
+  "verificationRecoveryReconciled": "sha256:5812ba10b65f44842906a0835a97837d5b060375c1212070d0fcc6483a599d14",
   "workItemId": "WI-696-p0-scenario-measurement"
 }
