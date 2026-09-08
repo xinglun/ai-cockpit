@@ -34,11 +34,11 @@
     "recovery"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-659-wi658-hosted-quality-repair-base",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/658",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-659-base"
   },
   "risk": "normal: formatting-only repair with fresh verification required",
