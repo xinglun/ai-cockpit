@@ -69,8 +69,8 @@
   ],
   "changedPaths": [
     ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
-    ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json",
-    ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+    ".ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-08T22:38:51Z",
   "checkpointContractDigest": "sha256:4b2833a6fd1968ac0213a850b99ae6c39887d669b22823fb4575f1bb95c273c5",

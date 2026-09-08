@@ -15,8 +15,8 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json
-- Changed path: .ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json
-- Changed path: .ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json
+- Changed path: .ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json
+- Changed path: .ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json
 
 ## Findings
 

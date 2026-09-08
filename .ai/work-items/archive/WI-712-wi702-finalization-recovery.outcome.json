@@ -46,24 +46,24 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
         }
       ],
       "evidence": [
@@ -119,7 +119,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
           ],
           "inference": false,
           "text": "Reconcile WI-702's post-merge finalization boundary through an auditable successor, preserve its immutable truth, and complete the exact governance/parity closure without claiming an unproven performance benefit."
@@ -128,7 +128,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -138,8 +138,8 @@
     "status": "verified",
     "workItemId": "WI-712-wi702-finalization-recovery"
   },
-  "taskReportDigest": "sha256:f0ceef59e0c83d5820aa6d17a04054fe34067e50155fa2da4bc68c5c5486195f",
-  "taskReportMarkdownDigest": "sha256:b5bed44d8279050f687c7e6dcb0c7411db0dfcf3ce7b02b23fafc87c18b396d5",
+  "taskReportDigest": "sha256:39e9ad0271266bdedfa3e4e0ca259107f3ca3b9392fc291531ff18ab48002e45",
+  "taskReportMarkdownDigest": "sha256:e9a6a31fc0606e07559abc0b9a08e1034d9815dc5a4965601eed818eddf86e21",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -15,24 +15,24 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+          ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+          ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+          ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
       }
     ],
     "evidence": [
@@ -88,7 +88,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+          ".ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
         ],
         "inference": false,
         "text": "Reconcile WI-702's post-merge finalization boundary through an auditable successor, preserve its immutable truth, and complete the exact governance/parity closure without claiming an unproven performance benefit."
@@ -97,7 +97,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+          ".ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
