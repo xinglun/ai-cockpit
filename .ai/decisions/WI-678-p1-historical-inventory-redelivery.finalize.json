@@ -1,0 +1,59 @@
+{
+  "actor": "human:user-request",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "04b60b9d1adbeba8ef05932a0b7606e9bf70b19c",
+    "name": "codex/wi-678-p1-historical-inventory-redelivery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3a0235da942767d3e6e308e4a301d672c9c67072d2c4f574109b61a24fb4193b",
+  "operationId": "operation-WI-678-rejected-candidate-awaiting-merge-close-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+    "headRevision": "04b60b9d1adbeba8ef05932a0b7606e9bf70b19c",
+    "number": 676,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/676"
+  },
+  "reason": "The latest-base measurements reject the candidate optimization. PR #676 remains unmerged because hosted quality failed on repository-wide documentation gates belonging to concurrently maintained WI-674; retain the reviewed branch and clean worktree, and defer close until the external gate is resolved or an explicit recovery decision is recorded.",
+  "receiptId": "ai-cockpit-WI-678-rejected-candidate-awaiting-merge-close",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-678-p1-historical-inventory-redelivery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/676",
+    "worktree": "/private/tmp/ai-cockpit-wi-678-p1-historical-inventory-redelivery"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T14:33:30Z",
+  "workItemId": "WI-678-p1-historical-inventory-redelivery",
+  "worktree": {
+    "branch": "codex/wi-678-p1-historical-inventory-redelivery",
+    "headRevision": "04b60b9d1adbeba8ef05932a0b7606e9bf70b19c",
+    "path": "/private/tmp/ai-cockpit-wi-678-p1-historical-inventory-redelivery",
+    "worktreeId": "WI-678-p1-historical-inventory-redelivery"
+  }
+}
