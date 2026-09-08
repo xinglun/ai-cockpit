@@ -1,0 +1,37 @@
+{
+  "buildSystems": [
+    "Cargo"
+  ],
+  "cacheHit": false,
+  "ciSurfaces": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml"
+  ],
+  "criticalDomains": [
+    "identity",
+    "release",
+    "security"
+  ],
+  "dependencyFingerprint": "sha256:e49613adf08168d7306faad63ea5211ef5bd06cc784049300529ce83757dd69b",
+  "evolution": [],
+  "filesRead": 9822,
+  "languages": [
+    "Python",
+    "Rust"
+  ],
+  "profileUpdateProposal": null,
+  "qualityCommands": [
+    {
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "program": "cargo",
+      "state": "detected"
+    }
+  ],
+  "snapshotDigest": "sha256:5057aca403289039c401606abb813359a8647d11b8dbe3100d7ef49e5a3b952a",
+  "testRoots": [
+    "tests/**"
+  ]
+}

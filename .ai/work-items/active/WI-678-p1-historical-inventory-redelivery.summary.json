@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-678-p1-historical-inventory-redelivery.summary.json"
   ],
   "checkpointAt": "2026-09-08T12:37:57Z",
-  "checkpointContractDigest": "sha256:2664c7a3668c00881895ddb282aab3dd89ac862ff2ca00d656d50c0ffa18ae99",
+  "checkpointContractDigest": "sha256:5b40a0a123a720ab3e3351c8ef0246e4bcbaa98fd931bc9a039ed15385e55194",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -140,16 +140,76 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-678-p1-historical-inventory-redelivery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:ff0059350225a6d532541db1384f039e75fa57c24ca9a5fe8f5d1937918dee7c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2f1fe192af92b64cf5ee23475118818ca2e2600e3c9cc53097ca00969ce078f8",
+      "previousContractHash": "sha256:42362d48e7f8915cb85e3d00c8a85da33151d96396539323483115148d08902d",
+      "reason": "Bind the final latest-base benchmark rounds, normalized-output comparability, and explicit reject decision. Fresh 40-sample evidence shows the candidate status target is slower and doctor exceeds budget; preserve raw long-tail samples and do not claim a performance benefit or merge the candidate.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T13:53:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a29cae41250763fc082ea5e64fab46482f9647adf642a059dfdfe87cbc89b024",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-678-p1-historical-inventory-redelivery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:98c0de0f1f1b33c41f83b6b458df3db62c57f8ca6c4997bf1d2d24463ae17614",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2f1fe192af92b64cf5ee23475118818ca2e2600e3c9cc53097ca00969ce078f8",
+      "previousContractHash": "sha256:ff0059350225a6d532541db1384f039e75fa57c24ca9a5fe8f5d1937918dee7c",
+      "reason": "Record the repository-wide documentation and status-consistency failures caused by concurrently maintained WI-674; preserve exact evidence and keep the scope boundary explicit without weakening checks.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T14:17:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:556cd1d7a41fc17a2d29ceb83fcbe3b285f6bd9440f7e66dd5ee9b691afba9b2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-678-p1-historical-inventory-redelivery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:5b40a0a123a720ab3e3351c8ef0246e4bcbaa98fd931bc9a039ed15385e55194",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2f1fe192af92b64cf5ee23475118818ca2e2600e3c9cc53097ca00969ce078f8",
+      "previousContractHash": "sha256:98c0de0f1f1b33c41f83b6b458df3db62c57f8ca6c4997bf1d2d24463ae17614",
+      "reason": "Bind the exact out-of-scope WI-674 documentation regression evidence to the Contract and update the three-language handoff without changing repository-wide checks or another Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T14:18:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:67c7c24670aab1a3afbe4788e43837b93f935b96085c2cb95af210399a37737b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-678-p1-historical-inventory-redelivery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:97f32e9e4f791cfecbdcd0e25212b05b99d341fc0c673ab49a1e670db05acd22",
+  "checkpointRepositorySnapshotDigest": "sha256:67c7c24670aab1a3afbe4788e43837b93f935b96085c2cb95af210399a37737b",
   "createdAt": "2026-09-08T12:36:02Z",
   "mode": "code",
-  "preflightAt": "2026-09-08T13:10:20Z",
-  "preflightContractDigest": "sha256:2664c7a3668c00881895ddb282aab3dd89ac862ff2ca00d656d50c0ffa18ae99",
+  "preflightAt": "2026-09-08T14:18:56Z",
+  "preflightContractDigest": "sha256:5b40a0a123a720ab3e3351c8ef0246e4bcbaa98fd931bc9a039ed15385e55194",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:97f32e9e4f791cfecbdcd0e25212b05b99d341fc0c673ab49a1e670db05acd22",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:67c7c24670aab1a3afbe4788e43837b93f935b96085c2cb95af210399a37737b",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
@@ -160,11 +220,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:42362d48e7f8915cb85e3d00c8a85da33151d96396539323483115148d08902d",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T13:26:36Z"
-  },
-  "verificationRecoveryReconciled": "sha256:89d1f8f745de1482b1f2b93b14cb8cbf017610370b211aeeec737f7977706d8f",
+  "verificationRecoveryReconciled": "sha256:30e16c3c57c5b9e396bb22613f865712b0a7a2176f607d1de124adbc76851a62",
   "workItemId": "WI-678-p1-historical-inventory-redelivery"
 }

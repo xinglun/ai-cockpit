@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:2664c7a3668c00881895ddb282aab3dd89ac862ff2ca00d656d50c0ffa18ae99",
-  "createdAt": "2026-09-08T13:10:19Z",
+  "contractDigest": "sha256:5b40a0a123a720ab3e3351c8ef0246e4bcbaa98fd931bc9a039ed15385e55194",
+  "createdAt": "2026-09-08T14:18:55Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 3286,
-      "executionElapsedMs": 3066,
+      "elapsedMs": 3550,
+      "executionElapsedMs": 3361,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 3286,
-    "executionElapsedMs": 3066,
+    "elapsedMs": 3550,
+    "executionElapsedMs": 3361,
     "filesHashed": 17,
     "filesRead": 17,
     "gitCalls": 8,
@@ -45,19 +45,19 @@
         "docs/work-items/WI-678-p1-historical-inventory-redelivery.zh-CN.md"
       ],
       "assurance": "repository_verified",
-      "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
+      "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
       "dependencyConfidence": "unknown",
       "escalations": [],
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 3066,
+      "executionElapsedMs": 3361,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:97f32e9e4f791cfecbdcd0e25212b05b99d341fc0c673ab49a1e670db05acd22",
+      "repositorySnapshotDigest": "sha256:67c7c24670aab1a3afbe4788e43837b93f935b96085c2cb95af210399a37737b",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -83,7 +83,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:701e424c3164f59370c863b7ef060650913ce633a04ad1b52986f1fccd81aeca",
+        "outputDigest": "sha256:ef76b96484b7e82a047749443a44b7ebf4708b2f8c93bb5f81f297d6069f9566",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -99,9 +99,9 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-678-p1-historical-inventory-redelivery"
   },
-  "receiptDigest": "sha256:4aa9d427558cb67d4e3e9ee6006ad8e2a25d5b54d60da2dc2478537b93f012d2",
+  "receiptDigest": "sha256:04d186a0e721e7376698c54a343162f4af70ae8b48289249490a3346be084432",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:97f32e9e4f791cfecbdcd0e25212b05b99d341fc0c673ab49a1e670db05acd22",
+  "repositorySnapshotDigest": "sha256:67c7c24670aab1a3afbe4788e43837b93f935b96085c2cb95af210399a37737b",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
   "runtimeVersion": "0.2.87",
   "workItemId": "WI-678-p1-historical-inventory-redelivery"

@@ -23,7 +23,9 @@ transition candidate list を再利用すれば、governance semantics を変え
 この Work Item は `origin/main` の
 `c1f1f1d9f17ec2242a59f287a4368bd6bda5993e` から再配信します。draft PR #671 は
 hosted quality gate に失敗したため、監査コンテキストとしてのみ保持し、review や
-merge authority とはみなしません。
+merge authority とはみなしません。リモート default branch はその後 `8bf7a301`
+まで進み、最終実験はこの base に rebase してから再計測し、candidate の採否を
+決めました。
 
 ## 境界
 
@@ -52,12 +54,27 @@ approval の偽造ではありません。
   evidence と correctness equivalence が揃った場合だけ benefit を受け入れ、そうで
   なければ reject を記録して benefit を主張しません。
 
+最新 base の 40 warm samples round では candidate を reject します。status の
+p50/p95 は baseline が `3592.196/4695.920 ms`、candidate が
+`3911.300/8195.299 ms` で、candidate doctor p95 は `105.029 ms` と `100 ms`
+budget を超えました。normalized governance output と exit code は一致します。
+これは測定に基づく reject であり production performance claim ではなく、candidate
+PR に merge authority はありません。
+
 ## Evidence と status
 
 - predecessor audit: PR #671, `https://github.com/xinglun/ai-cockpit/pull/671`
-- base: `origin/main` の `c1f1f1d9f17ec2242a59f287a4368bd6bda5993e`
+- initial base: `origin/main` の `c1f1f1d9f17ec2242a59f287a4368bd6bda5993e`
+- final measured base: `origin/main` の `8bf7a301`
 - Runtime evidence: `.ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json`
+- latest-base decision: `.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.rejection.json`
+- latest-base comparability: `.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.comparability.json`
 - terminal records は到達時に Runtime が `.ai/work-items/archive` と `.ai/decisions` に生成します。
 
-fresh measurements、correctness checks、hosted review、terminal Runtime Outcome が結び
-付くまで Work Item は `in_progress` です。
+reject した実験、hosted checks、terminal Runtime Outcome が結び付くまで Work Item
+は `in_progress` です。WI-678 自身の parity registration と governance-integrity check は
+pass しましたが、リポジトリ全体の documentation acceptance と status consistency は、
+並行して保守されている WI-674 文書の `status: in_progress` により停止しています。
+この範囲外の失敗は
+`.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.documentation-regression.json`
+に保存しています。この candidate による production change は採用しません。

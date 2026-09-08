@@ -23,7 +23,9 @@ observation lowers repeated I/O without changing governance semantics.
 This Work Item is a fresh redelivery from `origin/main` at
 `c1f1f1d9f17ec2242a59f287a4368bd6bda5993e` after draft PR #671 failed the
 hosted quality gate. PR #671 remains audit context, not review or merge
-authority.
+authority. The remote default later advanced to `8bf7a301`; the final
+experiment was rebased and remeasured on that base before deciding whether to
+accept the candidate.
 
 ## Boundary
 
@@ -55,13 +57,29 @@ not a fabricated GitHub review or approval.
   covers the candidate and correctness remains equivalent; otherwise record a
   rejection without a benefit claim.
 
+The latest-base 40-warm-sample round rejects the candidate: status p50/p95 are
+`3592.196/4695.920 ms` for baseline versus `3911.300/8195.299 ms` for
+candidate, and candidate doctor p95 is `105.029 ms` against the `100 ms`
+budget. The normalized governance outputs and exit codes remain equal. This
+is a measured rejection, not a production performance claim; the candidate
+PR is not merge-authorized.
+
 ## Evidence and status
 
 - predecessor audit: PR #671, `https://github.com/xinglun/ai-cockpit/pull/671`
-- base: `origin/main` at `c1f1f1d9f17ec2242a59f287a4368bd6bda5993e`
+- initial base: `origin/main` at `c1f1f1d9f17ec2242a59f287a4368bd6bda5993e`
+- final measured base: `origin/main` at `8bf7a301`
 - Runtime evidence: `.ai/evidence/WI-678-p1-historical-inventory-redelivery.verification.json`
+- latest-base decision: `.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.rejection.json`
+- latest-base comparability: `.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.comparability.json`
 - terminal records, when reached, are generated under `.ai/work-items/archive`
   and `.ai/decisions`
 
-The Work Item remains `in_progress` until fresh measurements, correctness
-checks, hosted review, and the terminal Runtime Outcome are all bound.
+The Work Item remains `in_progress` until the rejected experiment, hosted
+checks, and the terminal Runtime Outcome are all bound. The WI-678 parity
+registration and governance-integrity check pass; repository-wide
+documentation acceptance and status consistency remain blocked by the
+concurrently maintained WI-674 document retaining `status: in_progress`.
+That out-of-scope failure is preserved in
+`.ai/evidence/external/WI-678-p1-historical-inventory-redelivery.documentation-regression.json`.
+No production change is accepted from this candidate.

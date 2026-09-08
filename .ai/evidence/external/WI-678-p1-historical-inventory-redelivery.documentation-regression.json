@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-678-p1-historical-inventory-redelivery",
+  "kind": "out_of_scope_documentation_regression",
+  "observedAt": "2026-09-08T14:17:42Z",
+  "repository": {
+    "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+    "worktree": "/private/tmp/ai-cockpit-wi-678-p1-historical-inventory-redelivery",
+    "otherWorkItem": "WI-674-p1-repository-split"
+  },
+  "checks": [
+    {
+      "command": "bash tests/docs/documentation_acceptance.sh",
+      "exitCode": 1,
+      "output": "documentation acceptance passed\nERROR: docs/work-items/WI-674-p1-repository-split.md: terminal Work Item retains conditional parity status"
+    },
+    {
+      "command": "bash tests/docs/work_item_status_consistency_test.sh",
+      "exitCode": 1,
+      "output": "ERROR: docs/work-items/WI-674-p1-repository-split.md: terminal Work Item retains conditional parity status"
+    },
+    {
+      "command": "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+      "exitCode": 1,
+      "output": "closed Work Item promotion failed: WI-674-p1-repository-split: promotion required for docs/work-items/WI-674-p1-repository-split.md, docs/reference/reference-parity.md, docs/work-items/WI-674-p1-repository-split.zh-CN.md, docs/reference/reference-parity.zh-CN.md, docs/work-items/WI-674-p1-repository-split.ja.md, docs/reference/reference-parity.ja.md"
+    }
+  ],
+  "scopeBoundary": "The failing path belongs to the concurrently maintained WI-674 documentation and was not modified by WI-678.",
+  "decision": "preserve_failure_and_stop_on_scope_boundary",
+  "reason": "The repository-wide checks were executed without narrowing their scope. The WI-678 parity registration itself passes governance_integrity_gate.py; changing WI-674 or weakening the checks would violate isolation and evidence requirements."
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-678-p1-historical-inventory-redelivery",
+  "kind": "benchmark_acceptance_decision",
+  "decision": "reject_candidate",
+  "reason": "Fresh same-toolchain measurements on the latest remote default base do not satisfy the Contract target-path acceptance criteria.",
+  "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+  "scenario": "many-historical-wi",
+  "samplePolicy": {
+    "round20WarmSamples": 20,
+    "round40WarmSamples": 40,
+    "percentileMethod": "nearest-rank-on-sorted-samples",
+    "p99": "unknown:40<100"
+  },
+  "round40Ms": {
+    "baseline": {
+      "inspect": {"p50": 87.840, "p95": 103.518},
+      "status": {"p50": 3592.196, "p95": 4695.920},
+      "doctor": {"p50": 52.386, "p95": 54.506},
+      "observe": {"p50": 136.623, "p95": 146.094}
+    },
+    "candidate": {
+      "inspect": {"p50": 86.613, "p95": 89.938},
+      "status": {"p50": 3911.300, "p95": 8195.299},
+      "doctor": {"p50": 69.942, "p95": 105.029},
+      "observe": {"p50": 146.614, "p95": 241.081}
+    }
+  },
+  "acceptanceChecks": {
+    "statusTargetP50Lower": false,
+    "statusTargetP95Lower": false,
+    "allMeasuredP95WithinBudget": false,
+    "normalizedGovernanceOutputsEqual": true,
+    "exitCodesEqual": true,
+    "candidateStatusP95BudgetMs": 10000,
+    "candidateDoctorP95BudgetMs": 100
+  },
+  "conclusion": "Do not merge the candidate optimization or claim a performance benefit. Preserve the candidate implementation in the rejected branch and PR history, together with the counter test and raw evidence, as an independently verifiable rejected experiment; the repository production behavior remains unchanged because the candidate code was reverted before delivery.",
+  "limitations": [
+    "The formal comparator also failed closed because runtime_benchmark.sh cannot obtain a filesystem type on this Darwin host; the APFS same-host manifest is retained and no unavailable metric was filled with zero.",
+    "CPU, I/O, memory, cache invalidation, resident MCP, and internal phase timings remain unavailable and are not claimed.",
+    "Other agents were active in the shared host; raw long-tail samples are retained rather than discarded."
+  ],
+  "evidence": {
+    "comparability": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.comparability.json",
+    "round20Baseline": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.round-20.baseline.json",
+    "round20Candidate": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.round-20.candidate.json",
+    "round40Baseline": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.round-40.baseline.json",
+    "round40Candidate": ".ai/evidence/external/WI-678-p1-historical-inventory-redelivery.latest-base.round-40.candidate.json"
+  }
+}
