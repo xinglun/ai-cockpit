@@ -1,0 +1,49 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json",
+    ".ai/decisions/WI-659-wi658-hosted-quality-repair.recovery.json",
+    ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json",
+    ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json",
+    ".ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.contract.json",
+    ".ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json",
+    ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.archive.json",
+    ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json",
+    ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.events.jsonl",
+    ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.outcome.json",
+    ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.summary.json",
+    ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.json",
+    ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.md",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.archive.json",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.events.jsonl",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.outcome.json",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.task-report.json",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.task-report.md"
+  ],
+  "checkpointAt": "2026-09-08T06:48:35Z",
+  "checkpointContractDigest": "sha256:d9df7f69de06d2e1730f2d161436f3cbd7d946d73e2f9975ce18f4a5d64d3ee9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:2015c2b034198baf6bb95122331ffa283219775cc4687bf4411f7614a7ff66e0",
+  "createdAt": "2026-09-08T06:45:34Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:9edb6ad32a96a58486d71c5a842320658ee9f08f707896b828015e3a8d682c56",
+  "predecessorWorkItemId": "WI-659-wi658-hosted-quality-repair",
+  "preflightAt": "2026-09-08T07:21:38Z",
+  "preflightContractDigest": "sha256:d9df7f69de06d2e1730f2d161436f3cbd7d946d73e2f9975ce18f4a5d64d3ee9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2015c2b034198baf6bb95122331ffa283219775cc4687bf4411f7614a7ff66e0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-659-wi658-hosted-quality-repair.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T07:21:44Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-663-wi659-outcome-trust-replacement"
+}

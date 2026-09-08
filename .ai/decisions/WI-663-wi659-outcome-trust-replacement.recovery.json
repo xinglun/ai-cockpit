@@ -1,0 +1,30 @@
+{
+  "actor": "xinglun",
+  "authoritySource": "explicit repository-owner authorization",
+  "decidedAt": "2026-09-08T07:16:34Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-663-wi659-outcome-trust-replacement.outcome.json",
+    ".ai/work-items/active/WI-663-wi659-outcome-trust-replacement.summary.json",
+    ".ai/work-items/active/WI-663-wi659-outcome-trust-replacement.events.jsonl",
+    ".ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/661"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:d9df7f69de06d2e1730f2d161436f3cbd7d946d73e2f9975ce18f4a5d64d3ee9",
+  "predecessorEventsDigest": "sha256:3192ac8d1291882e9dd105dadde2193076eef48e80799da51f011839b895b2ce",
+  "predecessorOutcomeDigest": "sha256:2b11b61a37c189d8128dbe5f1a9d6fe39e5fde2049d6fc1499ce44c52c9cb507",
+  "predecessorSummaryDigest": "sha256:8ec67b9dcab88c9c66a0067da12366f8436013541e54164e93a517995661b6d0",
+  "predecessorWorkItemId": "WI-663-wi659-outcome-trust-replacement",
+  "reason": "Retry after finish correctly rejected verification evidence bound before finalize-plan changed the current Contract resource context; preserve the stopped attempt and refresh verification against the reviewed PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and installed-Runtime verification against the finalized Contract, then retry finish and continue the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:8a1804e4f6bd7a10ccc07c4cbfbdd88c89c96b638ba6380480a60f8648ec1f66",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-663-wi659-outcome-trust-replacement"
+}

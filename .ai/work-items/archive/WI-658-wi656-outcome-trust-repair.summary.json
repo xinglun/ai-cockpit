@@ -1,0 +1,218 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "real Outcome structure rendering across current, failed, missing, stale, historical, and superseded states",
+          "path": "crates/cockpit-repository/tests/outcome_report.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "strict workspace quality including the repaired test helper",
+          "path": "crates/cockpit-repository/tests/outcome_report.rs",
+          "type": "test",
+          "verification": "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "CLI and MCP handoff parity with machine-output compatibility assertions",
+          "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        },
+        {
+          "locator": "repository-bound MCP outcome parity",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "three-language Work Item and parity registration",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation",
+          "verification": "tests/docs/parity_status_check.sh"
+        },
+        {
+          "locator": "three-language documentation acceptance",
+          "path": "docs/work-items/WI-658-wi656-outcome-trust-repair.md",
+          "type": "documentation",
+          "verification": "tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "successor verification receipt bound to the current repository and Contract",
+          "path": ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json",
+          "type": "verification",
+          "verification": "ai-cockpit verify --repo <repo> --work-item WI-658-wi656-outcome-trust-repair"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-656-outcome-trust-expression.recovery.caab1ff2630b38c362115e209d001da55813293b96a4411f6fd16979146843e4.json"
+  ],
+  "checkpointAt": "2026-09-08T04:42:05Z",
+  "checkpointContractDigest": "sha256:bcfa14dbfc5f47b1e92e6ac044c408df5ab9c56a4f2819c1433df8c5b4749b48",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:23fd934f7fe9b1acba91a7d745ebe017030c6e1c460f69898fc3c841312dbe1e",
+      "recorded": true,
+      "recordedAt": "2026-09-08T04:42:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-658-wi656-outcome-trust-repair"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:45bc61b04c0e4331870c698fd493ca6bdb7b7d20ce68d7fd8815d862ab7a8b08",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:23fd934f7fe9b1acba91a7d745ebe017030c6e1c460f69898fc3c841312dbe1e",
+      "previousContractHash": "sha256:23fd934f7fe9b1acba91a7d745ebe017030c6e1c460f69898fc3c841312dbe1e",
+      "reason": "Correct the declared governance integrity verification command to include its required --report output path after the first verification attempt failed closed on command usage; this is a bounded verification declaration repair with no scope or Outcome behavior change.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T05:02:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e944d6b9bbcfb7c466aa9369f3afd2dfa5277bb7d5766ed9c97c2f949a65b902",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-658-wi656-outcome-trust-repair"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bcfa14dbfc5f47b1e92e6ac044c408df5ab9c56a4f2819c1433df8c5b4749b48",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:23fd934f7fe9b1acba91a7d745ebe017030c6e1c460f69898fc3c841312dbe1e",
+      "previousContractHash": "sha256:45bc61b04c0e4331870c698fd493ca6bdb7b7d20ce68d7fd8815d862ab7a8b08",
+      "reason": "Revalidate the bounded verification declaration repair after updating the Contract to invoke governance_integrity_gate.py with its required target/governance-integrity-report.json output path; no scope, Outcome behavior, or authorization semantics changed.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T05:03:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e944d6b9bbcfb7c466aa9369f3afd2dfa5277bb7d5766ed9c97c2f949a65b902",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-658-wi656-outcome-trust-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e944d6b9bbcfb7c466aa9369f3afd2dfa5277bb7d5766ed9c97c2f949a65b902",
+  "createdAt": "2026-09-08T04:29:00Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/outcome_render.rs",
+      "crates/cockpit-repository/tests/outcome_report.rs",
+      "crates/cockpit-cli/tests/outcome_handoff.rs",
+      "crates/cockpit-mcp/tests/rpc.rs",
+      ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json"
+    ],
+    "reason": "The successor repairs the hosted quality failure and redelivers only the declared P0-A trust-expression presentation while preserving protocol facts, machine output, authorization semantics, persistence layout, and immutable WI-656 history.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T05:07:22Z",
+  "preflightContractDigest": "sha256:bcfa14dbfc5f47b1e92e6ac044c408df5ab9c56a4f2819c1433df8c5b4749b48",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e944d6b9bbcfb7c466aa9369f3afd2dfa5277bb7d5766ed9c97c2f949a65b902",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "Fresh successor output preserves distinct verification, lifecycle, human-decision, risk-scope, historical, superseded, stale, failed, and unknown facts from real Outcome structures without inferring approval or absence of risk.",
+      "required": true,
+      "scenario": "p0_a_outcome_semantics_replay",
+      "status": "verified",
+      "verificationPlan": "Run the real-structure outcome_report tests and CLI/MCP handoff tests for current, failed, missing, stale, historical, superseded, empty-risk, and human-decision variants in English, Simplified Chinese, and Japanese."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "expected": "The successor test helper passes the repository's strict workspace clippy gate without weakening lint configuration or changing production Outcome behavior.",
+      "required": true,
+      "scenario": "hosted_clippy_test_helper_repair",
+      "status": "verified",
+      "verificationPlan": "Run cargo clippy --locked --workspace --all-targets --all-features -- -D warnings and retain the exact output in fresh verification evidence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json",
+        "crates/cockpit-cli/tests/intelligence.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "CLI and MCP human handoffs express identical calibrated facts while machine JSON, exit codes, authorization semantics, and persistence layout remain compatible.",
+      "required": true,
+      "scenario": "cli_mcp_behavior_and_contract_compatibility",
+      "status": "verified",
+      "verificationPlan": "Run the focused CLI/MCP tests and the locked workspace test suite against the same generated Outcome fixtures, then inspect the machine-output compatibility assertions."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json",
+        "docs/work-items/WI-658-wi656-outcome-trust-repair.md",
+        "docs/work-items/WI-658-wi656-outcome-trust-repair.zh-CN.md",
+        "docs/work-items/WI-658-wi656-outcome-trust-repair.ja.md",
+        "docs/reference/reference-parity.md",
+        "tests/docs/documentation_acceptance.sh",
+        "tests/docs/parity_status_check.sh"
+      ],
+      "expected": "The successor Work Item and parity rows are present in English, Simplified Chinese, and Japanese before verification evidence, and later records can bind exact archive, finalization, and close paths.",
+      "required": true,
+      "scenario": "tri_language_successor_governance_projection",
+      "status": "verified",
+      "verificationPlan": "Register the three-language Work Item pages and parity rows before verification, then run documentation acceptance, parity status, work-item status consistency, and governance-integrity checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T05:09:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-658-wi656-outcome-trust-repair"
+}

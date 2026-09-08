@@ -1,0 +1,206 @@
+{
+  "acceptanceResults": [
+    "The WI-658 P0-A implementation is re-delivered from its recorded source and documentation paths; compared with WI-658, the only code change is the formatting correction in crates/cockpit-repository/tests/outcome_report.rs.",
+    "cargo fmt --all -- --check, focused Outcome tests, workspace tests, strict clippy, documentation, parity, and governance checks pass on the successor head.",
+    "WI-658 archive, verification evidence, and recovery lineage remain byte-for-byte preserved; WI-659 evidence binds its own current Contract and repository snapshot.",
+    "CLI and MCP behavior remains covered by the inherited WI-658 tests; no unsupported human benefit, approval, merge, or release is inferred."
+  ],
+  "createdAt": "2026-09-08T06:19:47Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cff7857c7b32a102922578427bda80f6b671cd86e49885db61be1f9d8b12150f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c60db803e90901153b2c893be3380bd0b323068df321802e0e19f6c4f8c1dc09",
+      "workItemId": "WI-659-wi658-hosted-quality-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "让 successor 分支在精确 head 上通过格式、聚焦行为测试、完整工作区测试、clippy 和治理门禁，并为后续 PR review 提供新鲜证据。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-659-wi658-hosted-quality-repair"
+  },
+  "taskReportDigest": "sha256:a6d98a87c19566871d4e76834f13f6bcc6e5af50db47690a6c9506d76f549d22",
+  "taskReportMarkdownDigest": "sha256:d2e7ab70f023201524c9ab8413f9acbb11aac359e3fb3d91612bf51c006021a4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-659-wi658-hosted-quality-repair"
+}
