@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2eb0b44e501cb4b6e42f70cf206a59c9de51eda2",
+    "name": "codex/wi-696-p0-scenario-measurement",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:2ee00b7fa5577e8e780989cfc7fabec0a7099d4283802c7e6f714a19c0f9c84f",
+  "operationId": "github-pr-695-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "105b8de5390dc2676bb983f03e673b11fadce060",
+    "headRevision": "2eb0b44e501cb4b6e42f70cf206a59c9de51eda2",
+    "mergeCommit": "38e84fefa23f6094d5149bd70edb75c19a4d6b97",
+    "number": 695,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/695"
+  },
+  "reason": "PR #695 was merged after all hosted checks passed; the exact WI-696 branch and worktree were removed, and synchronized main contains the reviewed merge.",
+  "receiptId": "ai-cockpit-WI-696-p0-scenario-measurement-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-696-p0-scenario-measurement",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/695",
+    "worktree": "/private/tmp/ai-cockpit-wi-696-p0-scenario-measurement"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T19:48:22Z",
+  "workItemId": "WI-696-p0-scenario-measurement",
+  "worktree": {
+    "branch": "codex/wi-696-p0-scenario-measurement",
+    "headRevision": "2eb0b44e501cb4b6e42f70cf206a59c9de51eda2",
+    "path": "/private/tmp/ai-cockpit-wi-696-p0-scenario-measurement",
+    "worktreeId": "WI-696-p0-scenario-measurement"
+  }
+}
