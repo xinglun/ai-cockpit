@@ -7,9 +7,10 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item_with_runtime,
-    record_resource_finalization, record_verification_with_runtime, render_human_outcome,
-    run_repository_verification, set_evidence_retention_policy, start_work_item_with_options,
+    outcome_render_input_with_runtime, outcome_v2_with_runtime, plan_resource_finalization,
+    preflight_work_item_with_runtime, record_resource_finalization,
+    record_verification_with_runtime, render_human_outcome, run_repository_verification,
+    set_evidence_retention_policy, start_work_item_with_options,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -497,17 +498,25 @@ fn archived_foreign_runtime_evidence_can_close_without_rewriting_history() {
         "historical evidence should not block close: {close:?}"
     );
 
-    let projected = outcome_v2_with_runtime(directory.path(), "WI-161-HISTORICAL-CLOSE", &current)
-        .expect("historical outcome");
-    assert_eq!(projected.decision_state, Some(DecisionState::Yellow));
-    assert_eq!(projected.failed_gate, None);
-    assert_eq!(projected.recovery_condition, None);
-    let task_report = projected.task_outcome_report.as_ref().expect("task report");
+    let projected =
+        outcome_render_input_with_runtime(directory.path(), "WI-161-HISTORICAL-CLOSE", &current)
+            .expect("historical outcome");
+    assert_eq!(
+        projected.outcome.decision_state,
+        Some(DecisionState::Yellow)
+    );
+    assert_eq!(projected.outcome.failed_gate, None);
+    assert_eq!(projected.outcome.recovery_condition, None);
+    let task_report = projected
+        .outcome
+        .task_outcome_report
+        .as_ref()
+        .expect("task report");
     assert_eq!(task_report.failed_gate, None);
     assert_eq!(task_report.recovery_condition, None);
     assert!(task_report.sections.interventions.is_empty());
     for language in ["zh", "ja", "en"] {
-        let handoff = render_human_outcome(directory.path(), &projected, language);
+        let handoff = render_human_outcome(&projected, language);
         assert!(
             !handoff.contains("verification_or_human_input"),
             "{language}: {handoff}"

@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "render_human_outcome no longer takes a repository root path and performs no filesystem or crate-internal validation calls; it only formats an already-assembled input struct and a language code.",
+    "A new use-case function assembles the render input (OutcomeV2, the human-decision projection, and the archived-unclosed fact) by calling outcome_v2_with_runtime plus the existing close_decision_is_valid_for_status/load_human_decision logic exactly once each; that logic is not duplicated.",
+    "All four existing call sites (crates/cockpit-cli/src/main.rs WorkItemCommand::Outcome, print_lifecycle_result, emit_blocked_lifecycle_handoff; crates/cockpit-mcp/src/lib.rs work_item_outcome) are migrated to the new assemble-then-render flow.",
+    "render_human_outcome is directly unit-testable by constructing its input struct in memory, with no repository directory or filesystem required.",
+    "Behavioral parity is proven for: missing human decision, invalid/malformed human decision, valid approved human decision, an archived-but-unclosed Work Item, and a historical/superseded Work Item -- same rendered text before and after this refactor for each case.",
+    "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass; CLI/MCP JSON output, exit codes, and governance semantics are unchanged."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T01:45:15Z",
+  "goal": "render_human_outcome becomes a pure function over a fully-assembled input struct, with a new use-case function that assembles that input (OutcomeV2 plus the human-decision projection and archived-unclosed fact) in one place; all four call sites share it; no output, JSON schema, exit code, or governance semantics changes.",
+  "intent": "Purify crates/cockpit-repository/src/outcome_render.rs so it only formats already-observed, already-validated facts: render_human_outcome currently takes a repository root and, inside the render path, reads .ai/decisions/<id>.close.json (load_human_decision) and checks archive-contract existence plus close-decision validity, mixing file I/O and governance validation into what should be a pure text-formatting function. All four call sites (cli main.rs x3, mcp lib.rs x1) already call outcome_v2_with_runtime immediately before calling render_human_outcome, so the redundant read is structural, not incidental.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Any change to Outcome text content",
+    " wording",
+    " or localization strings; this is a pure structural refactor",
+    "Any change to OutcomeV2's serialized JSON schema (deny_unknown_fields struct used as --json output)",
+    "Any change to close_decision_is_valid_for_status's validation rules or any other governance decision logic",
+    "P0 responsibility/dependency mapping (separate Work Item)",
+    " P1-B observation context",
+    " P2 lifecycle/storage extraction",
+    " P2-B state types",
+    " P2-C multi-file consistency",
+    " P3 physical execution boundary"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-653-outcome-render-purification",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi653-outcome-render-purification"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/recovery_events.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/work-items/WI-653-outcome-render-purification.md",
+    "docs/work-items/WI-653-outcome-render-purification.ja.md",
+    "docs/work-items/WI-653-outcome-render-purification.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-653-outcome-render-purification"
+}

@@ -1,10 +1,78 @@
 use cockpit_core::DecisionState;
-use cockpit_protocol::{HumanDecision, OutcomeClaim, OutcomeState, OutcomeV2, TaskOutcomeReport};
+use cockpit_protocol::{
+    HumanDecision, OutcomeClaim, OutcomeState, OutcomeV2, RuntimeContext, TaskOutcomeReport,
+};
 use serde_json::Value;
 use std::fs;
 use std::path::Path;
 
-use crate::repository_id;
+use crate::{
+    close_decision_is_valid_for_status, outcome_v2, outcome_v2_with_runtime, repository_id,
+    ObserverError,
+};
+
+/// Fully assembled, already validated facts consumed by the human renderer.
+///
+/// Repository reads and governance validation happen in the assembly helpers;
+/// `render_human_outcome` only formats this value and does not need a root
+/// directory or filesystem access.
+#[derive(Clone, Debug)]
+pub struct OutcomeRenderInput {
+    pub outcome: OutcomeV2,
+    pub human_decision: HumanDecisionProjection,
+    pub archived_unclosed: bool,
+    pub lifecycle_status: String,
+}
+
+pub fn outcome_render_input(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<OutcomeRenderInput, ObserverError> {
+    let outcome = outcome_v2(root, work_item_id)?;
+    Ok(build_outcome_render_input(root, outcome))
+}
+
+pub fn outcome_render_input_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<OutcomeRenderInput, ObserverError> {
+    let outcome = outcome_v2_with_runtime(root, work_item_id, runtime)?;
+    Ok(build_outcome_render_input(root, outcome))
+}
+
+/// Assemble render-only repository facts around an already obtained Outcome.
+/// This is useful for callers that have a validated projection from another
+/// observation boundary while keeping the renderer itself filesystem-free.
+pub fn outcome_render_input_from_outcome(
+    root: &Path,
+    outcome: OutcomeV2,
+) -> OutcomeRenderInput {
+    build_outcome_render_input(root, outcome)
+}
+
+fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderInput {
+    let historical = outcome.historical_status.is_some();
+    let superseded = outcome.historical_status.as_deref() == Some("superseded");
+    let archived_contract = root
+        .join(".ai/work-items/archive")
+        .join(format!("{}.contract.json", outcome.work_item_id));
+    let archived_unclosed = !historical
+        && archived_contract.is_file()
+        && !close_decision_is_valid_for_status(
+            root,
+            &outcome.work_item_id,
+            &outcome.repository_id,
+        );
+    let human_decision = load_human_decision(root, &outcome.work_item_id);
+    let lifecycle_status = lifecycle_status(root, &outcome, historical, superseded);
+    OutcomeRenderInput {
+        outcome,
+        human_decision,
+        archived_unclosed,
+        lifecycle_status,
+    }
+}
 
 /// Render the repository Outcome as an explicit, human-facing handoff.
 ///
@@ -12,7 +80,8 @@ use crate::repository_id;
 /// value is produced and validated by outcome_v2; this function only projects
 /// it for a conversation. Contract text remains in its original language and
 /// no governance decision is inferred or translated.
-pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) -> String {
+pub fn render_human_outcome(input: &OutcomeRenderInput, language: &str) -> String {
+    let outcome = &input.outcome;
     let language = match language {
         "zh" | "ja" => language,
         _ => "en",
@@ -136,12 +205,11 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             "Verification evidence is invalid or does not match this Work Item/repository; stopped."
         }
     };
-    let decision_projection = load_human_decision(root, &outcome.work_item_id);
     let lifecycle = localized_lifecycle_status(
-        lifecycle_status(root, outcome, historical, superseded),
+        input.lifecycle_status.clone(),
         language,
     );
-    let human_decision_status = localized_human_decision_status(&decision_projection, language);
+    let human_decision_status = localized_human_decision_status(&input.human_decision, language);
     let governance_signal = localized_governance_signal(outcome.decision_state.as_ref(), language);
     let mut next = if historical {
         if superseded {
@@ -198,17 +266,7 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
         }
     };
-    let archived_contract = root
-        .join(".ai/work-items/archive")
-        .join(format!("{}.contract.json", outcome.work_item_id));
-    let archived_unclosed = !historical
-        && archived_contract.is_file()
-        && !crate::close_decision_is_valid_for_status(
-            root,
-            &outcome.work_item_id,
-            &outcome.repository_id,
-        );
-    if archived_unclosed {
+    if input.archived_unclosed {
         let finalization_pending = outcome
             .unknowns
             .iter()
@@ -357,7 +415,7 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             .map(|reference| format!("{status}: {reference}"))
             .collect()
     };
-    let decision_items = match &decision_projection {
+    let decision_items = match &input.human_decision {
         HumanDecisionProjection::Missing => vec![human_decision_status.clone()],
         HumanDecisionProjection::Valid {
             decision,
@@ -765,8 +823,8 @@ fn localized_outcome_summary(
     }
 }
 
-#[derive(Debug)]
-enum HumanDecisionProjection {
+#[derive(Clone, Debug)]
+pub enum HumanDecisionProjection {
     Missing,
     Valid {
         decision: HumanDecision,

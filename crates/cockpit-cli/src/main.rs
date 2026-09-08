@@ -1266,19 +1266,18 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::Outcome { repo, id, json } => {
                 require_compatible(&repo, &runtime_context)?;
-                let outcome =
-                    cockpit_repository::outcome_v2_with_runtime(&repo, &id, &runtime_context)
-                        .context("read Work Item outcome")?;
+                let input = cockpit_repository::outcome_render_input_with_runtime(
+                    &repo,
+                    &id,
+                    &runtime_context,
+                )
+                .context("read Work Item outcome")?;
                 if json {
-                    println!("{}", serde_json::to_string_pretty(&outcome)?);
+                    println!("{}", serde_json::to_string_pretty(&input.outcome)?);
                 } else {
                     println!(
                         "{}",
-                        cockpit_repository::render_human_outcome(
-                            &repo,
-                            &outcome,
-                            output_language(),
-                        )
+                        cockpit_repository::render_human_outcome(&input, output_language())
                     );
                 }
             }
@@ -1951,11 +1950,11 @@ fn print_lifecycle_result(
     let handoff = if json {
         None
     } else {
-        let outcome = cockpit_repository::outcome_v2_with_runtime(repo, work_item_id, runtime)
-            .context("read lifecycle Outcome handoff")?;
+        let input =
+            cockpit_repository::outcome_render_input_with_runtime(repo, work_item_id, runtime)
+                .context("read lifecycle Outcome handoff")?;
         Some(cockpit_repository::render_human_outcome(
-            repo,
-            &outcome,
+            &input,
             output_language(),
         ))
     };
@@ -1971,10 +1970,12 @@ fn emit_blocked_lifecycle_handoff(
     work_item_id: &str,
     runtime: &cockpit_protocol::RuntimeContext,
 ) {
-    if let Ok(outcome) = cockpit_repository::outcome_v2_with_runtime(repo, work_item_id, runtime) {
+    if let Ok(input) =
+        cockpit_repository::outcome_render_input_with_runtime(repo, work_item_id, runtime)
+    {
         eprintln!(
             "{}",
-            cockpit_repository::render_human_outcome(repo, &outcome, output_language(),)
+            cockpit_repository::render_human_outcome(&input, output_language())
         );
     }
 }

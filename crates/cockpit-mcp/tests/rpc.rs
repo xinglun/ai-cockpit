@@ -430,11 +430,19 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
     assert!(handoff.contains("生命周期状态"));
     assert!(handoff.contains("人工决定状态: 已记录：continue"));
     assert!(handoff.contains("保证级别: 未知"));
-    let outcome: cockpit_protocol::OutcomeV2 =
-        serde_json::from_value(structured["outcome"].clone()).expect("OutcomeV2");
+    let input = cockpit_repository::outcome_render_input_with_runtime(
+        &directory,
+        "WI-MCP-HANDOFF",
+        &test_runtime_context(),
+    )
+    .expect("outcome render input");
+    assert_eq!(
+        serde_json::to_value(&input.outcome).expect("outcome JSON"),
+        structured["outcome"]
+    );
     assert_eq!(
         handoff,
-        cockpit_repository::render_human_outcome(&directory, &outcome, "zh")
+        cockpit_repository::render_human_outcome(&input, "zh")
     );
     fs::remove_dir_all(directory).expect("cleanup");
 }

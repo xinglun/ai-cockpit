@@ -50,7 +50,10 @@ mod outcome_render;
 mod project_governance;
 
 pub use governance_controls::*;
-pub use outcome_render::render_human_outcome;
+pub use outcome_render::{
+    HumanDecisionProjection, OutcomeRenderInput, outcome_render_input,
+    outcome_render_input_from_outcome, outcome_render_input_with_runtime, render_human_outcome,
+};
 pub use project_governance::*;
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
