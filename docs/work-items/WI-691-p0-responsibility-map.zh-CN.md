@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: “WI-691 — P0 架构职责关系图”
 description: “为架构优化专项记录当前职责和依赖边界。”
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-691-p0-responsibility-map
 lastVerifiedBy: WI-691-p0-responsibility-map
+terminalArchive: .ai/work-items/archive/WI-691-p0-responsibility-map.contract.json
+terminalVerification: .ai/evidence/WI-691-p0-responsibility-map.verification.json
+terminalFinalization: .ai/decisions/WI-691-p0-responsibility-map.finalize.json
+terminalDecision: .ai/decisions/WI-691-p0-responsibility-map.close.json
 ---
 
 [English](WI-691-p0-responsibility-map.md) · [日本語](WI-691-p0-responsibility-map.ja.md)
@@ -45,4 +49,3 @@ finalization、close 记录，不能由本页面自行宣称。
 bounded execution 和最终 human renderer。仍需调查端到端 observation context 所有权、多文件
 lifecycle 操作的权威提交记录，以及 reusable verification 与 physical execution 的边界；本
 Work Item 不实现这些变化。
-

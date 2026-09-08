@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: “WI-691 — P0 アーキテクチャ責任マップ”
 description: “アーキテクチャ最適化の現在の責任・依存境界を記録する。”
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-691-p0-responsibility-map
 lastVerifiedBy: WI-691-p0-responsibility-map
+terminalArchive: .ai/work-items/archive/WI-691-p0-responsibility-map.contract.json
+terminalVerification: .ai/evidence/WI-691-p0-responsibility-map.verification.json
+terminalFinalization: .ai/decisions/WI-691-p0-responsibility-map.finalize.json
+terminalDecision: .ai/decisions/WI-691-p0-responsibility-map.close.json
 ---
 
 [English](WI-691-p0-responsibility-map.md) · [简体中文](WI-691-p0-responsibility-map.zh-CN.md)
@@ -50,4 +54,3 @@ Runtime の必須 evidence は locked workspace test。documentation acceptance�
 lifecycle lock、bounded execution、final human renderer の分離がある。end-to-end observation
 context の owner、multi-file lifecycle の authoritative commit record、reusable verification
 と physical execution の境界は未調査であり、本 Work Item では実装しない。
-

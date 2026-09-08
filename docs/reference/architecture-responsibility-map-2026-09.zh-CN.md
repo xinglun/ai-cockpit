@@ -6,10 +6,14 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-691-p0-responsibility-map
 lastVerifiedBy: WI-691-p0-responsibility-map
+terminalArchive: .ai/work-items/archive/WI-691-p0-responsibility-map.contract.json
+terminalVerification: .ai/evidence/WI-691-p0-responsibility-map.verification.json
+terminalFinalization: .ai/decisions/WI-691-p0-responsibility-map.finalize.json
+terminalDecision: .ai/decisions/WI-691-p0-responsibility-map.close.json
 ---
 
 # 架构职责与依赖关系图（2026-09）
@@ -148,4 +152,3 @@ Work Item 证据绑定和治理许可保持为三个独立事实。风险是扩�
 有界执行以及无文件系统的最终渲染器。仍需调查的是端到端 observation context 的所有权、
 每个多文件生命周期操作的提交记录，以及 verification reuse 与 physical execution 的
 生产边界。这些是 P1-B、P2-A/P2-C、P3 的调查输入，本 P0 不实现它们。
-

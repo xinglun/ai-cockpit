@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-691 — P0 architecture responsibility map"
 description: "Document the current responsibility and dependency boundaries for the architecture-optimization initiative."
 audience: [contributor, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-691-p0-responsibility-map
 lastVerifiedBy: WI-691-p0-responsibility-map
+terminalArchive: .ai/work-items/archive/WI-691-p0-responsibility-map.contract.json
+terminalVerification: .ai/evidence/WI-691-p0-responsibility-map.verification.json
+terminalFinalization: .ai/decisions/WI-691-p0-responsibility-map.finalize.json
+terminalDecision: .ai/decisions/WI-691-p0-responsibility-map.close.json
 ---
 
 [简体中文](WI-691-p0-responsibility-map.zh-CN.md) · [日本語](WI-691-p0-responsibility-map.ja.md)
@@ -55,4 +59,3 @@ the final human renderer. The remaining questions are end-to-end observation
 context ownership, the authoritative commit record for each multi-file
 lifecycle operation, and the boundary between reusable verification and
 physical execution. These questions are intentionally not implemented here.
-

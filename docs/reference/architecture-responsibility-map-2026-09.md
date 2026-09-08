@@ -6,10 +6,14 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-691-p0-responsibility-map
 lastVerifiedBy: WI-691-p0-responsibility-map
+terminalArchive: .ai/work-items/archive/WI-691-p0-responsibility-map.contract.json
+terminalVerification: .ai/evidence/WI-691-p0-responsibility-map.verification.json
+terminalFinalization: .ai/decisions/WI-691-p0-responsibility-map.finalize.json
+terminalDecision: .ai/decisions/WI-691-p0-responsibility-map.close.json
 ---
 
 # Architecture responsibility and dependency map (2026-09)
@@ -245,4 +249,3 @@ unknowns are end-to-end observation-context ownership, the exact commit record
 for each multi-file lifecycle operation, and the production ownership of
 verification reuse versus physical execution. Those are investigation inputs
 for P1-B, P2-A/P2-C, and P3; this P0 Work Item does not implement them.
-
