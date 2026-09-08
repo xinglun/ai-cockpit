@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "Modify only the nine scoped Markdown projection paths required by the WI-662 closed-work-item promotion check and this WI self-registration.",
+    "Preserve the immutable WI-662 Contract language, benchmark evidence references, finalization and close bindings, raw-measurement limitations, and three-language parity semantics.",
+    "Record in this Contract that human:user-request authorization was explicitly granted on 2026-09-08 for governed continuation after a provider permission interruption, with the PR comment and close receipt as evidence; this does not fabricate a GitHub review.",
+    "Pass documentation acceptance, parity, status consistency, governance integrity, and closed-work-item promotion checks on the exact reviewed head.",
+    "Do not claim a performance benefit beyond the measured P0 bottleneck evidence; keep user_visible_benefit_not_declared explicit."
+  ],
+  "authority": "authorized",
+  "baseRevision": "61dd164b2d714bc657f9253bf28d6053c9f66977",
+  "createdAt": "2026-09-08T09:23:37Z",
+  "goal": "Synchronize the WI-662 Work Item pages and reference-parity rows so the closed-work-item promotion gate passes, and record the reusable Contract authorization boundary for future provider/lifecycle interruptions.",
+  "intent": "Promote the closed WI-662 P0 benchmark evidence into the three-language documentation projection while preserving immutable evidence, repository isolation, and the explicit human-authorization record for this recovery path.",
+  "mode": "implementation",
+  "outOfScope": [
+    "All production code",
+    "All tests and CI behavior",
+    "Generated .ai records except Runtime lifecycle output",
+    "Immutable WI-662 archive",
+    " verification",
+    " recovery",
+    " finalization",
+    " and close records",
+    "Other Work Items and their docs",
+    "Other agents worktrees and branches",
+    "Hosted provider behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4269e4c9ee26dfbf8f2baf5250b8cf87433b79abda1e94e42dee504370ab7dc6",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_quality",
+    "finalization",
+    "human_outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-672-wi662-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/667",
+    "worktree": "/private/tmp/ai-cockpit-wi-672-wi662-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-662-p0-benchmark-evidence.md",
+    "docs/work-items/WI-662-p0-benchmark-evidence.zh-CN.md",
+    "docs/work-items/WI-662-p0-benchmark-evidence.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-672-wi662-doc-promotion.md",
+    "docs/work-items/WI-672-wi662-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-672-wi662-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-672-wi662-doc-promotion"
+}

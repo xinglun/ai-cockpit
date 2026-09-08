@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "Modify only the nine scoped Markdown projection paths required by the WI-662 closed-work-item promotion check and this WI self-registration.",
+    "Preserve the immutable WI-662 Contract language, benchmark evidence references, finalization and close bindings, raw-measurement limitations, and three-language parity semantics.",
+    "Record in this Contract that human:user-request authorization was explicitly granted on 2026-09-08 for governed continuation after a provider permission interruption, with the PR comment and close receipt as evidence; this does not fabricate a GitHub review.",
+    "Pass documentation acceptance, parity, status consistency, governance integrity, and closed-work-item promotion checks on the exact reviewed head.",
+    "Do not claim a performance benefit beyond the measured P0 bottleneck evidence; keep user_visible_benefit_not_declared explicit."
+  ],
+  "createdAt": "2026-09-08T09:36:39Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5ea6ebaa1bc98158290e7ae50ceafc9eda22e0a1cb3ca9bdd8a52a3e514c6b5b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-672-wi662-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-672-wi662-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-672-wi662-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a4a93163476bef92cd22c62d24c6d5536cc62554e19d1bedf7e38eee2bb8d0c7",
+      "workItemId": "WI-672-wi662-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-672-wi662-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-672-wi662-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-672-wi662-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-672-wi662-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-672-wi662-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-672-wi662-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-672-wi662-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize the WI-662 Work Item pages and reference-parity rows so the closed-work-item promotion gate passes, and record the reusable Contract authorization boundary for future provider/lifecycle interruptions."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-672-wi662-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-672-wi662-doc-promotion"
+  },
+  "taskReportDigest": "sha256:b3a028e3f224511a698a4ab3b6939e1c77667fadedab711c92ae8b0abf14488d",
+  "taskReportMarkdownDigest": "sha256:21290295a0a263c4a8b85b85262419accc4e4219c6507efabad415b721aa48f9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-672-wi662-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-672-wi662-doc-promotion"
+}
