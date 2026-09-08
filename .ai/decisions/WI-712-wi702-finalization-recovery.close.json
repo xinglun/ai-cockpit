@@ -1,0 +1,151 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+      "workItemId": "WI-712-wi702-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-712-wi702-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-712-wi702-finalization-recovery.finalize.json",
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.archive.json",
+            "https://github.com/xinglun/ai-cockpit/pull/705"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-08T23:22:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Reconcile WI-702's post-merge finalization boundary through an auditable successor, preserve its immutable truth, and complete the exact governance/parity closure without claiming an unproven performance benefit."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-712-wi702-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:bc9c43d58db1cf5756dc83c534ddcf8c7615bf6d605004eed8d3bf0f6b31745d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:45233f3772258bcf46f357f9945d61482ca508f7837dbcc81023581aa61ac6b9",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-712-wi702-finalization-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-08T23:22:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-712-wi702-finalization-recovery.finalize.json",
+      ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+      ".ai/work-items/archive/WI-712-wi702-finalization-recovery.archive.json",
+      "https://github.com/xinglun/ai-cockpit/pull/705"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Approve WI-712 closure after PR #705 review and hosted checks, merge synchronization, exact branch/worktree cleanup, finalize-verify, fresh Runtime verification, and documentation parity checks all passed; preserve the explicit no-performance-claim boundary.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-08T23:22:32Z",
+  "workItemId": "WI-712-wi702-finalization-recovery"
+}
