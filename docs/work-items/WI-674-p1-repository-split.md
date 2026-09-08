@@ -4,9 +4,13 @@ title: "WI-674 — P1 Repository responsibility split"
 description: "Split cockpit-repository responsibilities into internal modules while preserving public behavior and persistence compatibility."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-674-p1-repository-split
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-674-p1-repository-split
+terminalArchive: .ai/work-items/archive/WI-674-p1-repository-split.contract.json
+terminalVerification: .ai/evidence/WI-674-p1-repository-split.verification.json
+terminalFinalization: .ai/decisions/WI-674-p1-repository-split.finalize.json
+terminalDecision: .ai/decisions/WI-674-p1-repository-split.close.json
 ---
 
 [简体中文](WI-674-p1-repository-split.zh-CN.md) · [日本語](WI-674-p1-repository-split.ja.md)

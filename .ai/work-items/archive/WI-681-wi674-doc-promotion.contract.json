@@ -1,0 +1,71 @@
+{
+  "acceptanceCriteria": [
+    "仅同步 WI-674 关闭检查要求的三语言 Work Item 页面与三语言 reference-parity 行，并登记本 WI 的三语言页面与 parity 行，共九个已声明 Markdown 投影路径。",
+    "从 WI-674 的不可变归档、验证、finalization 和 close 记录生成终态文案；保留原始 Contract 语言、证据引用、限制和 user_visible_benefit_not_declared，不修改历史记录。",
+    "通过 documentation acceptance、parity status、Work Item status consistency、closed-work-item promotion --check-all 及 Contract 声明的治理检查。",
+    "不修改生产代码、测试、协议、治理规则或其他 Work Item；不新增用户可见、性能或认知收益声明。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+  "createdAt": "2026-09-08T13:37:50Z",
+  "goal": "使 WI-674 的关闭状态在中、日、英三语言 Work Item 与 reference-parity 文档中与 Runtime 终态证据一致，解除 closed-work-item promotion 检查阻断。",
+  "intent": "仓库所有者 xinglun 已明确授权继续处理 WI-674 关闭后的文档 promotion；仅把已关闭事实投影到六个文档路径，不重新打开 WI-674，不改变实现或历史证据。",
+  "mode": "implementation",
+  "outOfScope": [
+    "所有生产 Rust 代码、测试和 CI 行为",
+    "AI Cockpit 协议、Runtime、治理规则及证据格式",
+    "WI-674 的 Contract、Summary、archive、verification、finalization、close 和其他不可变记录",
+    "Outcome P0-A/P0-B、P1-A、P2 及其他 Work Item",
+    "其他 agent 的工作树、分支、PR 和 hosted provider 行为",
+    "用户全局 Agent/MCP 配置"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-681-wi674-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/677",
+    "worktree": "/private/tmp/ai-cockpit-wi-681-wi674-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-674-p1-repository-split.md",
+    "docs/work-items/WI-674-p1-repository-split.zh-CN.md",
+    "docs/work-items/WI-674-p1-repository-split.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-681-wi674-doc-promotion.md",
+    "docs/work-items/WI-681-wi674-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-681-wi674-doc-promotion.ja.md"
+  ],
+  "sources": [
+    "origin/main at base revision 8bf7a301484e78844678de32fec1aa1b5d42a56e",
+    ".ai/work-items/archive/WI-674-p1-repository-split.contract.json",
+    ".ai/work-items/archive/WI-674-p1-repository-split.summary.json",
+    ".ai/work-items/archive/WI-674-p1-repository-split.archive.json",
+    ".ai/evidence/WI-674-p1-repository-split.verification.json",
+    ".ai/decisions/WI-674-p1-repository-split.finalize.json",
+    ".ai/decisions/WI-674-p1-repository-split.close.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "Human authorization: repository owner xinglun explicitly authorized continuation for this documentation-promotion Work Item on 2026-09-08."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-674-p1-repository-split",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-681-wi674-doc-promotion"
+}
