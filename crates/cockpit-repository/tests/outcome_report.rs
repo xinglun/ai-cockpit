@@ -4,9 +4,9 @@ use cockpit_protocol::{
     OutcomeV2, ResourceFinalizationContext, TaskOutcomeReport,
 };
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, checkpoint_work_item, finish_work_item, outcome_v2,
-    plan_resource_finalization, preflight_work_item, record_verification, render_human_outcome,
-    start_work_item_with_options,
+    WorkItemStartOptions, archive_work_item, checkpoint_work_item, finish_work_item,
+    outcome_render_input_from_outcome, outcome_v2, plan_resource_finalization, preflight_work_item,
+    record_verification, render_human_outcome, start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -122,7 +122,8 @@ fn render_fixture(directory: &tempfile::TempDir, id: &str, fixture: RenderFixtur
         recovery_decision: None,
         historical_status,
     };
-    render_human_outcome(directory.path(), &outcome, "en")
+    let input = outcome_render_input_from_outcome(directory.path(), outcome);
+    render_human_outcome(&input, "en")
 }
 
 #[test]

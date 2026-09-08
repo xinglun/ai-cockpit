@@ -169,14 +169,18 @@ fn malformed_recovery_event_is_rejected_before_archive_success() {
 fn blocked_outcome_handoff_contains_recovery_facts_in_all_languages() {
     let directory = repository();
     finish_work_item(directory.path(), "WI-RECOVERY").expect_err("first finish must block");
-    let outcome = cockpit_repository::outcome_v2(directory.path(), "WI-RECOVERY").expect("outcome");
-    assert_eq!(outcome.failed_gate.as_deref(), Some("finish.verification"));
+    let outcome =
+        cockpit_repository::outcome_render_input(directory.path(), "WI-RECOVERY").expect("outcome");
+    assert_eq!(
+        outcome.outcome.failed_gate.as_deref(),
+        Some("finish.verification")
+    );
     for (language, marker) in [
         ("zh", "失败 gate"),
         ("ja", "失敗した gate"),
         ("en", "Failed gate"),
     ] {
-        let handoff = render_human_outcome(directory.path(), &outcome, language);
+        let handoff = render_human_outcome(&outcome, language);
         assert!(handoff.starts_with("Outcome: 🔴"), "{language}: {handoff}");
         assert!(handoff.contains(marker), "{language}: {handoff}");
         assert!(

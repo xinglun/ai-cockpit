@@ -846,8 +846,7 @@ fn archive_rewrites_generated_outcome_references_to_archive_paths() {
     }
 
     let handoff = render_human_outcome(
-        &path,
-        &cockpit_repository::outcome_v2(&path, work_item_id).expect("outcome"),
+        &cockpit_repository::outcome_render_input(&path, work_item_id).expect("outcome"),
         "en",
     );
     assert!(!handoff.contains(&active_reference));

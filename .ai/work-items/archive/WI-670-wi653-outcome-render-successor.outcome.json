@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "render_human_outcome performs no repository I/O or validation and formats assembled facts only.",
+    "The assembly use case performs the existing Outcome, human-decision, and archive-state loading once and all CLI/MCP callers use it.",
+    "Behavioral parity and cargo fmt, clippy, workspace tests, documentation and governance checks pass on this successor head.",
+    "Reviewers can verify that the presentation boundary is pure while governance facts remain evidence-bound."
+  ],
+  "createdAt": "2026-09-08T11:45:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b902ad3d9f402db0835ee10c19126fca69a32757a2dc4aa2e3a72f410c4aa27c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e45f062ce62c90dc31586a54ec219dae68cee225e79550ff0dfa336e1a98503c",
+      "workItemId": "WI-670-wi653-outcome-render-successor"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce a fresh reviewed successor for the archived WI-653 implementation: pure Outcome rendering over assembled facts, one assembly use case for CLI/MCP, and current verification evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-670-wi653-outcome-render-successor"
+  },
+  "taskReportDigest": "sha256:819e395c962ef63f196826b0492040885ddef8e50fd5989c2a3df0cc39002029",
+  "taskReportMarkdownDigest": "sha256:5e0cb95cbc96068f4f282c5205b7484e480dea895bc6b7d9fc6bcc88ed0ed6b8",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-670-wi653-outcome-render-successor"
+}
