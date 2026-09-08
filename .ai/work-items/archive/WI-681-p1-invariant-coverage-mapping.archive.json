@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T14:17:23Z",
+  "files": {
+    "contractDigest": "sha256:ad176a8d2ba8e45c2fc8b391f4665604005b0e1276ee804c4cf2b06dc0ad8010",
+    "contractPath": ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.contract.json",
+    "eventsDigest": "sha256:3d1ba80c3502bf059051f0869ac0b002835b02c006cdd1aed087a6d4155491f8",
+    "eventsPath": ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.events.jsonl",
+    "outcomeDigest": "sha256:42dc9d3fbe5ef7a76515a6826776d889da92761822cb0d1b21460387c7fe69a3",
+    "outcomePath": ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.outcome.json",
+    "summaryDigest": "sha256:38ef5f2b652130902df85f507707bf569a0998e5bff5214eea95996200afc9dd",
+    "summaryPath": ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.summary.json",
+    "taskReportDigest": "sha256:c8e13d63f7a3ae6d387d356615c551f0e6c262581445922bda13d6aef4eb523a",
+    "taskReportMarkdownDigest": "sha256:ec8b407e4a705eb02af7770289c2236809e3358d0749788c1cebfbcb1b777b7d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-681-p1-invariant-coverage-mapping"
+}

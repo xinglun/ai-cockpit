@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "A1: docs/reference/collaboration-invariant-coverage.md(+zh-CN/ja) states, for all ten invariants, whether automated coverage exists today, citing the exact test file and function name for each Yes/Partial row, verified by direct reading of the current test source.",
+    "A2: gaps are stated precisely (which case is not covered), not just 'no test exists', and each gap names a concrete reuse-based follow-on approach citing an existing pattern to extend.",
+    "A3: no claim in this document overstates coverage; a Partial row explains exactly what is and is not covered.",
+    "A4: docs/reference/README.md(+zh-CN/ja) gain exactly one new index entry each.",
+    "A5: WI-681 registers itself in the reference-parity ledger with the pre-archive status, added before this Work Item's own verification-evidence commit.",
+    "A6: bash tests/docs/documentation_acceptance.sh passes for all new and modified files."
+  ],
+  "createdAt": "2026-09-08T14:17:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:df4417bd0f520371490b8c1628ab2135c83223787061328c1255b5da35242f4c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ed59cfda39dfb7b04fd1e30c73e371225072cd95aca7bf64eab19f2c90fad90c",
+      "workItemId": "WI-681-p1-invariant-coverage-mapping"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.contract.json"
+          ],
+          "inference": false,
+          "text": "A maintainer or reviewer can see, for each invariant, whether an automated regression test already protects it and exactly which one, instead of having to search or re-derive this themselves, and can see a concrete, reuse-based plan for the remaining gaps."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-681-p1-invariant-coverage-mapping"
+  },
+  "taskReportDigest": "sha256:c8e13d63f7a3ae6d387d356615c551f0e6c262581445922bda13d6aef4eb523a",
+  "taskReportMarkdownDigest": "sha256:ec8b407e4a705eb02af7770289c2236809e3358d0749788c1cebfbcb1b777b7d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-681-p1-invariant-coverage-mapping"
+}

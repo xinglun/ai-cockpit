@@ -1,0 +1,104 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "## Coverage table",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "## Known gaps and recommended next Work Items",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "## Reading this table",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Collaboration invariant coverage index entry",
+          "path": "docs/reference/README.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "WI-681 row",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "python3 tests/ci/governance_integrity_gate.py"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "results[0]",
+          "path": ".ai/evidence/WI-681-p1-invariant-coverage-mapping.verification.json",
+          "type": "command-output",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.contract.json",
+    ".ai/work-items/archive/WI-681-p1-invariant-coverage-mapping.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T13:44:36Z",
+  "checkpointContractDigest": "sha256:4a74d294a8188dafcc86b72d26616e293293daddfa2e0e159128853d7a38662c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ed59cfda39dfb7b04fd1e30c73e371225072cd95aca7bf64eab19f2c90fad90c",
+  "createdAt": "2026-09-08T13:41:05Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/collaboration-invariant-coverage.md cites crates/*/tests/*.rs functions verified by direct reading",
+      "invariant 5's named gap was independently closed by PR #679 (WI-682) after this survey"
+    ],
+    "reason": "The delivered coverage mapping cites verified test names for all ten invariants and names four precise, reuse-based follow-on gaps, matching the declared intent exactly.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-08T14:17:17Z",
+  "preflightContractDigest": "sha256:4a74d294a8188dafcc86b72d26616e293293daddfa2e0e159128853d7a38662c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ed59cfda39dfb7b04fd1e30c73e371225072cd95aca7bf64eab19f2c90fad90c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T14:17:17Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-681-p1-invariant-coverage-mapping"
+}
