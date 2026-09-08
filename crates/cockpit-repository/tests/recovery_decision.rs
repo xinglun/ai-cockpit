@@ -4,7 +4,8 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, archive_work_item_with_runtime, attach, checkpoint_work_item,
     close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
-    finish_work_item, finish_work_item_with_runtime, outcome_v2, outcome_v2_with_runtime,
+    finish_work_item, finish_work_item_with_runtime, outcome_render_input,
+    outcome_render_input_with_runtime, outcome_v2, outcome_v2_with_runtime,
     plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime,
     record_recovery_decision, record_verification_with_runtime, render_human_outcome,
     repository_id, revalidate_contract_amendment, run_repository_verification, snapshot_digest,
@@ -1514,13 +1515,16 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
     )
     .expect("close superseded predecessor");
 
-    let outcome = outcome_v2(directory.path(), "WI-BLOCKED").expect("historical outcome");
-    assert_eq!(outcome.historical_status.as_deref(), Some("superseded"));
+    let input = outcome_render_input(directory.path(), "WI-BLOCKED").expect("historical outcome");
     assert_eq!(
-        outcome.decision_state,
+        input.outcome.historical_status.as_deref(),
+        Some("superseded")
+    );
+    assert_eq!(
+        input.outcome.decision_state,
         Some(cockpit_core::DecisionState::Yellow)
     );
-    let handoff = render_human_outcome(directory.path(), &outcome, "zh");
+    let handoff = render_human_outcome(&input, "zh");
     assert!(handoff.starts_with("Outcome: 🟡"), "{handoff}");
     assert!(!handoff.contains("失败 gate"), "{handoff}");
     assert!(!handoff.contains("修复失败的治理条件"), "{handoff}");
@@ -1579,24 +1583,26 @@ fn archived_pending_finalization_requires_explicit_supersede_recovery_before_clo
         runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
     };
 
-    let before = outcome_v2_with_runtime(directory.path(), id, &runtime).expect("outcome");
+    let before =
+        outcome_render_input_with_runtime(directory.path(), id, &runtime).expect("outcome");
     assert_ne!(
-        before.state,
+        before.outcome.state,
         OutcomeState::Verified,
         "archived work with a resource context but no finalization receipt must not be green"
     );
     assert_ne!(
-        before.decision_state,
+        before.outcome.decision_state,
         Some(cockpit_core::DecisionState::Green),
         "pending finalization must remain visibly non-green"
     );
     assert!(
         before
+            .outcome
             .unknowns
             .contains(&"resource_finalization_pending".into())
     );
     assert!(
-        render_human_outcome(directory.path(), &before, "zh").starts_with("Outcome: 🟡"),
+        render_human_outcome(&before, "zh").starts_with("Outcome: 🟡"),
         "pending finalization must be visible to a human"
     );
 
@@ -1724,14 +1730,22 @@ fn supersede_quarantines_a_bound_optional_archive_report_mismatch() {
         json!("taskReportMarkdown")
     );
 
-    let outcome = outcome_v2_with_runtime(directory.path(), id, &runtime).expect("outcome");
-    assert_eq!(outcome.historical_status.as_deref(), Some("superseded"));
+    let input = outcome_render_input_with_runtime(directory.path(), id, &runtime).expect("outcome");
     assert_eq!(
-        outcome.decision_state,
+        input.outcome.historical_status.as_deref(),
+        Some("superseded")
+    );
+    assert_eq!(
+        input.outcome.decision_state,
         Some(cockpit_core::DecisionState::Yellow)
     );
-    assert!(render_human_outcome(directory.path(), &outcome, "en").starts_with("Outcome: 🟡"));
-    assert!(!outcome.unknowns.contains(&"outcome_report_invalid".into()));
+    assert!(render_human_outcome(&input, "en").starts_with("Outcome: 🟡"));
+    assert!(
+        !input
+            .outcome
+            .unknowns
+            .contains(&"outcome_report_invalid".into())
+    );
 }
 
 #[test]

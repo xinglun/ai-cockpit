@@ -3,10 +3,11 @@ use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContex
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, attach, checkpoint_work_item, close_work_item_with_structured_decision,
-    finish_work_item, outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
-    record_verification, record_verification_with_runtime, render_human_outcome, repository_id,
-    run_repository_verification, start_work_item, start_work_item_with_options,
-    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
+    finish_work_item, outcome_render_input_with_runtime, plan_resource_finalization,
+    preflight_work_item, record_verification, record_verification_with_runtime,
+    render_human_outcome, repository_id, run_repository_verification, start_work_item,
+    start_work_item_with_options, work_item_status_index_with_runtime,
+    work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
 
@@ -366,18 +367,19 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
             .safe_actions
             .contains(&"close_after_cleanup".into())
     );
-    let outcome = outcome_v2_with_runtime(directory.path(), work_item_id, &runtime())
+    let outcome = outcome_render_input_with_runtime(directory.path(), work_item_id, &runtime())
         .expect("archived outcome");
     assert_eq!(
-        outcome.decision_state,
+        outcome.outcome.decision_state,
         Some(cockpit_core::DecisionState::Yellow)
     );
     assert!(
         outcome
+            .outcome
             .unknowns
             .contains(&"resource_finalization_pending".into())
     );
-    let handoff = render_human_outcome(directory.path(), &outcome, "zh");
+    let handoff = render_human_outcome(&outcome, "zh");
     assert!(handoff.starts_with("Outcome: 🟡"));
     assert!(handoff.contains("provider finalization"));
     assert!(handoff.contains("finalize-verify"));

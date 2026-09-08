@@ -1,18 +1,73 @@
 use cockpit_core::DecisionState;
-use cockpit_protocol::{HumanDecision, OutcomeClaim, OutcomeState, OutcomeV2};
+use cockpit_protocol::{HumanDecision, OutcomeClaim, OutcomeState, OutcomeV2, RuntimeContext};
 use serde_json::Value;
 use std::fs;
 use std::path::Path;
 
-use crate::repository_id;
+use crate::{
+    ObserverError, close_decision_is_valid_for_status, outcome_v2, outcome_v2_with_runtime,
+    repository_id,
+};
+
+/// Fully-assembled, already-validated input for `render_human_outcome`. Built
+/// once per request by `outcome_render_input`/`outcome_render_input_with_runtime`;
+/// rendering itself performs no further repository I/O or governance
+/// validation.
+#[derive(Clone, Debug)]
+pub struct OutcomeRenderInput {
+    pub outcome: OutcomeV2,
+    pub human_decision: HumanDecisionProjection,
+    pub archived_unclosed: bool,
+}
+
+/// Assemble the render input for a Work Item without a Runtime binding. See
+/// `outcome_render_input_with_runtime` for the Runtime-bound variant used by
+/// CLI/MCP.
+pub fn outcome_render_input(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<OutcomeRenderInput, ObserverError> {
+    let outcome = outcome_v2(root, work_item_id)?;
+    Ok(build_outcome_render_input(root, outcome))
+}
+
+/// Assemble the render input for a Work Item: the Outcome projection, the
+/// human-decision projection, and the archived-unclosed fact, each computed
+/// exactly once here rather than inside the render function.
+pub fn outcome_render_input_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<OutcomeRenderInput, ObserverError> {
+    let outcome = outcome_v2_with_runtime(root, work_item_id, runtime)?;
+    Ok(build_outcome_render_input(root, outcome))
+}
+
+fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderInput {
+    let historical = outcome.historical_status.is_some();
+    let archived_contract = root
+        .join(".ai/work-items/archive")
+        .join(format!("{}.contract.json", outcome.work_item_id));
+    let archived_unclosed = !historical
+        && archived_contract.is_file()
+        && !close_decision_is_valid_for_status(root, &outcome.work_item_id, &outcome.repository_id);
+    let human_decision = load_human_decision(root, &outcome.work_item_id);
+    OutcomeRenderInput {
+        outcome,
+        human_decision,
+        archived_unclosed,
+    }
+}
 
 /// Render the repository Outcome as an explicit, human-facing handoff.
 ///
-/// This is intentionally shared by the CLI and MCP adapters. The OutcomeV2
-/// value is produced and validated by outcome_v2; this function only projects
-/// it for a conversation. Contract text remains in its original language and
-/// no governance decision is inferred or translated.
-pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) -> String {
+/// This is intentionally shared by the CLI and MCP adapters. `input` is
+/// assembled once by `outcome_render_input`/`outcome_render_input_with_runtime`;
+/// this function only formats it for a conversation and performs no
+/// repository I/O or validation of its own. Contract text remains in its
+/// original language and no governance decision is inferred or translated.
+pub fn render_human_outcome(input: &OutcomeRenderInput, language: &str) -> String {
+    let outcome = &input.outcome;
     let language = match language {
         "zh" | "ja" => language,
         _ => "en",
@@ -176,17 +231,7 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             (_, _) => "Repair the missing evidence and verify again; remain stopped until then.",
         }
     };
-    let archived_contract = root
-        .join(".ai/work-items/archive")
-        .join(format!("{}.contract.json", outcome.work_item_id));
-    let archived_unclosed = !historical
-        && archived_contract.is_file()
-        && !crate::close_decision_is_valid_for_status(
-            root,
-            &outcome.work_item_id,
-            &outcome.repository_id,
-        );
-    if archived_unclosed {
+    if input.archived_unclosed {
         let finalization_pending = outcome
             .unknowns
             .iter()
@@ -316,10 +361,10 @@ pub fn render_human_outcome(root: &Path, outcome: &OutcomeV2, language: &str) ->
             .map(|reference| format!("{status}: {reference}"))
             .collect()
     };
-    let decision_items = match load_human_decision(root, &outcome.work_item_id) {
+    let decision_items = match &input.human_decision {
         HumanDecisionProjection::Missing => Vec::new(),
         HumanDecisionProjection::Valid(decision) => {
-            vec![render_human_decision(&decision, language, none)]
+            vec![render_human_decision(decision, language, none)]
         }
         HumanDecisionProjection::Invalid(reason) => {
             let label = match language {
@@ -506,8 +551,8 @@ fn localized_outcome_summary(
     }
 }
 
-#[derive(Debug)]
-enum HumanDecisionProjection {
+#[derive(Clone, Debug)]
+pub enum HumanDecisionProjection {
     Missing,
     Valid(HumanDecision),
     Invalid(&'static str),
@@ -636,4 +681,121 @@ fn render_human_decision(decision: &HumanDecision, language: &str, none: &str) -
         decision.reason,
         decision.decided_at,
     )
+}
+
+#[cfg(test)]
+mod render_tests {
+    use super::{HumanDecisionProjection, OutcomeRenderInput, render_human_outcome};
+    use cockpit_core::DecisionState;
+    use cockpit_protocol::{HumanBenefitReport, HumanDecision, OutcomeState, OutcomeV2};
+
+    fn base_outcome() -> OutcomeV2 {
+        OutcomeV2 {
+            schema_version: 2,
+            repository_id: "sha256:aaaa".into(),
+            work_item_id: "WI-RENDER-TEST".into(),
+            state: OutcomeState::Verified,
+            decision_state: Some(DecisionState::Green),
+            summary: "verified".into(),
+            acceptance_results: vec![],
+            unknowns: vec![],
+            evidence_refs: vec![".ai/evidence/WI-RENDER-TEST.verification.json".into()],
+            human_benefit_report: HumanBenefitReport {
+                state: OutcomeState::Verified,
+                user_visible_changes: vec![],
+                affected_users: vec![],
+                unknowns: vec![],
+                evidence_refs: vec![],
+            },
+            task_outcome_report: None,
+            failed_gate: None,
+            recovery_condition: None,
+            recovery_decision: None,
+            historical_status: None,
+        }
+    }
+
+    fn decision() -> HumanDecision {
+        HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "explicit-test".into(),
+            reason: "reviewed the evidence".into(),
+            evidence_refs: vec![],
+            policy_refs: vec![],
+            decided_at: "2026-09-08T00:00:00Z".into(),
+            resume_condition: None,
+        }
+    }
+
+    /// render_human_outcome takes no repository root or filesystem handle: an
+    /// input built entirely in memory is sufficient to exercise every branch.
+    #[test]
+    fn missing_human_decision_renders_none() {
+        let input = OutcomeRenderInput {
+            outcome: base_outcome(),
+            human_decision: HumanDecisionProjection::Missing,
+            archived_unclosed: false,
+        };
+        let text = render_human_outcome(&input, "en");
+        assert!(text.contains("Human decisions\n- None"), "{text}");
+    }
+
+    #[test]
+    fn valid_human_decision_is_rendered() {
+        let input = OutcomeRenderInput {
+            outcome: base_outcome(),
+            human_decision: HumanDecisionProjection::Valid(decision()),
+            archived_unclosed: false,
+        };
+        let text = render_human_outcome(&input, "en");
+        assert!(text.contains("Decision: approved"), "{text}");
+        assert!(text.contains("Actor: human:owner"), "{text}");
+    }
+
+    #[test]
+    fn invalid_human_decision_is_visible_as_unknown() {
+        let input = OutcomeRenderInput {
+            outcome: base_outcome(),
+            human_decision: HumanDecisionProjection::Invalid("decision record is not closed"),
+            archived_unclosed: false,
+        };
+        let text = render_human_outcome(&input, "en");
+        assert!(
+            text.contains("Unknown: structured human decision record is invalid"),
+            "{text}"
+        );
+        assert!(text.contains("decision record is not closed"), "{text}");
+    }
+
+    #[test]
+    fn archived_unclosed_recommends_the_close_decision() {
+        let input = OutcomeRenderInput {
+            outcome: base_outcome(),
+            human_decision: HumanDecisionProjection::Missing,
+            archived_unclosed: true,
+        };
+        let text = render_human_outcome(&input, "en");
+        assert!(
+            text.contains("record the explicit human close decision"),
+            "{text}"
+        );
+    }
+
+    #[test]
+    fn historical_status_is_rendered_without_claiming_current_failure() {
+        let mut outcome = base_outcome();
+        outcome.historical_status = Some("superseded".into());
+        let input = OutcomeRenderInput {
+            outcome,
+            human_decision: HumanDecisionProjection::Missing,
+            archived_unclosed: false,
+        };
+        let text = render_human_outcome(&input, "en");
+        assert!(
+            text.starts_with("Outcome: 🟡 Superseded historical item"),
+            "{text}"
+        );
+        assert!(text.contains("this is not a current failure"), "{text}");
+    }
 }

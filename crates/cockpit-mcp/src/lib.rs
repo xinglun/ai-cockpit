@@ -1013,13 +1013,13 @@ fn work_item_outcome(
         .and_then(Value::as_str)
         .ok_or("workItemId argument is required")?;
     validate_id(id)?;
-    let outcome = cockpit_repository::outcome_v2_with_runtime(repo, id, runtime)
+    let input = cockpit_repository::outcome_render_input_with_runtime(repo, id, runtime)
         .map_err(|error| error.to_string())?;
     let language = requested_language(arguments);
-    let handoff = cockpit_repository::render_human_outcome(repo, &outcome, language);
+    let handoff = cockpit_repository::render_human_outcome(&input, language);
     Ok(json!({
         "workItemId": id,
-        "outcome": outcome,
+        "outcome": input.outcome,
         "humanHandoff": handoff,
         "language": language,
         "contractLanguageBoundary": "Acceptance criteria remain in their original Contract language and are not machine-translated."
