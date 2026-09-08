@@ -4,7 +4,7 @@ title: "WI-698 — P1 explicit observation context boundary"
 description: "Bind one governance judgment to one validated, phase-scoped repository observation context."
 audience: [contributor, maintainer, reviewer]
 workItemId: WI-698-p1-observation-context-boundary
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-698-p1-observation-context-boundary
 ---
@@ -57,3 +57,10 @@ Other lifecycle entry points retain compatibility wrappers and may still use
 the older root-plus-snapshot form until a separately bounded migration. This
 Work Item does not claim a repository-wide atomic snapshot or a cross-request
 cache.
+
+## Recovery boundary
+
+The archived delivery remains immutable historical evidence. Its hosted branch
+was superseded after the default branch advanced; WI-700 and then WI-701 carry
+the revalidation from the current default base without rewriting this Work
+Item's archive, verification, or recovery records.

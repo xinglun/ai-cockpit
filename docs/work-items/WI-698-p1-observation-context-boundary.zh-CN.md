@@ -4,7 +4,7 @@ title: “WI-698——P1 显式观察上下文边界”
 description: “让一次治理判断绑定一组经过验证、按阶段划分的仓库观察上下文。”
 audience: [contributor, maintainer, reviewer]
 workItemId: WI-698-p1-observation-context-boundary
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-698-p1-observation-context-boundary
 ---
@@ -34,3 +34,9 @@ lastVerifiedBy: WI-698-p1-observation-context-boundary
 ## 剩余风险
 
 其他生命周期入口仍保留兼容的 root-plus-snapshot 形式，后续迁移必须由独立且有界的 WI 完成。本 WI 不宣称全仓库原子快照或跨请求缓存。
+
+## 恢复边界
+
+归档交付作为不可变历史证据保留。默认分支推进后，原 hosted branch 被后继
+WI-700、再由 WI-701 从当前默认基线重新验证；本页面不改写原 WI 的 archive、
+verification 或 recovery 记录。
