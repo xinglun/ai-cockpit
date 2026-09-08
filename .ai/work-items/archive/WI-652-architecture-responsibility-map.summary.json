@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-652-architecture-responsibility-map.contract.json",
+    ".ai/work-items/archive/WI-652-architecture-responsibility-map.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T02:05:32Z",
+  "checkpointContractDigest": "sha256:44bad5e6267c6c4727c1bc41067d1f15fd94ee1149262a0240a8b39ea027b4ef",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:10d6433a6cf1601154720fa488e1ceb3c20e866623a0c9ebb4f77fc449133def",
+      "recorded": true,
+      "recordedAt": "2026-09-08T02:05:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d1151dde694e3533ee66fdde070c61d776407212c2721a95d5d1cb8e4cce7a3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-652-architecture-responsibility-map"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:44bad5e6267c6c4727c1bc41067d1f15fd94ee1149262a0240a8b39ea027b4ef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:10d6433a6cf1601154720fa488e1ceb3c20e866623a0c9ebb4f77fc449133def",
+      "previousContractHash": "sha256:10d6433a6cf1601154720fa488e1ceb3c20e866623a0c9ebb4f77fc449133def",
+      "reason": "Bind the reviewed PR resource context before the final verification rerun required by the Runtime lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T02:12:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d1151dde694e3533ee66fdde070c61d776407212c2721a95d5d1cb8e4cce7a3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-652-architecture-responsibility-map"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9d1151dde694e3533ee66fdde070c61d776407212c2721a95d5d1cb8e4cce7a3",
+  "createdAt": "2026-09-08T02:05:04Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T02:14:41Z",
+  "preflightContractDigest": "sha256:44bad5e6267c6c4727c1bc41067d1f15fd94ee1149262a0240a8b39ea027b4ef",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9d1151dde694e3533ee66fdde070c61d776407212c2721a95d5d1cb8e4cce7a3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T02:14:43Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-652-architecture-responsibility-map"
+}

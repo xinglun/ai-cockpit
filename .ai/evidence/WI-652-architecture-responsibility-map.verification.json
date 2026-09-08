@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:10d6433a6cf1601154720fa488e1ceb3c20e866623a0c9ebb4f77fc449133def",
-  "createdAt": "2026-09-08T02:12:01Z",
+  "contractDigest": "sha256:44bad5e6267c6c4727c1bc41067d1f15fd94ee1149262a0240a8b39ea027b4ef",
+  "createdAt": "2026-09-08T02:14:40Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 194821,
-      "executionElapsedMs": 194433,
+      "elapsedMs": 118849,
+      "executionElapsedMs": 118507,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 194821,
-    "executionElapsedMs": 194433,
-    "filesHashed": 16,
-    "filesRead": 19,
+    "elapsedMs": 118849,
+    "executionElapsedMs": 118507,
+    "filesHashed": 10,
+    "filesRead": 13,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,11 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/architecture-responsibility-map-2026-09.ja.md",
-        "docs/reference/architecture-responsibility-map-2026-09.md",
-        "docs/reference/architecture-responsibility-map-2026-09.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
       "dependencyConfidence": "unknown",
@@ -48,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 194433,
+      "executionElapsedMs": 118507,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -78,9 +74,9 @@
           "commandDigest": "sha256:bb841c4a52c49360adb2001947e2eeed7cfa6eeb435f064165244c6004eb826e",
           "contentDigest": "sha256:9d1151dde694e3533ee66fdde070c61d776407212c2721a95d5d1cb8e4cce7a3",
           "diff": {
-            "baseCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
-            "changedPathsDigest": "sha256:63ecc4386351a744fa5d9685dd85a47319626c207625a541cf4ee0b0ab58b3db",
-            "headCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e"
+            "baseCommit": "eec2845008d9d10bc102f8226ed8761506ec885d",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "eec2845008d9d10bc102f8226ed8761506ec885d"
           },
           "environmentDigest": "sha256:82024696131b36ca13c7f0bda686ecdb90085a30f1b0832d56d19b29edaa4184",
           "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
@@ -91,12 +87,12 @@
           "stage": "task",
           "toolchainDigest": "sha256:55a5c4e40f6f930201133025c136270210ca51b8520d039178b89cf5405dcbd2"
         },
-        "createdAtEpochSeconds": 1788833326,
-        "expiresAtEpochSeconds": 1788919726,
+        "createdAtEpochSeconds": 1788833562,
+        "expiresAtEpochSeconds": 1788919962,
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:3bf55e358490a1d45a4886a617693d6510ac64a42a1990a2ecae01a53378ae7f",
+        "outputDigest": "sha256:b3a2063e046475c304f41f8a527e9f779a95e0667584516ee52e37c6c6eb7d43",
         "passed": true,
-        "receiptId": "sha256:91d743f0d439152ea6bcc9cc8a454401fc1cabfe5605541b410c9727623b1720",
+        "receiptId": "sha256:7d967a311134dc904ea834107278fc32fc526f3a292a1b66a7c9712da874b9fa",
         "schemaVersion": 2
       }
     ],
@@ -107,12 +103,12 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:3bf55e358490a1d45a4886a617693d6510ac64a42a1990a2ecae01a53378ae7f",
+        "outputDigest": "sha256:b3a2063e046475c304f41f8a527e9f779a95e0667584516ee52e37c6c6eb7d43",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
         "reason": "binding_mismatch",
-        "receiptId": "sha256:91d743f0d439152ea6bcc9cc8a454401fc1cabfe5605541b410c9727623b1720",
+        "receiptId": "sha256:7d967a311134dc904ea834107278fc32fc526f3a292a1b66a7c9712da874b9fa",
         "reused": false,
         "satisfiedBy": "execution",
         "state": "stale",
@@ -123,7 +119,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-652-architecture-responsibility-map"
   },
-  "receiptDigest": "sha256:92c24eba47798537635282a4325993d393e5e4e4d97ee72e98f4ef58d8f41bc5",
+  "receiptDigest": "sha256:82541e0a1ddb08aa424167b95a5bffcc1878c089a2e20cf57dd36b843cee8228",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:9d1151dde694e3533ee66fdde070c61d776407212c2721a95d5d1cb8e4cce7a3",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

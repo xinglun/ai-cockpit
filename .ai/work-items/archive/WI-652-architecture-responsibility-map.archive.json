@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T02:14:44Z",
+  "files": {
+    "contractDigest": "sha256:ab799dc8ddd3780d574bb02989fd0896f4a88add68b643030aa0f99211dbbf67",
+    "contractPath": ".ai/work-items/archive/WI-652-architecture-responsibility-map.contract.json",
+    "eventsDigest": "sha256:214626e0158c18910ba8a36c9062c5fe179209a840746dd06bdeb0646bbe4294",
+    "eventsPath": ".ai/work-items/archive/WI-652-architecture-responsibility-map.events.jsonl",
+    "outcomeDigest": "sha256:08b8eddcb7e6671ed35d5669eb49c5efe7575084a3e7a88fd7512012c9b56047",
+    "outcomePath": ".ai/work-items/archive/WI-652-architecture-responsibility-map.outcome.json",
+    "summaryDigest": "sha256:c6e3c09988845a16a406a15c5a43f88b391a31e19e1d01c3ed474567ef615bb7",
+    "summaryPath": ".ai/work-items/archive/WI-652-architecture-responsibility-map.summary.json",
+    "taskReportDigest": "sha256:99f53c2647f9cda734b044b64dce69684d1f259e0c70864262eb484434786598",
+    "taskReportMarkdownDigest": "sha256:bcfad80a7e1d92d075c80514bae8bc303d7b077664ec2aab7383e81d277bc6fe",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-652-architecture-responsibility-map.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-652-architecture-responsibility-map.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-652-architecture-responsibility-map"
+}
