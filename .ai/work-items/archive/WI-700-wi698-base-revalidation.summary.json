@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-700-wi698-base-revalidation.contract.json",
-    ".ai/work-items/active/WI-700-wi698-base-revalidation.summary.json"
+    ".ai/work-items/archive/WI-700-wi698-base-revalidation.contract.json",
+    ".ai/work-items/archive/WI-700-wi698-base-revalidation.summary.json"
   ],
   "checkpointAt": "2026-09-08T20:36:06Z",
   "checkpointContractDigest": "sha256:1bd4188679443577b68fcd73a55f71ea758bd1d7448b895b5edcbcfd2bd6442d",
@@ -137,14 +137,13 @@
       "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T20:36:06Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T20:49:48Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:11ea85f6ded59b3ef82a5bf7768672c75be1f93e12747249172a23e282f5052f",
   "workItemId": "WI-700-wi698-base-revalidation"
 }
