@@ -58,7 +58,8 @@ pub use evidence_store::{
     persist_reusable_receipt,
 };
 use evidence_store::{
-    open_cap_directory_nofollow_strict, read_cap_file_nofollow_bounded, valid_sha256_digest,
+    create_and_open_cap_directory, open_cap_directory_nofollow_strict, open_or_create_cap_nofollow,
+    read_cap_file_nofollow_bounded, valid_sha256_digest,
 };
 #[cfg(test)]
 use execution_context::execution_environment_digest_from_values;
@@ -4531,6 +4532,7 @@ pub fn reconcile_active_artifacts(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let active = root.join(".ai/work-items/active");
     let archive = root.join(".ai/work-items/archive");
     let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
@@ -4675,9 +4677,32 @@ fn archive_work_item_internal(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let ai = root.join(".ai");
     let active = ai.join("work-items/active");
     let archive = ai.join("work-items/archive");
+    let existing_manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    match fs::symlink_metadata(&existing_manifest_path) {
+        Ok(metadata) if metadata.file_type().is_symlink() => {
+            return Err(ObserverError::State {
+                path: existing_manifest_path,
+                message: "archive manifest must not be a symlink".into(),
+            });
+        }
+        Ok(_) => {
+            return Err(ObserverError::State {
+                path: existing_manifest_path,
+                message: "work item is already archived".into(),
+            });
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: existing_manifest_path,
+                source,
+            });
+        }
+    }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
@@ -6383,6 +6408,7 @@ pub fn record_historical_finalization_recovery(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
     let predecessor_path = resource_finalization_decision_path(&root, work_item_id);
     if fs::symlink_metadata(&predecessor_path).is_err() {
@@ -7378,6 +7404,7 @@ fn close_work_item_with_structured_decision_internal(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let archive = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
@@ -9145,6 +9172,13 @@ fn persist_blocked_lifecycle_outcome(
     } else {
         None
     };
+    if summary
+        .as_ref()
+        .and_then(|value| value["state"].as_str())
+        .is_some_and(|state| matches!(state, "finish_ready" | "archived" | "closed"))
+    {
+        return Ok(());
+    }
     let (failed_gate, recovery_condition) = lifecycle_failure_metadata(error);
     let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
     let snapshot = cockpit_git::GitRepository::discover(&root)
@@ -11943,12 +11977,39 @@ fn atomic_json(path: &Path, value: &serde_json::Value) -> Result<(), ObserverErr
     atomic_write(path, &bytes)
 }
 
+/// Serialize lifecycle transitions for one Work Item across threads and
+/// processes. The lock file is retained under the ignored `.ai/locks`
+/// runtime directory so a later caller cannot replace the inode while an
+/// older waiter still holds it. The operating-system lock is released when
+/// the handle is dropped, including after a process crash.
+fn acquire_lifecycle_lock(root: &Path, work_item_id: &str) -> Result<fs::File, ObserverError> {
+    let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        }
+    })?;
+    let ai_path = root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
+    let locks_path = ai_path.join("locks");
+    let locks = create_and_open_cap_directory(&ai, "locks", &locks_path)?;
+    let lock_name = format!("{work_item_id}.lifecycle.lock");
+    let lock_path = locks_path.join(&lock_name);
+    let lock = open_or_create_cap_nofollow(&locks, &lock_name, &lock_path)?;
+    lock.lock().map_err(|source| ObserverError::Read {
+        path: lock_path,
+        source,
+    })?;
+    Ok(lock)
+}
+
 fn now() -> String {
     chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
 }
 
 fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), ObserverError> {
-    let temporary = path.with_extension(format!("tmp-{}", std::process::id()));
+    let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
+    let temporary = path.with_extension(format!("tmp-{}-{sequence}", std::process::id()));
     fs::write(&temporary, bytes).map_err(|source| ObserverError::Read {
         path: temporary.clone(),
         source,

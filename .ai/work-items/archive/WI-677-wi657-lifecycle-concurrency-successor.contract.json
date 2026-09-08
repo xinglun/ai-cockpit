@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Controlled concurrent finish calls for one Work Item do not produce raw filesystem race artifacts and leave authoritative JSON records valid.",
+    "Atomic writes use unique same-process temporary identities, verified by repeated concurrent fault-injection runs.",
+    "Finish, archive, close, retry, and projection-recovery behavior records commit authority and does not display an incomplete operation as completed.",
+    "Duplicate operation attempts are idempotent or fail with an explicit conflict without duplicating history or granting authorization.",
+    "Any remaining rollback or crash-consistency limitation is demonstrated, documented, and represented as an unknown or blocked state rather than hidden."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
+  "createdAt": "2026-09-08T12:23:48Z",
+  "goal": "Establish evidence-backed multi-file consistency, idempotency, concurrency, and recovery behavior for lifecycle operations, including a real fix for the same-process atomic-write collision and explicit handling of any remaining rollback-clobber risk.",
+  "intent": "Re-deliver the P2-C lifecycle concurrency and recovery investigation from the latest default branch, with controlled fault injection covering finish, archive, close, retry, and projection recovery; repair only proven unsafe behavior and preserve existing contracts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Changing public JSON schemas, exit codes, or unrelated lifecycle commands without a demonstrated P2-C failure",
+    "Replacing the repository storage system, introducing a database, microservice, or broad event-sourcing framework",
+    "Modifying other agents worktrees, branches, contracts, evidence, or archived Work Items"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ef7dc52ef5e8845b1599283423f620fd1eaf3f4b928ef2ed037546952c8d2534",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-677-wi657-lifecycle-concurrency-successor",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/673",
+    "worktree": "/private/tmp/ai-cockpit-wi-677-wi657-lifecycle-concurrency-successor"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "crates/cockpit-repository/tests/recovery_events.rs",
+    ".gitignore",
+    "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.md",
+    "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.ja.md",
+    "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.zh-CN.md"
+  ],
+  "sources": [
+    "docs/work-items/WI-657-lifecycle-concurrency-fault-injection.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "crates/cockpit-repository/tests/recovery_events.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/governance_integrity_gate.py"
+  ],
+  "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
+}
