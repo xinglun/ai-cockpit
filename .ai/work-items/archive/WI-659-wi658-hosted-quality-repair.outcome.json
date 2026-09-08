@@ -44,77 +44,77 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-659-wi658-hosted-quality-repair.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.archive.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.events.jsonl"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.md"
@@ -173,7 +173,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.contract.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
           ],
           "inference": false,
           "text": "让 successor 分支在精确 head 上通过格式、聚焦行为测试、完整工作区测试、clippy 和治理门禁，并为后续 PR review 提供新鲜证据。"
@@ -182,7 +182,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.contract.json"
+            ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -192,8 +192,8 @@
     "status": "verified",
     "workItemId": "WI-659-wi658-hosted-quality-repair"
   },
-  "taskReportDigest": "sha256:beabeccb74d7c2b19b1592d15ee031f9f811bf3dea112f254f462b51f6711744",
-  "taskReportMarkdownDigest": "sha256:7be909a4eef802a26e39b3e4321db55c034ad2861b0f0c3e9a976bda642f5ca4",
+  "taskReportDigest": "sha256:a6d98a87c19566871d4e76834f13f6bcc6e5af50db47690a6c9506d76f549d22",
+  "taskReportMarkdownDigest": "sha256:d2e7ab70f023201524c9ab8413f9acbb11aac359e3fb3d91612bf51c006021a4",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

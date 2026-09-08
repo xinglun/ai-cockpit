@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json
 - Changed path: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json
-- Changed path: .ai/work-items/active/WI-659-wi658-hosted-quality-repair.contract.json
-- Changed path: .ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json
+- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json
+- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json
 - Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.archive.json
 - Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json
 - Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.events.jsonl

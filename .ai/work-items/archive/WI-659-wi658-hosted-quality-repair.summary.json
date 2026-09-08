@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json",
     ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json",
-    ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.contract.json",
-    ".ai/work-items/active/WI-659-wi658-hosted-quality-repair.summary.json",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json",
+    ".ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json",
     ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.archive.json",
     ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json",
     ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.events.jsonl",
