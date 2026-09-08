@@ -1,0 +1,151 @@
+{
+  "acceptanceCriteria": [
+    "在未修改生产代码前，使用现有修正后的 runtime_benchmark.sh 保存当前 latest remote default base 的原始采样、首次测量、预热次数、样本数、分位数方法、环境与不可用指标；以 many-historical-wi 为主场景，并记录其余场景未测量原因。",
+    "用测试计数和行为对比证明同一 status 观察内的 finalization transition 文件读取、解析、候选索引或 close 事实没有跨请求共享，并且重复工作减少；不能以缓存命中率替代端到端或资源收益。",
+    "仅在 status 请求内建立有界、仓库绑定的不可变观察索引；对每个 finalization receipt/transition 保留路径、摘要、序列、文件类型与 fail-closed 校验，读取失败、JSON 无效、摘要不匹配、链分叉、前序缺失、文件变化和路径异常保持既有错误/未知语义。",
+    "candidate 与 baseline 在同一 Runtime、同一仓库规模、同一工具链和同一场景下比较；只有 status 目标路径改善、关键场景不超 Contract 预算、且治理输出、错误、证据绑定和退出码一致时才接受；否则明确拒绝并不合入生产优化。",
+    "性能 Contract：many-historical-wi 的 status 独立 CLI 预热样本数至少 20，p50 至少降低 10%、p95 至少降低 5%；同轮 inspect、doctor、observe 的 p95 回归不得同时超过 25% 和 20ms，所有未提供的资源指标必须保持 unavailable。",
+    "不引入跨请求、跨仓库、跨 Work Item 的缓存，不改变快照边界、授权边界、恢复能力、历史证据字节、治理判断或 Outcome 语义；执行前与执行后观察不共享。",
+    "交付包含英文、简体中文、日文 Work Item 文档与 reference-parity 登记，记录瓶颈证据、假设、有效性边界、原始/汇总测量、正确性、平台限制、未验证事项、PR、证据和最终治理状态。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "2dee60a8aa97ba229d117cb210b245894b3347d2",
+  "createdAt": "2026-09-08T14:51:53Z",
+  "goal": "降低大量历史 Work Item 仓库上 status 从请求进入到可信治理投影的重复文件读取、解析和链解析成本，同时保持 Calibrated Human-Agent Trust 及全部 fail-closed 语义。",
+  "intent": "仓库所有者已授权继续推进 AI Cockpit 性能优化。WI-678 的 historical finalization candidate-path 复用在最新同环境测量中被拒绝；本 successor 只验证新的、独立的假设：status 请求内将 immutable finalization transition 内容一次解析并用于链解析，避免每个 Work Item 重复扫描和解析同一 decisions 目录内容。",
+  "mode": "code",
+  "outOfScope": [
+    "WI-678 的归档字节、PR #676、分支和最终化记录；不得改写历史证据",
+    "tests/performance/runtime_benchmark.sh 的基准语义、P0 分组规则和发布二进制规则",
+    "IncrementalMerkle、增量索引、文件通知、内容缓存、常驻 MCP 缓存和进程内 Git",
+    "大文件流式哈希、固定轮询等待、并行读取、DAG/PhysicalSingleFlightCoordinator、Cargo 嵌套并发和 PGO",
+    "Outcome、doctor、MCP 协议、授权策略、恢复协议、Runtime 或全局 Agent/MCP 配置",
+    "其他 agent 的 worktree、分支、PR、Contract、archive、evidence 和 hosted provider 行为",
+    "为触发 CI 而修改无关路径，删除/弱化检查、缩小既定验证范围或把不可用指标填为零"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6f9119a9fda0733b343c112dee0908e6d961f999b7f219c84c5b1775b26f76ac",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-685-p1-status-fact-reuse",
+    "provider": "github",
+    "pullRequest": "pending",
+    "worktree": "/private/tmp/ai-cockpit-wi-685-p1-status-fact-reuse"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/runtime_benchmark_stats.py",
+    "tests/performance/runtime_benchmark_scenarios.py",
+    ".ai/evidence/external/WI-685-p1-status-fact-reuse.*",
+    "docs/work-items/WI-685-p1-status-fact-reuse.md",
+    "docs/work-items/WI-685-p1-status-fact-reuse.zh-CN.md",
+    "docs/work-items/WI-685-p1-status-fact-reuse.ja.md",
+    "docs/superpowers/plans/2026-09-08-status-fact-reuse.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "origin/main at base revision 2dee60a8aa97ba229d117cb210b245894b3347d2",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/runtime_benchmark_stats.py",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "WI-678 PR #676 rejection evidence: https://github.com/xinglun/ai-cockpit/pull/676",
+    "Human authorization: repository owner explicitly authorized continuation on 2026-09-08; pause/resume authorization and evidence-preservation rule are inherited and must remain recorded."
+  ],
+  "state": "implementation_active",
+  "scenarioCoverage": [
+    {
+      "scenario": "many-historical-wi baseline and candidate",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.measurement-summary.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-forward-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-forward-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-reverse-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-reverse-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-round40-load-noise.json"
+      ],
+      "expected": "status target-path latency and repeated file parsing decrease under the same environment",
+      "verificationPlan": "runtime_benchmark.sh with raw baseline/candidate samples and a bounded internal counter"
+    },
+    {
+      "scenario": "valid finalization transition chain",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.json"
+      ],
+      "expectedResult": "same resolved head, sequence, digest, historical classification and governance output",
+      "verificationPlan": "status projection fixture and normalized baseline/candidate comparison"
+    },
+    {
+      "scenario": "malformed, missing, forked or digest-mismatched transition",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.preflight-negative-tests.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.json"
+      ],
+      "expectedOutcome": "same explicit error or unknown/fail-closed boundary; no stale success",
+      "verificationPlan": "existing negative fixtures plus focused regression tests"
+    },
+    {
+      "scenario": "repository, Work Item and observation isolation",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json"
+      ],
+      "expectedResult": "no cross-repository, cross-Work-Item or cross-request reuse",
+      "verificationPlan": "isolated repository fixtures and sequential independent status calls"
+    },
+    {
+      "scenario": "output, error and exit-code parity",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-changed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-changed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.normalized.json"
+      ],
+      "expectedResult": "normalized JSON, errors, evidence bindings and exit codes remain equal",
+      "verificationPlan": "baseline/candidate CLI comparison on clean, changed and failure paths"
+    }
+  ],
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked -p cockpit-repository --test status_projection",
+    "cargo test --locked --workspace",
+    "python3 tests/ci/governance_integrity_gate.py --repo .",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "git diff --check",
+    "same-environment baseline/candidate runtime_benchmark.sh runs with raw evidence and regression gate"
+  ],
+  "workItemId": "WI-685-p1-status-fact-reuse"
+}
