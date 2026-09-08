@@ -423,6 +423,7 @@ fn localized_not_ready_status(outcome: &OutcomeV2, language: &str) -> String {
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn localized_summary_next_action(
     language: &str,
     outcome: &OutcomeV2,
