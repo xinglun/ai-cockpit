@@ -109,7 +109,7 @@
     "tests/docs/documentation_acceptance.sh",
     "tests/docs/parity_status_check.sh",
     "python3 tests/docs/work_item_status_consistency.py --repo .",
-    "python3 tests/ci/governance_integrity_gate.py --repo ."
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/governance-integrity-report.json"
   ],
   "workItemId": "WI-658-wi656-outcome-trust-repair"
 }
