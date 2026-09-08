@@ -7,9 +7,6 @@
   ],
   "authority": "authorized",
   "baseRevision": "83a3bb6b4d8072d2c273bec349581ce2441510cc",
-  "predecessorWorkItemId": "WI-700-wi698-base-revalidation",
-  "predecessorContractDigest": "sha256:1bd4188679443577b68fcd73a55f71ea758bd1d7448b895b5edcbcfd2bd6442d",
-  "recoveryDecisionPath": ".ai/decisions/WI-700-wi698-base-revalidation.recovery.json",
   "createdAt": "2026-09-08T21:01:55Z",
   "goal": "Bind a fresh successor Contract to the current remote default base 83a3bb6b4d8072d2c273bec349581ce2441510cc, preserve the WI-698 to WI-700 lineage, and complete fresh verification, hosted review, and terminal lifecycle closure.",
   "intent": "Revalidate the WI-698 observation-context delivery and WI-700 recovery against the current hosted PR base without rewriting either predecessor archive or evidence.",
@@ -18,8 +15,11 @@
     "No new code semantics, governance rules, protocol formats, or other agent branch/PR changes.",
     "Do not rewrite WI-698 or WI-700 archive/evidence; do not touch WI-699 or any other active Work Item."
   ],
+  "predecessorContractDigest": "sha256:1bd4188679443577b68fcd73a55f71ea758bd1d7448b895b5edcbcfd2bd6442d",
+  "predecessorWorkItemId": "WI-700-wi698-base-revalidation",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-700-wi698-base-revalidation.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:2daecbf7dab6acf84de4e0e589c693b9b2dee426879910fa08fa5755afe1a7eb",
   "requiredEvidenceClasses": [
@@ -30,7 +30,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-701-wi700-current-base-revalidation-final",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/699",
     "worktree": "/private/tmp/ai-cockpit-wi-701-wi700-current-base-revalidation-final"
   },
   "risk": "high",
