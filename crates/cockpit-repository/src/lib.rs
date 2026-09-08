@@ -60,6 +60,8 @@ pub use evidence_store::{
 use evidence_store::{
     open_cap_directory_nofollow_strict, read_cap_file_nofollow_bounded, valid_sha256_digest,
 };
+#[cfg(test)]
+use execution_context::execution_environment_digest_from_values;
 pub use execution_context::{
     RepositoryExecutionContext, RuntimeSession, VerificationContextInput,
     VerificationReuseAssessment, VerificationReuseAuthorization, assess_verification_reuse,
@@ -69,19 +71,17 @@ use execution_context::{
     build_repository_verification_command, refresh_verification_context,
     resolved_executable_identity, valid_git_object_id,
 };
-#[cfg(test)]
-use execution_context::execution_environment_digest_from_values;
 pub use governance_controls::*;
-pub use outcome_render::{
-    HumanDecisionProjection, OutcomeRenderInput, outcome_render_input,
-    outcome_render_input_from_outcome, outcome_render_input_with_runtime, render_human_outcome,
-};
 pub use lifecycle::*;
 use lifecycle::{
     RECOVERY_DECISION_INVALID, contract_digest, contract_digest_for_evidence, decision_state_name,
     recovery_decision_error, validate_archived_revalidation_evidence,
     validate_recovery_predecessor_bindings, validate_recovery_successor_binding,
     work_item_artifact_path,
+};
+pub use outcome_render::{
+    HumanDecisionProjection, OutcomeRenderInput, outcome_render_input,
+    outcome_render_input_from_outcome, outcome_render_input_with_runtime, render_human_outcome,
 };
 pub use project_governance::*;
 use status_projection::{
