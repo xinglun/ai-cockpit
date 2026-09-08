@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Update the three WI-675 language pages and three reference-parity rows from in-progress/prearchive wording to the exact terminal status supported by the immutable WI-675 archive, verification, finalization, and close records.",
+    "Add the three-language WI-676 self-registration pages and matching parity rows without changing production code, governance rules, or historical evidence.",
+    "Pass documentation acceptance, closed-work-item promotion, parity status, parity regression, pending-parity registry, and work-item status consistency checks on the exact reviewed head.",
+    "Keep user_visible_benefit_not_declared explicit; this documentation correction makes no user-visible or performance claim.",
+    "Record in this Contract that on 2026-09-08 human:user-request authorization was granted for this Agent to continue governed Work Items through provider or lifecycle interruptions, with the exact interruption, scope, and evidence preserved; this is authorization, not a fabricated GitHub review."
+  ],
+  "createdAt": "2026-09-08T12:24:24Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:da7e3dd80031fb1130e8db9529d8a172bf5e126659a865321aa17fedf32ff43b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:538e1b19464e0e0b9c03e789513d9f812354d37d544dd8beca8f2c9d7327aa98",
+      "workItemId": "WI-676-wi675-doc-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-676-wi675-doc-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-676-wi675-doc-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-676-wi675-doc-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-676-wi675-doc-repair.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-676-wi675-doc-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Repair the terminal documentation projection that currently blocks the repository governance gate, preserving the immutable WI-675 lifecycle evidence and three-language parity semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-676-wi675-doc-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-676-wi675-doc-repair"
+  },
+  "taskReportDigest": "sha256:00b5ba39e660e4b7b15f2c9403e50232b35bbfeac903845a42a69887aa6964f4",
+  "taskReportMarkdownDigest": "sha256:40ebc1f3cfbd4f8d122f8f9f10ac2fad743cc419b359fbb34c9227d4507b6962",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-676-wi675-doc-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-676-wi675-doc-repair"
+}

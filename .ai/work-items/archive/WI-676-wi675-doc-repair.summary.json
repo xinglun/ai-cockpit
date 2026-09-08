@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-676-wi675-doc-repair.contract.json",
+    ".ai/work-items/archive/WI-676-wi675-doc-repair.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T12:16:38Z",
+  "checkpointContractDigest": "sha256:3aa471bd715eaaa3209600838d991e95bac20aa8d5b9620bc3437ea8a7ec98d9",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:eb5c4686155929d6e0eade71e219e054bb5cc7a7853d27fc21dd2b673825b2f4",
+      "recorded": true,
+      "recordedAt": "2026-09-08T12:16:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:538e1b19464e0e0b9c03e789513d9f812354d37d544dd8beca8f2c9d7327aa98",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-676-wi675-doc-repair"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3aa471bd715eaaa3209600838d991e95bac20aa8d5b9620bc3437ea8a7ec98d9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:eb5c4686155929d6e0eade71e219e054bb5cc7a7853d27fc21dd2b673825b2f4",
+      "previousContractHash": "sha256:eb5c4686155929d6e0eade71e219e054bb5cc7a7853d27fc21dd2b673825b2f4",
+      "reason": "Bound the Contract to the actual Draft GitHub PR #672 after the implementation commit was pushed. This provider identity change requires fresh verification before finish; the scoped documentation changes and immutable WI-675 evidence remain unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T12:23:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:538e1b19464e0e0b9c03e789513d9f812354d37d544dd8beca8f2c9d7327aa98",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-676-wi675-doc-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:538e1b19464e0e0b9c03e789513d9f812354d37d544dd8beca8f2c9d7327aa98",
+  "createdAt": "2026-09-08T12:14:13Z",
+  "mode": "code",
+  "preflightAt": "2026-09-08T12:24:13Z",
+  "preflightContractDigest": "sha256:3aa471bd715eaaa3209600838d991e95bac20aa8d5b9620bc3437ea8a7ec98d9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:538e1b19464e0e0b9c03e789513d9f812354d37d544dd8beca8f2c9d7327aa98",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T12:24:24Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-676-wi675-doc-repair"
+}
