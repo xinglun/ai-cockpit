@@ -1,0 +1,58 @@
+{
+  "actor": "human:release",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3a374357b75879e005acd01ca4f481f5a0c86ed5",
+    "name": "codex/wi-670-wi653-outcome-render-successor",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:4a14ce51275fbc94d270694a742a25d1e466426ed9dc46c5d28d86cf32dba5bd",
+  "operationId": "github-pr-669-finalization-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0b92a420ad76c5f9ce5ea80ae6c6870fcd45b130",
+    "headRevision": "3a374357b75879e005acd01ca4f481f5a0c86ed5",
+    "mergeCommit": "5cf7882344666bf0a94480c98b0972b5e2d29bcd",
+    "number": 669,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/669"
+  },
+  "reason": "Reviewed PR #669 merged after all hosted checks passed; exact Work Item branch and dedicated worktree removed after cleanup verification.",
+  "receiptId": "github-pr-669-finalization-20260908",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-670-wi653-outcome-render-successor",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/669",
+    "worktree": "/private/tmp/ai-cockpit-wi-670-outcome-render-successor"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T11:46:50Z",
+  "workItemId": "WI-670-wi653-outcome-render-successor",
+  "worktree": {
+    "branch": "codex/wi-670-wi653-outcome-render-successor",
+    "headRevision": "3a374357b75879e005acd01ca4f481f5a0c86ed5",
+    "path": "/private/tmp/ai-cockpit-wi-670-outcome-render-successor",
+    "worktreeId": "WI-670-wi653-outcome-render-successor"
+  }
+}

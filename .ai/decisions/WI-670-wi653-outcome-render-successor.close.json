@@ -1,0 +1,133 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e45f062ce62c90dc31586a54ec219dae68cee225e79550ff0dfa336e1a98503c",
+      "workItemId": "WI-670-wi653-outcome-render-successor"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json",
+            ".ai/decisions/WI-670-wi653-outcome-render-successor.finalize.json",
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:user via explicit-user-authorization at 2026-09-08T11:48:14Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce a fresh reviewed successor for the archived WI-653 implementation: pure Outcome rendering over assembled facts, one assembly use case for CLI/MCP, and current verification evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-670-wi653-outcome-render-successor"
+  },
+  "finalReportDigest": "sha256:9b34a4ae7ff9eb0c2432bbd63506c75f27bd85c5940877cfc543327ee263314f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:190576ab0e194896744ff217391cd63bee63ad1dc6cbc752b4ea822a02807540",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-670-wi653-outcome-render-successor.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-08T11:48:14Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-670-wi653-outcome-render-successor.verification.json",
+      ".ai/decisions/WI-670-wi653-outcome-render-successor.finalize.json",
+      ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.summary.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:post-merge-cleanup"
+    ],
+    "reason": "PR #669 passed hosted checks, merged as 5cf7882344666bf0a94480c98b0972b5e2d29bcd, and finalize-verify confirmed exact branch and worktree cleanup.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-08T11:48:23Z",
+  "workItemId": "WI-670-wi653-outcome-render-successor"
+}
