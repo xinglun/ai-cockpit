@@ -1,0 +1,63 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-661-wi660-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-661-wi660-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T06:46:23Z",
+  "checkpointContractDigest": "sha256:1dc9a18aaaaa4c70acf24c6390a826adebccbd5b0c30e6de8559a6ac6da4d486",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:1dc9a18aaaaa4c70acf24c6390a826adebccbd5b0c30e6de8559a6ac6da4d486",
+      "recorded": true,
+      "recordedAt": "2026-09-08T06:46:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a030f2978870838ec5ef0fefc6bf3575b8a14575ee3c2c0851a664b194225d3b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-661-wi660-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:018bcf5efd40e68843f04d24945c07454f4fe4e269631dd5b5b80ac6f0093a1b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1dc9a18aaaaa4c70acf24c6390a826adebccbd5b0c30e6de8559a6ac6da4d486",
+      "previousContractHash": "sha256:1dc9a18aaaaa4c70acf24c6390a826adebccbd5b0c30e6de8559a6ac6da4d486",
+      "reason": "The preflight review found the initial scope typo and the governance protocol requires this parity-owning documentation successor to register its own three-language pages and parity rows before evidence. The amended Contract now explicitly scopes the six WI-660 terminal projection paths plus only the six WI-661 self-registration paths; no code, tests, historical records, or other agent worktrees are included.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T06:46:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a030f2978870838ec5ef0fefc6bf3575b8a14575ee3c2c0851a664b194225d3b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-661-wi660-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a030f2978870838ec5ef0fefc6bf3575b8a14575ee3c2c0851a664b194225d3b",
+  "createdAt": "2026-09-08T06:41:30Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-08T06:47:02Z",
+  "preflightContractDigest": "sha256:018bcf5efd40e68843f04d24945c07454f4fe4e269631dd5b5b80ac6f0093a1b",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:a030f2978870838ec5ef0fefc6bf3575b8a14575ee3c2c0851a664b194225d3b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T06:46:23Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:018bcf5efd40e68843f04d24945c07454f4fe4e269631dd5b5b80ac6f0093a1b",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-08T06:46:49Z"
+  },
+  "workItemId": "WI-661-wi660-doc-promotion"
+}
