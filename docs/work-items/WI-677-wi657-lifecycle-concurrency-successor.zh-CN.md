@@ -7,7 +7,7 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-677-wi657-lifecycle-concurrency-successor
 ---
@@ -16,7 +16,7 @@ lastVerifiedBy: WI-677-wi657-lifecycle-concurrency-successor
 
 本 successor 从当前 `origin/main` 重新交付 P2-C。已归档的 WI-657 分支修复了
 同一进程临时文件名冲突，但基线已经过时，并明确留下了回滚覆盖风险；其证据
-保持历史不变，本 Work Item 不改写它。
+保持历史不变，WI-683 负责从最新默认分支重新交付。
 
 ## 边界
 

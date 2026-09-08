@@ -58,8 +58,8 @@ pub use evidence_store::{
     persist_reusable_receipt,
 };
 use evidence_store::{
-    create_and_open_cap_directory, open_cap_directory_nofollow_strict,
-    open_or_create_cap_nofollow, read_cap_file_nofollow_bounded, valid_sha256_digest,
+    create_and_open_cap_directory, open_cap_directory_nofollow_strict, open_or_create_cap_nofollow,
+    read_cap_file_nofollow_bounded, valid_sha256_digest,
 };
 #[cfg(test)]
 use execution_context::execution_environment_digest_from_values;

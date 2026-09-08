@@ -7,7 +7,7 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: recovered
 authority: human-authorized
 lastVerifiedBy: WI-677-wi657-lifecycle-concurrency-successor
 ---
@@ -17,7 +17,7 @@ lastVerifiedBy: WI-677-wi657-lifecycle-concurrency-successor
 This successor re-delivers the P2-C boundary from the current `origin/main`.
 The archived WI-657 branch fixed a same-process temporary-file collision but
 was based on an older default branch and left a documented rollback-clobber
-gap. Its evidence remains historical; this Work Item does not rewrite it.
+gap. Its evidence remains historical; WI-683 owns the redelivery from the latest default base.
 
 ## Boundary
 
