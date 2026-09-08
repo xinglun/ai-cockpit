@@ -16,7 +16,7 @@
         },
         {
           "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-702——P2 IncrementalMerkle 信任边界审计 | 进行中 | [Work Item](../work-items/WI-702-p2-incremental-merkle-trust-audit.zh-CN.md)；终态 lifecycle: archive `.ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json`；verification `.ai/evidence/WI-702-p2-incremental-merkle-trust-audit.verification.json`；finalization `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json`；close `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.close.json`。 |"
+          "row": "| WI-702 — P2 IncrementalMerkle 信任边界审计 | 进行中 | [Work Item](../work-items/WI-702-p2-incremental-merkle-trust-audit.zh-CN.md)；终态 lifecycle: archive `.ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json`；verification `.ai/evidence/WI-702-p2-incremental-merkle-trust-audit.verification.json`；finalization `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json`；close `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.close.json`。 |"
         },
         {
           "path": "docs/reference/reference-parity.ja.md",
@@ -28,7 +28,7 @@
         "number": 700,
         "url": "https://github.com/xinglun/ai-cockpit/pull/700"
       },
-      "registryBaseRevision": "61b214585838c3004d4a8508be33de6782b93018",
+      "registryBaseRevision": "0a9dbbf6fcc25fdc927fb2d697538c525067e6fa",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
