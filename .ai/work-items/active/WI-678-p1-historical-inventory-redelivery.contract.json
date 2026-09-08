@@ -41,7 +41,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-678-p1-historical-inventory-redelivery",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/676",
     "worktree": "/private/tmp/ai-cockpit-wi-678-p1-historical-inventory-redelivery"
   },
   "risk": "normal",
