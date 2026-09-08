@@ -9,7 +9,7 @@
   "evidenceRefs": [
     ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
   ],
-  "failedGate": "finish.governance",
+  "failedGate": "finish.verification",
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [],
@@ -20,7 +20,7 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
   "state": "blocked",
@@ -34,10 +34,10 @@
       "repositorySnapshotDigest": "sha256:c60db803e90901153b2c893be3380bd0b323068df321802e0e19f6c4f8c1dc09",
       "workItemId": "WI-659-wi658-hosted-quality-repair"
     },
-    "failedGate": "finish.governance",
+    "failedGate": "finish.verification",
     "format": "ai-cockpit.task-outcome",
     "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
