@@ -23,14 +23,48 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-658-wi656-outcome-trust-repair",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/656",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-658"
   },
   "risk": "high: successor redelivery changes human-facing Outcome presentation and must preserve protocol/governance semantics while repairing hosted clippy quality",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Fresh successor output preserves distinct verification, lifecycle, human-decision, risk-scope, historical, superseded, stale, failed, and unknown facts from real Outcome structures without inferring approval or absence of risk.",
+      "required": true,
+      "scenario": "p0_a_outcome_semantics_replay",
+      "status": "unverified",
+      "verificationPlan": "Run the real-structure outcome_report tests and CLI/MCP handoff tests for current, failed, missing, stale, historical, superseded, empty-risk, and human-decision variants in English, Simplified Chinese, and Japanese."
+    },
+    {
+      "evidence": [],
+      "expected": "The successor test helper passes the repository's strict workspace clippy gate without weakening lint configuration or changing production Outcome behavior.",
+      "required": true,
+      "scenario": "hosted_clippy_test_helper_repair",
+      "status": "unverified",
+      "verificationPlan": "Run cargo clippy --locked --workspace --all-targets --all-features -- -D warnings and retain the exact output in fresh verification evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI and MCP human handoffs express identical calibrated facts while machine JSON, exit codes, authorization semantics, and persistence layout remain compatible.",
+      "required": true,
+      "scenario": "cli_mcp_behavior_and_contract_compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run the focused CLI/MCP tests and the locked workspace test suite against the same generated Outcome fixtures, then inspect the machine-output compatibility assertions."
+    },
+    {
+      "evidence": [],
+      "expected": "The successor Work Item and parity rows are present in English, Simplified Chinese, and Japanese before verification evidence, and later records can bind exact archive, finalization, and close paths.",
+      "required": true,
+      "scenario": "tri_language_successor_governance_projection",
+      "status": "unverified",
+      "verificationPlan": "Register the three-language Work Item pages and parity rows before verification, then run documentation acceptance, parity status, work-item status consistency, and governance-integrity checks."
+    }
+  ],
   "scope": [
     "crates/cockpit-repository/src/outcome_render.rs",
     "crates/cockpit-repository/tests/outcome_report.rs",
@@ -68,40 +102,6 @@
     "https://github.com/xinglun/ai-cockpit/pull/653"
   ],
   "state": "implementation_active",
-  "scenarioCoverage": [
-    {
-      "scenario": "p0_a_outcome_semantics_replay",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "Fresh successor output preserves distinct verification, lifecycle, human-decision, risk-scope, historical, superseded, stale, failed, and unknown facts from real Outcome structures without inferring approval or absence of risk.",
-      "verificationPlan": "Run the real-structure outcome_report tests and CLI/MCP handoff tests for current, failed, missing, stale, historical, superseded, empty-risk, and human-decision variants in English, Simplified Chinese, and Japanese."
-    },
-    {
-      "scenario": "hosted_clippy_test_helper_repair",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "The successor test helper passes the repository's strict workspace clippy gate without weakening lint configuration or changing production Outcome behavior.",
-      "verificationPlan": "Run cargo clippy --locked --workspace --all-targets --all-features -- -D warnings and retain the exact output in fresh verification evidence."
-    },
-    {
-      "scenario": "cli_mcp_behavior_and_contract_compatibility",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "CLI and MCP human handoffs express identical calibrated facts while machine JSON, exit codes, authorization semantics, and persistence layout remain compatible.",
-      "verificationPlan": "Run the focused CLI/MCP tests and the locked workspace test suite against the same generated Outcome fixtures, then inspect the machine-output compatibility assertions."
-    },
-    {
-      "scenario": "tri_language_successor_governance_projection",
-      "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "expected": "The successor Work Item and parity rows are present in English, Simplified Chinese, and Japanese before verification evidence, and later records can bind exact archive, finalization, and close paths.",
-      "verificationPlan": "Register the three-language Work Item pages and parity rows before verification, then run documentation acceptance, parity status, work-item status consistency, and governance-integrity checks."
-    }
-  ],
   "verification": [
     "cargo test --locked --workspace",
     "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
