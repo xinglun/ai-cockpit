@@ -4,7 +4,7 @@ title: “WI-701——WI-700 当前基线重验证”
 description: “从当前远程默认基线重新验证观察上下文交付。”
 audience: [contributor, maintainer, reviewer]
 workItemId: WI-701-wi700-current-base-revalidation
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-701-wi700-current-base-revalidation
 ---

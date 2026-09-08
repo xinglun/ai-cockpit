@@ -4,7 +4,7 @@ title: "WI-701 — WI-700 current-base revalidation"
 description: "Revalidate the observation-context delivery from the current remote default base."
 audience: [contributor, maintainer, reviewer]
 workItemId: WI-701-wi700-current-base-revalidation
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-701-wi700-current-base-revalidation
 ---

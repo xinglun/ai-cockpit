@@ -1,0 +1,109 @@
+{
+  "acceptanceCriteria": [
+    "The recovery decision binds WI-702 to the immutable WI-701 archive, verification evidence, PR #699, and the explicit recovery reason.",
+    "The successor binds the current remote default base and exact WI-701 predecessor recovery lineage.",
+    "The WI-702 parity registration and three-language Work Item projection are committed before fresh verification evidence.",
+    "Fresh locked workspace verification, hosted checks, provider finalization, archive, close, and exact cleanup pass.",
+    "WI-701 remains immutable historical evidence and is not rewritten while WI-702 provides the replacement delivery."
+  ],
+  "authority": "authorized",
+  "baseRevision": "83a3bb6b4d8072d2c273bec349581ce2441510cc",
+  "createdAt": "2026-09-08T21:34:52Z",
+  "goal": "Bind WI-702 to origin/main current base, preserve WI-701 and earlier recovery lineage, pass fresh verification and hosted review, and complete terminal cleanup.",
+  "intent": "Redeliver the WI-701 observation-context recovery with the three-language parity registration committed before fresh verification.",
+  "mode": "implementation",
+  "outOfScope": [
+    "No new code semantics, governance rules, or protocol formats.",
+    "No changes to another agent's branch, worktree, or PR.",
+    "Do not rewrite WI-701 archive/evidence or WI-698/WI-700 history.",
+    "Do not merge or repair the immutable failed PR #699 in place."
+  ],
+  "predecessorContractDigest": "sha256:044dea2ea36b1850705b1964bc6a4a0cbb036176d743e0d5b166468a978078cf",
+  "predecessorWorkItemId": "WI-701-wi700-current-base-revalidation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-701-wi700-current-base-revalidation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2daecbf7dab6acf84de4e0e589c693b9b2dee426879910fa08fa5755afe1a7eb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-702-wi701-parity-order-recovery-final",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-702-wi701-parity-order-recovery-final"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The WI-702 parity row and three-language Work Item pages are present in a commit strictly earlier than WI-702 verification evidence.",
+      "required": true,
+      "scenario": "registration precedes fresh verification evidence",
+      "status": "unverified",
+      "verificationPlan": "Inspect commit ancestry and run the repository governance-integrity gate before and after Runtime verification."
+    },
+    {
+      "evidence": [],
+      "expected": "The hosted ordering failure from PR #699 is preserved as immutable history and the successor is independently bound to the current main base.",
+      "required": true,
+      "scenario": "failed hosted delivery is redelivered from current main",
+      "status": "unverified",
+      "verificationPlan": "Validate predecessor digests, recovery decision bindings, exact base revision, and the new PR head."
+    },
+    {
+      "evidence": [],
+      "expected": "The terminal Work Item state includes fresh verification, hosted checks, archive, close, and exact branch/worktree cleanup without rewriting predecessor evidence.",
+      "required": true,
+      "scenario": "terminal recovery lifecycle",
+      "status": "unverified",
+      "verificationPlan": "Run the declared Runtime lifecycle and inspect the generated archive, decision receipts, merged head, synchronized main, and cleanup postconditions."
+    }
+  ],
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-701-wi700-current-base-revalidation.md",
+    "docs/work-items/WI-701-wi700-current-base-revalidation.zh-CN.md",
+    "docs/work-items/WI-701-wi700-current-base-revalidation.ja.md",
+    "docs/work-items/WI-702-wi701-parity-order-recovery.md",
+    "docs/work-items/WI-702-wi701-parity-order-recovery.zh-CN.md",
+    "docs/work-items/WI-702-wi701-parity-order-recovery.ja.md",
+    ".ai/decisions/WI-701-wi700-current-base-revalidation.recovery.json",
+    ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json",
+    ".ai/work-items/archive/WI-702-wi701-parity-order-recovery.contract.json",
+    ".ai/work-items/archive/WI-702-wi701-parity-order-recovery.summary.json",
+    ".ai/work-items/archive/WI-702-wi701-parity-order-recovery.outcome.json",
+    ".ai/work-items/archive/WI-702-wi701-parity-order-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-702-wi701-parity-order-recovery.archive.json",
+    ".ai/decisions/WI-702-wi701-parity-order-recovery.finalize.json",
+    ".ai/decisions/WI-702-wi701-parity-order-recovery.close.json"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json",
+    ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.summary.json",
+    ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.outcome.json",
+    ".ai/evidence/WI-701-wi700-current-base-revalidation.verification.json",
+    ".ai/decisions/WI-701-wi700-current-base-revalidation.recovery.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/ci/governance_integrity_gate.py",
+    "https://github.com/xinglun/ai-cockpit/pull/699"
+  ],
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report /tmp/wi702-governance-integrity.json",
+    "ai-cockpit verify --repo /private/tmp/ai-cockpit-wi-702-wi701-parity-order-recovery-final --work-item WI-702-wi701-parity-order-recovery --stage task"
+  ],
+  "state": "implementation_active",
+  "workItemId": "WI-702-wi701-parity-order-recovery"
+}

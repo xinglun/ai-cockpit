@@ -1,0 +1,60 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-08T21:40:29Z",
+  "checkpointContractDigest": "sha256:3430e772bae06e55bf57d0c0e386f6a7b52314c7ad2df5705db032c43a5d4972",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3430e772bae06e55bf57d0c0e386f6a7b52314c7ad2df5705db032c43a5d4972",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:40:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fc033cee3d4ad282467f3f48faca22d5ab9d2fdeee9523140235222fa907881",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-702-wi701-parity-order-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bc25c28a199486d5c64bbc6a8679c61c67aa7177958332875bf8e82d5ff75cdf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3430e772bae06e55bf57d0c0e386f6a7b52314c7ad2df5705db032c43a5d4972",
+      "previousContractHash": "sha256:3430e772bae06e55bf57d0c0e386f6a7b52314c7ad2df5705db032c43a5d4972",
+      "reason": "Align the three predecessor Work Item projections with the recovered WI-701 parity status and include their documented recovery projection in the authorized scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:42:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-702-wi701-parity-order-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3fc033cee3d4ad282467f3f48faca22d5ab9d2fdeee9523140235222fa907881",
+  "createdAt": "2026-09-08T21:34:52Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T21:40:25Z",
+  "preflightContractDigest": "sha256:3430e772bae06e55bf57d0c0e386f6a7b52314c7ad2df5705db032c43a5d4972",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:3fc033cee3d4ad282467f3f48faca22d5ab9d2fdeee9523140235222fa907881",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T21:40:29Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:bc25c28a199486d5c64bbc6a8679c61c67aa7177958332875bf8e82d5ff75cdf",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-08T21:42:43Z"
+  },
+  "workItemId": "WI-702-wi701-parity-order-recovery"
+}
