@@ -1,0 +1,35 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T22:07:24Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.archive.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.summary.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.outcome.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.events.jsonl",
+    ".ai/evidence/WI-702-p2-incremental-merkle-trust-audit.verification.json",
+    ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/700"
+  ],
+  "policyRefs": [
+    "AGENTS.md:post-merge-finalization",
+    ".ai/README.md:immutable-history-and-successor-recovery",
+    "docs/reference/agent-workflow.md:finalization-transition-chain"
+  ],
+  "predecessorContractDigest": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
+  "predecessorEventsDigest": "sha256:739d4de0785dc6880ced6847d9362171fd34e0d76e5aadf475946eff1a4da2eb",
+  "predecessorOutcomeDigest": "sha256:e82c5e43a08da5d35459ead749ec382563b5536fe222ee5cae0aee9f3e824518",
+  "predecessorSummaryDigest": "sha256:61ce83e18d5a4e0b3d8d64e2fe10c6369bda8ed389e85a7a9b20c664f8766e23",
+  "predecessorWorkItemId": "WI-702-p2-incremental-merkle-trust-audit",
+  "reason": "WI-702 PR #700 merged at bd00a7ce with reviewed feature head 4eedf23d, but its immutable pre-merge finalization root binds 86f8535f. The intervening range includes the canonical finalization receipt addition and a modification to the pending parity registry, so the installed Runtime correctly rejects advancing the root as an append-only finalization transition. Preserve every WI-702 archive, verification, outcome, summary, event, Contract, and finalization byte; continue only the post-merge finalization and parity closure through the explicitly linked successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create WI-712 from the synchronized remote default branch with an amended Contract that binds this recovery decision, register parity before archive, independently verify the merged PR #700 facts and exact cleanup, and record a valid successor finalization chain and structured close. Never rewrite WI-702 historical bytes or claim that its rejected transition was valid.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-712-wi702-finalization-recovery",
+  "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+}

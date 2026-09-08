@@ -4,9 +4,10 @@ title: "WI-702 — P2 IncrementalMerkle trust audit"
 description: "Validate metadata reuse boundaries before any incremental content identity computation can affect governance."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-702-p2-incremental-merkle-trust-audit
-status: in_progress
+status: recovered
 authority: human:repository-owner
-lastVerifiedBy: WI-702-p2-incremental-merkle-trust-audit
+lastVerifiedBy: WI-712-wi702-finalization-recovery
+recoveryDecision: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json
 ---
 
 [简体中文](WI-702-p2-incremental-merkle-trust-audit.zh-CN.md) · [日本語](WI-702-p2-incremental-merkle-trust-audit.ja.md)
@@ -71,3 +72,18 @@ out of scope.
 This report does not claim a final PR, merge, or green governance outcome. The
 Runtime verification receipt, hosted review, archive, close, and final
 documentation promotion remain required.
+
+## Post-merge recovery boundary
+
+PR #700 was reviewed and merged at `bd00a7ce888c2d0dba012da21ba1616eeeab0014`
+with reviewed head `4eedf23ddf1e4a0491fb978127d61d852e6a5a1f`. The immutable
+pre-merge finalization root for this Work Item binds `86f8535f`; the intervening
+range also modifies the pending parity registry, so the installed Runtime
+correctly rejects treating the range as an append-only finalization transition.
+
+WI-702's archive, verification, Outcome, Events, Contract, and finalization
+bytes remain historical evidence. The append-only recovery decision is
+`.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json`, and
+WI-712 owns the fresh post-merge finalization, parity registration, and exact
+cleanup boundary. This recovery preserves the Calibrated Human-Agent Trust
+North Star and makes no performance-benefit claim.

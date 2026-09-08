@@ -1,0 +1,121 @@
+{
+  "acceptanceCriteria": [
+    "A1: Preserve every WI-702 archived Contract, Summary, Outcome, Events, verification evidence, and canonical pre-merge finalization receipt byte-for-byte; record their repository-bound digests in successor evidence.",
+    "A2: Record the WI-702 successor recovery decision and explicitly document that PR #700's intervening parity-registry modification prevents a valid append-only finalization transition; do not reclassify the rejected transition as valid or rewrite WI-702 history.",
+    "A3: Independently verify PR #700's reviewed head 4eedf23ddf1e4a0491fb978127d61d852e6a5a1f, merge commit bd00a7ce888c2d0dba012da21ba1616eeeab0014, required hosted checks, synchronized origin/main, and exact WI-702 branch/worktree cleanup.",
+    "A4: Register the recovered WI-702/WI-712 parity truth in English, Simplified Chinese, and Japanese reference projections, preserving the distinction between the recovered predecessor and this successor's closure boundary.",
+    "A5: Complete WI-712's Runtime lifecycle and successor finalization/close evidence with repository identity, Runtime identity, recovery binding, verification evidence, and a structured human decision; never claim a performance benefit from this governance recovery.",
+    "A6: Run the declared governance, documentation, and repository checks; after close, promote closed Work Item projections and leave the synchronized default branch ready only if Runtime confirms it."
+  ],
+  "authority": "authorized",
+  "baseRevision": "d97159a3f70e5ad59328b0d4e5249edf7931e84e",
+  "createdAt": "2026-09-08T22:34:32Z",
+  "goal": "Reconcile WI-702's post-merge finalization boundary through an auditable successor, preserve its immutable truth, and complete the exact governance/parity closure without claiming an unproven performance benefit.",
+  "intent": "WI-702 PR #700 is merged, but its immutable pre-merge finalization root cannot advance because the intervening reviewed range contains a modification to the pending parity registry in addition to the canonical receipt append. Use the Runtime's append-only successor recovery path, retain all predecessor bytes, and bind fresh post-merge evidence to the successor.",
+  "mode": "code",
+  "outOfScope": [
+    "Any rewrite deletion or reclassification of WI-702 archived Contract Summary Outcome Events verification evidence archive manifest or canonical finalization root.",
+    "All production code benchmark behavior governance Runtime implementation and performance claims unrelated to the post-merge recovery boundary.",
+    "Other agents' Work Items branches worktrees PRs evidence or pending parity records outside the WI-702 row being reconciled.",
+    "User-global Agent/MCP configuration release publication and unrelated documentation refactors."
+  ],
+  "predecessorContractDigest": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
+  "predecessorWorkItemId": "WI-702-p2-incremental-merkle-trust-audit",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dfd23dc6c805d1135fb9cce67924c1506fc8ce49735281154a935e7b4a170af8",
+  "requiredEvidenceClasses": [
+    "verification",
+    "resource_finalization",
+    "recovery_decision",
+    "documentation_parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-712-wi702-finalization-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-712-wi702-finalization-recovery"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+    ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.archive.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.summary.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.outcome.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.events.jsonl",
+    ".ai/evidence/WI-702-p2-incremental-merkle-trust-audit.verification.json",
+    ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+    ".ai/decisions/WI-712-wi702-finalization-recovery.finalize.json",
+    ".ai/decisions/WI-712-wi702-finalization-recovery.finalize.*.json",
+    ".ai/decisions/WI-712-wi702-finalization-recovery.close.json",
+    "docs/reference/pending-parity-registry.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.md",
+    "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.zh-CN.md",
+    "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.ja.md",
+    "docs/work-items/WI-712-wi702-finalization-recovery.md",
+    "docs/work-items/WI-712-wi702-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-712-wi702-finalization-recovery.ja.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "immutable_predecessor_preservation",
+      "required": true,
+      "expected": "Every WI-702 archive, verification, recovery predecessor digest, and canonical finalization root remains unchanged while WI-712 adds only successor evidence.",
+      "verificationPlan": "Hash the predecessor files before and after the WI-712 lifecycle, validate the recovery receipt bindings, and run the governance integrity gate.",
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json"
+      ],
+      "status": "verified"
+    },
+    {
+      "scenario": "non_append_finalization_drift_fails_closed",
+      "required": true,
+      "expected": "The installed Runtime rejects a post-merge finalization transition when the reviewed range contains a non-finalization path, and the successor records that boundary without claiming a valid transition.",
+      "verificationPlan": "Run the bounded finalize attempt against the preserved WI-702 root, retain its rejection evidence, and validate the successor recovery decision and parity projection.",
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+        ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+        "https://github.com/xinglun/ai-cockpit/pull/700"
+      ],
+      "status": "verified"
+    },
+    {
+      "scenario": "successor_finalization_and_exact_cleanup",
+      "required": true,
+      "expected": "WI-712 completes its own review, verification, finalization, exact branch/worktree cleanup, structured close, and closed-document promotion with one linear Runtime chain.",
+      "verificationPlan": "Run preflight, checkpoint, full verification, finish, archive, finalize-plan/finalize/finalize-verify, close, and promote_closed_work_item --check-all; inspect all resulting bindings.",
+      "evidence": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+      ],
+      "status": "unverified"
+    }
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "docs/reference/agent-workflow.md",
+    "https://github.com/xinglun/ai-cockpit/pull/700"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "python3 tests/ci/governance_integrity_gate.py --repo /private/tmp/ai-cockpit-wi-712-wi702-finalization-recovery --report /private/tmp/wi712-governance-integrity-report.json",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/pending_parity_registry_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo /private/tmp/ai-cockpit-wi-712-wi702-finalization-recovery --check-all"
+  ],
+  "workItemId": "WI-712-wi702-finalization-recovery"
+}

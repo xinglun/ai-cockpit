@@ -4,9 +4,10 @@ title: "WI-702 — P2 IncrementalMerkle 信頼境界監査"
 description: "増分コンテンツ識別計算がガバナンスへ影響する前に、metadata 再利用の境界を検証します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-702-p2-incremental-merkle-trust-audit
-status: in_progress
+status: recovered
 authority: human:repository-owner
-lastVerifiedBy: WI-702-p2-incremental-merkle-trust-audit
+lastVerifiedBy: WI-712-wi702-finalization-recovery
+recoveryDecision: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json
 ---
 
 [English](WI-702-p2-incremental-merkle-trust-audit.md) · [简体中文](WI-702-p2-incremental-merkle-trust-audit.zh-CN.md)
@@ -59,3 +60,19 @@ integration、release behavior、performance benchmark は scope 外です。
 
 この文書は final PR、merge、green governance outcome を主張しません。Runtime verification receipt、
 hosted review、archive、close、final documentation promotion が引き続き必要です。
+
+## Merge 後の recovery boundary
+
+PR #700 は repository owner の review 後に merge され、merge commit は
+`bd00a7ce888c2d0dba012da21ba1616eeeab0014`、reviewed head は
+`4eedf23ddf1e4a0491fb978127d61d852e6a5a1f` です。この Work Item の immutable な
+pre-merge finalization root は `86f8535f` を束縛しています。途中の range には
+pending parity registry の変更も含まれるため、installed Runtime はこの range を
+append-only finalization transition として扱うことを正しく拒否します。
+
+WI-702 の archive、verification、Outcome、Events、Contract、finalization bytes は
+historical evidence として保持します。append-only recovery decision は
+`.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json` であり、
+新しい merge 後の finalization、parity 登録、正確な cleanup boundary は WI-712 が
+担当します。この recovery は Calibrated Human-Agent Trust を維持し、performance
+benefit を主張しません。

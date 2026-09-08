@@ -1,0 +1,92 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+    ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json",
+    ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T22:38:51Z",
+  "checkpointContractDigest": "sha256:74021afb147a81b2b6b55aa4178ceacfbe2f070c30ebd4abdbee69f221769179",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:9a0950e290f8a050911c4033ea3458f00c893561efedf6a12a870e432008699c",
+      "recorded": true,
+      "recordedAt": "2026-09-08T22:38:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dfd23dc6c805d1135fb9cce67924c1506fc8ce49735281154a935e7b4a170af8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-712-wi702-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:ff70d893b69dcf228b7f3aba3715da8193b62f7ea67de7633b943a9ea4076fe8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9a0950e290f8a050911c4033ea3458f00c893561efedf6a12a870e432008699c",
+      "previousContractHash": "sha256:9a0950e290f8a050911c4033ea3458f00c893561efedf6a12a870e432008699c",
+      "reason": "Record the in-scope Contract verification-command correction and parity scope amendment; invalidate the prior verification binding and require fresh checks without rewriting the immutable before_edit checkpoint.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T22:56:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-712-wi702-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:74021afb147a81b2b6b55aa4178ceacfbe2f070c30ebd4abdbee69f221769179",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9a0950e290f8a050911c4033ea3458f00c893561efedf6a12a870e432008699c",
+      "previousContractHash": "sha256:ff70d893b69dcf228b7f3aba3715da8193b62f7ea67de7633b943a9ea4076fe8",
+      "reason": "Correct the governance-integrity acceptance command to pass the Runtime-required repository and isolated report arguments; invalidate the fresh verification binding and require the complete declared check set again.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T23:00:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-712-wi702-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+  "createdAt": "2026-09-08T22:34:32Z",
+  "failedGate": "finish.governance",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
+  "predecessorWorkItemId": "WI-702-p2-incremental-merkle-trust-audit",
+  "preflightAt": "2026-09-08T23:03:41Z",
+  "preflightContractDigest": "sha256:74021afb147a81b2b6b55aa4178ceacfbe2f070c30ebd4abdbee69f221769179",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T23:04:07Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:6afe8d4b27d9134f0f4ff261396d1990ecdfa10f2e814a456341728f5c112999",
+  "workItemId": "WI-712-wi702-finalization-recovery"
+}

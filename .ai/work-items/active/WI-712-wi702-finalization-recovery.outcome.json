@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "A1: Preserve every WI-702 archived Contract, Summary, Outcome, Events, verification evidence, and canonical pre-merge finalization receipt byte-for-byte; record their repository-bound digests in successor evidence.",
+    "A2: Record the WI-702 successor recovery decision and explicitly document that PR #700's intervening parity-registry modification prevents a valid append-only finalization transition; do not reclassify the rejected transition as valid or rewrite WI-702 history.",
+    "A3: Independently verify PR #700's reviewed head 4eedf23ddf1e4a0491fb978127d61d852e6a5a1f, merge commit bd00a7ce888c2d0dba012da21ba1616eeeab0014, required hosted checks, synchronized origin/main, and exact WI-702 branch/worktree cleanup.",
+    "A4: Register the recovered WI-702/WI-712 parity truth in English, Simplified Chinese, and Japanese reference projections, preserving the distinction between the recovered predecessor and this successor's closure boundary.",
+    "A5: Complete WI-712's Runtime lifecycle and successor finalization/close evidence with repository identity, Runtime identity, recovery binding, verification evidence, and a structured human decision; never claim a performance benefit from this governance recovery.",
+    "A6: Run the declared governance, documentation, and repository checks; after close, promote closed Work Item projections and leave the synchronized default branch ready only if Runtime confirms it."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+      "workItemId": "WI-712-wi702-finalization-recovery"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-712-wi702-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Reconcile WI-702's post-merge finalization boundary through an auditable successor, preserve its immutable truth, and complete the exact governance/parity closure without claiming an unproven performance benefit."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-712-wi702-finalization-recovery"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-712-wi702-finalization-recovery"
+}
