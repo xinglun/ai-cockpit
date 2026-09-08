@@ -209,14 +209,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T18:04:00.411300+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T18:08:17Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:a8242f79c2b94f980b72e4677aac76dd4e59b98d85206d7420435a7bf2db96f5",
   "workItemId": "WI-692-p0-concurrent-verification-measurement"
 }

@@ -7,8 +7,9 @@
     "Accept a future optimization hypothesis only if duplicate physical execution and a measurable target cost are demonstrated; otherwise record an explicit decline and the successor prerequisites.",
     "Deliver reproducible measurement code, raw evidence, a three-language Work Item record, parity registration, correctness checks, platform limits, unknowns, and the final governance state."
   ],
+  "createdAt": "2026-09-08T18:08:17Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:a8242f79c2b94f980b72e4677aac76dd4e59b98d85206d7420435a7bf2db96f5",
+  "evidenceDigest": "sha256:89a75bc9b4e6517e4b3b3333e82037ad4477528daacd46d2c42db7c05d6c5f18",
   "evidenceRefs": [
     ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
   ],
@@ -26,8 +27,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -85,7 +86,7 @@
             ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -130,8 +131,8 @@
     "status": "verified",
     "workItemId": "WI-692-p0-concurrent-verification-measurement"
   },
-  "taskReportDigest": "sha256:8f78ae63286b96b45fbd6f7c0666c5f66756a475d7dd687a99529f5f70a3b301",
-  "taskReportMarkdownDigest": "sha256:9c0e99e7f549c773bc8188e6aa28cbb3e8ff0b42eb199b7b6889977d16b06d11",
+  "taskReportDigest": "sha256:c17a83203ce752e61ddb9b894b114510669a5ebe4e72d175211366266afc0e31",
+  "taskReportMarkdownDigest": "sha256:595cfe41423cc9994e04ee5036f813d52068ba59242658b0e1f82d0fbfd587a0",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -55,7 +55,7 @@
           ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
