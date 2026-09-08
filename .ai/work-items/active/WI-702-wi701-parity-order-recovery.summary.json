@@ -126,7 +126,6 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
   "createdAt": "2026-09-08T21:34:52Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-702-wi701-parity-order-recovery.md",
@@ -138,14 +137,12 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "preflightAt": "2026-09-08T21:59:18Z",
   "preflightContractDigest": "sha256:083af558f38c95c7a25ca57d1dabcbe05c0a6ea51bdb40b3ad0e2c659f074320",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -189,14 +186,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T21:55:44.980997+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T21:59:54Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:7bb6464c93371af61aa0224d5b9ac7d1730991ff29ef51e5a7c6c5f04bb8d98b",
   "workItemId": "WI-702-wi701-parity-order-recovery"
 }

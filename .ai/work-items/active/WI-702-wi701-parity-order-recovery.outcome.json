@@ -6,6 +6,7 @@
     "Fresh locked workspace verification, hosted checks, provider finalization, archive, close, and exact cleanup pass.",
     "WI-701 remains immutable historical evidence and is not rewritten while WI-702 provides the replacement delivery."
   ],
+  "createdAt": "2026-09-08T21:59:54Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:7bb6464c93371af61aa0224d5b9ac7d1730991ff29ef51e5a7c6c5f04bb8d98b",
   "evidenceRefs": [
@@ -25,8 +26,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -77,7 +78,7 @@
             ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -122,8 +123,8 @@
     "status": "verified",
     "workItemId": "WI-702-wi701-parity-order-recovery"
   },
-  "taskReportDigest": "sha256:257257ad92f1233202aaa9a00353a985e83c6add2ea2d70c155ee9ac37b416a3",
-  "taskReportMarkdownDigest": "sha256:9cf05d5b58ef4828b9eda6bc325475535755f3e8273de2a65c5fd12c4c2560a2",
+  "taskReportDigest": "sha256:d452e556c82005735b4ca996ae378a2c889ad801abd930a41ed5addd4e242b66",
+  "taskReportMarkdownDigest": "sha256:5b397212eca4c239de06f8ca0b7f8d0dbc70864201bf9ae9f06d2707da4068be",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
