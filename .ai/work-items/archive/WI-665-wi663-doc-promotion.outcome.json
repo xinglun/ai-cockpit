@@ -5,14 +5,17 @@
     "Pass documentation acceptance, parity, status consistency, governance integrity, and closed-work-item promotion checks on the exact reviewed head.",
     "Provide reviewers and adopters one consistent tri-language projection of terminal lifecycle truth, so they do not have to infer completion from conditional rows or separate open PRs."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-08T08:47:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:91fffb673f197f6f4d71a9b37d27126ad845704a609b23519fcfe6486df26d1a",
   "evidenceRefs": [
     ".ai/evidence/WI-665-wi663-doc-promotion.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-665-wi663-doc-promotion.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,11 +23,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -34,10 +36,8 @@
       "repositorySnapshotDigest": "sha256:6f45a4bd6bb8b1abe22c4a8b2418238d9f9381b0d2478cd78f8594ae2f8390f5",
       "workItemId": "WI-665-wi663-doc-promotion"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -58,22 +58,14 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-665-wi663-doc-promotion.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-665-wi663-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-665-wi663-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -85,7 +77,7 @@
             ".ai/evidence/WI-665-wi663-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -95,15 +87,23 @@
             ".ai/evidence/WI-665-wi663-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-665-wi663-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-665-wi663-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-665-wi663-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Synchronize the three-language WI-663 and WI-664 Work Item pages, their shared reference-parity rows including the WI-659 terminal supersede decision, and WI-665 self-registration, so closed-work-item promotion checks pass."
@@ -112,23 +112,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-665-wi663-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-665-wi663-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-665-wi663-doc-promotion"
   },
+  "taskReportDigest": "sha256:946c80e7cda6505878444321b4f57fa43f252bf2ae71d3f6722780d31c469e8b",
+  "taskReportMarkdownDigest": "sha256:8e34075bcb818798697c393dfd8d9bdecbbc663f898f38a23d28b20236d8991f",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-665-wi663-doc-promotion.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-665-wi663-doc-promotion"
 }

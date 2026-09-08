@@ -32,11 +32,11 @@
     "human_outcome"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-665-wi663-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/666",
     "worktree": "/private/tmp/ai-cockpit-wi-665-wi663-doc-promotion"
   },
   "risk": "normal",
