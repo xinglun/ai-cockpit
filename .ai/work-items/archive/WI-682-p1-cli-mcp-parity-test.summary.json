@@ -57,11 +57,11 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-682-p1-cli-mcp-parity-test.contract.json",
-    ".ai/work-items/active/WI-682-p1-cli-mcp-parity-test.summary.json"
+    ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json",
+    ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.summary.json"
   ],
   "checkpointAt": "2026-09-08T13:51:26Z",
-  "checkpointContractDigest": "sha256:023f05d0fa67997fb3ea2fc43c71d893c729f87c0661cc23e01f8ea3e6a6150b",
+  "checkpointContractDigest": "sha256:847551dc18d8fc604178da3a37d1e56fe3db5ae0f76f1728adeea4f278771b4e",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:71ab2564b816074cb461a58e2da1716da0562fa9864dd431418b69486f26d0c4",
   "createdAt": "2026-09-08T13:49:49Z",
@@ -74,21 +74,20 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-08T14:12:09Z",
-  "preflightContractDigest": "sha256:023f05d0fa67997fb3ea2fc43c71d893c729f87c0661cc23e01f8ea3e6a6150b",
+  "preflightAt": "2026-09-08T14:15:24Z",
+  "preflightContractDigest": "sha256:847551dc18d8fc604178da3a37d1e56fe3db5ae0f76f1728adeea4f278771b4e",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:71ab2564b816074cb461a58e2da1716da0562fa9864dd431418b69486f26d0c4",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T13:58:24.624424+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T14:15:29Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:aa27da166ff22247cece62b4b53520f2f90c9b955b3294e63c1bedc11140d8e8",
   "workItemId": "WI-682-p1-cli-mcp-parity-test"
 }
