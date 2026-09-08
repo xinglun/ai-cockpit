@@ -1,0 +1,61 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-08T18:54:35Z",
+  "checkpointContractDigest": "sha256:2bb1a7eb287e02c409a59ee2e149216adab93c6628a1008bb492fdeb304d441d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:b4b140933d61f64ba571e7aa41dec97f4577498566b02611993909c38035d603",
+      "recorded": true,
+      "recordedAt": "2026-09-08T18:54:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d241311d8e6b4bb4046455b3bf997cd16ffb14fbb097adc1a330aa36467fc0d4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-697-wi694-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a36225477cfd7da38d413f1d47260f5f5c94cb2f2649d6994a452ce6c917c9a5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b4b140933d61f64ba571e7aa41dec97f4577498566b02611993909c38035d603",
+      "previousContractHash": "sha256:b4b140933d61f64ba571e7aa41dec97f4577498566b02611993909c38035d603",
+      "reason": "Add the required three-language self-documentation projection and its acceptance binding so parity and status checks can validate this documentation Work Item; no implementation or governance semantics change.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T18:54:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d241311d8e6b4bb4046455b3bf997cd16ffb14fbb097adc1a330aa36467fc0d4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-697-wi694-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:cf23e212f42baecb7ef6a62534ca1e8752c0abd378bdd82737dfb79be0523d9a",
+  "createdAt": "2026-09-08T18:50:29Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T18:58:26Z",
+  "preflightContractDigest": "sha256:2bb1a7eb287e02c409a59ee2e149216adab93c6628a1008bb492fdeb304d441d",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:cf23e212f42baecb7ef6a62534ca1e8752c0abd378bdd82737dfb79be0523d9a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T18:58:50Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-697-wi694-doc-promotion"
+}
