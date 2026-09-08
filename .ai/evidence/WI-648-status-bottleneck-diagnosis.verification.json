@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:9880b410aae3efff903f3fd2d3b61c37c710dec8266d146461f29d5c6a437c7c",
-  "createdAt": "2026-09-08T00:00:06Z",
+  "contractDigest": "sha256:f99d704ce71006f5c3d5c17c3ffd73a728f6e35f7a50731343c3dabc3ef97021",
+  "createdAt": "2026-09-08T00:06:49Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 112072,
-      "executionElapsedMs": 111660,
+      "elapsedMs": 105442,
+      "executionElapsedMs": 105094,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 112072,
-    "executionElapsedMs": 111660,
-    "filesHashed": 22,
-    "filesRead": 25,
+    "elapsedMs": 105442,
+    "executionElapsedMs": 105094,
+    "filesHashed": 10,
+    "filesRead": 13,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,14 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/governance-performance-budget.ja.md",
-        "docs/reference/governance-performance-budget.md",
-        "docs/reference/governance-performance-budget.zh-CN.md",
-        "docs/work-items/WI-648-status-bottleneck-diagnosis.ja.md",
-        "docs/work-items/WI-648-status-bottleneck-diagnosis.md",
-        "docs/work-items/WI-648-status-bottleneck-diagnosis.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
       "dependencyConfidence": "unknown",
@@ -51,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 111660,
+      "executionElapsedMs": 105094,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -81,9 +74,9 @@
           "commandDigest": "sha256:38a49bd10a619eabbaa0a2b1b206bfda2809137169350c841571721ea4eb44a5",
           "contentDigest": "sha256:7c0a6143da49275ad48e912d68265acc4e9229e09b0216a71c9b968c45cd684d",
           "diff": {
-            "baseCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
-            "changedPathsDigest": "sha256:344ccef63481465e19d4c8a48646c7b8fef6b7eaf42a79bed7d3e971793df1f3",
-            "headCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e"
+            "baseCommit": "de61461a2c27bf488a99395df343dbb4cad23898",
+            "changedPathsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "headCommit": "de61461a2c27bf488a99395df343dbb4cad23898"
           },
           "environmentDigest": "sha256:928dc9708f8c5e1652bbd8ac0b05ea0d66fa9167ae404567dae9c0634d977948",
           "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
@@ -94,12 +87,12 @@
           "stage": "task",
           "toolchainDigest": "sha256:55a5c4e40f6f930201133025c136270210ca51b8520d039178b89cf5405dcbd2"
         },
-        "createdAtEpochSeconds": 1788825494,
-        "expiresAtEpochSeconds": 1788911894,
+        "createdAtEpochSeconds": 1788825903,
+        "expiresAtEpochSeconds": 1788912303,
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ee155a9e726e473220452a855362a90538add2c0c372bbd9bda40182128afec0",
+        "outputDigest": "sha256:943a9ca16547835df253065b3a1b60150699483c450aefcbe8003a4f06dbb9b9",
         "passed": true,
-        "receiptId": "sha256:0830b86c42d25e5b37d7eeed06803d410905733a9e9299961d8b09b946e6844a",
+        "receiptId": "sha256:1d85fc7994b5f7d49cdf9955bb329c42d003c118781f11e39b35d91ddc3c96f9",
         "schemaVersion": 2
       }
     ],
@@ -110,12 +103,12 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ee155a9e726e473220452a855362a90538add2c0c372bbd9bda40182128afec0",
+        "outputDigest": "sha256:943a9ca16547835df253065b3a1b60150699483c450aefcbe8003a4f06dbb9b9",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
         "reason": "binding_mismatch",
-        "receiptId": "sha256:0830b86c42d25e5b37d7eeed06803d410905733a9e9299961d8b09b946e6844a",
+        "receiptId": "sha256:1d85fc7994b5f7d49cdf9955bb329c42d003c118781f11e39b35d91ddc3c96f9",
         "reused": false,
         "satisfiedBy": "execution",
         "state": "stale",
@@ -126,7 +119,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-648-status-bottleneck-diagnosis"
   },
-  "receiptDigest": "sha256:7c04945ec15341dec763bd56b4bcb762855466c577c7de35e768747f5560dc66",
+  "receiptDigest": "sha256:11b2d1c2e58513a486bc6fc5798ab5e67b296dabebf3e62ea8971440dc095f95",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:7c0a6143da49275ad48e912d68265acc4e9229e09b0216a71c9b968c45cd684d",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

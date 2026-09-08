@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T00:06:56Z",
+  "files": {
+    "contractDigest": "sha256:2127f46802d94916f90de47ad7baf68019161b2bfb7568aab2f50164c7b67461",
+    "contractPath": ".ai/work-items/archive/WI-648-status-bottleneck-diagnosis.contract.json",
+    "eventsDigest": "sha256:dc7518318d2efd8ad86257342e6640dcb33e88bb54bde106b9973fbe88f2f620",
+    "eventsPath": ".ai/work-items/archive/WI-648-status-bottleneck-diagnosis.events.jsonl",
+    "outcomeDigest": "sha256:3577abb636075f1e06242d44fe22bf0de1738b9252b151307bbabf2ea7cb9a5a",
+    "outcomePath": ".ai/work-items/archive/WI-648-status-bottleneck-diagnosis.outcome.json",
+    "summaryDigest": "sha256:629bc6425d07fbf3714c048d474e5850c73ca82b9334fa4a9e33a87fffa3b526",
+    "summaryPath": ".ai/work-items/archive/WI-648-status-bottleneck-diagnosis.summary.json",
+    "taskReportDigest": "sha256:40617f1465ed4e50448a8373f3a3a0e73feeba9d0b9ac870dc957d11ec71d7b2",
+    "taskReportMarkdownDigest": "sha256:899bc304c5b3d6fe632a0ede822d1c7491b7fda7975e11220c286a04dc97710e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-648-status-bottleneck-diagnosis.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-648-status-bottleneck-diagnosis.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-648-status-bottleneck-diagnosis"
+}
