@@ -783,3 +783,5 @@ reader documentation に投影されます。target と attached adopter は sha
 context、isolated records、dynamic verification、fail-closed lifecycle、visible human Outcome を継承し、source bytes
 や provider-local wire format はコピーしません。
 [WI-640 file-level record](reference-file-comparison.ja.md#wi-640--reference-rebaseline-batch-55) を参照してください。
+
+| WI-658 — WI-656 Outcome trust-expression repair | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-658-wi656-outcome-trust-repair.ja.md); archive `.ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json`; verification `.ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json`; finalization `.ai/decisions/WI-658-wi656-outcome-trust-repair.finalize.json`; close `.ai/decisions/WI-658-wi656-outcome-trust-repair.close.json`. immutable な WI-656 の successor であり、新しい P0-A evidence と hosted quality は未完了です。 |

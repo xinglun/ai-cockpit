@@ -757,3 +757,5 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 界面及读者文档承载。目标工程与 attached adopter 继承共享 Runtime identity、显式 repository context、隔离
 记录、动态验证、fail-closed lifecycle 和可见人类 Outcome；不复制源实现字节或 provider-local wire format。
 详见 [WI-640 逐文件记录](reference-file-comparison.zh-CN.md#wi-640参考源重新基线第-55-批)。
+
+| WI-658——WI-656 Outcome 信任表达修复 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-658-wi656-outcome-trust-repair.zh-CN.md)；archive `.ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json`；verification `.ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json`；finalization `.ai/decisions/WI-658-wi656-outcome-trust-repair.finalize.json`；close `.ai/decisions/WI-658-wi656-outcome-trust-repair.close.json`。这是不可变 WI-656 的 successor；新的 P0-A evidence 和 hosted quality 仍待完成。 |

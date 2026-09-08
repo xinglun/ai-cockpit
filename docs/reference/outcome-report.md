@@ -19,7 +19,8 @@ capabilityClaims:
 human handoff by default. Use `--json` when a machine needs the stable
 `OutcomeV2` object.
 
-The first line is always `Outcome: 🔴/🟡/🟢 ...`; the handoff is returned directly
+The first line is always `Outcome: 🔴/🟡/🟢 ...`. For example, green is rendered as
+`Outcome: 🟢 Declared verification passed`, not as a generic success claim. The handoff is returned directly
 by CLI stdout and MCP `content[0].text`, so an Agent or UI must not hide it in a
 collapsed log. `work_item_status` is the separate read-only status projection.
 Its lifecycle phase is `archived` after archive and becomes `closed` only when
@@ -37,7 +38,7 @@ hosts must surface stderr, and a person can replay the durable handoff with
 
 The handoff follows the reader-first order:
 
-1. Task Result and status marker
+1. Task Result plus separate Verification, Lifecycle, Human decision, and Governance signal status
 2. What was completed
 3. Problems found
 4. Stops triggered
@@ -56,11 +57,30 @@ Status markers are decision signals, not release authorization:
 - `🟡` the result is partial, not ready, or unknown; repair or investigate.
 - `🔴` a required control failed or authority/scope is invalid; stop and recover.
 
-An empty section is rendered as `None`/`无`/`なし`; the report never fills a
-governance decision from inference. A green result does not authorize merge,
-release, publication, or a security claim.
+Empty data is not treated as a positive fact. Risk findings are rendered as
+`Not recorded` or `Not assessed` when the evidence cannot support a stronger
+statement; only an explicit evidence-backed claim may say that no risk was
+found within a named check scope. Other empty sections use `Not recorded`.
+The report never fills a governance decision from inference. A green result
+does not authorize merge, release, publication, or a security claim.
 
-Green is emitted only after the Runtime validates a complete, fresh,
+The status lines deliberately keep four dimensions separate:
+
+- Verification describes the `OutcomeState`, for example `Declared verification passed`.
+- Lifecycle describes the current active, checkpointed, finish-ready, archived, or closed projection.
+- Human decision says `Not recorded`, `Recorded: <decision>`, or `Unknown`; it is not inferred from verification.
+- Governance signal is a green/yellow/red signal and explicitly says it is not a human approval.
+
+A valid structured human decision also shows its actor, authority source,
+evidence and policy references, and assurance level. The assurance level is
+`Unknown`/`未知`/`不明` when the record contains no such fact; the renderer never
+upgrades the authority source or evidence into a higher assurance level.
+
+Test-weakening output is scope-limited. A message that a weakening rule was not
+triggered is rendered as a result for the referenced check scope and explicitly
+does not prove that tests were not weakened.
+
+The green marker is emitted only after the Runtime validates a complete, fresh,
 identity-bound `evidenceSchemaVersion=2` verification receipt for the current
 Work Item and repository. Missing or stale evidence is yellow. Tampered,
 malformed, identity-mismatched, or digest-inconsistent evidence is red. The

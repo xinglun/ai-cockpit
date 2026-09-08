@@ -48,8 +48,68 @@
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md"
   ],
-  "sources": [],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/decisions/WI-656-outcome-trust-expression.recovery.caab1ff2630b38c362115e209d001da55813293b96a4411f6fd16979146843e4.json",
+    "https://github.com/xinglun/ai-cockpit/pull/653"
+  ],
   "state": "implementation_active",
-  "verification": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "p0_a_outcome_semantics_replay",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Fresh successor output preserves distinct verification, lifecycle, human-decision, risk-scope, historical, superseded, stale, failed, and unknown facts from real Outcome structures without inferring approval or absence of risk.",
+      "verificationPlan": "Run the real-structure outcome_report tests and CLI/MCP handoff tests for current, failed, missing, stale, historical, superseded, empty-risk, and human-decision variants in English, Simplified Chinese, and Japanese."
+    },
+    {
+      "scenario": "hosted_clippy_test_helper_repair",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The successor test helper passes the repository's strict workspace clippy gate without weakening lint configuration or changing production Outcome behavior.",
+      "verificationPlan": "Run cargo clippy --locked --workspace --all-targets --all-features -- -D warnings and retain the exact output in fresh verification evidence."
+    },
+    {
+      "scenario": "cli_mcp_behavior_and_contract_compatibility",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "CLI and MCP human handoffs express identical calibrated facts while machine JSON, exit codes, authorization semantics, and persistence layout remain compatible.",
+      "verificationPlan": "Run the focused CLI/MCP tests and the locked workspace test suite against the same generated Outcome fixtures, then inspect the machine-output compatibility assertions."
+    },
+    {
+      "scenario": "tri_language_successor_governance_projection",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The successor Work Item and parity rows are present in English, Simplified Chinese, and Japanese before verification evidence, and later records can bind exact archive, finalization, and close paths.",
+      "verificationPlan": "Register the three-language Work Item pages and parity rows before verification, then run documentation acceptance, parity status, work-item status consistency, and governance-integrity checks."
+    }
+  ],
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "git diff --check",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "python3 tests/ci/governance_integrity_gate.py --repo ."
+  ],
   "workItemId": "WI-658-wi656-outcome-trust-repair"
 }

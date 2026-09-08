@@ -918,3 +918,5 @@ context, isolated records, dynamic verification, fail-closed lifecycle, and
 visible human Outcome; source implementation bytes and provider-local wire
 formats remain outside the target.
 See the [WI-640 file-level record](reference-file-comparison.md#wi-640--reference-rebaseline-batch-55).
+
+| WI-658 — WI-656 Outcome trust-expression repair | In progress → Implemented after verified close | [Work Item](../work-items/WI-658-wi656-outcome-trust-repair.md); archive `.ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json`; verification `.ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json`; finalization `.ai/decisions/WI-658-wi656-outcome-trust-repair.finalize.json`; close `.ai/decisions/WI-658-wi656-outcome-trust-repair.close.json`. Successor of immutable WI-656; fresh P0-A evidence and hosted quality remain pending. |
