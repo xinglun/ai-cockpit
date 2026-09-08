@@ -4,9 +4,13 @@ title: WI-663 — WI-659 Outcome 信頼表現 successor
 description: 最新のデフォルトブランチから既存の P0-A Outcome 信頼表現を再バインドし、先行証拠を書き換えずに検証する。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-663-wi659-outcome-trust-replacement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-663-wi659-outcome-trust-replacement
+terminalArchive: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.contract.json
+terminalVerification: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json
+terminalFinalization: .ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json
+terminalDecision: .ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json
 ---
 
 # WI-663 — WI-659 Outcome 信頼表現 successor
@@ -40,4 +44,3 @@ integrity を successor head 上で実行します。検証通過は宣言され
 
 検証前の user-visible benefit の測定と hosted review の状態は unknown です。本 WI は認知
 研究の実施や読解時間の短縮を主張しません。
-

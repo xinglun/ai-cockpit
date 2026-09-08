@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T07:55:31Z",
-  "checkpointContractDigest": "sha256:c0d74e286e83362b0a465510d01f58d2d33372d6c354b9b7ab857718dfeb59fd",
+  "checkpointContractDigest": "sha256:403df860d685be176f1e8fec0873732c18fb6a90fdd4e93ee1ee2b5142ce0471",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -77,24 +77,49 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-665-wi663-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:403df860d685be176f1e8fec0873732c18fb6a90fdd4e93ee1ee2b5142ce0471",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c0d74e286e83362b0a465510d01f58d2d33372d6c354b9b7ab857718dfeb59fd",
+      "previousContractHash": "sha256:8e0266acd3a97138ea02befa8c96b3789fd0cd847c17f966d091c0cecd51d7a3",
+      "reason": "Hosted quality globally validates all tri-language terminal projections, creating a dependency cycle when WI-659 parity, WI-663 terminal documentation, and WI-664 terminal documentation are split across open PRs. Expand this documentation-only Contract to the exact twelve Markdown projection paths covering those three rows plus WI-665 self-registration; preserve all .ai archive/evidence/decision bytes, exclude WI-666/WI-668 branches and worktrees, and change no code or runtime behavior.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T08:44:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f45a4bd6bb8b1abe22c4a8b2418238d9f9381b0d2478cd78f8594ae2f8390f5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-665-wi663-doc-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:5378d544c5f698b0ff38b289fd5d5af466d8d238ca1d31db1802fb19fcefc199",
+  "checkpointRepositorySnapshotDigest": "sha256:6f45a4bd6bb8b1abe22c4a8b2418238d9f9381b0d2478cd78f8594ae2f8390f5",
   "createdAt": "2026-09-08T07:54:42Z",
+  "failedGate": "finish.governance",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T08:14:27Z",
-  "preflightContractDigest": "sha256:8e0266acd3a97138ea02befa8c96b3789fd0cd847c17f966d091c0cecd51d7a3",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:c21c79a13cc7829f41d34fc3317eb1ee5ea0461b292a97d8cc2b1145d862cedd",
-  "preflightState": "yellow",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-08T08:45:07Z",
+  "preflightContractDigest": "sha256:403df860d685be176f1e8fec0873732c18fb6a90fdd4e93ee1ee2b5142ce0471",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6f45a4bd6bb8b1abe22c4a8b2418238d9f9381b0d2478cd78f8594ae2f8390f5",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-08T07:55:31Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:8e0266acd3a97138ea02befa8c96b3789fd0cd847c17f966d091c0cecd51d7a3",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T08:05:09Z"
-  },
+  "updatedAt": "2026-09-08T08:45:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:dd0b51750213e40ced5fbbf59914e9da34723bedce54e9b962045553ea3f5b2c",
   "workItemId": "WI-665-wi663-doc-promotion"
 }
