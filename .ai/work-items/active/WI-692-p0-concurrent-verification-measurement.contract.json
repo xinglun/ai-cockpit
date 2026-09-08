@@ -8,7 +8,7 @@
     "Deliver reproducible measurement code, raw evidence, a three-language Work Item record, parity registration, correctness checks, platform limits, unknowns, and the final governance state."
   ],
   "authority": "authorized",
-  "baseRevision": "f7f8b5d02c3a1649e44875ffe5733a4cab19c58c",
+  "baseRevision": "a96c13967d0147d401dd780b0a0272400178a977",
   "createdAt": "2026-09-08T17:05:41Z",
   "goal": "Measure whether concurrent verification requests for the same repository and command duplicate physical execution, and produce an evidence-backed accept-or-decline decision for a future coordinator integration without changing production governance behavior.",
   "intent": "Repository owner authorized continuation of the AI Cockpit performance initiative. Before wiring PhysicalSingleFlightCoordinator, measure the real concurrent verification request path and preserve the Calibrated Human-Agent Trust boundary.",

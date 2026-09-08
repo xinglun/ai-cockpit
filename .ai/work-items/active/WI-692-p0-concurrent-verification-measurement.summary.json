@@ -103,6 +103,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-692-p0-concurrent-verification-measurement"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:1cf7bb5eb8722ca19f1f5698bd38dfbfbfa8c0475196f7b00d52dd29e4ebb584",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5b58debce9bc96d9a196bffd7e83cd2b669479bd3593f4cbe8b930d8add8da13",
+      "previousContractHash": "sha256:052f1302f9d3aa0f4dcd20c756efa3c5ab7ce369d343e796caf513a6d0208a27",
+      "reason": "Rebase this dedicated branch onto the latest origin/main a96c13967d0147d401dd780b0a0272400178a977 after WI-693 merged, and bind the Contract baseRevision to that reviewed default-branch base before PR finalization; no measurement scope or production behavior changes.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T17:54:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-692-p0-concurrent-verification-measurement"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:a3a787ba4ed413f0b4aa37fb613f80a04bb94295fee79fc72c9788cdeeb78dd5",
@@ -136,7 +156,7 @@
   "preflightContractDigest": "sha256:052f1302f9d3aa0f4dcd20c756efa3c5ab7ce369d343e796caf513a6d0208a27",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:a3a787ba4ed413f0b4aa37fb613f80a04bb94295fee79fc72c9788cdeeb78dd5",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -200,6 +220,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:1cf7bb5eb8722ca19f1f5698bd38dfbfbfa8c0475196f7b00d52dd29e4ebb584",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-08T17:54:44Z"
+  },
   "verificationRecoveryReconciled": "sha256:45ec62c10f52b38071d1af300c5767259f1633ff834874c99c198429ecd53787",
   "workItemId": "WI-692-p0-concurrent-verification-measurement"
 }
