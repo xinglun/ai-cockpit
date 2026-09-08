@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:a830349df29d93faac086b779c0f6f5b2ddd3a7e1bc69c75ab2fb246174b2769",
-  "createdAt": "2026-09-08T23:36:13Z",
+  "contractDigest": "sha256:c5bc547f5f456ee8fe4130b1d63e43a6da9c9230e23429a7ca35f40175653316",
+  "createdAt": "2026-09-08T23:41:32Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 159723,
-      "executionElapsedMs": 159140,
+      "elapsedMs": 156035,
+      "executionElapsedMs": 155606,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 159723,
-    "executionElapsedMs": 159140,
-    "filesHashed": 28,
-    "filesRead": 30,
+    "elapsedMs": 156035,
+    "executionElapsedMs": 155606,
+    "filesHashed": 10,
+    "filesRead": 12,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,17 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-712-wi702-finalization-recovery.ja.md",
-        "docs/work-items/WI-712-wi702-finalization-recovery.md",
-        "docs/work-items/WI-712-wi702-finalization-recovery.zh-CN.md",
-        "docs/work-items/WI-714-wi712-doc-promotion.ja.md",
-        "docs/work-items/WI-714-wi712-doc-promotion.md",
-        "docs/work-items/WI-714-wi712-doc-promotion.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "94fec9e43ff0c046a236a100d881b032124e973e",
       "dependencyConfidence": "unknown",
@@ -54,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 159140,
+      "executionElapsedMs": 155606,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -86,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:3be9fe371a96d11049591af50d9e5038421e80d3f14d097766707f5e96ff46cd",
+        "outputDigest": "sha256:a8ac5686bd80caf334fe55a19cd98e80c87ebac045fa54f596790e180edd3054",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -102,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-714-wi712-doc-promotion"
   },
-  "receiptDigest": "sha256:0d10c99a37f2ed5c7e874005b60f77414cea470fa8b86a5f61acd2eba8f30fae",
+  "receiptDigest": "sha256:9e715a921184daad307743db9562708a65951b43ac1e21c5afedab531d6eca30",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:84e4375772d4e6a9bf49d89e30eaf588118620cfbd6566234f0def3201eaf83a",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

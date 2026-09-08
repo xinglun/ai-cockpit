@@ -66,7 +66,7 @@
   ],
   "changedPaths": [],
   "checkpointAt": "2026-09-08T23:26:51Z",
-  "checkpointContractDigest": "sha256:a830349df29d93faac086b779c0f6f5b2ddd3a7e1bc69c75ab2fb246174b2769",
+  "checkpointContractDigest": "sha256:c5bc547f5f456ee8fe4130b1d63e43a6da9c9230e23429a7ca35f40175653316",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -102,11 +102,30 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-714-wi712-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:c5bc547f5f456ee8fe4130b1d63e43a6da9c9230e23429a7ca35f40175653316",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:65a1d4bcd00c3787f95559b5227883bef777b37b3229095c3820f5fdeaa641ec",
+      "previousContractHash": "sha256:a830349df29d93faac086b779c0f6f5b2ddd3a7e1bc69c75ab2fb246174b2769",
+      "reason": "Bind reviewed PR #706, origin/main, the dedicated branch, and worktree in the finalization plan before terminal lifecycle operations; retain the same documentation-only scope and no production or performance claim.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T23:38:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:84e4375772d4e6a9bf49d89e30eaf588118620cfbd6566234f0def3201eaf83a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-714-wi712-doc-promotion"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84e4375772d4e6a9bf49d89e30eaf588118620cfbd6566234f0def3201eaf83a",
   "createdAt": "2026-09-08T23:24:13Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "tests/docs/promote_closed_work_item.py",
@@ -119,23 +138,20 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T23:36:13Z",
-  "preflightContractDigest": "sha256:a830349df29d93faac086b779c0f6f5b2ddd3a7e1bc69c75ab2fb246174b2769",
+  "preflightAt": "2026-09-08T23:41:32Z",
+  "preflightContractDigest": "sha256:c5bc547f5f456ee8fe4130b1d63e43a6da9c9230e23429a7ca35f40175653316",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:84e4375772d4e6a9bf49d89e30eaf588118620cfbd6566234f0def3201eaf83a",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T23:37:18Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T23:41:37Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:fea86063a81098125ef04f7f7caec3f60eb3da13bfe49258657eb34586e8ff41",
   "workItemId": "WI-714-wi712-doc-promotion"
 }
