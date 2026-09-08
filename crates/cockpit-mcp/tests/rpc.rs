@@ -154,6 +154,10 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         outcome["inputSchema"]["properties"]["language"]["type"],
         "string"
     );
+    assert_eq!(
+        outcome["inputSchema"]["properties"]["view"]["enum"],
+        serde_json::json!(["summary", "full"])
+    );
     assert!(outcome["inputSchema"]["oneOf"].is_array());
     let verify = listed
         .iter()
@@ -434,8 +438,29 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
         serde_json::from_value(structured["outcome"].clone()).expect("OutcomeV2");
     assert_eq!(
         handoff,
-        cockpit_repository::render_human_outcome(&directory, &outcome, "zh")
+        cockpit_repository::render_human_outcome_with_view(
+            &directory,
+            &outcome,
+            "zh",
+            cockpit_repository::OutcomeRenderView::Summary,
+        )
     );
+    let full_response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":12,
+            "method":"tools/call",
+            "params":{"name":"work_item_outcome","arguments":{"workItemId":"WI-MCP-HANDOFF","language":"zh-CN","view":"full"}}
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(full_response["result"]["isError"], false);
+    let full_handoff = full_response["result"]["structuredContent"]["humanHandoff"]
+        .as_str()
+        .expect("full handoff");
+    assert!(full_handoff.contains("发现的问题"));
+    assert!(full_handoff.contains("证据"));
     fs::remove_dir_all(directory).expect("cleanup");
 }
 

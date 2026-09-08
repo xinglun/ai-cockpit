@@ -50,7 +50,10 @@ mod outcome_render;
 mod project_governance;
 
 pub use governance_controls::*;
-pub use outcome_render::render_human_outcome;
+pub use outcome_render::{
+    OutcomeRenderView, render_full_human_outcome, render_human_outcome,
+    render_human_outcome_with_view,
+};
 pub use project_governance::*;
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);

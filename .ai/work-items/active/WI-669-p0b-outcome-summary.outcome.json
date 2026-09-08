@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "默认人工 Outcome 包含结果、关键变化、剩余不确定性、人的下一步四个阅读优先部分，并在结果中分开表达验证、生命周期和人工决定。",
+    "摘要仅基于现有 OutcomeV2 和 TaskOutcomeReport 数据按确定性规则生成，不调用 LLM 或外部服务。",
+    "CLI 与 MCP 共用摘要逻辑，对相同输入表达相同事实；机器 JSON 契约保持不变。",
+    "完整报告保留审计信息并有明确查看方式；阻断项、待人工决定、证据无效或过期状态不得因摘要长度被隐藏；可截断的其他列表显示省略数量和完整查看方式。",
+    "原始证据文本只作为数据处理，不能成为摘要指令或授权来源。",
+    "使用真实 Outcome 结构覆盖普通完成、阻断项、多列表、多语言、缺失收益、历史/已替代、过期/无效证据。",
+    "文档与发布说明明确记录默认行为变化。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-669-p0b-outcome-summary.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-669-p0b-outcome-summary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f8f3700373e196959b427e999289eb5fb2908955508938d64c90ee65311165c3",
+      "workItemId": "WI-669-p0b-outcome-summary"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-669-p0b-outcome-summary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-669-p0b-outcome-summary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-669-p0b-outcome-summary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-669-p0b-outcome-summary.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-669-p0b-outcome-summary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-669-p0b-outcome-summary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-669-p0b-outcome-summary.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-669-p0b-outcome-summary.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-669-p0b-outcome-summary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-669-p0b-outcome-summary.contract.json"
+          ],
+          "inference": false,
+          "text": "为 CLI 与 MCP 提供共享的确定性四段式默认摘要，并提供明确的完整证据查看入口；保持机器 JSON、判定规则、授权语义与持久化格式兼容。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-669-p0b-outcome-summary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-669-p0b-outcome-summary"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-669-p0b-outcome-summary.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-669-p0b-outcome-summary"
+}

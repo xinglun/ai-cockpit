@@ -338,7 +338,7 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     let outcome = Command::new(binary)
         .args(["work-item", "outcome", "--repo"])
         .arg(directory.path())
-        .args(["--id", "WI-INTELLIGENCE"])
+        .args(["--id", "WI-INTELLIGENCE", "--view", "full"])
         .env("AI_COCKPIT_LANGUAGE", "zh-CN")
         .output()
         .expect("human outcome");
@@ -359,7 +359,7 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     let red_outcome = Command::new(binary)
         .args(["work-item", "outcome", "--repo"])
         .arg(directory.path())
-        .args(["--id", "WI-INTELLIGENCE"])
+        .args(["--id", "WI-INTELLIGENCE", "--view", "full"])
         .env("AI_COCKPIT_LANGUAGE", "zh-CN")
         .output()
         .expect("red human outcome");
@@ -382,7 +382,7 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
         let localized = Command::new(binary)
             .args(["work-item", "outcome", "--repo"])
             .arg(directory.path())
-            .args(["--id", "WI-INTELLIGENCE"])
+            .args(["--id", "WI-INTELLIGENCE", "--view", "full"])
             .env("AI_COCKPIT_LANGUAGE", language)
             .output()
             .expect("localized human outcome");

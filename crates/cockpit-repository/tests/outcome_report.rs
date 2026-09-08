@@ -4,9 +4,9 @@ use cockpit_protocol::{
     OutcomeV2, ResourceFinalizationContext, TaskOutcomeReport,
 };
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, checkpoint_work_item, finish_work_item, outcome_v2,
-    plan_resource_finalization, preflight_work_item, record_verification, render_human_outcome,
-    start_work_item_with_options,
+    OutcomeRenderView, WorkItemStartOptions, archive_work_item, checkpoint_work_item,
+    finish_work_item, outcome_v2, plan_resource_finalization, preflight_work_item,
+    record_verification, render_human_outcome_with_view, start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -75,6 +75,25 @@ struct RenderFixture {
 }
 
 fn render_fixture(directory: &tempfile::TempDir, id: &str, fixture: RenderFixture) -> String {
+    render_fixture_view(directory, id, fixture, OutcomeRenderView::Full)
+}
+
+fn render_fixture_view(
+    directory: &tempfile::TempDir,
+    id: &str,
+    fixture: RenderFixture,
+    view: OutcomeRenderView,
+) -> String {
+    render_fixture_view_language(directory, id, fixture, view, "en")
+}
+
+fn render_fixture_view_language(
+    directory: &tempfile::TempDir,
+    id: &str,
+    fixture: RenderFixture,
+    view: OutcomeRenderView,
+    language: &str,
+) -> String {
     let RenderFixture {
         state,
         decision_state,
@@ -122,7 +141,7 @@ fn render_fixture(directory: &tempfile::TempDir, id: &str, fixture: RenderFixtur
         recovery_decision: None,
         historical_status,
     };
-    render_human_outcome(directory.path(), &outcome, "en")
+    render_human_outcome_with_view(directory.path(), &outcome, language, view)
 }
 
 #[test]
@@ -268,6 +287,111 @@ fn human_renderer_does_not_infer_risk_absence_or_test_strength_from_empty_fields
     );
     assert!(text.contains("does not prove that tests were not weakened"));
     assert!(!text.contains("Tests were not weakened."));
+}
+
+#[test]
+fn default_summary_is_four_part_and_full_view_retains_audit_sections() {
+    let directory = repository();
+    let evidence = ".ai/evidence/WI-OUTCOME-SUMMARY.verification.json".to_owned();
+    let mut sections = OutcomeReportSections::default();
+    sections.delivered_changes.push(OutcomeClaim {
+        text: "The evidence-bound summary was generated.".into(),
+        evidence_refs: vec![evidence.clone()],
+        inference: false,
+    });
+    sections.risks.push(OutcomeClaim {
+        text: "No test weakening rule was triggered.".into(),
+        evidence_refs: vec![evidence.clone()],
+        inference: false,
+    });
+    let summary = render_fixture_view(
+        &directory,
+        "WI-OUTCOME-SUMMARY",
+        RenderFixture {
+            state: OutcomeState::Verified,
+            decision_state: DecisionState::Green,
+            historical_status: None,
+            sections,
+            unknowns: vec!["scope_not_revalidated".into()],
+            evidence_refs: vec![evidence],
+        },
+        OutcomeRenderView::Summary,
+    );
+    assert!(summary.contains("Result"));
+    assert!(summary.contains("Key changes"));
+    assert!(summary.contains("Remaining uncertainty"));
+    assert!(summary.contains("Human next step"));
+    assert!(summary.contains("The evidence-bound summary was generated."));
+    assert!(summary.contains("Test-weakening scan: no trigger was recorded"));
+    assert!(summary.contains("scope_not_revalidated"));
+    assert!(summary.contains("Full evidence report:"));
+    assert!(!summary.contains("Problems found"));
+    assert!(!summary.contains("Risks avoided"));
+
+    let stale = render_fixture_view(
+        &directory,
+        "WI-OUTCOME-SUMMARY-STALE",
+        RenderFixture {
+            state: OutcomeState::NotReady,
+            decision_state: DecisionState::Yellow,
+            historical_status: None,
+            sections: OutcomeReportSections::default(),
+            unknowns: vec!["evidence_stale".into()],
+            evidence_refs: vec![".ai/evidence/stale.json".into()],
+        },
+        OutcomeRenderView::Summary,
+    );
+    assert!(stale.contains("evidence is stale"));
+    assert!(!stale.contains("Required verification evidence is not present"));
+
+    let full = render_fixture(
+        &directory,
+        "WI-OUTCOME-SUMMARY-FULL",
+        RenderFixture {
+            state: OutcomeState::Verified,
+            decision_state: DecisionState::Green,
+            historical_status: None,
+            sections: OutcomeReportSections::default(),
+            unknowns: vec![],
+            evidence_refs: vec![".ai/evidence/full.json".into()],
+        },
+    );
+    assert!(full.contains("Problems found"));
+    assert!(full.contains("Evidence"));
+}
+
+#[test]
+fn summary_keeps_missing_benefit_and_localizes_reader_sections() {
+    let directory = repository();
+    for (language, sections) in [
+        ("zh", ["结果", "关键变化", "剩余不确定性", "人的下一步"]),
+        (
+            "ja",
+            ["結果", "主な変更", "残る不確実性", "人間の次のアクション"],
+        ),
+    ] {
+        let text = render_fixture_view_language(
+            &directory,
+            &format!("WI-OUTCOME-SUMMARY-{language}"),
+            RenderFixture {
+                state: OutcomeState::Verified,
+                decision_state: DecisionState::Green,
+                historical_status: None,
+                sections: OutcomeReportSections::default(),
+                unknowns: vec![],
+                evidence_refs: vec![format!(".ai/evidence/{language}.json")],
+            },
+            OutcomeRenderView::Summary,
+            language,
+        );
+        for heading in sections {
+            assert!(text.contains(heading), "missing {heading:?} in {text}");
+        }
+        assert!(
+            text.contains("用户可见收益尚未声明")
+                || text.contains("ユーザー向けの効果はまだ宣言されていません")
+        );
+    }
 }
 
 #[test]

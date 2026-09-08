@@ -15,6 +15,12 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
+## Outcome 展示发布说明
+
+面向人的 `work-item outcome` 命令现在默认输出确定性的四段式摘要：结果、关键变化、剩余不确定性、人的下一步。
+完整审计交接仍可使用 `--view full`（MCP 使用 `view: "full"`）。这是仅展示层的变化：机器 JSON、验证、授权、退出码和持久化证据均不变。
+本发布说明不声称已经完成用户研究，也不声称带来风险拦截收益。
+
 当前发布产物命名为 `ai-cockpit-v0.2.87-<target>.tar.gz`（Windows 使用对应的
 archive）。只有公开 Release 和发布后验收完成后，它才成为安装基线。
 
