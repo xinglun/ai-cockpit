@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d2bd88233068cfb0c5c2c0ee513b5cd607bfec544fd5885afed5e61e9554dbcf",
+      "workItemId": "WI-660-wi659-parity-registration-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-660-wi659-parity-registration-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-660-wi659-parity-registration-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-660-wi659-parity-registration-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-660-wi659-parity-registration-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json",
+            ".ai/decisions/WI-660-wi659-parity-registration-recovery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-08T06:40:12Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-660-wi659-parity-registration-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce a fresh PR-bound P0-A Outcome trust-expression delivery whose tri-language parity registration is committed before verification evidence, while preserving Outcome semantics, machine JSON, exit codes, authorization semantics, persistence layout, and WI-659 history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-660-wi659-parity-registration-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-660-wi659-parity-registration-recovery"
+  },
+  "finalReportDigest": "sha256:156732aa9e4df9942f1ab3ba823bd7757a9fff767664e3e86792f4dcb5174c32",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d60ae1b4678f26f0c98bb05eb552bad5c39d58fa59990f03c2d72eac3807b1a9",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-660-wi659-parity-registration-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-08T06:40:12Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json",
+      ".ai/decisions/WI-660-wi659-parity-registration-recovery.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:premerge-finalization-before-close"
+    ],
+    "reason": "User explicitly authorized completion of the WI workflow. PR #659 passed hosted checks, was merged, main was synchronized, and finalization verification confirmed exact branch and worktree cleanup.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-08T06:40:20Z",
+  "workItemId": "WI-660-wi659-parity-registration-recovery"
+}
