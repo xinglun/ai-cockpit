@@ -924,4 +924,27 @@ mod transition_index_tests {
             FinalizationTransitionIndex::from_directory(root.path()).expect("second observation");
         assert_eq!(second.parsed_transition_count(), 1);
     }
+
+    #[test]
+    fn indexed_resolution_preserves_canonical_error_precedence() {
+        let root = tempfile::tempdir().expect("tempdir");
+        let decisions = root.path().join(".ai/decisions");
+        fs::create_dir_all(&decisions).expect("decisions");
+        fs::write(
+            decisions.join("WI-INDEX-ALPHA.finalize.malformed.json"),
+            b"{malformed",
+        )
+        .expect("malformed transition");
+
+        let index = FinalizationTransitionIndex::from_directory(root.path()).expect("index");
+        let error = crate::resolve_resource_finalization_head_with_index(
+            root.path(),
+            "WI-INDEX-ALPHA",
+            &index,
+        )
+        .expect_err("missing canonical receipt must fail");
+        assert!(
+            matches!(error, ObserverError::State { path, .. } if path.ends_with("WI-INDEX-ALPHA.finalize.json"))
+        );
+    }
 }

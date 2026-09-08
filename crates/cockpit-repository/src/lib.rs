@@ -5749,6 +5749,7 @@ fn resolve_resource_finalization_head(
     root: &Path,
     work_item_id: &str,
 ) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let (receipt, path, digest) = read_resource_finalization_head(root, work_item_id)?;
     let prefix = format!("{work_item_id}.finalize.");
     let canonical_name = format!("{work_item_id}.finalize.json");
     let candidates = fs::read_dir(root.join(".ai/decisions"))
@@ -5787,7 +5788,14 @@ fn resolve_resource_finalization_head(
             Ok((candidate, value))
         })
         .collect::<Result<Vec<_>, _>>()?;
-    resolve_resource_finalization_head_with_candidates(root, work_item_id, candidates)
+    resolve_resource_finalization_head_from_observed(
+        root,
+        work_item_id,
+        receipt,
+        path,
+        digest,
+        candidates,
+    )
 }
 
 fn resolve_resource_finalization_head_with_index(
@@ -5795,6 +5803,7 @@ fn resolve_resource_finalization_head_with_index(
     work_item_id: &str,
     index: &status_projection::FinalizationTransitionIndex,
 ) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let (receipt, path, digest) = read_resource_finalization_head(root, work_item_id)?;
     let candidates = index
         .candidates(work_item_id)
         .iter()
@@ -5815,28 +5824,44 @@ fn resolve_resource_finalization_head_with_index(
             }
         })
         .collect::<Result<Vec<_>, _>>()?;
-    resolve_resource_finalization_head_with_candidates(root, work_item_id, candidates)
+    resolve_resource_finalization_head_from_observed(
+        root,
+        work_item_id,
+        receipt,
+        path,
+        digest,
+        candidates,
+    )
 }
 
-fn resolve_resource_finalization_head_with_candidates(
+fn read_resource_finalization_head(
     root: &Path,
     work_item_id: &str,
-    mut candidates: Vec<(PathBuf, ResourceFinalizationTransitionReceipt)>,
-) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest), ObserverError> {
     let canonical = resource_finalization_decision_path(root, work_item_id);
-    let mut receipt = read_resource_finalization_receipt(&canonical)?;
-    let mut path = canonical;
-    let mut digest =
+    let receipt = read_resource_finalization_receipt(&canonical)?;
+    let digest =
         cockpit_protocol::digest_json(&serde_json::to_value(&receipt).map_err(|error| {
             ObserverError::State {
-                path: path.clone(),
+                path: canonical.clone(),
                 message: error.to_string(),
             }
         })?)
         .map_err(|error| ObserverError::State {
-            path: path.clone(),
+            path: canonical.clone(),
             message: error.to_string(),
         })?;
+    Ok((receipt, canonical, digest))
+}
+
+fn resolve_resource_finalization_head_from_observed(
+    root: &Path,
+    work_item_id: &str,
+    mut receipt: ResourceFinalizationReceipt,
+    mut path: PathBuf,
+    mut digest: Digest,
+    mut candidates: Vec<(PathBuf, ResourceFinalizationTransitionReceipt)>,
+) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
     let mut sequence = 0;
     loop {
         let matches = candidates
