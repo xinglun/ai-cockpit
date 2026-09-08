@@ -64,7 +64,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-695-wi692-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-695-wi692-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -102,7 +102,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-695-wi692-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-695-wi692-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Synchronize the WI-692 English, Simplified Chinese, Japanese Work Item pages and parity rows with the archived Contract, verification, finalization, and close evidence."
@@ -111,7 +111,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-695-wi692-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-695-wi692-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -121,7 +121,7 @@
     "status": "verified",
     "workItemId": "WI-695-wi692-doc-promotion"
   },
-  "taskReportDigest": "sha256:e74b4fe8cc8aedbf994218468f9a491fb3fc0b25733ece5ed34ffd5a3c94e887",
+  "taskReportDigest": "sha256:932aa8cdc1040f3cfb610ef94a8653288ea88cbeabbe56be7b51011d35f18cf6",
   "taskReportMarkdownDigest": "sha256:ee80b55255d238bad54b776ab40330dbf0cc85add879a897d4130a5d200a378b",
   "unknowns": [
     "user_visible_benefit_not_declared"
