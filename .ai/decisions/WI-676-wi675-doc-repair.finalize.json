@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:user-request",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fb1df73618fae742641d235d75d25491d7c15e55",
+    "name": "codex/wi-676-wi675-doc-repair",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b9c30a979ecc97b46e6bcf0f06827b7ab1b0cdcb5d755f2f4119873a7e4b6f04",
+  "operationId": "github-pr-672-finalization-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "4950da8c34ee818fd3763b6b60f3154f19a2f146",
+    "headRevision": "fb1df73618fae742641d235d75d25491d7c15e55",
+    "mergeCommit": "38896035b4f13b794b181e9659672d8878c54197",
+    "number": 672,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/672"
+  },
+  "reason": "PR #672 passed all required hosted checks and merged as 38896035b4f13b794b181e9659672d8878c54197; the exact Work Item branch and dedicated worktree are removed after cleanup verification.",
+  "receiptId": "github-pr-672-finalization-20260908",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-676-wi675-doc-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/672",
+    "worktree": "/private/tmp/ai-cockpit-wi-676-wi675-doc-repair"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T12:29:56Z",
+  "workItemId": "WI-676-wi675-doc-repair",
+  "worktree": {
+    "branch": "codex/wi-676-wi675-doc-repair",
+    "headRevision": "fb1df73618fae742641d235d75d25491d7c15e55",
+    "path": "/private/tmp/ai-cockpit-wi-676-wi675-doc-repair",
+    "worktreeId": "WI-676-wi675-doc-repair"
+  }
+}

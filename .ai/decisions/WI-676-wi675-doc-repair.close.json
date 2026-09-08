@@ -1,0 +1,138 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:538e1b19464e0e0b9c03e789513d9f812354d37d544dd8beca8f2c9d7327aa98",
+      "workItemId": "WI-676-wi675-doc-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-676-wi675-doc-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-676-wi675-doc-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-676-wi675-doc-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-676-wi675-doc-repair.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json",
+            ".ai/decisions/WI-676-wi675-doc-repair.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:user via explicit-user-authorization at 2026-09-08T12:31:24Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-676-wi675-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-676-wi675-doc-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Repair the terminal documentation projection that currently blocks the repository governance gate, preserving the immutable WI-675 lifecycle evidence and three-language parity semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-676-wi675-doc-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-676-wi675-doc-repair"
+  },
+  "finalReportDigest": "sha256:15f711d2a8c326d23f667ffea99e2074099f333cf75eadf2d6187d4612ab852e",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d1b8476304afc622b287126a14a4bab03b9f62df3e9024fc21434468492d3f0b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-676-wi675-doc-repair.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-08T12:31:24Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-676-wi675-doc-repair.verification.json",
+      ".ai/decisions/WI-676-wi675-doc-repair.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:post-merge-cleanup"
+    ],
+    "reason": "PR #672 passed all required hosted checks, merged as 38896035b4f13b794b181e9659672d8878c54197, and finalize-verify confirmed exact branch and worktree cleanup. The Contract preserves the user-request authorization boundary and no GitHub review is inferred.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-08T12:31:36Z",
+  "workItemId": "WI-676-wi675-doc-repair"
+}
