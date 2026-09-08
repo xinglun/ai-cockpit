@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "Every one of WI-647, WI-648, WI-649, WI-650 is summarized with its actual measured before/after numbers (not restated claims) and a link to its own Work Item doc.",
+    "The streaming-hash and bounded-parallel-read P1 candidates are evaluated against actual measured data from this repository (inspect filesRead/filesHashed counts, largest tracked file sizes) and a documented decision (pursue or decline) is recorded with that evidence.",
+    "IncrementalMerkle and PhysicalSingleFlightCoordinator are confirmed, by direct source inspection recorded in this document, to have no non-test production caller; the decision not to wire them in without a concrete measured concurrent-duplication or cache-correctness need is recorded explicitly, not silently assumed.",
+    "P3 candidates (resident MCP cache, in-process git, PGO) are recorded as not pursued because no P0-P2 measurement in this initiative identified a bottleneck they would address, with the specific reasoning stated rather than a blanket deferral.",
+    "The document states outstanding P0 scope explicitly not completed (8-scenario fixture matrix, phase-level resource-metric exposure on status/doctor/observe, persistent-MCP measurement, identity-tolerant dev comparator) as known gaps, not silently dropped."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T01:13:40Z",
+  "goal": "Deliver a single reference document that inventories the four delivered Work Items (WI-647..650), their measured before/after evidence, and a decision plus supporting measurement for each remaining P1-P3 candidate, so a future contributor has a verified starting point instead of re-deriving the same measurements.",
+  "intent": "Close out the AI Cockpit performance initiative (P0-P3) with an evidence-based synthesis: for every remaining candidate that was not implemented (P1 streaming hash/bounded parallel read, P2 request dedup/IncrementalMerkle caching, P3 resident cache/in-process git/PGO), record the measurement that was actually taken and why it does not currently justify implementation, rather than mechanically implementing every candidate.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Implementing any of the P1-P3 candidates this document declines; each remains available for a future measured Work Item if new evidence justifies it",
+    "Any change to production Rust source",
+    " tests",
+    " or the benchmark harness"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-651-performance-initiative-synthesis",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi651-performance-initiative-synthesis"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/performance-initiative-2026-09.md",
+    "docs/reference/performance-initiative-2026-09.ja.md",
+    "docs/reference/performance-initiative-2026-09.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-651-performance-initiative-synthesis"
+}

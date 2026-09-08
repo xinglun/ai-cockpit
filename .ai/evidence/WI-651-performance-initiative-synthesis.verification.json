@@ -1,0 +1,132 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:961bcb35e3f222dbbf0967a41ae9f417f39e7531998c5ac397e0bb446201d4f8",
+  "createdAt": "2026-09-08T01:19:27Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 182889,
+      "executionElapsedMs": 182428,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+      "runtimeVersion": "0.2.87",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 182889,
+    "executionElapsedMs": 182428,
+    "filesHashed": 16,
+    "filesRead": 19,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "docs/reference/performance-initiative-2026-09.ja.md",
+        "docs/reference/performance-initiative-2026-09.md",
+        "docs/reference/performance-initiative-2026-09.zh-CN.md"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 182428,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-651-performance-initiative-synthesis"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [
+      {
+        "context": {
+          "commandDigest": "sha256:d28fa8945545ef946875d2c70b49bc3d02c1cbdcdb76211ae3e1e9cdacb27bd9",
+          "contentDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
+          "diff": {
+            "baseCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+            "changedPathsDigest": "sha256:95d7333b96b8c1560fa89a3706165e75c667163455d1f0418d20098ecb6da151",
+            "headCommit": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e"
+          },
+          "environmentDigest": "sha256:8821aa2ee9f521ede038c27e0a3b1bcd0d3da256d99b60ddbe833825104aa949",
+          "governanceDigest": "sha256:d62d2c9805cf1b199dc12d70e64776460ce9893b78c01ec278ada7d39836f1f5",
+          "policyDigest": "sha256:6566d24c8ac0490db544ad1fb217b57f344ea25dc70f61058d4b5e5430c0054f",
+          "profileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+          "runner": "local",
+          "scopeDigest": "sha256:1078c140b996b711424671640de5d8a0fed342fc5d0027e16717b7016384f8fd",
+          "stage": "task",
+          "toolchainDigest": "sha256:55a5c4e40f6f930201133025c136270210ca51b8520d039178b89cf5405dcbd2"
+        },
+        "createdAtEpochSeconds": 1788830184,
+        "expiresAtEpochSeconds": 1788916584,
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:074566de8e8c8ca4bf8a0163ad1f94564e9d1d2fa6743803bb70cbce2b4c764f",
+        "passed": true,
+        "receiptId": "sha256:2d04000237906d6756495c63c56fba808932a30b769ff32a26f990ae31621da3",
+        "schemaVersion": 2
+      }
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 1,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:074566de8e8c8ca4bf8a0163ad1f94564e9d1d2fa6743803bb70cbce2b4c764f",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "binding_mismatch",
+        "receiptId": "sha256:2d04000237906d6756495c63c56fba808932a30b769ff32a26f990ae31621da3",
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "stale",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+    "runtimeVersion": "0.2.87",
+    "workItemId": "WI-651-performance-initiative-synthesis"
+  },
+  "receiptDigest": "sha256:dbd52dfa49162a0de96346d1d3be08d339a0759b53bc26f33306354a42275a4d",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fa17eb797143abc36d7d747ef6b2d45b42e4ca7e3aeb94e5b37332064bad0bec",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "workItemId": "WI-651-performance-initiative-synthesis"
+}
