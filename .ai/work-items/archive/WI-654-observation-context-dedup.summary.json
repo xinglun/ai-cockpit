@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-654-observation-context-dedup.contract.json",
-    ".ai/work-items/active/WI-654-observation-context-dedup.summary.json"
+    ".ai/work-items/archive/WI-654-observation-context-dedup.contract.json",
+    ".ai/work-items/archive/WI-654-observation-context-dedup.summary.json"
   ],
   "checkpointAt": "2026-09-08T02:23:02Z",
-  "checkpointContractDigest": "sha256:c50a6e395e2ef5293d2df82d3a784e1075dbf117599ed1427289a1bca6c663ff",
+  "checkpointContractDigest": "sha256:607bb519b8d4b2c6113ded7610400e23d0bc19110df59aa7d60649a46857cfd1",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -60,26 +60,45 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-654-observation-context-dedup"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:607bb519b8d4b2c6113ded7610400e23d0bc19110df59aa7d60649a46857cfd1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:651b9e64976fc787492a4af5bfab9f50c2cff611593412f7e386d5883a366a58",
+      "previousContractHash": "sha256:c50a6e395e2ef5293d2df82d3a784e1075dbf117599ed1427289a1bca6c663ff",
+      "reason": "Bind the reviewed PR resource context before the final verification rerun required by the Runtime lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T02:32:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0af27e22fb427893bbbf70ddc1925c1b862947ccb2a9c473d2b45e82de1b5976",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-654-observation-context-dedup"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:0af27e22fb427893bbbf70ddc1925c1b862947ccb2a9c473d2b45e82de1b5976",
   "createdAt": "2026-09-08T02:22:40Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T02:31:17Z",
-  "preflightContractDigest": "sha256:c50a6e395e2ef5293d2df82d3a784e1075dbf117599ed1427289a1bca6c663ff",
+  "preflightAt": "2026-09-08T02:34:19Z",
+  "preflightContractDigest": "sha256:607bb519b8d4b2c6113ded7610400e23d0bc19110df59aa7d60649a46857cfd1",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:0af27e22fb427893bbbf70ddc1925c1b862947ccb2a9c473d2b45e82de1b5976",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T02:23:02Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T02:34:23Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:63736c73c1b72ccb6ddff18aed934b794800e57a63342d721ac18541405c03cb",
   "workItemId": "WI-654-observation-context-dedup"
 }

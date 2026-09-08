@@ -27,11 +27,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "claude/wi-654-observation-context-dedup",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/652",
     "worktree": "/private/tmp/ai-cockpit-wi654-observation-context-dedup"
   },
   "risk": "normal",
