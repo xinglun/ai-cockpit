@@ -1,0 +1,141 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "deterministic WI-712 terminal projection",
+          "path": "tests/docs/promote_closed_work_item.py",
+          "type": "documentation-promotion",
+          "verification": "passed; six WI-712 projections match immutable archive, verification, finalization, and close evidence"
+        },
+        {
+          "locator": "WI-702 recovery boundary preservation",
+          "path": "docs/work-items/WI-712-wi702-finalization-recovery.md",
+          "type": "documentation-review",
+          "verification": "passed; predecessor recovery facts and no-performance-benefit claim preserved"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "documentation acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "parity status",
+          "path": "tests/docs/parity_status_check.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "governance integrity",
+          "path": "tests/ci/governance_integrity_gate.py",
+          "type": "gate",
+          "verification": "passed; 611 work items"
+        },
+        {
+          "locator": "closed Work Item promotion",
+          "path": "tests/docs/promote_closed_work_item.py",
+          "type": "test",
+          "verification": "passed; 324 closed Work Items current"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "fresh Runtime workspace verification",
+          "path": ".ai/evidence/WI-714-wi712-doc-promotion.verification.json",
+          "type": "runtime-verification",
+          "verification": "passed=true; cargo test --workspace; runtime 0.2.87"
+        },
+        {
+          "locator": "scope boundary",
+          "path": ".ai/work-items/active/WI-714-wi712-doc-promotion.contract.json",
+          "type": "contract",
+          "verification": "passed; no production code, benchmark, Runtime, or other-agent paths"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-09-08T23:26:51Z",
+  "checkpointContractDigest": "sha256:a830349df29d93faac086b779c0f6f5b2ddd3a7e1bc69c75ab2fb246174b2769",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:65a1d4bcd00c3787f95559b5227883bef777b37b3229095c3820f5fdeaa641ec",
+      "recorded": true,
+      "recordedAt": "2026-09-08T23:26:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35393281489877fa0e26c5ba626b2c9f79f70d8a615aeac5ab28405156e0740b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-714-wi712-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:a830349df29d93faac086b779c0f6f5b2ddd3a7e1bc69c75ab2fb246174b2769",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:65a1d4bcd00c3787f95559b5227883bef777b37b3229095c3820f5fdeaa641ec",
+      "previousContractHash": "sha256:65a1d4bcd00c3787f95559b5227883bef777b37b3229095c3820f5fdeaa641ec",
+      "reason": "The repository documentation and governance checks require every active Work Item to have its own tri-language pre-archive documents and parity registrations. Add only those required documentation projections to this documentation-promotion scope; keep production code, WI-712 immutable evidence, and other agents out of scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T23:32:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35393281489877fa0e26c5ba626b2c9f79f70d8a615aeac5ab28405156e0740b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-714-wi712-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:84e4375772d4e6a9bf49d89e30eaf588118620cfbd6566234f0def3201eaf83a",
+  "createdAt": "2026-09-08T23:24:13Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "tests/docs/promote_closed_work_item.py",
+      "tests/docs/documentation_acceptance.sh",
+      "tests/docs/parity_status_check.sh",
+      "tests/ci/governance_integrity_gate.py",
+      ".ai/evidence/WI-714-wi712-doc-promotion.verification.json"
+    ],
+    "reason": "The Work Item performs only the required deterministic documentation projection, preserves immutable WI-702/WI-712 governance facts, and records no production or performance change.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-08T23:36:13Z",
+  "preflightContractDigest": "sha256:a830349df29d93faac086b779c0f6f5b2ddd3a7e1bc69c75ab2fb246174b2769",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:84e4375772d4e6a9bf49d89e30eaf588118620cfbd6566234f0def3201eaf83a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T23:37:18Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fea86063a81098125ef04f7f7caec3f60eb3da13bfe49258657eb34586e8ff41",
+  "workItemId": "WI-714-wi712-doc-promotion"
+}
