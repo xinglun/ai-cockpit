@@ -3,14 +3,10 @@ author: AI Cockpit maintainers
 title: "WI-697 — WI-694 documentation promotion"
 description: "Promote the closed WI-694 documentation projection from immutable governance evidence."
 audience: [maintainer, reviewer, adopter]
-status: implemented
+status: in_progress
 authority: human:repository-owner
 workItemId: WI-697-wi694-doc-promotion
 lastVerifiedBy: WI-697-wi694-doc-promotion
-terminalArchive: .ai/work-items/archive/WI-697-wi694-doc-promotion.contract.json
-terminalVerification: .ai/evidence/WI-697-wi694-doc-promotion.verification.json
-terminalFinalization: .ai/decisions/WI-697-wi694-doc-promotion.finalize.json
-terminalDecision: .ai/decisions/WI-697-wi694-doc-promotion.close.json
 ---
 
 [简体中文](WI-697-wi694-doc-promotion.zh-CN.md) · [日本語](WI-697-wi694-doc-promotion.ja.md)

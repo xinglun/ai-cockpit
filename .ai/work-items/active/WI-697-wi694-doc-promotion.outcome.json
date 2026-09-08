@@ -7,7 +7,7 @@
   ],
   "createdAt": "2026-09-08T18:58:50Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:75513349e0eec51be74da10ee9c38b746fe4950b0d87037b91d31713da886443",
+  "evidenceDigest": "sha256:e656c056640de2b8795aadeb539b3991e8ca3023025d539ba638dab17906aa7a",
   "evidenceRefs": [
     ".ai/evidence/WI-697-wi694-doc-promotion.verification.json"
   ],
