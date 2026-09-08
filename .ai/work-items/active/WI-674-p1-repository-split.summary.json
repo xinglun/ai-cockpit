@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-674-p1-repository-split.contract.json",
+    ".ai/work-items/active/WI-674-p1-repository-split.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T11:44:36Z",
+  "checkpointContractDigest": "sha256:5824ddba7dcffd99989598b5925cbc821acc4109f2cb52c42b15ccaa3713f58c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:a4a93163476bef92cd22c62d24c6d5536cc62554e19d1bedf7e38eee2bb8d0c7",
+  "createdAt": "2026-09-08T11:44:27Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T11:44:32Z",
+  "preflightContractDigest": "sha256:5824ddba7dcffd99989598b5925cbc821acc4109f2cb52c42b15ccaa3713f58c",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:a4a93163476bef92cd22c62d24c6d5536cc62554e19d1bedf7e38eee2bb8d0c7",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T11:44:36Z",
+  "workItemId": "WI-674-p1-repository-split"
+}

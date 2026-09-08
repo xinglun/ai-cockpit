@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "四类职责及其依赖在代码结构与 WI 记录中清晰可追溯，且没有把行为缺陷混入纯移动代码重构。",
+    "Repository 公共 API、序列化格式、错误行为、持久化布局和现有状态/判定语义与基线兼容。",
+    "生命周期/恢复、证据存储/有效性、执行上下文/可执行身份、状态/历史投影相关行为测试通过；发现的行为缺陷单独记录并停止混入重构。",
+    "cargo fmt --all -- --check、相关 cargo test、cargo clippy --locked --workspace --all-targets --all-features -- -D warnings、文档/治理检查和 Runtime verify 均有证据。",
+    "英、中、日 Work Item 与 reference parity 投影准确描述范围、依赖、兼容性和未验证事项；不宣称未测量的性能或认知收益。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0b92a420ad76c5f9ce5ea80ae6c6870fcd45b130",
+  "createdAt": "2026-09-08T11:44:27Z",
+  "goal": "完成一组可验证的 Repository 内部模块拆分：每个职责有清晰边界和依赖记录，公共 API、序列化格式、错误行为、持久化布局及现有判定语义保持兼容；每次拆分都有相关行为测试和仓库要求的检查证据。",
+  "intent": "在不改变外部行为的前提下，识别并逐步拆分 cockpit-repository 中的生命周期与恢复、证据存储及有效性验证、执行上下文与可执行文件身份、状态及历史投影职责，降低模块耦合并保持可审计性。",
+  "mode": "implementation",
+  "outOfScope": [
+    "公共 API、协议 schema、序列化字段、验证判定规则、退出码、授权语义、持久化布局、历史证据与归档记录",
+    "Outcome P0-A/P0-B 行为、P1-A 认知收益评估、P2 README/首次使用",
+    "不必要的新 crate 或框架",
+    "其他 agent 的工作树和分支",
+    "未来治理原则 Work Item",
+    "用户全局 Agent/MCP 配置"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a4a93163476bef92cd22c62d24c6d5536cc62554e19d1bedf7e38eee2bb8d0c7",
+  "requiredEvidenceClasses": [
+    "verification",
+    "behavior_tests",
+    "compatibility",
+    "documentation_parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-674-p1-repository-split",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-674-p1-repository-split"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/evidence_store.rs",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/recovery_events.rs",
+    "crates/cockpit-repository/tests/recovery_revalidation.rs",
+    "crates/cockpit-repository/tests/receipt_store.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/repository_context.rs",
+    "crates/cockpit-repository/tests/verification_context.rs",
+    "crates/cockpit-repository/tests/verification_service.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/task_outcome_events.rs",
+    "docs/work-items/WI-674-p1-repository-split.md",
+    "docs/work-items/WI-674-p1-repository-split.zh-CN.md",
+    "docs/work-items/WI-674-p1-repository-split.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-674-p1-repository-split"
+}
