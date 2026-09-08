@@ -1,0 +1,141 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
+      "workItemId": "WI-685-p1-status-fact-reuse"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json",
+            ".ai/decisions/WI-685-p1-status-fact-reuse.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/pull/686"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-08T16:28:20Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "降低大量历史 Work Item 仓库上 status 从请求进入到可信治理投影的重复文件读取、解析和链解析成本，同时保持 Calibrated Human-Agent Trust 及全部 fail-closed 语义。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-685-p1-status-fact-reuse"
+  },
+  "finalReportDigest": "sha256:c4c59074f75cd642eda6caedc7d2eff01398054e4d4b9a5bc827284603636b37",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:1ad59c60bdf59f13f96a41a662d1c5ffae3b243806ba00244cec346cfe449e63",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-685-p1-status-fact-reuse.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-08T16:28:20Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json",
+      ".ai/decisions/WI-685-p1-status-fact-reuse.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/686"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Repository owner authorized continuation; PR #686 was reviewed, hosted checks passed, merged, and exact branch/worktree finalization was verified.",
+    "resumeCondition": "No resume condition; Work Item is closed. Further performance work requires a new independently governed Work Item."
+  },
+  "timestamp": "2026-09-08T16:29:32Z",
+  "workItemId": "WI-685-p1-status-fact-reuse"
+}
