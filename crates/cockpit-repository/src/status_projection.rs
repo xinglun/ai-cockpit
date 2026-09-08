@@ -513,42 +513,21 @@ pub(super) fn historical_finalization_inventory(
             });
         }
     };
-    record_historical_finalization_decisions_read_dir();
-    let mut names = Vec::new();
+    let repository_id = repository_id(root).to_string();
+    let mut inventory = Vec::new();
     for entry in entries {
         let entry = entry.map_err(|source| ObserverError::Read {
             path: decisions.clone(),
             source,
         })?;
-        names.push((
-            entry.file_name().to_string_lossy().into_owned(),
-            entry.path(),
-        ));
-    }
-    let mut transition_candidates_by_work_item = BTreeMap::new();
-    for (name, path) in &names {
-        let Some((work_item_id, suffix)) = name.split_once(".finalize.") else {
-            continue;
-        };
-        // The canonical `<id>.finalize.json` also contains the delimiter, but
-        // is deliberately excluded just as the per-call resolver was.
-        if suffix == "json" {
-            continue;
-        }
-        transition_candidates_by_work_item
-            .entry(work_item_id.to_owned())
-            .or_insert_with(Vec::new)
-            .push((path.clone(), name.clone()));
-    }
-    let repository_id = repository_id(root).to_string();
-    let mut inventory = Vec::new();
-    for (name, path) in names {
+        let name = entry.file_name().to_string_lossy().into_owned();
         let Some(work_item_id) = name.strip_suffix(".finalize.json") else {
             continue;
         };
         if validate_work_item_id(work_item_id).is_err() {
             continue;
         }
+        let path = entry.path();
         let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,
@@ -601,13 +580,7 @@ pub(super) fn historical_finalization_inventory(
             continue;
         }
         let Ok((head, head_path, head_digest, sequence)) =
-            resolve_resource_finalization_head_with_candidates(
-                root,
-                work_item_id,
-                transition_candidates_by_work_item
-                    .remove(work_item_id)
-                    .unwrap_or_default(),
-            )
+            resolve_resource_finalization_head(root, work_item_id)
         else {
             inventory.push(HistoricalFinalizationInventoryItem {
                 work_item_id: work_item_id.into(),
