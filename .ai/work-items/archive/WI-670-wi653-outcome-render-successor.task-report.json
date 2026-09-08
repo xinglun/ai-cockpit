@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-670-wi653-outcome-render-successor.summary.json"
+          ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-670-wi653-outcome-render-successor.contract.json"
+          ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json"
         ],
         "inference": false,
         "text": "Produce a fresh reviewed successor for the archived WI-653 implementation: pure Outcome rendering over assembled facts, one assembly use case for CLI/MCP, and current verification evidence."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-670-wi653-outcome-render-successor.contract.json"
+          ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

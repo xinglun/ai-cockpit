@@ -65,7 +65,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-670-wi653-outcome-render-successor.summary.json"
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -103,7 +103,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-670-wi653-outcome-render-successor.contract.json"
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json"
           ],
           "inference": false,
           "text": "Produce a fresh reviewed successor for the archived WI-653 implementation: pure Outcome rendering over assembled facts, one assembly use case for CLI/MCP, and current verification evidence."
@@ -112,7 +112,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-670-wi653-outcome-render-successor.contract.json"
+            ".ai/work-items/archive/WI-670-wi653-outcome-render-successor.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -122,7 +122,7 @@
     "status": "verified",
     "workItemId": "WI-670-wi653-outcome-render-successor"
   },
-  "taskReportDigest": "sha256:a5875d6f55ea6f5a0b35fba5d6fd57d5e874b562c32788e4de05c9e18345052b",
+  "taskReportDigest": "sha256:819e395c962ef63f196826b0492040885ddef8e50fd5989c2a3df0cc39002029",
   "taskReportMarkdownDigest": "sha256:5e0cb95cbc96068f4f282c5205b7484e480dea895bc6b7d9fc6bcc88ed0ed6b8",
   "unknowns": [
     "user_visible_benefit_not_declared"
