@@ -56,11 +56,11 @@
     },
     {
       "evidence": [],
-      "expected": "The terminal Work Item state includes fresh verification, hosted checks, archive, close, and exact branch/worktree cleanup without rewriting predecessor evidence.",
+      "expected": "The fresh verification receipt binds the exact PR context and current main base; terminal lifecycle remains gated until hosted review and cleanup.",
       "required": true,
-      "scenario": "terminal recovery lifecycle",
+      "scenario": "fresh verification binds the finalized PR context",
       "status": "unverified",
-      "verificationPlan": "Run the declared Runtime lifecycle and inspect the generated archive, decision receipts, merged head, synchronized main, and cleanup postconditions."
+      "verificationPlan": "Inspect the Runtime verification evidence after finalize-plan and enforce the finish, archive, hosted-review, and close controls before terminal delivery."
     }
   ],
   "scope": [

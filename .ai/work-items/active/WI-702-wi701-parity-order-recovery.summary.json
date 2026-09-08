@@ -1,7 +1,52 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceIndex": 0,
+      "evidence": [
+        ".ai/decisions/WI-701-wi700-current-base-revalidation.recovery.json",
+        ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json",
+        ".ai/evidence/WI-701-wi700-current-base-revalidation.verification.json",
+        "https://github.com/xinglun/ai-cockpit/pull/699"
+      ]
+    },
+    {
+      "acceptanceIndex": 1,
+      "evidence": [
+        ".ai/work-items/active/WI-702-wi701-parity-order-recovery.contract.json",
+        ".ai/decisions/WI-701-wi700-current-base-revalidation.recovery.json"
+      ]
+    },
+    {
+      "acceptanceIndex": 2,
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-702-wi701-parity-order-recovery.md",
+        "docs/work-items/WI-702-wi701-parity-order-recovery.zh-CN.md",
+        "docs/work-items/WI-702-wi701-parity-order-recovery.ja.md",
+        "tests/ci/governance_integrity_gate.py"
+      ]
+    },
+    {
+      "acceptanceIndex": 3,
+      "evidence": [
+        ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json",
+        "https://github.com/xinglun/ai-cockpit/pull/701"
+      ]
+    },
+    {
+      "acceptanceIndex": 4,
+      "evidence": [
+        ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json",
+        ".ai/evidence/WI-701-wi700-current-base-revalidation.verification.json",
+        ".ai/decisions/WI-701-wi700-current-base-revalidation.recovery.json"
+      ]
+    }
+  ],
   "changedPaths": [],
   "checkpointAt": "2026-09-08T21:40:29Z",
-  "checkpointContractDigest": "sha256:84a5481a19a3b1fdf4d761163cee7b20c35d27098ba3f70b8decd63a0009456b",
+  "checkpointContractDigest": "sha256:083af558f38c95c7a25ca57d1dabcbe05c0a6ea51bdb40b3ad0e2c659f074320",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -57,26 +102,101 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-702-wi701-parity-order-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:083af558f38c95c7a25ca57d1dabcbe05c0a6ea51bdb40b3ad0e2c659f074320",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3430e772bae06e55bf57d0c0e386f6a7b52314c7ad2df5705db032c43a5d4972",
+      "previousContractHash": "sha256:84a5481a19a3b1fdf4d761163cee7b20c35d27098ba3f70b8decd63a0009456b",
+      "reason": "Add the pre-finish PR-bound verification scenario so scenario coverage remains evidence-backed without claiming hosted review or terminal cleanup before those gates run.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:55:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-702-wi701-parity-order-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
   "createdAt": "2026-09-08T21:34:52Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-702-wi701-parity-order-recovery.md",
+      "docs/reference/reference-parity.md",
+      "tests/ci/governance_integrity_gate.py",
+      ".ai/decisions/WI-701-wi700-current-base-revalidation.recovery.json"
+    ],
+    "reason": "The recovery scope preserves immutable predecessor truth and fixes only the parity-before-verification delivery ordering, without introducing new code semantics, governance rules, or protocol formats.",
+    "state": "resolved"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-09-08T21:52:56Z",
-  "preflightContractDigest": "sha256:84a5481a19a3b1fdf4d761163cee7b20c35d27098ba3f70b8decd63a0009456b",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-08T21:59:18Z",
+  "preflightContractDigest": "sha256:083af558f38c95c7a25ca57d1dabcbe05c0a6ea51bdb40b3ad0e2c659f074320",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-702-wi701-parity-order-recovery.md",
+        "docs/work-items/WI-702-wi701-parity-order-recovery.zh-CN.md",
+        "docs/work-items/WI-702-wi701-parity-order-recovery.ja.md",
+        "tests/ci/governance_integrity_gate.py",
+        ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+      ],
+      "reason": "The three-language registration commit is an earlier ancestor than the verification evidence, and the governance-integrity gate checks that ordering.",
+      "required": true,
+      "scenario": "registration precedes fresh verification evidence",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-701-wi700-current-base-revalidation.contract.json",
+        ".ai/evidence/WI-701-wi700-current-base-revalidation.verification.json",
+        ".ai/decisions/WI-701-wi700-current-base-revalidation.recovery.json",
+        "https://github.com/xinglun/ai-cockpit/pull/699",
+        ".ai/work-items/active/WI-702-wi701-parity-order-recovery.contract.json"
+      ],
+      "reason": "The immutable WI-701 archive and recovery decision bind the failed PR #699 to an independent successor from the recorded origin/main revision.",
+      "required": true,
+      "scenario": "failed hosted delivery is redelivered from current main",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-702-wi701-parity-order-recovery.contract.json",
+        ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json",
+        "https://github.com/xinglun/ai-cockpit/pull/701"
+      ],
+      "reason": "The Runtime receipt binds the current main base, exact repository identity, and finalized GitHub PR context; hosted review and terminal cleanup remain separate gates.",
+      "required": true,
+      "scenario": "fresh verification binds the finalized PR context",
+      "status": "verified"
+    }
+  ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-08T21:40:29Z",
+  "updatedAt": "2026-09-08T21:55:44.980997+00:00",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:b4d8055e04c09fd21e96fbcdd0897d959ca5da704a2bd4878e9ef1190c713b28",
+  "verificationRecoveryReconciled": "sha256:7bb6464c93371af61aa0224d5b9ac7d1730991ff29ef51e5a7c6c5f04bb8d98b",
   "workItemId": "WI-702-wi701-parity-order-recovery"
 }

@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "The recovery decision binds WI-702 to the immutable WI-701 archive, verification evidence, PR #699, and the explicit recovery reason.",
+    "The successor binds the current remote default base and exact WI-701 predecessor recovery lineage.",
+    "The WI-702 parity registration and three-language Work Item projection are committed before fresh verification evidence.",
+    "Fresh locked workspace verification, hosted checks, provider finalization, archive, close, and exact cleanup pass.",
+    "WI-701 remains immutable historical evidence and is not rewritten while WI-702 provides the replacement delivery."
+  ],
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7bb6464c93371af61aa0224d5b9ac7d1730991ff29ef51e5a7c6c5f04bb8d98b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:585aca247adcc938204e0cdc09e220519ca912dc163774860190530f73f5d4e6",
+      "workItemId": "WI-702-wi701-parity-order-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-702-wi701-parity-order-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-702-wi701-parity-order-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind WI-702 to origin/main current base, preserve WI-701 and earlier recovery lineage, pass fresh verification and hosted review, and complete terminal cleanup."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-702-wi701-parity-order-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-702-wi701-parity-order-recovery"
+  },
+  "taskReportDigest": "sha256:257257ad92f1233202aaa9a00353a985e83c6add2ea2d70c155ee9ac37b416a3",
+  "taskReportMarkdownDigest": "sha256:9cf05d5b58ef4828b9eda6bc325475535755f3e8273de2a65c5fd12c4c2560a2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-702-wi701-parity-order-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-702-wi701-parity-order-recovery"
+}
