@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "bc62be316b49ffb48b3c5fd289a1d094379d3288",
+    "name": "codex/wi-664-state-transition-boundary",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b71a80c3ac88db57334f30879a2b9e0b7202e4c05bffb8fe61a99916faeaab7e",
+  "operationId": "github-pr-662-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "fb96ffb7c2431af7790e46956d49250e6cfa2ba4",
+    "headRevision": "bc62be316b49ffb48b3c5fd289a1d094379d3288",
+    "mergeCommit": "c479d92b755f78eb0902934858ed70abd37e6960",
+    "number": 662,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/662"
+  },
+  "reason": "PR #662 passed all hosted checks, merged as c479d92b755f78eb0902934858ed70abd37e6960, main was fast-forward synchronized, and the exact WI-664 branch and worktree were removed after synchronization.",
+  "receiptId": "ai-cockpit-WI-664-state-transition-boundary-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-664-state-transition-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/662",
+    "worktree": "/private/tmp/ai-cockpit-wi-664-state-transition-boundary"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T07:43:34Z",
+  "workItemId": "WI-664-state-transition-boundary",
+  "worktree": {
+    "branch": "codex/wi-664-state-transition-boundary",
+    "headRevision": "bc62be316b49ffb48b3c5fd289a1d094379d3288",
+    "path": "/private/tmp/ai-cockpit-wi-664-state-transition-boundary",
+    "worktreeId": "WI-664-state-transition-boundary"
+  }
+}
