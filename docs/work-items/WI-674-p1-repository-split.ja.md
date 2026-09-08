@@ -4,9 +4,13 @@ title: "WI-674 — P1 Repository 責務分割"
 description: "公開挙動と永続化互換性を保ったまま cockpit-repository の内部責務を分割します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-674-p1-repository-split
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-674-p1-repository-split
+terminalArchive: .ai/work-items/archive/WI-674-p1-repository-split.contract.json
+terminalVerification: .ai/evidence/WI-674-p1-repository-split.verification.json
+terminalFinalization: .ai/decisions/WI-674-p1-repository-split.finalize.json
+terminalDecision: .ai/decisions/WI-674-p1-repository-split.close.json
 ---
 
 [English](WI-674-p1-repository-split.md) · [简体中文](WI-674-p1-repository-split.zh-CN.md)
