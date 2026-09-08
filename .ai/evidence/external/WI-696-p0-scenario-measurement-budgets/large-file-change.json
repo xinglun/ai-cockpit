@@ -1,0 +1,6 @@
+[
+  {"name": "inspect", "metric": "warm.p95Ms", "maxValueMs": 100},
+  {"name": "status", "metric": "warm.p95Ms", "maxValueMs": 135},
+  {"name": "doctor", "metric": "warm.p95Ms", "maxValueMs": 25},
+  {"name": "observe", "metric": "warm.p95Ms", "maxValueMs": 110}
+]

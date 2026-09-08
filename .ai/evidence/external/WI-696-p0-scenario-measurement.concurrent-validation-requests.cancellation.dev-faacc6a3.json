@@ -1,0 +1,215 @@
+{
+  "environment": {
+    "capturedAt": "2026-09-08T19:02:00.427449+00:00",
+    "coldCacheClaim": false,
+    "identityProbe": {
+      "inspectExitCode": 0,
+      "inspectStderr": "",
+      "statusExitCode": 0,
+      "statusStderr": ""
+    },
+    "measurementBeforeIdentityProbe": true,
+    "platform": {
+      "filesystem": {
+        "available": true,
+        "value": "/"
+      },
+      "machine": "arm64",
+      "python": "3.14.4",
+      "release": "25.6.0",
+      "system": "Darwin"
+    },
+    "repository": {
+      "branch": "",
+      "head": "99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+      "path": "/private/tmp/ai-cockpit-wi-692-fixture",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "snapshotDigest": "sha256:498bd847591479782b525b9584e30dd078327c5d899022faa5ffe32d98c880ab",
+      "status": "",
+      "trackedFileCount": 9955
+    },
+    "runtime": {
+      "fileSha256": "faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+      "reportedDigest": "sha256:faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+      "reportedVersion": "0.2.87",
+      "versionExitCode": 0,
+      "versionOutput": "ai-cockpit 0.2.87"
+    }
+  },
+  "kind": "concurrent-verification-scenario",
+  "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+  "rawSampleOrder": "round order, then requestIndex order; no sorting before grouping",
+  "rounds": [
+    {
+      "executionCount": {
+        "available": false,
+        "reason": "one_or_more_requests_missing_receipt_process_count",
+        "value": null
+      },
+      "failedRequestCount": 1,
+      "label": "cancellation",
+      "observedRequestCount": 1,
+      "perRequestLatency": {
+        "p50Ms": 110.781,
+        "p95Ms": 110.781,
+        "p99Ms": 110.781,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          110.781
+        ],
+        "reliable": {
+          "p50": false,
+          "p95": false,
+          "p99": false
+        },
+        "sampleCount": 1,
+        "unavailableReason": {
+          "p50": "insufficient_samples:1<5",
+          "p95": "insufficient_samples:1<20",
+          "p99": "insufficient_samples:1<100"
+        }
+      },
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "requestOrder": [
+        0
+      ],
+      "requests": [
+        {
+          "argv": [
+            "/private/tmp/ai-cockpit-wi-696-target/ai-cockpit-0.2.87-dev",
+            "verify",
+            "--repo",
+            "/private/tmp/ai-cockpit-wi-692-fixture",
+            "--command",
+            "/Users/sei-rinn/.local/share/mise/installs/python/latest/bin/python3",
+            "--args=-c,import time;time.sleep(5)"
+          ],
+          "cancellationAction": "process_group_sigterm",
+          "cancelled": true,
+          "commandIdentityMaterial": {
+            "args": [
+              "-c",
+              "import time;time.sleep(5)"
+            ],
+            "command": "/Users/sei-rinn/.local/share/mise/installs/python/latest/bin/python3"
+          },
+          "elapsedMs": 110.781,
+          "governancePassed": null,
+          "receipt": null,
+          "receiptMetrics": {
+            "available": false,
+            "reason": "verification_did_not_return_json_receipt"
+          },
+          "requestIndex": 0,
+          "returnCode": -15,
+          "round": "cancellation-001",
+          "startedOrder": 0,
+          "stderr": "",
+          "succeeded": false
+        }
+      ],
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": {
+          "available": true,
+          "value": 1
+        },
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "round": 1,
+      "successfulRequestCount": 0,
+      "wallClockMs": 111.062
+    }
+  ],
+  "scenario": "cancellation",
+  "schemaVersion": 1,
+  "summary": {
+    "concurrency": 1,
+    "executionCountPerRound": [],
+    "failedRequests": 1,
+    "queueWaitLatency": {
+      "available": false,
+      "reason": "CLI_does_not_expose_request_queue_timing"
+    },
+    "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+    "requestLatency": {
+      "p50Ms": 110.781,
+      "p95Ms": 110.781,
+      "p99Ms": 110.781,
+      "quantileMethod": "nearest-rank-on-sorted-samples",
+      "rawMs": [
+        110.781
+      ],
+      "reliable": {
+        "p50": false,
+        "p95": false,
+        "p99": false
+      },
+      "sampleCount": 1,
+      "unavailableReason": {
+        "p50": "insufficient_samples:1<5",
+        "p95": "insufficient_samples:1<20",
+        "p99": "insufficient_samples:1<100"
+      }
+    },
+    "resourcePeaks": {
+      "cpuTimeMs": {
+        "available": false,
+        "reason": "CLI_does_not_expose_cpu_time"
+      },
+      "hashedBytes": {
+        "available": false,
+        "reason": "CLI_does_not_expose_hashed_bytes"
+      },
+      "maxConcurrentRequestsObserved": 1,
+      "peakMemoryBytes": {
+        "available": false,
+        "reason": "platform_metric_not_collected"
+      },
+      "readBytes": {
+        "available": false,
+        "reason": "CLI_does_not_expose_read_bytes"
+      }
+    },
+    "roundCount": 1,
+    "roundWallClock": {
+      "p50Ms": 111.062,
+      "p95Ms": 111.062,
+      "p99Ms": 111.062,
+      "quantileMethod": "nearest-rank-on-sorted-samples",
+      "rawMs": [
+        111.062
+      ],
+      "reliable": {
+        "p50": false,
+        "p95": false,
+        "p99": false
+      },
+      "sampleCount": 1,
+      "unavailableReason": {
+        "p50": "insufficient_samples:1<5",
+        "p95": "insufficient_samples:1<20",
+        "p99": "insufficient_samples:1<100"
+      }
+    },
+    "scenario": "cancellation",
+    "successfulRequests": 0
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "callGraph": {
+    "definitionMatches": [
+      {
+        "line": 1473,
+        "path": "crates/cockpit-verification/src/lib.rs",
+        "text": "pub struct PhysicalSingleFlightCoordinator {"
+      }
+    ],
+    "implementationMatches": [
+      {
+        "line": 1477,
+        "path": "crates/cockpit-verification/src/lib.rs",
+        "text": "impl PhysicalSingleFlightCoordinator {"
+      }
+    ],
+    "interpretation": "No production caller was found; test references and the type definition are not production execution evidence.",
+    "productionCallerCount": 0,
+    "productionCallerMatches": [],
+    "searchTerm": "PhysicalSingleFlightCoordinator",
+    "sourceRevision": "99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+    "testOnlyMatches": [
+      {
+        "line": 3,
+        "path": "crates/cockpit-verification/tests/physical_execution.rs",
+        "text": "ExecutionResult, PhysicalExecution, PhysicalExecutionKey, PhysicalSingleFlightCoordinator,"
+      },
+      {
+        "line": 30,
+        "path": "crates/cockpit-verification/tests/physical_execution.rs",
+        "text": "let coordinator = Arc::new(PhysicalSingleFlightCoordinator::default());"
+      },
+      {
+        "line": 117,
+        "path": "crates/cockpit-verification/tests/physical_execution.rs",
+        "text": "let coordinator = PhysicalSingleFlightCoordinator::default();"
+      },
+      {
+        "line": 149,
+        "path": "crates/cockpit-verification/tests/physical_execution.rs",
+        "text": "let coordinator = PhysicalSingleFlightCoordinator::default();"
+      }
+    ]
+  },
+  "environment": {
+    "capturedAt": "2026-09-08T19:02:00.427449+00:00",
+    "coldCacheClaim": false,
+    "identityProbe": {
+      "inspectExitCode": 0,
+      "inspectStderr": "",
+      "statusExitCode": 0,
+      "statusStderr": ""
+    },
+    "measurementBeforeIdentityProbe": true,
+    "platform": {
+      "filesystem": {
+        "available": true,
+        "value": "/"
+      },
+      "machine": "arm64",
+      "python": "3.14.4",
+      "release": "25.6.0",
+      "system": "Darwin"
+    },
+    "repository": {
+      "branch": "",
+      "head": "99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+      "path": "/private/tmp/ai-cockpit-wi-692-fixture",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "snapshotDigest": "sha256:498bd847591479782b525b9584e30dd078327c5d899022faa5ffe32d98c880ab",
+      "status": "",
+      "trackedFileCount": 9955
+    },
+    "runtime": {
+      "fileSha256": "faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+      "reportedDigest": "sha256:faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd",
+      "reportedVersion": "0.2.87",
+      "versionExitCode": 0,
+      "versionOutput": "ai-cockpit 0.2.87"
+    }
+  },
+  "kind": "physical-single-flight-call-graph",
+  "rawEvidence": "WI-696-p0-scenario-measurement.concurrent-validation-requests.dev-faacc6a3.json",
+  "schemaVersion": 1
+}
