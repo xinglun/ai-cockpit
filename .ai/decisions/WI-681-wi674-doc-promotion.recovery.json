@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-08T13:54:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-681-wi674-doc-promotion.outcome.json",
+    ".ai/evidence/WI-681-wi674-doc-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/677"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:755bfaf75d0748e28cd5bc0cfc43350c849ca1ce05e8eafc760452c06002dbee",
+  "predecessorEventsDigest": "sha256:7ef613fc760514321e9188a396aa0512d214f3d113c2c428079d4b60d65fc4cb",
+  "predecessorOutcomeDigest": "sha256:7febfabaa74da74cfc4ebea693419e0783033d14d76656c1797e39b693fc51e1",
+  "predecessorSummaryDigest": "sha256:8c3ee2f6664d3aa16ef509c20d98f9edb9ddab2c5300e547456538f216bea285",
+  "predecessorWorkItemId": "WI-681-wi674-doc-promotion",
+  "reason": "Retry WI-681 after binding the real PR #677 finalization context invalidated the earlier verification receipt; preserve the old receipt and rerun current preflight, verification, and finish under the bound provider context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh verification evidence bound to PR #677, obtain a green preflight, then retry finish and continue the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-681-wi674-doc-promotion"
+}

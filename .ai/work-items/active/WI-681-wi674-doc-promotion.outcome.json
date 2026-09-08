@@ -5,14 +5,16 @@
     "通过 documentation acceptance、parity status、Work Item status consistency、closed-work-item promotion --check-all 及 Contract 声明的治理检查。",
     "不修改生产代码、测试、协议、治理规则或其他 Work Item；不新增用户可见、性能或认知收益声明。"
   ],
-  "decisionState": "red",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f99b103759a8069fb0f9b0418c4db1ec94127dfed881a2a1cb34cfaa92451443",
   "evidenceRefs": [
     ".ai/evidence/WI-681-wi674-doc-promotion.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-681-wi674-doc-promotion.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,11 +22,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -34,10 +35,8 @@
       "repositorySnapshotDigest": "sha256:6f9119a9fda0733b343c112dee0908e6d961f999b7f219c84c5b1775b26f76ac",
       "workItemId": "WI-681-wi674-doc-promotion"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -58,15 +57,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-681-wi674-doc-promotion.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -85,7 +76,7 @@
             ".ai/evidence/WI-681-wi674-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -95,10 +86,18 @@
             ".ai/evidence/WI-681-wi674-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-681-wi674-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -119,16 +118,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-681-wi674-doc-promotion"
   },
+  "taskReportDigest": "sha256:b45835b3a2560a6a111d68dac1b32b6f00e86700d8fc68d00967db3ae88a5525",
+  "taskReportMarkdownDigest": "sha256:44098fa8c0343593e95d3cb01892f2965f8946f9d1e1c2c25c48756e4a95c772",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-681-wi674-doc-promotion.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-681-wi674-doc-promotion"
 }

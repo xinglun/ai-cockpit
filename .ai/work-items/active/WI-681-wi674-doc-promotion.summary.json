@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T13:39:34Z",
-  "checkpointContractDigest": "sha256:c500b68a952c932dd81f75a88e6d268db5ceda1a4b25a801c85b251a0f654615",
+  "checkpointContractDigest": "sha256:755bfaf75d0748e28cd5bc0cfc43350c849ca1ce05e8eafc760452c06002dbee",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,11 +37,30 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-681-wi674-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:755bfaf75d0748e28cd5bc0cfc43350c849ca1ce05e8eafc760452c06002dbee",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d0c691b76825c278f4eed727b5987ce0990e58b44b5765feed7a7162683ad591",
+      "previousContractHash": "sha256:c500b68a952c932dd81f75a88e6d268db5ceda1a4b25a801c85b251a0f654615",
+      "reason": "绑定真实 GitHub PR #677 后，finalization resource context 发生了 Contract 允许的资源身份更新；此前未绑定 PR 的 verification receipt 必须失效，保留为历史尝试并在当前资源上下文下重新 preflight 与验证。文档范围、实现内容和 WI-674 不可变证据均不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-08T13:52:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f9119a9fda0733b343c112dee0908e6d961f999b7f219c84c5b1775b26f76ac",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-681-wi674-doc-promotion"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:6f9119a9fda0733b343c112dee0908e6d961f999b7f219c84c5b1775b26f76ac",
   "createdAt": "2026-09-08T13:37:50Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-674-p1-repository-split.md",
@@ -52,14 +71,12 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T13:47:04Z",
-  "preflightContractDigest": "sha256:c500b68a952c932dd81f75a88e6d268db5ceda1a4b25a801c85b251a0f654615",
+  "preflightAt": "2026-09-08T14:10:12Z",
+  "preflightContractDigest": "sha256:755bfaf75d0748e28cd5bc0cfc43350c849ca1ce05e8eafc760452c06002dbee",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:6f9119a9fda0733b343c112dee0908e6d961f999b7f219c84c5b1775b26f76ac",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-08T13:47:04Z",
@@ -69,6 +86,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:936ffe69102de00b825b8dae6f5ea646c964b3136f5bb55fd81c9f145665126f",
+  "verificationRecoveryReconciled": "sha256:f99b103759a8069fb0f9b0418c4db1ec94127dfed881a2a1cb34cfaa92451443",
   "workItemId": "WI-681-wi674-doc-promotion"
 }

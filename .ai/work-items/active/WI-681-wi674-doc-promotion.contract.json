@@ -29,7 +29,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-681-wi674-doc-promotion",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/677",
     "worktree": "/private/tmp/ai-cockpit-wi-681-wi674-doc-promotion"
   },
   "risk": "low",
