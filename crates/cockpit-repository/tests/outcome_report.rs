@@ -5,7 +5,7 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, checkpoint_work_item, finish_work_item,
-    outcome_render_input_from_outcome, plan_resource_finalization, preflight_work_item,
+    outcome_render_input_from_outcome, outcome_v2, plan_resource_finalization, preflight_work_item,
     record_verification, render_human_outcome, start_work_item_with_options,
 };
 use std::{fs, process::Command};

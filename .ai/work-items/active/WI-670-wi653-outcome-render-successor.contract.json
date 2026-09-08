@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "render_human_outcome performs no repository I/O or validation and formats assembled facts only.",
+    "The assembly use case performs the existing Outcome, human-decision, and archive-state loading once and all CLI/MCP callers use it.",
+    "Behavioral parity and cargo fmt, clippy, workspace tests, documentation and governance checks pass on this successor head.",
+    "Reviewers can verify that the presentation boundary is pure while governance facts remain evidence-bound."
+  ],
+  "authority": "authorized",
+  "baseRevision": "67efcdfee26bce306c93c8c7d1526e430fcdba8c",
+  "createdAt": "2026-09-08T09:02:06Z",
+  "goal": "Produce a fresh reviewed successor for the archived WI-653 implementation: pure Outcome rendering over assembled facts, one assembly use case for CLI/MCP, and current verification evidence.",
+  "intent": "Redeliver the bounded P1-A Outcome render purification from the latest default branch without changing user-visible text, JSON schema, exit codes, authorization, or governance semantics.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Outcome text",
+    " wording",
+    " localization",
+    " JSON schema",
+    " exit codes",
+    " authorization semantics",
+    " other architecture Work Items",
+    " old WI-653 archive/evidence",
+    " other agents' worktrees"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6f45a4bd6bb8b1abe22c4a8b2418238d9f9381b0d2478cd78f8594ae2f8390f5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-670-wi653-outcome-render-successor",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-670-outcome-render-successor"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/recovery_events.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/work-items/WI-670-wi653-outcome-render-successor.md",
+    "docs/work-items/WI-670-wi653-outcome-render-successor.zh-CN.md",
+    "docs/work-items/WI-670-wi653-outcome-render-successor.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-670-wi653-outcome-render-successor"
+}
