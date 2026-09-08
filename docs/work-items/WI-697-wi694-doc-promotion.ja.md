@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-697 — WI-694 ドキュメント昇格"
 description: "不変のガバナンス証拠から、完了した WI-694 のドキュメント投影を昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-697-wi694-doc-promotion
 lastVerifiedBy: WI-697-wi694-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-697-wi694-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-697-wi694-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-697-wi694-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-697-wi694-doc-promotion.close.json
 ---
 
 [English](WI-697-wi694-doc-promotion.md) · [简体中文](WI-697-wi694-doc-promotion.zh-CN.md)
