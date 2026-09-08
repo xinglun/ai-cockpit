@@ -4,9 +4,10 @@ title: "WI-702——P2 IncrementalMerkle 信任边界审计"
 description: "在任何增量内容身份计算影响治理前，验证 metadata 复用边界。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-702-p2-incremental-merkle-trust-audit
-status: in_progress
+status: recovered
 authority: human:repository-owner
-lastVerifiedBy: WI-702-p2-incremental-merkle-trust-audit
+lastVerifiedBy: WI-712-wi702-finalization-recovery
+recoveryDecision: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json
 ---
 
 [English](WI-702-p2-incremental-merkle-trust-audit.md) · [日本語](WI-702-p2-incremental-merkle-trust-audit.ja.md)
@@ -56,3 +57,17 @@ metadata guard 无法证明读取期间发生了同时改变字节并恢复所�
 
 本文不声称最终 PR、merge 或绿色治理结果。Runtime verification receipt、托管 review、archive、
 close 和最终文档晋级仍是必需步骤。
+
+## 合并后恢复边界
+
+PR #700 已由仓库 owner review 并合并，merge commit 为
+`bd00a7ce888c2d0dba012da21ba1616eeeab0014`，reviewed head 为
+`4eedf23ddf1e4a0491fb978127d61d852e6a5a1f`。本 Work Item 的不可变 pre-merge
+finalization root 绑定 `86f8535f`；其间的 range 还修改了 pending parity registry，
+因此已安装 Runtime 正确拒绝把该 range 当作 append-only finalization transition。
+
+WI-702 的 archive、verification、Outcome、Events、Contract 和 finalization bytes
+继续作为历史证据保留。append-only recovery decision 是
+`.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json`；WI-712
+负责新的合并后 finalization、parity 注册和准确 cleanup 边界。本恢复保持
+Calibrated Human-Agent Trust North Star，不声称性能收益。
