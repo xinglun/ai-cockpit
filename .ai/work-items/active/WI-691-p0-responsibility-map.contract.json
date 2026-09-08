@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "The three-language map cites the current latest-main entry points and call chains for CLI/MCP, observation and snapshots, Contract/policy/evidence validation, governance decisions, lifecycle transitions, execution/scheduling, status/Outcome/human-decision projection, and persistence/recovery.",
+    "The map identifies authoritative fact sources, permitted file/Git/process/record I/O, validation/decision/display ownership, concrete duplicate observation or mixed responsibility, dependency direction, and reusable mechanisms with current file:line citations.",
+    "For P1-B, P2-A, P2-B, P2-C, and P3, the map records a concrete problem, target boundary, compatibility risk, and verification method without prescribing a broad interface design.",
+    "The three language pages and parity projections are consistent and preserve the documentation-only boundary."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+  "createdAt": "2026-09-08T17:04:04Z",
+  "goal": "Document the latest main responsibility boundaries, authoritative fact sources, allowed I/O, dependency direction, reusable mechanisms, and bounded candidate refactors without changing runtime behavior.",
+  "intent": "Establish a current, cited responsibility and dependency map for the AI Cockpit architecture before further P1-B, P2, and P3 changes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust source and tests",
+    "Runtime implementation and generated governance records",
+    "Changes to lifecycle",
+    " Outcome wording",
+    " performance strategy",
+    " or governance rules",
+    "Other Work Items",
+    " existing archived evidence",
+    " and old PR branches"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:808a048c4ea40b137886e40c5442c585ed9fc0e62b92ab193d7da7be962515b6",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-691-p0-responsibility-map",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-691-p0-responsibility-map"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/architecture-responsibility-map-2026-09.md",
+    "docs/reference/architecture-responsibility-map-2026-09.zh-CN.md",
+    "docs/reference/architecture-responsibility-map-2026-09.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-691-p0-responsibility-map.md",
+    "docs/work-items/WI-691-p0-responsibility-map.zh-CN.md",
+    "docs/work-items/WI-691-p0-responsibility-map.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-cli/src/main.rs:619-831,1208-1380",
+    "crates/cockpit-mcp/src/lib.rs:7-21,574-674,1005-1055",
+    "crates/cockpit-git/src/lib.rs:212-231,247-300",
+    "crates/cockpit-protocol/src/lib.rs:120-131,322-335,368-415,559-627,927-960,962-1082,3236-3505",
+    "crates/cockpit-repository/src/lib.rs:48-92,536-556,2663-2664,2742-2990,3359-3555,4395-4450,7353-7817,11993-12395",
+    "crates/cockpit-repository/src/execution_context.rs:4-18,28-230,919-1065",
+    "crates/cockpit-repository/src/evidence_store.rs:3-39,225-280",
+    "crates/cockpit-repository/src/governance_controls.rs:1-72,1038-1250,1441-1485",
+    "crates/cockpit-repository/src/lifecycle.rs:3-63,324-359,469-560,883-905,1087-1165,1430-1495,2700-2785",
+    "crates/cockpit-repository/src/outcome_render.rs:14-76,666-705,816-875",
+    "crates/cockpit-repository/src/project_governance.rs:53-127,241-317,320-401",
+    "crates/cockpit-repository/src/status_projection.rs:3-90,91-180,464-585",
+    "crates/cockpit-verification/src/lib.rs:1206-1441,1468-1525,1595-1678,1694-1833"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-691-p0-responsibility-map"
+}

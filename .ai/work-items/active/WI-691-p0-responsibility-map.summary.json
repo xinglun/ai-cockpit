@@ -1,0 +1,68 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-691-p0-responsibility-map.contract.json",
+    ".ai/work-items/active/WI-691-p0-responsibility-map.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T17:04:18Z",
+  "checkpointContractDigest": "sha256:6fbe42823aa99d7a655e74575adfa5511aa324689783ad935a712d68a25fc07c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:5e7488f35f1d63bf0886cc2bb6e91eee0654ba233c68d358caa658387e6939e4",
+      "recorded": true,
+      "recordedAt": "2026-09-08T17:04:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:808a048c4ea40b137886e40c5442c585ed9fc0e62b92ab193d7da7be962515b6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-691-p0-responsibility-map"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:6fbe42823aa99d7a655e74575adfa5511aa324689783ad935a712d68a25fc07c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5e7488f35f1d63bf0886cc2bb6e91eee0654ba233c68d358caa658387e6939e4",
+      "previousContractHash": "sha256:5e7488f35f1d63bf0886cc2bb6e91eee0654ba233c68d358caa658387e6939e4",
+      "reason": "Bind the P0 map to the current source entry points and cited module boundaries before documentation implementation.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T17:08:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:808a048c4ea40b137886e40c5442c585ed9fc0e62b92ab193d7da7be962515b6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-691-p0-responsibility-map"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:051cf90af0787747b7f6c0930e7f2abdc849a37860bbc87ab7003229fcd57e0b",
+  "createdAt": "2026-09-08T17:04:04Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-08T17:18:47Z",
+  "preflightContractDigest": "sha256:6fbe42823aa99d7a655e74575adfa5511aa324689783ad935a712d68a25fc07c",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:051cf90af0787747b7f6c0930e7f2abdc849a37860bbc87ab7003229fcd57e0b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T17:19:03Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:9957d2dd22125c471fb400b3b1abb6bca9c8569ee4bb6d0b65c58abbf0080e68",
+  "workItemId": "WI-691-p0-responsibility-map"
+}
