@@ -4,7 +4,7 @@ title: “WI-698 — P1 明示的 observation context 境界”
 description: “一つの governance judgment を一つの検証済み phase-scoped repository observation context に束ねます。”
 audience: [contributor, maintainer, reviewer]
 workItemId: WI-698-p1-observation-context-boundary
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-698-p1-observation-context-boundary
 ---
@@ -34,3 +34,10 @@ focused test は request 内の reuse、source mutation、governance configurati
 ## 残存リスク
 
 他の lifecycle entry point は compatibility の root-plus-snapshot 形式をまだ保持します。全体移行は別の bounded Work Item で行います。本 WI は repository-wide atomic snapshot や cross-request cache を主張しません。
+
+## Recovery boundary
+
+archive された delivery は immutable な historical evidence として保持します。
+default branch の進行後、元の hosted branch は WI-700、続いて WI-701 が current
+default base から再検証します。この page は元 WI の archive、verification、recovery
+record を書き換えません。

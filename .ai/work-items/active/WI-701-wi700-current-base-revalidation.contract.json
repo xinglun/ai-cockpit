@@ -1,0 +1,109 @@
+{
+  "acceptanceCriteria": [
+    "The fresh successor Contract binds the current hosted CI base and PR context while retaining exact WI-698 and WI-700 predecessor linkage.",
+    "Fresh verification, hosted quality checks, provider finalization, and Runtime terminal lifecycle evidence pass.",
+    "The WI-698 and WI-700 predecessor archives and evidence remain immutable and close only after successor terminal evidence.",
+    "The three-language Work Item and reference-parity projections bind the recovered predecessors and the successor pre-archive lifecycle paths."
+  ],
+  "authority": "authorized",
+  "baseRevision": "83a3bb6b4d8072d2c273bec349581ce2441510cc",
+  "predecessorWorkItemId": "WI-700-wi698-base-revalidation",
+  "predecessorContractDigest": "sha256:1bd4188679443577b68fcd73a55f71ea758bd1d7448b895b5edcbcfd2bd6442d",
+  "recoveryDecisionPath": ".ai/decisions/WI-700-wi698-base-revalidation.recovery.json",
+  "createdAt": "2026-09-08T21:01:55Z",
+  "goal": "Bind a fresh successor Contract to the current remote default base 83a3bb6b4d8072d2c273bec349581ce2441510cc, preserve the WI-698 to WI-700 lineage, and complete fresh verification, hosted review, and terminal lifecycle closure.",
+  "intent": "Revalidate the WI-698 observation-context delivery and WI-700 recovery against the current hosted PR base without rewriting either predecessor archive or evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "No new code semantics, governance rules, protocol formats, or other agent branch/PR changes.",
+    "Do not rewrite WI-698 or WI-700 archive/evidence; do not touch WI-699 or any other active Work Item."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2daecbf7dab6acf84de4e0e589c693b9b2dee426879910fa08fa5755afe1a7eb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-701-wi700-current-base-revalidation-final",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-701-wi700-current-base-revalidation-final"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Repeated governance reads in one valid phase use the same repository, Runtime, Contract/config/policy, snapshot, and observed-fact identities without a hidden second observation.",
+      "required": true,
+      "scenario": "stable observation reuses one request-scoped context",
+      "status": "unverified",
+      "verificationPlan": "Run focused RepositoryExecutionContext and governance tests with call counters and assert one captured phase context and stable facts."
+    },
+    {
+      "evidence": [],
+      "expected": "The observation phase is marked inconsistent or returns an unknown result; it cannot produce a green governance input.",
+      "required": true,
+      "scenario": "repository files change while observation is being read",
+      "status": "unverified",
+      "verificationPlan": "Use a controlled mutation during observation and assert the before/after source snapshot identity mismatch is visible and fail closed."
+    },
+    {
+      "evidence": [],
+      "expected": "cockpit/profile/policy declaration identity changes invalidate the phase context instead of being silently mixed with the original snapshot.",
+      "required": true,
+      "scenario": "governance configuration changes during observation",
+      "status": "unverified",
+      "verificationPlan": "Mutate a bound governance declaration between phase captures and assert configuration identity mismatch and unknown state."
+    },
+    {
+      "evidence": [],
+      "expected": "A context from another repository or a changed attached identity is rejected with the existing fail-closed identity behavior.",
+      "required": true,
+      "scenario": "repository identity changes or root does not match",
+      "status": "unverified",
+      "verificationPlan": "Bind two isolated repositories and tamper the attached identity input; assert snapshot-root or repository-identity mismatch."
+    },
+    {
+      "evidence": [],
+      "expected": "A context captured before execution cannot authorize after-execution or persistence facts; the caller must capture and validate a new phase.",
+      "required": true,
+      "scenario": "execution-phase mutation requires a fresh boundary",
+      "status": "unverified",
+      "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/project_governance.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/repository_context.rs",
+    "docs/work-items/WI-698-p1-observation-context-boundary.md",
+    "docs/work-items/WI-698-p1-observation-context-boundary.zh-CN.md",
+    "docs/work-items/WI-698-p1-observation-context-boundary.ja.md",
+    "docs/work-items/WI-700-wi698-base-revalidation.md",
+    "docs/work-items/WI-700-wi698-base-revalidation.zh-CN.md",
+    "docs/work-items/WI-700-wi698-base-revalidation.ja.md",
+    "docs/work-items/WI-701-wi700-current-base-revalidation.md",
+    "docs/work-items/WI-701-wi700-current-base-revalidation.zh-CN.md",
+    "docs/work-items/WI-701-wi700-current-base-revalidation.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/decisions/WI-700-wi698-base-revalidation.recovery.json"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-700-wi698-base-revalidation.contract.json",
+    ".ai/evidence/WI-700-wi698-base-revalidation.verification.json",
+    ".ai/decisions/WI-700-wi698-base-revalidation.recovery.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-701-wi700-current-base-revalidation"
+}
