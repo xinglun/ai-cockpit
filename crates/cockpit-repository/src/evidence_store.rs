@@ -418,7 +418,7 @@ pub(super) fn open_cap_directory_nofollow_strict(
     })
 }
 
-fn create_and_open_cap_directory(
+pub(super) fn create_and_open_cap_directory(
     parent: &Dir,
     name: &str,
     display_path: &Path,
@@ -470,7 +470,7 @@ fn open_cap_existing_nofollow(
     Ok(file)
 }
 
-fn open_or_create_cap_nofollow(
+pub(super) fn open_or_create_cap_nofollow(
     parent: &Dir,
     name: &str,
     display_path: &Path,

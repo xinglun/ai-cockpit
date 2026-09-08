@@ -1,0 +1,163 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "same-process and cross-process finish serialization with valid final JSON",
+          "path": "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+          "type": "concurrency-test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "unique process-plus-sequence atomic temporary paths",
+          "path": "crates/cockpit-repository/src/lib.rs",
+          "type": "implementation",
+          "verification": "same-process concurrent lifecycle test and cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "blocked finish recovery, valid retry, and malformed recovery fail-closed paths",
+          "path": "crates/cockpit-repository/tests/recovery_events.rs",
+          "type": "recovery-test",
+          "verification": "cargo test --locked --workspace"
+        },
+        {
+          "locator": "concurrent archive/close and missing or corrupt projection rejection",
+          "path": "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+          "type": "recovery-test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "duplicate finish, archive, and close callers produce one commit and explicit business rejection",
+          "path": "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+          "type": "idempotency-test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "lock boundary and remaining external-writer limitation",
+          "path": "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.md",
+          "type": "risk-documentation",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-09-08T12:42:33Z",
+  "checkpointContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:46d9fa2b0bd04487d7d1730268d4c5693deb16b1f23336bcda3013c86b110243",
+      "recorded": true,
+      "recordedAt": "2026-09-08T12:42:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:60f5751d7585a78307daea93adf87c6d1326ed3dd710cdd9b33bb27cbb69c084",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:46d9fa2b0bd04487d7d1730268d4c5693deb16b1f23336bcda3013c86b110243",
+      "previousContractHash": "sha256:46d9fa2b0bd04487d7d1730268d4c5693deb16b1f23336bcda3013c86b110243",
+      "reason": "Correct the Contract evidence declaration from command strings to the Runtime evidence class verification; preserve the same implementation scope and rerun all required checks.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T12:51:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:60f5751d7585a78307daea93adf87c6d1326ed3dd710cdd9b33bb27cbb69c084",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:60f5751d7585a78307daea93adf87c6d1326ed3dd710cdd9b33bb27cbb69c084",
+  "createdAt": "2026-09-08T12:23:48Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+      "crates/cockpit-repository/tests/recovery_events.rs",
+      "docs/work-items/WI-677-wi657-lifecycle-concurrency-successor.md"
+    ],
+    "reason": "The per-Work-Item operating-system lock, unique atomic temporary identities, and controlled same-process, cross-process, duplicate-transition, and fail-closed recovery tests directly implement the declared P2-C intent; no unsupported performance or authorization benefit is claimed.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T12:55:08Z",
+  "preflightContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:60f5751d7585a78307daea93adf87c6d1326ed3dd710cdd9b33bb27cbb69c084",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_concurrency.rs"
+      ],
+      "required": true,
+      "scenario": "same Work Item concurrent finish",
+      "status": "verified",
+      "verificationPlan": "Run the full locked workspace test suite and inspect final summary/outcome JSON."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_concurrency.rs"
+      ],
+      "required": true,
+      "scenario": "projection loss or corruption",
+      "status": "verified",
+      "verificationPlan": "Run the controlled missing-active and corrupt-archive projection cases."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_events.rs"
+      ],
+      "required": true,
+      "scenario": "recovery retry and historical recovery event ordering",
+      "status": "verified",
+      "verificationPlan": "Run the recovery event regression tests in the locked workspace suite."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T12:55:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
+}
