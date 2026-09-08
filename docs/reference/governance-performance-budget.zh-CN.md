@@ -47,6 +47,23 @@ snapshot、identity、evidence 和 fail-closed 决策，不复制参考源的安
 仍是机器上共享安装的一份外部 binary；每个 adopter 都必须显式使用 `--repo`，并拥有
 独立的 `.ai/` 状态。
 
+## status 历史扫描修复(WI-648/WI-649)
+
+WI-648 找到了在有真实历史的仓库上 `status` 耗时约 1.8 秒（而
+`inspect`/`doctor`/`observe` 均低于 110 ms）的根本原因：
+`historical_finalization_inventory`（`crates/cockpit-repository/src/lib.rs`）
+为每一个历史 `.ai/decisions/*.finalize.json` receipt 都调用一次
+`resolve_resource_finalization_head`，而该函数本身每次都会重新扫描同一个
+`.ai/decisions` 目录——成本是 O(decisions 条目数 × 历史 receipt 数)。WI-649
+通过让 `historical_finalization_inventory` 每次调用只读取一次 `.ai/decisions`，
+并把每个 work item 预先分组好的 transition 候选传给新增的
+`resolve_resource_finalization_head_with_candidates` 来修复这个问题；而原有的
+`resolve_resource_finalization_head`（供 `finalize`/`finalize-verify`/
+`finalize-recovery-plan` 使用）仍保持每次调用各自扫描目录的行为不变。在 Cockpit
+仓库上测量，`status` 的 cold 与 warm 均改善约 20–23%。完整证据（包含逐字节的
+前后输出对比）见 `docs/work-items/WI-648-status-bottleneck-diagnosis.md` 与
+`docs/work-items/WI-649-status-history-scan-fix.md`。
+
 ## 对象工程继承
 
 adopter repository 可以使用相同的 identity-bound fixture 和 regression gate，但使用各自 repository 与 Runtime identity。共享 Runtime 不保存全局 budget 或 current project，一个 repository 的耗时不能授权另一个 repository 的 Work Item。

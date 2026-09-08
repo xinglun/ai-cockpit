@@ -3847,30 +3847,57 @@ fn historical_finalization_inventory(
             });
         }
     };
-    let repository_id = repository_id(root).to_string();
-    let mut inventory = Vec::new();
+    // Materialize the listing once: resolve_resource_finalization_head used
+    // to re-scan this same directory per legacy receipt below, making this
+    // function O(entries^2) on a repository with real history.
+    let mut names = Vec::new();
     for entry in entries {
         let entry = entry.map_err(|source| ObserverError::Read {
             path: decisions.clone(),
             source,
         })?;
-        let name = entry.file_name().to_string_lossy().into_owned();
+        names.push((
+            entry.file_name().to_string_lossy().into_owned(),
+            entry.path(),
+        ));
+    }
+    let mut transition_candidates: std::collections::HashMap<String, Vec<(PathBuf, String)>> =
+        std::collections::HashMap::new();
+    for (name, path) in names.iter() {
+        let Some(rest) = name.strip_suffix(".json") else {
+            continue;
+        };
+        let Some(finalize_at) = rest.find(".finalize.") else {
+            continue;
+        };
+        // An empty digest segment ("<id>.finalize.json") is the canonical
+        // receipt itself, not a transition candidate for any work item.
+        if finalize_at + ".finalize.".len() == rest.len() {
+            continue;
+        }
+        transition_candidates
+            .entry(rest[..finalize_at].to_string())
+            .or_default()
+            .push((path.to_path_buf(), name.to_string()));
+    }
+    let repository_id = repository_id(root).to_string();
+    let mut inventory = Vec::new();
+    for (name, path) in names.iter() {
         let Some(work_item_id) = name.strip_suffix(".finalize.json") else {
             continue;
         };
         if validate_work_item_id(work_item_id).is_err() {
             continue;
         }
-        let path = entry.path();
-        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
-            path: path.clone(),
+        let metadata = fs::symlink_metadata(path).map_err(|source| ObserverError::Read {
+            path: path.to_path_buf(),
             source,
         })?;
         if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
             continue;
         }
-        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
-            path: path.clone(),
+        let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+            path: path.to_path_buf(),
             source,
         })?;
         let raw_digest = Digest::sha256_bytes(&bytes);
@@ -3879,7 +3906,7 @@ fn historical_finalization_inventory(
                 work_item_id: work_item_id.into(),
                 state: "invalid".into(),
                 assurance: "unknown".into(),
-                predecessor_path: repository_relative_path(root, &path),
+                predecessor_path: repository_relative_path(root, path),
                 predecessor_digest: Some(raw_digest),
                 sequence: 0,
                 runtime_version: None,
@@ -3896,7 +3923,7 @@ fn historical_finalization_inventory(
                 work_item_id: work_item_id.into(),
                 state: "invalid".into(),
                 assurance: "unknown".into(),
-                predecessor_path: repository_relative_path(root, &path),
+                predecessor_path: repository_relative_path(root, path),
                 predecessor_digest: Some(raw_digest),
                 sequence: 0,
                 runtime_version: None,
@@ -3914,13 +3941,19 @@ fn historical_finalization_inventory(
             continue;
         }
         let Ok((head, head_path, head_digest, sequence)) =
-            resolve_resource_finalization_head(root, work_item_id)
+            resolve_resource_finalization_head_with_candidates(
+                root,
+                work_item_id,
+                transition_candidates
+                    .remove(work_item_id)
+                    .unwrap_or_default(),
+            )
         else {
             inventory.push(HistoricalFinalizationInventoryItem {
                 work_item_id: work_item_id.into(),
                 state: "recovery_required".into(),
                 assurance: "unknown".into(),
-                predecessor_path: repository_relative_path(root, &path),
+                predecessor_path: repository_relative_path(root, path),
                 predecessor_digest: Some(raw_digest),
                 sequence: 0,
                 runtime_version: Some(receipt.runtime_version.clone()),
@@ -11635,6 +11668,33 @@ fn resolve_resource_finalization_head(
     root: &Path,
     work_item_id: &str,
 ) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let prefix = format!("{work_item_id}.finalize.");
+    let canonical_name = format!("{work_item_id}.finalize.json");
+    let candidates = fs::read_dir(root.join(".ai/decisions"))
+        .map_err(|source| ObserverError::Read {
+            path: root.join(".ai/decisions"),
+            source,
+        })?
+        .flatten()
+        .filter_map(|entry| {
+            let name = entry.file_name().to_string_lossy().into_owned();
+            (name != canonical_name && name.starts_with(&prefix) && name.ends_with(".json"))
+                .then_some((entry.path(), name))
+        })
+        .collect::<Vec<_>>();
+    resolve_resource_finalization_head_with_candidates(root, work_item_id, candidates)
+}
+
+/// Same resolution as `resolve_resource_finalization_head`, but the caller
+/// supplies the `.ai/decisions` transition candidates for this `work_item_id`
+/// instead of this function re-scanning the directory. `historical_finalization_inventory`
+/// builds that candidate set once per call, from one directory listing shared
+/// across every legacy receipt, instead of once per receipt.
+fn resolve_resource_finalization_head_with_candidates(
+    root: &Path,
+    work_item_id: &str,
+    candidates: Vec<(PathBuf, String)>,
+) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
     let canonical = resource_finalization_decision_path(root, work_item_id);
     let mut receipt = read_resource_finalization_receipt(&canonical)?;
     let mut path = canonical;
@@ -11649,19 +11709,8 @@ fn resolve_resource_finalization_head(
             path: path.clone(),
             message: error.to_string(),
         })?;
-    let prefix = format!("{work_item_id}.finalize.");
-    let canonical_name = format!("{work_item_id}.finalize.json");
-    let mut candidates = fs::read_dir(root.join(".ai/decisions"))
-        .map_err(|source| ObserverError::Read {
-            path: root.join(".ai/decisions"),
-            source,
-        })?
-        .flatten()
-        .filter_map(|entry| {
-            let name = entry.file_name().to_string_lossy().into_owned();
-            (name != canonical_name && name.starts_with(&prefix) && name.ends_with(".json"))
-                .then_some((entry.path(), name))
-        })
+    let mut candidates = candidates
+        .into_iter()
         .map(|(candidate, name)| {
             let value = read_resource_finalization_transition(&candidate)?;
             let encoded = serde_json::to_value(&value).map_err(|error| ObserverError::State {

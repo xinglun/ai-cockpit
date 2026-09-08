@@ -48,6 +48,24 @@ fail-closed の判定は変わりません。参照源のインストール手�
 マシン上で共有する外部 binary のままです。各 adopter は明示的な `--repo` と独立した
 `.ai/` 状態を使用します。
 
+## status の履歴スキャン修正 (WI-648/WI-649)
+
+WI-648 は、実履歴を持つリポジトリで `status` が約1.8秒かかる
+（`inspect`/`doctor`/`observe` は110ms未満）根本原因を、
+`historical_finalization_inventory`（`crates/cockpit-repository/src/lib.rs`）が
+レガシーな `.ai/decisions/*.finalize.json` receipt 1件ごとに
+`resolve_resource_finalization_head` を呼び、この関数自体が毎回同じ
+`.ai/decisions` ディレクトリを再スキャンしていた点（O(decisionsエントリ数 ×
+レガシーreceipt数)のコスト）と特定した。WI-649 は、`historical_finalization_inventory`
+の呼び出しごとに `.ai/decisions` を一度だけ読み、各 work item の事前グループ化済み
+transition 候補を新設の `resolve_resource_finalization_head_with_candidates` に
+渡すことでこれを修正した。一方、元の `resolve_resource_finalization_head`
+（`finalize`/`finalize-verify`/`finalize-recovery-plan` が使用）は呼び出しごとの
+ディレクトリスキャンをそのまま維持している。Cockpit リポジトリでの計測では
+`status` の cold/warm がともに約20〜23%改善した。完全な証拠（バイト単位の前後
+出力比較を含む）は `docs/work-items/WI-648-status-bottleneck-diagnosis.md` と
+`docs/work-items/WI-649-status-history-scan-fix.md` を参照。
+
 ## Object project への継承
 
 Adopter repository は同じ identity-bound fixture と regression gate を使えますが、repository/Runtime identity はそれぞれ固有です。Shared Runtime は global budget/current project を保存せず、ある repository の timing が別 repository の Work Item を認可することもありません。

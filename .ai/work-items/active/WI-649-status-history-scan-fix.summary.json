@@ -1,0 +1,65 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-649-status-history-scan-fix.contract.json",
+    ".ai/work-items/active/WI-649-status-history-scan-fix.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T00:17:36Z",
+  "checkpointContractDigest": "sha256:4c7fcc7ec2ccfb842dabc1a6be96826e47b63924ae0bf71b889407bbf915b314",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9e7432ef93812463934d79d180f215e41e2b9c534979c691a97a9b09ee6efdea",
+      "recorded": true,
+      "recordedAt": "2026-09-08T00:17:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d164a8bff5e19a4ac469b868277928fb8259bb336db1d4ecf49bf452c09186db",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-649-status-history-scan-fix"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4c7fcc7ec2ccfb842dabc1a6be96826e47b63924ae0bf71b889407bbf915b314",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9e7432ef93812463934d79d180f215e41e2b9c534979c691a97a9b09ee6efdea",
+      "previousContractHash": "sha256:9e7432ef93812463934d79d180f215e41e2b9c534979c691a97a9b09ee6efdea",
+      "reason": "Add the new regression test file crates/cockpit-repository/tests/historical_finalization_scan.rs to scope; it was needed to prove the candidate index does not cross-contaminate between independent legacy Work Items but was omitted from the initial Contract scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T00:43:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d164a8bff5e19a4ac469b868277928fb8259bb336db1d4ecf49bf452c09186db",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-649-status-history-scan-fix"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d164a8bff5e19a4ac469b868277928fb8259bb336db1d4ecf49bf452c09186db",
+  "createdAt": "2026-09-08T00:17:17Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T00:43:51Z",
+  "preflightContractDigest": "sha256:4c7fcc7ec2ccfb842dabc1a6be96826e47b63924ae0bf71b889407bbf915b314",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d164a8bff5e19a4ac469b868277928fb8259bb336db1d4ecf49bf452c09186db",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T00:17:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:eaacb526e0d9e2ce1e964d6dfe6479d3a8c49bbdb410da91f584ed3e078a5977",
+  "workItemId": "WI-649-status-history-scan-fix"
+}

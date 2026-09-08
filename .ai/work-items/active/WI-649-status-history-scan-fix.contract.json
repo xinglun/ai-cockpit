@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "historical_finalization_inventory reads the .ai/decisions directory listing exactly once per call (materialized), builds an in-memory work_item_id -> transition-candidate index from that single listing, and resolve_resource_finalization_head_with_candidates consumes pre-filtered candidates instead of calling fs::read_dir per outer-loop item.",
+    "resolve_resource_finalization_head (used by finalize/finalize-verify/finalize-recovery-plan call sites) keeps its existing signature, behavior, and per-call directory scan unchanged; only historical_finalization_inventory's internal call path changes.",
+    "A new regression test proves historical_finalization_inventory produces byte-identical HistoricalFinalizationInventoryItem output before and after the change for a fixture with multiple legacy receipts, including at least one with a resolved transition chain and one that fails resolution.",
+    "The corrected runtime_benchmark.sh harness (WI-647) measures status cold/warm latency before and after this change on this repository, with raw samples retained; the candidate must not regress inspect/doctor/observe and must show a measured reduction in status latency proportional to the removed re-scans, not an assumed one.",
+    "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass; no governance decision, evidence semantics, or JSON field changes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T00:17:17Z",
+  "goal": "Reduce ai-cockpit status latency on repositories with accumulated history (measured at ~1.8s on this repository) by removing redundant directory re-scanning, while producing byte-identical HistoricalFinalizationInventoryItem output for every existing receipt.",
+  "intent": "Fix the O(n^2) directory re-scan that WI-648 root-caused in historical_finalization_inventory: resolve_resource_finalization_head currently re-scans the full .ai/decisions directory once per outer-loop legacy receipt. Build the transition-candidate index once per historical_finalization_inventory call instead, with zero output/behavior change.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Caching resolved historical_finalization_inventory results across separate status invocations (WI-648's second candidate); this WI only removes the redundant directory re-scan within a single call",
+    "Any change to unclosed_archived_work_items_with_id",
+    " classify_historical_debt",
+    " or any other readiness step; only resolve_resource_finalization_head's directory-scan cost is addressed",
+    "Any change to the ResourceFinalizationReceipt/HistoricalFinalizationInventoryItem schema or the finalize/finalize-verify/finalize-recovery-plan call sites of resolve_resource_finalization_head"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-649-status-history-scan-fix",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi649-status-history-scan-fix"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/historical_finalization_scan.rs",
+    "tests/performance/runtime_benchmark.sh",
+    "docs/work-items/WI-649-status-history-scan-fix.md",
+    "docs/work-items/WI-649-status-history-scan-fix.ja.md",
+    "docs/work-items/WI-649-status-history-scan-fix.zh-CN.md",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/reference/governance-performance-budget.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-649-status-history-scan-fix"
+}

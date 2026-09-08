@@ -72,6 +72,25 @@ snapshot, identity, evidence, and fail-closed decisions. They do not copy the
 reference install flow: the Runtime remains one externally installed binary,
 and each adopter binds it with an explicit `--repo` and its own `.ai/` state.
 
+## Status history-scan fix (WI-648/WI-649)
+
+WI-648 root-caused `status`'s ~1.8 s latency on a repository with real
+history (vs. <110 ms for `inspect`/`doctor`/`observe`) to
+`historical_finalization_inventory` (`crates/cockpit-repository/src/lib.rs`)
+calling `resolve_resource_finalization_head` once per legacy
+`.ai/decisions/*.finalize.json` receipt, which itself re-scanned the same
+`.ai/decisions` directory every time — an O(decision-entries × legacy
+receipts) cost. WI-649 fixed it by reading `.ai/decisions` once per
+`historical_finalization_inventory` call and passing each work item's
+pre-grouped transition candidates into a new
+`resolve_resource_finalization_head_with_candidates`, while the original
+`resolve_resource_finalization_head` (used by `finalize`/`finalize-verify`/
+`finalize-recovery-plan`) keeps its own per-call directory scan unchanged.
+Measured on the Cockpit repository, `status` improved ~20-23% cold and warm;
+see `docs/work-items/WI-648-status-bottleneck-diagnosis.md` and
+`docs/work-items/WI-649-status-history-scan-fix.md` for the full evidence,
+including a byte-for-byte before/after output comparison.
+
 ## Object-project inheritance
 
 Adopter repositories can use the same identity-bound fixture and regression
