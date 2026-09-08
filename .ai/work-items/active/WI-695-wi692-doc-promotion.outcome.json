@@ -4,6 +4,7 @@
     "The WI-692 English, Simplified Chinese, and Japanese parity rows match the deterministic closed-Work-Item projection, including exact evidence paths and punctuation conventions.",
     "Documentation acceptance, parity/status checks, and diff validation pass without runtime or governance behavior changes."
   ],
+  "createdAt": "2026-09-08T18:24:48Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:78cecf2ef94e8f7db71bbc655789003b6b809780f24c4a2a7e178d5c8054f557",
   "evidenceRefs": [
@@ -23,8 +24,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -75,7 +76,7 @@
             ".ai/evidence/WI-695-wi692-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -120,8 +121,8 @@
     "status": "verified",
     "workItemId": "WI-695-wi692-doc-promotion"
   },
-  "taskReportDigest": "sha256:6525c10b571ce2da057bf3b8308a7c83fdb6b335e62ca400f8187baff824226d",
-  "taskReportMarkdownDigest": "sha256:a9135d7d80b4036e806cbae39aa48df451a93396c5dda1121cf9c5def4b7195f",
+  "taskReportDigest": "sha256:e74b4fe8cc8aedbf994218468f9a491fb3fc0b25733ece5ed34ffd5a3c94e887",
+  "taskReportMarkdownDigest": "sha256:ee80b55255d238bad54b776ab40330dbf0cc85add879a897d4130a5d200a378b",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
