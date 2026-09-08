@@ -1,4 +1,38 @@
 {
-  "entries": [],
+  "entries": [
+    {
+      "baseRevision": "83a3bb6b4d8072d2c273bec349581ce2441510cc",
+      "createdAt": "2026-09-08T21:49:00Z",
+      "expectedRecords": {
+        "contract": ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json",
+        "finalize": ".ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json",
+        "verification": ".ai/evidence/WI-702-p2-incremental-merkle-trust-audit.verification.json"
+      },
+      "headRevision": "86f8535f170afc9da79db48308f322f69e9fe8ca",
+      "parityRows": [
+        {
+          "path": "docs/reference/reference-parity.md",
+          "row": "| WI-702 — P2 IncrementalMerkle trust audit | In progress | [Work Item](../work-items/WI-702-p2-incremental-merkle-trust-audit.md); terminal lifecycle: archive `.ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json`; verification `.ai/evidence/WI-702-p2-incremental-merkle-trust-audit.verification.json`; finalization `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json`; close `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.close.json`. |"
+        },
+        {
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "row": "| WI-702——P2 IncrementalMerkle 信任边界审计 | 进行中 | [Work Item](../work-items/WI-702-p2-incremental-merkle-trust-audit.zh-CN.md)；终态 lifecycle: archive `.ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json`；verification `.ai/evidence/WI-702-p2-incremental-merkle-trust-audit.verification.json`；finalization `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json`；close `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.close.json`。 |"
+        },
+        {
+          "path": "docs/reference/reference-parity.ja.md",
+          "row": "| WI-702 — P2 IncrementalMerkle 信頼境界監査 | In progress | [Work Item](../work-items/WI-702-p2-incremental-merkle-trust-audit.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json`; verification `.ai/evidence/WI-702-p2-incremental-merkle-trust-audit.verification.json`; finalization `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.finalize.json`; close `.ai/decisions/WI-702-p2-incremental-merkle-trust-audit.close.json`. |"
+        }
+      ],
+      "provider": "github",
+      "pullRequest": {
+        "number": 700,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/700"
+      },
+      "registryBaseRevision": "61b214585838c3004d4a8508be33de6782b93018",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "in_progress",
+      "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+    }
+  ],
   "schemaVersion": 1
 }
