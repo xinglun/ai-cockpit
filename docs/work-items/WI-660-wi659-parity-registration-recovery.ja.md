@@ -4,9 +4,13 @@ title: WI-660 — WI-659 parity 登録 recovery
 description: parity registration を verification evidence より先に commit して P0-A Outcome trust-expression 修正を再配信する。
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-660-wi659-parity-registration-recovery
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-660-wi659-parity-registration-recovery
+terminalArchive: .ai/work-items/archive/WI-660-wi659-parity-registration-recovery.contract.json
+terminalVerification: .ai/evidence/WI-660-wi659-parity-registration-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-660-wi659-parity-registration-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-660-wi659-parity-registration-recovery.close.json
 ---
 
 # WI-660 — WI-659 parity 登録 recovery

@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "Synchronize only the twelve scoped Markdown projection paths: the six WI-660 terminal projection paths and the six WI-661 self-registration paths required by the governance protocol.",
+    "Preserve the original Contract language, terminal evidence references, and three-language parity semantics.",
+    "Pass documentation acceptance, parity, status consistency, governance integrity, and closed-work-item promotion checks.",
+    "Keep the WI-661 self-registration paths auditable as the explicit amendment that resolves prearchive parity ordering."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9b53118fa992c917242a837b17592ffd660ddd23",
+  "createdAt": "2026-09-08T06:41:30Z",
+  "goal": "Promote the three-language WI-660 Work Item pages and reference-parity rows so closed-work-item projection checks pass.",
+  "intent": "Synchronize the closed WI-660 terminal documentation projection without changing code, behavior, or historical evidence.",
+  "mode": "docs",
+  "outOfScope": [
+    "All production code",
+    " tests",
+    " governance rules",
+    " historical WI-660 records",
+    " other Work Items",
+    " other agents worktrees",
+    " and hosted PR behavior."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d2bd88233068cfb0c5c2c0ee513b5cd607bfec544fd5885afed5e61e9554dbcf",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_quality",
+    "finalization",
+    "human_outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-661-wi660-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/660",
+    "worktree": "/private/tmp/ai-cockpit-wi-661-wi660-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-660-wi659-parity-registration-recovery.md",
+    "docs/work-items/WI-660-wi659-parity-registration-recovery.zh-CN.md",
+    "docs/work-items/WI-660-wi659-parity-registration-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-661-wi660-doc-promotion.md",
+    "docs/work-items/WI-661-wi660-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-661-wi660-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-661-wi660-doc-promotion"
+}
