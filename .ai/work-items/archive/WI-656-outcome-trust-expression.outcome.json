@@ -8,14 +8,17 @@
     "CLI 与 MCP 对相同输入输出相同人类事实；机器 JSON、判定规则、退出码和授权语义保持兼容。",
     "测试使用真实 Outcome 结构而非只断言替换后的字符串；完整报告文档同步更新且不声称未验证的收益。"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-08T03:48:36Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3159c8f89bbef1b4a560fcf6ccba6a38118f06293da9382f37ce60904da953b3",
   "evidenceRefs": [
     ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -23,41 +26,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:07a5a95acdaa62dec2f1e1848561468b298840f44d857300a510a7fb5550885a",
+      "repositorySnapshotDigest": "sha256:fcec6c88d03897998e8157f1409a0909e173be76e662880b448291a322995207",
       "workItemId": "WI-656-outcome-trust-expression"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-656-outcome-trust-expression.summary.json"
+            ".ai/work-items/archive/WI-656-outcome-trust-expression.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-656-outcome-trust-expression.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-656-outcome-trust-expression.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-656-outcome-trust-expression.summary.json"
+            ".ai/work-items/archive/WI-656-outcome-trust-expression.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-656-outcome-trust-expression.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-656-outcome-trust-expression.summary.json"
         }
       ],
       "evidence": [
@@ -76,15 +76,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -95,7 +87,7 @@
             ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -105,15 +97,23 @@
             ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-656-outcome-trust-expression.contract.json"
+            ".ai/work-items/archive/WI-656-outcome-trust-expression.contract.json"
           ],
           "inference": false,
           "text": "让 CLI 与 MCP 的人类 Outcome handoff 准确表达已声明的验证结果、生命周期和人工决定，不把验证通过投影为批准，不从空值推断无风险，并保留历史、替代、过期和失败的区别。"
@@ -122,23 +122,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-656-outcome-trust-expression.contract.json"
+            ".ai/work-items/archive/WI-656-outcome-trust-expression.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-656-outcome-trust-expression"
   },
+  "taskReportDigest": "sha256:626782543d672542e0ce0524a662e8d73f9b5313f28e5933c06e51599564652a",
+  "taskReportMarkdownDigest": "sha256:52a349e65e7223c38ca68815498505ed9c8b45a631c844bfbfe45fbbac98da0b",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-656-outcome-trust-expression.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-656-outcome-trust-expression"
 }

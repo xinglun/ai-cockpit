@@ -1,0 +1,27 @@
+{
+  "actor": "xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T03:42:32Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-656-outcome-trust-expression.outcome.json",
+    ".ai/evidence/WI-656-outcome-trust-expression.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:6828f41325eb27b1a547cfd408e513a62e1a77bd3e6471b4fdbf7c71bf007442",
+  "predecessorEventsDigest": "sha256:f7955fccedb3ace979934d6528dcbc4b226fb9fbed1c2a46782b906f2333dd48",
+  "predecessorOutcomeDigest": "sha256:c927f085b5fdd1021127409b714b8e032d5a624b9a832d36468fb21e0e950bf7",
+  "predecessorSummaryDigest": "sha256:f2cfef5ff0de8c999faaa2c0cfd832bc11b931adad2cba2218b726e82a5b3dd7",
+  "predecessorWorkItemId": "WI-656-outcome-trust-expression",
+  "reason": "Repository owner xinglun explicitly authorized one retry recovery after the stale lifecycle transition gate.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and verification, then retry finish with the bound finalization plan.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-656-outcome-trust-expression"
+}
