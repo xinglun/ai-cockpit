@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
+          ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
+          ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json"
+          ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
         ],
         "inference": false,
         "text": "Measure whether concurrent verification requests for the same repository and command duplicate physical execution, and produce an evidence-backed accept-or-decline decision for a future coordinator integration without changing production governance behavior."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json"
+          ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

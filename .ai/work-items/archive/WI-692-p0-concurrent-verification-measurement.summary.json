@@ -43,8 +43,8 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json",
-    ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
+    ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json",
+    ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
   ],
   "checkpointAt": "2026-09-08T17:09:47Z",
   "checkpointContractDigest": "sha256:9b21491a9d5456aa6496f83265c80f34912400b19d5f5852d49dfb59990bad8a",

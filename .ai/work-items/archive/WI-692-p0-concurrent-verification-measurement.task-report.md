@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json
-- Changed path: .ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json
+- Changed path: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json
+- Changed path: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json
 
 ## Findings
 
