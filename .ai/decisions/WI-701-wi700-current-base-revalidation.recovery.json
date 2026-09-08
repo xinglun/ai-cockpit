@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-in-thread",
+  "decidedAt": "2026-09-08T21:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-701-wi700-current-base-revalidation.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/699",
+    "docs/reference/reference-parity.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:044dea2ea36b1850705b1964bc6a4a0cbb036176d743e0d5b166468a978078cf",
+  "predecessorEventsDigest": "sha256:8af9f878e3a19a8e8c89a127ce0e8126461db5678610395c88a72460feca3230",
+  "predecessorOutcomeDigest": "sha256:bebb5cd652f36969407978b0ccc2f8ea815d4424783d5f04298435851898cfef",
+  "predecessorSummaryDigest": "sha256:e8af513d8dd4d927b474098f0973fd49d1aee65b58cb4b38be7579ea0b613625",
+  "predecessorWorkItemId": "WI-701-wi700-current-base-revalidation",
+  "reason": "Hosted quality rejected PR #699 because the WI-701 parity registration and verification evidence first appeared in the same commit; preserve that immutable failed delivery and redeliver from current main with parity registration committed before fresh verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-702 from origin/main with the three-language parity registration committed before fresh verification, pass hosted review, finalize and verify exact cleanup, then close WI-702 and the WI-701 predecessor lineage.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-702-wi701-parity-order-recovery",
+  "workItemId": "WI-701-wi700-current-base-revalidation"
+}
