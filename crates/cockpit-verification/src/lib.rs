@@ -2195,20 +2195,7 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     let stdout_worker = stdout.map(capture_stream_async);
     let stderr_worker = stderr.map(capture_stream_async);
     let deadline = Instant::now() + Duration::from_secs(MAX_EXECUTION_SECONDS);
-    let (status, mut timed_out) = loop {
-        match child.try_wait() {
-            Ok(Some(status)) => break (Some(status), false),
-            Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
-            Ok(None) => {
-                terminate_process_tree(&mut child, child_id);
-                break (child.wait().ok(), true);
-            }
-            Err(_) => {
-                terminate_process_tree(&mut child, child_id);
-                break (None, false);
-            }
-        }
-    };
+    let (status, mut timed_out) = wait_for_child(child, child_id, deadline);
     #[cfg(windows)]
     drop(process_tree);
     terminate_descendants(child_id);
@@ -2256,6 +2243,68 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     }
 }
 
+/// Waits for `child` to exit by `deadline`, killing it (and its descendants)
+/// on timeout. A fixed sleep(10ms)-then-recheck loop here previously added
+/// ~11ms of pure waiting to every short command (measured: 12.19ms vs 1.19ms
+/// mean to observe a near-instant `true`), while being indistinguishable
+/// from a blocking wait for long commands. On Unix, wait on a dedicated
+/// thread instead so completion wakes the caller immediately; only the pid
+/// (Copy) is needed for a timeout kill, so `child` itself can move into the
+/// thread. The Windows path is unchanged: it cannot be verified without a
+/// Windows environment.
+#[cfg(unix)]
+fn wait_for_child(
+    mut child: std::process::Child,
+    child_id: u32,
+    deadline: Instant,
+) -> (Option<std::process::ExitStatus>, bool) {
+    let (sender, receiver) = mpsc::sync_channel(1);
+    std::thread::spawn(move || {
+        let status = child.wait();
+        let _ = sender.send(status);
+    });
+    match receiver.recv_timeout(deadline.saturating_duration_since(Instant::now())) {
+        Ok(Ok(status)) => (Some(status), false),
+        Ok(Err(_)) => {
+            terminate_descendants(child_id);
+            (None, false)
+        }
+        Err(_) => {
+            // SAFETY: child_id was read from the live child before it moved
+            // into the waiter thread; killing by pid needs no further
+            // access to the Child value.
+            unsafe {
+                libc::kill(child_id as i32, libc::SIGKILL);
+            }
+            terminate_descendants(child_id);
+            (receiver.recv().ok().and_then(Result::ok), true)
+        }
+    }
+}
+
+#[cfg(windows)]
+fn wait_for_child(
+    mut child: std::process::Child,
+    child_id: u32,
+    deadline: Instant,
+) -> (Option<std::process::ExitStatus>, bool) {
+    loop {
+        match child.try_wait() {
+            Ok(Some(status)) => break (Some(status), false),
+            Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
+            Ok(None) => {
+                terminate_process_tree(&mut child, child_id);
+                break (child.wait().ok(), true);
+            }
+            Err(_) => {
+                terminate_process_tree(&mut child, child_id);
+                break (None, false);
+            }
+        }
+    }
+}
+
+#[cfg(windows)]
 fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) {
     terminate_descendants(child_id);
     let _ = child.kill();
@@ -2668,5 +2717,57 @@ impl RuntimeMetrics {
             passed: true,
             outcomes: BTreeMap::new(),
         }
+    }
+}
+
+#[cfg(all(test, unix))]
+mod wait_for_child_tests {
+    use super::wait_for_child;
+    use std::process::{Command, Stdio};
+    use std::time::{Duration, Instant};
+
+    fn spawn(program: &str, args: &[&str]) -> (std::process::Child, u32) {
+        let child = Command::new(program)
+            .args(args)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .expect("spawn");
+        let id = child.id();
+        (child, id)
+    }
+
+    #[test]
+    fn completes_well_before_the_deadline_is_not_marked_timed_out() {
+        let (child, id) = spawn("true", &[]);
+        let deadline = Instant::now() + Duration::from_secs(30);
+        let (status, timed_out) = wait_for_child(child, id, deadline);
+        assert!(!timed_out);
+        assert!(status.expect("status").success());
+    }
+
+    #[test]
+    fn a_command_past_its_deadline_is_killed_and_reported_timed_out() {
+        // A short synthetic deadline keeps this test fast; MAX_EXECUTION_SECONDS
+        // itself is exercised only through this same function in production.
+        let (child, id) = spawn("sleep", &["5"]);
+        let deadline = Instant::now() + Duration::from_millis(100);
+        let started = Instant::now();
+        let (_status, timed_out) = wait_for_child(child, id, deadline);
+        assert!(timed_out);
+        assert!(
+            started.elapsed() < Duration::from_secs(2),
+            "timeout kill must not wait for the full sleep duration"
+        );
+    }
+
+    #[test]
+    fn exit_status_and_code_are_preserved() {
+        let (child, id) = spawn("sh", &["-c", "exit 7"]);
+        let deadline = Instant::now() + Duration::from_secs(30);
+        let (status, timed_out) = wait_for_child(child, id, deadline);
+        assert!(!timed_out);
+        assert_eq!(status.expect("status").code(), Some(7));
     }
 }

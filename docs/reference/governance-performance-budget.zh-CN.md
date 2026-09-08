@@ -47,6 +47,17 @@ snapshot、identity、evidence 和 fail-closed 决策，不复制参考源的安
 仍是机器上共享安装的一份外部 binary；每个 adopter 都必须显式使用 `--repo`，并拥有
 独立的 `.ai/` 状态。
 
+## 子进程等待改为阻塞式(WI-650)
+
+验证执行器此前用 `child.try_wait()` + `sleep(10ms)` 循环等待每一个子进程。
+一个独立的微基准测试表明，这为近乎瞬时完成的命令额外增加了约 11 ms 的纯
+等待时间（均值 12.19 ms 对 1.19 ms），而对耗时数秒的命令而言与阻塞等待
+无法区分。在 Unix 上，`wait_for_child` 现在把子进程 move 进一个专用线程，
+由该线程调用阻塞的 `child.wait()` 并通过 channel 汇报结果，调用方只做一次
+有界的 `recv_timeout`；超时、进程树终止和输出捕获的保证均未改变。Windows
+路径保持原有的轮询循环，因为本 Work Item 未对其进行验证。完整的前后对比
+证据见 `docs/work-items/WI-650-verification-wait-blocking.md`。
+
 ## 对象工程继承
 
 adopter repository 可以使用相同的 identity-bound fixture 和 regression gate，但使用各自 repository 与 Runtime identity。共享 Runtime 不保存全局 budget 或 current project，一个 repository 的耗时不能授权另一个 repository 的 Work Item。

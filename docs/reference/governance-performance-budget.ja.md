@@ -48,6 +48,20 @@ fail-closed の判定は変わりません。参照源のインストール手�
 マシン上で共有する外部 binary のままです。各 adopter は明示的な `--repo` と独立した
 `.ai/` 状態を使用します。
 
+## 子プロセス待機のブロッキング化 (WI-650)
+
+検証 executor は以前、すべての子プロセスを `child.try_wait()` +
+`sleep(10ms)` ループで待機していた。独立したマイクロベンチマークにより、
+ほぼ瞬時に終わるコマンドに対して約11msの純粋な待機が追加される一方
+（平均12.19ms対1.19ms）、数秒かかるコマンドではブロッキング待機と区別が
+つかないことが示された。Unix では `wait_for_child` が子プロセスを専用
+スレッドに move し、そのスレッドがブロッキングの `child.wait()` を呼んで
+結果をチャンネル経由で報告し、呼び出し側は有界の `recv_timeout` を行う。
+タイムアウト・プロセスツリー終了・出力キャプチャの保証は変更していない。
+Windows のパスは、本 Work Item では検証していないため、元のポーリング
+ループのまま残している。完全な前後比較の証拠は
+`docs/work-items/WI-650-verification-wait-blocking.md` を参照。
+
 ## Object project への継承
 
 Adopter repository は同じ identity-bound fixture と regression gate を使えますが、repository/Runtime identity はそれぞれ固有です。Shared Runtime は global budget/current project を保存せず、ある repository の timing が別 repository の Work Item を認可することもありません。

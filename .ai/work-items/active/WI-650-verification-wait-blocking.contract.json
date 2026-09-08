@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "An isolated micro-benchmark (not the full CLI, to remove unrelated startup/git/identity noise) quantifies the busy-poll overhead separately for a near-instant command and a multi-second command before changing any production code.",
+    "On cfg(unix), execute_captured waits for the child via a dedicated thread's blocking child.wait() plus a bounded mpsc recv_timeout on the main thread, instead of a sleep(10ms) polling loop; on timeout, the process is killed by pid and the final exit status is still collected, matching current timeout/kill/process-tree-cleanup semantics exactly.",
+    "cfg(windows) code path is textually unchanged.",
+    "A new regression test exercises: a command that completes well under the poll interval, a command that runs past its deadline and must be killed (timed_out=true, passed=false), and confirms output capture and exit-code identity are unaffected.",
+    "cargo fmt, cargo clippy --all-targets --all-features -- -D warnings, and cargo test --locked --workspace pass; no governance decision, evidence schema, or required-check semantics change.",
+    "Before/after measurement on this repository (WI-647 corrected harness or an equivalent isolated benchmark) shows a real, quantified reduction for short verification commands and no regression for long-running ones; no assumed speedup is claimed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T00:57:21Z",
+  "goal": "Reduce short verification-command latency by removing avoidable fixed-interval polling wait, on Unix only (verified via macOS testing), while preserving the existing timeout, process-tree termination, and output-capture guarantees exactly; the Windows path is left unchanged since it cannot be verified here.",
+  "intent": "Replace the fixed 10ms busy-poll wait for verification child-process completion (child.try_wait()+sleep(10ms) loop) with a blocking wait on a dedicated thread, measured to add ~11ms of pure waiting overhead per short command (confirmed via an isolated micro-benchmark: 12.19ms vs 1.19ms mean for spawning /bin/true) while being statistically indistinguishable from blocking wait for long commands (sleep 1: 1013ms vs 1009ms).",
+  "mode": "implementation",
+  "outOfScope": [
+    "Any change to the Windows (#[cfg(windows)]) wait path; it keeps the existing busy-poll loop unchanged because it cannot be verified without a Windows environment",
+    "Any change to output-stream capture (capture_stream_async)",
+    " which already uses a bounded libc::poll wait",
+    " not a busy sleep loop",
+    "Bounded parallel file read/hash (separate P1 candidate",
+    " only pursued if measurement supports it)"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-650-verification-wait-blocking",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi650-verification-wait-blocking"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/execution_wait.rs",
+    "docs/work-items/WI-650-verification-wait-blocking.md",
+    "docs/work-items/WI-650-verification-wait-blocking.ja.md",
+    "docs/work-items/WI-650-verification-wait-blocking.zh-CN.md",
+    "docs/reference/governance-performance-budget.md",
+    "docs/reference/governance-performance-budget.ja.md",
+    "docs/reference/governance-performance-budget.zh-CN.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-650-verification-wait-blocking"
+}

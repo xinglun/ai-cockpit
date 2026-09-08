@@ -72,6 +72,20 @@ snapshot, identity, evidence, and fail-closed decisions. They do not copy the
 reference install flow: the Runtime remains one externally installed binary,
 and each adopter binds it with an explicit `--repo` and its own `.ai/` state.
 
+## Blocking child-process wait (WI-650)
+
+The verification executor previously waited for every child process with a
+`child.try_wait()` + `sleep(10ms)` loop. An isolated micro-benchmark showed
+this added ~11 ms of pure waiting to a near-instant command (12.19 ms vs
+1.19 ms mean) while being indistinguishable from a blocking wait for a
+multi-second command. On Unix, `wait_for_child` now moves the child into a
+dedicated thread that calls the blocking `child.wait()` and reports the
+result over a channel with a bounded `recv_timeout`; timeout, process-tree
+termination, and output-capture guarantees are unchanged. The Windows path
+is left as the original polling loop, since it is not verified here. See
+`docs/work-items/WI-650-verification-wait-blocking.md` for the full
+before/after evidence.
+
 ## Object-project inheritance
 
 Adopter repositories can use the same identity-bound fixture and regression
