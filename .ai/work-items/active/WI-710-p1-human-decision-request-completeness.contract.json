@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "A1: crates/cockpit-repository/tests/contract_preflight.rs adds one shared helper asserting every HumanDecisionRequest field and each option's id/label/effect are non-empty and that recommended_option names one of the offered options.",
+    "A2: the helper is called from both existing needs_human_confirmation tests (scaffold_preflight_is_not_ready_and_records_human_review_requirements and high_risk_scenario_coverage_stops_at_preflight_for_human_review), covering two independently-triggered real scenarios.",
+    "A3: cargo test --locked -p cockpit-repository --test contract_preflight passes (7/7).",
+    "A4: cargo fmt --check and cargo clippy --test contract_preflight -- -D warnings pass.",
+    "A5: no existing assertion is removed or weakened; no production source file is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "83a3bb6b4d8072d2c273bec349581ce2441510cc",
+  "createdAt": "2026-09-08T21:46:44Z",
+  "goal": "A regression that silently empties any part of a structured human decision request is caught automatically by cargo test on two independent real scenarios (an empty scaffold and a high-risk scenario-coverage gate), instead of relying on manual review.",
+  "intent": "Close the invariant-9 gap named in WI-681's coverage mapping (docs/reference/collaboration-invariant-coverage.md, pending merge): extend the two existing preflight tests in crates/cockpit-repository/tests/contract_preflight.rs that already reach needs_human_confirmation to assert every HumanDecisionRequest field (what_happened, why_it_matters, question, resume_condition, options, recommended_option, recommendation_reason, and each option's id/label/effect) is non-empty and internally consistent, rather than adding a new test file or new production code.",
+  "mode": "code",
+  "outOfScope": [
+    "any change to production code in crates/cockpit-core/src",
+    " crates/cockpit-repository/src",
+    "invariants 7 and 8 test gaps (separate follow-on Work Items)"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2daecbf7dab6acf84de4e0e589c693b9b2dee426879910fa08fa5755afe1a7eb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "claude/wi-710-p1-human-decision-request-completeness",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-710-p1-human-decision-request-completeness"
+  },
+  "risk": "low",
+  "scope": [
+    "crates/cockpit-repository/tests/contract_preflight.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-710-p1-human-decision-request-completeness"
+}
