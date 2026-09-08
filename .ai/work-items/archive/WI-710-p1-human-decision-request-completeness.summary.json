@@ -1,0 +1,93 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "fn assert_human_decision_request_is_complete",
+          "path": "crates/cockpit-repository/tests/contract_preflight.rs",
+          "type": "source-file",
+          "verification": "cargo test --locked -p cockpit-repository --test contract_preflight"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "scaffold_preflight_is_not_ready_and_records_human_review_requirements; high_risk_scenario_coverage_stops_at_preflight_for_human_review",
+          "path": "crates/cockpit-repository/tests/contract_preflight.rs",
+          "type": "source-file",
+          "verification": "cargo test --locked -p cockpit-repository --test contract_preflight"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "results[0]",
+          "path": ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json",
+          "type": "command-output",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "results[0]",
+          "path": ".ai/evidence/WI-710-p1-human-decision-request-completeness.verification.json",
+          "type": "command-output",
+          "verification": "cargo fmt --check -p cockpit-repository; cargo clippy --locked -p cockpit-repository --test contract_preflight --all-features -- -D warnings"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "git diff --stat (only one modified file, no production source touched)",
+          "path": "crates/cockpit-repository/tests/contract_preflight.rs",
+          "type": "diff",
+          "verification": "manual-review"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json",
+    ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T21:48:17Z",
+  "checkpointContractDigest": "sha256:73d4ab201f33399e890db7d466432b920b664d14b0916adcd3cb7e5e650f539f",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:10e03a58fd36268c8a7f214e17ae8e66a5892aae49e89a282cd9014c1f191d60",
+  "createdAt": "2026-09-08T21:46:44Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/contract_preflight.rs is the only modified file (git diff --stat)",
+      "both scaffold_preflight_is_not_ready_and_records_human_review_requirements and high_risk_scenario_coverage_stops_at_preflight_for_human_review now call assert_human_decision_request_is_complete"
+    ],
+    "reason": "The delivered change exactly closes the invariant-9 gap by extending two existing real needs_human_confirmation scenarios with one shared assertion helper, touching no production code.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-08T21:57:25Z",
+  "preflightContractDigest": "sha256:73d4ab201f33399e890db7d466432b920b664d14b0916adcd3cb7e5e650f539f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:10e03a58fd36268c8a7f214e17ae8e66a5892aae49e89a282cd9014c1f191d60",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T21:57:25Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-710-p1-human-decision-request-completeness"
+}
