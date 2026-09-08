@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T13:51:18Z",
-  "checkpointContractDigest": "sha256:a090e1ed1d6a20db4e686d2ab51e37317d84c87f1d3ede88f418781a55f00789",
+  "checkpointContractDigest": "sha256:f2edc7b1f0a7bc233686287f834ded2b55836e1a5bfb2fc30880949e4acb2bf4",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:e0d4c7fa66beb24d6d862adba1fee63a269b879b69921ac75efa87ade6963a67",
   "createdAt": "2026-09-08T13:38:40Z",
@@ -19,14 +19,21 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:cf737126d9534189410e35a3589954bcf47cb6d330bb4ede0c58016d351111d1",
   "predecessorWorkItemId": "WI-677-wi657-lifecycle-concurrency-successor",
-  "preflightAt": "2026-09-08T13:51:07Z",
-  "preflightContractDigest": "sha256:a090e1ed1d6a20db4e686d2ab51e37317d84c87f1d3ede88f418781a55f00789",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightAt": "2026-09-08T14:11:47Z",
+  "preflightContractDigest": "sha256:f2edc7b1f0a7bc233686287f834ded2b55836e1a5bfb2fc30880949e4acb2bf4",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:e0d4c7fa66beb24d6d862adba1fee63a269b879b69921ac75efa87ade6963a67",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-08T13:51:34.597250+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fae465abf872046fccdaafc970bff27ddda541b7673c30cdca261b8f52e4aec5",
   "workItemId": "WI-681-wi677-lifecycle-concurrency-recovery"
 }
