@@ -27,7 +27,7 @@ lastVerifiedBy: WI-713-wi703-current-base-revalidation
 
 ## 基线与恢复链
 
-- 远程/默认基线：`origin/main`，提交 `00700d88647246622729bca2d623eafd779eb1f3`。
+- 初始远程/默认基线：`origin/main`，提交 `00700d88647246622729bca2d623eafd779eb1f3`；并行主线交付后已 amendment 并重新绑定到 `d97159a3f70e5ad59328b0d4e5249edf7931e84e`。
 - 前置项：WI-703，其 archive 和历史 verification 保持不可变。
 - 恢复决定：`.ai/decisions/WI-703-wi669-current-base-revalidation.recovery.json`。
 - 历史证据：`.ai/evidence/WI-703-wi669-current-base-revalidation.verification.json`。

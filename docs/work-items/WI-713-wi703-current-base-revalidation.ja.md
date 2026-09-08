@@ -28,7 +28,7 @@ repository renderer の facts を使い、測定済みの認知効果や実ユ�
 
 ## Base と recovery lineage
 
-- Remote/default base: `origin/main` at `00700d88647246622729bca2d623eafd779eb1f3`。
+- 初期の Remote/default base: `origin/main` at `00700d88647246622729bca2d623eafd779eb1f3`。並行 mainline の配信後、amendment を記録し `d97159a3f70e5ad59328b0d4e5249edf7931e84e` に再バインドしました。
 - Predecessor: WI-703。archive と historical verification は immutable のままです。
 - Recovery decision: `.ai/decisions/WI-703-wi669-current-base-revalidation.recovery.json`。
 - Historical evidence: `.ai/evidence/WI-703-wi669-current-base-revalidation.verification.json`。

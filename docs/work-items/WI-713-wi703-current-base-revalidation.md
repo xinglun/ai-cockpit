@@ -29,7 +29,7 @@ measured cognitive benefit or a real user study.
 
 ## Base and recovery lineage
 
-- Remote/default base: `origin/main` at `00700d88647246622729bca2d623eafd779eb1f3`.
+- Initial remote/default base: `origin/main` at `00700d88647246622729bca2d623eafd779eb1f3`; amended and revalidated against `d97159a3f70e5ad59328b0d4e5249edf7931e84e` after parallel mainline delivery.
 - Predecessor: WI-703, whose archive and historical verification remain immutable.
 - Recovery decision: `.ai/decisions/WI-703-wi669-current-base-revalidation.recovery.json`.
 - Historical evidence: `.ai/evidence/WI-703-wi669-current-base-revalidation.verification.json`.
