@@ -5297,11 +5297,7 @@ pub fn finish_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    let result = finish_work_item_internal(root, work_item_id, None);
-    if let Err(error) = &result {
-        let _ = persist_blocked_lifecycle_outcome(root, work_item_id, error);
-    }
-    result
+    finish_work_item_internal(root, work_item_id, None)
 }
 
 /// Finish a Work Item while requiring evidence produced by the current
@@ -5313,11 +5309,7 @@ pub fn finish_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    let result = finish_work_item_internal(root, work_item_id, Some(runtime));
-    if let Err(error) = &result {
-        let _ = persist_blocked_lifecycle_outcome(root, work_item_id, error);
-    }
-    result
+    finish_work_item_internal(root, work_item_id, Some(runtime))
 }
 
 fn finish_work_item_internal(
@@ -5330,244 +5322,250 @@ fn finish_work_item_internal(
         path: root.into(),
         source,
     })?;
-    let active = root.join(".ai/work-items/active");
-    let summary_path = active.join(format!("{work_item_id}.summary.json"));
-    let mut summary: serde_json::Value = read_json(&summary_path)?;
-    let summary_state = summary["state"].as_str().unwrap_or("");
-    let retry_recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
-    let verification_recovery_reconciled =
-        summary["verificationRecoveryReconciled"].as_str().is_some();
-    require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
-    if summary_state != "checkpointed" {
-        return Err(ObserverError::State {
-            path: summary_path.clone(),
-            message: format!(
-                "finish is invalid from state {summary_state:?}; expected checkpointed"
-            ),
-        });
-    }
-    if summary["checkpointCount"] != serde_json::json!(1) {
-        return Err(ObserverError::State {
-            path: summary_path.clone(),
-            message: "finish requires exactly one checkpoint".into(),
-        });
-    }
-    if summary["preflightState"] != serde_json::json!("green") {
-        return Err(ObserverError::State {
-            path: summary_path.clone(),
-            message: "finish requires a green preflight result after verification".into(),
-        });
-    }
-    let contract_path = active.join(format!("{work_item_id}.contract.json"));
-    let contract = read_contract(&contract_path)?;
-    if contract.checkpoint_policy.is_some() {
-        let current_contract_hash = contract_digest(&contract_path)?.to_string();
-        if summary["checkpointContractDigest"] != serde_json::json!(current_contract_hash) {
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    let result = (|| -> Result<LifecycleReceipt, ObserverError> {
+        let active = root.join(".ai/work-items/active");
+        let summary_path = active.join(format!("{work_item_id}.summary.json"));
+        let mut summary: serde_json::Value = read_json(&summary_path)?;
+        let summary_state = summary["state"].as_str().unwrap_or("");
+        let retry_recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+        let verification_recovery_reconciled =
+            summary["verificationRecoveryReconciled"].as_str().is_some();
+        require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
+        if summary_state != "checkpointed" {
             return Err(ObserverError::State {
                 path: summary_path.clone(),
-                message: "finish requires a checkpoint for the current Contract".into(),
+                message: format!(
+                    "finish is invalid from state {summary_state:?}; expected checkpointed"
+                ),
             });
         }
-        let checkpoint_snapshot = summary["checkpointRepositorySnapshotDigest"]
-            .as_str()
-            .unwrap_or_default();
-        let preflight_snapshot = summary["preflightRepositorySnapshotDigest"]
-            .as_str()
-            .unwrap_or_default();
-        if checkpoint_snapshot.is_empty() || checkpoint_snapshot != preflight_snapshot {
+        if summary["checkpointCount"] != serde_json::json!(1) {
             return Err(ObserverError::State {
                 path: summary_path.clone(),
-                message: "finish requires a checkpoint for the current repository snapshot".into(),
+                message: "finish requires exactly one checkpoint".into(),
             });
         }
-    }
-    require_explicit_resource_finalization_plan(&contract, &contract_path, "finish")?;
-    let original_summary = summary.clone();
-    let evidence_path = root
-        .join(".ai/evidence")
-        .join(format!("{work_item_id}.verification.json"));
-    let evidence = read_json(&evidence_path).map_err(|_| ObserverError::State {
-        path: evidence_path.clone(),
-        message: "finish requires a recorded verification receipt".into(),
-    })?;
-    if evidence["workItemId"].as_str() != Some(work_item_id)
-        || evidence["passed"] != serde_json::Value::Bool(true)
-    {
-        return Err(ObserverError::State {
-            path: evidence_path,
-            message: "verification receipt is not a passed receipt for this work item".into(),
-        });
-    }
-    let git =
-        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+        if summary["preflightState"] != serde_json::json!("green") {
+            return Err(ObserverError::State {
+                path: summary_path.clone(),
+                message: "finish requires a green preflight result after verification".into(),
+            });
+        }
+        let contract_path = active.join(format!("{work_item_id}.contract.json"));
+        let contract = read_contract(&contract_path)?;
+        if contract.checkpoint_policy.is_some() {
+            let current_contract_hash = contract_digest(&contract_path)?.to_string();
+            if summary["checkpointContractDigest"] != serde_json::json!(current_contract_hash) {
+                return Err(ObserverError::State {
+                    path: summary_path.clone(),
+                    message: "finish requires a checkpoint for the current Contract".into(),
+                });
+            }
+            let checkpoint_snapshot = summary["checkpointRepositorySnapshotDigest"]
+                .as_str()
+                .unwrap_or_default();
+            let preflight_snapshot = summary["preflightRepositorySnapshotDigest"]
+                .as_str()
+                .unwrap_or_default();
+            if checkpoint_snapshot.is_empty() || checkpoint_snapshot != preflight_snapshot {
+                return Err(ObserverError::State {
+                    path: summary_path.clone(),
+                    message: "finish requires a checkpoint for the current repository snapshot"
+                        .into(),
+                });
+            }
+        }
+        require_explicit_resource_finalization_plan(&contract, &contract_path, "finish")?;
+        let original_summary = summary.clone();
+        let evidence_path = root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.verification.json"));
+        let evidence = read_json(&evidence_path).map_err(|_| ObserverError::State {
+            path: evidence_path.clone(),
+            message: "finish requires a recorded verification receipt".into(),
+        })?;
+        if evidence["workItemId"].as_str() != Some(work_item_id)
+            || evidence["passed"] != serde_json::Value::Bool(true)
+        {
+            return Err(ObserverError::State {
+                path: evidence_path,
+                message: "verification receipt is not a passed receipt for this work item".into(),
+            });
+        }
+        let git =
+            cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?;
+        let snapshot = git.snapshot().map_err(|error| ObserverError::State {
             path: root.clone(),
             message: error.to_string(),
         })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
-    let current_digest = snapshot_digest(&snapshot)?;
-    if summary["preflightRepositorySnapshotDigest"]
-        .as_str()
-        .is_none_or(|value| value != current_digest.as_str())
-    {
-        return Err(ObserverError::State {
-            path: summary_path.clone(),
-            message: "finish requires a green preflight result for the current repository snapshot"
-                .into(),
-        });
-    }
-    if evidence["repositorySnapshotDigest"] != serde_json::Value::String(current_digest.to_string())
-    {
-        return Err(ObserverError::State {
-            path: evidence_path,
-            message: "verification receipt is stale for the current repository snapshot".into(),
-        });
-    }
-    let contract_value = read_json(&contract_path)?;
-    let controls = if let Some(runtime) = current_runtime {
-        validate_contract_summary_controls_with_runtime(
-            &contract,
-            &contract_value,
-            &summary,
-            runtime,
-        )
-    } else {
-        validate_contract_summary_controls(&contract, &contract_value, &summary)
-    };
-    if controls.state == "blocked" {
-        return Err(ObserverError::State {
-            path: contract_path,
-            message: format!(
-                "Contract/Summary governance controls are blocked: {}",
-                controls
-                    .findings
-                    .iter()
-                    .map(|item| item.code.as_str())
-                    .collect::<Vec<_>>()
-                    .join(", ")
-            ),
-        });
-    }
-    if verification_evidence_state(&root, &contract, &snapshot, false, current_runtime)?
-        != EvidenceState::Complete
-    {
-        return Err(ObserverError::State {
-            path: evidence_path,
-            message: "verification evidence is not a valid current receipt".into(),
-        });
-    }
-    if contract.checkpoint_policy.is_some() {
-        let current_contract_hash = contract_digest(&contract_path)?.to_string();
-        let has_before_finish = summary
-            .get("checkpointEvidence")
-            .and_then(serde_json::Value::as_array)
-            .is_some_and(|entries| {
-                entries.iter().any(|entry| {
-                    entry.get("stage").and_then(serde_json::Value::as_str) == Some("before_finish")
-                })
-            });
-        if !has_before_finish {
-            let passed = checkpoint_passed_check_count(&contract, &summary);
-            append_checkpoint_evidence(
-                &mut summary,
-                &root,
-                &contract,
-                "before_finish",
-                &snapshot,
-                &current_contract_hash,
-                passed,
-                &now(),
-            )?;
-            atomic_json(&summary_path, &summary)?;
-        }
-        if let Err(errors) = validate_checkpoint_evidence_bindings(
-            &contract,
-            &summary,
-            &repository_id(&root).to_string(),
-            &current_digest.to_string(),
-            &current_contract_hash,
-        ) {
+        let current_digest = snapshot_digest(&snapshot)?;
+        if summary["preflightRepositorySnapshotDigest"]
+            .as_str()
+            .is_none_or(|value| value != current_digest.as_str())
+        {
             return Err(ObserverError::State {
                 path: summary_path.clone(),
-                message: format!("checkpoint evidence is invalid: {}", errors.join(", ")),
+                message:
+                    "finish requires a green preflight result for the current repository snapshot"
+                        .into(),
             });
         }
-    }
-    if let Some(runtime) = current_runtime {
-        require_green_governance_with_runtime(
-            &root,
-            &contract_path,
-            &contract,
-            &snapshot,
-            "finish",
-            runtime,
-        )?;
-    } else {
-        require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
-    }
-    let timestamp = now();
-    // A prior failed `finish` persists a blocked projection so recovery is
-    // visible.  Once a fresh verification and governance pass succeeds, that
-    // transient failure metadata is no longer current; keeping it would make
-    // CI treat the repaired Work Item as stale and reject the branch.  Remove
-    // only these generated projection fields before writing the new terminal
-    // candidate; append-only failure events remain intact.
-    if let Some(object) = summary.as_object_mut() {
-        object.remove("failedGate");
-        object.remove("recoveryCondition");
-        object.remove("outcomeState");
-        object.remove("verificationRecoveryReconciled");
-    }
-    summary["state"] = "finish_ready".into();
-    summary["updatedAt"] = timestamp.clone().into();
-    atomic_json(&summary_path, &summary)?;
-    let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
-    let task_report = task_outcome_report(TaskOutcomeReportInput {
-        root: &root,
-        contract_path: &contract_path,
-        contract: &contract,
-        summary: Some(&summary),
-        snapshot_digest: snapshot_digest(&snapshot).ok(),
-        state: OutcomeState::Verified,
-        decision_state: DecisionState::Green,
-        summary_text: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
-        unknowns: &["user_visible_benefit_not_declared".into()],
-        evidence_ref: &evidence_ref,
-        failed_gate_override: None,
-        recovery_condition_override: None,
-        historical: false,
-    });
-    let (task_report_digest, task_report_markdown_digest) = write_task_outcome_artifacts(
-        &root,
-        work_item_id,
-        &task_report,
-        retry_recovery_pending || verification_recovery_reconciled,
-    )?;
-    if retry_recovery_pending {
-        summary
-            .as_object_mut()
-            .expect("Work Item Summary is an object")
-            .remove("recoveryRetryPending");
-        summary
-            .as_object_mut()
-            .expect("Work Item Summary is an object")
-            .remove("recoveryRetryDecisionPath");
-        summary
-            .as_object_mut()
-            .expect("Work Item Summary is an object")
-            .remove("recoveryRetryDecisionDigest");
-        if let Err(error) = atomic_json(&summary_path, &summary) {
-            // marker の削除に失敗した場合は元の Summary と今回のレポートを戻し、
-            // finish_ready と retry marker の矛盾した投影を残さない。
-            let _ = atomic_json(&summary_path, &original_summary);
-            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
-            return Err(error);
+        if evidence["repositorySnapshotDigest"]
+            != serde_json::Value::String(current_digest.to_string())
+        {
+            return Err(ObserverError::State {
+                path: evidence_path,
+                message: "verification receipt is stale for the current repository snapshot".into(),
+            });
         }
-    }
-    let outcome_v2 = OutcomeV2 {
+        let contract_value = read_json(&contract_path)?;
+        let controls = if let Some(runtime) = current_runtime {
+            validate_contract_summary_controls_with_runtime(
+                &contract,
+                &contract_value,
+                &summary,
+                runtime,
+            )
+        } else {
+            validate_contract_summary_controls(&contract, &contract_value, &summary)
+        };
+        if controls.state == "blocked" {
+            return Err(ObserverError::State {
+                path: contract_path,
+                message: format!(
+                    "Contract/Summary governance controls are blocked: {}",
+                    controls
+                        .findings
+                        .iter()
+                        .map(|item| item.code.as_str())
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                ),
+            });
+        }
+        if verification_evidence_state(&root, &contract, &snapshot, false, current_runtime)?
+            != EvidenceState::Complete
+        {
+            return Err(ObserverError::State {
+                path: evidence_path,
+                message: "verification evidence is not a valid current receipt".into(),
+            });
+        }
+        if contract.checkpoint_policy.is_some() {
+            let current_contract_hash = contract_digest(&contract_path)?.to_string();
+            let has_before_finish = summary
+                .get("checkpointEvidence")
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(|entries| {
+                    entries.iter().any(|entry| {
+                        entry.get("stage").and_then(serde_json::Value::as_str)
+                            == Some("before_finish")
+                    })
+                });
+            if !has_before_finish {
+                let passed = checkpoint_passed_check_count(&contract, &summary);
+                append_checkpoint_evidence(
+                    &mut summary,
+                    &root,
+                    &contract,
+                    "before_finish",
+                    &snapshot,
+                    &current_contract_hash,
+                    passed,
+                    &now(),
+                )?;
+                atomic_json(&summary_path, &summary)?;
+            }
+            if let Err(errors) = validate_checkpoint_evidence_bindings(
+                &contract,
+                &summary,
+                &repository_id(&root).to_string(),
+                &current_digest.to_string(),
+                &current_contract_hash,
+            ) {
+                return Err(ObserverError::State {
+                    path: summary_path.clone(),
+                    message: format!("checkpoint evidence is invalid: {}", errors.join(", ")),
+                });
+            }
+        }
+        if let Some(runtime) = current_runtime {
+            require_green_governance_with_runtime(
+                &root,
+                &contract_path,
+                &contract,
+                &snapshot,
+                "finish",
+                runtime,
+            )?;
+        } else {
+            require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
+        }
+        let timestamp = now();
+        // A prior failed `finish` persists a blocked projection so recovery is
+        // visible.  Once a fresh verification and governance pass succeeds, that
+        // transient failure metadata is no longer current; keeping it would make
+        // CI treat the repaired Work Item as stale and reject the branch.  Remove
+        // only these generated projection fields before writing the new terminal
+        // candidate; append-only failure events remain intact.
+        if let Some(object) = summary.as_object_mut() {
+            object.remove("failedGate");
+            object.remove("recoveryCondition");
+            object.remove("outcomeState");
+            object.remove("verificationRecoveryReconciled");
+        }
+        summary["state"] = "finish_ready".into();
+        summary["updatedAt"] = timestamp.clone().into();
+        atomic_json(&summary_path, &summary)?;
+        let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
+        let task_report = task_outcome_report(TaskOutcomeReportInput {
+            root: &root,
+            contract_path: &contract_path,
+            contract: &contract,
+            summary: Some(&summary),
+            snapshot_digest: snapshot_digest(&snapshot).ok(),
+            state: OutcomeState::Verified,
+            decision_state: DecisionState::Green,
+            summary_text: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+            unknowns: &["user_visible_benefit_not_declared".into()],
+            evidence_ref: &evidence_ref,
+            failed_gate_override: None,
+            recovery_condition_override: None,
+            historical: false,
+        });
+        let (task_report_digest, task_report_markdown_digest) = write_task_outcome_artifacts(
+            &root,
+            work_item_id,
+            &task_report,
+            retry_recovery_pending || verification_recovery_reconciled,
+        )?;
+        if retry_recovery_pending {
+            summary
+                .as_object_mut()
+                .expect("Work Item Summary is an object")
+                .remove("recoveryRetryPending");
+            summary
+                .as_object_mut()
+                .expect("Work Item Summary is an object")
+                .remove("recoveryRetryDecisionPath");
+            summary
+                .as_object_mut()
+                .expect("Work Item Summary is an object")
+                .remove("recoveryRetryDecisionDigest");
+            if let Err(error) = atomic_json(&summary_path, &summary) {
+                // marker の削除に失敗した場合は元の Summary と今回のレポートを戻し、
+                // finish_ready と retry marker の矛盾した投影を残さない。
+                let _ = atomic_json(&summary_path, &original_summary);
+                let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
+                let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+                return Err(error);
+            }
+        }
+        let outcome_v2 = OutcomeV2 {
         schema_version: 2,
         repository_id: contract.repository_id.clone(),
         work_item_id: work_item_id.into(),
@@ -5590,51 +5588,57 @@ fn finish_work_item_internal(
         recovery_decision: None,
         historical_status: None,
     };
-    let mut outcome = serde_json::to_value(&outcome_v2).map_err(|error| ObserverError::State {
-        path: active.join(format!("{work_item_id}.outcome.json")),
-        message: error.to_string(),
-    })?;
-    outcome["protocolVersion"] = serde_json::json!(1);
-    outcome["workItemId"] = serde_json::json!(work_item_id);
-    outcome["state"] = serde_json::json!("finish_ready");
-    outcome["verification"] = serde_json::json!({
-        "status": "verified",
-        "required": true,
-        "evidencePath": format!(".ai/evidence/{work_item_id}.verification.json"),
-    });
-    outcome["evidenceDigest"] = cockpit_protocol::digest_json(&evidence)
-        .map_err(|error| ObserverError::State {
-            path: root.join(".ai/evidence"),
-            message: error.to_string(),
-        })?
-        .to_string()
-        .into();
-    outcome["taskReportDigest"] = task_report_digest.to_string().into();
-    outcome["taskReportMarkdownDigest"] = task_report_markdown_digest.to_string().into();
-    outcome["createdAt"] = timestamp.clone().into();
-    if let Err(error) = atomic_json(
-        &active.join(format!("{work_item_id}.outcome.json")),
-        &outcome,
-    ) {
-        let _ = atomic_json(&summary_path, &original_summary);
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
-        return Err(error);
+        let mut outcome =
+            serde_json::to_value(&outcome_v2).map_err(|error| ObserverError::State {
+                path: active.join(format!("{work_item_id}.outcome.json")),
+                message: error.to_string(),
+            })?;
+        outcome["protocolVersion"] = serde_json::json!(1);
+        outcome["workItemId"] = serde_json::json!(work_item_id);
+        outcome["state"] = serde_json::json!("finish_ready");
+        outcome["verification"] = serde_json::json!({
+            "status": "verified",
+            "required": true,
+            "evidencePath": format!(".ai/evidence/{work_item_id}.verification.json"),
+        });
+        outcome["evidenceDigest"] = cockpit_protocol::digest_json(&evidence)
+            .map_err(|error| ObserverError::State {
+                path: root.join(".ai/evidence"),
+                message: error.to_string(),
+            })?
+            .to_string()
+            .into();
+        outcome["taskReportDigest"] = task_report_digest.to_string().into();
+        outcome["taskReportMarkdownDigest"] = task_report_markdown_digest.to_string().into();
+        outcome["createdAt"] = timestamp.clone().into();
+        if let Err(error) = atomic_json(
+            &active.join(format!("{work_item_id}.outcome.json")),
+            &outcome,
+        ) {
+            let _ = atomic_json(&summary_path, &original_summary);
+            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
+            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+            return Err(error);
+        }
+        if let Err(error) =
+            append_task_outcome_events(&root, &contract, &task_report, retry_recovery_pending)
+        {
+            let _ = fs::remove_file(active.join(format!("{work_item_id}.outcome.json")));
+            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
+            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+            let _ = atomic_json(&summary_path, &original_summary);
+            return Err(error);
+        }
+        Ok(LifecycleReceipt {
+            work_item_id: work_item_id.into(),
+            state: "finish_ready".into(),
+            timestamp,
+        })
+    })();
+    if let Err(error) = &result {
+        let _ = persist_blocked_lifecycle_outcome(&root, work_item_id, error);
     }
-    if let Err(error) =
-        append_task_outcome_events(&root, &contract, &task_report, retry_recovery_pending)
-    {
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.outcome.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
-        let _ = atomic_json(&summary_path, &original_summary);
-        return Err(error);
-    }
-    Ok(LifecycleReceipt {
-        work_item_id: work_item_id.into(),
-        state: "finish_ready".into(),
-        timestamp,
-    })
+    result
 }
 
 pub fn record_verification(
@@ -6586,6 +6590,7 @@ pub fn record_recovery_decision(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let contract_path = work_item_artifact_path(&root, work_item_id, "contract.json")?;
     let summary_path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
     let contract = read_contract(&contract_path)?;
@@ -10420,6 +10425,7 @@ pub fn reconcile_active_artifacts(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let active = root.join(".ai/work-items/active");
     let archive = root.join(".ai/work-items/archive");
     let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
@@ -10564,9 +10570,32 @@ fn archive_work_item_internal(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let ai = root.join(".ai");
     let active = ai.join("work-items/active");
     let archive = ai.join("work-items/archive");
+    let existing_manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    match fs::symlink_metadata(&existing_manifest_path) {
+        Ok(metadata) if metadata.file_type().is_symlink() => {
+            return Err(ObserverError::State {
+                path: existing_manifest_path,
+                message: "archive manifest must not be a symlink".into(),
+            });
+        }
+        Ok(_) => {
+            return Err(ObserverError::State {
+                path: existing_manifest_path,
+                message: "work item is already archived".into(),
+            });
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: existing_manifest_path,
+                source,
+            });
+        }
+    }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
@@ -12272,6 +12301,7 @@ pub fn record_historical_finalization_recovery(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
     let predecessor_path = resource_finalization_decision_path(&root, work_item_id);
     if fs::symlink_metadata(&predecessor_path).is_err() {
@@ -13267,6 +13297,7 @@ fn close_work_item_with_structured_decision_internal(
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let archive = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
@@ -15034,6 +15065,13 @@ fn persist_blocked_lifecycle_outcome(
     } else {
         None
     };
+    if summary
+        .as_ref()
+        .and_then(|value| value["state"].as_str())
+        .is_some_and(|state| matches!(state, "finish_ready" | "archived" | "closed"))
+    {
+        return Ok(());
+    }
     let (failed_gate, recovery_condition) = lifecycle_failure_metadata(error);
     let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
     let snapshot = cockpit_git::GitRepository::discover(&root)
@@ -17832,12 +17870,40 @@ fn atomic_json(path: &Path, value: &serde_json::Value) -> Result<(), ObserverErr
     atomic_write(path, &bytes)
 }
 
+/// Serialize lifecycle transitions for one Work Item across threads and
+/// processes.  The lock file is intentionally retained under the ignored
+/// `.ai/locks` runtime directory: removing a locked file would let a later
+/// caller create a new inode while an older waiter still held the old one.
+/// The operating-system lock is released automatically when the file handle
+/// is dropped, including after a process crash.
+fn acquire_lifecycle_lock(root: &Path, work_item_id: &str) -> Result<fs::File, ObserverError> {
+    let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        }
+    })?;
+    let ai_path = root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
+    let locks_path = ai_path.join("locks");
+    let locks = create_and_open_cap_directory(&ai, "locks", &locks_path)?;
+    let lock_name = format!("{work_item_id}.lifecycle.lock");
+    let lock_path = locks_path.join(&lock_name);
+    let lock = open_or_create_cap_nofollow(&locks, &lock_name, &lock_path)?;
+    lock.lock().map_err(|source| ObserverError::Read {
+        path: lock_path,
+        source,
+    })?;
+    Ok(lock)
+}
+
 fn now() -> String {
     chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
 }
 
 fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), ObserverError> {
-    let temporary = path.with_extension(format!("tmp-{}", std::process::id()));
+    let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
+    let temporary = path.with_extension(format!("tmp-{}-{sequence}", std::process::id()));
     fs::write(&temporary, bytes).map_err(|source| ObserverError::Read {
         path: temporary.clone(),
         source,
