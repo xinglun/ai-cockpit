@@ -66,7 +66,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-702-wi701-parity-order-recovery.summary.json"
+            ".ai/work-items/archive/WI-702-wi701-parity-order-recovery.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -104,7 +104,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-702-wi701-parity-order-recovery.contract.json"
+            ".ai/work-items/archive/WI-702-wi701-parity-order-recovery.contract.json"
           ],
           "inference": false,
           "text": "Bind WI-702 to origin/main current base, preserve WI-701 and earlier recovery lineage, pass fresh verification and hosted review, and complete terminal cleanup."
@@ -113,7 +113,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-702-wi701-parity-order-recovery.contract.json"
+            ".ai/work-items/archive/WI-702-wi701-parity-order-recovery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -123,7 +123,7 @@
     "status": "verified",
     "workItemId": "WI-702-wi701-parity-order-recovery"
   },
-  "taskReportDigest": "sha256:d452e556c82005735b4ca996ae378a2c889ad801abd930a41ed5addd4e242b66",
+  "taskReportDigest": "sha256:38c28b1a62820a8d6bff8587277de171fb890a5a5dcb49832b21facab120bd4d",
   "taskReportMarkdownDigest": "sha256:5b397212eca4c239de06f8ca0b7f8d0dbc70864201bf9ae9f06d2707da4068be",
   "unknowns": [
     "user_visible_benefit_not_declared"
