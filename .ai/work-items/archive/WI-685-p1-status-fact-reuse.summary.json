@@ -1,0 +1,191 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json",
+    ".ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T14:57:11Z",
+  "checkpointContractDigest": "sha256:b9bc5bc2b71cf0478a1d0f4c2ed11a8d6a17a9ad50b3689499ba7dc8166544d0",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:09938c7875ba2441c16f7996128181537a0f39891033e67f997d27774623443f",
+      "recorded": true,
+      "recordedAt": "2026-09-08T14:57:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f9119a9fda0733b343c112dee0908e6d961f999b7f219c84c5b1775b26f76ac",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-685-p1-status-fact-reuse"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:d747a694e2379fa46d5f2aa7c743f60f5d3ce0f3df47a9cb326ab8ef24b8bf91",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:09938c7875ba2441c16f7996128181537a0f39891033e67f997d27774623443f",
+      "previousContractHash": "sha256:09938c7875ba2441c16f7996128181537a0f39891033e67f997d27774623443f",
+      "reason": "Add the required implementation plan path mandated by the execution skill; no implementation scope or acceptance boundary changes.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T14:57:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f9119a9fda0733b343c112dee0908e6d961f999b7f219c84c5b1775b26f76ac",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-685-p1-status-fact-reuse"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c5ca8e7b0bf6cf6b168966ab40c38848171a448d81e206a3713e71b5aed86045",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:09938c7875ba2441c16f7996128181537a0f39891033e67f997d27774623443f",
+      "previousContractHash": "sha256:d747a694e2379fa46d5f2aa7c743f60f5d3ce0f3df47a9cb326ab8ef24b8bf91",
+      "reason": "Bind measured acceptance budgets before final candidate acceptance: status warm p50 >=10% and p95 >=5% improvement; non-target p95 regression capped at both 25% and 20ms; unavailable metrics remain unavailable.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T15:30:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:48c452dc3ca3921d4521bd45e54387033f378c38e8d009888d47ff3f5df844bb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-685-p1-status-fact-reuse"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:a2b997c4a83c833c17464a4d68886f55227e9059b8710765976d82fd3c5746bd",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:09938c7875ba2441c16f7996128181537a0f39891033e67f997d27774623443f",
+      "previousContractHash": "sha256:c5ca8e7b0bf6cf6b168966ab40c38848171a448d81e206a3713e71b5aed86045",
+      "reason": "Bind completed paired benchmark, observation-count, output-parity, changed-path and malformed-transition evidence to each required high-risk scenario.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T15:41:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cd82fc034d814b13a3135647c22841a9123231a4e4964d4297d8e35cc6d31289",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-685-p1-status-fact-reuse"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:5666cacc68581549c84d94e6cbccc42cbd9b03f1a0cb022f4fe050a3acc839ec",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:09938c7875ba2441c16f7996128181537a0f39891033e67f997d27774623443f",
+      "previousContractHash": "sha256:a2b997c4a83c833c17464a4d68886f55227e9059b8710765976d82fd3c5746bd",
+      "reason": "Replace preliminary pre-box evidence bindings with final candidate commit 42e30502 benchmark and CLI parity artifacts.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T15:57:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-685-p1-status-fact-reuse"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
+  "createdAt": "2026-09-08T14:51:53Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-685-p1-status-fact-reuse.md",
+      ".ai/evidence/external/WI-685-p1-status-fact-reuse.measurement-summary.json",
+      ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json"
+    ],
+    "reason": "The implementation reuses immutable status-observation facts only within one repository and Work Item observation, preserves canonical error precedence and output parity, and is accepted only against paired baseline/candidate evidence under the declared performance budget.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-08T16:14:15Z",
+  "preflightContractDigest": "sha256:b9bc5bc2b71cf0478a1d0f4c2ed11a8d6a17a9ad50b3689499ba7dc8166544d0",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.measurement-summary.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-forward-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-forward-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-reverse-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-reverse-round20.json"
+      ],
+      "required": true,
+      "scenario": "many-historical-wi baseline and candidate",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.json"
+      ],
+      "required": true,
+      "scenario": "valid finalization transition chain",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.preflight-negative-tests.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.json"
+      ],
+      "required": true,
+      "scenario": "malformed, missing, forked or digest-mismatched transition",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json"
+      ],
+      "required": true,
+      "scenario": "repository, Work Item and observation isolation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-changed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-changed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.normalized.json"
+      ],
+      "required": true,
+      "scenario": "output, error and exit-code parity",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T16:14:20Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-685-p1-status-fact-reuse"
+}

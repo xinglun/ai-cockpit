@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-685-p1-status-fact-reuse",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositoryHead": "2dee60a8aa97ba229d117cb210b245894b3347d2",
+  "runtimeVersion": "0.2.87",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "command": "cargo test --locked -p cockpit-repository --test resource_finalization_transition --test status_projection",
+  "result": {
+    "status": "passed",
+    "resourceFinalizationTransitionTests": 29,
+    "statusProjectionTests": 11,
+    "failed": 0
+  },
+  "rawLog": {
+    "path": "/private/tmp/wi-685-preflight-negative-tests.txt",
+    "sha256": "sha256:dc451c92143e36862e3063f11b9017f580263f8c1d0b133c842d72bb9c452e71"
+  },
+  "scope": "preflight evidence for existing fail-closed behavior; no production change was made"
+}

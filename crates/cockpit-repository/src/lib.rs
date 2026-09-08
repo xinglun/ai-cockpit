@@ -5774,23 +5774,10 @@ fn resolve_resource_finalization_head(
     root: &Path,
     work_item_id: &str,
 ) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
-    let canonical = resource_finalization_decision_path(root, work_item_id);
-    let mut receipt = read_resource_finalization_receipt(&canonical)?;
-    let mut path = canonical;
-    let mut digest =
-        cockpit_protocol::digest_json(&serde_json::to_value(&receipt).map_err(|error| {
-            ObserverError::State {
-                path: path.clone(),
-                message: error.to_string(),
-            }
-        })?)
-        .map_err(|error| ObserverError::State {
-            path: path.clone(),
-            message: error.to_string(),
-        })?;
+    let (receipt, path, digest) = read_resource_finalization_head(root, work_item_id)?;
     let prefix = format!("{work_item_id}.finalize.");
     let canonical_name = format!("{work_item_id}.finalize.json");
-    let mut candidates = fs::read_dir(root.join(".ai/decisions"))
+    let candidates = fs::read_dir(root.join(".ai/decisions"))
         .map_err(|source| ObserverError::Read {
             path: root.join(".ai/decisions"),
             source,
@@ -5826,6 +5813,80 @@ fn resolve_resource_finalization_head(
             Ok((candidate, value))
         })
         .collect::<Result<Vec<_>, _>>()?;
+    resolve_resource_finalization_head_from_observed(
+        root,
+        work_item_id,
+        receipt,
+        path,
+        digest,
+        candidates,
+    )
+}
+
+fn resolve_resource_finalization_head_with_index(
+    root: &Path,
+    work_item_id: &str,
+    index: &status_projection::FinalizationTransitionIndex,
+) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let (receipt, path, digest) = read_resource_finalization_head(root, work_item_id)?;
+    let candidates = index
+        .candidates(work_item_id)
+        .iter()
+        .map(|candidate| match candidate {
+            status_projection::IndexedFinalizationTransition::Valid {
+                path,
+                digest,
+                value,
+            } => {
+                let _validated_digest = digest;
+                Ok((path.clone(), (**value).clone()))
+            }
+            status_projection::IndexedFinalizationTransition::Invalid { path, message } => {
+                Err(ObserverError::State {
+                    path: path.clone(),
+                    message: message.clone(),
+                })
+            }
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    resolve_resource_finalization_head_from_observed(
+        root,
+        work_item_id,
+        receipt,
+        path,
+        digest,
+        candidates,
+    )
+}
+
+fn read_resource_finalization_head(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest), ObserverError> {
+    let canonical = resource_finalization_decision_path(root, work_item_id);
+    let receipt = read_resource_finalization_receipt(&canonical)?;
+    let digest =
+        cockpit_protocol::digest_json(&serde_json::to_value(&receipt).map_err(|error| {
+            ObserverError::State {
+                path: canonical.clone(),
+                message: error.to_string(),
+            }
+        })?)
+        .map_err(|error| ObserverError::State {
+            path: canonical.clone(),
+            message: error.to_string(),
+        })?;
+    Ok((receipt, canonical, digest))
+}
+
+fn resolve_resource_finalization_head_from_observed(
+    root: &Path,
+    work_item_id: &str,
+    mut receipt: ResourceFinalizationReceipt,
+    mut path: PathBuf,
+    mut digest: Digest,
+    mut candidates: Vec<(PathBuf, ResourceFinalizationTransitionReceipt)>,
+) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
     let mut sequence = 0;
     loop {
         let matches = candidates
