@@ -5,9 +5,9 @@
     "The three WI-699 Work Item pages and their parity entries remain synchronized with this Work Item terminal lifecycle evidence.",
     "Documentation acceptance, parity/status checks, governance integrity, and diff validation pass."
   ],
-  "createdAt": "2026-09-08T20:28:02Z",
+  "createdAt": "2026-09-08T20:49:15Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:2ec8c71bc19920dd1e8f51a9c73aa4ca7cb36f678040e47d5aeae68916591154",
+  "evidenceDigest": "sha256:2a2056033073da785b52c336f4a343dd6689df1fc56b348fcedae6a36cb2823f",
   "evidenceRefs": [
     ".ai/evidence/WI-699-wi696-doc-promotion.verification.json"
   ],
@@ -33,7 +33,7 @@
         ".ai/evidence/WI-699-wi696-doc-promotion.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:787c7b82522579a72b26bbad54f241fa7b3d6b0537b8a83a11cdf2ee956d3f5f",
+      "repositorySnapshotDigest": "sha256:0e7c367815352c7ef6acca03558dcf8d7674b266b80eea818dad50e5c2bc8796",
       "workItemId": "WI-699-wi696-doc-promotion"
     },
     "format": "ai-cockpit.task-outcome",
@@ -129,7 +129,7 @@
     "status": "verified",
     "workItemId": "WI-699-wi696-doc-promotion"
   },
-  "taskReportDigest": "sha256:500d2bd5795a809c0a2bbcf49312b76195e7bac922d080554e2b7a06c830a05d",
+  "taskReportDigest": "sha256:ad0a990142c7f64d5e323b1960d48d2946d414c77a5290310e012f9bd7385810",
   "taskReportMarkdownDigest": "sha256:dd065305b95555e0f1d809a1d3b986623f10e8d7d1dc1e18af18a134168b22d0",
   "unknowns": [
     "user_visible_benefit_not_declared"

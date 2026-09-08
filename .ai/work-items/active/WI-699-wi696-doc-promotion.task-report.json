@@ -4,7 +4,7 @@
       ".ai/evidence/WI-699-wi696-doc-promotion.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:787c7b82522579a72b26bbad54f241fa7b3d6b0537b8a83a11cdf2ee956d3f5f",
+    "repositorySnapshotDigest": "sha256:0e7c367815352c7ef6acca03558dcf8d7674b266b80eea818dad50e5c2bc8796",
     "workItemId": "WI-699-wi696-doc-promotion"
   },
   "format": "ai-cockpit.task-outcome",
