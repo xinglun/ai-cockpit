@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7704c0362c411d66e16f7ccd9cf72cb0a26819e0",
+    "name": "codex/wi-694-p2a-checkpoint-boundary",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:7f8d8ccbfd3245eea8ce40d43b3e8259ade51f77781173c35b4a193a14998582",
+  "operationId": "github-pr-692-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a96c13967d0147d401dd780b0a0272400178a977",
+    "headRevision": "7704c0362c411d66e16f7ccd9cf72cb0a26819e0",
+    "mergeCommit": "08358112e8baf79e1d8f9015764ab28a3d692c78",
+    "number": 692,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/692"
+  },
+  "reason": "PR #692 was merged after all hosted checks passed; the exact WI-694 branch and dedicated worktree were removed, the remote branch was deleted, and the synchronized default branch now contains the reviewed merge commit.",
+  "receiptId": "ai-cockpit-WI-694-p2a-checkpoint-boundary-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-694-p2a-checkpoint-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/692",
+    "worktree": "/private/tmp/ai-cockpit-wi-694-p2a-checkpoint-boundary"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T18:48:02Z",
+  "workItemId": "WI-694-p2a-checkpoint-boundary",
+  "worktree": {
+    "branch": "codex/wi-694-p2a-checkpoint-boundary",
+    "headRevision": "7704c0362c411d66e16f7ccd9cf72cb0a26819e0",
+    "path": "/private/tmp/ai-cockpit-wi-694-p2a-checkpoint-boundary",
+    "worktreeId": "WI-694-p2a-checkpoint-boundary"
+  }
+}

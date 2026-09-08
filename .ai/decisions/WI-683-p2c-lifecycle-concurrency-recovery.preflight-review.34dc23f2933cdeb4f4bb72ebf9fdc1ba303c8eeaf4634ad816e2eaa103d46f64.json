@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2e7bb247fa3888874577c5455e33f8c3308c73ad3c2ef86fa8de5c7bddeb7cdc",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "reason": "The repository owner authorized continuation of this bounded WI-683 Work Item under the declared Contract. Unknown user-visible benefit remains explicit; this receipt does not assert verification, hosted checks, merge, or completion.",
+  "recordedAt": "2026-09-08T15:22:27Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cd4f5ad85da50ef58318013fb4eaf688f2039753a4f3ec573dbc3fb72c716518",
+  "schemaVersion": 1,
+  "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+}

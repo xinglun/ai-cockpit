@@ -1,0 +1,141 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ad45118187064ab9037f81100a253af307737a035ba46df1a4cdb7c66d52ff54",
+      "workItemId": "WI-692-p0-concurrent-verification-measurement"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json",
+            ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json",
+            ".ai/decisions/WI-692-p0-concurrent-verification-measurement.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-08T18:14:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "Measure whether concurrent verification requests for the same repository and command duplicate physical execution, and produce an evidence-backed accept-or-decline decision for a future coordinator integration without changing production governance behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-692-p0-concurrent-verification-measurement"
+  },
+  "finalReportDigest": "sha256:2abdd761a608f375dbcaddc2952d3e247777c1b359c31f27596029658347d24f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:75481f0133c2c733bd7ac368a56716b0eea1b94eb6ff5a35881d4adc9e82046e",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-692-p0-concurrent-verification-measurement.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-08T18:14:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json",
+      ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json",
+      ".ai/decisions/WI-692-p0-concurrent-verification-measurement.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:work-item-lifecycle",
+      ".ai/README.md:work-item-lifecycle"
+    ],
+    "reason": "PR #691 merged at 52f1d2ab0933184391e1b0746d56fbb4477542ae after all hosted checks passed; finalization state verified, exact WI-692 branch/worktree removed, remote branch deleted, and main synchronized to the merge commit. The measurement decision remains declined_for_now with no production behavior or performance benefit claim.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-08T18:14:59Z",
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}

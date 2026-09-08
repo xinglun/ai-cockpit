@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "bc71463a0bee5b2ed5b6ea62add9620b02b300da",
+    "name": "codex/wi-699-wi696-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:14042d8002345e9480cfaad780dcb459224d9bcd07144e5df4c5b50dd9d24134",
+  "operationId": "github-pr-696-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a142ed575e892d1c846fa30a1d618eec964dd9db",
+    "headRevision": "bc71463a0bee5b2ed5b6ea62add9620b02b300da",
+    "mergeCommit": "420568fcdfda57b91ceb476b725a8e5b37cab188",
+    "number": 696,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/696"
+  },
+  "reason": "PR #696 passed all hosted checks and was merged; a clean finalization checkout at the exact Contract resource path was verified, the exact WI-699 branch and worktree were removed, and synchronized main contains the reviewed merge plus archive evidence.",
+  "receiptId": "ai-cockpit-WI-699-wi696-doc-promotion-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-699-wi696-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/696",
+    "worktree": "/private/tmp/ai-cockpit-wi-699-wi696-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T20:59:57Z",
+  "workItemId": "WI-699-wi696-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-699-wi696-doc-promotion",
+    "headRevision": "bc71463a0bee5b2ed5b6ea62add9620b02b300da",
+    "path": "/private/tmp/ai-cockpit-wi-699-wi696-doc-promotion",
+    "worktreeId": "WI-699-wi696-doc-promotion"
+  }
+}

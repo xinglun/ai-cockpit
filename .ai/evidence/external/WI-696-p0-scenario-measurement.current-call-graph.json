@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "physical-single-flight-call-graph",
+  "workItemId": "WI-696-p0-scenario-measurement",
+  "sourceRevision": "513e7e72523097893c658ec76c25706fd5b266b8",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtime": {
+    "reportedVersion": "0.2.87",
+    "reportedDigest": "sha256:faacc6a3368f56bc9274264c111500157fb79354260dba60898a3351b5c3e4dd"
+  },
+  "searchTerm": "PhysicalSingleFlightCoordinator",
+  "definitionMatches": [
+    {"path": "crates/cockpit-verification/src/lib.rs", "line": 1473, "text": "pub struct PhysicalSingleFlightCoordinator {"}
+  ],
+  "implementationMatches": [
+    {"path": "crates/cockpit-verification/src/lib.rs", "line": 1477, "text": "impl PhysicalSingleFlightCoordinator {"}
+  ],
+  "productionCallerMatches": [],
+  "productionCallerCount": 0,
+  "testOnlyMatches": [
+    {"path": "crates/cockpit-verification/tests/physical_execution.rs", "line": 3, "text": "ExecutionResult, PhysicalExecution, PhysicalExecutionKey, PhysicalSingleFlightCoordinator,"},
+    {"path": "crates/cockpit-verification/tests/physical_execution.rs", "line": 30, "text": "let coordinator = Arc::new(PhysicalSingleFlightCoordinator::default());"},
+    {"path": "crates/cockpit-verification/tests/physical_execution.rs", "line": 117, "text": "let coordinator = PhysicalSingleFlightCoordinator::default();"},
+    {"path": "crates/cockpit-verification/tests/physical_execution.rs", "line": 149, "text": "let coordinator = PhysicalSingleFlightCoordinator::default();"}
+  ],
+  "interpretation": "Current origin/main still has no production caller; definitions and test references are not production execution evidence."
+}

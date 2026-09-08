@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "在未修改生产代码前，使用现有修正后的 runtime_benchmark.sh 保存当前 latest remote default base 的原始采样、首次测量、预热次数、样本数、分位数方法、环境与不可用指标；以 many-historical-wi 为主场景，并记录其余场景未测量原因。",
+    "用测试计数和行为对比证明同一 status 观察内的 finalization transition 文件读取、解析、候选索引或 close 事实没有跨请求共享，并且重复工作减少；不能以缓存命中率替代端到端或资源收益。",
+    "仅在 status 请求内建立有界、仓库绑定的不可变观察索引；对每个 finalization receipt/transition 保留路径、摘要、序列、文件类型与 fail-closed 校验，读取失败、JSON 无效、摘要不匹配、链分叉、前序缺失、文件变化和路径异常保持既有错误/未知语义。",
+    "candidate 与 baseline 在同一 Runtime、同一仓库规模、同一工具链和同一场景下比较；只有 status 目标路径改善、关键场景不超 Contract 预算、且治理输出、错误、证据绑定和退出码一致时才接受；否则明确拒绝并不合入生产优化。",
+    "性能 Contract：many-historical-wi 的 status 独立 CLI 预热样本数至少 20，p50 至少降低 10%、p95 至少降低 5%；同轮 inspect、doctor、observe 的 p95 回归不得同时超过 25% 和 20ms，所有未提供的资源指标必须保持 unavailable。",
+    "不引入跨请求、跨仓库、跨 Work Item 的缓存，不改变快照边界、授权边界、恢复能力、历史证据字节、治理判断或 Outcome 语义；执行前与执行后观察不共享。",
+    "交付包含英文、简体中文、日文 Work Item 文档与 reference-parity 登记，记录瓶颈证据、假设、有效性边界、原始/汇总测量、正确性、平台限制、未验证事项、PR、证据和最终治理状态。"
+  ],
+  "createdAt": "2026-09-08T16:14:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:92e180bc38ca3b6fba62ba5a0fd65920ced9f8efd8c26faa665da08408f8805a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
+      "workItemId": "WI-685-p1-status-fact-reuse"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "降低大量历史 Work Item 仓库上 status 从请求进入到可信治理投影的重复文件读取、解析和链解析成本，同时保持 Calibrated Human-Agent Trust 及全部 fail-closed 语义。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-685-p1-status-fact-reuse"
+  },
+  "taskReportDigest": "sha256:6798e68a8b22f28d2a18a8e3cd19ff0df6ec9dece136ede843d3ae12a24cad35",
+  "taskReportMarkdownDigest": "sha256:d692ba8713bb3c4f4ebb97e0efc92a542abf89d968613c367c030d2ac3460408",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-685-p1-status-fact-reuse"
+}
