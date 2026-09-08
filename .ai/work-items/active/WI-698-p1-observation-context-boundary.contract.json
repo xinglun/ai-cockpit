@@ -1,0 +1,125 @@
+{
+  "acceptanceCriteria": [
+    "A public compatibility wrapper remains available, while the new governed path receives a single explicit observation context containing repository identity, Runtime identity, phase, snapshot identity, Contract/config/policy identities, observed facts, unknowns, and consistency state.",
+    "The context rejects or reports unknown when repository files change during observation, governance configuration changes, repository identity changes, or execution-phase mutation is detected; it never treats a struct aggregation as an atomic snapshot.",
+    "A single governance decision reuses the same validated facts and does not make lower-level project/governance helpers re-read repository identity or recompute an incompatible snapshot.",
+    "Existing Contract JSON, public API signatures through compatibility wrappers, CLI/MCP machine output, exit codes, governance semantics, and historical evidence remain unchanged.",
+    "Focused tests plus the full declared workspace, documentation, Runtime, and governance checks pass on the exact successor head."
+  ],
+  "authority": "authorized",
+  "baseRevision": "681e75a517fd1b3ceb98701d901b2f29cc375056",
+  "createdAt": "2026-09-08T19:34:52Z",
+  "goal": "Separate observation and governance inputs so repository facts, Runtime identity, Contract/config/policy identity, observed unknowns, and consistency checks are captured once per valid observation phase and lower-level decision functions do not implicitly re-observe the repository.",
+  "intent": "Complete the remaining P1-B architecture boundary by making one governance judgment consume one explicit, request-scoped and phase-scoped observation context, while preserving existing public APIs and fail-closed behavior.",
+  "mode": "code",
+  "outOfScope": [
+    "No microservice, new crate, global cache, expanded snapshot lifetime across mutations, new governance rules, Outcome wording, protocol/serialization changes, lifecycle transition semantics, physical-execution sharing, or changes to another agent branch/PR.",
+    "Do not rewrite or close the historical WI-652/WI-654/WI-655/WI-657 PRs; this successor is independent."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:89deaa018347979a8a11d2de5bb55f470996e186c1a6bddc940a5f4afcdf8436",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-698-p1-observation-context-boundary",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-698-p1-observation-context-boundary"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/project_governance.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/repository_context.rs",
+    "crates/cockpit-repository/tests/observer.rs",
+    "crates/cockpit-repository/tests/project_governance.rs",
+    "crates/cockpit-repository/tests/verification_context.rs",
+    "docs/work-items/WI-698-p1-observation-context-boundary.md",
+    "docs/work-items/WI-698-p1-observation-context-boundary.zh-CN.md",
+    "docs/work-items/WI-698-p1-observation-context-boundary.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "origin/main at base revision 681e75a517fd1b3ceb98701d901b2f29cc375056",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "docs/reference/architecture-responsibility-map-2026-09.md",
+    "docs/work-items/WI-654-observation-context-dedup.md and PR #652: measured duplicate reads and declined unsafe substitution",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/project_governance.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/repository_context.rs",
+    "crates/cockpit-repository/tests/observer.rs",
+    "crates/cockpit-repository/tests/project_governance.rs",
+    "crates/cockpit-repository/tests/verification_context.rs",
+    "crates/cockpit-git/src/lib.rs:212-450",
+    "Human authorization: repository owner explicitly authorized completing the full architecture initiative and its WI lifecycle."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "stable observation reuses one request-scoped context",
+      "required": true,
+      "expected": "Repeated governance reads in one valid phase use the same repository, Runtime, Contract/config/policy, snapshot, and observed-fact identities without a hidden second observation.",
+      "verificationPlan": "Run focused RepositoryExecutionContext and governance tests with call counters and assert one captured phase context and stable facts.",
+      "evidence": [],
+      "status": "unverified"
+    },
+    {
+      "scenario": "repository files change while observation is being read",
+      "required": true,
+      "expected": "The observation phase is marked inconsistent or returns an unknown result; it cannot produce a green governance input.",
+      "verificationPlan": "Use a controlled mutation during observation and assert the before/after source snapshot identity mismatch is visible and fail closed.",
+      "evidence": [],
+      "status": "unverified"
+    },
+    {
+      "scenario": "governance configuration changes during observation",
+      "required": true,
+      "expected": "cockpit/profile/policy declaration identity changes invalidate the phase context instead of being silently mixed with the original snapshot.",
+      "verificationPlan": "Mutate a bound governance declaration between phase captures and assert configuration identity mismatch and unknown state.",
+      "evidence": [],
+      "status": "unverified"
+    },
+    {
+      "scenario": "repository identity changes or root does not match",
+      "required": true,
+      "expected": "A context from another repository or a changed attached identity is rejected with the existing fail-closed identity behavior.",
+      "verificationPlan": "Bind two isolated repositories and tamper the attached identity input; assert snapshot-root or repository-identity mismatch.",
+      "evidence": [],
+      "status": "unverified"
+    },
+    {
+      "scenario": "execution-phase mutation requires a fresh boundary",
+      "required": true,
+      "expected": "A context captured before execution cannot authorize after-execution or persistence facts; the caller must capture and validate a new phase.",
+      "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured.",
+      "evidence": [],
+      "status": "unverified"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked -p cockpit-repository --test repository_context",
+    "cargo test --locked -p cockpit-repository --test observer",
+    "cargo test --locked -p cockpit-repository --test project_governance",
+    "cargo test --locked --workspace",
+    "python3 tests/ci/governance_integrity_gate.py --repo .",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "git diff --check"
+  ],
+  "workItemId": "WI-698-p1-observation-context-boundary"
+}

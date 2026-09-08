@@ -19,7 +19,7 @@ use super::{ObserverError, reject_duplicate_json_keys, repository_id, snapshot_d
 const DECLARATION_MAX_BYTES: u64 = 1024 * 1024;
 const SCHEMA_VERSION: u32 = 1;
 
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 enum Loaded<T> {
     Missing,
     Invalid(String),
@@ -232,10 +232,26 @@ fn validate_profile_policy(value: &ProjectProfilePolicy) -> Option<&'static str>
     None
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
 struct Declarations {
     capabilities: Loaded<ProjectCapabilityDeclaration>,
     success_criteria: Loaded<ProjectSuccessCriteriaDeclaration>,
     profile_policy: Loaded<ProjectProfilePolicy>,
+}
+
+/// Parsed project-governance facts captured once for an observation phase.
+/// The protocol projection is kept separate from the internal declarations so
+/// no public wire format changes are required to reuse the parsed facts.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(crate) struct ProjectGovernanceFacts {
+    declarations: Declarations,
+    projection: ProjectGovernanceProjection,
+}
+
+impl ProjectGovernanceFacts {
+    pub(crate) fn projection(&self) -> &ProjectGovernanceProjection {
+        &self.projection
+    }
 }
 
 fn load_declarations(
@@ -285,6 +301,36 @@ fn declaration_unknowns(declarations: &Declarations) -> Vec<String> {
     unknowns
 }
 
+pub(crate) fn observe_project_governance(
+    root: &Path,
+    expected_repository_id: &Digest,
+    expected_snapshot_digest: &Digest,
+) -> Result<ProjectGovernanceFacts, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
+    let declarations = load_declarations(
+        &root,
+        &expected_repository_id.to_string(),
+        expected_snapshot_digest,
+    )?;
+    let projection = ProjectGovernanceProjection {
+        schema_version: SCHEMA_VERSION,
+        repository_id: expected_repository_id.to_string(),
+        snapshot_digest: expected_snapshot_digest.clone(),
+        capabilities_digest: declarations.capabilities.digest(),
+        success_criteria_digest: declarations.success_criteria.digest(),
+        success_criteria: declarations.success_criteria.value().cloned(),
+        profile_policy_digest: declarations.profile_policy.digest(),
+        unknowns: declaration_unknowns(&declarations),
+    };
+    Ok(ProjectGovernanceFacts {
+        declarations,
+        projection,
+    })
+}
+
 /// Return a no-write, repository-bound projection of optional project
 /// declarations. Invalid inputs remain visible as stable unknown codes.
 pub fn project_governance_projection(
@@ -303,18 +349,12 @@ pub fn project_governance_projection(
         return Err(ObserverError::SnapshotRootMismatch);
     }
     let current_snapshot_digest = snapshot_digest(snapshot)?;
-    let expected_repository_id = repository_id(&root).to_string();
-    let declarations = load_declarations(&root, &expected_repository_id, &current_snapshot_digest)?;
-    Ok(ProjectGovernanceProjection {
-        schema_version: SCHEMA_VERSION,
-        repository_id: expected_repository_id,
-        snapshot_digest: current_snapshot_digest,
-        capabilities_digest: declarations.capabilities.digest(),
-        success_criteria_digest: declarations.success_criteria.digest(),
-        success_criteria: declarations.success_criteria.value().cloned(),
-        profile_policy_digest: declarations.profile_policy.digest(),
-        unknowns: declaration_unknowns(&declarations),
-    })
+    let expected_repository_id = repository_id(&root);
+    Ok(
+        observe_project_governance(&root, &expected_repository_id, &current_snapshot_digest)?
+            .projection
+            .clone(),
+    )
 }
 
 /// Bind an explicit Contract operation to the repository declaration. Intent
@@ -324,6 +364,35 @@ pub fn project_governance_unknowns(
     contract: &Contract,
     snapshot: &RepositorySnapshot,
 ) -> Result<Vec<String>, ObserverError> {
+    let expected_repository_id = repository_id(root);
+    let expected_snapshot_digest = snapshot_digest(snapshot)?;
+    project_governance_unknowns_with_identity(
+        root,
+        contract,
+        &expected_repository_id,
+        &expected_snapshot_digest,
+    )
+}
+
+pub(super) fn project_governance_unknowns_with_identity(
+    root: &Path,
+    contract: &Contract,
+    expected_repository_id: &Digest,
+    expected_snapshot_digest: &Digest,
+) -> Result<Vec<String>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
+    let facts =
+        observe_project_governance(&root, expected_repository_id, expected_snapshot_digest)?;
+    Ok(project_governance_unknowns_from_facts(contract, &facts))
+}
+
+pub(crate) fn project_governance_unknowns_from_facts(
+    contract: &Contract,
+    facts: &ProjectGovernanceFacts,
+) -> Vec<String> {
     let operation = contract
         .requested_operation
         .as_deref()
@@ -337,33 +406,23 @@ pub fn project_governance_unknowns(
     // Optional project declarations are not a prerequisite for legacy
     // Contracts.  Only an explicit operation opts into capability binding.
     let Some(operation) = operation else {
-        return Ok(Vec::new());
+        return Vec::new();
     };
     if !requires_project_capability_mapping(operation) {
-        return Ok(Vec::new());
+        return Vec::new();
     }
-    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
-        path: root.to_path_buf(),
-        source,
-    })?;
-    let current_snapshot_digest = snapshot_digest(snapshot)?;
-    let declarations = load_declarations(
-        &root,
-        &repository_id(&root).to_string(),
-        &current_snapshot_digest,
-    )?;
-    let mut unknowns = declaration_unknowns(&declarations);
-    let Some(capabilities) = declarations.capabilities.value() else {
+    let mut unknowns = facts.projection.unknowns.clone();
+    let Some(capabilities) = facts.declarations.capabilities.value() else {
         unknowns.push("project_capability_mapping_unknown".into());
         unknowns.sort();
         unknowns.dedup();
-        return Ok(unknowns);
+        return unknowns;
     };
     let Some(required) = capabilities.operation_mappings.get(operation) else {
         unknowns.push("project_capability_mapping_missing".into());
         unknowns.sort();
         unknowns.dedup();
-        return Ok(unknowns);
+        return unknowns;
     };
     if required
         .iter()
@@ -379,7 +438,7 @@ pub fn project_governance_unknowns(
     }
     unknowns.sort();
     unknowns.dedup();
-    Ok(unknowns)
+    unknowns
 }
 
 /// Exposed for tests and future read-only adapters that need to inspect the

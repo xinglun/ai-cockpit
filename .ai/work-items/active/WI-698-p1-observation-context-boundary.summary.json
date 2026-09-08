@@ -1,0 +1,150 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-698-p1-observation-context-boundary.contract.json",
+    ".ai/work-items/active/WI-698-p1-observation-context-boundary.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T19:38:46Z",
+  "checkpointContractDigest": "sha256:bb508aa226cd29708fc6d5ee81439bdfaf3645a96409c866ac96bf56d3609458",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6c00764bf987c2306ec1e8bfb79e471640aeae0b12c0d525cd44290d88fbf153",
+      "recorded": true,
+      "recordedAt": "2026-09-08T19:38:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:89deaa018347979a8a11d2de5bb55f470996e186c1a6bddc940a5f4afcdf8436",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-698-p1-observation-context-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:faa907cb4a4a1f5aae46c3b491e281a56cf75fd32e07a9ba66913d2e20c1143d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6c00764bf987c2306ec1e8bfb79e471640aeae0b12c0d525cd44290d88fbf153",
+      "previousContractHash": "sha256:6c00764bf987c2306ec1e8bfb79e471640aeae0b12c0d525cd44290d88fbf153",
+      "reason": "Clarified the Contract scope as exact repository-relative paths after preflight identified that prose-bearing scope entries could not bind the three-language documentation paths.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T20:05:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dda95e5a9b079b20c8938505b9e01b976961bda69013301e2362ec596661eb27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-698-p1-observation-context-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bb508aa226cd29708fc6d5ee81439bdfaf3645a96409c866ac96bf56d3609458",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6c00764bf987c2306ec1e8bfb79e471640aeae0b12c0d525cd44290d88fbf153",
+      "previousContractHash": "sha256:faa907cb4a4a1f5aae46c3b491e281a56cf75fd32e07a9ba66913d2e20c1143d",
+      "reason": "Normalized required evidence classes to the Runtime-supported verification class; detailed mutation, full-gate, hosted, and terminal evidence remains recorded in the Contract, evidence receipt, and Work Item documentation.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T20:10:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dda95e5a9b079b20c8938505b9e01b976961bda69013301e2362ec596661eb27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-698-p1-observation-context-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:dda95e5a9b079b20c8938505b9e01b976961bda69013301e2362ec596661eb27",
+  "createdAt": "2026-09-08T19:34:52Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-698-p1-observation-context-boundary.md",
+      "crates/cockpit-repository/tests/repository_context.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-08T20:13:31Z",
+  "preflightContractDigest": "sha256:bb508aa226cd29708fc6d5ee81439bdfaf3645a96409c866ac96bf56d3609458",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:dda95e5a9b079b20c8938505b9e01b976961bda69013301e2362ec596661eb27",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "expected": "Repeated governance reads in one valid phase use the same repository, Runtime, Contract/config/policy, snapshot, and observed-fact identities without a hidden second observation.",
+      "required": true,
+      "scenario": "stable observation reuses one request-scoped context",
+      "status": "verified",
+      "verificationPlan": "Run focused RepositoryExecutionContext and governance tests with call counters and assert one captured phase context and stable facts."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs"
+      ],
+      "expected": "The observation phase is marked inconsistent or returns an unknown result; it cannot produce a green governance input.",
+      "required": true,
+      "scenario": "repository files change while observation is being read",
+      "status": "verified",
+      "verificationPlan": "Use a controlled mutation during observation and assert the before/after source snapshot identity mismatch is visible and fail closed."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs"
+      ],
+      "expected": "cockpit/profile/policy declaration identity changes invalidate the phase context instead of being silently mixed with the original snapshot.",
+      "required": true,
+      "scenario": "governance configuration changes during observation",
+      "status": "verified",
+      "verificationPlan": "Mutate a bound governance declaration between phase captures and assert configuration identity mismatch and unknown state."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs"
+      ],
+      "expected": "A context from another repository or a changed attached identity is rejected with the existing fail-closed identity behavior.",
+      "required": true,
+      "scenario": "repository identity changes or root does not match",
+      "status": "verified",
+      "verificationPlan": "Bind two isolated repositories and tamper the attached identity input; assert snapshot-root or repository-identity mismatch."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/src/execution_context.rs"
+      ],
+      "expected": "A context captured before execution cannot authorize after-execution or persistence facts; the caller must capture and validate a new phase.",
+      "required": true,
+      "scenario": "execution-phase mutation requires a fresh boundary",
+      "status": "verified",
+      "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T20:04:10.077120+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:8f2a14d9fe8b78ec05a0ed9bbe39cdd0cdf4fd4d25144ceb454f8722f36a8739",
+  "workItemId": "WI-698-p1-observation-context-boundary"
+}
