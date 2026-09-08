@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a346421a9c1279b1f33b0e955da8a0ed69046af2",
+    "name": "codex/wi-663-wi659-outcome-trust-replacement",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:620528d39ce1d960814c2a42d3bd75543c84472e7b9a0122a5722489e28c7475",
+  "operationId": "github-pr-661-merge-cleanup-20260908",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9b53118fa992c917242a837b17592ffd660ddd23",
+    "headRevision": "a346421a9c1279b1f33b0e955da8a0ed69046af2",
+    "mergeCommit": "fd9f2f3d74dc62282c1e242f9fad00f74b6fd418",
+    "number": 661,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/661"
+  },
+  "reason": "PR #661 passed all hosted checks and was merged as fd9f2f3d74dc62282c1e242f9fad00f74b6fd418 under explicit repository-owner authorization; GitHub does not allow the PR author to submit a self-review, main was synchronized to origin/main, and the exact WI-663 branch and worktree were removed.",
+  "receiptId": "ai-cockpit-WI-663-wi659-outcome-trust-replacement-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-663-wi659-outcome-trust-replacement",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/661",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-663-outcome-trust-replacement"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8a1804e4f6bd7a10ccc07c4cbfbdd88c89c96b638ba6380480a60f8648ec1f66",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-08T07:46:44Z",
+  "workItemId": "WI-663-wi659-outcome-trust-replacement",
+  "worktree": {
+    "branch": "codex/wi-663-wi659-outcome-trust-replacement",
+    "headRevision": "a346421a9c1279b1f33b0e955da8a0ed69046af2",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-663-outcome-trust-replacement",
+    "worktreeId": "WI-663-wi659-outcome-trust-replacement"
+  }
+}
