@@ -4,9 +4,13 @@ title: "WI-692 — P0 concurrent verification measurement"
 description: "Measure the real concurrent verification request path before considering PhysicalSingleFlightCoordinator integration."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-692-p0-concurrent-verification-measurement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-692-p0-concurrent-verification-measurement
+terminalArchive: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json
+terminalVerification: .ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json
+terminalFinalization: .ai/decisions/WI-692-p0-concurrent-verification-measurement.finalize.json
+terminalDecision: .ai/decisions/WI-692-p0-concurrent-verification-measurement.close.json
 ---
 
 [简体中文](WI-692-p0-concurrent-verification-measurement.zh-CN.md) · [日本語](WI-692-p0-concurrent-verification-measurement.ja.md)

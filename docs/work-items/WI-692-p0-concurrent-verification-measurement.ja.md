@@ -4,9 +4,13 @@ title: "WI-692 — P0 並行 verification 測定"
 description: "PhysicalSingleFlightCoordinator の統合を検討する前に、実際の並行 verification request path を測定します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-692-p0-concurrent-verification-measurement
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-692-p0-concurrent-verification-measurement
+terminalArchive: .ai/work-items/archive/WI-692-p0-concurrent-verification-measurement.contract.json
+terminalVerification: .ai/evidence/WI-692-p0-concurrent-verification-measurement.verification.json
+terminalFinalization: .ai/decisions/WI-692-p0-concurrent-verification-measurement.finalize.json
+terminalDecision: .ai/decisions/WI-692-p0-concurrent-verification-measurement.close.json
 ---
 
 [English](WI-692-p0-concurrent-verification-measurement.md) · [简体中文](WI-692-p0-concurrent-verification-measurement.zh-CN.md)
