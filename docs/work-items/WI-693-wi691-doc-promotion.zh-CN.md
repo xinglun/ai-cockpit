@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-693——WI-691 文档晋级"
 description: "根据不可变治理证据晋级已关闭 WI-691 的文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-693-wi691-doc-promotion
 lastVerifiedBy: WI-693-wi691-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-693-wi691-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-693-wi691-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-693-wi691-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-693-wi691-doc-promotion.close.json
 ---
 
 [English](WI-693-wi691-doc-promotion.md) · [日本語](WI-693-wi691-doc-promotion.ja.md)

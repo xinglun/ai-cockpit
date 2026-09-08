@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-693 — WI-691 documentation promotion"
 description: "Promote the closed WI-691 documentation projection from immutable governance evidence."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-693-wi691-doc-promotion
 lastVerifiedBy: WI-693-wi691-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-693-wi691-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-693-wi691-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-693-wi691-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-693-wi691-doc-promotion.close.json
 ---
 
 [简体中文](WI-693-wi691-doc-promotion.zh-CN.md) · [日本語](WI-693-wi691-doc-promotion.ja.md)
