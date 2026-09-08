@@ -5814,7 +5814,7 @@ fn resolve_resource_finalization_head_with_index(
                 value,
             } => {
                 let _validated_digest = digest;
-                Ok((path.clone(), value.clone()))
+                Ok((path.clone(), (**value).clone()))
             }
             status_projection::IndexedFinalizationTransition::Invalid { path, message } => {
                 Err(ObserverError::State {

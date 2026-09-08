@@ -216,7 +216,7 @@ pub(super) enum IndexedFinalizationTransition {
     Valid {
         path: PathBuf,
         digest: Digest,
-        value: ResourceFinalizationTransitionReceipt,
+        value: Box<ResourceFinalizationTransitionReceipt>,
     },
     Invalid {
         path: PathBuf,
@@ -285,7 +285,7 @@ impl FinalizationTransitionIndex {
                             IndexedFinalizationTransition::Valid {
                                 path,
                                 digest,
-                                value,
+                                value: Box::new(value),
                             }
                         } else {
                             IndexedFinalizationTransition::Invalid {
