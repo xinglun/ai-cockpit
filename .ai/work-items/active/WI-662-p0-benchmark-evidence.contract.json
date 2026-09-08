@@ -34,6 +34,7 @@
   },
   "risk": "normal",
   "scope": [
+    "tests/ci/repository_gate_manifest.json",
     "tests/performance/**",
     "docs/work-items/WI-662-p0-benchmark-evidence.md",
     "docs/work-items/WI-662-p0-benchmark-evidence.zh-CN.md",
@@ -53,10 +54,13 @@
     "tests/performance/p0_regression_gate.sh",
     "tests/performance/runtime_benchmark_stats.py",
     "tests/performance/README.md",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.sh",
     "docs/reference/test-weakening-guard.md"
   ],
   "state": "implementation_active",
   "verification": [
+    "bash tests/ci/repository_gate_manifest_test.sh",
     "python3 tests/performance/runtime_benchmark_stats_test.py",
     "bash tests/performance/regression_gate_test.sh",
     "bash tests/performance/p0_regression_gate_test.sh",

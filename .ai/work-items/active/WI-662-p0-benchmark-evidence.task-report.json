@@ -4,7 +4,7 @@
       ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:29095e0c73d3350bc45978ba46f95c55eedf472912bb00d1f4acf1069a79c1f4",
+    "repositorySnapshotDigest": "sha256:8a6ae620009c0aaa0a625b848473e143e72fe996fd9d100620083fe4530166a4",
     "workItemId": "WI-662-p0-benchmark-evidence"
   },
   "format": "ai-cockpit.task-outcome",

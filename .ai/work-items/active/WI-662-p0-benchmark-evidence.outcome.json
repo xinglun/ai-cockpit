@@ -5,9 +5,9 @@
     "baseline/candidate 允许 Runtime 身份不同，同时验证各自证据完整性及环境可比性，并保留既有 gate 的负向回归覆盖。",
     "交付场景矩阵、阶段耗时和资源指标；平台无法可靠取得的指标显式标记不可用；本 WI 不改变生产治理运行行为。"
   ],
-  "createdAt": "2026-09-08T07:31:37Z",
+  "createdAt": "2026-09-08T07:48:46Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:0d67e8b9fb379d937069c7d05048d18670f5989f550e8fe8315bd7d8b05c4bcd",
+  "evidenceDigest": "sha256:8179b46c4bc5618ef4d9dfcb76b63e9c273906578ae18d18b344aa39c007fecb",
   "evidenceRefs": [
     ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
   ],
@@ -33,7 +33,7 @@
         ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:29095e0c73d3350bc45978ba46f95c55eedf472912bb00d1f4acf1069a79c1f4",
+      "repositorySnapshotDigest": "sha256:8a6ae620009c0aaa0a625b848473e143e72fe996fd9d100620083fe4530166a4",
       "workItemId": "WI-662-p0-benchmark-evidence"
     },
     "format": "ai-cockpit.task-outcome",
@@ -122,7 +122,7 @@
     "status": "verified",
     "workItemId": "WI-662-p0-benchmark-evidence"
   },
-  "taskReportDigest": "sha256:d08e000304c559530fd935e1dcbe0ce186beee2dba9f9da4809b35a8fe14afc4",
+  "taskReportDigest": "sha256:309eb641d1de7d416c117983246c7f8624fd9803e91b3e8b748a172b7df7a8a3",
   "taskReportMarkdownDigest": "sha256:76cf29d8f441451bdccc2827f994a903bf2324423d894d436aaa46e95ec97b33",
   "unknowns": [
     "user_visible_benefit_not_declared"
