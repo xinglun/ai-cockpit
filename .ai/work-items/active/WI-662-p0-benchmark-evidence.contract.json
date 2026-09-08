@@ -28,8 +28,8 @@
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-662-p0-benchmark-evidence",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/663",
     "worktree": "/private/tmp/ai-cockpit-wi-662-p0-benchmark-evidence"
   },
   "risk": "normal",
