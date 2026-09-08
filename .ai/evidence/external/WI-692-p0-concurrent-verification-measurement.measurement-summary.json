@@ -1,0 +1,886 @@
+{
+  "callGraphEvidence": "WI-692-p0-concurrent-verification-measurement.call-graph.json",
+  "decision": {
+    "productionBehaviorChanged": false,
+    "reason": "Four independent CLI requests produced four physical executions per round, but the production call-graph inventory found no caller for PhysicalSingleFlightCoordinator. The observed duplication is therefore an independent-process baseline, not evidence that the in-process coordinator can be safely wired into a live request path.",
+    "state": "declined_for_now",
+    "successorPrerequisites": [
+      "Measure a real in-process MCP or service request path with the same repository, Work Item, command, Runtime and toolchain identity.",
+      "Bind per-request authorization and evidence receipts before sharing any physical result.",
+      "Measure failure, timeout, cancellation, waiter exit and nested Cargo resource behavior on that path."
+    ]
+  },
+  "decisionBoundary": {
+    "acceptIntegrationOnlyIf": [
+      "same-identity requests demonstrate duplicate physical execution",
+      "the duplicated cost is material in a declared target scenario",
+      "identity, authorization, evidence binding, failure, cancellation and resource limits remain explicit"
+    ],
+    "otherwise": "decline coordinator integration and record prerequisites for a successor Work Item",
+    "productionCoordinatorCaller": "not established by this harness; inspect call-graph evidence separately",
+    "sameIdentityPhysicalExecutionCount": "sum receipt.processesSpawned per independent CLI request"
+  },
+  "environment": {
+    "capturedAt": "2026-09-08T17:21:18.880697+00:00",
+    "coldCacheClaim": false,
+    "identityProbe": {
+      "inspectExitCode": 0,
+      "inspectStderr": "",
+      "statusExitCode": 0,
+      "statusStderr": ""
+    },
+    "measurementBeforeIdentityProbe": true,
+    "platform": {
+      "filesystem": {
+        "available": true,
+        "value": "/"
+      },
+      "machine": "arm64",
+      "python": "3.14.4",
+      "release": "25.6.0",
+      "system": "Darwin"
+    },
+    "repository": {
+      "branch": "",
+      "head": "99f7d2323ffb59b1e3edd6c1c833b00f50fb9698",
+      "path": "/private/tmp/ai-cockpit-wi-692-fixture",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "snapshotDigest": "sha256:498bd847591479782b525b9584e30dd078327c5d899022faa5ffe32d98c880ab",
+      "status": "",
+      "trackedFileCount": 9955
+    },
+    "runtime": {
+      "fileSha256": "7610b70b38dca6520ee8ee8cc15b838bb3c1d5d7f4b350234b02f055334fb3a6",
+      "reportedDigest": "sha256:7610b70b38dca6520ee8ee8cc15b838bb3c1d5d7f4b350234b02f055334fb3a6",
+      "reportedVersion": "0.2.87",
+      "versionExitCode": 0,
+      "versionOutput": "ai-cockpit 0.2.87"
+    }
+  },
+  "kind": "concurrent-verification-measurement-summary",
+  "rawEvidence": "WI-692-p0-concurrent-verification-measurement.raw.json",
+  "rawSampleOrder": "round order, then requestIndex order; no sorting before grouping",
+  "scenarios": {
+    "cancellation": {
+      "concurrency": 1,
+      "executionCountPerRound": [],
+      "failedRequests": 1,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-692-p0-concurrent-verification-measurement.raw.json",
+      "requestLatency": {
+        "p50Ms": 105.787,
+        "p95Ms": 105.787,
+        "p99Ms": 105.787,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          105.787
+        ],
+        "reliable": {
+          "p50": false,
+          "p95": false,
+          "p99": false
+        },
+        "sampleCount": 1,
+        "unavailableReason": {
+          "p50": "insufficient_samples:1<5",
+          "p95": "insufficient_samples:1<20",
+          "p99": "insufficient_samples:1<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 1,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 1,
+      "roundWallClock": {
+        "p50Ms": 106.182,
+        "p95Ms": 106.182,
+        "p99Ms": 106.182,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          106.182
+        ],
+        "reliable": {
+          "p50": false,
+          "p95": false,
+          "p99": false
+        },
+        "sampleCount": 1,
+        "unavailableReason": {
+          "p50": "insufficient_samples:1<5",
+          "p95": "insufficient_samples:1<20",
+          "p99": "insufficient_samples:1<100"
+        }
+      },
+      "scenario": "cancellation",
+      "successfulRequests": 0
+    },
+    "distinct-command-identity": {
+      "concurrency": 4,
+      "executionCountPerRound": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "failedRequests": 0,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-692-p0-concurrent-verification-measurement.raw.json",
+      "requestLatency": {
+        "p50Ms": 498.713,
+        "p95Ms": 725.529,
+        "p99Ms": 752.435,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          595.581,
+          585.512,
+          586.594,
+          583.909,
+          751.322,
+          752.435,
+          741.626,
+          750.699,
+          498.713,
+          509.461,
+          496.493,
+          512.271,
+          493.089,
+          510.986,
+          513.012,
+          510.111,
+          506.075,
+          491.827,
+          505.453,
+          506.211,
+          481.146,
+          478.129,
+          480.519,
+          480.074,
+          509.476,
+          508.149,
+          507.871,
+          508.127,
+          503.719,
+          504.669,
+          502.64,
+          504.189,
+          476.279,
+          499.423,
+          497.747,
+          499.794,
+          499.86,
+          488.199,
+          501.365,
+          498.693,
+          484.094,
+          485.981,
+          478.939,
+          481.241,
+          490.683,
+          490.147,
+          490.204,
+          489.867,
+          466.995,
+          466.784,
+          467.325,
+          470.052,
+          463.119,
+          463.428,
+          449.41,
+          463.336,
+          456.652,
+          457.205,
+          459.579,
+          463.142,
+          437.938,
+          438.244,
+          451.855,
+          451.911,
+          456.535,
+          457.209,
+          457.632,
+          461.323,
+          628.095,
+          699.356,
+          632.179,
+          630.068,
+          724.827,
+          725.529,
+          721.901,
+          720.74,
+          567.092,
+          567.19,
+          566.992,
+          568.89
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 80,
+        "unavailableReason": {
+          "p99": "insufficient_samples:80<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 4,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 20,
+      "roundWallClock": {
+        "p50Ms": 503.963,
+        "p95Ms": 726.116,
+        "p99Ms": 753.03,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          596.19,
+          753.03,
+          512.816,
+          513.448,
+          506.572,
+          481.568,
+          509.929,
+          505.084,
+          503.963,
+          501.968,
+          486.47,
+          491.068,
+          470.558,
+          463.867,
+          463.818,
+          452.337,
+          461.771,
+          699.759,
+          726.116,
+          569.464
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "scenario": "distinct-command-identity",
+      "successfulRequests": 80
+    },
+    "failure-propagation": {
+      "concurrency": 4,
+      "executionCountPerRound": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "failedRequests": 80,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-692-p0-concurrent-verification-measurement.raw.json",
+      "requestLatency": {
+        "p50Ms": 472.868,
+        "p95Ms": 962.019,
+        "p99Ms": 964.876,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          444.171,
+          449.631,
+          443.342,
+          442.679,
+          471.352,
+          472.987,
+          471.529,
+          472.868,
+          466.174,
+          447.401,
+          466.109,
+          465.98,
+          456.775,
+          465.298,
+          456.034,
+          455.237,
+          448.117,
+          447.211,
+          453.416,
+          447.897,
+          439.406,
+          449.094,
+          449.223,
+          446.408,
+          456.815,
+          456.859,
+          456.111,
+          441.889,
+          458.363,
+          452.111,
+          443.901,
+          453.478,
+          476.575,
+          490.345,
+          488.366,
+          490.227,
+          476.148,
+          473.214,
+          462.158,
+          964.076,
+          964.876,
+          963.505,
+          962.019,
+          963.418,
+          441.663,
+          446.702,
+          445.462,
+          446.288,
+          449.224,
+          441.361,
+          455.09,
+          455.035,
+          533.509,
+          533.907,
+          531.767,
+          533.683,
+          489.756,
+          483.832,
+          491.671,
+          492.866,
+          494.084,
+          498.081,
+          496.881,
+          484.735,
+          587.33,
+          586.17,
+          554.069,
+          586.296,
+          522.397,
+          521.746,
+          521.656,
+          473.619,
+          527.253,
+          530.522,
+          533.761,
+          532.818,
+          855.966,
+          809.032,
+          858.745,
+          860.106
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 80,
+        "unavailableReason": {
+          "p99": "insufficient_samples:80<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 4,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 20,
+      "roundWallClock": {
+        "p50Ms": 473.366,
+        "p95Ms": 964.666,
+        "p99Ms": 965.51,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          450.104,
+          473.366,
+          466.62,
+          465.781,
+          453.93,
+          449.725,
+          457.296,
+          458.821,
+          490.861,
+          964.666,
+          965.51,
+          447.117,
+          455.545,
+          534.342,
+          493.327,
+          498.439,
+          587.702,
+          522.832,
+          534.212,
+          860.659
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "scenario": "failure-propagation",
+      "successfulRequests": 0
+    },
+    "resource-contention": {
+      "concurrency": 4,
+      "executionCountPerRound": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "failedRequests": 0,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-692-p0-concurrent-verification-measurement.raw.json",
+      "requestLatency": {
+        "p50Ms": 668.417,
+        "p95Ms": 992.163,
+        "p99Ms": 1203.716,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          749.889,
+          750.282,
+          772.243,
+          774.93,
+          662.044,
+          625.182,
+          660.634,
+          668.417,
+          566.688,
+          511.542,
+          567.83,
+          566.765,
+          884.34,
+          882.023,
+          884.668,
+          885.331,
+          559.256,
+          559.564,
+          555.648,
+          556.999,
+          1066.294,
+          1203.652,
+          1203.716,
+          1202.316,
+          727.435,
+          715.369,
+          731.638,
+          725.481,
+          798.336,
+          803.202,
+          798.554,
+          729.882,
+          618.475,
+          476.671,
+          476.96,
+          476.826,
+          700.641,
+          697.291,
+          698.86,
+          697.007,
+          634.407,
+          611.544,
+          628.27,
+          629.307,
+          607.142,
+          618.573,
+          606.105,
+          605.447,
+          722.954,
+          719.73,
+          693.973,
+          722.531,
+          667.558,
+          666.572,
+          666.813,
+          667.439,
+          697.38,
+          692.765,
+          710.804,
+          723.634,
+          608.777,
+          596.102,
+          597.231,
+          600.533,
+          603.61,
+          605.809,
+          607.9,
+          601.907,
+          673.126,
+          672.462,
+          676.885,
+          664.713,
+          992.163,
+          707.995,
+          708.697,
+          710.93,
+          516.202,
+          666.689,
+          673.025,
+          650.58
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 80,
+        "unavailableReason": {
+          "p99": "insufficient_samples:80<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 4,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 20,
+      "roundWallClock": {
+        "p50Ms": 674.1,
+        "p95Ms": 993.346,
+        "p99Ms": 1204.179,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          775.461,
+          668.891,
+          568.284,
+          885.896,
+          559.975,
+          1204.179,
+          732.054,
+          803.822,
+          618.963,
+          701.017,
+          634.973,
+          619.25,
+          723.531,
+          668.0,
+          724.125,
+          609.391,
+          608.388,
+          677.571,
+          993.346,
+          674.1
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "scenario": "resource-contention",
+      "successfulRequests": 80
+    },
+    "same-identity": {
+      "concurrency": 4,
+      "executionCountPerRound": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "failedRequests": 0,
+      "queueWaitLatency": {
+        "available": false,
+        "reason": "CLI_does_not_expose_request_queue_timing"
+      },
+      "rawEvidence": "WI-692-p0-concurrent-verification-measurement.raw.json",
+      "requestLatency": {
+        "p50Ms": 715.058,
+        "p95Ms": 1094.359,
+        "p99Ms": 1146.54,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          871.515,
+          873.153,
+          873.801,
+          871.869,
+          1146.54,
+          1145.629,
+          1136.033,
+          1141.157,
+          828.185,
+          785.461,
+          789.843,
+          801.772,
+          905.207,
+          907.349,
+          1011.329,
+          1014.948,
+          851.161,
+          817.404,
+          820.779,
+          820.951,
+          688.678,
+          785.837,
+          851.596,
+          743.749,
+          1074.38,
+          979.575,
+          1094.359,
+          1075.826,
+          871.091,
+          843.932,
+          861.138,
+          848.953,
+          646.864,
+          652.892,
+          653.374,
+          655.316,
+          566.036,
+          577.256,
+          577.999,
+          559.029,
+          738.828,
+          718.27,
+          716.333,
+          737.322,
+          557.768,
+          556.526,
+          557.933,
+          558.335,
+          687.582,
+          599.807,
+          601.686,
+          681.974,
+          648.876,
+          656.795,
+          665.491,
+          658.522,
+          517.15,
+          517.235,
+          517.417,
+          503.381,
+          455.12,
+          448.347,
+          454.409,
+          448.545,
+          601.483,
+          602.472,
+          601.962,
+          606.131,
+          719.201,
+          703.705,
+          715.058,
+          695.937,
+          735.436,
+          731.202,
+          732.668,
+          728.567,
+          652.484,
+          650.614,
+          644.334,
+          635.448
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 80,
+        "unavailableReason": {
+          "p99": "insufficient_samples:80<100"
+        }
+      },
+      "resourcePeaks": {
+        "cpuTimeMs": {
+          "available": false,
+          "reason": "CLI_does_not_expose_cpu_time"
+        },
+        "hashedBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_hashed_bytes"
+        },
+        "maxConcurrentRequestsObserved": 4,
+        "peakMemoryBytes": {
+          "available": false,
+          "reason": "platform_metric_not_collected"
+        },
+        "readBytes": {
+          "available": false,
+          "reason": "CLI_does_not_expose_read_bytes"
+        }
+      },
+      "roundCount": 20,
+      "roundWallClock": {
+        "p50Ms": 720.006,
+        "p95Ms": 1094.73,
+        "p99Ms": 1147.169,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "rawMs": [
+          880.008,
+          1147.169,
+          828.959,
+          1015.452,
+          851.664,
+          852.112,
+          1094.73,
+          871.608,
+          656.468,
+          578.442,
+          739.316,
+          558.719,
+          688.067,
+          666.112,
+          517.936,
+          455.57,
+          606.545,
+          720.006,
+          736.527,
+          653.593
+        ],
+        "reliable": {
+          "p50": true,
+          "p95": true,
+          "p99": false
+        },
+        "sampleCount": 20,
+        "unavailableReason": {
+          "p99": "insufficient_samples:20<100"
+        }
+      },
+      "scenario": "same-identity",
+      "successfulRequests": 80
+    }
+  },
+  "schemaVersion": 1
+}

@@ -1,0 +1,185 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceIndex": 0,
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.same-identity.json"
+      ]
+    },
+    {
+      "acceptanceIndex": 1,
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.distinct-identity.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.failure.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.cancellation.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.resource-contention.json"
+      ]
+    },
+    {
+      "acceptanceIndex": 2,
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.call-graph.json"
+      ]
+    },
+    {
+      "acceptanceIndex": 3,
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json"
+      ]
+    },
+    {
+      "acceptanceIndex": 4,
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json"
+      ]
+    },
+    {
+      "acceptanceIndex": 5,
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.call-graph.json"
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.contract.json",
+    ".ai/work-items/active/WI-692-p0-concurrent-verification-measurement.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T17:09:47Z",
+  "checkpointContractDigest": "sha256:9d2e4a2c5f05b6b6bd0fa73e1fa565289642105d012089ea3ce4843f5f21b126",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:5b58debce9bc96d9a196bffd7e83cd2b669479bd3593f4cbe8b930d8add8da13",
+      "recorded": true,
+      "recordedAt": "2026-09-08T17:09:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:50a7ee49aaeea553e21c93593e115eb77ea88a1a0460bf835202747ab371573a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-692-p0-concurrent-verification-measurement"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:9d2e4a2c5f05b6b6bd0fa73e1fa565289642105d012089ea3ce4843f5f21b126",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5b58debce9bc96d9a196bffd7e83cd2b669479bd3593f4cbe8b930d8add8da13",
+      "previousContractHash": "sha256:5b58debce9bc96d9a196bffd7e83cd2b669479bd3593f4cbe8b930d8add8da13",
+      "reason": "Add the missing high-risk Contract scenarioCoverage declaration with explicit evidence paths for the already measured six scenarios; preserve the no-production-change boundary and bind the existing evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T17:40:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:50a7ee49aaeea553e21c93593e115eb77ea88a1a0460bf835202747ab371573a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-692-p0-concurrent-verification-measurement"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:50a7ee49aaeea553e21c93593e115eb77ea88a1a0460bf835202747ab371573a",
+  "createdAt": "2026-09-08T17:05:41Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:9d2e4a2c5f05b6b6bd0fa73e1fa565289642105d012089ea3ce4843f5f21b126",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Explicit user authorization confirms continuation of this bounded measurement Work Item, its no-production-change boundary, evidence requirements, pause/resume recovery rule, and the Contract amendment that makes all six high-risk scenarios explicit after fresh post-amendment verification.",
+    "recordedAt": "2026-09-08T17:44:05Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:50a7ee49aaeea553e21c93593e115eb77ea88a1a0460bf835202747ab371573a",
+    "schemaVersion": 1,
+    "workItemId": "WI-692-p0-concurrent-verification-measurement"
+  },
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-692-p0-concurrent-verification-measurement.md",
+      ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json",
+      ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.call-graph.json"
+    ],
+    "reason": "The Work Item measures the real public concurrent verification path before any coordinator integration, preserves raw evidence and explicit unavailable metrics, and declines production integration because the measured independent CLI path has no production coordinator caller.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-08T17:44:12Z",
+  "preflightContractDigest": "sha256:9d2e4a2c5f05b6b6bd0fa73e1fa565289642105d012089ea3ce4843f5f21b126",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:50a7ee49aaeea553e21c93593e115eb77ea88a1a0460bf835202747ab371573a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.same-identity.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json"
+      ],
+      "required": true,
+      "scenario": "same-identity concurrent verification requests",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.distinct-identity.json"
+      ],
+      "required": true,
+      "scenario": "distinct command identities",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.failure.json"
+      ],
+      "required": true,
+      "scenario": "failure propagation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.cancellation.json",
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.measurement-summary.json"
+      ],
+      "required": true,
+      "scenario": "cancellation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.resource-contention.json"
+      ],
+      "required": true,
+      "scenario": "resource contention",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-692-p0-concurrent-verification-measurement.call-graph.json"
+      ],
+      "required": true,
+      "scenario": "PhysicalSingleFlightCoordinator production call graph",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T17:44:32Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:48c21ac7254e4d84d0546719580768451332ab3291f9c20b0ecf67221731040d",
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}
