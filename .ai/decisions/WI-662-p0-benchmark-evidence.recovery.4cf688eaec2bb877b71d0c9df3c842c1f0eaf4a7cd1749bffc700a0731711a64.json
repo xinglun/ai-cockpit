@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "human:user-request",
+  "decidedAt": "2026-09-08T08:04:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/663",
+    ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json",
+    "docs/superpowers/plans/2026-09-08-wi-662-p0-benchmark-evidence.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery",
+    ".ai/README.md:work-item-lifecycle"
+  ],
+  "predecessorContractDigest": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
+  "predecessorEventsDigest": "sha256:60646b2840ea4f4945b7ec272569925796d20580eef62d1cf00cbec88e76e210",
+  "predecessorOutcomeDigest": "sha256:3dcde8e8cb8ee31b37e57ff86bccaf03fbf73dfcb1d70d46d3cf34c52099305a",
+  "predecessorSummaryDigest": "sha256:03f220d9bb51af8235c0d3024af9c38bf0dd2ecc4ae83fd97f983e5e172337ce",
+  "predecessorWorkItemId": "WI-662-p0-benchmark-evidence",
+  "reason": "The plan amendment invalidated the predecessor retry binding as designed; append the current Contract/Summary binding before rerunning preflight and verification for the corrected latest-base record.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun all Contract verification commands and preflight against the corrected plan/base binding, then finish with current evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-662-p0-benchmark-evidence"
+}

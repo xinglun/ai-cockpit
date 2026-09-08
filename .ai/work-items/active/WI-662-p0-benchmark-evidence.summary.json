@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T06:42:35Z",
-  "checkpointContractDigest": "sha256:35243b17a11a0d5f473f7d40686d693409a5a81b88bd98c76da96593f7ef2fb6",
+  "checkpointContractDigest": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -157,20 +157,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-662-p0-benchmark-evidence"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e74c98d45e24adaae95a71f4574d0bb23d3a05185b2a425ddadd50a0d2b1d79e",
+      "previousContractHash": "sha256:35243b17a11a0d5f473f7d40686d693409a5a81b88bd98c76da96593f7ef2fb6",
+      "reason": "Correct the P0 plan to the actual latest origin/main base and document the gate-manifest registration added for hosted execution; no production behavior, authority, or optimization scope changes.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T07:53:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:903d5e9333e7988b87eef518d60b57a16f2f069c2a216420cc3adbd22281fb82",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-662-p0-benchmark-evidence"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:8a6ae620009c0aaa0a625b848473e143e72fe996fd9d100620083fe4530166a4",
+  "checkpointRepositorySnapshotDigest": "sha256:903d5e9333e7988b87eef518d60b57a16f2f069c2a216420cc3adbd22281fb82",
   "createdAt": "2026-09-08T06:42:10Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T07:48:42Z",
-  "preflightContractDigest": "sha256:35243b17a11a0d5f473f7d40686d693409a5a81b88bd98c76da96593f7ef2fb6",
+  "preflightAt": "2026-09-08T07:55:27Z",
+  "preflightContractDigest": "sha256:7f3de2da7657b0a5794baf4dcd5ee168ecae548bb14d7aba7e1399ad0e4698b4",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:8a6ae620009c0aaa0a625b848473e143e72fe996fd9d100620083fe4530166a4",
+  "preflightRepositorySnapshotDigest": "sha256:903d5e9333e7988b87eef518d60b57a16f2f069c2a216420cc3adbd22281fb82",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-08T07:48:46Z",
+  "updatedAt": "2026-09-08T07:55:31Z",
   "verification": [
     {
       "check": "project-command-0",
