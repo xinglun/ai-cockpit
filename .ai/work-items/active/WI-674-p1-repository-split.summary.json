@@ -64,7 +64,7 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
   "createdAt": "2026-09-08T11:44:27Z",
-  "failedGate": "finish.governance",
+  "failedGate": "finish.verification",
   "mode": "implementation",
   "outcomeState": "blocked",
   "preflightAt": "2026-09-08T12:48:20Z",
@@ -73,10 +73,10 @@
   "preflightRepositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-08T12:35:36Z",
+  "updatedAt": "2026-09-08T12:50:06Z",
   "verification": [
     {
       "check": "project-command-0",
