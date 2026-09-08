@@ -1,0 +1,29 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-680-p1-collaboration-scenario-matrix.contract.json",
+    ".ai/work-items/active/WI-680-p1-collaboration-scenario-matrix.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T13:32:03Z",
+  "checkpointContractDigest": "sha256:586bd2dec08150813363ba7c5eb73b6399f1a04ed18af9efba4ba61b40c1c40e",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8f2938f93d80f48acfbb5814d301d461ff3955ad07e4f79e56d9c89d25e0497b",
+  "createdAt": "2026-09-08T13:25:15Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-08T13:32:13Z",
+  "preflightContractDigest": "sha256:586bd2dec08150813363ba7c5eb73b6399f1a04ed18af9efba4ba61b40c1c40e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8f2938f93d80f48acfbb5814d301d461ff3955ad07e4f79e56d9c89d25e0497b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T13:32:03Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:c1e2fb1b48411a894a4441d3fbb0518278ba0ae09efda6cc44c5d4918ce089b9",
+  "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+}
