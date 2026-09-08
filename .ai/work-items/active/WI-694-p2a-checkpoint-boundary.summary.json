@@ -1,0 +1,65 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-08T18:00:30Z",
+  "checkpointContractDigest": "sha256:8c0e83523467007c8bdbb8b1c7e47dbf524ce804f295276e68d92466453e51a2",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:4d2f40438c202a686907a62e754568e41b7c5bc9ddfd3b50878381724a6cb7cf",
+      "recorded": true,
+      "recordedAt": "2026-09-08T18:00:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7653161d8206f0faab649ba70b1e2c73a8e49007670fc1f0f4e559ab8f4421fe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-694-p2a-checkpoint-boundary"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8c0e83523467007c8bdbb8b1c7e47dbf524ce804f295276e68d92466453e51a2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4d2f40438c202a686907a62e754568e41b7c5bc9ddfd3b50878381724a6cb7cf",
+      "previousContractHash": "sha256:4d2f40438c202a686907a62e754568e41b7c5bc9ddfd3b50878381724a6cb7cf",
+      "reason": "Normalize requiredEvidenceClasses to the standard verification category so preflight can be refreshed after the existing Runtime verification receipt; no implementation scope or acceptance behavior changed.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T18:13:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7653161d8206f0faab649ba70b1e2c73a8e49007670fc1f0f4e559ab8f4421fe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-694-p2a-checkpoint-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7653161d8206f0faab649ba70b1e2c73a8e49007670fc1f0f4e559ab8f4421fe",
+  "createdAt": "2026-09-08T18:00:05Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-08T18:17:10Z",
+  "preflightContractDigest": "sha256:8c0e83523467007c8bdbb8b1c7e47dbf524ce804f295276e68d92466453e51a2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7653161d8206f0faab649ba70b1e2c73a8e49007670fc1f0f4e559ab8f4421fe",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-08T18:17:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fa64e498c03be27241416bf09fa99d2c4eeebc495ba4889a60faeb2d96ab0955",
+  "workItemId": "WI-694-p2a-checkpoint-boundary"
+}
