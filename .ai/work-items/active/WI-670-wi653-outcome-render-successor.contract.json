@@ -6,7 +6,7 @@
     "Reviewers can verify that the presentation boundary is pure while governance facts remain evidence-bound."
   ],
   "authority": "authorized",
-  "baseRevision": "67efcdfee26bce306c93c8c7d1526e430fcdba8c",
+  "baseRevision": "ce4fbc0b60a2ca98739ae62f5a2b1fd7319bdbcf",
   "createdAt": "2026-09-08T09:02:06Z",
   "goal": "Produce a fresh reviewed successor for the archived WI-653 implementation: pure Outcome rendering over assembled facts, one assembly use case for CLI/MCP, and current verification evidence.",
   "intent": "Redeliver the bounded P1-A Outcome render purification from the latest default branch without changing user-visible text, JSON schema, exit codes, authorization, or governance semantics.",

@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-08T09:02:33Z",
-  "checkpointContractDigest": "sha256:8a0c46fe45425f6c7db09d95a8dc4195c71a9a9ed7dad38dd45b8715430c681d",
+  "checkpointContractDigest": "sha256:cab17d8c5d199b222334bfa14997b5f9a424cc69cbfdee81b524849fe8dee244",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -37,24 +37,46 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-670-wi653-outcome-render-successor"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:cab17d8c5d199b222334bfa14997b5f9a424cc69cbfdee81b524849fe8dee244",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8a0c46fe45425f6c7db09d95a8dc4195c71a9a9ed7dad38dd45b8715430c681d",
+      "previousContractHash": "sha256:ec53764443deb33502fb5b32731454402850e37504ece8a3a217c63cd20f635e",
+      "reason": "Rebased the successor onto the latest fetched origin/main after WI-662 PR #663 merged; bind the Contract to the actual remote default base before fresh verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T09:19:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3f73d72fe25cdc1d2a87baa08aaa621a03a1e4ba0516886c8a994a50474c6fb9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-670-wi653-outcome-render-successor"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:6f45a4bd6bb8b1abe22c4a8b2418238d9f9381b0d2478cd78f8594ae2f8390f5",
+  "checkpointRepositorySnapshotDigest": "sha256:3f73d72fe25cdc1d2a87baa08aaa621a03a1e4ba0516886c8a994a50474c6fb9",
   "createdAt": "2026-09-08T09:02:06Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-08T09:02:26Z",
-  "preflightContractDigest": "sha256:8a0c46fe45425f6c7db09d95a8dc4195c71a9a9ed7dad38dd45b8715430c681d",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:6f45a4bd6bb8b1abe22c4a8b2418238d9f9381b0d2478cd78f8594ae2f8390f5",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-08T09:27:52Z",
+  "preflightContractDigest": "sha256:cab17d8c5d199b222334bfa14997b5f9a424cc69cbfdee81b524849fe8dee244",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3f73d72fe25cdc1d2a87baa08aaa621a03a1e4ba0516886c8a994a50474c6fb9",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-08T09:02:33Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:ec53764443deb33502fb5b32731454402850e37504ece8a3a217c63cd20f635e",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-08T09:11:29Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:0035de09f69963d5fae9fc025fdc0ac7655183a642e7e9bdb3918b2a7478aca1",
   "workItemId": "WI-670-wi653-outcome-render-successor"
 }
