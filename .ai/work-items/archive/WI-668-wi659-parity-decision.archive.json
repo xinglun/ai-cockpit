@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T08:29:53Z",
+  "files": {
+    "contractDigest": "sha256:4c981990cffa27b3d432d0a02876c186bd070a8092277833ef000ad131241068",
+    "contractPath": ".ai/work-items/archive/WI-668-wi659-parity-decision.contract.json",
+    "eventsDigest": "sha256:47b668baf04e626dc0f313c9aff1fd443dde0c504d1880881067a1ea32e20c41",
+    "eventsPath": ".ai/work-items/archive/WI-668-wi659-parity-decision.events.jsonl",
+    "outcomeDigest": "sha256:c1bd1d14c884ea19eb0f870f606a75b25aea82e498ebb241c2ba8b22c03ae03b",
+    "outcomePath": ".ai/work-items/archive/WI-668-wi659-parity-decision.outcome.json",
+    "summaryDigest": "sha256:728dfb288f775459dc09723c9d4b9a5c210ecd1cf64e5e072d80e5af8c975cba",
+    "summaryPath": ".ai/work-items/archive/WI-668-wi659-parity-decision.summary.json",
+    "taskReportDigest": "sha256:ce961bf4ecb2637809adf517c642b6afa8fcc5990fe2dafd15bbc98f01a083ac",
+    "taskReportMarkdownDigest": "sha256:47734e6e194c3a5024cef3344fb01edce9aefabc36b763a12bf6373e94cf418f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-668-wi659-parity-decision.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-668-wi659-parity-decision.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-668-wi659-parity-decision"
+}
