@@ -4,9 +4,13 @@ title: "WI-675——WI-670 终态文档晋级"
 description: "将已关闭的 WI-670 Outcome 渲染 successor 晋级到受治理的三语言文档投影。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-675-wi670-doc-promotion
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-675-wi670-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-675-wi670-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-675-wi670-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-675-wi670-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-675-wi670-doc-promotion.close.json
 ---
 
 [English](WI-675-wi670-doc-promotion.md) · [日本語](WI-675-wi670-doc-promotion.ja.md)
