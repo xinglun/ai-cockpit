@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9d2e4a2c5f05b6b6bd0fa73e1fa565289642105d012089ea3ce4843f5f21b126",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Explicit user authorization confirms continuation of this bounded measurement Work Item, its no-production-change boundary, evidence requirements, pause/resume recovery rule, and the Contract amendment that makes all six high-risk scenarios explicit after fresh post-amendment verification.",
+  "recordedAt": "2026-09-08T17:44:05Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:50a7ee49aaeea553e21c93593e115eb77ea88a1a0460bf835202747ab371573a",
+  "schemaVersion": 1,
+  "workItemId": "WI-692-p0-concurrent-verification-measurement"
+}
