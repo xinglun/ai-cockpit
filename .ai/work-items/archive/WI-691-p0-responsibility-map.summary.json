@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-691-p0-responsibility-map.contract.json",
-    ".ai/work-items/active/WI-691-p0-responsibility-map.summary.json"
+    ".ai/work-items/archive/WI-691-p0-responsibility-map.contract.json",
+    ".ai/work-items/archive/WI-691-p0-responsibility-map.summary.json"
   ],
   "checkpointAt": "2026-09-08T17:04:18Z",
-  "checkpointContractDigest": "sha256:6fbe42823aa99d7a655e74575adfa5511aa324689783ad935a712d68a25fc07c",
+  "checkpointContractDigest": "sha256:968c893e97eba22e8966d409184f1a7d7ce2330da13f71d7ec2972ef34e2e1bc",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -44,25 +44,21 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:051cf90af0787747b7f6c0930e7f2abdc849a37860bbc87ab7003229fcd57e0b",
   "createdAt": "2026-09-08T17:04:04Z",
-  "failedGate": "finish.governance",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T17:18:47Z",
-  "preflightContractDigest": "sha256:6fbe42823aa99d7a655e74575adfa5511aa324689783ad935a712d68a25fc07c",
+  "preflightAt": "2026-09-08T17:23:12Z",
+  "preflightContractDigest": "sha256:968c893e97eba22e8966d409184f1a7d7ce2330da13f71d7ec2972ef34e2e1bc",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:051cf90af0787747b7f6c0930e7f2abdc849a37860bbc87ab7003229fcd57e0b",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T17:19:03Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T17:23:17Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:9957d2dd22125c471fb400b3b1abb6bca9c8569ee4bb6d0b65c58abbf0080e68",
   "workItemId": "WI-691-p0-responsibility-map"
 }

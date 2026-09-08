@@ -30,11 +30,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-691-p0-responsibility-map",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/689",
     "worktree": "/private/tmp/ai-cockpit-wi-691-p0-responsibility-map"
   },
   "risk": "normal",
