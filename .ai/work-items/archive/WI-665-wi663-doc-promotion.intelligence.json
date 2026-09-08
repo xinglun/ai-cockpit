@@ -1,0 +1,12 @@
+{
+  "conflictsWith": [
+    "WI-666-wi663-doc-promotion",
+    "WI-668-wi659-parity-decision"
+  ],
+  "dependsOn": [],
+  "parallelizable": false,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 1,
+  "unknowns": [],
+  "workItemId": "WI-665-wi663-doc-promotion"
+}

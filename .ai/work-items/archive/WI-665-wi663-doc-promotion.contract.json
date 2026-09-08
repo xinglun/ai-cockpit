@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "Modify only the twelve scoped Markdown projection paths required by the closed WI-663 and WI-664 promotion checks, the WI-659 terminal supersede decision, and WI-665 self-registration.",
+    "Preserve WI-663 and WI-664 terminal evidence references, the WI-659 immutable archive and versioned decision chain, WI-665 prearchive registration, original Contract language, and three-language parity semantics.",
+    "Pass documentation acceptance, parity, status consistency, governance integrity, and closed-work-item promotion checks on the exact reviewed head.",
+    "Provide reviewers and adopters one consistent tri-language projection of terminal lifecycle truth, so they do not have to infer completion from conditional rows or separate open PRs."
+  ],
+  "authority": "authorized",
+  "baseRevision": "a9d508d77c833409c91dd46fe47545a5ed03475c",
+  "createdAt": "2026-09-08T07:54:42Z",
+  "goal": "Synchronize the three-language WI-663 and WI-664 Work Item pages, their shared reference-parity rows including the WI-659 terminal supersede decision, and WI-665 self-registration, so closed-work-item promotion checks pass.",
+  "intent": "Promote the closed WI-663 and WI-664 documentation projections and bind the WI-659 supersede decision without changing implementation behavior or immutable historical evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "All production code",
+    "All tests",
+    "Generated .ai records",
+    "WI-659, WI-663, and WI-664 .ai archive, evidence, recovery, finalization, and close records (read-only inputs)",
+    "WI-666 and WI-668 Work Item records, branches, and worktrees",
+    "Other Work Items",
+    "Other agents' worktrees and branches",
+    "Hosted provider behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1f2c86ebd91512cf5c006eff6b0dec18016337115cdc9d261aee4866890f7765",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_quality",
+    "finalization",
+    "human_outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-665-wi663-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/666",
+    "worktree": "/private/tmp/ai-cockpit-wi-665-wi663-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-663-wi659-outcome-trust-replacement.md",
+    "docs/work-items/WI-663-wi659-outcome-trust-replacement.zh-CN.md",
+    "docs/work-items/WI-663-wi659-outcome-trust-replacement.ja.md",
+    "docs/work-items/WI-664-state-transition-boundary.md",
+    "docs/work-items/WI-664-state-transition-boundary.zh-CN.md",
+    "docs/work-items/WI-664-state-transition-boundary.ja.md",
+    "docs/work-items/WI-665-wi663-doc-promotion.md",
+    "docs/work-items/WI-665-wi663-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-665-wi663-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-665-wi663-doc-promotion"
+}
