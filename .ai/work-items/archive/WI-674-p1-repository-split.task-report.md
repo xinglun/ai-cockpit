@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-674-p1-repository-split.contract.json
-- Changed path: .ai/work-items/active/WI-674-p1-repository-split.summary.json
+- Changed path: .ai/work-items/archive/WI-674-p1-repository-split.contract.json
+- Changed path: .ai/work-items/archive/WI-674-p1-repository-split.summary.json
 
 ## Findings
 

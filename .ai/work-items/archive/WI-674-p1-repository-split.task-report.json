@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-674-p1-repository-split.summary.json"
+          ".ai/work-items/archive/WI-674-p1-repository-split.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-674-p1-repository-split.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-674-p1-repository-split.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-674-p1-repository-split.summary.json"
+          ".ai/work-items/archive/WI-674-p1-repository-split.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-674-p1-repository-split.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-674-p1-repository-split.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-674-p1-repository-split.contract.json"
+          ".ai/work-items/archive/WI-674-p1-repository-split.contract.json"
         ],
         "inference": false,
         "text": "完成一组可验证的 Repository 内部模块拆分：每个职责有清晰边界和依赖记录，公共 API、序列化格式、错误行为、持久化布局及现有判定语义保持兼容；每次拆分都有相关行为测试和仓库要求的检查证据。"
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-674-p1-repository-split.contract.json"
+          ".ai/work-items/archive/WI-674-p1-repository-split.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

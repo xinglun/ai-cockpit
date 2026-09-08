@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-674-p1-repository-split.contract.json",
-    ".ai/work-items/active/WI-674-p1-repository-split.summary.json"
+    ".ai/work-items/archive/WI-674-p1-repository-split.contract.json",
+    ".ai/work-items/archive/WI-674-p1-repository-split.summary.json"
   ],
   "checkpointAt": "2026-09-08T11:44:36Z",
   "checkpointContractDigest": "sha256:babc9088a628839ad6679148501b68b0bedae85d1ae4ab9390b65473b6a1559e",
