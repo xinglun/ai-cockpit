@@ -15,14 +15,21 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-08T11:54:07Z",
+  "preflightAt": "2026-09-08T11:54:40Z",
   "preflightContractDigest": "sha256:c9940a2333767a39eba088fdcc70f7eaaa92a7302019db0d8185071eee61cfd6",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:565f5a57ce63fd3893e6befeef765d2009507dc843d7feaa3faed9c5ae6ddb67",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-08T11:54:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:afd2f9ec52981a2f86e35c976a5ce129527c87af45a1f7adf3a34799338398ad",
   "workItemId": "WI-675-wi670-doc-promotion"
 }
