@@ -4,9 +4,13 @@ title: "WI-685 — P1 status fact reuse"
 description: "Reuse immutable finalization transition facts within one status observation on repositories with many historical Work Items."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-685-p1-status-fact-reuse
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-685-p1-status-fact-reuse
+terminalArchive: .ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json
+terminalVerification: .ai/evidence/WI-685-p1-status-fact-reuse.verification.json
+terminalFinalization: .ai/decisions/WI-685-p1-status-fact-reuse.finalize.json
+terminalDecision: .ai/decisions/WI-685-p1-status-fact-reuse.close.json
 ---
 
 [简体中文](WI-685-p1-status-fact-reuse.zh-CN.md) · [日本語](WI-685-p1-status-fact-reuse.ja.md)
