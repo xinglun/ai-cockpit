@@ -424,9 +424,12 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
         structured["outcome"]["taskOutcomeReport"]["bindings"]["workItemId"],
         "WI-MCP-HANDOFF"
     );
-    assert!(handoff.starts_with("Outcome: 🟡 需要关注 — WI-MCP-HANDOFF\n结果"));
+    assert!(handoff.starts_with("Outcome: 🟡 验证尚未就绪 — WI-MCP-HANDOFF\n结果"));
     assert!(handoff.contains("人工决定"));
     assert!(handoff.contains("决定: continue"));
+    assert!(handoff.contains("生命周期状态"));
+    assert!(handoff.contains("人工决定状态: 已记录：continue"));
+    assert!(handoff.contains("保证级别: 未知"));
     let outcome: cockpit_protocol::OutcomeV2 =
         serde_json::from_value(structured["outcome"].clone()).expect("OutcomeV2");
     assert_eq!(

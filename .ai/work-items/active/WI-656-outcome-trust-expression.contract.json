@@ -1,0 +1,108 @@
+{
+  "acceptanceCriteria": [
+    "绿色文案明确表示已声明的验证通过，而不是笼统的成功；中/日/英 Runtime 文案同步且 Contract 原文不变。",
+    "验证状态、生命周期状态、人工决定分别表达；验证通过不显示为批准；有效人工决定旁显示已有 actor、authority source、evidence/policy refs 和保证级别，缺失事实显示未知或未记录。",
+    "当前通过、失败、缺失、过期、历史、已替代和不同人工决定状态均有真实 Outcome 结构覆盖；历史与已替代不被改写为当前失败或当前绿色。",
+    "空数组或缺失字段不直接输出无风险；按证据区分未记录、未评估、检查范围内未发现和不适用；不能区分时使用未记录或状态未知。",
+    "风险检测结果明确检查范围与限制；未触发测试弱化规则不表述为测试未被弱化。",
+    "CLI 与 MCP 对相同输入输出相同人类事实；机器 JSON、判定规则、退出码和授权语义保持兼容。",
+    "测试使用真实 Outcome 结构而非只断言替换后的字符串；完整报告文档同步更新且不声称未验证的收益。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "1623ee5aad551d7d017cc79a0f77bcd655a8bb7e",
+  "createdAt": "2026-09-08T02:52:45Z",
+  "goal": "让 CLI 与 MCP 的人类 Outcome handoff 准确表达已声明的验证结果、生命周期和人工决定，不把验证通过投影为批准，不从空值推断无风险，并保留历史、替代、过期和失败的区别。",
+  "intent": "降低 Outcome 的阅读成本，同时让验证状态、生命周期状态、人工决定、证据边界和不确定性保持可校准；P0-A 仅修正面向人的 Outcome 信任表达。",
+  "mode": "code",
+  "outOfScope": [
+    "P0-B 默认摘要与完整报告下钻；P1-A 认知收益评估；P1-B Repository 拆分；P2 README/首次使用；OutcomeV2 或其他严格 schema 扩展；判定规则、退出码、授权语义、持久化布局、历史证据、归档和摘要 bytes 的重写；外部服务或 LLM。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98ee6e73aa44882ab77325d2bd61fb46278e47f5c4fc1f0e0f48180dc2cce2d9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-656-outcome-trust-expression",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-656"
+  },
+  "risk": "high: trust-calibration presentation changes across CLI and MCP; protocol and governance semantics must remain unchanged",
+  "scenarioCoverage": [
+    {
+      "scenario": "current_verified_without_human_approval",
+      "required": true,
+      "status": "unverified",
+      "expected": "The handoff distinguishes validated verification from a human approval and renders an explicit unknown or not-recorded human decision.",
+      "verificationPlan": "Use a real verified OutcomeV2 with no close decision and assert the shared renderer in English, Simplified Chinese, and Japanese.",
+      "evidence": []
+    },
+    {
+      "scenario": "failed_missing_stale_or_invalid_evidence",
+      "required": true,
+      "status": "unverified",
+      "expected": "Missing, stale, contradictory, and invalid evidence retain distinct non-green facts and recovery meaning.",
+      "verificationPlan": "Construct real OutcomeV2 values for NotReady, Partial, and Unknown plus corresponding evidence/decision records and assert their rendered facts.",
+      "evidence": []
+    },
+    {
+      "scenario": "historical_and_superseded_outcome",
+      "required": true,
+      "status": "unverified",
+      "expected": "Historical and superseded outcomes remain historical and are not projected as current failure or current authorization.",
+      "verificationPlan": "Render real historical_status values and assert the stable historical wording in all supported languages.",
+      "evidence": []
+    },
+    {
+      "scenario": "risk_scope_and_empty_fields",
+      "required": true,
+      "status": "unverified",
+      "expected": "Empty or missing risk records are not rendered as no risk; explicit scope and limitations remain visible.",
+      "verificationPlan": "Use real reports with empty risk sections, explicit non-risk claims, limitations, and test-weakening findings.",
+      "evidence": []
+    },
+    {
+      "scenario": "cli_mcp_human_handoff_parity",
+      "required": true,
+      "status": "unverified",
+      "expected": "CLI and MCP human handoffs express identical facts for the same OutcomeV2 input.",
+      "verificationPlan": "Exercise the CLI and repository-bound MCP tool with the same generated repository fixture and compare localized handoff text.",
+      "evidence": []
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-656-outcome-trust-expression"
+}

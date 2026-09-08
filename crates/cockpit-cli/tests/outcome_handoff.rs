@@ -98,7 +98,7 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
         (
             "en",
             "WI-HANDOFF-EN",
-            "Outcome: 🟢 Success",
+            "Outcome: 🟢 Declared verification passed",
             "Unknowns",
             "Human decisions",
             "Next action",
@@ -107,7 +107,7 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
         (
             "zh-CN",
             "WI-HANDOFF-ZH",
-            "Outcome: 🟢 成功",
+            "Outcome: 🟢 已声明的验证通过",
             "未知项",
             "人工决定",
             "下一步",
@@ -116,7 +116,7 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
         (
             "ja",
             "WI-HANDOFF-JA",
-            "Outcome: 🟢 成功",
+            "Outcome: 🟢 宣言された検証済み",
             "不明点",
             "人間の判断",
             "次のアクション",
@@ -154,9 +154,9 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
         // therefore exposes a visible yellow handoff here; close becomes
         // green only after `record_deleted` binds that receipt below.
         let archive_prefix = match language {
-            "en" => "Outcome: 🟡 Needs attention",
-            "zh-CN" => "Outcome: 🟡 需要关注",
-            "ja" => "Outcome: 🟡 要確認",
+            "en" => "Outcome: 🟡 Verification not ready",
+            "zh-CN" => "Outcome: 🟡 验证尚未就绪",
+            "ja" => "Outcome: 🟡 検証未準備",
             _ => unreachable!(),
         };
         assert_handoff(
@@ -272,21 +272,21 @@ fn blocked_finish_emits_persisted_handoff_and_remains_nonzero() {
         (
             "en",
             "WI-HANDOFF-BLOCKED-EN",
-            "Outcome: 🔴 Stop",
+            "Outcome: 🔴 Verification status unknown",
             "Unknowns",
             "Next action",
         ),
         (
             "zh-CN",
             "WI-HANDOFF-BLOCKED-ZH",
-            "Outcome: 🔴 停止",
+            "Outcome: 🔴 验证状态未知",
             "未知项",
             "下一步",
         ),
         (
             "ja",
             "WI-HANDOFF-BLOCKED-JA",
-            "Outcome: 🔴 停止",
+            "Outcome: 🔴 検証状態不明",
             "不明点",
             "次のアクション",
         ),
