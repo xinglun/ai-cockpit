@@ -6,6 +6,7 @@ audience: [maintainer, reviewer, adopter]
 workItemId: WI-702-p2-incremental-merkle-trust-audit
 status: in_progress
 authority: human:repository-owner
+lastVerifiedBy: WI-702-p2-incremental-merkle-trust-audit
 ---
 
 [English](WI-702-p2-incremental-merkle-trust-audit.md) · [简体中文](WI-702-p2-incremental-merkle-trust-audit.zh-CN.md)
