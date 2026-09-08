@@ -7,9 +7,13 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-683-p2c-lifecycle-concurrency-recovery
+terminalArchive: .ai/work-items/archive/WI-683-p2c-lifecycle-concurrency-recovery.contract.json
+terminalVerification: .ai/evidence/WI-683-p2c-lifecycle-concurrency-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-683-p2c-lifecycle-concurrency-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-683-p2c-lifecycle-concurrency-recovery.close.json
 ---
 
 # WI-683 — P2-C ライフサイクル並行性とリカバリの再配信
