@@ -17,6 +17,17 @@
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:c60db803e90901153b2c893be3380bd0b323068df321802e0e19f6c4f8c1dc09",
   "createdAt": "2026-09-08T05:33:23Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/outcome_render.rs",
+      "crates/cockpit-repository/tests/outcome_report.rs",
+      "crates/cockpit-cli/tests/outcome_handoff.rs",
+      "crates/cockpit-mcp/tests/rpc.rs",
+      ".ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json"
+    ],
+    "reason": "The successor repairs the recorded hosted workspace_format failure while preserving the WI-658 Outcome semantics, machine output, authorization semantics, persistence layout, and immutable recovery lineage.",
+    "state": "resolved"
+  },
   "mode": "implementation",
   "predecessorContractDigest": "sha256:bcfa14dbfc5f47b1e92e6ac044c408df5ab9c56a4f2819c1433df8c5b4749b48",
   "predecessorWorkItemId": "WI-658-wi656-outcome-trust-repair",
@@ -29,7 +40,7 @@
   "recoveryDecisionPath": ".ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-08T05:37:36Z",
+  "updatedAt": "2026-09-08T06:13:33.527887+00:00",
   "verification": [
     {
       "check": "project-command-0",
