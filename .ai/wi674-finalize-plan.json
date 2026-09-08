@@ -1,0 +1,8 @@
+{
+  "branch": "codex/wi-674-p1-repository-split",
+  "worktree": "/private/tmp/ai-cockpit-wi-674-p1-repository-split",
+  "baseBranch": "main",
+  "baseRemote": "origin",
+  "provider": "github",
+  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/674"
+}

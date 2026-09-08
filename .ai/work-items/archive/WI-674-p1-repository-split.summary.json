@@ -1,0 +1,84 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-674-p1-repository-split.contract.json",
+    ".ai/work-items/archive/WI-674-p1-repository-split.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T11:44:36Z",
+  "checkpointContractDigest": "sha256:babc9088a628839ad6679148501b68b0bedae85d1ae4ab9390b65473b6a1559e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:5824ddba7dcffd99989598b5925cbc821acc4109f2cb52c42b15ccaa3713f58c",
+      "recorded": true,
+      "recordedAt": "2026-09-08T11:44:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a4a93163476bef92cd22c62d24c6d5536cc62554e19d1bedf7e38eee2bb8d0c7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-674-p1-repository-split"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b30eb29463e692964207a5e6e9d3c43e53149bef05fda9acdf2857581c180798",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5824ddba7dcffd99989598b5925cbc821acc4109f2cb52c42b15ccaa3713f58c",
+      "previousContractHash": "sha256:5824ddba7dcffd99989598b5925cbc821acc4109f2cb52c42b15ccaa3713f58c",
+      "reason": "Remote default branch advanced from 0b92a420 to 4950da8; rebase this independent structural Work Item onto the latest origin/main and preserve its scope and compatibility boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T12:25:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4b95740973943202c00a7c95cdc9d46dc932996c2488e2cae0e9f1063df6e01a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-674-p1-repository-split"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:39cb6c56866821e0afe6cbdede39622477afdc292040e479d503b7831e4f5e57",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5824ddba7dcffd99989598b5925cbc821acc4109f2cb52c42b15ccaa3713f58c",
+      "previousContractHash": "sha256:b30eb29463e692964207a5e6e9d3c43e53149bef05fda9acdf2857581c180798",
+      "reason": "Remote default branch advanced from 4950da8 to c1f1f1d; rebase this independent structural Work Item onto the newest origin/main, including the resolved WI-675 parity projection, while preserving WI-674 scope and compatibility boundaries.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T12:38:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-674-p1-repository-split"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+  "createdAt": "2026-09-08T11:44:27Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-08T12:55:37Z",
+  "preflightContractDigest": "sha256:babc9088a628839ad6679148501b68b0bedae85d1ae4ab9390b65473b6a1559e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T12:55:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-674-p1-repository-split"
+}
