@@ -4,9 +4,13 @@ title: "WI-675 — WI-670 terminal documentation promotion"
 description: "Promote the closed WI-670 Outcome-rendering successor into the governed three-language documentation projection."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-675-wi670-doc-promotion
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-675-wi670-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-675-wi670-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-675-wi670-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-675-wi670-doc-promotion.finalize.json
+terminalDecision: .ai/decisions/WI-675-wi670-doc-promotion.close.json
 ---
 
 [简体中文](WI-675-wi670-doc-promotion.zh-CN.md) · [日本語](WI-675-wi670-doc-promotion.ja.md)

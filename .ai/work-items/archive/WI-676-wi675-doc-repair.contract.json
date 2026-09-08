@@ -1,0 +1,75 @@
+{
+  "acceptanceCriteria": [
+    "Update the three WI-675 language pages and three reference-parity rows from in-progress/prearchive wording to the exact terminal status supported by the immutable WI-675 archive, verification, finalization, and close records.",
+    "Add the three-language WI-676 self-registration pages and matching parity rows without changing production code, governance rules, or historical evidence.",
+    "Pass documentation acceptance, closed-work-item promotion, parity status, parity regression, pending-parity registry, and work-item status consistency checks on the exact reviewed head.",
+    "Keep user_visible_benefit_not_declared explicit; this documentation correction makes no user-visible or performance claim.",
+    "Record in this Contract that on 2026-09-08 human:user-request authorization was granted for this Agent to continue governed Work Items through provider or lifecycle interruptions, with the exact interruption, scope, and evidence preserved; this is authorization, not a fabricated GitHub review."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4950da8c34ee818fd3763b6b60f3154f19a2f146",
+  "createdAt": "2026-09-08T12:14:13Z",
+  "goal": "Repair the terminal documentation projection that currently blocks the repository governance gate, preserving the immutable WI-675 lifecycle evidence and three-language parity semantics.",
+  "intent": "Restore truthful documentation status for WI-675 and register this corrective Work Item so the performance optimization delivery can be reviewed without weakening governance checks.",
+  "mode": "code",
+  "outOfScope": [
+    "all production Rust code",
+    "all tests and CI behavior",
+    "governance rules and evidence formats",
+    "immutable WI-675 .ai archive, verification, finalization, and close records",
+    "WI-673 implementation or measurement evidence",
+    "other Work Items and other agents worktrees or branches",
+    "hosted provider behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ef7dc52ef5e8845b1599283423f620fd1eaf3f4b928ef2ed037546952c8d2534",
+  "requiredEvidenceClasses": [
+    "verification",
+    "hosted_quality",
+    "finalization",
+    "human_outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-676-wi675-doc-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/672",
+    "worktree": "/private/tmp/ai-cockpit-wi-676-wi675-doc-repair"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-675-wi670-doc-promotion.md",
+    "docs/work-items/WI-675-wi670-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-675-wi670-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-676-wi675-doc-repair.md",
+    "docs/work-items/WI-676-wi675-doc-repair.zh-CN.md",
+    "docs/work-items/WI-676-wi675-doc-repair.ja.md"
+  ],
+  "sources": [
+    "origin/main at base revision 4950da8c34ee818fd3763b6b60f3154f19a2f146",
+    ".ai/work-items/archive/WI-675-wi670-doc-promotion.archive.json",
+    ".ai/evidence/WI-675-wi670-doc-promotion.verification.json",
+    ".ai/decisions/WI-675-wi670-doc-promotion.finalize.json",
+    ".ai/decisions/WI-675-wi670-doc-promotion.close.json",
+    "tests/docs/parity_status_check.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/work_item_status_consistency_test.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/docs/documentation_acceptance.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "tests/docs/parity_status_check.sh",
+    "tests/docs/parity_status_check_test.sh",
+    "tests/docs/pending_parity_registry_test.sh",
+    "tests/docs/work_item_status_consistency_test.sh"
+  ],
+  "workItemId": "WI-676-wi675-doc-repair"
+}
