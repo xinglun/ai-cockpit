@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:5666cacc68581549c84d94e6cbccc42cbd9b03f1a0cb022f4fe050a3acc839ec",
-  "createdAt": "2026-09-08T16:03:36Z",
+  "contractDigest": "sha256:b9bc5bc2b71cf0478a1d0f4c2ed11a8d6a17a9ad50b3689499ba7dc8166544d0",
+  "createdAt": "2026-09-08T16:14:15Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,7 +9,7 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 500,
+      "elapsedMs": 324,
       "executionElapsedMs": 0,
       "maxConcurrentProcesses": 0,
       "nodesExecuted": 0,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 500,
+    "elapsedMs": 324,
     "executionElapsedMs": 0,
-    "filesHashed": 24,
-    "filesRead": 26,
+    "filesHashed": 10,
+    "filesRead": 12,
     "gitCalls": 8,
     "maxConcurrentProcesses": 0,
     "nodesExecuted": 0,
@@ -36,15 +36,7 @@
     "nodesReused": 1,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/superpowers/plans/2026-09-08-status-fact-reuse.md",
-        "docs/work-items/WI-685-p1-status-fact-reuse.ja.md",
-        "docs/work-items/WI-685-p1-status-fact-reuse.md",
-        "docs/work-items/WI-685-p1-status-fact-reuse.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "2dee60a8aa97ba229d117cb210b245894b3347d2",
       "dependencyConfidence": "unknown",
@@ -89,7 +81,7 @@
         "passed": true,
         "protected": false,
         "reason": "fresh_exact_binding",
-        "receiptId": "sha256:33fe8e943daec4b9924c3b682e7a099a5c3a723ae37dd84ddb9bb2878ed4974a",
+        "receiptId": "sha256:acdc9bb5b0713ad86b0fa3b056147003d5051eae6a9e72528e2044b4f37ef7a6",
         "reused": true,
         "satisfiedBy": "reused_receipt",
         "state": "fresh",
@@ -100,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-685-p1-status-fact-reuse"
   },
-  "receiptDigest": "sha256:d6d00c3354c75e630d98f9e07d32a5c1e527c6d83a6bbc621f26ea30beca5178",
+  "receiptDigest": "sha256:4b191c40e62b5bdf6793ed9fd39ede5cdeb2021d93c0ec73269c0cd31b28b281",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

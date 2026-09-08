@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-685-p1-status-fact-reuse.contract.json",
-    ".ai/work-items/active/WI-685-p1-status-fact-reuse.summary.json"
+    ".ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json",
+    ".ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
   ],
   "checkpointAt": "2026-09-08T14:57:11Z",
-  "checkpointContractDigest": "sha256:5666cacc68581549c84d94e6cbccc42cbd9b03f1a0cb022f4fe050a3acc839ec",
+  "checkpointContractDigest": "sha256:b9bc5bc2b71cf0478a1d0f4c2ed11a8d6a17a9ad50b3689499ba7dc8166544d0",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -104,25 +104,88 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
   "createdAt": "2026-09-08T14:51:53Z",
-  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-685-p1-status-fact-reuse.md",
+      ".ai/evidence/external/WI-685-p1-status-fact-reuse.measurement-summary.json",
+      ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json"
+    ],
+    "reason": "The implementation reuses immutable status-observation facts only within one repository and Work Item observation, preserves canonical error precedence and output parity, and is accepted only against paired baseline/candidate evidence under the declared performance budget.",
+    "state": "resolved"
+  },
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-08T16:03:37Z",
-  "preflightContractDigest": "sha256:5666cacc68581549c84d94e6cbccc42cbd9b03f1a0cb022f4fe050a3acc839ec",
+  "preflightAt": "2026-09-08T16:14:15Z",
+  "preflightContractDigest": "sha256:b9bc5bc2b71cf0478a1d0f4c2ed11a8d6a17a9ad50b3689499ba7dc8166544d0",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-08T16:03:57Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.measurement-summary.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-forward-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-forward-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-reverse-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-reverse-round20.json"
+      ],
+      "required": true,
+      "scenario": "many-historical-wi baseline and candidate",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.json"
+      ],
+      "required": true,
+      "scenario": "valid finalization transition chain",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.preflight-negative-tests.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.json"
+      ],
+      "required": true,
+      "scenario": "malformed, missing, forked or digest-mismatched transition",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json"
+      ],
+      "required": true,
+      "scenario": "repository, Work Item and observation isolation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-changed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-changed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.normalized.json"
+      ],
+      "required": true,
+      "scenario": "output, error and exit-code parity",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T16:14:20Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:f9eb674b5495e124855dbe36344027d61fd80545df29823a77a23fadab1e9f5a",
   "workItemId": "WI-685-p1-status-fact-reuse"
 }

@@ -8,14 +8,17 @@
     "不引入跨请求、跨仓库、跨 Work Item 的缓存，不改变快照边界、授权边界、恢复能力、历史证据字节、治理判断或 Outcome 语义；执行前与执行后观察不共享。",
     "交付包含英文、简体中文、日文 Work Item 文档与 reference-parity 登记，记录瓶颈证据、假设、有效性边界、原始/汇总测量、正确性、平台限制、未验证事项、PR、证据和最终治理状态。"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-08T16:14:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:92e180bc38ca3b6fba62ba5a0fd65920ced9f8efd8c26faa665da08408f8805a",
   "evidenceRefs": [
     ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -23,11 +26,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -37,27 +39,25 @@
       "repositorySnapshotDigest": "sha256:a4fdac9271dcfbbcc1d352cf7ec13a1aa6a48d9eef9599bbbdfdf6cab9f6daf8",
       "workItemId": "WI-685-p1-status-fact-reuse"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-685-p1-status-fact-reuse.summary.json"
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-685-p1-status-fact-reuse.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-685-p1-status-fact-reuse.summary.json"
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-685-p1-status-fact-reuse.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-685-p1-status-fact-reuse.summary.json"
         }
       ],
       "evidence": [
@@ -76,15 +76,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -95,7 +87,7 @@
             ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -105,15 +97,23 @@
             ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-685-p1-status-fact-reuse.contract.json"
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
           ],
           "inference": false,
           "text": "降低大量历史 Work Item 仓库上 status 从请求进入到可信治理投影的重复文件读取、解析和链解析成本，同时保持 Calibrated Human-Agent Trust 及全部 fail-closed 语义。"
@@ -122,23 +122,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-685-p1-status-fact-reuse.contract.json"
+            ".ai/work-items/archive/WI-685-p1-status-fact-reuse.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-685-p1-status-fact-reuse"
   },
+  "taskReportDigest": "sha256:6798e68a8b22f28d2a18a8e3cd19ff0df6ec9dece136ede843d3ae12a24cad35",
+  "taskReportMarkdownDigest": "sha256:d692ba8713bb3c4f4ebb97e0efc92a542abf89d968613c367c030d2ac3460408",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-685-p1-status-fact-reuse.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-685-p1-status-fact-reuse"
 }

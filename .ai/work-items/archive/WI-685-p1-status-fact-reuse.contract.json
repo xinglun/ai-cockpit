@@ -33,10 +33,79 @@
     "baseRemote": "origin",
     "branch": "codex/wi-685-p1-status-fact-reuse",
     "provider": "github",
-    "pullRequest": "pending",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/686",
     "worktree": "/private/tmp/ai-cockpit-wi-685-p1-status-fact-reuse"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.measurement-summary.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-forward-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-forward-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-reverse-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-reverse-round20.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-round40-load-noise.json"
+      ],
+      "expected": "status target-path latency and repeated file parsing decrease under the same environment",
+      "required": true,
+      "scenario": "many-historical-wi baseline and candidate",
+      "status": "verified",
+      "verificationPlan": "runtime_benchmark.sh with raw baseline/candidate samples and a bounded internal counter"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.json"
+      ],
+      "expectedResult": "same resolved head, sequence, digest, historical classification and governance output",
+      "required": true,
+      "scenario": "valid finalization transition chain",
+      "status": "verified",
+      "verificationPlan": "status projection fixture and normalized baseline/candidate comparison"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.preflight-negative-tests.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.json"
+      ],
+      "expectedOutcome": "same explicit error or unknown/fail-closed boundary; no stale success",
+      "required": true,
+      "scenario": "malformed, missing, forked or digest-mismatched transition",
+      "status": "verified",
+      "verificationPlan": "existing negative fixtures plus focused regression tests"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json"
+      ],
+      "expectedResult": "no cross-repository, cross-Work-Item or cross-request reuse",
+      "required": true,
+      "scenario": "repository, Work Item and observation isolation",
+      "status": "verified",
+      "verificationPlan": "isolated repository fixtures and sequential independent status calls"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-changed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-changed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.normalized.json",
+        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.normalized.json"
+      ],
+      "expectedResult": "normalized JSON, errors, evidence bindings and exit codes remain equal",
+      "required": true,
+      "scenario": "output, error and exit-code parity",
+      "status": "verified",
+      "verificationPlan": "baseline/candidate CLI comparison on clean, changed and failure paths"
+    }
+  ],
   "scope": [
     "crates/cockpit-repository/src/status_projection.rs",
     "crates/cockpit-repository/src/lib.rs",
@@ -65,75 +134,6 @@
     "Human authorization: repository owner explicitly authorized continuation on 2026-09-08; pause/resume authorization and evidence-preservation rule are inherited and must remain recorded."
   ],
   "state": "implementation_active",
-  "scenarioCoverage": [
-    {
-      "scenario": "many-historical-wi baseline and candidate",
-      "required": true,
-      "status": "verified",
-      "evidence": [
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.measurement-summary.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-forward-round20.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-forward-round20.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-reverse-round20.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-reverse-round20.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-round40-load-noise.json"
-      ],
-      "expected": "status target-path latency and repeated file parsing decrease under the same environment",
-      "verificationPlan": "runtime_benchmark.sh with raw baseline/candidate samples and a bounded internal counter"
-    },
-    {
-      "scenario": "valid finalization transition chain",
-      "required": true,
-      "status": "verified",
-      "evidence": [
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.json"
-      ],
-      "expectedResult": "same resolved head, sequence, digest, historical classification and governance output",
-      "verificationPlan": "status projection fixture and normalized baseline/candidate comparison"
-    },
-    {
-      "scenario": "malformed, missing, forked or digest-mismatched transition",
-      "required": true,
-      "status": "verified",
-      "evidence": [
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.preflight-negative-tests.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.json"
-      ],
-      "expectedOutcome": "same explicit error or unknown/fail-closed boundary; no stale success",
-      "verificationPlan": "existing negative fixtures plus focused regression tests"
-    },
-    {
-      "scenario": "repository, Work Item and observation isolation",
-      "required": true,
-      "status": "verified",
-      "evidence": [
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.observation-counts.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json"
-      ],
-      "expectedResult": "no cross-repository, cross-Work-Item or cross-request reuse",
-      "verificationPlan": "isolated repository fixtures and sequential independent status calls"
-    },
-    {
-      "scenario": "output, error and exit-code parity",
-      "required": true,
-      "status": "verified",
-      "evidence": [
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.output-parity.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-clean-status.normalized.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-clean-status.normalized.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-changed-status.normalized.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-changed-status.normalized.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.baseline-final-malformed-status.normalized.json",
-        ".ai/evidence/external/WI-685-p1-status-fact-reuse.candidate-final-malformed-status.normalized.json"
-      ],
-      "expectedResult": "normalized JSON, errors, evidence bindings and exit codes remain equal",
-      "verificationPlan": "baseline/candidate CLI comparison on clean, changed and failure paths"
-    }
-  ],
   "verification": [
     "cargo fmt --all -- --check",
     "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
