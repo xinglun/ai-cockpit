@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d911f5bd03bd8b4e742dece1dfbf8ea9cdac727bae5c932e28ddb68690c29a21",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "reason": "Explicitly confirm the same bounded high-risk WI-768 Contract after the reviewed v0.2.89 implementation commit. This decision authorizes continued verification and release recovery only; it does not assert that tests, hosted checks, release artifacts, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-09T18:52:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
+  "schemaVersion": 1,
+  "workItemId": "WI-768-release-v0-2-89"
+}
