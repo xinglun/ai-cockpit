@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T14:16:40Z",
+  "files": {
+    "contractDigest": "sha256:3096e67fea49d97909e5112b0204f811eedd05448f399123449a34f00978e83d",
+    "contractPath": ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json",
+    "eventsDigest": "sha256:4a6777a415514acae6e1acb0c46e91b66dd13d54f99e72bf2bba8d65a424e340",
+    "eventsPath": ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.events.jsonl",
+    "outcomeDigest": "sha256:f397df1ecf163820d1865916e8f6f064995c2cdf1b6c44cae66fd2913858c0a8",
+    "outcomePath": ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.outcome.json",
+    "summaryDigest": "sha256:7a9019fc63c6efc709fb8abf8a5b5ecfac55fabc6ec34be1851b4cc1749e9ba5",
+    "summaryPath": ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.summary.json",
+    "taskReportDigest": "sha256:4894a79f4a56d2973d1c7ab2b2ae754a74a565bcd9c0ec338b7fc11303d2e6af",
+    "taskReportMarkdownDigest": "sha256:8e70a7a4f3c6468d9e570b7a29f31f45255d35997d4b4f374d7d2a542008695e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+}

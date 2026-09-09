@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d88f52a1bb7a5936abb4546a24af21d718910bf2",
+    "name": "codex/wi-715-wi713-p0b-redelivery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3b629ffea98fb9702d7220cd2222b0ee9d181c806387d55886129134ee2848ba",
+  "operationId": "github-pr-707-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7ada6cd0928a877fe2bc719689abfe99bd532d7e",
+    "headRevision": "d88f52a1bb7a5936abb4546a24af21d718910bf2",
+    "mergeCommit": "d1141480fb7a045979098480c3770d06002e2a87",
+    "number": 707,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/707"
+  },
+  "reason": "PR #707 passed all hosted checks and merged as d1141480fb7a045979098480c3770d06002e2a87; origin/main was fast-forward synchronized, and the exact WI-715 branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "github-pr-707-finalization-20260909",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-715-wi713-p0b-redelivery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/707",
+    "worktree": "/private/tmp/ai-cockpit-wi-715-wi713-p0b-redelivery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T01:16:24Z",
+  "workItemId": "WI-715-wi713-p0b-redelivery",
+  "worktree": {
+    "branch": "codex/wi-715-wi713-p0b-redelivery",
+    "headRevision": "d88f52a1bb7a5936abb4546a24af21d718910bf2",
+    "path": "/private/tmp/ai-cockpit-wi-715-wi713-p0b-redelivery",
+    "worktreeId": "WI-715-wi713-p0b-redelivery"
+  }
+}

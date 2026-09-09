@@ -1,0 +1,300 @@
+{
+  "acceptanceResults": [
+    "默认人工 Outcome 包含结果、关键变化、剩余不确定性、人的下一步四个阅读优先部分，并在结果中分开表达验证、生命周期和人工决定。",
+    "摘要仅基于现有 OutcomeV2 和 TaskOutcomeReport 数据按确定性规则生成，不调用 LLM 或外部服务。",
+    "CLI 与 MCP 共用摘要逻辑，对相同输入表达相同事实；机器 JSON 契约保持不变。",
+    "完整报告保留审计信息并有明确查看方式；阻断项、待人工决定、证据无效或过期状态不得因摘要长度被隐藏；可截断的其他列表显示省略数量和完整查看方式。",
+    "原始证据文本只作为数据处理，不能成为摘要指令或授权来源。",
+    "使用真实 Outcome 结构覆盖普通完成、阻断项、多列表、多语言、缺失收益、历史/已替代、过期/无效证据。",
+    "文档与发布说明明确记录默认行为变化，并保留 WI-703 的不可变 archive/evidence 与 successor lineage。"
+  ],
+  "createdAt": "2026-09-08T22:31:58Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1eb8fd38400891a2e342d546ff7346da154edbd02da3ebafa2b772a0b64114f8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8666edd9fdd4e8a5bd26ee43795a8b5939a0fc40603c3b37ca872097934120ec",
+      "workItemId": "WI-713-wi703-current-base-revalidation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-669-p0b-outcome-summary.recovery.19fd6109e7b826919cde18fb6bf3ec6138808dc8d4ad3579ae9cef8b5bcac23d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-669-p0b-outcome-summary.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-703-wi669-current-base-revalidation.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-669-p0b-outcome-summary.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-703-wi669-current-base-revalidation.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/reuse/index.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/reuse/receipts/787750e65c6c8c7b412633adc84edcc660d1e689bb575a53182a07e00ee0524e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/reuse/receipts/c5271ac7016ff0c286451330b723c70b2f35430fcb8a53fb716750b195ecf35d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-669-p0b-outcome-summary.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-669-p0b-outcome-summary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-669-p0b-outcome-summary.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-669-p0b-outcome-summary.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-669-p0b-outcome-summary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-669-p0b-outcome-summary.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-669-p0b-outcome-summary.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-703-wi669-current-base-revalidation.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-703-wi669-current-base-revalidation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-703-wi669-current-base-revalidation.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-703-wi669-current-base-revalidation.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-703-wi669-current-base-revalidation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-703-wi669-current-base-revalidation.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-703-wi669-current-base-revalidation.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改变机器契约、判定规则、退出码、授权语义或历史证据的前提下，交付共享的确定性四段式摘要和明确的完整报告入口。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-713-wi703-current-base-revalidation"
+  },
+  "taskReportDigest": "sha256:09c3198d7aece9976f081d69602fcdc4bb96678b884dc48b0dba09cd4b78271e",
+  "taskReportMarkdownDigest": "sha256:03d7c907ead992ca35214def067ec2dfa0a59b2702d5d1dbaddbcf3b1f75e2a0",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-713-wi703-current-base-revalidation"
+}

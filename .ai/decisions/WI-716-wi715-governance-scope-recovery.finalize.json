@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "60c4fa7cdd4c4c582470edb023e9750c8361d1e7",
+    "name": "codex/wi-716-wi715-governance-scope-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:8af5752394eb0de9f67837eecbcdc3ccdb4031b223ab5bfbc160e0994596f665",
+  "operationId": "github-pr-709-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d1141480fb7a045979098480c3770d06002e2a87",
+    "headRevision": "60c4fa7cdd4c4c582470edb023e9750c8361d1e7",
+    "mergeCommit": "7274ac90f40574a551881bac35b4b9f88f35f7dc",
+    "number": 709,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/709"
+  },
+  "reason": "PR #709 passed all hosted checks and merged as 7274ac90f40574a551881bac35b4b9f88f35f7dc; origin/main was synchronized to that merge, and the exact WI-716 branch and dedicated worktree were removed after cleanup verification.",
+  "receiptId": "github-pr-709-finalization-20260909",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-716-wi715-governance-scope-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/709",
+    "worktree": "/private/tmp/ai-cockpit-wi-716-wi715-governance-scope-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T01:48:15Z",
+  "workItemId": "WI-716-wi715-governance-scope-recovery",
+  "worktree": {
+    "branch": "codex/wi-716-wi715-governance-scope-recovery",
+    "headRevision": "60c4fa7cdd4c4c582470edb023e9750c8361d1e7",
+    "path": "/private/tmp/ai-cockpit-wi-716-wi715-governance-scope-recovery",
+    "worktreeId": "WI-716-wi715-governance-scope-recovery"
+  }
+}

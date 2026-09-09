@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T21:57:31Z",
+  "files": {
+    "contractDigest": "sha256:534a7b209c95943c23dda40e85276d4376bd07fe497aa487c95010341add949a",
+    "contractPath": ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.contract.json",
+    "eventsDigest": "sha256:40d4311925721ae9815626d9c7e768a7fa4a2a86e669067b735ebad7464877fc",
+    "eventsPath": ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.events.jsonl",
+    "outcomeDigest": "sha256:d8a5c6a89ad9256ad4d50585752fd5941d6eeab28c5a303ff0350ba7b4af04cf",
+    "outcomePath": ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.outcome.json",
+    "summaryDigest": "sha256:6731e46fc1379542b3f4cb24b3cbb05d0f2a5710db3a6ebdbd46614fe467733a",
+    "summaryPath": ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.summary.json",
+    "taskReportDigest": "sha256:d5c52fb7bdc54056bc821024c080ad2cb3078dcbf0a586f80a5a0641c2723653",
+    "taskReportMarkdownDigest": "sha256:404d29aba1897a0823adfb07bff2ee06e13339a1c8b4cef5111cd4d1583dec2b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-710-p1-human-decision-request-completeness.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-710-p1-human-decision-request-completeness"
+}

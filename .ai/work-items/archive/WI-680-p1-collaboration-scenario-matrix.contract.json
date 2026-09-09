@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "A1: docs/reference/collaboration-scenario-matrix.json contains a structured scenario table covering lifecycle transition, evidence, authorization, verification, merge/close, historical query, Agent/session hand-off, and multi-language/entry-point categories, each entry stating sourceType, citation, precondition, action, expected result, and exercised invariant(s).",
+    "A2: at least one third of scenarios are sourceType=observed, citing an exact command/output produced during this repository's own real Runtime use in this delivery, not fabricated.",
+    "A3: the tri-language markdown companion accurately summarizes the JSON without contradicting it, and states its own verification boundary (docs-only, not an automated test harness).",
+    "A4: docs/reference/README.md(+zh-CN/ja) gain exactly one new index entry each for the scenario matrix.",
+    "A5: docs/reference/reference-parity.md(+zh-CN/ja) register both WI-679 and WI-680 with the pre-archive 'In progress -> Implemented after verified close' status, each row's first appearance preceding this Work Item's own verification-evidence commit in git history.",
+    "A6: bash tests/docs/documentation_acceptance.sh passes for all new and modified files."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+  "createdAt": "2026-09-08T13:25:15Z",
+  "goal": "A reader can see, for each required scenario category, a concrete real-or-documented example of what the Runtime actually does, with clearly marked source type (observed/documented/designed), so scenario coverage is checkable rather than aspirational.",
+  "intent": "Deliver a docs-only, state/transition-derived collaboration scenario matrix (structured JSON + tri-language readable companion) covering legal/illegal lifecycle transitions, evidence defects, authorization reuse vs new authorization, verification outcomes, merge/close boundaries, historical query, and Agent/session hand-off, per explicit repository-owner delegation to continue the AI Cockpit collaboration-language initiative. Also registers WI-679 and WI-680 in the tri-language reference-parity ledger and adds WI-679's and WI-680's own docs/work-items pages, since WI-679 could not complete this registration in the correct pre-archive commit order without rewriting already-pushed history (a known, precedented gap type in this repository; see WI-675 -> WI-676).",
+  "mode": "docs",
+  "outOfScope": [
+    "automated invariant checks / test-repo execution harness (follow-on Work Item)",
+    "end-to-end consistency verification in a controlled test repository (follow-on Work Item)",
+    "handoff-completeness automated check (follow-on Work Item)",
+    "any change to CLI/MCP behavior; Contract/Outcome schema; lifecycle state machine",
+    "the big reference-source feature-parity ledger content (only WI row registration is touched)",
+    "external participant recruitment; invitation; interview; or evaluation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-680-p1-collaboration-scenario-matrix",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/680",
+    "worktree": "/private/tmp/ai-cockpit-wi-680-p1-collaboration-scenario-matrix"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/collaboration-scenario-matrix.md",
+    "docs/reference/collaboration-scenario-matrix.zh-CN.md",
+    "docs/reference/collaboration-scenario-matrix.ja.md",
+    "docs/reference/collaboration-scenario-matrix.json",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-679-p0-collaboration-language-contract.md",
+    "docs/work-items/WI-679-p0-collaboration-language-contract.zh-CN.md",
+    "docs/work-items/WI-679-p0-collaboration-language-contract.ja.md",
+    "docs/work-items/WI-680-p1-collaboration-scenario-matrix.md",
+    "docs/work-items/WI-680-p1-collaboration-scenario-matrix.zh-CN.md",
+    "docs/work-items/WI-680-p1-collaboration-scenario-matrix.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+}

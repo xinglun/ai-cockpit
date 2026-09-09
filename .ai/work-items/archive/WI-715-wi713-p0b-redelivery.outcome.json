@@ -1,0 +1,188 @@
+{
+  "acceptanceResults": [
+    "默认人工 Outcome 包含结果、关键变化、剩余不确定性、人的下一步四个阅读优先部分，并在结果中分开表达验证、生命周期和人工决定。",
+    "摘要仅基于现有 OutcomeV2 和 TaskOutcomeReport 数据按确定性规则生成，不调用 LLM 或外部服务。",
+    "CLI 与 MCP 共用摘要逻辑，对相同输入表达相同事实；机器 JSON 契约保持不变。",
+    "完整报告保留审计信息并有明确查看方式；阻断项、待人工决定、证据无效或过期状态不得因摘要长度被隐藏；可截断的其他列表显示省略数量和完整查看方式。",
+    "原始证据文本只作为数据处理，不能成为摘要指令或授权来源。",
+    "使用真实 Outcome 结构覆盖普通完成、阻断项、多列表、多语言、缺失收益、历史/已替代、过期/无效证据。",
+    "文档与发布说明明确记录默认行为变化，并保留 WI-714 的不可变 recovery/lineage 与前置历史证据。"
+  ],
+  "createdAt": "2026-09-09T00:34:56Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:79ba4fea809c5aeab99570351c96daabcad789040489b94308b58cc7bf0c7933",
+  "evidenceRefs": [
+    ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ca4d59d796278d1aedc08fec303d6f7d4c7ed00e15351729e5e62cda39338461",
+      "workItemId": "WI-715-wi713-p0b-redelivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-714-wi713-current-base-revalidation.recovery.3efe3143da8d84cb32db0877de59ee702b12034925d300b895f5449cb756d676.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-714-wi713-current-base-revalidation.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改变机器契约、判定规则、退出码、授权语义或历史证据的前提下，交付共享的确定性四段式摘要和明确的完整报告入口。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-715-wi713-p0b-redelivery"
+  },
+  "taskReportDigest": "sha256:0e009ff75c40e844a9fa47aaf998f277e13aace262eb6a99522f951ffed355f7",
+  "taskReportMarkdownDigest": "sha256:7eb39267cc2a2097edfa089200f8bef18d7582bba0fc5f713ff07d51f9bd04ba",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-715-wi713-p0b-redelivery"
+}

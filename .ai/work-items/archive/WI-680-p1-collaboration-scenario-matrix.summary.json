@@ -1,0 +1,104 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "scenarios[]",
+          "path": "docs/reference/collaboration-scenario-matrix.json",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "scenarios[].sourceType",
+          "path": "docs/reference/collaboration-scenario-matrix.json",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "## Known limitations",
+          "path": "docs/reference/collaboration-scenario-matrix.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Collaboration scenario matrix index entry",
+          "path": "docs/reference/README.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "WI-680 row",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "python3 tests/ci/governance_integrity_gate.py"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "results[0]",
+          "path": ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json",
+          "type": "command-output",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json",
+    ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T13:32:03Z",
+  "checkpointContractDigest": "sha256:75e1a0e68200e50d94205cbe0311eac5bb006782cf8fb2ff8cdf86420f5ae137",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8f2938f93d80f48acfbb5814d301d461ff3955ad07e4f79e56d9c89d25e0497b",
+  "createdAt": "2026-09-08T13:25:15Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/collaboration-scenario-matrix.json contains 24 scenarios across all required categories",
+      "governance integrity gate passed: 594 work items, no findings for WI-674/WI-680"
+    ],
+    "reason": "The delivered scenario matrix and its tri-language companion match the declared intent: a state/transition-derived matrix prioritizing observed and documented cases, plus the discovered WI-674 promotion dependency and WI-680's own parity registration.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-08T14:16:35Z",
+  "preflightContractDigest": "sha256:75e1a0e68200e50d94205cbe0311eac5bb006782cf8fb2ff8cdf86420f5ae137",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8f2938f93d80f48acfbb5814d301d461ff3955ad07e4f79e56d9c89d25e0497b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T14:16:35Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+}

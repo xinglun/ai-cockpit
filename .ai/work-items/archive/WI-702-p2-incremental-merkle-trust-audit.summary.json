@@ -1,0 +1,209 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Intent and boundary",
+          "path": "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.md",
+          "type": "call-graph-audit",
+          "verification": "Current repository search records no production IncrementalMerkle caller or protected-decision binding."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "incremental_merkle_detects_same_length_content_with_restored_mtime",
+          "path": "crates/cockpit-git/tests/snapshot.rs",
+          "type": "focused-test",
+          "verification": "Passed; the root digest changes and files_reused remains zero."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "incremental_merkle_handles_replacement_deletion_rename_and_type_change",
+          "path": "crates/cockpit-git/tests/snapshot.rs",
+          "type": "focused-test",
+          "verification": "Passed; transitions are handled deterministically and directory replacement fails with NotAFile."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "stable_read_rejects_detectable_change_during_read",
+          "path": "crates/cockpit-git/src/lib.rs",
+          "type": "unit-test",
+          "verification": "Passed; the before/after guard returns ChangedDuringRead."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "scope, outOfScope, resourceContext, and sources",
+          "path": ".ai/work-items/active/WI-702-p2-incremental-merkle-trust-audit.contract.json",
+          "type": "scope-and-governance",
+          "verification": "The Contract binds this repository and Work Item, excludes other agents, and records the repository-owner authorization."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json",
+    ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T21:13:06Z",
+  "checkpointContractDigest": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:42c81262736ed2d11a9e5ec0c14bb1e1ac235aaa9787592cc5559a677e9d0d56",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:13:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ec0a5b390a29d4b752694a674e399b891e2284e8453c6a1d42ab364fa2fd076d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:1bf31d582236b64cbf08c9ea5315336a441c50dee88da4d427e38c295d08b082",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:42c81262736ed2d11a9e5ec0c14bb1e1ac235aaa9787592cc5559a677e9d0d56",
+      "previousContractHash": "sha256:42c81262736ed2d11a9e5ec0c14bb1e1ac235aaa9787592cc5559a677e9d0d56",
+      "reason": "Correct the Contract requiredEvidenceClasses to the Runtime-supported verification category; retain business evidence in Summary controls and preserve all existing tests and receipts.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:25:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ec0a5b390a29d4b752694a674e399b891e2284e8453c6a1d42ab364fa2fd076d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:42c81262736ed2d11a9e5ec0c14bb1e1ac235aaa9787592cc5559a677e9d0d56",
+      "previousContractHash": "sha256:1bf31d582236b64cbf08c9ea5315336a441c50dee88da4d427e38c295d08b082",
+      "reason": "Bind the already-created reviewed PR #700 resource finalization plan after the earlier verification; preserve the stale predecessor receipt and require fresh current-bound verification before finish.",
+      "recorded": true,
+      "recordedAt": "2026-09-08T21:30:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ec0a5b390a29d4b752694a674e399b891e2284e8453c6a1d42ab364fa2fd076d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ec0a5b390a29d4b752694a674e399b891e2284e8453c6a1d42ab364fa2fd076d",
+  "createdAt": "2026-09-08T21:06:36Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.md",
+      "crates/cockpit-git/tests/snapshot.rs"
+    ],
+    "reason": "The implementation prioritizes content identity and fail-closed behavior over metadata cache reuse, matching the Calibrated Human-Agent Trust intent.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-08T21:33:49Z",
+  "preflightContractDigest": "sha256:bbcec606feaa8735f63e212c569fd1c82a7dcaa82216879103870ac4da59541b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ec0a5b390a29d4b752694a674e399b891e2284e8453c6a1d42ab364fa2fd076d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-git/tests/snapshot.rs",
+        "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.md"
+      ],
+      "expected": "The current call graph shows IncrementalMerkle is not used by a protected governance decision, or identifies the exact protected caller before any implementation change.",
+      "reason": "Current repository search found only the helper definition and focused tests; no production construction or protected-decision call was found.",
+      "required": true,
+      "scenario": "production-call-graph-and-protected-decision-boundary",
+      "status": "verified",
+      "verificationPlan": "Search the current repository call graph, inspect the relevant crate tests, and retain the result in the Work Item evidence and tri-language report."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-git/tests/snapshot.rs"
+      ],
+      "expected": "A same-length content change with restored mtime is reread and yields the new digest, or returns explicit unknown rather than reusing the old digest.",
+      "reason": "The focused test changes old/new equal-length content, restores the original mtime, and observes a changed Merkle root with one hash.",
+      "required": true,
+      "scenario": "same-length-content-change-with-restored-mtime",
+      "status": "verified",
+      "verificationPlan": "Add and run a focused cockpit-git test that changes content, restores the original mtime, refreshes, and compares the root digest."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-git/tests/snapshot.rs"
+      ],
+      "expected": "Replacement, deletion, rename, and file-to-directory changes are handled deterministically and fail closed when the declared path is no longer a regular file.",
+      "reason": "The focused transition test covers replacement, rename, deletion, and directory replacement with NotAFile.",
+      "required": true,
+      "scenario": "replacement-deletion-rename-and-type-change",
+      "status": "verified",
+      "verificationPlan": "Add and run focused cockpit-git tests covering each filesystem transition and retain the test receipt."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-git/src/lib.rs"
+      ],
+      "expected": "A detectable metadata change across a read returns an explicit content-identity error and never silently claims a stable digest.",
+      "reason": "The production read path compares before/after observations and the unit test deterministically mutates the file during the injected read.",
+      "required": true,
+      "scenario": "detectable-change-during-read",
+      "status": "verified",
+      "verificationPlan": "Exercise the before/after metadata stability guard with a deterministic test seam and retain the focused test receipt."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/WI-702-p2-incremental-merkle-trust-audit.contract.json",
+        "docs/work-items/WI-702-p2-incremental-merkle-trust-audit.md"
+      ],
+      "expected": "The audit and implementation remain bound to this repository, Work Item, declared paths, and current observation; no other agent tree or evidence is touched.",
+      "reason": "The dedicated worktree and Contract scope bind the changes to WI-702; other agent worktrees, branches, PRs, and evidence were not modified.",
+      "required": true,
+      "scenario": "repository-and-work-item-isolation",
+      "status": "verified",
+      "verificationPlan": "Run the governance integrity gate, inspect changed paths and Work Item bindings, and retain the isolation evidence."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-08T21:33:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+}
