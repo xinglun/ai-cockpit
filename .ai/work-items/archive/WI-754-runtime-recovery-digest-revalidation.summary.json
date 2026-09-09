@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-754-runtime-recovery-digest.recovery.json",
+    ".ai/work-items/archive/WI-754-runtime-recovery-digest-revalidation.contract.json",
+    ".ai/work-items/archive/WI-754-runtime-recovery-digest-revalidation.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T11:32:26Z",
+  "checkpointContractDigest": "sha256:c4d2b8c3bb464aaea0eb32882e0c7ae842903111397c92636c33cc7157dd93f8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:cd3b291f3be739d41a58c505a7be411d4d4af5bc426740dc27c70f39862c1237",
+  "createdAt": "2026-09-09T11:30:53Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:0c1b52a15476e9d7b0f9f1e5e13e8ffd59f6ff2a5345a289877e3313841dbeb6",
+  "predecessorWorkItemId": "WI-754-runtime-recovery-digest",
+  "preflightAt": "2026-09-09T11:33:49Z",
+  "preflightContractDigest": "sha256:c4d2b8c3bb464aaea0eb32882e0c7ae842903111397c92636c33cc7157dd93f8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:cd3b291f3be739d41a58c505a7be411d4d4af5bc426740dc27c70f39862c1237",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-754-runtime-recovery-digest.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T11:33:53Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-754-runtime-recovery-digest-revalidation"
+}
