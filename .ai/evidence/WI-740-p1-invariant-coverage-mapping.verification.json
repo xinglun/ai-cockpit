@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:13b6849a0aa1db241c61bfc17d2587bff26b7f725cc4f8bba0148cd9a5de09f5",
-  "createdAt": "2026-09-09T03:14:45Z",
+  "contractDigest": "sha256:e2d08e2419aa55f5b6c9e0c7b569be7b28f036ffce090372212ef2203096f0ac",
+  "createdAt": "2026-09-09T03:19:53Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 200,
-      "executionElapsedMs": 60,
+      "elapsedMs": 187,
+      "executionElapsedMs": 51,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 200,
-    "executionElapsedMs": 60,
-    "filesHashed": 17,
-    "filesRead": 17,
+    "elapsedMs": 187,
+    "executionElapsedMs": 51,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,14 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/README.ja.md",
-        "docs/reference/README.md",
-        "docs/reference/README.zh-CN.md",
-        "docs/reference/collaboration-invariant-coverage.ja.md",
-        "docs/reference/collaboration-invariant-coverage.md",
-        "docs/reference/collaboration-invariant-coverage.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "caa6ddffcc1847c9a1161e1d8aa414f1acabd11e",
       "dependencyConfidence": "unknown",
@@ -51,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 60,
+      "executionElapsedMs": 51,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -99,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-740-p1-invariant-coverage-mapping"
   },
-  "receiptDigest": "sha256:78d4cc9e29bbe0dcd13eb7fbabae43851d44314ccbc9b30c9668c4505434af08",
+  "receiptDigest": "sha256:f57050d7730aa2e67ad2210194b06c816082073633e6d970cbbe7057a116628f",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:d9cca57ea620f80aaae2c88032adff6618ac1c0e60a914731de54cb2faa86781",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

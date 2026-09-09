@@ -68,11 +68,11 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-740-p1-invariant-coverage-mapping.contract.json",
-    ".ai/work-items/active/WI-740-p1-invariant-coverage-mapping.summary.json"
+    ".ai/work-items/archive/WI-740-p1-invariant-coverage-mapping.contract.json",
+    ".ai/work-items/archive/WI-740-p1-invariant-coverage-mapping.summary.json"
   ],
   "checkpointAt": "2026-09-09T03:13:57Z",
-  "checkpointContractDigest": "sha256:13b6849a0aa1db241c61bfc17d2587bff26b7f725cc4f8bba0148cd9a5de09f5",
+  "checkpointContractDigest": "sha256:e2d08e2419aa55f5b6c9e0c7b569be7b28f036ffce090372212ef2203096f0ac",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:d9cca57ea620f80aaae2c88032adff6618ac1c0e60a914731de54cb2faa86781",
   "createdAt": "2026-09-09T03:07:59Z",
@@ -85,21 +85,20 @@
     "state": "resolved"
   },
   "mode": "docs",
-  "preflightAt": "2026-09-09T03:14:45Z",
-  "preflightContractDigest": "sha256:13b6849a0aa1db241c61bfc17d2587bff26b7f725cc4f8bba0148cd9a5de09f5",
+  "preflightAt": "2026-09-09T03:19:53Z",
+  "preflightContractDigest": "sha256:e2d08e2419aa55f5b6c9e0c7b569be7b28f036ffce090372212ef2203096f0ac",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:d9cca57ea620f80aaae2c88032adff6618ac1c0e60a914731de54cb2faa86781",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T03:14:44.690769+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T03:19:56Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:21f7da18059db0d2072444460b03d0056506481ed40c9d0982464bf5faf67d63",
   "workItemId": "WI-740-p1-invariant-coverage-mapping"
 }
