@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:8788c63be15815f0eb8e5a86de1ffceccfc970b049a3ac7820cc1c88789d7921",
-  "createdAt": "2026-09-09T19:12:58Z",
+  "contractDigest": "sha256:996a06b7b4e7092e788e0b4a5d06164853505a3fbcdb6d145ea80698a95036ea",
+  "createdAt": "2026-09-09T19:38:04Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 172310,
-      "executionElapsedMs": 171998,
+      "elapsedMs": 185328,
+      "executionElapsedMs": 184930,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 172310,
-    "executionElapsedMs": 171998,
-    "filesHashed": 5,
-    "filesRead": 5,
+    "elapsedMs": 185328,
+    "executionElapsedMs": 184930,
+    "filesHashed": 10,
+    "filesRead": 12,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -44,9 +44,9 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 171998,
-      "finalTier": "T0",
-      "initialTier": "T0",
+      "executionElapsedMs": 184930,
+      "finalTier": "T2",
+      "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -60,7 +60,7 @@
         "cli_route_stage_explicit"
       ],
       "sharedNodes": [],
-      "stage": "task",
+      "stage": "release",
       "workItemId": "WI-768-release-v0-2-89"
     },
     "planningElapsedMs": 0,
@@ -70,21 +70,21 @@
     "protectedNodesSkipped": 0,
     "receiptCandidates": [],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "rerunStale": 0,
+    "rerunStale": 1,
     "rerunUnknown": 0,
     "results": [
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ff1a22573c6e6a0b7a3ed93935a823c900f50a0480a7de859d55a3a38afbaa21",
-        "outputTruncated": false,
+        "outputDigest": "sha256:57e7a8372eb49bf722f4c99bb5ef73364ea34631834c26f9f6acec9404d0ca6b",
+        "outputTruncated": true,
         "passed": true,
         "protected": false,
-        "reason": "reuse_not_configured",
+        "reason": "evidence_expired",
         "receiptId": null,
         "reused": false,
         "satisfiedBy": "execution",
-        "state": "not_applicable",
+        "state": "stale",
         "timedOut": false
       }
     ],
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.89",
     "workItemId": "WI-768-release-v0-2-89"
   },
-  "receiptDigest": "sha256:92fbef4eddaca8b80a4be8fb7143dc16174826478d5ed019ba0d96b46541864e",
+  "receiptDigest": "sha256:2388443c57f5ae74545b24d5be459ff141025eb10377391b8f00e53be296cda6",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
   "runtimeDigest": "sha256:fff2271db54173f0539e38d9994cc5fae6bb07baa10808084ecfc5da311e5621",

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:996a06b7b4e7092e788e0b4a5d06164853505a3fbcdb6d145ea80698a95036ea",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Explicitly confirm the current WI-768 Contract after finalize-plan bound PR #751 and the current preflight was recomputed. This authorizes the reviewed PR and hosted checks only; public publication and adopter acceptance remain unverified until the immutable v0.2.89 tag and provider Release exist.",
+  "recordedAt": "2026-09-09T19:29:55Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
+  "schemaVersion": 1,
+  "workItemId": "WI-768-release-v0-2-89"
+}

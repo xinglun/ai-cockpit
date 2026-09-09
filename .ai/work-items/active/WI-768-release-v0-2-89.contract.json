@@ -27,45 +27,57 @@
     "prearchive parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-768-release-v0-2-89",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/751",
     "worktree": "/private/tmp/ai-cockpit-wi-768-release-v0-2-89"
   },
   "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "strict release route binds the Contract-aware Rust gate",
-      "required": true,
-      "status": "unverified",
-      "evidence": [".github/workflows/release.yml", "target/rust-contract-quality-gate.json"],
+      "evidence": [
+        ".github/workflows/release.yml",
+        "target/rust-contract-quality-gate.json"
+      ],
       "expected": "The release source_quality job evaluates the active Contract with the Rust gate and passes its receipt to the repository gate runner; missing binding fails closed.",
+      "required": true,
+      "scenario": "strict release route binds the Contract-aware Rust gate",
+      "status": "unverified",
       "verificationPlan": "Run the release workflow on the reviewed v0.2.89 tag and inspect the source-quality and Contract-gate receipts and hosted job logs."
     },
     {
-      "scenario": "reviewed source commit produces one immutable v0.2.89 identity",
-      "required": true,
-      "status": "unverified",
-      "evidence": ["Cargo.toml", "Cargo.lock", "tests/release/version_consistency.sh"],
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh"
+      ],
       "expected": "Cargo metadata, Cargo.lock, the reviewed merge commit, annotated v0.2.89 tag, release manifest, checksums, SBOMs, and provider Release all bind to the same source revision and version.",
+      "required": true,
+      "scenario": "reviewed source commit produces one immutable v0.2.89 identity",
+      "status": "unverified",
       "verificationPlan": "Run local version checks, merge only the reviewed PR, create the annotated v0.2.89 tag once, and validate hosted release identity and public assets."
     },
     {
-      "scenario": "release artifacts pass isolated adopter installation",
-      "required": true,
-      "status": "unverified",
-      "evidence": ["tests/release/adopter_acceptance.sh", "tests/release/isolation_manifest.sh"],
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/isolation_manifest.sh"
+      ],
       "expected": "The downloaded immutable v0.2.89 artifact passes version, manifest, root isolation, cleanup, and Runtime identity checks without using the workspace binary.",
+      "required": true,
+      "scenario": "release artifacts pass isolated adopter installation",
+      "status": "unverified",
       "verificationPlan": "Run the public adopter acceptance harness against the provider Release asset and retain its isolation receipt and manifests."
     },
     {
-      "scenario": "v0.2.89 preserves the v0.2.87 to v0.2.89 upgrade boundary",
-      "required": true,
-      "status": "unverified",
-      "evidence": ["tests/release/adopter_upgrade_acceptance.sh"],
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
       "expected": "An isolated adopter can upgrade from v0.2.87 to the downloaded v0.2.89 artifact while preserving governed history and proving cleanup and identity binding.",
+      "required": true,
+      "scenario": "v0.2.89 preserves the v0.2.87 to v0.2.89 upgrade boundary",
+      "status": "unverified",
       "verificationPlan": "Run the public upgrade acceptance harness with immutable v0.2.87 and v0.2.89 artifacts and retain the receipt."
     }
   ],
