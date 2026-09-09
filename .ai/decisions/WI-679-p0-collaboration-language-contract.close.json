@@ -1,0 +1,134 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:94ca10b33d8bef8dbfb8bc254b0da556edcfe91437f3a2090707cf539bbd9cca",
+      "workItemId": "WI-679-p0-collaboration-language-contract"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-679-p0-collaboration-language-contract.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/pull/675"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via github-pr-675-review-and-merge at 2026-09-09T02:52:35Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "A new user or contributor can read one page to understand current state, authorization scope, and stop boundaries at each collaboration moment, and hand off to another Agent/session without losing that understanding."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-679-p0-collaboration-language-contract"
+  },
+  "finalReportDigest": "sha256:a3a81f9665652b65273e35438c8b51a04d2eddcc765e6d0c80d2f7bb3fd3e013",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d24c9309305693e0bc2be773737fe283372df6cdce03ef835b44cebfbec53f37",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-679-p0-collaboration-language-contract.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "github-pr-675-review-and-merge",
+    "decidedAt": "2026-09-09T02:52:35Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/pull/675"
+    ],
+    "policyRefs": [],
+    "reason": "Repository owner (xinglun) reviewed and merged PR #675 on GitHub; explicit authorization for PR merge given in session",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-09T03:00:44Z",
+  "workItemId": "WI-679-p0-collaboration-language-contract"
+}

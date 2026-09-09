@@ -1,0 +1,134 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f2938f93d80f48acfbb5814d301d461ff3955ad07e4f79e56d9c89d25e0497b",
+      "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/pull/680"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via github-pr-680-review-and-merge at 2026-09-09T02:40:05Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json"
+          ],
+          "inference": false,
+          "text": "A reader can see, for each required scenario category, a concrete real-or-documented example of what the Runtime actually does, with clearly marked source type (observed/documented/designed), so scenario coverage is checkable rather than aspirational."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+  },
+  "finalReportDigest": "sha256:95083f396f17bb83d317f782b77d32af43c6cbf632ad68b8b1414d4092a90778",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:7f48ae6522d676fcfcd6a7e13db64879450576c823415c3b49f2ad6d83dc7871",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-680-p1-collaboration-scenario-matrix.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "github-pr-680-review-and-merge",
+    "decidedAt": "2026-09-09T02:40:05Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/pull/680"
+    ],
+    "policyRefs": [],
+    "reason": "Repository owner (xinglun) reviewed and merged PR #680 on GitHub; explicit authorization for PR merge given in session",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-09T02:58:31Z",
+  "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+}

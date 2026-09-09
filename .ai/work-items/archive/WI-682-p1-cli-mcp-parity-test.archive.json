@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T14:15:33Z",
+  "files": {
+    "contractDigest": "sha256:05accb670574adaef79b066a0171f22ded542dc43520288ba4d2792c079db307",
+    "contractPath": ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json",
+    "eventsDigest": "sha256:2cfeef31495dcf9f398709cd4f881a65793fd39e1b20d1923d2fc9b4c9753a25",
+    "eventsPath": ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.events.jsonl",
+    "outcomeDigest": "sha256:1865c26b8c899bd9235b65d9fa90f15b73bd91807931ae8e6392d61c85ad5f26",
+    "outcomePath": ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.outcome.json",
+    "summaryDigest": "sha256:4667f2deb2ceb2ffebcd6c62ba73f2e0f119ebcc28b074657a98aa6e568c0940",
+    "summaryPath": ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.summary.json",
+    "taskReportDigest": "sha256:3a7913681e2e734a688e8b03579827a244aa06eb8862c0079dc7d6bf363c260a",
+    "taskReportMarkdownDigest": "sha256:5a7142ab0a65f40bf2fc66e4a8e5807f2230f50afe74aac700cd13d2a8ed2a4c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-682-p1-cli-mcp-parity-test"
+}

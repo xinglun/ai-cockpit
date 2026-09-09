@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "github-pr-review-and-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0b11e06dbd1eae2dfe60427c64670f7ffa63eab7",
+    "name": "claude/wi-682-p1-cli-mcp-parity-test",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:05accb670574adaef79b066a0171f22ded542dc43520288ba4d2792c079db307",
+  "operationId": "github-pr-679-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+    "headRevision": "0b11e06dbd1eae2dfe60427c64670f7ffa63eab7",
+    "mergeCommit": "8f5320a2c3cfed9d037b75f4e3dbd69523c68d90",
+    "number": 679,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/679"
+  },
+  "reason": "Repository owner (xinglun) reviewed and merged PR #679 on GitHub, explicitly authorizing PR merge in this session",
+  "receiptId": "receipt-WI-682-p1-cli-mcp-parity-test",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-682-p1-cli-mcp-parity-test",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/679",
+    "worktree": "/private/tmp/ai-cockpit-wi-682-p1-cli-mcp-parity-test"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T02:46:30Z",
+  "workItemId": "WI-682-p1-cli-mcp-parity-test",
+  "worktree": {
+    "branch": "claude/wi-682-p1-cli-mcp-parity-test",
+    "headRevision": "0b11e06dbd1eae2dfe60427c64670f7ffa63eab7",
+    "path": "/private/tmp/ai-cockpit-wi-682-p1-cli-mcp-parity-test",
+    "worktreeId": "wt-WI-682-p1-cli-mcp-parity-test"
+  }
+}

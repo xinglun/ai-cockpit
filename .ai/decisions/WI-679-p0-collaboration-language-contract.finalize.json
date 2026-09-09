@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "github-pr-review-and-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fa246ed2b59c192f83c3b8f41e69cf793f4372af",
+    "name": "claude/wi-679-p0-collaboration-language-contract",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:810b81be9112852535b2d0a74118e3563d25408a7c6388ee6025281d34ce4fe5",
+  "operationId": "github-pr-675-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
+    "headRevision": "fa246ed2b59c192f83c3b8f41e69cf793f4372af",
+    "mergeCommit": "861324909fc27d98678636117e35afad22fdba44",
+    "number": 675,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/675"
+  },
+  "reason": "Repository owner (xinglun) reviewed and merged PR #675 on GitHub, explicitly authorizing PR merge in this session",
+  "receiptId": "receipt-WI-679-p0-collaboration-language-contract",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-679-p0-collaboration-language-contract",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/675",
+    "worktree": "/private/tmp/ai-cockpit-wi-679-p0-collaboration-language-contract"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T02:52:35Z",
+  "workItemId": "WI-679-p0-collaboration-language-contract",
+  "worktree": {
+    "branch": "claude/wi-679-p0-collaboration-language-contract",
+    "headRevision": "fa246ed2b59c192f83c3b8f41e69cf793f4372af",
+    "path": "/private/tmp/ai-cockpit-wi-679-p0-collaboration-language-contract",
+    "worktreeId": "wt-WI-679-p0-collaboration-language-contract"
+  }
+}

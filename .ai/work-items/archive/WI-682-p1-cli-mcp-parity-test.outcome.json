@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "A1: crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs adds one new #[test] that spawns the real ai-cockpit binary as a subprocess for the CLI side and calls cockpit_mcp::handle_request_for_repo() in-process for the MCP side, against the identical temporary repository fixture and Work Item.",
+    "A2: the test asserts the CLI's work-item outcome --json stdout and the MCP work_item_outcome tool's structuredContent.outcome are exactly equal (serde_json::Value equality), using a RuntimeContext reconstructed to match the exact CLI binary under test so the comparison is not defeated by incidental runtime-identity differences.",
+    "A3: cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity passes.",
+    "A4: cargo fmt --check and cargo clippy --tests -- -D warnings pass for the new file.",
+    "A5: no existing test file is modified; no production source file is modified."
+  ],
+  "createdAt": "2026-09-08T14:15:29Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f2f3296d21c1282f9b4defbb24634acc0e4dfaa6c020a26e4059ade33b66590c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:71ab2564b816074cb461a58e2da1716da0562fa9864dd431418b69486f26d0c4",
+      "workItemId": "WI-682-p1-cli-mcp-parity-test"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json"
+          ],
+          "inference": false,
+          "text": "A regression that makes the CLI and MCP Outcome representations diverge is caught automatically by cargo test, instead of relying on manual review to notice."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-682-p1-cli-mcp-parity-test"
+  },
+  "taskReportDigest": "sha256:3a7913681e2e734a688e8b03579827a244aa06eb8862c0079dc7d6bf363c260a",
+  "taskReportMarkdownDigest": "sha256:5a7142ab0a65f40bf2fc66e4a8e5807f2230f50afe74aac700cd13d2a8ed2a4c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-682-p1-cli-mcp-parity-test"
+}

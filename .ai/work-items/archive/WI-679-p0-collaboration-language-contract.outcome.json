@@ -1,0 +1,146 @@
+{
+  "acceptanceResults": [
+    "A1: docs/reference/collaboration-language-contract.md(+zh-CN/ja) covers the seven communication nodes with trigger/source, state, must-present info, human-decision need, options' effect/authorization scope, next step/stop boundary, and missing-info/misunderstanding/cancellation handling.",
+    "A2: preserves existing Outcome/decision-state/Receipt/block-recovery meanings from glossary.md, protocol spec, and outcome-report.md; introduces no new state/marker/command; any clarification is labeled as such.",
+    "A3: explicitly distinguishes authorization reuse (identity-binding match) vs new authorization (Contract/snapshot changed) vs pure technical recovery (retry/successor/supersede).",
+    "A4: states ten checkable semantic invariants, each citing current evidence and naming any automated-check gap explicitly.",
+    "A5: marks its own verification boundary (doc-structure checks and reviewer reading only; no automated cross-entry-point check, no user study) and lists follow-on Work Items rather than claiming them delivered.",
+    "A6: docs/reference/README.md, README.zh-CN.md, README.ja.md each gain exactly one new index entry; no other entry altered.",
+    "A7: tests/docs/documentation_acceptance.sh passes for the new and modified files."
+  ],
+  "createdAt": "2026-09-08T12:59:29Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c904794ae28643a700564d7b1130de9852c14f46c910a054e682090e355028c7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:94ca10b33d8bef8dbfb8bc254b0da556edcfe91437f3a2090707cf539bbd9cca",
+      "workItemId": "WI-679-p0-collaboration-language-contract"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-679-p0-collaboration-language-contract.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "A new user or contributor can read one page to understand current state, authorization scope, and stop boundaries at each collaboration moment, and hand off to another Agent/session without losing that understanding."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-679-p0-collaboration-language-contract"
+  },
+  "taskReportDigest": "sha256:edf2283d3a335662cec67603e2db4ca9128ac1b5338af3cb335ce90a7aedd547",
+  "taskReportMarkdownDigest": "sha256:a3f81371b04c890b3551384b56b8cdb3b8869a84c855ce35234903a55b328052",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-679-p0-collaboration-language-contract.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-679-p0-collaboration-language-contract"
+}
