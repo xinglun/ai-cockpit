@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-763-wi752-fact-reuse-redelivery",
+  "decision": "declined_no_optimization",
+  "decisionReason": "The two same-runtime retests do not establish a candidate optimization or a reliable latency/resource benefit. Existing request-scoped fact reuse is retained; no production behavior change is authorized by this evidence.",
+  "capturedAt": {
+    "baseline": "2026-09-09T14:13:11Z",
+    "candidate": "2026-09-09T14:14:16Z"
+  },
+  "measurementMethod": {
+    "source": "tests/performance/runtime_benchmark.sh",
+    "binary": "/private/tmp/ai-cockpit-wi-754-runtime-recovery-digest/target/debug/ai-cockpit",
+    "repository": "codex/wi-763-wi752-fact-reuse-redelivery",
+    "scenario": "current-repository",
+    "firstMeasurement": "first measured independent CLI process after Runtime identity probes; not true cold cache",
+    "warmMeasurement": "independent CLI processes after one OS-cache warmup process",
+    "warmupCount": 1,
+    "requestedWarmMeasurements": 8,
+    "sampleCountIncludesFirstMeasurement": 9,
+    "quantileMethod": "nearest-rank-on-sorted-samples",
+    "percentileReliability": {
+      "p50": "reliable with 8 warm samples",
+      "p95": "unavailable: insufficient_samples:8<20",
+      "p99": "unavailable: insufficient_samples:8<100"
+    },
+    "residentMcp": "not_measured: harness invokes independent CLI processes and has no resident MCP transport"
+  },
+  "identity": {
+    "runtimeVersion": "0.2.87",
+    "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositoryHead": "a8fa804057cad8792f56b580f665046d2d3fc52d",
+    "binaryDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+    "comparisonKey": "unavailable:filesystem_comparison"
+  },
+  "environment": {
+    "os": {
+      "system": "Darwin",
+      "release": "25.6.0",
+      "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O"
+    },
+    "machine": {
+      "name": "arm64",
+      "processor": "arm",
+      "cpuCount": 10
+    },
+    "filesystem": {
+      "available": false,
+      "reason": "filesystem_type_unavailable"
+    },
+    "repository": {
+      "trackedFileCount": 10636,
+      "trackedBytes": 81342288,
+      "dirty": true,
+      "changedPathCount": 2,
+      "historicalWorkItemCount": 641
+    }
+  },
+  "measurements": {
+    "baseline": {
+      "inspect": {
+        "firstMs": 139.006,
+        "warmupMs": [141.322],
+        "warmMs": [134.38, 136.243, 137.188, 139.226, 138.685, 137.041, 139.856, 137.97],
+        "warmP50Ms": 137.188,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "status": {
+        "firstMs": 3585.034,
+        "warmupMs": [3540.069],
+        "warmMs": [3493.395, 3520.61, 3528.146, 3538.677, 3482.142, 3528.564, 3535.736, 3655.432],
+        "warmP50Ms": 3528.146,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "doctor": {
+        "firstMs": 95.641,
+        "warmupMs": [86.32],
+        "warmMs": [87.033, 86.203, 84.703, 88.259, 84.674, 87.374, 91.685, 87.242],
+        "warmP50Ms": 87.033,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "observe": {
+        "firstMs": 213.513,
+        "warmupMs": [201.452],
+        "warmMs": [202.635, 200.677, 204.863, 210.694, 205.739, 208.561, 198.996, 207.887],
+        "warmP50Ms": 204.863,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "work-item-status": {
+        "firstMs": 259.728,
+        "warmupMs": [238.517],
+        "warmMs": [248.047, 251.23, 240.25, 237.594, 238.411, 247.065, 235.403, 237.462],
+        "warmP50Ms": 238.411,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "diagnose": {
+        "firstMs": 142.208,
+        "warmupMs": [139.219],
+        "warmMs": [138.006, 140.722, 142.826, 148.542, 141.201, 141.947, 143.022, 141.403],
+        "warmP50Ms": 141.403,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      }
+    },
+    "candidate": {
+      "inspect": {
+        "firstMs": 145.269,
+        "warmupMs": [140.244],
+        "warmMs": [140.317, 143.241, 138.381, 150.639, 140.187, 140.78, 140.165, 139.686],
+        "warmP50Ms": 140.187,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "status": {
+        "firstMs": 3551.345,
+        "warmupMs": [3555.4],
+        "warmMs": [3552.826, 3576.962, 3812.893, 3531.583, 3522.299, 3511.921, 3609.131, 3612.539],
+        "warmP50Ms": 3552.826,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "doctor": {
+        "firstMs": 94.15,
+        "warmupMs": [86.356],
+        "warmMs": [91.053, 88.587, 85.866, 86.888, 86.788, 86.081, 89.904, 88.693],
+        "warmP50Ms": 86.888,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "observe": {
+        "firstMs": 212.812,
+        "warmupMs": [203.769],
+        "warmMs": [276.394, 217.361, 209.091, 212.058, 212.77, 203.284, 202.673, 207.823],
+        "warmP50Ms": 209.091,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "work-item-status": {
+        "firstMs": 259.824,
+        "warmupMs": [239.655],
+        "warmMs": [239.627, 242.735, 238.113, 240.812, 238.085, 238.49, 245.822, 243.403],
+        "warmP50Ms": 239.627,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      },
+      "diagnose": {
+        "firstMs": 139.539,
+        "warmupMs": [140.461],
+        "warmMs": [157.669, 143.019, 146.77, 145.143, 141.882, 139.226, 138.01, 141.41],
+        "warmP50Ms": 141.882,
+        "warmP95Ms": null,
+        "warmP99Ms": null
+      }
+    }
+  },
+  "comparison": {
+    "sameRuntimeIdentity": true,
+    "sameRepositoryHead": true,
+    "sameEnvironmentKey": true,
+    "candidateIsProductionChange": false,
+    "targetedLatencyImprovementEstablished": false,
+    "governanceOutcomeComparison": "no production candidate; existing context tests passed",
+    "rawInternalReadBytes": "unavailable: runtime_does_not_expose_io_counters",
+    "rawHashedBytes": "unavailable: runtime_does_not_expose_io_counters",
+    "gitCalls": "unavailable: runtime_does_not_expose_git_counters",
+    "runtimeChildProcesses": "unavailable: runtime_does_not_expose_process_tree",
+    "peakMemoryBytes": "unavailable: platform_metric_unavailable",
+    "cacheInvalidationReasons": "unavailable: runtime_does_not_expose_cache_invalidation_events"
+  },
+  "scenarioMatrix": {
+    "current-repository": "measured",
+    "small-clean": "not_measured: repository_dirty",
+    "many-files-clean": "not_measured: repository_dirty",
+    "single-file-change": "not_measured: changed_path_count_not_one",
+    "multi-file-change": "measured: multiple_changed_paths",
+    "large-file-change": "not_measured: no_changed_file_at_least_1MiB",
+    "many-historical-wi": "measured: historical_work_item_count_above_100",
+    "concurrent-validation-requests": "not_measured: harness_does_not_measure_concurrency",
+    "resident-mcp-repeat-query": "not_measured: harness_does_not_measure_resident_mcp"
+  },
+  "correctnessChecks": {
+    "command": "cargo test -p cockpit-repository --test repository_context -- --nocapture",
+    "result": "7 passed; 0 failed",
+    "covered": [
+      "one snapshot and memoized observation",
+      "repository isolation",
+      "explicit RuntimeSession binding",
+      "source mutation fail-closed",
+      "configuration and identity mutation fail-closed",
+      "fresh context required after lifecycle phase boundary",
+      "governance consumes validated observation context"
+    ],
+    "statusAndDoctorRepeatedOutput": "identical JSON across two independent invocations"
+  },
+  "relatedHistoricalDelivery": {
+    "workItem": "WI-752-p1-fact-reuse",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/733",
+    "hostedFailure": "docs_governance_integrity: invalid_premerge_finalize",
+    "handling": "immutable PR, branch, worktree, and evidence retained; not merged, deleted, or rewritten"
+  }
+}
