@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "The tri-language parity status check reports no missing parity decision.",
+    "Documentation acceptance, Work Item status consistency, governance integrity, and closed-Work-Item promotion checks pass on the same base.",
+    "The WI-745 and WI-746 pages name the valid current terminal receipts and make no unproven user-visible benefit claim."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e808b8d024640b6d55fd9099a80cd19d4ea3e496",
+  "createdAt": "2026-09-09T06:45:50Z",
+  "goal": "Make the current parity and Work Item documentation projections agree with the valid supersede, finalization, and close receipts on origin/main.",
+  "intent": "Repair the remaining tri-language parity and terminal-page projections for the already closed WI-745/WI-746 governance chain.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Production code",
+    " tests",
+    " governance rules",
+    " all .ai receipts and archive/evidence bytes",
+    " other Work Items",
+    " and other agents' branches or worktrees."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6120ad3810e8f6f11a7cac73ca9dfad29907be2d1c94ff4f3256ca1de37812eb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-750-prestart",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-747-doc-promotion-v2"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-745-wi743-doc-promotion.md",
+    "docs/work-items/WI-745-wi743-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-745-wi743-doc-promotion.ja.md",
+    "docs/work-items/WI-746-wi745-terminal-recovery.md",
+    "docs/work-items/WI-746-wi745-terminal-recovery.zh-CN.md",
+    "docs/work-items/WI-746-wi745-terminal-recovery.ja.md",
+    "docs/work-items/WI-750-wi745-parity-repair.md",
+    "docs/work-items/WI-750-wi745-parity-repair.zh-CN.md",
+    "docs/work-items/WI-750-wi745-parity-repair.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-750-wi745-parity-repair"
+}

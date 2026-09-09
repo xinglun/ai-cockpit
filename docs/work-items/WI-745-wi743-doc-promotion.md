@@ -7,6 +7,8 @@ workItemId: WI-745-wi743-doc-promotion
 status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-745-wi743-doc-promotion
+recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.6ef6b1b0e804eaf246518a1839851b47b0de88cb9a18c73282f21fb0816d1e41.json
+closeDecision: .ai/decisions/WI-745-wi743-doc-promotion.close.json
 ---
 
 [简体中文](WI-745-wi743-doc-promotion.zh-CN.md) · [日本語](WI-745-wi743-doc-promotion.ja.md)
@@ -34,8 +36,13 @@ decision records, PR #716, WI-744, or the WI-742 predecessor history.
 - PR #718 carries this documentation-only successor from the synchronized
   `origin/main` base.
 - The merged predecessor is retained as immutable recovered history through
-  the Runtime `supersede` decision. Follow-up ownership is WI-746; this page
-  does not claim a fresh performance or user-visible benefit.
+  the Runtime `supersede` decision. WI-745 is closed as that historical
+  predecessor; follow-up ownership is WI-746. This page does not claim a fresh
+  performance or user-visible benefit.
+- The current supersede receipt is
+  `.ai/decisions/WI-745-wi743-doc-promotion.recovery.6ef6b1b0e804eaf246518a1839851b47b0de88cb9a18c73282f21fb0816d1e41.json`;
+  the corresponding close decision is
+  `.ai/decisions/WI-745-wi743-doc-promotion.close.json`.
 
 ## Acceptance
 

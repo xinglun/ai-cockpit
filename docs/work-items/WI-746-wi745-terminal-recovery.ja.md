@@ -12,25 +12,27 @@ terminalVerification: .ai/evidence/WI-746-wi745-terminal-recovery.verification.j
 terminalFinalization: .ai/decisions/WI-746-wi745-terminal-recovery.finalize.json
 terminalDecision: .ai/decisions/WI-746-wi745-terminal-recovery.close.json
 predecessorWorkItem: WI-745-wi743-doc-promotion
-recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.json
+recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.6ef6b1b0e804eaf246518a1839851b47b0de88cb9a18c73282f21fb0816d1e41.json
 ---
 
 # WI-746 — WI-745 terminal recovery
 
 WI-746 は merge 済み WI-745 documentation promotion の current-base recovery successor です。
 WI-745 と WI-743 の historical bytes を保持し、三言語 projection を修正したうえで、Runtime
-finalization と close の前に fresh verification を記録します。production または performance
-behavior は変更しません。
+finalization と human-approved close を記録しました。production または performance behavior
+は変更しません。
 
 [English](WI-746-wi745-terminal-recovery.md) · [简体中文](WI-746-wi745-terminal-recovery.zh-CN.md)
 
 ## Recovery boundary
 
-Runtime recovery receipt は WI-745、その Contract/Summary digest、PR #718、そしてこの successor
+Runtime recovery receipt は WI-745、その Contract/Summary digest、PR #723、そしてこの successor
 を bind します。WI-743 は immutable な closed evidence で表現され、current-state prose もその終端事実に一致します。
 
 ## Evidence and lifecycle
 
 - fresh verification は `.ai/evidence/WI-746-wi745-terminal-recovery.verification.json` に記録します。
-- archive、finalization、Outcome、close は Runtime が生成します。
+- archive、Outcome、finalization、close は Runtime が生成し、
+  `.ai/decisions/WI-746-wi745-terminal-recovery.finalize.json` と
+  `.ai/decisions/WI-746-wi745-terminal-recovery.close.json` に記録されています。
 - この recovery は user-visible な performance benefit を主張しません。

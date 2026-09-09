@@ -7,6 +7,8 @@ workItemId: WI-745-wi743-doc-promotion
 status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-745-wi743-doc-promotion
+recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.6ef6b1b0e804eaf246518a1839851b47b0de88cb9a18c73282f21fb0816d1e41.json
+closeDecision: .ai/decisions/WI-745-wi743-doc-promotion.close.json
 ---
 
 [English](WI-745-wi743-doc-promotion.md) · [日本語](WI-745-wi743-doc-promotion.ja.md)
@@ -31,7 +33,10 @@ lastVerifiedBy: WI-745-wi743-doc-promotion
   finalization 和 close 记录。
 - PR #718 从已同步的 `origin/main` 基线交付本纯文档 successor。
 - 生命周期为 `start → preflight → checkpoint → verify → finish →
-  archive → close`；终态路径在 Runtime finalization 产生前保持计划状态。
+  archive → close`；WI-745 已按 Runtime `supersede` 作为历史前置项关闭，后续归属
+  WI-746。本页面不声明新的性能或用户可见收益。
+- 当前 supersede 记录为 `.ai/decisions/WI-745-wi743-doc-promotion.recovery.6ef6b1b0e804eaf246518a1839851b47b0de88cb9a18c73282f21fb0816d1e41.json`，
+  close 决策为 `.ai/decisions/WI-745-wi743-doc-promotion.close.json`。
 
 ## 验收
 

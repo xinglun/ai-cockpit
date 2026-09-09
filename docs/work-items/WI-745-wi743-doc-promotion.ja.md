@@ -7,6 +7,8 @@ workItemId: WI-745-wi743-doc-promotion
 status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-745-wi743-doc-promotion
+recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.6ef6b1b0e804eaf246518a1839851b47b0de88cb9a18c73282f21fb0816d1e41.json
+closeDecision: .ai/decisions/WI-745-wi743-doc-promotion.close.json
 ---
 
 [English](WI-745-wi743-doc-promotion.md) · [简体中文](WI-745-wi743-doc-promotion.zh-CN.md)
@@ -34,8 +36,11 @@ decision、PR #716、WI-744、WI-742 の history は変更しません。
 - PR #718 は同期済み `origin/main` を基線とする documentation-only successor
   です。
 - lifecycle は `start → preflight → checkpoint → verify → finish →
-  archive → close` で、terminal path は Runtime finalization まで planned
-  のままです。
+  archive → close` で、WI-745 は Runtime `supersede` により historical predecessor として
+  close 済みです。後続の所有は WI-746 であり、本ページは新しい performance や
+  user-visible benefit を主張しません。
+- 現在の supersede receipt は `.ai/decisions/WI-745-wi743-doc-promotion.recovery.6ef6b1b0e804eaf246518a1839851b47b0de88cb9a18c73282f21fb0816d1e41.json`、
+  close decision は `.ai/decisions/WI-745-wi743-doc-promotion.close.json` です。
 
 ## Acceptance
 
