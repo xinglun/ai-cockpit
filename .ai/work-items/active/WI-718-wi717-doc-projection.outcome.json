@@ -1,0 +1,142 @@
+{
+  "acceptanceResults": [
+    "The three-language WI-717 Work Item pages accurately reference its immutable archive, verification, generated finalization, and generated close receipts.",
+    "WI-717 generated finalization and close receipts are persisted byte-for-byte.",
+    "WI-718 documentation and parity projections pass promote_closed_work_item.py --check-all, documentation acceptance, and governance integrity.",
+    "No product runtime, machine contract, exit-code, or authorization behavior changes."
+  ],
+  "decisionState": "green",
+  "evidenceDigest": "sha256:835f6f60905de3b30c67eb5b59e4ba3351d99e376f90f6f901ec8a58145862fa",
+  "evidenceRefs": [
+    ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc2b0e5e094f97d4c5f9935afec1b03785dbc1c4867f4f1070d4940db3976568",
+      "workItemId": "WI-718-wi717-doc-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-718-wi717-doc-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-717-wi716-closed-projection-promotion.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-718-wi717-doc-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-717-wi716-closed-projection-promotion.finalize.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-718-wi717-doc-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the closed Work Item promotion helper and governance integrity checks pass while preserving WI-717 Runtime-generated receipts byte-for-byte and changing no product behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-718-wi717-doc-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-718-wi717-doc-projection"
+  },
+  "taskReportDigest": "sha256:95611987fbb123a2b5118195dbbf0643302ba247db1130f68e6c79ba37517b12",
+  "taskReportMarkdownDigest": "sha256:5af1999bad3bb0ccf68145c03c81e9ffcfb2dfb31054631ea4554f268a42194e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-718-wi717-doc-projection.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-718-wi717-doc-projection"
+}
