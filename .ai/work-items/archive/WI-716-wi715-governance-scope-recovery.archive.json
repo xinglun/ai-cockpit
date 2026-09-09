@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T01:42:50Z",
+  "files": {
+    "contractDigest": "sha256:8af5752394eb0de9f67837eecbcdc3ccdb4031b223ab5bfbc160e0994596f665",
+    "contractPath": ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.contract.json",
+    "eventsDigest": "sha256:29ed84b5f1aa9af6a66e8e04b6d31fb36a7d9fb55a9c64dec3ec530d3a646e6d",
+    "eventsPath": ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.events.jsonl",
+    "outcomeDigest": "sha256:4e4e284686a25f2bc4c623823bfce5e78a9f6dda18f133643176d59330838dc2",
+    "outcomePath": ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.outcome.json",
+    "summaryDigest": "sha256:332391545466110618b14a6cf50b53325e3d0e931437a50588eb8685a44d3da5",
+    "summaryPath": ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.summary.json",
+    "taskReportDigest": "sha256:6dbbbfab28d88b3e55f70a369608eb568358da65761126c86b053dee0962b601",
+    "taskReportMarkdownDigest": "sha256:c0d2cd99e0b1dfebba2f6e6d771255b7316ef1ca3defcc2c1b50ad18ff9ad909",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-716-wi715-governance-scope-recovery"
+}
