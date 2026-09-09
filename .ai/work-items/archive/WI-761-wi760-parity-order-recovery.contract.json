@@ -30,11 +30,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-761-wi760-parity-order-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/744",
     "worktree": "/private/tmp/ai-cockpit-wi-761-wi760-parity-order-recovery"
   },
   "risk": "normal",
