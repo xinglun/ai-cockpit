@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json",
+    ".ai/work-items/active/WI-758-wi755-finalization-recovery.contract.json",
+    ".ai/work-items/active/WI-758-wi755-finalization-recovery.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-09T08:40:24Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:a6848077610b566cd659246cc69c87815fb2208665be31b2d4cedc0800e47420",
+  "predecessorWorkItemId": "WI-755-p1-observation-context-successor",
+  "preflightAt": "2026-09-09T08:46:45Z",
+  "preflightContractDigest": "sha256:59ae3a6505d011ce292f7674ddc25be951e4b2fc5654ccb20c8588b8450d755c",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:208fb7a6cb3fd890cfb18aa0dc21c99d17ea1df749b931e20a0d9b04a08d158b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-09T08:40:55Z",
+  "workItemId": "WI-758-wi755-finalization-recovery"
+}

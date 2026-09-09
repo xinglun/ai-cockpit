@@ -4,9 +4,10 @@ title: "WI-755 — P1 observation context successor"
 description: "Complete the explicit observation-context boundary from the current default base."
 audience: [contributor, maintainer, reviewer]
 workItemId: WI-755-p1-observation-context-successor
-status: in_progress
+status: recovered
 authority: human:repository-owner
-lastVerifiedBy: WI-755-p1-observation-context-successor
+lastVerifiedBy: WI-758-wi755-finalization-recovery
+recoveryDecision: .ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json
 ---
 
 [简体中文](WI-755-p1-observation-context-successor.zh-CN.md) · [日本語](WI-755-p1-observation-context-successor.ja.md)
@@ -57,3 +58,11 @@ Other lifecycle entry points retain compatibility wrappers and may still use
 the older root-plus-snapshot form until separately bounded migrations. This
 Work Item does not claim a repository-wide atomic snapshot or a cross-request
 cache.
+
+## Post-merge recovery boundary
+
+PR #735 passed hosted checks and merged at `8dcac7ec`. The reviewed PR head is
+`06f7d03f`, while the immutable pre-merge finalization receipt records the
+intermediate head `251c3867`. Runtime correctly rejects treating that range as
+an unbound finalization transition. The recovery decision above preserves this
+history; WI-758 owns the fresh post-merge governance boundary.

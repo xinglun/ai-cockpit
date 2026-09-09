@@ -4,9 +4,10 @@ title: "WI-755 — P1 観察コンテキスト successor"
 description: "現在の default branch から明示的な観察コンテキスト境界を完了する。"
 audience: [contributor, maintainer, reviewer]
 workItemId: WI-755-p1-observation-context-successor
-status: in_progress
+status: recovered
 authority: human:repository-owner
-lastVerifiedBy: WI-755-p1-observation-context-successor
+lastVerifiedBy: WI-758-wi755-finalization-recovery
+recoveryDecision: .ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json
 ---
 
 [English](WI-755-p1-observation-context-successor.md) · [简体中文](WI-755-p1-observation-context-successor.zh-CN.md)
@@ -50,3 +51,10 @@ repository preflight、project governance、observer、workspace format、clippy
 
 他の lifecycle entry point は互換 wrapper を保持し、別途限定された移行までは旧 root-plus-snapshot
 形式を使う可能性がある。本 WI は repository 全体の atomic snapshot や cross-request cache を主張しない。
+
+## Merge 後の recovery boundary
+
+PR #735 は hosted checks を通過して `8dcac7ec` として merge された。review 済み PR head は
+`06f7d03f` だが、不変の pre-merge finalization receipt は中間 head `251c3867` を記録している。
+Runtime はこれを unbound な finalization transition として正しく拒否する。上記の recovery decision
+はこの履歴を保持し、WI-758 が新しい merge 後の governance boundary を担当する。

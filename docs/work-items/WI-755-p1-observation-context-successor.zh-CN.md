@@ -4,9 +4,10 @@ title: "WI-755——P1 观察上下文后继项"
 description: "从当前默认分支完成显式观察上下文边界，不复活旧 PR。"
 audience: [contributor, maintainer, reviewer]
 workItemId: WI-755-p1-observation-context-successor
-status: in_progress
+status: recovered
 authority: human:repository-owner
-lastVerifiedBy: WI-755-p1-observation-context-successor
+lastVerifiedBy: WI-758-wi755-finalization-recovery
+recoveryDecision: .ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json
 ---
 
 [English](WI-755-p1-observation-context-successor.md) · [日本語](WI-755-p1-observation-context-successor.ja.md)
@@ -44,3 +45,10 @@ Contract/上下文不匹配。还需通过 repository preflight、项目治理�
 
 其他生命周期入口仍保留兼容包装，可能继续使用旧的 root 加 snapshot 形式，直到后续独立迁移。
 本 WI 不宣称全仓库原子快照或跨请求缓存。
+
+## 合并后恢复边界
+
+PR #735 已通过 hosted checks，并以 `8dcac7ec` 合并。已审阅 PR head 是
+`06f7d03f`，而不可变的合并前 finalization receipt 记录的是中间 head
+`251c3867`。Runtime 正确拒绝把该范围视为未绑定的 finalization 转换。上面的 recovery
+decision 保留这一历史；WI-758 负责新的合并后治理边界。
