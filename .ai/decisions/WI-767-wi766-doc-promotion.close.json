@@ -1,0 +1,139 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-767-wi766-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:73fc6568b5ccb46894896320f0a2c124fbc6888f282f85d4d9d50c784a801d20",
+      "workItemId": "WI-767-wi766-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-767-wi766-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-767-wi766-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-767-wi766-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-767-wi766-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-767-wi766-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-767-wi766-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-767-wi766-doc-promotion.verification.json",
+            ".ai/decisions/WI-767-wi766-doc-promotion.finalize.c515cf4fd3c9b597f82c29fdc413e90e744438d7d4c21fbe53634f1ab595caf2.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-09T18:23:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-767-wi766-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-767-wi766-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-767-wi766-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-767-wi766-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Project the verified closed WI-766 documentation pages and reference-parity entries to terminal implemented state without changing historical governance evidence or release evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-767-wi766-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-767-wi766-doc-promotion"
+  },
+  "finalReportDigest": "sha256:5a55bfc04022a61573de29034228ea00e613593f7ec4d001524c9e45f33d071b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:86b30ae8fa43716a07cc29411587c8c956a714bb0204dc66a6985ef797670725",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-767-wi766-doc-promotion.finalize.c515cf4fd3c9b597f82c29fdc413e90e744438d7d4c21fbe53634f1ab595caf2.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-09T18:23:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-767-wi766-doc-promotion.verification.json",
+      ".ai/decisions/WI-767-wi766-doc-promotion.finalize.c515cf4fd3c9b597f82c29fdc413e90e744438d7d4c21fbe53634f1ab595caf2.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed hosted checks passed, PR #750 merged, archive recorded, finalization and exact branch/worktree cleanup receipts verified.",
+    "resumeCondition": "Proceed only from synchronized main after post-close documentation promotion check."
+  },
+  "timestamp": "2026-09-09T18:21:30Z",
+  "workItemId": "WI-767-wi766-doc-promotion"
+}

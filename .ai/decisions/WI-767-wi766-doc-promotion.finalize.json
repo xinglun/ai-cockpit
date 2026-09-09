@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "8910aa435441b8cfe0f6d3533863c7ef30009cbe",
+    "name": "codex/wi-767-wi766-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:881291ffe73ac621e1a88b0c63f62621458a0945e69fb96c8c29d71d3be4cce7",
+  "operationId": "operation-WI-767-wi766-doc-promotion-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bf45153ad4ba2a7fab201dda77fc8d30736aced5",
+    "headRevision": "8910aa435441b8cfe0f6d3533863c7ef30009cbe",
+    "mergeCommit": "2d1100fbd35dd4030d5e4a4d3e775dc41f775b7c",
+    "number": 750,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/750"
+  },
+  "reason": "Reviewed PR #750 passed all hosted checks and merged; retain the exact branch and clean dedicated worktree until the append-only cleanup transition.",
+  "receiptId": "ai-cockpit-WI-767-wi766-doc-promotion-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-767-wi766-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/750",
+    "worktree": "/private/tmp/ai-cockpit-wi-767-wi766-doc-promotion"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f6684506be3d1fa1f9a1645c9149d26c876d040cbcd958f9de9210916ccc095b",
+  "runtimeVersion": "0.2.88",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T18:19:30Z",
+  "workItemId": "WI-767-wi766-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-767-wi766-doc-promotion",
+    "headRevision": "8910aa435441b8cfe0f6d3533863c7ef30009cbe",
+    "path": "/private/tmp/ai-cockpit-wi-767-wi766-doc-promotion",
+    "worktreeId": "WI-767-wi766-doc-promotion"
+  }
+}
