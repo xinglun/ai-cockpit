@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-756-p1-handoff-reconstruction-revalidation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "reason": "Successor verification passed and the reviewed implementation lineage is merged; the successor branch and dedicated worktree were removed.",
+  "operationId": "github-pr-736-successor-finalization-20260909",
+  "provider": "github",
+  "receiptId": "github-pr-736-wi756-successor-cleanup-deleted",
+  "runtimeVersion": "0.2.87",
+  "runtimeDigest": "sha256:536a155ca6abfd80725b19fb877e96db9626a91c99cddfc320fc7c15502f491b",
+  "timestamp": "2026-09-09T10:20:00Z",
+  "contractDigest": "sha256:fd59c3f227e2978b678f8a997044b6af2152c133cabf95cb3554956d79d24118",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-756-p1-handoff-revalidation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/736",
+    "worktree": "/private/tmp/ai-cockpit-wi-756-p1-handoff-revalidation"
+  },
+  "branch": {
+    "name": "codex/wi-756-p1-handoff-revalidation",
+    "remote": "origin",
+    "headRevision": "47bddff0cd3b312e95d3e43b75663f9b373702c1"
+  },
+  "pullRequest": {
+    "url": "https://github.com/xinglun/ai-cockpit/pull/736",
+    "number": 736,
+    "baseRevision": "cedb0feaa1eb04f4f36b48f08a8bba5eadd5b7c8",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "headRevision": "47bddff0cd3b312e95d3e43b75663f9b373702c1",
+    "mergeCommit": "24305d6b54683c2287850740ee98b87e7f32bf73"
+  },
+  "worktree": {
+    "worktreeId": "WI-756-p1-handoff-reconstruction-revalidation",
+    "path": "/private/tmp/ai-cockpit-wi-756-p1-handoff-revalidation",
+    "branch": "codex/wi-756-p1-handoff-revalidation",
+    "headRevision": "47bddff0cd3b312e95d3e43b75663f9b373702c1"
+  },
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  }
+}
