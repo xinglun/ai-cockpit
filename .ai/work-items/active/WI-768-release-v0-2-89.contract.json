@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "Release source_quality executes the Contract-aware Rust gate whenever the strict release route binds a Contract and passes its receipt to run_repository_gates.py, with receipt artifacts uploaded.",
+    "Workspace version is exactly 0.2.89 and all required current release/version projections are consistent; v0.2.88 remains unchanged.",
+    "Reviewed PR hosted checks pass, including route, quality, Windows runtime, and v1 behavioral oracle, before merge.",
+    "After merge, the v0.2.89 tag is immutable and the provider Release plus all target artifacts, source-quality receipts, version-consistency, adopter installation, and upgrade acceptance evidence are bound to the merged commit and temporary roots are cleaned.",
+    "The Work Item is archived, finalized, closed, exact branch/worktree cleanup is verified, main is synchronized, and post-close documentation promotion check is current."
+  ],
+  "authority": "authorized",
+  "baseRevision": "54e243e5099d46ac5eefb6dfe419d6e6e3841b2b",
+  "createdAt": "2026-09-09T18:23:25Z",
+  "goal": "Produce and publish v0.2.89 from a reviewed PR whose hosted release workflow executes the Contract-aware Rust gate and binds its receipt to repository gates, while preserving prior v0.2.88 failure evidence.",
+  "intent": "Recover the failed v0.2.88 release path and publish a new immutable v0.2.89 release with strict Contract-aware source quality evidence.",
+  "mode": "change",
+  "outOfScope": [
+    "Runtime production implementation; performance optimization implementation; changing historical WI-764/v0.2.88 evidence; deleting or reusing v0.2.88 tag; weakening or skipping repository gates; unrelated documentation or refactors; global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:73fc6568b5ccb46894896320f0a2c124fbc6888f282f85d4d9d50c784a801d20",
+  "requiredEvidenceClasses": [
+    "Contract and Runtime lifecycle receipts; hosted PR checks and release workflow run; merged head and main synchronization; v0.2.89 tag/provider Release identity; release manifest and target artifact receipts; source-quality and Contract-gate receipts; version consistency; public adopter and upgrade acceptance receipts; exact cleanup and post-close documentation check"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-768-release-v0-2-89",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-768-release-v0-2-89"
+  },
+  "risk": "high",
+  "scope": [
+    ".github/workflows/release.yml; Cargo.toml; Cargo.lock; current release/version documentation and tri-language parity entries required by the repository; WI-768 governance evidence and release/adopter acceptance evidence"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-768-release-v0-2-89"
+}

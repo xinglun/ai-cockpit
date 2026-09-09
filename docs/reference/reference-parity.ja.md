@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-764-release-v0-2-88
+lastVerifiedBy: WI-768-release-v0-2-89
 capabilityClaims:
   - reference_parity
 ---
@@ -37,9 +37,9 @@ parity check に network source や source content の copy は必要ありま�
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-Current snapshot は Rust baseline `67f8df96ce9bd2ccd521a29e67542dda5c4fe0df` と、
-review 済み `ai-cockpit v0.2.88`（binary digest
-`sha256:f4c4d85e60a5940aaac21c60564acb143128268ccdc9077552443f53fac8312a`）を使用します。
+Current snapshot は Rust baseline `54e243e5099d46ac5eefb6dfe419d6e6e3841b2b` と、
+review 済み `ai-cockpit v0.2.89`（binary digest
+`sha256:e79ac0e2b36e3c0c5e976052aba62a1224d210bfc16b9f106b3dcc987c23dc2f`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -850,3 +850,4 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-765-wi764-doc-promotion — WI-764 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-765-wi764-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-765-wi764-doc-promotion.contract.json`; verification `.ai/evidence/WI-765-wi764-doc-promotion.verification.json`; finalization `.ai/decisions/WI-765-wi764-doc-promotion.finalize.60a5e15353209ac22e995c11894712c8181b817a706fad9322d5a1712fec21d5.json`; close `.ai/decisions/WI-765-wi764-doc-promotion.close.json`. |
 | WI-766-wi765-doc-promotion — WI-765 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-766-wi765-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-766-wi765-doc-promotion.contract.json`; verification `.ai/evidence/WI-766-wi765-doc-promotion.verification.json`; finalization `.ai/decisions/WI-766-wi765-doc-promotion.finalize.f46dd4dba8e4a0017793479963bf476447609f71e73f8b0f85e7502312775bad.json`; close `.ai/decisions/WI-766-wi765-doc-promotion.close.json`. |
 | WI-767-wi766-doc-promotion — WI-766 terminal documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-767-wi766-doc-promotion.ja.md); archive `.ai/work-items/archive/WI-767-wi766-doc-promotion.contract.json`; verification `.ai/evidence/WI-767-wi766-doc-promotion.verification.json`; finalization `.ai/decisions/WI-767-wi766-doc-promotion.finalize.json`; close `.ai/decisions/WI-767-wi766-doc-promotion.close.json`. |
+| WI-768-release-v0-2-89 — WI-764 source-quality failure 後の v0.2.89 release recovery | In progress | [Work Item](../work-items/WI-768-release-v0-2-89.ja.md); Contract-aware release quality gate 修復、新しい v0.2.89 identity、不変な公開/adopter evidence は検証待ち。 |
