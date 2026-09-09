@@ -48,12 +48,12 @@
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
   "runtimeVersion": "0.2.87",
   "schemaVersion": 1,
-  "timestamp": "2026-09-09T08:12:00Z",
+  "timestamp": "2026-09-09T08:18:00Z",
   "workItemId": "WI-755-p1-observation-context-successor",
   "worktree": {
     "branch": "codex/wi-755-p1-observation-context-successor",
     "headRevision": "251c3867c75d1395b4aa203057174fe1c9b1cb52",
     "path": "/private/tmp/ai-cockpit-wi-755-p1-observation-context-successor",
-    "worktreeId": "wt-WI-755-p1-observation-context-successor"
+    "worktreeId": "WI-755-p1-observation-context-successor"
   }
 }
