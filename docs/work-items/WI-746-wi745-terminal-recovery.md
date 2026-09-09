@@ -13,7 +13,7 @@ recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.json
 
 # WI-746 — WI-745 terminal recovery
 
-WI-746 is the current-base recovery successor for the merged WI-745
+WI-746 is the immutable recovery successor for the merged WI-745
 documentation promotion. It preserves the WI-745 and WI-743 historical bytes,
 repairs the tri-language projections, and records fresh verification through
 Runtime archive. It makes no production or performance change; provider
