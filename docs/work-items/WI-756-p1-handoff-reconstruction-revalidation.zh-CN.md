@@ -5,7 +5,7 @@ description: "针对当前 Runtime 仓库绑定重验证已完成的交接重建
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-756-p1-handoff-reconstruction-revalidation
 predecessorWorkItemId: WI-756-p1-handoff-reconstruction
-status: recovered
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-756-p1-handoff-reconstruction-revalidation
 terminalArchive: .ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.contract.json
