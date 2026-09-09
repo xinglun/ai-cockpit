@@ -4,9 +4,13 @@ title: "WI-746 — WI-745 terminal recovery"
 description: "immutable evidence を書き換えず、merge 済み WI-745 の documentation successor を調整します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-746-wi745-terminal-recovery
-status: recovered
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-746-wi745-terminal-recovery
+terminalArchive: .ai/work-items/archive/WI-746-wi745-terminal-recovery.contract.json
+terminalVerification: .ai/evidence/WI-746-wi745-terminal-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-746-wi745-terminal-recovery.finalize.afa778d9c11e29043f7f513936281c0a3ff0d1df1a0a1ae8b7726e3009dbb1c6.json
+terminalDecision: .ai/decisions/WI-746-wi745-terminal-recovery.close.json
 predecessorWorkItem: WI-745-wi743-doc-promotion
 recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.json
 ---
@@ -15,8 +19,8 @@ recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.json
 
 WI-746 は merge 済み WI-745 documentation promotion の current-base recovery successor です。
 WI-745 と WI-743 の historical bytes を保持し、三言語 projection を修正したうえで、Runtime
-finalization と close の前に fresh verification を記録します。production または performance
-behavior は変更しません。
+verification、cleanup transition、finalization、close を記録します。production または performance
+behavior は変更せず、user-visible benefit は未記録です。
 
 [English](WI-746-wi745-terminal-recovery.md) · [简体中文](WI-746-wi745-terminal-recovery.zh-CN.md)
 
@@ -28,5 +32,5 @@ Runtime recovery receipt は WI-745、その Contract/Summary digest、PR #718�
 ## Evidence and lifecycle
 
 - fresh verification は `.ai/evidence/WI-746-wi745-terminal-recovery.verification.json` に記録します。
-- archive、finalization、Outcome、close は Runtime が生成します。
+- archive、finalization、cleanup transition、Outcome、close は Runtime が生成します。
 - この recovery は user-visible な performance benefit を主張しません。

@@ -1,0 +1,134 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
+      "workItemId": "WI-746-wi745-terminal-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-746-wi745-terminal-recovery.finalize.afa778d9c11e29043f7f513936281c0a3ff0d1df1a0a1ae8b7726e3009dbb1c6.json",
+            ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json",
+            "https://github.com/xinglun/ai-cockpit/pull/723"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization-to-continue-and-recover at 2026-09-09T06:34:13Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-746-wi745-terminal-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-746-wi745-terminal-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Correct the merged WI-745 documentation projections, bind fresh current-base verification evidence, and close the predecessor so dependent Work Items can proceed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-746-wi745-terminal-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-746-wi745-terminal-recovery"
+  },
+  "finalReportDigest": "sha256:ae60c662ff9247c35281eb83e315c8c588576ff1fb4f081adb9d822da1163aa3",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:70442aca58c836d9d64ea0a7e895936546101db54d3600a1eda6b8225f8dd622",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-746-wi745-terminal-recovery.finalize.afa778d9c11e29043f7f513936281c0a3ff0d1df1a0a1ae8b7726e3009dbb1c6.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization-to-continue-and-recover",
+    "decidedAt": "2026-09-09T06:34:13Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-746-wi745-terminal-recovery.finalize.afa778d9c11e29043f7f513936281c0a3ff0d1df1a0a1ae8b7726e3009dbb1c6.json",
+      ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json",
+      "https://github.com/xinglun/ai-cockpit/pull/723"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Repository owner authorized continuation and recovery; PR #723 passed hosted checks and merged as a287c874; the exact merged branch and worktree were removed after preserving the retained Runtime receipt and recording the deleted cleanup transition.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-09T06:36:32Z",
+  "workItemId": "WI-746-wi745-terminal-recovery"
+}
