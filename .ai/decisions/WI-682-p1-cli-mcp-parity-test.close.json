@@ -1,0 +1,134 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:71ab2564b816074cb461a58e2da1716da0562fa9864dd431418b69486f26d0c4",
+      "workItemId": "WI-682-p1-cli-mcp-parity-test"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/pull/679"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via github-pr-679-review-and-merge at 2026-09-09T02:46:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json"
+          ],
+          "inference": false,
+          "text": "A regression that makes the CLI and MCP Outcome representations diverge is caught automatically by cargo test, instead of relying on manual review to notice."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-682-p1-cli-mcp-parity-test"
+  },
+  "finalReportDigest": "sha256:32fd5c0782b3f0cd2550046be919ff21ea0ebcfba37c8e4272df57566ad53f56",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:c1a7ac19c8d91e941f936b801f774dac099a77df91738479d30cb102f3631b60",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-682-p1-cli-mcp-parity-test.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "github-pr-679-review-and-merge",
+    "decidedAt": "2026-09-09T02:46:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/pull/679"
+    ],
+    "policyRefs": [],
+    "reason": "Repository owner (xinglun) reviewed and merged PR #679 on GitHub; explicit authorization for PR merge given in session",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-09T02:59:46Z",
+  "workItemId": "WI-682-p1-cli-mcp-parity-test"
+}
