@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "github-pr-review-pending-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7f27497b370425a03cae67a2736c0fd87a909674",
+    "name": "codex/wi-743-wi715-p1-current-base-redelivery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:dbbba231773e38f6fe810ba5bd2a6a47472948be416237bb4af3c4e50aebdb64",
+  "operationId": "github-pr-716-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "838ae745511942cb55dd7ac30c319cc5bc95e74d",
+    "headRevision": "7f27497b370425a03cae67a2736c0fd87a909674",
+    "number": 716,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/716"
+  },
+  "reason": "PR #716 passed all hosted checks and is awaiting the reviewed merge; retain the exact branch and clean Work Item worktree until merge and cleanup are observed.",
+  "receiptId": "ai-cockpit-WI-743-wi715-p1-current-base-redelivery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-743-wi715-p1-current-base-redelivery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/716",
+    "worktree": "/private/tmp/ai-cockpit-wi743-wi715-p1-current-base-redelivery"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T04:27:58Z",
+  "workItemId": "WI-743-wi715-p1-current-base-redelivery",
+  "worktree": {
+    "branch": "codex/wi-743-wi715-p1-current-base-redelivery",
+    "headRevision": "7f27497b370425a03cae67a2736c0fd87a909674",
+    "path": "/private/tmp/ai-cockpit-wi743-wi715-p1-current-base-redelivery",
+    "worktreeId": "wt-WI-743-wi715-p1-current-base-redelivery"
+  }
+}
