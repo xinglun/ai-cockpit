@@ -1,0 +1,14 @@
+{
+  "scopeAppend": [
+    "docs/work-items/WI-765-wi764-doc-promotion.md",
+    "docs/work-items/WI-765-wi764-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-765-wi764-doc-promotion.ja.md",
+    "docs/work-items/WI-766-wi765-doc-promotion.md",
+    "docs/work-items/WI-766-wi765-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-766-wi765-doc-promotion.ja.md"
+  ],
+  "acceptanceAppend": [
+    "The exact closed Work Item WI-765-wi764-doc-promotion, including its real archive and terminal receipt bindings, is promoted; the initially mistyped WI-765-wi765 documentation paths are recorded as no-change scope mappings.",
+    "The successor's own three-language pages and pre-archive parity entries are present before hosted verification."
+  ]
+}
