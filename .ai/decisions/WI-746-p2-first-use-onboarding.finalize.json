@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "19c57772cc42ac8a73f99e66d59ea3f66105b416",
+    "name": "codex/wi-746-p2-first-use-onboarding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:518eb9f8336c66ad86e1001ac98452f15771528a2dd01974d1e5a1a6b9e3229d",
+  "operationId": "WI-746-p2-first-use-onboarding-premerge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "f25f9b92a951889a85b0497a43d25853e66fb86a",
+    "headRevision": "19c57772cc42ac8a73f99e66d59ea3f66105b416",
+    "number": 721,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/721"
+  },
+  "reason": "PR #721 is retained before merge while hosted quality is blocked by the unrelated active WI-745 Contract route; the reviewed branch and clean worktree must remain available for retry after that governance condition is resolved.",
+  "receiptId": "WI-746-p2-first-use-onboarding-premerge-20260909T055302Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-746-p2-first-use-onboarding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/721",
+    "worktree": "/private/tmp/ai-cockpit-p2-probe.iLI0gc"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T05:53:02Z",
+  "workItemId": "WI-746-p2-first-use-onboarding",
+  "worktree": {
+    "branch": "codex/wi-746-p2-first-use-onboarding",
+    "headRevision": "19c57772cc42ac8a73f99e66d59ea3f66105b416",
+    "path": "/private/tmp/ai-cockpit-p2-probe.iLI0gc",
+    "worktreeId": "WI-746-p2-first-use-onboarding"
+  }
+}
