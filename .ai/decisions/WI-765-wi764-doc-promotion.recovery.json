@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T16:34:38Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-765-wi764-doc-promotion.verification.json",
+    ".ai/decisions/WI-765-wi764-doc-promotion.finalize-context.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:bad1f6056ceae72934470032b6e5a514ba7a1c2b1e7d1a85e99f7f2ba62d8207",
+  "predecessorEventsDigest": "sha256:895d84e0084433b690c46794da7dec756145e03719250a66ce8d6738172fab4e",
+  "predecessorOutcomeDigest": "sha256:6ab78b9b62ddcb7273023030b84efe4c33c03aa86729cd5aa93a2852f912b551",
+  "predecessorSummaryDigest": "sha256:898ee15ea7cd5529d66f003fc1606a36aa74f2d57f3f166fc7d2cf030c934cb2",
+  "predecessorWorkItemId": "WI-765-wi764-doc-promotion",
+  "reason": "The first finish attempt correctly blocked because finalize-plan had not yet bound the non-provisional PR context; the context is now bound to PR #748 and verification remains passed. Retry the lifecycle after recording that repair.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, finish, archive, finalize, and close after hosted PR checks pass.",
+  "runtimeDigest": "sha256:f6684506be3d1fa1f9a1645c9149d26c876d040cbcd958f9de9210916ccc095b",
+  "runtimeVersion": "0.2.88",
+  "schemaVersion": 1,
+  "workItemId": "WI-765-wi764-doc-promotion"
+}

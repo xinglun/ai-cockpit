@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-765-wi764-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-765-wi764-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T16:28:08Z",
+  "checkpointContractDigest": "sha256:9060035a5cc1476fdd2cb992acf2449989f9f707c2e071e443ce4894a53e9175",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bad1f6056ceae72934470032b6e5a514ba7a1c2b1e7d1a85e99f7f2ba62d8207",
+      "recorded": true,
+      "recordedAt": "2026-09-09T16:28:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95e7b367ad9684f706143391f1bb793c96c21a753467d5a0bff93d2773484061",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-765-wi764-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9060035a5cc1476fdd2cb992acf2449989f9f707c2e071e443ce4894a53e9175",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bad1f6056ceae72934470032b6e5a514ba7a1c2b1e7d1a85e99f7f2ba62d8207",
+      "previousContractHash": "sha256:bad1f6056ceae72934470032b6e5a514ba7a1c2b1e7d1a85e99f7f2ba62d8207",
+      "reason": "Hosted docs_governance_integrity identified the active WI's missing three-language pages as an in-scope documentation projection prerequisite; append only those paths and acceptance evidence before retrying hosted verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T16:45:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95e7b367ad9684f706143391f1bb793c96c21a753467d5a0bff93d2773484061",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-765-wi764-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:59be1e6ae21d8090c917ce4da950a6b33b45c296e09b7978a922af9decfaf003",
+  "createdAt": "2026-09-09T16:27:55Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-09T16:50:17Z",
+  "preflightContractDigest": "sha256:9060035a5cc1476fdd2cb992acf2449989f9f707c2e071e443ce4894a53e9175",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:59be1e6ae21d8090c917ce4da950a6b33b45c296e09b7978a922af9decfaf003",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T16:50:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-765-wi764-doc-promotion"
+}

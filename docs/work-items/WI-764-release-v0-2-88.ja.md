@@ -4,7 +4,7 @@ title: WI-764 — v0.2.88 リリース
 description: 次の Runtime release を公開し、不変な公開 artifact と adopter 境界を検証する。
 audience: [adopter, maintainer, reviewer]
 workItemId: WI-764-release-v0-2-88
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-764-release-v0-2-88
 terminalArchive: .ai/work-items/archive/WI-764-release-v0-2-88.contract.json
