@@ -28,3 +28,13 @@ Runtime 行为、产品代码、机器 Contract、授权语义、退出码或 WI
 - WI-759 与 WI-760 均有准确的三语页面。
 - parity rows 绑定本地 Work Item 页面及相关不可变 evidence。
 - pre-archive 文档、治理和状态检查通过，不在 Runtime 生成 close 前宣称终态。
+
+## Supersede 关闭
+
+WI-760 仍是不可变的失败交付：PR #743 的 hosted quality failure、archive、verification
+和原始 recovery 均保持不变。WI-761 完成有界 parity-first successor 后，WI-760 通过追加式
+recovery 和 close 记录被 supersede 并关闭：
+
+- supersede recovery：`.ai/decisions/WI-760-wi759-doc-repair.recovery.59a48d37bdbc566a0dc76635fa4d5ebdcf9ea324cda33322cf0ddc566c644907.json`
+- close：`.ai/decisions/WI-760-wi759-doc-repair.close.json`
+- successor：WI-761，[PR #744](https://github.com/xinglun/ai-cockpit/pull/744)

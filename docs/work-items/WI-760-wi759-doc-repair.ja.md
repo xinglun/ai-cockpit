@@ -30,3 +30,13 @@ semantics、exit codes、WI-759 の historical evidence は変更しません。
 - parity rows が local Work Item pages と関連する immutable evidence に bind されます。
 - pre-archive の documentation、governance、status checks が通り、Runtime が close
   を生成する前に terminal claim を行いません。
+
+## Supersede の完了
+
+WI-760 は immutable な失敗 delivery のままです。PR #743 の hosted quality failure、archive、
+verification、元の recovery は変更しません。WI-761 が parity-first successor を完了したため、
+WI-760 は append-only recovery と close により supersede されました。
+
+- supersede recovery：`.ai/decisions/WI-760-wi759-doc-repair.recovery.59a48d37bdbc566a0dc76635fa4d5ebdcf9ea324cda33322cf0ddc566c644907.json`
+- close：`.ai/decisions/WI-760-wi759-doc-repair.close.json`
+- successor：WI-761、[PR #744](https://github.com/xinglun/ai-cockpit/pull/744)

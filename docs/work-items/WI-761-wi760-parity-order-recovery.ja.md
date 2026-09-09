@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-761 — WI-760 parity-order recovery successor"
 description: "新しい verification evidence より前に parity registration を記録し、WI-760 の文書境界を再配信する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization-for-successor-after-hosted-quality-failure
 workItemId: WI-761-wi760-parity-order-recovery
 lastVerifiedBy: WI-761-wi760-parity-order-recovery
+terminalArchive: .ai/work-items/archive/WI-761-wi760-parity-order-recovery.contract.json
+terminalVerification: .ai/evidence/WI-761-wi760-parity-order-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-761-wi760-parity-order-recovery.finalize.460e47bc655048e5a548b9249d2415e0ba0719a738273532b4e1f0345534fa03.json
+terminalDecision: .ai/decisions/WI-761-wi760-parity-order-recovery.close.json
 ---
 
 [English](WI-761-wi760-parity-order-recovery.md) · [简体中文](WI-761-wi760-parity-order-recovery.zh-CN.md)
