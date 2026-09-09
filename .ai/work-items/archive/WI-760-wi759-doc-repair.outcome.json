@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "The three WI-759 language pages accurately bind its immutable archive, verification, merged PR #742, sequence-1 and sequence-2 finalization receipts, and the pending successor boundary.",
+    "The three WI-760 language pages and parity row are valid pre-archive documentation projections and do not claim WI-760 is terminal before its own lifecycle completes.",
+    "Documentation acceptance, work-item status consistency, governance integrity, and promote_closed_work_item --check-all pass at the applicable terminal boundary.",
+    "No product runtime, machine contract, authorization, evidence, or exit-code behavior changes."
+  ],
+  "createdAt": "2026-09-09T13:04:47Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c87fe15e17dda93b245de5d5d0b155f4cf94cba2368df685013127173f0c76d9",
+  "evidenceRefs": [
+    ".ai/evidence/WI-760-wi759-doc-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-760-wi759-doc-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-760-wi759-doc-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6c97fa7456175b6011c1275f5bd145db06dbb415a378afbc1d6c457e77002ac",
+      "workItemId": "WI-760-wi759-doc-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-760-wi759-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-760-wi759-doc-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-760-wi759-doc-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-760-wi759-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-760-wi759-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-760-wi759-doc-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-760-wi759-doc-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Add accurate WI-759 and WI-760 documentation projections and parity entries so the pending governance boundary can be closed fail-closed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-760-wi759-doc-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-760-wi759-doc-repair"
+  },
+  "taskReportDigest": "sha256:7eb1f9c053c4f6b1726152b73f40b75c5f05d3e32af76ea7ac13121e7bead56e",
+  "taskReportMarkdownDigest": "sha256:3e35cdbfe1779fc3b6b54c5cc01d6fcf42bd07712b533d5c53a0cb1a2de57a8c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-760-wi759-doc-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-760-wi759-doc-repair"
+}

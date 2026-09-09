@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:0ff416c895328e25e5dedfdc21867fb7b0583398d0c9b4e24a059ca76d03ebe0",
-  "createdAt": "2026-09-09T13:00:17Z",
+  "contractDigest": "sha256:23845b7d5b57efebffb41b5915a6aae219a3e4e3dbb2449a38c351883c57b189",
+  "createdAt": "2026-09-09T13:04:42Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 257998,
-      "executionElapsedMs": 257613,
+      "elapsedMs": 178265,
+      "executionElapsedMs": 177951,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 257998,
-    "executionElapsedMs": 257613,
-    "filesHashed": 23,
-    "filesRead": 23,
+    "elapsedMs": 178265,
+    "executionElapsedMs": 177951,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,17 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-759-wi754-doc-promotion.ja.md",
-        "docs/work-items/WI-759-wi754-doc-promotion.md",
-        "docs/work-items/WI-759-wi754-doc-promotion.zh-CN.md",
-        "docs/work-items/WI-760-wi759-doc-repair.ja.md",
-        "docs/work-items/WI-760-wi759-doc-repair.md",
-        "docs/work-items/WI-760-wi759-doc-repair.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "c1863e7ca81e2d92a88c9458358ddad09d1a043a",
       "dependencyConfidence": "unknown",
@@ -54,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 257613,
+      "executionElapsedMs": 177951,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -86,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:8314fae8b6aed56d7645cf79a0bf8a2db2ceab51d17a8661fec0885ce29b60ef",
+        "outputDigest": "sha256:f6cb0b1966129d7918e8c2ea9f7d00768b4c62d950221e26277c68f138d1da43",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -102,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-760-wi759-doc-repair"
   },
-  "receiptDigest": "sha256:68bcff9b3d9db9d48e9f31a2ee99f1140c4e466f6e5e31087c3515848ceb788a",
+  "receiptDigest": "sha256:7bc0d1ea38853ccac32ed82c0e830567b46865e564bebb948bee4b60930d7306",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:c6c97fa7456175b6011c1275f5bd145db06dbb415a378afbc1d6c457e77002ac",
   "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
