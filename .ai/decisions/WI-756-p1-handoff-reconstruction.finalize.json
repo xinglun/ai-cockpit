@@ -1,0 +1,58 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c202a40f029cd85d97151ece40574cc44e9e7129",
+    "name": "codex/wi-756-p1-handoff-reconstruction",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ec648c253a38616501c8e5ce55b9ffd6fe836d83232b3481e3044de5e3dc1032",
+  "operationId": "github-pr-736-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b30b56dcc11978079dcdf6855ee1f915670107e6",
+    "headRevision": "c202a40f029cd85d97151ece40574cc44e9e7129",
+    "mergeCommit": "24305d6b54683c2287850740ee98b87e7f32bf73",
+    "number": 736,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/736"
+  },
+  "reason": "PR #736 passed all hosted checks and merged as 24305d6b. This receipt binds the reviewed head c202a40f, the immutable Contract base b30b56dc, the latest PR base b64df7c3, and exact cleanup of the WI-756 branch and worktree; it makes no user-visible benefit, release, or authorization claim.",
+  "receiptId": "github-pr-736-wi756-cleanup-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-756-p1-handoff-reconstruction",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/736",
+    "worktree": "/private/tmp/ai-cockpit-wi-756-handoff-reconstruction"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:536a155ca6abfd80725b19fb877e96db9626a91c99cddfc320fc7c15502f491b",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T09:29:57Z",
+  "workItemId": "WI-756-p1-handoff-reconstruction",
+  "worktree": {
+    "branch": "codex/wi-756-p1-handoff-reconstruction",
+    "headRevision": "c202a40f029cd85d97151ece40574cc44e9e7129",
+    "path": "/private/tmp/ai-cockpit-wi-756-handoff-reconstruction",
+    "worktreeId": "WI-756-p1-handoff-reconstruction"
+  }
+}
