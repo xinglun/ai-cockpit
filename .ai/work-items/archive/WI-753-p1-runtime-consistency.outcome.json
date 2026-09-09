@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "A1: the controlled-repository test proves the displayed preflight state, explicitly test-data-selected option, and actual checkpoint transition agree.",
+    "A2: the test proves an interrupted verification does not create a false pass and a fresh retry/resume produces current evidence and the corresponding Runtime state.",
+    "A3: the test identifies all simulated human decisions as test data and does not write a real authorization record outside the temporary fixture.",
+    "A4: tri-language contract, scenario matrix, invariant coverage, README, Work Item, and reference-parity projections describe the new evidence without claiming external participant validation."
+  ],
+  "createdAt": "2026-09-09T07:54:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1724105fd6040d4a0ae574040e51a5678f258931990869bc1e6befb7b45a96c4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-753-p1-runtime-consistency.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-753-p1-runtime-consistency.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-753-p1-runtime-consistency.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:17928df20a62890e9a354ee65026aa7e96f601140a3c0a16dda4b68d0a5abaa9",
+      "workItemId": "WI-753-p1-runtime-consistency"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-753-p1-runtime-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-753-p1-runtime-consistency.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-753-p1-runtime-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-753-p1-runtime-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-753-p1-runtime-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-753-p1-runtime-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-753-p1-runtime-consistency.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide executable evidence that state/option/behavior remain aligned without external participants or production behavior changes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-753-p1-runtime-consistency.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-753-p1-runtime-consistency"
+  },
+  "taskReportDigest": "sha256:fdeb958d49d8dc511966aded9874dcff35e0698983cc43e288dbaea9579ad921",
+  "taskReportMarkdownDigest": "sha256:e3ed8a44db17be5a8a5f659404c436b0442056ca46fdea0c394ee12c00684542",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-753-p1-runtime-consistency.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-753-p1-runtime-consistency"
+}

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T07:54:17Z",
+  "files": {
+    "contractDigest": "sha256:56d0078b2c42fb8ec5b58b9d9c079dabca690291dce0c08817855e6e9a010cda",
+    "contractPath": ".ai/work-items/archive/WI-753-p1-runtime-consistency.contract.json",
+    "eventsDigest": "sha256:e7d079f3f1f00a9278a7e1ba7013401057db9a533d58c15fcc615822e5a49b1b",
+    "eventsPath": ".ai/work-items/archive/WI-753-p1-runtime-consistency.events.jsonl",
+    "outcomeDigest": "sha256:7830098b538686b06eea8cab4f21696e082c5b4cde40f793c685ad0cf6d61bb8",
+    "outcomePath": ".ai/work-items/archive/WI-753-p1-runtime-consistency.outcome.json",
+    "summaryDigest": "sha256:da2b56f365522373a82be45cb561251acdafa355cdacb24e7fa0b82ace84eab8",
+    "summaryPath": ".ai/work-items/archive/WI-753-p1-runtime-consistency.summary.json",
+    "taskReportDigest": "sha256:fdeb958d49d8dc511966aded9874dcff35e0698983cc43e288dbaea9579ad921",
+    "taskReportMarkdownDigest": "sha256:e3ed8a44db17be5a8a5f659404c436b0442056ca46fdea0c394ee12c00684542",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-753-p1-runtime-consistency.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-753-p1-runtime-consistency.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-753-p1-runtime-consistency"
+}
