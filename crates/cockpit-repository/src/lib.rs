@@ -81,8 +81,9 @@ use lifecycle::{
     work_item_artifact_path,
 };
 pub use outcome_render::{
-    HumanDecisionProjection, OutcomeRenderInput, outcome_render_input,
-    outcome_render_input_from_outcome, outcome_render_input_with_runtime, render_human_outcome,
+    HumanDecisionProjection, OutcomeRenderInput, OutcomeRenderView, outcome_render_input,
+    outcome_render_input_from_outcome, outcome_render_input_with_runtime,
+    render_full_human_outcome, render_human_outcome, render_human_outcome_with_view,
 };
 pub use project_governance::*;
 use status_projection::{
