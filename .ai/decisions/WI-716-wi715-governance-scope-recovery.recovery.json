@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T01:35:45Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/709",
+    ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:59f6a93ddd90f4d46a159df4f662e904f2240dd9fa8cc1087f8794ee6ad9ee0b",
+  "predecessorEventsDigest": "sha256:471170cb7b80de4a095b91920759d9c67665c08000b44548772fa176dab6aaf3",
+  "predecessorOutcomeDigest": "sha256:0f266fe45da960cebfeda5297758806d4e26d58bd8c55ebe6c5f666545acb122",
+  "predecessorSummaryDigest": "sha256:6610010008de203ef7b4143c49e940343b5b68797da352c455c84e387775eec2",
+  "predecessorWorkItemId": "WI-716-wi715-governance-scope-recovery",
+  "reason": "Runtime correctly rejected finish because the resource finalization plan had not been bound before verification. Retry the same Work Item after binding the real reviewed PR, branch, worktree, and base context, then refresh verification and complete the normal lifecycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run finalize-plan before a fresh preflight, checkpoint, and verification; then finish, archive, finalize, finalize-verify, and close WI-716.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-716-wi715-governance-scope-recovery"
+}

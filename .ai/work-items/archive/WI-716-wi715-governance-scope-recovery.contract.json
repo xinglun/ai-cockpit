@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "WI-715 的 supersede/successor recovery、finalization 和历史证据保持可验证且不被改写。",
+    "治理 gate、三语言 parity 和 Work Item status consistency 对同一完整 Work Item ID 保持确定性，不再按数字短 ID 合并无关记录。",
+    "CLI/MCP 与 Rust workspace 验证通过，机器契约和产品运行时行为无变化。",
+    "WI-716 文档和 parity 投影明确记录 recovery 原因、证据边界、完成状态及 successor close 事实。"
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "d1141480fb7a045979098480c3770d06002e2a87",
+  "createdAt": "2026-09-09T01:22:01Z",
+  "goal": "在不重写 WI-715 历史、不改变产品判定或机器契约的前提下，记录并验证 parity/gate scope 修复，完成 successor 的 reviewed delivery 与治理关闭。",
+  "intent": "完成 WI-715 合并后暴露的治理 scope 收尾，保留前置 Outcome 历史并使 successor 的 Contract、证据、PR 和 close 可独立审计。",
+  "mode": "implementation",
+  "outOfScope": [
+    "产品运行时行为、Outcome 判定规则、退出码、机器 JSON schema、授权语义、历史 WI-715 archive/evidence bytes、其他 agent 的 worktree/branch/PR。"
+  ],
+  "predecessorContractDigest": "sha256:2dd6e7f34e44c7f2b2066d539f35097f808cb203653688df5df34f472070303f",
+  "predecessorWorkItemId": "WI-715-wi713-p0b-redelivery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-715-wi713-p0b-redelivery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e7ad58b7031c42fe00305d7f990ecadb92d3a66645bea188ac3b038471be13a7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-716-wi715-governance-scope-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/709",
+    "worktree": "/private/tmp/ai-cockpit-wi-716-wi715-governance-scope-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-716-wi715-governance-scope-recovery.md",
+    "docs/work-items/WI-716-wi715-governance-scope-recovery.zh-CN.md",
+    "docs/work-items/WI-716-wi715-governance-scope-recovery.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-716-wi715-governance-scope-recovery"
+}
