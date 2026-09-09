@@ -32,7 +32,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-719-p1-streaming-hash",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/715",
     "worktree": "/private/tmp/ai-cockpit-wi719-p1-streaming-hash"
   },
   "risk": "high",

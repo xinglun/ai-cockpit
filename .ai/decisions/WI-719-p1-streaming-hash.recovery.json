@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "authorized recovery after the blocked finish projection",
+  "decidedAt": "2026-09-09T04:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-719-p1-streaming-hash.summary.json",
+    ".ai/work-items/active/WI-719-p1-streaming-hash.outcome.json",
+    ".ai/work-items/active/WI-719-p1-streaming-hash.events.jsonl",
+    ".ai/evidence/WI-719-p1-streaming-hash.verification.json",
+    ".ai/evidence/external/WI-719-p1-streaming-hash.experiment-summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:c100c88f37b82fa0094e6ade2307f5ba0005c1bf5f78d0cc51f15e83e47dd3d0",
+  "predecessorEventsDigest": "sha256:9e32b6aa750122b42277ab2573c9070c82da3abf01798427492f049be1fa2cab",
+  "predecessorOutcomeDigest": "sha256:27a2598cfe6a59cdcf55c998d02d4865db3d8a08f4907eeda99fa775a4049a65",
+  "predecessorSummaryDigest": "sha256:befa1136b99a42b0eb12f402494f7a8682ca26e67402254cde17e752799192c2",
+  "predecessorWorkItemId": "WI-719-p1-streaming-hash",
+  "reason": "The finish lifecycle was blocked after the real PR finalization plan changed the Contract binding, leaving the previous verification receipt stale. This explicit retry preserves the predecessor Summary, Outcome, Events, and all failed experiment evidence; it authorizes one fresh preflight, verification, and finish attempt for the same WI-719 scope, with the candidate still declined and production source unchanged.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the current PR-bound Contract, then retry finish; do not claim a production performance benefit.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-719-p1-streaming-hash"
+}

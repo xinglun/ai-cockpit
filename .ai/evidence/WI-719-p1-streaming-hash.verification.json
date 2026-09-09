@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
-  "createdAt": "2026-09-09T04:09:04Z",
+  "contractDigest": "sha256:c100c88f37b82fa0094e6ade2307f5ba0005c1bf5f78d0cc51f15e83e47dd3d0",
+  "createdAt": "2026-09-09T04:40:20Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 177052,
-      "executionElapsedMs": 176514,
+      "elapsedMs": 184417,
+      "executionElapsedMs": 183983,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 177052,
-    "executionElapsedMs": 176514,
-    "filesHashed": 22,
-    "filesRead": 24,
+    "elapsedMs": 184417,
+    "executionElapsedMs": 183983,
+    "filesHashed": 10,
+    "filesRead": 12,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,14 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-719-p1-streaming-hash.ja.md",
-        "docs/work-items/WI-719-p1-streaming-hash.md",
-        "docs/work-items/WI-719-p1-streaming-hash.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "caa6ddffcc1847c9a1161e1d8aa414f1acabd11e",
       "dependencyConfidence": "unknown",
@@ -51,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 176514,
+      "executionElapsedMs": 183983,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+      "repositorySnapshotDigest": "sha256:3f95518478aa12b507d1c933ccd902fa78bdc21b1b4d066efa2993957d594380",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -83,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:4b484b35dc05178fea374a76cc499dc2546c50c82b636044050407e7d075e274",
+        "outputDigest": "sha256:56fbf19d4e6fa106e9eab0f6e4463d6975584258e9d0f0e01c33a4f6d2714c06",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -99,9 +92,9 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-719-p1-streaming-hash"
   },
-  "receiptDigest": "sha256:91af20612b3d36a6881cddd3b0c0a975316cb7c07f30e31ae248c4679e059240",
+  "receiptDigest": "sha256:f55b5f94313fc0d2aed65c8c8a1a15ef5992211c9786717e480f83931df8b68a",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+  "repositorySnapshotDigest": "sha256:3f95518478aa12b507d1c933ccd902fa78bdc21b1b4d066efa2993957d594380",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
   "runtimeVersion": "0.2.87",
   "workItemId": "WI-719-p1-streaming-hash"

@@ -8,14 +8,17 @@
     "所有内部字节、CPU、峰值内存、Git 调用或子进程指标若 Runtime/平台不能可靠提供，必须标记 unavailable，不能填零，也不能以缓存命中率替代端到端或资源收益。",
     "不引入跨请求、跨仓库、跨 Work Item 的缓存，不改变 IncrementalMerkle、快照边界、授权边界、恢复能力、历史证据字节、Outcome 语义或发布二进制验收规则；交付包含中、英、日 Work Item 文档、reference-parity、原始/汇总测量、正确性、限制、PR、证据和最终治理状态。"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-09T04:41:48Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5c06ca745b771003e00508c8d3d8dffb78d657bf12b332637508c449946e6bd8",
   "evidenceRefs": [
     ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -23,62 +26,59 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+      "repositorySnapshotDigest": "sha256:3f95518478aa12b507d1c933ccd902fa78bdc21b1b4d066efa2993957d594380",
       "workItemId": "WI-719-p1-streaming-hash"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-719-p1-streaming-hash.summary.json"
+            ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-719-p1-streaming-hash.preflight-review.d94645c987df9a114b17175eb047b09696014d485daebaf82628aeee306c20ca.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-719-p1-streaming-hash.summary.json"
+            ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-719-p1-streaming-hash.preflight-review.e5b17d61c260e0dc4c4252b2b268f8fa7e0a5eb0843231caf3899435f0bcd598.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-719-p1-streaming-hash.summary.json"
+            ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-719-p1-streaming-hash.preflight-review.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-719-p1-streaming-hash.summary.json"
+            ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-719-p1-streaming-hash.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-719-p1-streaming-hash.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-719-p1-streaming-hash.summary.json"
+            ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-719-p1-streaming-hash.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
         }
       ],
       "evidence": [
@@ -97,15 +97,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -116,7 +108,7 @@
             ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -126,15 +118,23 @@
             ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-719-p1-streaming-hash.contract.json"
+            ".ai/work-items/archive/WI-719-p1-streaming-hash.contract.json"
           ],
           "inference": false,
           "text": "在变更大文件场景降低工作区文件整体载入的内存峰值和不必要的文本复制成本，同时保持可信治理决定、摘要字节语义及全部 fail-closed 边界。"
@@ -143,23 +143,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-719-p1-streaming-hash.contract.json"
+            ".ai/work-items/archive/WI-719-p1-streaming-hash.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-719-p1-streaming-hash"
   },
+  "taskReportDigest": "sha256:3a1a6c41911ba99bc7d16c26a4aa3f8f17ee6bfeae8900c81f583151b63f5d6e",
+  "taskReportMarkdownDigest": "sha256:3b698875c33eb323344eed1bad5906564fba6bd089cc90a64e0c466c1be022c4",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-719-p1-streaming-hash.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-719-p1-streaming-hash"
 }

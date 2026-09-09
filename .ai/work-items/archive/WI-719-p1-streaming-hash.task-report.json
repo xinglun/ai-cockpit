@@ -1,0 +1,123 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3f95518478aa12b507d1c933ccd902fa78bdc21b1b4d066efa2993957d594380",
+    "workItemId": "WI-719-p1-streaming-hash"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-719-p1-streaming-hash.preflight-review.d94645c987df9a114b17175eb047b09696014d485daebaf82628aeee306c20ca.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-719-p1-streaming-hash.preflight-review.e5b17d61c260e0dc4c4252b2b268f8fa7e0a5eb0843231caf3899435f0bcd598.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-719-p1-streaming-hash.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-719-p1-streaming-hash.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-719-p1-streaming-hash.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-719-p1-streaming-hash.contract.json"
+        ],
+        "inference": false,
+        "text": "在变更大文件场景降低工作区文件整体载入的内存峰值和不必要的文本复制成本，同时保持可信治理决定、摘要字节语义及全部 fail-closed 边界。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-719-p1-streaming-hash.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-719-p1-streaming-hash"
+}

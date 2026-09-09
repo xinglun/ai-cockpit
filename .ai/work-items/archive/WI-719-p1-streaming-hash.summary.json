@@ -3,11 +3,11 @@
     ".ai/decisions/WI-719-p1-streaming-hash.preflight-review.d94645c987df9a114b17175eb047b09696014d485daebaf82628aeee306c20ca.json",
     ".ai/decisions/WI-719-p1-streaming-hash.preflight-review.e5b17d61c260e0dc4c4252b2b268f8fa7e0a5eb0843231caf3899435f0bcd598.json",
     ".ai/decisions/WI-719-p1-streaming-hash.preflight-review.json",
-    ".ai/work-items/active/WI-719-p1-streaming-hash.contract.json",
-    ".ai/work-items/active/WI-719-p1-streaming-hash.summary.json"
+    ".ai/work-items/archive/WI-719-p1-streaming-hash.contract.json",
+    ".ai/work-items/archive/WI-719-p1-streaming-hash.summary.json"
   ],
   "checkpointAt": "2026-09-09T03:15:46Z",
-  "checkpointContractDigest": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
+  "checkpointContractDigest": "sha256:c100c88f37b82fa0094e6ade2307f5ba0005c1bf5f78d0cc51f15e83e47dd3d0",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -65,10 +65,10 @@
       "workItemId": "WI-719-p1-streaming-hash"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+  "checkpointRepositorySnapshotDigest": "sha256:3f95518478aa12b507d1c933ccd902fa78bdc21b1b4d066efa2993957d594380",
   "createdAt": "2026-09-09T03:07:32Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
+    "contractDigest": "sha256:c100c88f37b82fa0094e6ade2307f5ba0005c1bf5f78d0cc51f15e83e47dd3d0",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
@@ -76,11 +76,10 @@
     "recordedAt": "2026-09-09T04:40:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+    "repositorySnapshotDigest": "sha256:3f95518478aa12b507d1c933ccd902fa78bdc21b1b4d066efa2993957d594380",
     "schemaVersion": 1,
     "workItemId": "WI-719-p1-streaming-hash"
   },
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "crates/cockpit-git/src/lib.rs",
@@ -90,14 +89,12 @@
     "state": "resolved"
   },
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-09T04:09:59Z",
-  "preflightContractDigest": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
+  "preflightAt": "2026-09-09T04:41:35Z",
+  "preflightContractDigest": "sha256:c100c88f37b82fa0094e6ade2307f5ba0005c1bf5f78d0cc51f15e83e47dd3d0",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+  "preflightRepositorySnapshotDigest": "sha256:3f95518478aa12b507d1c933ccd902fa78bdc21b1b4d066efa2993957d594380",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -149,14 +146,13 @@
       "verificationPlan": "normalized baseline/candidate inspect, status, doctor, and observe output comparison plus existing cockpit-git tests"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T04:10:07Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T04:41:48Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:78f8067707df1266b38206c282f49f66c77edf88fb0ec090e12f7da86d17f180",
   "workItemId": "WI-719-p1-streaming-hash"
 }
