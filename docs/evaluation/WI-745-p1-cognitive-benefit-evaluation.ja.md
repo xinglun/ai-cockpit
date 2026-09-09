@@ -54,4 +54,3 @@ archive の元状態と現在 Runtime の projection は生成 evidence に両�
 ```sh
 bash tests/evaluation/WI-745-p1-cognitive-benefit-evaluation_test.sh
 ```
-
