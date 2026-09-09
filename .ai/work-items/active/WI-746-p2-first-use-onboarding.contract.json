@@ -1,0 +1,84 @@
+{
+  "acceptanceCriteria": [
+    "English, Simplified Chinese, and Japanese homepages show the same verified complete case with reproducible input and scope, observed findings, evidence boundary, human decision, and remaining unknowns.",
+    "The first-use route explicitly separates installation, repository attach, calibration, and the first governance Work Item, with deterministic links and commands.",
+    "The example can be repeated from a source checkout or an attached repository using documented commands and placeholders; it makes no unverified time-saving, safety, or risk-interception claim.",
+    "The First Work Item pages explain how the real archived case maps from input to evidence, Outcome, human decision, and cleanup, while preserving the Runtime lifecycle and authorization boundaries.",
+    "The tri-language documentation passes the repository parity, getting-started semantic, and documentation acceptance checks once the independent active Work Item is closed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f25f9b92a951889a85b0497a43d25853e66fb86a",
+  "createdAt": "2026-09-09T05:31:02Z",
+  "goal": "Complete the first-use and README path with a verified, reproducible case that lowers onboarding reading cost without inventing benefits or governance authority.",
+  "intent": "Make a new adopter understand what to install, what attach and calibration do, how the first governance Work Item proceeds, what evidence supports the example, and which human decision remains theirs.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust production behavior",
+    "Outcome schema and CLI/MCP contracts",
+    "Runtime rules",
+    " exit codes",
+    " and authorization semantics",
+    "Historical evidence",
+    " archive",
+    " or decision bytes",
+    "Release publishing or installation artifact changes",
+    "External participant recruitment or user research",
+    "Claims of measured time savings",
+    " safety",
+    " or risk interception",
+    "P2 performance and Repository architecture work"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-746-p2-first-use-onboarding",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-p2-probe.iLI0gc"
+  },
+  "risk": "low",
+  "scope": [
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/getting-started/README.md",
+    "docs/getting-started/README.zh-CN.md",
+    "docs/getting-started/README.ja.md",
+    "docs/getting-started/first-work-item.md",
+    "docs/getting-started/first-work-item.zh-CN.md",
+    "docs/getting-started/first-work-item.ja.md"
+  ],
+  "sources": [
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/getting-started/README.md",
+    "docs/getting-started/README.zh-CN.md",
+    "docs/getting-started/README.ja.md",
+    "docs/getting-started/first-work-item.md",
+    "docs/getting-started/first-work-item.zh-CN.md",
+    "docs/getting-started/first-work-item.ja.md",
+    "docs/getting-started/30-second-start.md",
+    "docs/getting-started/standard-adoption-guide.md",
+    ".ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json",
+    ".ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json",
+    ".ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json",
+    ".ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json",
+    "docs/reference/outcome-report.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "git diff --check",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-746-p2-first-use-onboarding"
+}

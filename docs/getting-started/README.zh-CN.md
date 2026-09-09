@@ -27,6 +27,21 @@ capabilityClaims:
 安装是共享 Runtime 操作；repository attach 是显式操作，会创建 repository-local `.ai/`。
 一份 Runtime 可以服务多个 repository，但不会共享它们的 Work Item、evidence 或 active context。
 
+## 区分首次使用的四个阶段
+
+首次使用路线包含四种不同的决定。前一个阶段成功，不代表后一个阶段已经获批：
+
+1. **安装：** 获取不可变的公开 Release 并验证 digest，参见[安装](installation.zh-CN.md)。
+2. **Repository attach：** 检查目标并创建 repository-local `.ai/` 状态；attach 不批准工作，
+   也不安装全局 Agent 设置。
+3. **校准：** 检查只读 profile candidate，并确认项目自有的质量命令，参见
+   [Repository profile 校准](calibration.zh-CN.md)。
+4. **首个受治理 Work Item：** 声明 scope 和 authority，通过 preflight 与 checkpoint，收集证据，
+   交付可见 Outcome，并取得人工决定，参见[首个 Work Item](first-work-item.zh-CN.md)。
+
+[经过验证的完整案例](first-work-item.zh-CN.md#经过验证的完整案例)展示了这些事实，
+不会把验证通过变成人工授权。
+
 ## 读者路线
 
 - [30 秒开始](30-second-start.zh-CN.md)——inspect、attach、status 与 doctor。

@@ -1,0 +1,65 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-746-p2-first-use-onboarding.contract.json",
+    ".ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T05:33:05Z",
+  "checkpointContractDigest": "sha256:807561aa85bd3394d54dfa7640af4450d0bc6fe3fc7735e86c3f539bb0b40793",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d6c68d258c0566fdd521ef7b289e9ae84fe9fc5952f70c4842d825ddad1ee794",
+      "recorded": true,
+      "recordedAt": "2026-09-09T05:33:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-746-p2-first-use-onboarding"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:807561aa85bd3394d54dfa7640af4450d0bc6fe3fc7735e86c3f539bb0b40793",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d6c68d258c0566fdd521ef7b289e9ae84fe9fc5952f70c4842d825ddad1ee794",
+      "previousContractHash": "sha256:d6c68d258c0566fdd521ef7b289e9ae84fe9fc5952f70c4842d825ddad1ee794",
+      "reason": "Align the declared verification commands with the documentation-only Contract before implementation.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T05:36:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-746-p2-first-use-onboarding"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3e82fb1af081f2ce4fd323fd25e7c4165c584dd522e0a932e335f8ac2fa18396",
+  "createdAt": "2026-09-09T05:31:02Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T05:40:23Z",
+  "preflightContractDigest": "sha256:807561aa85bd3394d54dfa7640af4450d0bc6fe3fc7735e86c3f539bb0b40793",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3e82fb1af081f2ce4fd323fd25e7c4165c584dd522e0a932e335f8ac2fa18396",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T05:33:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:40f8ffe2dc1b889a2cd33f5eadd7c4cca009173e10b88cfe5af68f8cca7dd830",
+  "workItemId": "WI-746-p2-first-use-onboarding"
+}
