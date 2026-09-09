@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-750——P1 认知收益评估"
 description: "记录固定任务集、评分方法和有证据边界的认知收益评估材料。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:xinglun
 workItemId: WI-750-p1-cognitive-benefit-current-base
 lastVerifiedBy: WI-750-p1-cognitive-benefit-current-base
+terminalArchive: .ai/work-items/archive/WI-750-p1-cognitive-benefit-current-base.contract.json
+terminalVerification: .ai/evidence/WI-750-p1-cognitive-benefit-current-base.verification.json
+terminalFinalization: .ai/decisions/WI-750-p1-cognitive-benefit-current-base.finalize.json
+terminalDecision: .ai/decisions/WI-750-p1-cognitive-benefit-current-base.close.json
 ---
 
 [English](WI-750-p1-cognitive-benefit-current-base.md) · [日本語](WI-750-p1-cognitive-benefit-current-base.ja.md)

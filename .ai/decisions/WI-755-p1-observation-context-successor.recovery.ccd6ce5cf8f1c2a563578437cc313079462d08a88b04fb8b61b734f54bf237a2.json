@@ -1,0 +1,34 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T08:39:50Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-755-p1-observation-context-successor.contract.json",
+    ".ai/work-items/archive/WI-755-p1-observation-context-successor.summary.json",
+    ".ai/work-items/archive/WI-755-p1-observation-context-successor.outcome.json",
+    ".ai/evidence/WI-755-p1-observation-context-successor.verification.json",
+    ".ai/decisions/WI-755-p1-observation-context-successor.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/735"
+  ],
+  "policyRefs": [
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:reviewed-merge-and-exact-cleanup",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:a6848077610b566cd659246cc69c87815fb2208665be31b2d4cedc0800e47420",
+  "predecessorEventsDigest": "sha256:cca0820854611387fd7b4baaa9df4bf83ce608c492aca13cd86e4400f3d36b62",
+  "predecessorOutcomeDigest": "sha256:802b6e3eba48d000fa7b3102f4c6de00015d5b575519688f4a743855ba0d0633",
+  "predecessorSummaryDigest": "sha256:4fc300d1bed9c056722f49a5f9ca1c46e3209ac5edfaf74e587d711e2494acbe",
+  "predecessorWorkItemId": "WI-755-p1-observation-context-successor",
+  "reason": "WI-755 PR #735 is merged and hosted checks passed, but its immutable pre-merge finalization receipt binds an intermediate head 251c3867 while the reviewed PR head is 06f7d03f. Runtime correctly rejects an unbound finalization head transition. Preserve WI-755 history and redeliver the finalization-chain repair through a bounded successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-758 from the latest synchronized origin/main with a fresh Contract, explicit resource context, verification of the merged WI-755 implementation and finalization-chain facts, reviewed PR, exact finalization cleanup, structured close, and terminal parity promotion; do not rewrite WI-755 archived bytes.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-758-wi755-finalization-recovery",
+  "workItemId": "WI-755-p1-observation-context-successor"
+}
