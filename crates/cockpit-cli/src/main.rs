@@ -358,6 +358,19 @@ enum WorkItemCommand {
         #[arg(long)]
         reason: String,
     },
+    /// Apply only additive Contract fields, then append amendment evidence.
+    Amend {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// JSON object with additive scopeAppend, outOfScopeAppend,
+        /// acceptanceAppend, and/or requiredEvidenceClassesAppend arrays.
+        #[arg(long)]
+        input: PathBuf,
+        #[arg(long)]
+        reason: String,
+    },
     /// Append a successor revalidation for an archived Contract that was
     /// legitimately amended after its historical verification.  The
     /// predecessor archive/evidence bytes remain immutable.
@@ -1244,6 +1257,22 @@ fn run() -> Result<()> {
                 require_compatible(&repo, &runtime_context)?;
                 let record = cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
                     .context("revalidate amended Contract")?;
+                println!("{}", serde_json::to_string_pretty(&record)?);
+            }
+            WorkItemCommand::Amend {
+                repo,
+                id,
+                input,
+                reason,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let input: serde_json::Value = serde_json::from_slice(
+                    &std::fs::read(&input).context("read Contract amendment input")?,
+                )
+                .context("parse Contract amendment input")?;
+                let record =
+                    cockpit_repository::amend_work_item_contract(&repo, &id, &input, &reason)
+                        .context("apply bounded Contract amendment")?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::RevalidateArchived {

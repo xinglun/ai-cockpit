@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "647bbfd757d4da7073eafabca186d4e113f322a5",
+    "name": "codex/wi-754-runtime-recovery-digest",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:509d455da38f8e906b451067e78c34f1ce17559073f4faf32288995cb1161f35",
+  "operationId": "operation-WI-754-runtime-recovery-digest-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "08de2fc2aa7b9530bd1d7764475152689c4851d7",
+    "headRevision": "647bbfd757d4da7073eafabca186d4e113f322a5",
+    "number": 732,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/732"
+  },
+  "reason": "awaiting_merge_close: PR #732 is open and the exact reviewed branch and worktree must be retained",
+  "receiptId": "ai-cockpit-WI-754-runtime-recovery-digest-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-754-runtime-recovery-digest",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/732",
+    "worktree": "/private/tmp/ai-cockpit-wi-754-runtime-recovery-digest"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:636bb1fbd6f8289da4ea7790297da39fc69975d4a3876445ff2646ac71efdc16",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T10:10:00Z",
+  "workItemId": "WI-754-runtime-recovery-digest",
+  "worktree": {
+    "branch": "codex/wi-754-runtime-recovery-digest",
+    "headRevision": "647bbfd757d4da7073eafabca186d4e113f322a5",
+    "path": "/private/tmp/ai-cockpit-wi-754-runtime-recovery-digest",
+    "worktreeId": "WI-754-runtime-recovery-digest"
+  }
+}
