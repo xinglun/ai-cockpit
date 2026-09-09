@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-749-wi745-parity-receipt.contract.json",
-    ".ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+    ".ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json",
+    ".ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json"
   ],
   "checkpointAt": "2026-09-09T06:43:14Z",
   "checkpointContractDigest": "sha256:254b2b28a48218541d33c42d352c0ab91a704fbc2655048cbc04b441aa237dda",

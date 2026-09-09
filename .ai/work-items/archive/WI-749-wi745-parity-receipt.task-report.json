@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+          ".ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+          ".ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+          ".ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json"
         ],
         "inference": false,
         "text": "Register the current WI-745 recovery decision path in the three reference-parity documents and pass the documentation governance checks."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+          ".ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

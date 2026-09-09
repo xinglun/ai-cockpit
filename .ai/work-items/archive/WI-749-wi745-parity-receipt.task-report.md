@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-749-wi745-parity-receipt.contract.json
-- Changed path: .ai/work-items/active/WI-749-wi745-parity-receipt.summary.json
+- Changed path: .ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json
+- Changed path: .ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json
 
 ## Findings
 

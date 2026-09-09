@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+            ".ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+            ".ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+            ".ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json"
           ],
           "inference": false,
           "text": "Register the current WI-745 recovery decision path in the three reference-parity documents and pass the documentation governance checks."
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+            ".ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-749-wi745-parity-receipt"
   },
-  "taskReportDigest": "sha256:9f32e93b38a3f488eb934976587fac51bc7b5a7e754aae51469794bad8d35dcc",
-  "taskReportMarkdownDigest": "sha256:cdf65de1f0325a515381f33d5a0537748e7309e7c185f88461c4bc829ef9cc4c",
+  "taskReportDigest": "sha256:d30cba80ae21cd837ae06927706a3c20c0fa37224128345e37b372d14bb79b0f",
+  "taskReportMarkdownDigest": "sha256:d2f4567995bc68cd9dc8fccb0142426d95344e787dac957fa28296d6eea69a26",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
