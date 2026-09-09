@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T11:45:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:0c1b52a15476e9d7b0f9f1e5e13e8ffd59f6ff2a5345a289877e3313841dbeb6",
+  "predecessorEventsDigest": "sha256:88ee6ab72df857a522ddcb7a473cf1d6a80a7ddfe0644f688ffcbdfd75be0613",
+  "predecessorOutcomeDigest": "sha256:ebda3c4e977b4a01258e16fa80112fa767fcb4b637e9fbc4b260952dad281a9c",
+  "predecessorSummaryDigest": "sha256:f58889c89f297d9ac6149415ac6e96ec231b740d80b01daf8fab4193a74d6f2e",
+  "predecessorWorkItemId": "WI-754-runtime-recovery-digest",
+  "reason": "The merged WI-754 predecessor retains an immutable finalization receipt from an older Runtime identity; revalidate its post-merge cleanup and close under the current Runtime without changing production behavior.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete fresh successor verification, finalization, close, and hosted governance checks before projecting the predecessor closed.",
+  "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-754-runtime-recovery-digest-revalidation",
+  "workItemId": "WI-754-runtime-recovery-digest"
+}

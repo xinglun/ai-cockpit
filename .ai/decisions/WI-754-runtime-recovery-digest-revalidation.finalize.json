@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "204b5a77",
+    "name": "codex/wi-754-post-merge-revalidation",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:5af2959daab1ffe00dcc3688a217a4a6c0327004a29dcbffeab5f1f305f45335",
+  "operationId": "operation-WI-754-runtime-recovery-digest-revalidation-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c6562c0998cab1d54e4274b90464048634bf5ebc",
+    "headRevision": "204b5a77",
+    "number": 740,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/740"
+  },
+  "reason": "awaiting_merge_close: recovery PR #740 is open and the exact reviewed branch and worktree must be retained",
+  "receiptId": "ai-cockpit-WI-754-runtime-recovery-digest-revalidation-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-754-post-merge-revalidation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/740",
+    "worktree": "/private/tmp/ai-cockpit-wi-754-post-merge-revalidation"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T11:40:00Z",
+  "workItemId": "WI-754-runtime-recovery-digest-revalidation",
+  "worktree": {
+    "branch": "codex/wi-754-post-merge-revalidation",
+    "headRevision": "204b5a77",
+    "path": "/private/tmp/ai-cockpit-wi-754-post-merge-revalidation",
+    "worktreeId": "WI-754-runtime-recovery-digest-revalidation"
+  }
+}
