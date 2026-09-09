@@ -17,15 +17,22 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:9f0e633d389f022fa552401852ac3e65ada7bd4de00f3d8a20e02a8462c08448",
   "predecessorWorkItemId": "WI-714-wi713-current-base-revalidation",
-  "preflightAt": "2026-09-09T00:24:14Z",
+  "preflightAt": "2026-09-09T00:28:56Z",
   "preflightContractDigest": "sha256:184b51d3ab7dfa4b7e32f3b0272d82ead9c9964a6386e6abbd0ab35994bf2a8e",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:ca4d59d796278d1aedc08fec303d6f7d4c7ed00e15351729e5e62cda39338461",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-714-wi713-current-base-revalidation.recovery.3efe3143da8d84cb32db0877de59ee702b12034925d300b895f5449cb756d676.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-09T00:24:18Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:8861301ff0946cf5eb85ec7038887a405fe0958de87efa649a62e9e4d5e9aaf4",
   "workItemId": "WI-715-wi713-p0b-redelivery"
 }
