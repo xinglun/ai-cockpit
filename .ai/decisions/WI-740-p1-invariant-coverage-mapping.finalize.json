@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "github-pr-review-and-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "20a8c40469aa6ff92c9a0dbaa2e6a1236d2d3fdb",
+    "name": "claude/wi-740-p1-invariant-coverage-mapping",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:9ed34daad48f491d8167bfd63830ad36b55261351acd8c929ebdbb4e675239a3",
+  "operationId": "github-pr-712-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "caa6ddffcc1847c9a1161e1d8aa414f1acabd11e",
+    "headRevision": "20a8c40469aa6ff92c9a0dbaa2e6a1236d2d3fdb",
+    "mergeCommit": "f67bd65f43665af67ffe1847953d5594cc72fed8",
+    "number": 712,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/712"
+  },
+  "reason": "PR #712 reviewed and merged by repository owner (xinglun) on GitHub after explicit merge authorization in this session; branch and worktree cleaned up after merge",
+  "receiptId": "receipt-WI-740-p1-invariant-coverage-mapping",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-740-p1-invariant-coverage-mapping",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/712",
+    "worktree": "/private/tmp/ai-cockpit-wi-740-p1-invariant-coverage-mapping"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T03:20:45Z",
+  "workItemId": "WI-740-p1-invariant-coverage-mapping",
+  "worktree": {
+    "branch": "claude/wi-740-p1-invariant-coverage-mapping",
+    "headRevision": "20a8c40469aa6ff92c9a0dbaa2e6a1236d2d3fdb",
+    "path": "/private/tmp/ai-cockpit-wi-740-p1-invariant-coverage-mapping",
+    "worktreeId": "wt-WI-740-p1-invariant-coverage-mapping"
+  }
+}
