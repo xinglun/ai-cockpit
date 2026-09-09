@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:04c3488469b436c03d9566b72f4692869979d151e20e3de16301054e462c1f75",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Explicitly confirm the amended WI-768 Contract after the fresh full workspace verification receipt was recorded and the Runtime recomputed the current governance decision. This authorizes continued release-route verification only; it does not assert that hosted checks, public artifacts, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-09T19:05:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
+  "schemaVersion": 1,
+  "workItemId": "WI-768-release-v0-2-89"
+}
