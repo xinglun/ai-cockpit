@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "db2d69c32d2af0f9ab6bae5c56b567f10a2fd0db",
+    "name": "codex/wi-717-wi716-closed-projection-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:50a69a86011058f0118bdd08b26bf3b2498bdb98f0aa7d45b7c3d64ff05f0eee",
+  "operationId": "github-pr-710-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7274ac90f40574a551881bac35b4b9f88f35f7dc",
+    "headRevision": "db2d69c32d2af0f9ab6bae5c56b567f10a2fd0db",
+    "mergeCommit": "cf6c7b0ca2386084dbc5b6f642523fc4521b2812",
+    "number": 710,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/710"
+  },
+  "reason": "PR #710 passed all hosted checks and merged as cf6c7b0ca2386084dbc5b6f642523fc4521b2812; origin/main will be synchronized to that merge, and the exact WI-717 branch and dedicated worktree will be removed after cleanup verification.",
+  "receiptId": "github-pr-710-finalization-20260909",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-717-wi716-closed-projection-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/710",
+    "worktree": "/private/tmp/ai-cockpit-wi-717-closed-projection-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T02:27:00Z",
+  "workItemId": "WI-717-wi716-closed-projection-promotion",
+  "worktree": {
+    "branch": "codex/wi-717-wi716-closed-projection-promotion",
+    "headRevision": "db2d69c32d2af0f9ab6bae5c56b567f10a2fd0db",
+    "path": "/private/tmp/ai-cockpit-wi-717-closed-projection-promotion",
+    "worktreeId": "WI-717-wi716-closed-projection-promotion"
+  }
+}
