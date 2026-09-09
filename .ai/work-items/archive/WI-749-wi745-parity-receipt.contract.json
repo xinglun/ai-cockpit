@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "Each reference-parity document contains exactly one WI-745 row that links the current valid Runtime recovery receipt and retains the Recovered status.",
+    "The tri-language WI-749 Work Item documents identify the repository-bound Work Item and the bounded docs-only scope.",
+    "bash tests/docs/parity_status_check.sh passes on the current base.",
+    "bash tests/docs/documentation_acceptance.sh passes on the current base.",
+    "python3 tests/docs/work_item_status_consistency.py --repo <repository> passes on the current base."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "e808b8d024640b6d55fd9099a80cd19d4ea3e496",
+  "createdAt": "2026-09-09T06:42:02Z",
+  "goal": "Register the current WI-745 recovery decision path in the three reference-parity documents and pass the documentation governance checks.",
+  "intent": "Repair the tri-language WI-745 recovered parity projection so it references the Runtime-selected immutable recovery receipt without rewriting historical bytes.",
+  "mode": "docs",
+  "outOfScope": [
+    "production-runtime",
+    "source-code",
+    "tests",
+    "historical-WI-745-receipts",
+    "sections-IV-and-V",
+    "external-participants"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6120ad3810e8f6f11a7cac73ca9dfad29907be2d1c94ff4f3256ca1de37812eb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-749-wi745-parity-receipt",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/726",
+    "worktree": "/private/tmp/ai-cockpit-wi-749-wi745-parity-receipt"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-749-wi745-parity-receipt.md",
+    "docs/work-items/WI-749-wi745-parity-receipt.zh-CN.md",
+    "docs/work-items/WI-749-wi745-parity-receipt.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-749-wi745-parity-receipt"
+}

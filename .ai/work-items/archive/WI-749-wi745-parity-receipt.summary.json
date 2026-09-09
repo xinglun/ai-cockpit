@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json",
+    ".ai/work-items/archive/WI-749-wi745-parity-receipt.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T06:43:14Z",
+  "checkpointContractDigest": "sha256:254b2b28a48218541d33c42d352c0ab91a704fbc2655048cbc04b441aa237dda",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3559bf16dd6a967474b60d922a0e707b5389dbea65718a08ca7e2e8b83178b36",
+  "createdAt": "2026-09-09T06:42:02Z",
+  "mode": "docs",
+  "preflightAt": "2026-09-09T06:48:15Z",
+  "preflightContractDigest": "sha256:254b2b28a48218541d33c42d352c0ab91a704fbc2655048cbc04b441aa237dda",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:3559bf16dd6a967474b60d922a0e707b5389dbea65718a08ca7e2e8b83178b36",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T06:48:20Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-749-wi745-parity-receipt"
+}
