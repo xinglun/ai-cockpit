@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-09T00:19:30Z",
-  "checkpointContractDigest": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
+  "checkpointContractDigest": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -137,20 +137,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-715-p1-large-history-status"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5635a42596603ea988d68e1951352219de710221688ce59f271466b5e9d9affe",
+      "previousContractHash": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
+      "reason": "Remote default branch advanced from d1141480 to 7274ac90 while WI-715 was awaiting hosted verification; merged origin/main into the isolated WI worktree, re-bound the Contract baseRevision, and will rerun full verification and preflight before updating the reviewed PR.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T02:03:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-715-p1-large-history-status"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:94df3ca0a6ba46ae76bd078b5b0b8bb7a044a8e04801caf3121567c40a1563ea",
+  "checkpointRepositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
   "createdAt": "2026-09-09T00:18:32Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
+    "contractDigest": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "Explicit user authorization confirms continuation of this bounded WI-715 current-base revalidation and evidence Work Item through the reviewed PR #708, including the no-production-change decline, recovery handling, and exact finalization lifecycle.",
-    "recordedAt": "2026-09-09T01:47:59Z",
+    "reason": "Explicit user authorization confirms continuation after the remote default branch advanced to 7274ac90; this fresh receipt is bounded to the amended WI-715 Contract and current repository snapshot, including the no-production-change experiment decision, recovery handling, and reviewed PR #708 lifecycle.",
+    "recordedAt": "2026-09-09T02:07:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:94df3ca0a6ba46ae76bd078b5b0b8bb7a044a8e04801caf3121567c40a1563ea",
+    "repositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
     "schemaVersion": 1,
     "workItemId": "WI-715-p1-large-history-status"
   },
@@ -164,15 +184,15 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-09T01:57:31Z",
-  "preflightContractDigest": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
+  "preflightAt": "2026-09-09T02:09:22Z",
+  "preflightContractDigest": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:94df3ca0a6ba46ae76bd078b5b0b8bb7a044a8e04801caf3121567c40a1563ea",
+  "preflightRepositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-09T01:57:35Z",
+  "updatedAt": "2026-09-09T02:09:27Z",
   "verification": [
     {
       "check": "project-command-0",

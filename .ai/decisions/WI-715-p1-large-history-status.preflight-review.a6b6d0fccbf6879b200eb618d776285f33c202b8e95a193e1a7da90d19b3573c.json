@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Explicit user authorization confirms continuation after the remote default branch advanced to 7274ac90; this fresh receipt is bounded to the amended WI-715 Contract and current repository snapshot, including the no-production-change experiment decision, recovery handling, and reviewed PR #708 lifecycle.",
+  "recordedAt": "2026-09-09T02:07:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}

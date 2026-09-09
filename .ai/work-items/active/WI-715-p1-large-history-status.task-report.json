@@ -4,7 +4,7 @@
       ".ai/evidence/WI-715-p1-large-history-status.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:94df3ca0a6ba46ae76bd078b5b0b8bb7a044a8e04801caf3121567c40a1563ea",
+    "repositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
     "workItemId": "WI-715-p1-large-history-status"
   },
   "format": "ai-cockpit.task-outcome",

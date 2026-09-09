@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-09T02:08:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-715-p1-large-history-status.verification.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.outcome.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/708"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
+  "predecessorEventsDigest": "sha256:e028fa7959b29451f4c89a767c42a21062acde1895efc22d25e058cffcc5964a",
+  "predecessorOutcomeDigest": "sha256:4b145e3a26e5f605775a066882cc9ae69e37872885408ba7ee1ceb94391e81c0",
+  "predecessorSummaryDigest": "sha256:67325c5f15ef6dff2185cd2aa453f11bdeb8974773ebd60017b9b1b03a1f26cc",
+  "predecessorWorkItemId": "WI-715-p1-large-history-status",
+  "reason": "Retry WI-715 after the Runtime correctly rejected the prior completion event stream following the current-base amendment. The fresh verification and green preflight are bound to Contract sha256:06c61bca; preserve all append-only history and perform one bounded retry before the reviewed PR archive lifecycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Preserve the append-only event stream, record this retry binding, rerun green preflight if recovery requires it, then retry finish once before archive.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}
