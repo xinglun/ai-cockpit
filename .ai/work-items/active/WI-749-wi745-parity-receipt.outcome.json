@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Each reference-parity document contains exactly one WI-745 row that links the current valid Runtime recovery receipt and retains the Recovered status.",
+    "The tri-language WI-749 Work Item documents identify the repository-bound Work Item and the bounded docs-only scope.",
+    "bash tests/docs/parity_status_check.sh passes on the current base.",
+    "bash tests/docs/documentation_acceptance.sh passes on the current base.",
+    "python3 tests/docs/work_item_status_consistency.py --repo <repository> passes on the current base."
+  ],
+  "createdAt": "2026-09-09T06:48:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fc227af8b05403159b006303ef90b0626e567f4be3b4ab73112346aacb45d2c0",
+  "evidenceRefs": [
+    ".ai/evidence/WI-749-wi745-parity-receipt.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-749-wi745-parity-receipt.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-749-wi745-parity-receipt.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3559bf16dd6a967474b60d922a0e707b5389dbea65718a08ca7e2e8b83178b36",
+      "workItemId": "WI-749-wi745-parity-receipt"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-749-wi745-parity-receipt.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-749-wi745-parity-receipt.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-749-wi745-parity-receipt.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-749-wi745-parity-receipt.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-749-wi745-parity-receipt.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-749-wi745-parity-receipt.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+          ],
+          "inference": false,
+          "text": "Register the current WI-745 recovery decision path in the three reference-parity documents and pass the documentation governance checks."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-749-wi745-parity-receipt.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-749-wi745-parity-receipt"
+  },
+  "taskReportDigest": "sha256:9f32e93b38a3f488eb934976587fac51bc7b5a7e754aae51469794bad8d35dcc",
+  "taskReportMarkdownDigest": "sha256:cdf65de1f0325a515381f33d5a0537748e7309e7c185f88461c4bc829ef9cc4c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-749-wi745-parity-receipt.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-749-wi745-parity-receipt"
+}

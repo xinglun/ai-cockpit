@@ -28,11 +28,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-749-wi745-parity-receipt",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/726",
     "worktree": "/private/tmp/ai-cockpit-wi-749-wi745-parity-receipt"
   },
   "risk": "low",
