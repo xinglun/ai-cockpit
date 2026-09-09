@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-09T00:19:30Z",
-  "checkpointContractDigest": "sha256:7f21d2dac5a9c97cdbdeaffc563ca6742745b21ddc07cf1d699b6a74e5275654",
+  "checkpointContractDigest": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -117,42 +117,62 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-715-p1-large-history-status"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5635a42596603ea988d68e1951352219de710221688ce59f271466b5e9d9affe",
+      "previousContractHash": "sha256:7f21d2dac5a9c97cdbdeaffc563ca6742745b21ddc07cf1d699b6a74e5275654",
+      "reason": "The remote default branch advanced from 7ada6cd0928a877fe2bc719689abfe99bd532d7e to d1141480fb7a045979098480c3770d06002e2a87 while parallel Work Items were merged. WI-715 was synchronized with origin/main in commit e0a7c96d; current-default-base paired baseline/candidate evidence and behavior parity were rerun before continuing. The original before_edit Contract checkpoint and earlier evidence remain immutable; this amendment binds subsequent verification to the synchronized base.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T01:43:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8563d5c4551c920360fc6c9104e018ffb3ff75b5bc951f5a934ebe8c1c55c6c5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-715-p1-large-history-status"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
+  "checkpointRepositorySnapshotDigest": "sha256:94df3ca0a6ba46ae76bd078b5b0b8bb7a044a8e04801caf3121567c40a1563ea",
   "createdAt": "2026-09-09T00:18:32Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:7f21d2dac5a9c97cdbdeaffc563ca6742745b21ddc07cf1d699b6a74e5275654",
+    "contractDigest": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "Explicit user authorization confirms continuation of this bounded WI-715 measurement and evidence Work Item through the reviewed PR #708 after the acceptance-text parser repair, including the no-production-change decline, recovery handling, and exact finalization lifecycle.",
-    "recordedAt": "2026-09-09T01:18:20Z",
+    "reason": "Explicit user authorization confirms continuation of this bounded WI-715 current-base revalidation and evidence Work Item through the reviewed PR #708, including the no-production-change decline, recovery handling, and exact finalization lifecycle.",
+    "recordedAt": "2026-09-09T01:47:59Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
+    "repositorySnapshotDigest": "sha256:94df3ca0a6ba46ae76bd078b5b0b8bb7a044a8e04801caf3121567c40a1563ea",
     "schemaVersion": 1,
     "workItemId": "WI-715-p1-large-history-status"
   },
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-715-p1-large-history-status.md",
-      ".ai/evidence/external/WI-715-p1-large-history-status.experiment-summary.json",
-      ".ai/evidence/external/WI-715-p1-large-history-status.behavior-parity.json"
+      ".ai/evidence/external/WI-715-p1-large-history-status.current-base.experiment-summary.json",
+      ".ai/evidence/external/WI-715-p1-large-history-status.current-base.behavior-parity.json"
     ],
-    "reason": "The measured candidate was bounded to one immutable status observation, preserved repository and authorization boundaries, matched baseline behavior on 12 comparisons, and was declined because the pre-registered performance threshold and environment gate were not satisfied.",
+    "reason": "The current-base candidate remained bounded to one immutable status observation, preserved repository and authorization boundaries, matched baseline behavior on 12 comparisons, and was declined because the pre-registered performance threshold and environment gate were not satisfied.",
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-09T01:17:19Z",
-  "preflightContractDigest": "sha256:7f21d2dac5a9c97cdbdeaffc563ca6742745b21ddc07cf1d699b6a74e5275654",
+  "preflightAt": "2026-09-09T01:57:31Z",
+  "preflightContractDigest": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
+  "preflightRepositorySnapshotDigest": "sha256:94df3ca0a6ba46ae76bd078b5b0b8bb7a044a8e04801caf3121567c40a1563ea",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-09T01:17:20Z",
+  "updatedAt": "2026-09-09T01:57:35Z",
   "verification": [
     {
       "check": "project-command-0",

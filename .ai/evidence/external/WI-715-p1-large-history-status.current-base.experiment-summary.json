@@ -1,0 +1,84 @@
+{
+  "baseRevision": "d1141480fb7a045979098480c3770d06002e2a87",
+  "behaviorParity": "WI-715-p1-large-history-status.current-base.behavior-parity.json",
+  "decision": "declined",
+  "forwardOrder": {
+    "baselineStatusWarmP50Ms": 3166.894,
+    "baselineStatusWarmP95Ms": 4331.523,
+    "candidateDeltaPercent": {
+      "p50": -1.171,
+      "p95": -23.582
+    },
+    "candidateStatusWarmP50Ms": 3129.794,
+    "candidateStatusWarmP95Ms": 3310.081,
+    "order": [
+      "baseline",
+      "candidate"
+    ]
+  },
+  "gate": {
+    "forward": {
+      "failures": [
+        "environment_comparison_key_unavailable:baseline",
+        "environment_filesystem_unknown:baseline",
+        "environment_comparison_key_unavailable:candidate",
+        "environment_filesystem_unknown:candidate"
+      ],
+      "state": "failed"
+    },
+    "reverse": {
+      "failures": [
+        "environment_comparison_key_unavailable:baseline",
+        "environment_filesystem_unknown:baseline",
+        "environment_comparison_key_unavailable:candidate",
+        "environment_filesystem_unknown:candidate"
+      ],
+      "state": "failed"
+    }
+  },
+  "productionCodeMerged": false,
+  "reason": "The pre-registered p50 threshold was missed in both execution orders; the gate also failed closed because filesystem comparison was unavailable.",
+  "revalidation": "current-default-base",
+  "reverseOrder": {
+    "baselineStatusWarmP50Ms": 3150.083,
+    "baselineStatusWarmP95Ms": 3454.306,
+    "candidateDeltaPercent": {
+      "p50": -0.302,
+      "p95": 0.597
+    },
+    "candidateStatusWarmP50Ms": 3140.574,
+    "candidateStatusWarmP95Ms": 3474.931,
+    "order": [
+      "candidate",
+      "baseline"
+    ]
+  },
+  "samplePlan": {
+    "p99": "unavailable:insufficient_samples:20<100",
+    "percentileMethod": "nearest-rank-on-sorted-samples",
+    "requestedWarmMeasurements": 20,
+    "warmupCount": 1
+  },
+  "scenario": "many-historical-wi",
+  "scenarioFacts": {
+    "historicalWorkItemCount": 616,
+    "trackedBytes": 79626653,
+    "trackedFileCount": 10247
+  },
+  "schemaVersion": 1,
+  "threshold": {
+    "acceptance": "both directions must meet both thresholds and all gates pass",
+    "warmStatusP50ImprovementPercent": 5,
+    "warmStatusP95ImprovementPercent": 5
+  },
+  "unavailableMetrics": [
+    "actualReadBytes",
+    "actualHashedBytes",
+    "gitCalls",
+    "runtimeChildProcesses",
+    "peakMemoryBytes",
+    "cacheInvalidationReasons",
+    "residentMcp"
+  ],
+  "workItemId": "WI-715-p1-large-history-status"
+}

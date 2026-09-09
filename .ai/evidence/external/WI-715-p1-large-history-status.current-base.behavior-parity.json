@@ -1,0 +1,25 @@
+{
+  "baseRevision": "d1141480fb7a045979098480c3770d06002e2a87",
+  "commands": [
+    "inspect",
+    "status",
+    "doctor",
+    "observe"
+  ],
+  "comparisonCount": 12,
+  "exitCodeMismatches": [],
+  "failureRelevantFixture": "malformed_close_receipt",
+  "fixtures": [
+    "clean",
+    "single_file_changed",
+    "malformed_close_receipt"
+  ],
+  "normalization": "runtimeDigest fields only",
+  "normalizedOutputMismatches": [],
+  "note": "Candidate implementation was removed after the current-base paired performance gate declined it; this evidence binds the tested experiment outputs and does not authorize a production change.",
+  "rawComparisonOutputs": "/private/tmp/ai-cockpit-wi715-current-behavior",
+  "result": "pass",
+  "revalidation": "current-default-base",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}

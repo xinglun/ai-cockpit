@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-09T01:55:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-715-p1-large-history-status.verification.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.outcome.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/708"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
+  "predecessorEventsDigest": "sha256:c2c33f03cc2d4c8d74530ac0b5c38f00657387a8114ad43a0db7f8c256b76152",
+  "predecessorOutcomeDigest": "sha256:5cc0c676361dd4a805d158e23b042a526c6c80b343b1ce422ce98ed464ccb013",
+  "predecessorSummaryDigest": "sha256:d30418951652bea9f22f4f1d1c9661481513c3a069563df777a2740171620e88",
+  "predecessorWorkItemId": "WI-715-p1-large-history-status",
+  "reason": "Retry WI-715 after Runtime correctly rejected the stale completion event stream during finish. The synchronized current-base evidence remains valid, the candidate remains declined with no production code change, and one fresh retry is authorized before archive without deleting or rewriting immutable evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Preserve the append-only event stream, record this retry binding, rerun fresh verification and green preflight, then retry finish once.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}

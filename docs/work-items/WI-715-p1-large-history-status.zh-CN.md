@@ -41,6 +41,21 @@ p50 和 p95 均至少提升 5%，并通过既有非目标预算和行为检查�
 另一次未绑定预算的运行对候选不利（p50 +1.35%、p95 +9.28%），仅作为支持证据保留。
 候选代码和测试已移除；没有生产性能改动合入。
 
+### 当前基线重新验证
+
+远程默认分支推进后，本 Work Item 已同步到
+`d1141480fb7a045979098480c3770d06002e2a87`，并在包含 10,247 个跟踪文件和 616 个已归档 WI
+的干净 fixture 上重新执行实验。当前基线结果如下：
+
+| 顺序 | baseline status warm p50/p95 | candidate status warm p50/p95 | candidate 变化 | 决定 |
+| --- | ---: | ---: | ---: | --- |
+| baseline → candidate | 3166.894 / 4331.523 ms | 3129.794 / 3310.081 ms | -1.171% / -23.582% | p50 未达阈值；门禁 fail closed |
+| candidate → baseline | 3150.083 / 3454.306 ms | 3140.574 / 3474.931 ms | -0.302% / +0.597% | p50 未达阈值；门禁 fail closed |
+
+当前基线 parity 再次覆盖 12 次比较，退出码和规范化输出差异均为 0。两个 P0 门禁仅报告文件系统比较键不可用；
+不宣称性能、CPU、I/O、内存或常驻 MCP 收益。当前基线原始记录与旧证据并存于
+`.ai/evidence/external/WI-715-p1-large-history-status.*`。
+
 ## 正确性与证据
 
 在 clean、changed 和 malformed-close fixture 上，对 `inspect`、`status`、`doctor`、

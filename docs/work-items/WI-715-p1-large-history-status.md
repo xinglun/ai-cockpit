@@ -49,6 +49,24 @@ An additional unbudgeted run was adverse to the candidate (+1.35% p50,
 +9.28% p95) and is retained only as supporting evidence. The candidate code and
 test were removed; no production performance change was merged.
 
+### Current-base revalidation
+
+After the remote default branch advanced, the Work Item was synchronized with
+`d1141480fb7a045979098480c3770d06002e2a87` and the experiment was rerun on a
+clean fixture with 10,247 tracked files and 616 archived Work Items. The
+current-base results were:
+
+| Order | Baseline status warm p50/p95 | Candidate status warm p50/p95 | Candidate delta | Decision |
+| --- | ---: | ---: | ---: | --- |
+| baseline → candidate | 3166.894 / 4331.523 ms | 3129.794 / 3310.081 ms | -1.171% / -23.582% | p50 threshold not met; gate failed closed |
+| candidate → baseline | 3150.083 / 3454.306 ms | 3140.574 / 3474.931 ms | -0.302% / +0.597% | p50 threshold not met; gate failed closed |
+
+The current-base parity run again covered 12 comparisons with zero exit-code
+and normalized-output mismatches. Both P0 gates reported only the unavailable
+filesystem comparison key; no performance, CPU, I/O, memory, or resident-MCP
+benefit is claimed. Raw current-base records are retained alongside the
+original evidence under `.ai/evidence/external/WI-715-p1-large-history-status.*`.
+
 ## Correctness and evidence
 
 Baseline and candidate outputs matched on clean, changed, and malformed-close

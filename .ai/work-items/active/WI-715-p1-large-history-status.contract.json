@@ -7,7 +7,7 @@
     "Run the Contract-declared verification, hosted checks, reviewed PR lifecycle, Runtime finalization/close lifecycle, parity promotion, and post-close repository integrity checks."
   ],
   "authority": "human:repository-owner",
-  "baseRevision": "7ada6cd0928a877fe2bc719689abfe99bd532d7e",
+  "baseRevision": "d1141480fb7a045979098480c3770d06002e2a87",
   "createdAt": "2026-09-09T00:18:32Z",
   "goal": "Reduce the measured many-historical-wi status latency and resource cost, or retain a complete evidence-backed decline if the candidate does not cover its complexity, while preserving Calibrated Human-Agent Trust.",
   "intent": "Optimize the measured large-history status path by reusing immutable request-scoped facts without weakening evidence validity, repository isolation, authorization, or recovery semantics.",

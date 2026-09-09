@@ -42,6 +42,21 @@ Runtime 内部 Git/I/O カウンタ、ピークメモリは、ハーネスまた
 予算に紐付けない追加実行は候補に不利（p50 +1.35%、p95 +9.28%）で、補助証拠としてのみ保存した。
 候補コードとテストは削除し、製品コードの性能変更はマージしていない。
 
+### Current-base 再検証
+
+リモートの default branch が進んだため、Work Item を
+`d1141480fb7a045979098480c3770d06002e2a87` に同期し、tracked file 10,247 件、archive 済み WI 616 件の
+clean fixture で実験を再実行した。current-base の結果は次のとおりである。
+
+| 順序 | baseline status warm p50/p95 | candidate status warm p50/p95 | candidate 差分 | 判断 |
+| --- | ---: | ---: | ---: | --- |
+| baseline → candidate | 3166.894 / 4331.523 ms | 3129.794 / 3310.081 ms | -1.171% / -23.582% | p50 閾値未達、ゲート fail closed |
+| candidate → baseline | 3150.083 / 3454.306 ms | 3140.574 / 3474.931 ms | -0.302% / +0.597% | p50 閾値未達、ゲート fail closed |
+
+current-base の parity も 12 比較を再実行し、終了コードと正規化出力の差分はともに 0 だった。両方向の P0 ゲートは
+利用できない filesystem comparison key だけを報告しており、性能、CPU、I/O、メモリ、常駐 MCP の改善は主張しない。
+current-base の生データは旧証拠とともに `.ai/evidence/external/WI-715-p1-large-history-status.*` に保持する。
+
 ## 正しさと証拠
 
 clean、changed、malformed-close fixture で `inspect`、`status`、`doctor`、`observe` を比較し、

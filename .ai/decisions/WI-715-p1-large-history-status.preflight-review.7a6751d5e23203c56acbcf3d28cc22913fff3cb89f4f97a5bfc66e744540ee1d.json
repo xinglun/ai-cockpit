@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a7e1dfcad644ddfa3ef9110c5c30ce48c54baf3eef4768a393977996f8855772",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "reason": "Explicit user authorization confirms continuation of this bounded WI-715 current-base revalidation and evidence Work Item through the reviewed PR #708, including the no-production-change decline, recovery handling, and exact finalization lifecycle.",
+  "recordedAt": "2026-09-09T01:47:59Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:94df3ca0a6ba46ae76bd078b5b0b8bb7a044a8e04801caf3121567c40a1563ea",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}
