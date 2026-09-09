@@ -1,0 +1,36 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-669-p0b-outcome-summary.close.json",
+    ".ai/decisions/WI-669-p0b-outcome-summary.recovery.acbd603acc86ca587792f39aac5c10968de72f617788243de5268d82ad511f2f.json",
+    ".ai/decisions/WI-703-wi669-current-base-revalidation.close.json",
+    ".ai/decisions/WI-703-wi669-current-base-revalidation.recovery.8be9ef86ac2e59f235cbaad5352c7217674300c8bbd2da53153312a1590656a9.json",
+    ".ai/decisions/WI-713-wi703-current-base-revalidation.close.json",
+    ".ai/decisions/WI-713-wi703-current-base-revalidation.recovery.507a5ee93244fa87a6b946ee46925808573f45747e9135453f0b59d14fd11ac4.json",
+    ".ai/decisions/WI-715-wi713-p0b-redelivery.close.json",
+    ".ai/decisions/WI-715-wi713-p0b-redelivery.recovery.8a65f0b5805c635713429a38d1b06f6fbb8a8c537f694dd7118df29d844c2763.json",
+    ".ai/decisions/WI-716-wi715-governance-scope-recovery.close.json",
+    ".ai/decisions/WI-716-wi715-governance-scope-recovery.finalize.json"
+  ],
+  "checkpointAt": "2026-09-09T02:01:06Z",
+  "checkpointContractDigest": "sha256:aaecf96ac5b7c4293742171704c72fff7f446ce7ffb78aa4e0a69733b663c7f1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:6ddd400b21c0d828388bec6d2835171c3b566b9b3b9972b12e5bdca732bcb00b",
+  "createdAt": "2026-09-09T02:00:29Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T02:10:56Z",
+  "preflightContractDigest": "sha256:aaecf96ac5b7c4293742171704c72fff7f446ce7ffb78aa4e0a69733b663c7f1",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:6ddd400b21c0d828388bec6d2835171c3b566b9b3b9972b12e5bdca732bcb00b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T02:11:02Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-717-wi716-closed-projection-promotion"
+}

@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "promote_closed_work_item.py --check-all passes for WI-716 and all existing closed Work Items",
+    "three-language Work Item and parity projections state WI-716 closed with traceable evidence",
+    "generated finalization, close, and predecessor supersede receipts remain valid",
+    "no product runtime or machine contract behavior changes"
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "7274ac90f40574a551881bac35b4b9f88f35f7dc",
+  "createdAt": "2026-09-09T02:00:29Z",
+  "goal": "Update the three-language closed Work Item and reference parity projections for WI-716 while preserving generated close/finalization/recovery receipts and changing no product behavior.",
+  "intent": "Promote the closed Work Item status and parity projections required by the repository acceptance helper.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product runtime behavior",
+    " Outcome semantics",
+    " exit codes",
+    " machine JSON schema",
+    " authorization semantics",
+    " historical archive/evidence bytes",
+    " generated governance receipt semantics",
+    " user files",
+    " other agents worktrees branches PRs"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0ac1999198db75726a0cf8cdb8c72d897a2c622002e772f9bf84c2cb91cf2699",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-717-wi716-closed-projection-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/710",
+    "worktree": "/private/tmp/ai-cockpit-wi-717-closed-projection-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-716-wi715-governance-scope-recovery.md",
+    "docs/work-items/WI-716-wi715-governance-scope-recovery.zh-CN.md",
+    "docs/work-items/WI-716-wi715-governance-scope-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-717-wi716-closed-projection-promotion"
+}

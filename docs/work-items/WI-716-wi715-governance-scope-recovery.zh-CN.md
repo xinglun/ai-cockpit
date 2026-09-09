@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-716——WI-715 治理 scope 恢复"
 description: "在不改写不可变历史的前提下，完成已合并 WI-715 交付的 scope-aware 治理关闭。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-716-wi715-governance-scope-recovery
 lastVerifiedBy: WI-716-wi715-governance-scope-recovery
+terminalArchive: .ai/work-items/archive/WI-716-wi715-governance-scope-recovery.contract.json
+terminalVerification: .ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-716-wi715-governance-scope-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-716-wi715-governance-scope-recovery.close.json
 ---
 
 [English](WI-716-wi715-governance-scope-recovery.md) · [日本語](WI-716-wi715-governance-scope-recovery.ja.md)

@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-716 — WI-715 governance scope recovery"
 description: "Complete the scope-aware governance close for the merged WI-715 delivery without rewriting its immutable history."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-716-wi715-governance-scope-recovery
 lastVerifiedBy: WI-716-wi715-governance-scope-recovery
+terminalArchive: .ai/work-items/archive/WI-716-wi715-governance-scope-recovery.contract.json
+terminalVerification: .ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-716-wi715-governance-scope-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-716-wi715-governance-scope-recovery.close.json
 ---
 
 [简体中文](WI-716-wi715-governance-scope-recovery.zh-CN.md) · [日本語](WI-716-wi715-governance-scope-recovery.ja.md)

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T02:08:20Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/710",
+    ".ai/evidence/WI-717-wi716-closed-projection-promotion.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:aaecf96ac5b7c4293742171704c72fff7f446ce7ffb78aa4e0a69733b663c7f1",
+  "predecessorEventsDigest": "sha256:197f7570b3a5b335de34469611c3155bbdf092c553206c2830d4ada45a05454e",
+  "predecessorOutcomeDigest": "sha256:0ba74940fb079936569ffb415570a1446a7f45a1b5e23205414f38e3866b0c44",
+  "predecessorSummaryDigest": "sha256:4a68c9af8b042b7dc6349ea525db37f3c698d4253d178a4905bd86ddd284604b",
+  "predecessorWorkItemId": "WI-717-wi716-closed-projection-promotion",
+  "reason": "The first retry was recorded before finalize-plan changed the Contract binding. Record a second append-only retry against the finalized Contract and current Summary so fresh verification can reconcile the blocked projection without rewriting either prior receipt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification after this retry binding; then finish, archive, finalize, finalize-verify, and close WI-717.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-717-wi716-closed-projection-promotion"
+}
