@@ -20,14 +20,13 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T08:47:53Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T08:52:41Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:151c5812e7c42f816b5df5190a9ec64f5b8e1e951e2513fde0677d28533a8922",
   "workItemId": "WI-758-wi755-finalization-recovery"
 }
