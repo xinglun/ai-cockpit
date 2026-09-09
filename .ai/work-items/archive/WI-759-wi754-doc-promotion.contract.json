@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "The three language documents are regular non-symlink files and bind the WI-754 successor archive, passing verification evidence, sequence-2 deleted finalization head, and structured close decision.",
+    "python3 tests/docs/promote_closed_work_item.py --repo /private/tmp/ai-cockpit-wi-759-doc-promotion --work-item WI-754-runtime-recovery-digest-revalidation passes without changing .ai evidence."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "678876ec5cedf5f71bf4746dbcc82a0beb305ff1",
+  "createdAt": "2026-09-09T12:06:51Z",
+  "goal": "Create a complete, evidence-bound tri-language documentation projection for WI-754-runtime-recovery-digest-revalidation.",
+  "intent": "Promote the terminal documentation projection for the closed WI-754 Runtime recovery successor while preserving immutable evidence and production behavior.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Production code",
+    " tests",
+    " Runtime protocol",
+    " generated .ai evidence and decisions",
+    " historical Work Item bytes",
+    " performance measurements",
+    " documentation for unrelated Work Items",
+    " and a self-promotion page for WI-759."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a00cbe782918c161bd57c5219e1d76d9c41873e105c1463b6c3cb8629ac0ed47",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-759-wi754-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/742",
+    "worktree": "/private/tmp/ai-cockpit-wi-759-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "Create docs/work-items/WI-754-runtime-recovery-digest-revalidation.md",
+    " docs/work-items/WI-754-runtime-recovery-digest-revalidation.zh-CN.md",
+    " and docs/work-items/WI-754-runtime-recovery-digest-revalidation.ja.md; update only the three existing reference-parity rows required by the closed Work Item promotion helper.",
+    "docs/work-items/WI-754-runtime-recovery-digest-revalidation.md",
+    "docs/work-items/WI-754-runtime-recovery-digest-revalidation.zh-CN.md",
+    "docs/work-items/WI-754-runtime-recovery-digest-revalidation.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-759-wi754-doc-promotion"
+}
