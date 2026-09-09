@@ -36,8 +36,8 @@
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-745-p1-cognitive-benefit-evaluation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/719",
     "worktree": "/private/tmp/ai-cockpit-wi745-p1-cognitive-benefit-evaluation"
   },
   "risk": "medium",

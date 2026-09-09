@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T05:20:11Z",
+  "files": {
+    "contractDigest": "sha256:164bfc3d5a95087e5eac52d31942d4d2818f216ae558b83f3bb8317bd3cd137e",
+    "contractPath": ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.contract.json",
+    "eventsDigest": "sha256:369cd9acb1a09658322a714789377737819253bcf2a7e0b731ee5dfa345df1ac",
+    "eventsPath": ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.events.jsonl",
+    "outcomeDigest": "sha256:3c47b56ca4aff76b957fc47d27f2f9ed667f496eec7ad746600e39033c55b69e",
+    "outcomePath": ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.outcome.json",
+    "summaryDigest": "sha256:11a4ffd34269bfff68cae6698ee807666f0fdd6bddb441f95b20b0df30a8019d",
+    "summaryPath": ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.summary.json",
+    "taskReportDigest": "sha256:be61c31b8b8be758a515dc3721380f1b4601cf0e5f0e41e5eb8fe53c7d36864a",
+    "taskReportMarkdownDigest": "sha256:1615315e2221ee14c272d20c670d15ccadac35aeea76234adc1c8e50c319d03a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
+}

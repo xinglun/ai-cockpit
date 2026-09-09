@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun explicit authorization to continue WI-745",
+  "decidedAt": "2026-09-09T05:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/719"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:0b4274fb13d9dc7bfd86173910069df76418f009a46a00b4c201c7ddb02f60b1",
+  "predecessorEventsDigest": "sha256:d7205aaac7253dd9d8359be45dcf43d4eaab021c1cc74d554cd3560758572c3f",
+  "predecessorOutcomeDigest": "sha256:3ad4ed09d554b00048cbb49f4f89d1d2e86246c62b11f3b9122e5a47b3f93bb5",
+  "predecessorSummaryDigest": "sha256:06aaaad9b72705ad16ff475d16899d87aeefc034168bc377e9d5b21ecd6be2fb",
+  "predecessorWorkItemId": "WI-745-p1-cognitive-benefit-evaluation",
+  "reason": "The real PR finalization plan is now bound to the active Contract. The prior finish attempt was correctly blocked because the plan was provisional; authorize one fresh verification and finish retry against the bound PR context while preserving the blocked attempt as immutable history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against PR #719, then retry finish and archive only when the Runtime reports a current non-red result.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
+}

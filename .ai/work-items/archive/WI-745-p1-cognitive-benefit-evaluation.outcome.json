@@ -7,14 +7,17 @@
     "无真实参与者时，材料明确标记认知收益尚未验证，不把模拟结果称为用户研究",
     "中英日材料同步，并通过仓库要求的文档、脚本和测试检查"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-09T05:20:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2bd5734344ca7eb0ab85ae13e6505dcb1048842d707ecb31b9884cadb09e6b24",
   "evidenceRefs": [
     ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -22,24 +25,21 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:5bdf5327e24be04c0cd2c5f526d8c462b51c8bbfab92f7eae65ced3206083dc8",
+      "repositorySnapshotDigest": "sha256:6652f6224c5acba3d7aa5bea48b060a787de11175d7d1bf5034260c5f16ecbe8",
       "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -60,22 +60,14 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-745-p1-cognitive-benefit-evaluation.summary.json"
+            ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -87,7 +79,7 @@
             ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -97,15 +89,23 @@
             ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-745-p1-cognitive-benefit-evaluation.contract.json"
+            ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.contract.json"
           ],
           "inference": false,
           "text": "交付可重复的 P1-A 认知收益评估材料：固定任务集、预先定义的评分答案和方法、真实 Outcome 结构驱动的摘要/完整报告一致性检查、评估结果及未验证边界"
@@ -114,23 +114,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-745-p1-cognitive-benefit-evaluation.contract.json"
+            ".ai/work-items/archive/WI-745-p1-cognitive-benefit-evaluation.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
   },
+  "taskReportDigest": "sha256:be61c31b8b8be758a515dc3721380f1b4601cf0e5f0e41e5eb8fe53c7d36864a",
+  "taskReportMarkdownDigest": "sha256:1615315e2221ee14c272d20c670d15ccadac35aeea76234adc1c8e50c319d03a",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
 }

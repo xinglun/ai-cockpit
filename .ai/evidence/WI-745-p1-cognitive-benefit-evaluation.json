@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "workItemId": "WI-745-p1-cognitive-benefit-evaluation",
-  "sourceRepositoryRevision": "bc23abd4da1ab74700b94317d55f9950c30a9bd3",
+  "sourceRepositoryRevision": "f76d782bc983522dbdac1ae2bb1b74d0567c572d",
   "runtimeBinary": "/private/tmp/ai-cockpit-wi745-p1-cognitive-benefit-evaluation/target/debug/ai-cockpit",
   "runtimeBinaryDigest": "sha256:186b0a35955ecd641eb875c4290d28202600bba6d95006aace25e5ee30f09f55",
   "taskSet": [
