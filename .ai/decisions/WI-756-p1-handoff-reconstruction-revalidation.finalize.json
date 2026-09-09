@@ -17,7 +17,7 @@
   },
   "branch": {
     "name": "codex/wi-756-p1-handoff-revalidation",
-    "headRevision": "c6f88992"
+    "headRevision": "378541782c21618e18feddd67cad1c28527e5ec4"
   },
   "pullRequest": {
     "url": "https://github.com/xinglun/ai-cockpit/pull/736",
@@ -30,7 +30,7 @@
   "worktree": {
     "path": "/private/tmp/ai-cockpit-wi-756-p1-handoff-revalidation",
     "branch": "codex/wi-756-p1-handoff-revalidation",
-    "headRevision": "c6f88992",
+    "headRevision": "378541782c21618e18feddd67cad1c28527e5ec4",
     "clean": true
   },
   "before": {
