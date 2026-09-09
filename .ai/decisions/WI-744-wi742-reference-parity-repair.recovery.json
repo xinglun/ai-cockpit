@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-handoff",
+  "decidedAt": "2026-09-09T05:05:26Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json",
+    ".ai/work-items/active/WI-744-wi742-reference-parity-repair.summary.json",
+    "https://github.com/xinglun/ai-cockpit/pull/717",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34312851051"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "AGENTS.md:preflight-before-verification",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:c05cc33d1cfac7a67b76e6d8ca5fd223b08a3936a7eda7789531bf6d2a1616a6",
+  "predecessorSummaryDigest": "sha256:b96227ffaa204fd2eddb9f4c3f088f7587bf7594ad91500eafba83a7fb6297a6",
+  "predecessorWorkItemId": "WI-744-wi742-reference-parity-repair",
+  "reason": "The reviewed PR finalization plan changed the WI-744 Contract binding after the first verification, leaving that predecessor evidence contradictory. Preserve the failed attempt and retry the same bounded tri-language reference-parity projection with a fresh preflight, verification, finish, and reviewed delivery cycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and both declared verification commands against the current PR-bound Contract, then complete finish, archive, provider finalization, merge, finalize-verify, close, and post-close documentation promotion checks for WI-744.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-744-wi742-reference-parity-repair"
+}
