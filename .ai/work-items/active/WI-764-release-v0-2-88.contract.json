@@ -39,11 +39,11 @@
     "prearchive parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-764-release-v0-2-88",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/747",
     "worktree": "/private/tmp/ai-cockpit-wi-764-release-v0-2-88"
   },
   "risk": "high",

@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-764-release-v0-2-88.summary.json"
   ],
   "checkpointAt": "2026-09-09T14:47:07Z",
-  "checkpointContractDigest": "sha256:af635027dadd901921aca53c832b16210ce33f64ad2a567e9d458db4e3f5ada0",
+  "checkpointContractDigest": "sha256:ab2ad3825fe51d21dac7c72ad32b25441628d3f393b1cadf8a8f60d2c74285bd",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,10 +62,10 @@
       "workItemId": "WI-764-release-v0-2-88"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:34fcd50a14e278bd9c1e30c1778260e5a1e249187d7edeaf5d01606783286334",
+  "checkpointRepositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
   "createdAt": "2026-09-09T14:44:03Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:9c42ea1a1fa0defa106a93e06f71c455565c65114f2bdba8bfbff46117dd75c9",
+    "contractDigest": "sha256:ab2ad3825fe51d21dac7c72ad32b25441628d3f393b1cadf8a8f60d2c74285bd",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
@@ -73,7 +73,7 @@
     "recordedAt": "2026-09-09T14:52:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:61b42bc65bd44a02b3797099a65bc54412766f93e671f50b2f09c613abceb027",
+    "repositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
     "schemaVersion": 1,
     "workItemId": "WI-764-release-v0-2-88"
   },
@@ -88,10 +88,10 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-09T15:01:49Z",
-  "preflightContractDigest": "sha256:9c42ea1a1fa0defa106a93e06f71c455565c65114f2bdba8bfbff46117dd75c9",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:61b42bc65bd44a02b3797099a65bc54412766f93e671f50b2f09c613abceb027",
+  "preflightAt": "2026-09-09T15:10:02Z",
+  "preflightContractDigest": "sha256:ab2ad3825fe51d21dac7c72ad32b25441628d3f393b1cadf8a8f60d2c74285bd",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -146,11 +146,13 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-09T15:01:57.593480+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:9c42ea1a1fa0defa106a93e06f71c455565c65114f2bdba8bfbff46117dd75c9",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-09T14:58:06Z"
-  },
+  "updatedAt": "2026-09-09T15:07:53.271863+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:79576a5eea119885c27707a81260c270bd0bdf0a209b27e3d0a5a045aaa2648e",
   "workItemId": "WI-764-release-v0-2-88"
 }
