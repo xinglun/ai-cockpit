@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-751-p2-first-use-current-base.contract.json",
-    ".ai/work-items/active/WI-751-p2-first-use-current-base.summary.json"
+    ".ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json",
+    ".ai/work-items/archive/WI-751-p2-first-use-current-base.summary.json"
   ],
   "checkpointAt": "2026-09-09T06:55:56Z",
   "checkpointContractDigest": "sha256:336809475fe3561217b607b5b70a602314c6e367e1d441e9a5015854d7a78110",
@@ -72,14 +72,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T06:55:56Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T07:48:43Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:40f51fd1f8a859d96ebf3423bed6abffba0a26d326cb9f9e55ca387f53b8cf33",
   "workItemId": "WI-751-p2-first-use-current-base"
 }
