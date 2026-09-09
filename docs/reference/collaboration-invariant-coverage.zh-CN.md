@@ -1,11 +1,11 @@
 ---
 author: AI Cockpit maintainers
 title: "协作不变量覆盖情况"
-description: "将十条协作语言语义不变量映射到既有的自动化测试覆盖，引用确切的测试文件与函数，并准确说明唯一剩余的缺口。"
+description: "将十条协作语言语义不变量映射到既有的自动化测试覆盖，引用确切的测试文件与函数，并准确说明仍存在的部分覆盖限制。"
 audience: [maintainer, reviewer, contributor]
 status: current
 authority: canonical
-lastVerifiedBy: WI-740-p1-invariant-coverage-mapping
+lastVerifiedBy: WI-742-p1-invariant-7-doc-promotion
 ---
 
 # 协作不变量覆盖情况
@@ -36,7 +36,7 @@ PR #677 合并)——这是一次真实的多代理 WI 编号冲突,而非内容
 | 4 | 历史记录不能无依据地变成当前的通过/失败 | **是** | `crates/cockpit-repository/tests/outcome_report.rs::human_renderer_preserves_historical_and_superseded_distinctions`、`::archived_report_tamper_is_red_and_not_reprojected_as_verified` | 断言 `runtime_historical` 记录保留其历史措辞(不会出现本应用于当前失败的"Repair the missing evidence"文案),以及被篡改的归档报告会渲染为红色,而不是被静默地重新投影为已验证。 |
 | 5 | 同一事实在 CLI/MCP/摘要/完整报告中保持一致 | **是** | `crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::cli_subprocess_and_mcp_handler_agree_on_the_same_outcome`(由 WI-682、PR #679 新增) | 为 CLI 一侧启动真实 `ai-cockpit` 二进制子进程,为 MCP 一侧在进程内调用 `cockpit_mcp::handle_request_for_repo()`,针对同一仓库 fixture 与同一 Work Item,断言 CLI 的 `work-item outcome --json` 输出与 MCP `work_item_outcome` 工具的 `structuredContent.outcome` 完全相等(使用与被测二进制完全匹配的 `RuntimeContext`)。这正是此前 `crates/cockpit-mcp/tests/rpc.rs::*_with_cli_parity` 系列测试(仅比较两次进程内调用)未能提供的真正跨进程检查。 |
 | 6 | 更换语言不改变事实/授权范围/后果 | **是** | `crates/cockpit-cli/tests/outcome_handoff.rs::default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_json`;`crates/cockpit-core/tests/adversarial_v2.rs::multilingual_adversarial_corpus_binds_wording_as_data` | CLI 测试依次以 `AI_COCKPIT_LANGUAGE=en/zh-CN/ja` 启动真实二进制,断言机器可读的 stdout JSON 字段在各语言下逐字节相同,只有面向人的 stderr 文本本地化。对抗性语料测试进一步检查每个语义案例在每种语言下的 5 种措辞变体评估结果相同。 |
-| 7 | 展示的下一步与当前 Runtime 状态/策略一致 | **间接——唯一剩余的缺口** | 与第1条相同的生命周期测试,加上 `crates/cockpit-repository/tests/status_projection.rs::status_projection_distinguishes_archived_from_valid_closed_decision` | 这些测试在每一次真实状态转换时断言与下一步相关的字段(生命周期阶段、阻断项),但没有测试专门针对广泛的状态矩阵,把渲染出的"下一步"语句与独立计算出的预期动作逐一比对。 |
+| 7 | 展示的下一步与当前 Runtime 状态/策略一致 | **是** | `crates/cockpit-repository/tests/scenario_matrix_next_action.rs::scn_001_checkpoint_before_start_matches_scenario_matrix_key_message`、`::scn_002_start_rejects_pre_existing_changes_matches_scenario_matrix_key_message`、`::scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message`、`::scn_001_002_016_are_still_declared_observed_in_the_scenario_matrix`(WI-741) | 断言 SCN-001 与 SCN-016 的文档化 `expected.keyMessage` 完全一致,断言 SCN-002 包含所需的消息子串与违规路径,并守护三个场景仍为 `sourceType: "observed"` 且继续覆盖不变量7。这是针对实际观测场景的有界覆盖,不声称为完整状态矩阵建立穷尽判定器。 |
 | 8 | 既有授权是否适用由规则与记录决定,不因会话切换而改变 | **是** | `crates/cockpit-repository/tests/preflight_review.rs::bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse` | 记录一份决定回执,确认 `preflight` 转为 `human_decision_recorded` 且 `checkpoint` 在快照未变时成功(复用有效);随后改变仓库内容,断言 `preflight` 回到 `needs_human_confirmation` 且 `checkpoint` 被拒绝(快照变化使此前的决定失效,必须重新决定)。这直接证明了该不变量所述的"依规则与记录判断"这一核心主张;该测试早于本 Work Item 就已存在,此前的 WI-681 草稿误将其判定为缺口。若要针对*不同调用者身份*(而非同一调用者跨快照变化)专门建测试,是一个更窄的可选后续,而非当前对不变量核心主张的缺失检查。 |
 | 9 | 每个需要人工决定的问题都指明对象/影响/恢复条件 | **是** | `crates/cockpit-repository/tests/contract_preflight.rs::assert_human_decision_request_is_complete`,由 `::scaffold_preflight_is_not_ready_and_records_human_review_requirements` 与 `::high_risk_scenario_coverage_stops_at_preflight_for_human_review` 调用(由 WI-710、PR #702 新增) | 断言 `what_happened`、`why_it_matters`、`question`、`resume_condition`、`options`、`recommended_option`、`recommendation_reason` 均非空,`recommended_option` 指向某个已提供的选项,且每个选项的 `id`/`label`/`effect` 均非空——针对两个独立触发的真实 `needs_human_confirmation` 场景进行检查。 |
 | 10 | 摘要可以省略细节但不能隐藏阻断/关键未知项/必要决定 | **是(部分)** | `crates/cockpit-repository/tests/outcome_report.rs::human_renderer_does_not_infer_risk_absence_or_test_strength_from_empty_fields`(同文件中的相邻断言) | 直接覆盖了"空不等于正面结论"的一半;未发现有单独测试专门断言一个*已填充*的阻断/未知项/决定不会被摘要压缩丢弃,该情形目前只是被第1条的生命周期测试顺带覆盖。 |
@@ -45,12 +45,16 @@ PR #677 合并)——这是一次真实的多代理 WI 编号冲突,而非内容
 
 - **是**表示本仓库自身测试套件中已存在一个通过的测试,确实按不变量所述强制执行,本页引用了确切的函数。
 - **部分**表示存在真实覆盖,但未触及不变量所述的全部情形(见该行说明)。
-- **间接**(仅不变量7)表示存在相关的状态转换断言,但没有测试直接、端到端地断言该具体主张。
+- 目前十条不变量都至少具有直接或部分自动化覆盖;仍存在的部分限制已
+  在第3行和第10行明确说明。
 
-## 已知缺口与建议的后续 Work Item
+## 覆盖更新与剩余限制
 
-**不变量7(下一步的正确性)**是唯一剩余的已命名缺口。它也是最难被通用化
-测试的一条,因为"正确"取决于 `docs/reference/collaboration-scenario-matrix.json`
-中的完整状态矩阵。一个务实的下一步是,针对该矩阵中 `observed` 的一个子
-集场景,断言下一步字段,而不是尝试建立一个通用的判定器。本 Work Item
-未实现该项;它是一个有边界的、可独立交付的后续工作。
+**不变量7(下一步的正确性)**现在已由 WI-741 提供有界的直接覆盖。测试将
+SCN-001、SCN-002 和 SCN-016 的下一步文本与场景矩阵记录的
+`expected.keyMessage` 进行比对,并守护这些场景仍被观测且继续覆盖不变量7。
+它不声称为 `docs/reference/collaboration-scenario-matrix.json` 中的每个
+状态建立穷尽判定器。
+
+本表中不再有未测试的不变量被列为已命名缺口。剩余限制是第3行和第10行
+明确说明的部分覆盖。

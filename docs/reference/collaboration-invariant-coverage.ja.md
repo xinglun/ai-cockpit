@@ -1,11 +1,11 @@
 ---
 author: AI Cockpit maintainers
 title: "協作不変量カバレッジ"
-description: "十の協作言語意味論的不変量を既存の自動テストカバレッジへ対応付け、正確なテストファイルと関数を引用し、唯一残る欠落を正確に示す。"
+description: "十の協作言語意味論的不変量を既存の自動テストカバレッジへ対応付け、正確なテストファイルと関数を引用し、残る部分的カバレッジの制約を正確に示す。"
 audience: [maintainer, reviewer, contributor]
 status: current
 authority: canonical
-lastVerifiedBy: WI-740-p1-invariant-coverage-mapping
+lastVerifiedBy: WI-742-p1-invariant-7-doc-promotion
 ---
 
 # 協作不変量カバレッジ
@@ -41,7 +41,7 @@ PR #677 でマージ済み)を使用したためであり——これは実在�
 | 4 | 歴史的記録は根拠なく現在の合格/失敗になってはならない | **はい** | `crates/cockpit-repository/tests/outcome_report.rs::human_renderer_preserves_historical_and_superseded_distinctions`、`::archived_report_tamper_is_red_and_not_reprojected_as_verified` | `runtime_historical` 記録がその歴史的な文言を保持すること(現在の失敗向けの「Repair the missing evidence」という文言が出ないこと)、および改ざんされたアーカイブ済みレポートが赤としてレンダリングされ、静かに検証済みとして再投影されないことを断言する。 |
 | 5 | 同一の事実が CLI/MCP/要約/完全なレポートで一致する | **はい** | `crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::cli_subprocess_and_mcp_handler_agree_on_the_same_outcome`(WI-682、PR #679 で追加) | CLI 側では実際の `ai-cockpit` バイナリをサブプロセスとして起動し、MCP 側ではプロセス内で `cockpit_mcp::handle_request_for_repo()` を呼び出し、同一のリポジトリ fixture と同一の Work Item に対して、CLI の `work-item outcome --json` 出力と MCP `work_item_outcome` ツールの `structuredContent.outcome` が完全に等しいことを断言する(被測バイナリと完全に一致する `RuntimeContext` を使用)。これは、以前の `crates/cockpit-mcp/tests/rpc.rs::*_with_cli_parity` 系のテスト(二つのプロセス内呼び出しを比較するのみ)が提供できていなかった、真にプロセスをまたいだ検査である。 |
 | 6 | 言語を変更しても事実/授権範囲/結果は変わらない | **はい** | `crates/cockpit-cli/tests/outcome_handoff.rs::default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_json`;`crates/cockpit-core/tests/adversarial_v2.rs::multilingual_adversarial_corpus_binds_wording_as_data` | CLI テストは `AI_COCKPIT_LANGUAGE=en/zh-CN/ja` を順に設定して実バイナリを起動し、機械可読な stdout JSON フィールドが言語間でバイト単位で同一であり、人間向けの stderr テキストのみが局所化されることを断言する。敵対的コーパステストはさらに、各意味論的ケースについて各言語5種の言い回しバリアントが同一に評価されることを検査する。 |
-| 7 | 表示される次の一歩が現在の Runtime 状態/方針と一致する | **間接的——唯一残る欠落** | 第1項と同じライフサイクルテスト、加えて `crates/cockpit-repository/tests/status_projection.rs::status_projection_distinguishes_archived_from_valid_closed_decision` | これらは実際の各状態遷移時に次の action に関連するフィールド(ライフサイクル段階、阻害要因)を断言するが、広範な状態行列に対してレンダリングされた「次の action」文を独立に計算した期待値と個別に突合するテストは存在しない。 |
+| 7 | 表示される次の一歩が現在の Runtime 状態/方針と一致する | **はい** | `crates/cockpit-repository/tests/scenario_matrix_next_action.rs::scn_001_checkpoint_before_start_matches_scenario_matrix_key_message`、`::scn_002_start_rejects_pre_existing_changes_matches_scenario_matrix_key_message`、`::scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message`、`::scn_001_002_016_are_still_declared_observed_in_the_scenario_matrix`(WI-741) | SCN-001 と SCN-016 の文書化された `expected.keyMessage` との完全一致、SCN-002 に必要なメッセージ部分文字列と違反パスが含まれること、さらに三つのシナリオが `sourceType: "observed"` のまま不変量7を引き続き検証することを断言する。これは観測済みシナリオに対する境界付きのカバレッジであり、全状態行列を網羅する判定器ではない。 |
 | 8 | 既存授権が適用されるかはルールと記録で決まり、セッション切替で変わらない | **はい** | `crates/cockpit-repository/tests/preflight_review.rs::bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse` | 決定の受領票を一件記録し、`preflight` が `human_decision_recorded` に遷移し、スナップショットが未変化のうちは `checkpoint` が成功する(再利用が有効)ことを確認したうえで、その後リポジトリを変更し、`preflight` が `needs_human_confirmation` に戻り `checkpoint` が拒否される(スナップショットの変化により以前の決定が無効化され、新しい決定が必要になる)ことを断言する。これはこの不変量が述べる「ルールと記録に基づく」という核心的な主張を直接証明しており、このテスト自体は本 Work Item より前から存在していた。以前の WI-681 草稿はこれを誤って欠落と判定していた。(同一の呼び出し元がスナップショット変化をまたぐのではなく)*異なる呼び出し元の身元*を専門に検査するテストを追加することは、より狭い任意の後続作業であり、この不変量の核心的な主張に対する現在の検査の欠如ではない。 |
 | 9 | 人による決定を要するすべての問いは対象/影響/復旧条件を明示する | **はい** | `crates/cockpit-repository/tests/contract_preflight.rs::assert_human_decision_request_is_complete`(`::scaffold_preflight_is_not_ready_and_records_human_review_requirements` と `::high_risk_scenario_coverage_stops_at_preflight_for_human_review` から呼び出される。WI-710、PR #702 で追加) | `what_happened`、`why_it_matters`、`question`、`resume_condition`、`options`、`recommended_option`、`recommendation_reason` がすべて非空であること、`recommended_option` が提示された選択肢のいずれかを指すこと、各選択肢の `id`/`label`/`effect` が非空であることを、独立して発生する二つの実際の `needs_human_confirmation` シナリオに対して検査する。 |
 | 10 | 要約は詳細を省略できるが阻断/重要な未知項/必要な決定を隠せない | **はい(部分的)** | `crates/cockpit-repository/tests/outcome_report.rs::human_renderer_does_not_infer_risk_absence_or_test_strength_from_empty_fields`(同ファイル内の隣接する断言) | 「空は肯定的結論ではない」という半分は直接カバーしている。*記入済みの*阻断/未知項/決定が要約の圧縮で失われないことを専門に断言するテストは、第1項のライフサイクルテストで副次的にカバーされている以外には見つからなかった。 |
@@ -50,14 +50,16 @@ PR #677 でマージ済み)を使用したためであり——これは実在�
 
 - **はい**は、本リポジトリ自身のテストスイートに、不変量の記述どおりに強制する、合格しているテストが既に存在することを意味し、本ページは正確な関数を引用している。
 - **部分的**は、実際のカバレッジは存在するが、不変量が述べるすべての場合には届いていないことを意味する(該当行の注記を参照)。
-- **間接的**(不変量7のみ)は、関連する状態遷移の断言は存在するが、その具体的な主張を直接・端的に断言するテストが存在しないことを意味する。
+- 現在、十の不変量すべてに少なくとも直接または部分的な自動テスト
+  カバレッジがある。残る部分的な制約は第3項と第10項に明記している。
 
-## 既知の欠落と推奨される後続 Work Item
+## カバレッジ更新と残る制約
 
-**不変量7(次の一歩の正しさ)**が唯一残る、名指しされた欠落である。「正
-しさ」が `docs/reference/collaboration-scenario-matrix.json` の完全な状態
-行列に依存するため、これは最も一般化してテストしにくい項目でもある。現
-実的な次の一歩は、汎用的な判定器を構築しようとするのではなく、その行列
-の `observed` な場景の部分集合に対して次の action フィールドを断言する
-ことである。本 Work Item ではこれを実装していない。境界の明確な、独立し
-て納品可能な後続作業である。
+**不変量7(次の一歩の正しさ)**は WI-741 により、境界を明確にした直接
+カバレッジを得た。テストは SCN-001、SCN-002、SCN-016 の次の action
+テキストを場景行列の `expected.keyMessage` と突き合わせ、これらが観測済み
+で不変量7を引き続き検証することも守る。`docs/reference/collaboration-scenario-matrix.json`
+の全状態に対する網羅的な判定器を主張するものではない。
+
+本表では、未テストの不変量を名指しした欠落として残していない。残る制約は
+第3項と第10項に記載した部分的カバレッジである。
