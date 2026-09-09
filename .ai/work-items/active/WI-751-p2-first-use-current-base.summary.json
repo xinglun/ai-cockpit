@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-751-p2-first-use-current-base.summary.json"
   ],
   "checkpointAt": "2026-09-09T06:55:56Z",
-  "checkpointContractDigest": "sha256:82fecd947d4cb30dcf6cb8d5afd05d7e4dd2185900eb5f02760a58a358cacdd1",
+  "checkpointContractDigest": "sha256:336809475fe3561217b607b5b70a602314c6e367e1d441e9a5015854d7a78110",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -65,8 +65,8 @@
   "checkpointRepositorySnapshotDigest": "sha256:6f14b37b1213ba11450d44cf29e136792df7caba65c07cc9c03972186c9914c8",
   "createdAt": "2026-09-09T06:49:25Z",
   "mode": "code",
-  "preflightAt": "2026-09-09T07:29:42Z",
-  "preflightContractDigest": "sha256:82fecd947d4cb30dcf6cb8d5afd05d7e4dd2185900eb5f02760a58a358cacdd1",
+  "preflightAt": "2026-09-09T07:47:52Z",
+  "preflightContractDigest": "sha256:336809475fe3561217b607b5b70a602314c6e367e1d441e9a5015854d7a78110",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:6f14b37b1213ba11450d44cf29e136792df7caba65c07cc9c03972186c9914c8",
   "preflightState": "green",
@@ -80,6 +80,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:fa1a1864d7c9d72c9cec3b844068fe4bdd57e3b6960f8278e582c0fae495b4fd",
+  "verificationRecoveryReconciled": "sha256:40f51fd1f8a859d96ebf3423bed6abffba0a26d326cb9f9e55ca387f53b8cf33",
   "workItemId": "WI-751-p2-first-use-current-base"
 }

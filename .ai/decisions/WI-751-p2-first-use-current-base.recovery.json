@@ -1,0 +1,23 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T07:35:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:336809475fe3561217b607b5b70a602314c6e367e1d441e9a5015854d7a78110",
+  "predecessorSummaryDigest": "sha256:2b6fdc4b92b5653359ddbf6f86d704d7385e596921fde7c7be1eabd3b03a1d26",
+  "predecessorWorkItemId": "WI-751-p2-first-use-current-base",
+  "reason": "Retry after finalize-plan invalidated the earlier preflight projection; preserve the prior attempt and revalidate against the current reviewed Contract and PR resource context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized resource context, then complete finish and the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-751-p2-first-use-current-base"
+}
