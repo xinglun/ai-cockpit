@@ -18,8 +18,9 @@ use cockpit_protocol::{
     HistoricalFinalizationRecoveryReceipt, HumanBenefitReport, HumanDecision,
     ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
     OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
-    PerformanceDiagnosis, PolicyLayer, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
-    ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
+    PerformanceDiagnosis, PolicyLayer, ProjectGovernanceProjection, QualityCommand,
+    RecoveryDecisionReceipt, RepositoryConfig, ResourceFinalizationContext,
+    ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
     TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemCompatibility,
     WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
@@ -64,8 +65,9 @@ use evidence_store::{
 #[cfg(test)]
 use execution_context::execution_environment_digest_from_values;
 pub use execution_context::{
-    RepositoryExecutionContext, RuntimeSession, VerificationContextInput,
-    VerificationReuseAssessment, VerificationReuseAuthorization, assess_verification_reuse,
+    ObservationConsistency, ObservationContext, ObservationPhase, RepositoryExecutionContext,
+    RuntimeSession, VerificationContextInput, VerificationReuseAssessment,
+    VerificationReuseAuthorization, assess_verification_reuse,
 };
 use execution_context::{
     VerificationIdentityCost, assess_verification_reuse_measured,
@@ -3429,6 +3431,14 @@ pub fn contract_freshness_findings(
     contract: &cockpit_protocol::Contract,
     _snapshot: &RepositorySnapshot,
 ) -> Result<Vec<String>, ObserverError> {
+    contract_freshness_findings_with_identity(root, contract, &repository_id(root))
+}
+
+fn contract_freshness_findings_with_identity(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    expected_repository_id: &Digest,
+) -> Result<Vec<String>, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -3444,7 +3454,7 @@ pub fn contract_freshness_findings(
         findings.push("stale_contract".into());
         return Ok(findings);
     }
-    if contract.repository_id != repository_id(&root).to_string() {
+    if contract.repository_id != expected_repository_id.to_string() {
         findings.push("stale_contract".into());
     }
     let profile: AttachedProfile = read_json(&profile_path).and_then(|value| {
@@ -3481,6 +3491,55 @@ pub fn governance_decision_for_contract_with_runtime(
     runtime: &RuntimeContext,
 ) -> Result<GovernanceDecision, ObserverError> {
     governance_decision_for_contract_internal(root, contract, snapshot, Some(runtime))
+}
+
+/// Evaluate one governance decision from an explicitly captured observation
+/// phase. The compatibility wrappers remain available for embedders, while
+/// request-bound callers can prevent lower-level helpers from resolving a
+/// second repository identity or snapshot digest.
+pub fn governance_decision_for_observation_context(
+    observation: &ObservationContext,
+    contract: &cockpit_protocol::Contract,
+) -> Result<GovernanceDecision, ObserverError> {
+    observation.require_phase(ObservationPhase::BeforeGovernance)?;
+    if let Some(expected_contract_digest) = observation.contract_model_digest() {
+        let contract_value =
+            serde_json::to_value(contract).map_err(|error| ObserverError::State {
+                path: observation.root().join(".ai/work-items"),
+                message: error.to_string(),
+            })?;
+        let actual_contract_digest =
+            cockpit_protocol::digest_json(&contract_value).map_err(|error| {
+                ObserverError::State {
+                    path: observation.root().join(".ai/work-items"),
+                    message: error.to_string(),
+                }
+            })?;
+        if &actual_contract_digest != expected_contract_digest {
+            return Err(ObserverError::State {
+                path: observation.root().join(".ai/work-items"),
+                message: "governance Contract does not match the captured observation identity"
+                    .into(),
+            });
+        }
+    }
+    let decision = governance_decision_for_contract_base_internal_with_archive(
+        observation.root(),
+        contract,
+        observation.snapshot(),
+        observation.runtime(),
+        false,
+        Some(observation),
+    )?;
+    let decision = apply_preflight_review_evidence(
+        observation.root(),
+        contract,
+        observation.snapshot(),
+        decision,
+        false,
+    )?;
+    observation.validate_current()?;
+    Ok(decision)
 }
 
 fn governance_decision_for_contract_internal(
@@ -3536,6 +3595,7 @@ fn governance_decision_for_contract_internal_with_archive(
         snapshot,
         current_runtime,
         archived,
+        None,
     )?;
     apply_preflight_review_evidence(root, contract, snapshot, decision, archived)
 }
@@ -3546,8 +3606,14 @@ fn governance_decision_for_contract_base_internal_with_archive(
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
     archived: bool,
+    observation: Option<&ObservationContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
-    let explicit_blockers = contract_freshness_findings(root, contract, snapshot)?;
+    let expected_repository_id = observation
+        .map(|context| context.repository_id())
+        .cloned()
+        .unwrap_or_else(|| repository_id(root));
+    let explicit_blockers =
+        contract_freshness_findings_with_identity(root, contract, &expected_repository_id)?;
     let signals = derive_governance_signals(snapshot);
     let changed_paths = snapshot
         .changed_paths
@@ -3574,7 +3640,16 @@ fn governance_decision_for_contract_base_internal_with_archive(
     )?;
     let mut explicit_unknowns = signals.unknowns;
     explicit_unknowns.extend(contract_review_unknowns(contract));
-    explicit_unknowns.extend(project_governance_unknowns(root, contract, snapshot)?);
+    let project_unknowns = observation.map_or_else(
+        || project_governance_unknowns(root, contract, snapshot),
+        |context| {
+            Ok(project_governance::project_governance_unknowns_from_facts(
+                contract,
+                context.project_governance_facts(),
+            ))
+        },
+    )?;
+    explicit_unknowns.extend(project_unknowns);
     let contract_value = serde_json::to_value(contract).map_err(|error| ObserverError::State {
         path: root.join(".ai/work-items"),
         message: error.to_string(),

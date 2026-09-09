@@ -5,7 +5,12 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use cockpit_repository::{RepositoryExecutionContext, RuntimeSession, attach, scaffold_work_item};
+use cockpit_core::Digest;
+use cockpit_protocol::RuntimeContext;
+use cockpit_repository::{
+    ObservationConsistency, ObservationPhase, RepositoryExecutionContext, RuntimeSession, attach,
+    governance_decision_for_observation_context, scaffold_work_item,
+};
 
 static NEXT_ID: AtomicU64 = AtomicU64::new(0);
 
@@ -85,6 +90,142 @@ fn parallel_repository_contexts_do_not_share_scaffold_state() {
     });
     fs::remove_dir_all(left).expect("cleanup left");
     fs::remove_dir_all(right).expect("cleanup right");
+}
+
+#[test]
+fn observation_phase_context_binds_facts_and_rejects_source_mutation() {
+    let root = repository("phase-context");
+    fs::write(root.join("src.rs"), "fn value() -> u8 { 1 }\n").expect("source");
+    attach(&root).expect("attach");
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.87".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"phase-runtime"),
+    };
+    let contract_digest = Digest::sha256_bytes(b"contract");
+    let context = RepositoryExecutionContext::capture(&root).expect("capture");
+    let phase = context
+        .observe_phase(
+            ObservationPhase::BeforeGovernance,
+            Some(&runtime),
+            Some(contract_digest.clone()),
+        )
+        .expect("stable observation phase");
+
+    assert_eq!(phase.phase(), ObservationPhase::BeforeGovernance);
+    assert_eq!(phase.repository_id(), context.repository_id());
+    assert_eq!(phase.runtime(), Some(&runtime));
+    assert_eq!(phase.contract_digest(), Some(&contract_digest));
+    assert_eq!(phase.consistency(), ObservationConsistency::Stable);
+    assert_eq!(phase.observation(), context.observe().expect("observation"));
+    assert!(!phase.snapshot_digest().as_str().is_empty());
+    assert!(!phase.configuration_digest().as_str().is_empty());
+
+    fs::write(root.join("src.rs"), "fn value() -> u8 { 2 }\n").expect("mutate source");
+    let error = phase
+        .validate_current()
+        .expect_err("stale phase must fail closed");
+    assert!(error.to_string().contains("observation phase"));
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn observation_phase_context_detects_governance_configuration_and_identity_changes() {
+    let root = repository("phase-config");
+    fs::write(root.join("src.rs"), "fn value() -> u8 { 1 }\n").expect("source");
+    attach(&root).expect("attach");
+    let context = RepositoryExecutionContext::capture(&root).expect("capture");
+    let phase = context
+        .observe_phase(ObservationPhase::BeforeGovernance, None, None)
+        .expect("stable observation phase");
+
+    fs::write(root.join(".ai/policy.json"), "{\"schemaVersion\":1}\n").expect("policy");
+    let error = phase
+        .validate_current()
+        .expect_err("configuration mutation must fail closed");
+    assert!(error.to_string().contains("configuration"));
+
+    let config_path = root.join(".ai/cockpit.toml");
+    let mut config = fs::read_to_string(&config_path).expect("config");
+    config = config.replace("repository_id = \"", "repository_id = \"sha256:");
+    fs::write(&config_path, config).expect("identity");
+    let identity_error = phase
+        .validate_current()
+        .expect_err("identity mutation must fail closed");
+    assert!(identity_error.to_string().contains("identity"));
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn observation_phase_requires_a_fresh_context_for_each_lifecycle_phase() {
+    let root = repository("phase-boundary");
+    fs::write(root.join("src.rs"), "fn value() -> u8 { 1 }\n").expect("source");
+    attach(&root).expect("attach");
+    let context = RepositoryExecutionContext::capture(&root).expect("capture");
+    let before = context
+        .observe_phase(ObservationPhase::BeforeGovernance, None, None)
+        .expect("before phase");
+    let error = before
+        .require_phase(ObservationPhase::AfterExecution)
+        .expect_err("phase reuse must fail closed");
+    assert!(error.to_string().contains("phase"));
+
+    fs::write(root.join("src.rs"), "fn value() -> u8 { 2 }\n").expect("execution mutation");
+    let after_context = RepositoryExecutionContext::capture(&root).expect("refresh");
+    let after = after_context
+        .observe_phase(ObservationPhase::AfterExecution, None, None)
+        .expect("after phase");
+    after
+        .require_phase(ObservationPhase::AfterExecution)
+        .expect("fresh after phase");
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn governance_decision_consumes_the_validated_observation_context() {
+    let root = repository("governance-context");
+    attach(&root).expect("attach");
+    scaffold_work_item(&root, "WI-GOV-CONTEXT", "code").expect("scaffold");
+    fs::write(root.join("src.rs"), "fn value() -> u8 { 1 }\n").expect("source");
+    let contract_path = root.join(".ai/work-items/active/WI-GOV-CONTEXT.contract.json");
+    let contract: cockpit_protocol::Contract =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("parse");
+    let repository_context = RepositoryExecutionContext::capture(&root).expect("capture");
+    let observation = repository_context
+        .observe_phase_with_contract(ObservationPhase::BeforeGovernance, None, &contract_path)
+        .expect("observation");
+
+    governance_decision_for_observation_context(&observation, &contract)
+        .expect("decision uses stable context");
+
+    let mut mismatched_contract = contract.clone();
+    mismatched_contract.goal = "different Contract facts".into();
+    let mismatch_error =
+        governance_decision_for_observation_context(&observation, &mismatched_contract)
+            .expect_err("governance must use the Contract bound to the observation context");
+    assert!(
+        mismatch_error
+            .to_string()
+            .contains("captured observation identity")
+    );
+
+    let mut contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes")).expect("json");
+    contract_value["goal"] = serde_json::Value::String("changed after capture".into());
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract_value).expect("contract json"),
+    )
+    .expect("contract mutation");
+    let contract_error = governance_decision_for_observation_context(&observation, &contract)
+        .expect_err("stale Contract must not reach governance");
+    assert!(contract_error.to_string().contains("Contract identity"));
+
+    fs::write(root.join(".ai/policy.json"), "{\"schemaVersion\":1}\n").expect("policy");
+    let error = governance_decision_for_observation_context(&observation, &contract)
+        .expect_err("stale context must not reach governance");
+    assert!(error.to_string().contains("observation phase"));
+    fs::remove_dir_all(root).expect("cleanup");
 }
 
 #[test]
