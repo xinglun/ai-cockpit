@@ -15,59 +15,59 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-714-wi713-current-base-revalidation.recovery.3efe3143da8d84cb32db0877de59ee702b12034925d300b895f5449cb756d676.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-714-wi713-current-base-revalidation.recovery.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.events.jsonl"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.outcome.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-715-wi713-p0b-redelivery.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
       }
     ],
     "evidence": [
@@ -123,7 +123,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.contract.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
         ],
         "inference": false,
         "text": "在不改变机器契约、判定规则、退出码、授权语义或历史证据的前提下，交付共享的确定性四段式摘要和明确的完整报告入口。"
@@ -132,7 +132,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-wi713-p0b-redelivery.contract.json"
+          ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

@@ -6,8 +6,8 @@
     ".ai/work-items/active/WI-714-wi713-current-base-revalidation.events.jsonl",
     ".ai/work-items/active/WI-714-wi713-current-base-revalidation.outcome.json",
     ".ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json",
-    ".ai/work-items/active/WI-715-wi713-p0b-redelivery.contract.json",
-    ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+    ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json",
+    ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
   ],
   "checkpointAt": "2026-09-09T00:24:18Z",
   "checkpointContractDigest": "sha256:2dd6e7f34e44c7f2b2066d539f35097f808cb203653688df5df34f472070303f",

@@ -20,8 +20,8 @@
 - Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.events.jsonl
 - Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.outcome.json
 - Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json
-- Changed path: .ai/work-items/active/WI-715-wi713-p0b-redelivery.contract.json
-- Changed path: .ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json
+- Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json
+- Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json
 
 ## Findings
 

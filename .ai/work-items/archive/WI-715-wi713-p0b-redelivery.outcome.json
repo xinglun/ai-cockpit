@@ -47,59 +47,59 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-714-wi713-current-base-revalidation.recovery.3efe3143da8d84cb32db0877de59ee702b12034925d300b895f5449cb756d676.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-714-wi713-current-base-revalidation.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.events.jsonl"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-715-wi713-p0b-redelivery.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
         }
       ],
       "evidence": [
@@ -155,7 +155,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.contract.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
           ],
           "inference": false,
           "text": "在不改变机器契约、判定规则、退出码、授权语义或历史证据的前提下，交付共享的确定性四段式摘要和明确的完整报告入口。"
@@ -164,7 +164,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-715-wi713-p0b-redelivery.contract.json"
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -174,8 +174,8 @@
     "status": "verified",
     "workItemId": "WI-715-wi713-p0b-redelivery"
   },
-  "taskReportDigest": "sha256:24b8d3bb2b689e451148991ed1944c7351e7e4f695ef681cb76ed6adb581f9b7",
-  "taskReportMarkdownDigest": "sha256:b6d5b001d913f4b12423fac4f748b38c825a4277faf5b77ff0a7b64982c3de11",
+  "taskReportDigest": "sha256:0e009ff75c40e844a9fa47aaf998f277e13aace262eb6a99522f951ffed355f7",
+  "taskReportMarkdownDigest": "sha256:7eb39267cc2a2097edfa089200f8bef18d7582bba0fc5f713ff07d51f9bd04ba",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
