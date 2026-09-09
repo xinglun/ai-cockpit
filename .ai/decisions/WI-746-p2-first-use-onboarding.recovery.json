@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T05:43:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-746-p2-first-use-onboarding.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/721"
+  ],
+  "policyRefs": [
+    "AGENTS.md:premerge-finalization-before-close",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:17967a23878c8313497a37ad21e3f1eef561ec381f29683de2da3758a40ec3ad",
+  "predecessorSummaryDigest": "sha256:5803e63dfb88c1be00db3eecae958f93f2e114a521f6a3b1a69b0fd7bba40881",
+  "predecessorWorkItemId": "WI-746-p2-first-use-onboarding",
+  "reason": "Finalize-plan changed the active Contract binding to the reviewed PR context, so the earlier verification evidence is correctly rejected as contradictory. Retry the same Work Item with fresh preflight and verification evidence while preserving the prior evidence bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight for the current Contract, execute the declared documentation verification, then finish and archive only with fresh evidence bound to PR #721.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-746-p2-first-use-onboarding"
+}

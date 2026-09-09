@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json"
   ],
   "checkpointAt": "2026-09-09T05:33:05Z",
-  "checkpointContractDigest": "sha256:807561aa85bd3394d54dfa7640af4450d0bc6fe3fc7735e86c3f539bb0b40793",
+  "checkpointContractDigest": "sha256:17967a23878c8313497a37ad21e3f1eef561ec381f29683de2da3758a40ec3ad",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -45,8 +45,8 @@
   "checkpointRepositorySnapshotDigest": "sha256:3e82fb1af081f2ce4fd323fd25e7c4165c584dd522e0a932e335f8ac2fa18396",
   "createdAt": "2026-09-09T05:31:02Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-09T05:40:23Z",
-  "preflightContractDigest": "sha256:807561aa85bd3394d54dfa7640af4450d0bc6fe3fc7735e86c3f539bb0b40793",
+  "preflightAt": "2026-09-09T05:44:09Z",
+  "preflightContractDigest": "sha256:17967a23878c8313497a37ad21e3f1eef561ec381f29683de2da3758a40ec3ad",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:3e82fb1af081f2ce4fd323fd25e7c4165c584dd522e0a932e335f8ac2fa18396",
   "preflightState": "green",
@@ -60,6 +60,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:40f8ffe2dc1b889a2cd33f5eadd7c4cca009173e10b88cfe5af68f8cca7dd830",
+  "verificationRecoveryReconciled": "sha256:10e767bbdde74a5d7698ae9031326b4fce413faf404c4941aabf7d097677b91c",
   "workItemId": "WI-746-p2-first-use-onboarding"
 }

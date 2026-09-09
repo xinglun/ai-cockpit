@@ -36,11 +36,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-746-p2-first-use-onboarding",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/721",
     "worktree": "/private/tmp/ai-cockpit-p2-probe.iLI0gc"
   },
   "risk": "low",
