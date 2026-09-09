@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-764-release-v0-2-88.contract.json",
-    ".ai/work-items/active/WI-764-release-v0-2-88.summary.json"
+    ".ai/work-items/archive/WI-764-release-v0-2-88.contract.json",
+    ".ai/work-items/archive/WI-764-release-v0-2-88.summary.json"
   ],
   "checkpointAt": "2026-09-09T14:47:07Z",
   "checkpointContractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
@@ -89,8 +89,8 @@
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "The repository owner authorized continuing the amended release Contract after reviewing the candidate-Runtime re-verification boundary, required high-risk scenarios, current main readiness, and the rule that publication must use an immutable reviewed tag and public artifact. Prior Runtime evidence remains preserved; candidate-bound verification is required before hosted quality acceptance.",
-    "recordedAt": "2026-09-09T15:20:24Z",
+    "reason": "The repository owner authorized preserving the failed v0.2.88 publication boundary after the candidate-Runtime re-verification and hosted release run. The strict Contract route failed closed because release.yml omitted the required hosted Contract gate report; the annotated tag and five successful target builds remain immutable evidence, while public adopter scenarios are deferred to the successor release.",
+    "recordedAt": "2026-09-09T15:45:52Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
@@ -108,7 +108,7 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-09T15:23:15Z",
+  "preflightAt": "2026-09-09T15:45:52Z",
   "preflightContractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
@@ -124,10 +124,11 @@
         ".github/workflows/release.yml"
       ],
       "expected": "The reviewed source commit, annotated v0.2.88 tag, manifest, checksums, five target archives, SBOMs, Formula, provenance, and provider Release identity bind to one source revision.",
+      "reason": "The immutable v0.2.88 tag triggered the release workflow, but source quality failed before publication because the strict Contract route was not given its required hosted Contract gate report. The tag is reserved and the successor release will carry the repaired route.",
       "required": true,
       "scenario": "reviewed source commit produces the v0.2.88 public release",
-      "status": "unverified",
-      "verificationPlan": "Run local source/version gates, merge the reviewed PR, synchronize main, push only the annotated tag, and inspect the hosted release workflow and public assets."
+      "status": "not_applicable",
+      "verificationPlan": "Preserve the failed release boundary and verify the successor release independently."
     },
     {
       "evidence": [
@@ -136,10 +137,11 @@
         "tests/release/isolation_manifest.sh"
       ],
       "expected": "The downloaded v0.2.88 public binary alone establishes Runtime identity, repository isolation, first-adopter not_ready semantics, lifecycle evidence, and temporary-root cleanup.",
+      "reason": "No provider Release was published for v0.2.88 because source quality stopped the workflow before public assets existed.",
       "required": true,
       "scenario": "public v0.2.88 binary governs a fresh isolated adopter",
-      "status": "unverified",
-      "verificationPlan": "Run the hosted and post-release adopter harness against the immutable public Release without a source checkout or workspace binary fallback."
+      "status": "not_applicable",
+      "verificationPlan": "Run the adopter harness only against the successor's immutable public Release."
     },
     {
       "evidence": [
@@ -147,32 +149,33 @@
         "tests/release/adopter_upgrade_acceptance_test.sh"
       ],
       "expected": "The immediately preceding public v0.2.87 binary upgrades an isolated adopter to v0.2.88 while preserving repository identity, protocol compatibility, forbidden-root isolation, and cleanup.",
+      "reason": "The v0.2.88 provider Release does not exist, so an N-1 public upgrade cannot be claimed for this failed tag.",
       "required": true,
       "scenario": "v0.2.88 performs the N-1 public upgrade boundary",
-      "status": "unverified",
-      "verificationPlan": "Resolve v0.2.87 and v0.2.88 independently through the provider and run the N-1 harness using downloaded immutable artifacts only."
+      "status": "not_applicable",
+      "verificationPlan": "Run the N-1 harness only after the successor Release is public."
     },
     {
       "evidence": [
-        "tests/release/source_archive_policy_test.sh",
-        "tests/release/action_runtime_policy_test.sh",
-        ".github/workflows/release.yml"
+        "https://github.com/xinglun/ai-cockpit/actions/runs/34371183927",
+        ".ai/evidence/WI-764-release-v0-2-88.failed-release.json",
+        "v0.2.88 annotated tag targets merge commit 06963a2437a8aa324c4c98a9014a64a4d318c193",
+        "five target builds passed; source quality failed before provider publication"
       ],
       "expected": "A source-quality, publication, provider, or adopter failure preserves immutable tag/release truth and emits auditable evidence without source fallback, tag reuse, or destructive cleanup.",
       "required": true,
       "scenario": "release failure and rollback truth",
-      "status": "unverified",
-      "verificationPlan": "Run release policy regression tests, inspect hosted failure-path artifacts when present, and preserve any reserved tag or public Release history exactly as emitted."
+      "status": "verified",
+      "verificationPlan": "Preserve the failed release boundary and verify the successor release independently."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T15:23:08.933106+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T15:46:17Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:e5fd1f551271e7d503d600876d6141a8df23acbbe034cf23e698deeb6b5ca104",
   "workItemId": "WI-764-release-v0-2-88"
 }

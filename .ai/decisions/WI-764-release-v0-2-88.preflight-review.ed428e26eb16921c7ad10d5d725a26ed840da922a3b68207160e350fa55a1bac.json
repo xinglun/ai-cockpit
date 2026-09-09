@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "The repository owner authorized preserving the failed v0.2.88 publication boundary after the candidate-Runtime re-verification and hosted release run. The strict Contract route failed closed because release.yml omitted the required hosted Contract gate report; the annotated tag and five successful target builds remain immutable evidence, while public adopter scenarios are deferred to the successor release.",
+  "recordedAt": "2026-09-09T15:45:52Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
+  "schemaVersion": 1,
+  "workItemId": "WI-764-release-v0-2-88"
+}

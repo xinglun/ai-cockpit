@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "Cargo metadata reports exactly v0.2.88 for cockpit-cli and all workspace packages, with Cargo.lock consistent under --locked.",
+    "Current release, architecture, versioning, and trilingual Work Item documentation consistently names v0.2.88; historical failed/public releases remain explicitly historical and are not rewritten.",
+    "The reviewed PR is based on the latest remote main, all required hosted checks pass for its exact head, and main is synchronized before tagging.",
+    "An annotated v0.2.88 tag points to the reviewed main commit; the release workflow completes source quality, five-target builds, manifest/checksum, SBOM/provenance, smoke, and staged acceptance gates.",
+    "The stable public v0.2.88 Release is independently downloaded and its manifest, checksums, archive contents, binary version, and target identity match the tag and source commit; no source checkout or workspace binary substitutes for it.",
+    "Public adopter and N-1 upgrade acceptance complete with isolation cleanup evidence; Runtime inspect/status/doctor on the downloaded binary pass and the repository returns to ready_on_base.",
+    "Historical governance and release evidence remain byte-preserved, and all Runtime lifecycle records are repository-bound and append-only.",
+    "Closed performance Work Item documentation and parity projections are promoted to terminal status before release verification; the Runtime helper reports no stale promotion for WI-763.",
+    "Reference-comparison metadata and its six current projection pages bind the candidate v0.2.88 Runtime identity, preserve the pinned reference commit and ledger counts, and pass the executable metadata check.",
+    "Before hosted quality acceptance, the candidate v0.2.88 Runtime independently re-runs the declared workspace verification and the resulting evidence binds the candidate Runtime version and digest; prior pre-release evidence from another Runtime identity remains preserved and is not reused."
+  ],
+  "createdAt": "2026-09-09T15:46:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e5fd1f551271e7d503d600876d6141a8df23acbbe034cf23e698deeb6b5ca104",
+  "evidenceRefs": [
+    ".ai/evidence/WI-764-release-v0-2-88.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-764-release-v0-2-88.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-764-release-v0-2-88.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
+      "workItemId": "WI-764-release-v0-2-88"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-764-release-v0-2-88.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-764-release-v0-2-88.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-764-release-v0-2-88.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-764-release-v0-2-88.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-764-release-v0-2-88.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-764-release-v0-2-88.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-764-release-v0-2-88.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-764-release-v0-2-88.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-764-release-v0-2-88.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-764-release-v0-2-88.contract.json"
+          ],
+          "inference": false,
+          "text": "Update the Runtime package identity and current trilingual release projections to v0.2.88, merge them through the reviewed PR path, publish the annotated v0.2.88 tag, and bind the public release and adopter evidence back to this Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-764-release-v0-2-88.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-764-release-v0-2-88"
+  },
+  "taskReportDigest": "sha256:fd017704aad1cd7a675e12bb560a5b4ee692dc7c99acdca3365dafc0e7cac62f",
+  "taskReportMarkdownDigest": "sha256:ebba3350d518af8bd847d6d5a5bb865955924a1f6f540a1b70b559d149473597",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-764-release-v0-2-88.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-764-release-v0-2-88"
+}

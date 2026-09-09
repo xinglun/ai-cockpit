@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "kind": "release_failure_boundary",
+  "workItemId": "WI-764-release-v0-2-88",
+  "repository": "xinglun/ai-cockpit",
+  "tag": "v0.2.88",
+  "annotatedTagTarget": "06963a2437a8aa324c4c98a9014a64a4d318c193",
+  "runId": 34371183927,
+  "runUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/34371183927",
+  "sourceQuality": {
+    "state": "failed",
+    "failingStep": "Run source quality gates",
+    "failure": "standard/strict Contract routes require --contract-gate-report"
+  },
+  "targetBuilds": {
+    "state": "passed",
+    "targets": [
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu",
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
+      "x86_64-pc-windows-msvc"
+    ]
+  },
+  "providerRelease": {
+    "state": "not_published",
+    "reason": "The release workflow stopped at source quality before publication."
+  },
+  "tagDisposition": "reserved_and_not_reused",
+  "observedAt": "2026-09-09T15:42:00Z",
+  "evidenceCommands": [
+    "git show --format=fuller --no-patch v0.2.88",
+    "gh run view 34371183927 --log-failed",
+    "gh release view v0.2.88"
+  ]
+}
