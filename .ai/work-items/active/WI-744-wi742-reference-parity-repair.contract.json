@@ -1,0 +1,71 @@
+{
+  "acceptanceCriteria": [
+    "All three reference-parity pages contain exactly one WI-742-p1-invariant-7-doc-promotion entry with the corresponding language-specific Work Item link and the archived WI-742 evidence bindings.",
+    "The tri-language WI-744 Work Item projections exist with the repository-bound workItemId and describe the bounded documentation-only successor.",
+    "bash tests/docs/parity_status_check.sh passes and bash tests/docs/documentation_acceptance.sh passes.",
+    "No out-of-scope paths change."
+  ],
+  "authority": "Repository-owner handoff and Runtime successor recovery from WI-742",
+  "baseRevision": "bc23abd4da1ab74700b94317d55f9950c30a9bd3",
+  "createdAt": "2026-09-09T04:34:28Z",
+  "goal": "Add one WI-742 parity row to each of docs/reference/reference-parity.md, docs/reference/reference-parity.zh-CN.md, and docs/reference/reference-parity.ja.md, preserving the established evidence links and status vocabulary.",
+  "intent": "Register the archived WI-742 coverage-document changes in the tri-language reference-parity projections required by the docs governance gate.",
+  "mode": "docs",
+  "outOfScope": [
+    "Coverage-document content changes",
+    "Runtime or production code",
+    "Tests",
+    "Scenario matrix",
+    "External participants",
+    "Sections IV or V implementation",
+    "Onboarding or contribution-barrier track",
+    "Outcome/performance/architecture/contribution-experience tracks",
+    "Manual edits to generated .ai records"
+  ],
+  "predecessorContractDigest": "sha256:da259332475de8ba51bb65d6cac89b6f8ae5d78a52fb7df910028cf462d1f193",
+  "predecessorWorkItemId": "WI-742-p1-invariant-7-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-742-p1-invariant-7-doc-promotion.recovery.93b3d1fdc6287fe50cdfac89827096a6b4b6a691c57a0f246aa15091167a6538.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d185a3652601e35f0eccd3f61ae7469e1a92e3b562ae016719591d0c99cb651e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-744-wi742-reference-parity-repair",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-744-wi742-parity-projection"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-744-wi742-reference-parity-repair.md",
+    "docs/work-items/WI-744-wi742-reference-parity-repair.zh-CN.md",
+    "docs/work-items/WI-744-wi742-reference-parity-repair.ja.md"
+  ],
+  "state": "implementation_active",
+  "sources": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.contract.json",
+    ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json",
+    ".ai/decisions/WI-742-p1-invariant-7-doc-promotion.recovery.93b3d1fdc6287fe50cdfac89827096a6b4b6a691c57a0f246aa15091167a6538.json",
+    "tests/docs/parity_status_check.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "docs/work-items/WI-744-wi742-reference-parity-repair.md",
+    "docs/work-items/WI-744-wi742-reference-parity-repair.zh-CN.md",
+    "docs/work-items/WI-744-wi742-reference-parity-repair.ja.md"
+  ],
+  "verification": [
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-744-wi742-reference-parity-repair"
+}

@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "All three language pages mark invariant 7 as directly covered and cite crates/cockpit-repository/tests/scenario_matrix_next_action.rs with its SCN-001 SCN-002 SCN-016 assertions and observed-scenario guard.",
+    "All three language pages remove or revise the claim that invariant 7 is the sole remaining named gap and accurately state the remaining partial-coverage limitations for invariants 3 and 10.",
+    "The three pages remain content-aligned across languages and no out-of-scope repository paths change.",
+    "bash tests/docs/documentation_acceptance.sh passes and the focused WI-741 regression test remains passing."
+  ],
+  "authority": "Repository-owner handoff in the current session and merged WI-741 evidence",
+  "baseRevision": "838ae745511942cb55dd7ac30c319cc5bc95e74d",
+  "createdAt": "2026-09-09T03:51:36Z",
+  "goal": "Synchronize the English Simplified Chinese and Japanese invariant coverage pages with crates/cockpit-repository/tests/scenario_matrix_next_action.rs while preserving the existing ten-invariant scope and evidence wording.",
+  "intent": "Update the collaboration invariant coverage reference so it reflects the merged WI-741 test evidence and no longer reports invariant 7 as the sole named gap.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime or production code; tests; collaboration scenario matrix files; sections IV or V implementation; external participant recruitment or interviews; onboarding or contribution-barrier track; Outcome performance architecture or contribution-experience tracks; manual edits to generated .ai records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fde4b03ec9f47f3ea5cbc8ad51e3e14cd899e60bc084583b126b617df877fc83",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-742-p1-invariant-7-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/714",
+    "worktree": "/private/tmp/ai-cockpit-wi-742-p1-invariant-7-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/collaboration-invariant-coverage.md",
+    "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+    "docs/reference/collaboration-invariant-coverage.ja.md"
+  ],
+  "sources": [
+    "docs/reference/collaboration-invariant-coverage.md",
+    "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+    "docs/reference/collaboration-invariant-coverage.ja.md",
+    "docs/work-items/WI-741-p1-invariant-7-next-action-coverage.md",
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+    ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test -p cockpit-repository --test scenario_matrix_next_action",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+}

@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-handoff",
+  "decidedAt": "2026-09-09T05:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/714"
+  ],
+  "policyRefs": [
+    "AGENTS.md:current-work-item-defect-and-recovery",
+    "AGENTS.md:immutable-history-and-successor-recovery"
+  ],
+  "predecessorContractDigest": "sha256:da259332475de8ba51bb65d6cac89b6f8ae5d78a52fb7df910028cf462d1f193",
+  "predecessorEventsDigest": "sha256:dd05a3f174b0815893c2e7b30b44090f1f28a77a01db144bbedfedcec351d8a8",
+  "predecessorOutcomeDigest": "sha256:4233d8497d0dee1411cc295be28871adb78ae20aca177087f4211801a5346cd0",
+  "predecessorSummaryDigest": "sha256:004db7c83a3b03ad89bca0c2c899437855ef47b255380b207c15cba11a6c44ad",
+  "predecessorWorkItemId": "WI-742-p1-invariant-7-doc-promotion",
+  "reason": "The hosted docs governance gate identified missing tri-language reference-parity projections for the archived WI-742 coverage-doc changes. Preserve WI-742 immutable archive/evidence and repair the required parity projection in a bounded successor, using WI-744 because WI-743 is occupied by an independent performance-tracking Work Item.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Add and verify the three WI-742 reference-parity projections through WI-744, deliver one reviewed PR, and close the successor and predecessor lineage according to Runtime evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-744-wi742-reference-parity-repair",
+  "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+}
