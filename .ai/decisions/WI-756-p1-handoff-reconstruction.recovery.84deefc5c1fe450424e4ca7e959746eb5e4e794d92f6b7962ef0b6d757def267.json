@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T10:30:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-756-p1-handoff-reconstruction.verification.json",
+    ".ai/decisions/WI-756-p1-handoff-reconstruction-revalidation.close.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:5e88649e48bbac95ef7146789073298c2bb8b3bd1e228a5f36bd343aedee7b83",
+  "predecessorContractDigest": "sha256:8b9aac6a77e013413c6e1a6d8b023e0396ef55ef9ac9d22db25826bc268ae763",
+  "predecessorEventsDigest": "sha256:476719668fc9fe7111a8a2762563ab5a8a2da1f18a2c8c6049f14ca348132b93",
+  "predecessorOutcomeDigest": "sha256:d47d770bdef2841e1257b600ad8ae5f4b11c8667bc42a3519d2fb8768b5f1c0e",
+  "predecessorSummaryDigest": "sha256:72a3681184bd421649c4f30cf83ca28e87994b5019fc8818e8693d7e08aa0bb2",
+  "predecessorWorkItemId": "WI-756-p1-handoff-reconstruction",
+  "reason": "The successor is terminal and verified; supersede the stale historical predecessor projection while preserving its immutable archive, evidence, authorization, and finalization records.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Predecessor close must retain historical archive integrity and bind to the terminal successor.",
+  "runtimeDigest": "sha256:636bb1fbd6f8289da4ea7790297da39fc69975d4a3876445ff2646ac71efdc16",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-756-p1-handoff-reconstruction-revalidation",
+  "workItemId": "WI-756-p1-handoff-reconstruction"
+}
