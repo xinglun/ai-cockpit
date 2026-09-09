@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-09T01:06:54Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-715-p1-large-history-status.verification.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.outcome.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/708"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:cdb75d2bf02b9fe54b78d53657dc1ef3fe66cbea3e55366ae9958e7ecb836617",
+  "predecessorEventsDigest": "sha256:b0c0808d0e44508a95c720c1c0935a46997e374c6f8b6b0dbbacfc0efc12f444",
+  "predecessorOutcomeDigest": "sha256:b601defe304ae0d48d6566136c17357cac7480680ebc69dbe5e019e821e711e1",
+  "predecessorSummaryDigest": "sha256:cc79616f6a73d2a7b0945a059c108010673891438c08e45cd6ef0509ffb87456",
+  "predecessorWorkItemId": "WI-715-p1-large-history-status",
+  "reason": "Retry WI-715 after Runtime correctly recorded finish lifecycle failures and hosted quality rejected the stale lifecycle marker. The real PR #708 context is now bound; authorize one fresh verification, preflight, and finish attempt without changing the declined performance decision.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh verification evidence bound to PR #708 and the current Contract, rerun green preflight, then retry finish exactly once before archive.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}
