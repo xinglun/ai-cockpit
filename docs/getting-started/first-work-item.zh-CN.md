@@ -125,4 +125,22 @@ ai-cockpit close --repo "$repo" --id "$id" --human-decision approved --actor hum
 [Agent workflow 参考](../reference/agent-workflow.zh-CN.md)定义了上述 receipt 文件使用的
 provider/resource 证据边界。
 
+## 经过验证的完整案例
+
+真实的 [WI-663 归档 Outcome](../../.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)
+是同一路线的紧凑示例。它的输入是在声明的 base 和边界范围内进行 Outcome 展示层修复。
+归档记录报告 `state=finish_ready`、`decisionState=green` 和 `verification.status=verified`。
+独立的[关闭决定](../../.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)记录了
+repository owner 的批准，[收尾 receipt](../../.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
+记录了 provider 合并和准确 cleanup 事实。这些是不同事实：验证通过不会变成批准，批准也不会变成发布声明。
+
+[任务报告](../../.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.task-report.md)和
+[验证证据](../../.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)说明了证据边界。
+这些检查支持已声明的 repository 和 Work Item 结果，但不能证明普遍安全、用户可见收益，或历史证据在每个
+后续 Runtime 下都保持新鲜。剩余未知项 `user_visible_benefit_not_declared` 被有意保留。
+
+要从 checkout 查看历史交接，请使用 [AI Cockpit 首页](../../README.zh-CN.md)中展示的只读查询。
+当前 Runtime 可能把历史证据标记为需要重新验证；这是新鲜度限制，不是当前测试失败。如果要依据该记录
+作出当前决定，应重新验证并由人明确决定；不能从归档的 green 验证通过推导授权。
+
 [标准采用指南](standard-adoption-guide.zh-CN.md) | [English](first-work-item.md) | [日本語](first-work-item.ja.md)

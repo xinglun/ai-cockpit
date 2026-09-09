@@ -1,0 +1,58 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "6a5446a2af4586825ce02f970989cc14ceccea6f",
+    "name": "codex/wi-751-p2-onboarding-current-base",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:cfc83fd57b0d077570250ee67396f1d7d52f91b3f2e6de4124a4fccd3210285c",
+  "operationId": "github-pr-731-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "08de2fc2aa7b9530bd1d7764475152689c4851d7",
+    "headRevision": "6a5446a2af4586825ce02f970989cc14ceccea6f",
+    "mergeCommit": "b7a282a3d707c63364cd71bd5ad9f8af1c075160",
+    "number": 731,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/731"
+  },
+  "reason": "PR #731 passed all hosted checks and merged as b7a282a3d707c63364cd71bd5ad9f8af1c075160; the branch was revalidated onto the current default branch after PR #730, and the exact remote/local branch and dedicated worktree were removed after cleanup verification. The receipt binds the immutable Contract base revision 08de2fc2aa7b9530bd1d7764475152689c4851d7.",
+  "receiptId": "github-pr-731-wi751-cleanup-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-751-p2-onboarding-current-base",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/731",
+    "worktree": "/private/tmp/ai-cockpit-wi-751-p2-onboarding-current-base"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T08:24:31Z",
+  "workItemId": "WI-751-p2-first-use-current-base",
+  "worktree": {
+    "branch": "codex/wi-751-p2-onboarding-current-base",
+    "headRevision": "6a5446a2af4586825ce02f970989cc14ceccea6f",
+    "path": "/private/tmp/ai-cockpit-wi-751-p2-onboarding-current-base",
+    "worktreeId": "WI-751-p2-first-use-current-base"
+  }
+}

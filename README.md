@@ -52,6 +52,48 @@ Read [Capabilities and boundaries](docs/capabilities.md) for the first governed
 Work Item and [Release and distribution](docs/release/distribution.md) for
 installation and verification.
 
+## A verified complete case
+
+The archived [WI-663 Outcome](.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)
+is a real, bounded example of the full handoff path. It is evidence about this
+repository's governance record, not a claim about universal safety or product
+performance.
+
+- **Result:** The archived record reports `state=finish_ready`,
+  `decisionState=green`, and `verification.status=verified`. The separate
+  [close decision](.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)
+  records the repository owner's approval; verification and approval are not
+  the same fact.
+- **Key changes:** The input was a presentation-layer Outcome repair on a
+  declared base and bounded scope. Its recorded findings preserve distinct
+  verification, lifecycle, and human-decision states, including historical,
+  stale, missing, and superseded evidence.
+- **Evidence boundary:** The [verification evidence](.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)
+  supports the declared checks and repository/work-item bindings. The
+  [finalization receipt](.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
+  supports the recorded merge and cleanup facts. Neither file proves a release,
+  universal safety, or a user-visible benefit.
+- **Remaining uncertainty:** `user_visible_benefit_not_declared` remains
+  explicit. When the historical record is viewed through the current Runtime,
+  it may also say that historical evidence was not revalidated; that is a
+  freshness limitation, not a current test failure.
+- **Human next step:** No new authorization is implied by the green archived
+  verification. If the evidence is needed for a current decision, revalidate
+  it under the current Runtime and make the decision explicitly.
+
+To repeat the read-only handoff lookup from a checkout, replace the placeholder
+with the repository path:
+
+```bash
+repo=/path/to/ai-cockpit
+ai-cockpit work-item outcome --repo "$repo" \
+  --id WI-663-wi659-outcome-trust-replacement
+```
+
+The [First Work Item walkthrough](docs/getting-started/first-work-item.md)
+maps the same case from input and scope through evidence, Outcome, human
+decision, and cleanup.
+
 ## Shared Runtime, isolated repositories
 
 Attach each target repository separately:

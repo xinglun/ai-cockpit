@@ -27,6 +27,22 @@ capabilityClaims:
 Install は共有 Runtime の操作で、repository attach は明示的な操作です。attach は repository-local
 `.ai/` を作成します。1 つの Runtime は複数 repository を扱えますが、Work Item、evidence、active context は共有しません。
 
+## 最初の 4 段階を分ける
+
+最初の route には 4 つの異なる decision があります。前の段階が成功しても、次の段階の
+approval にはなりません。
+
+1. **Installation:** immutable な public Release を取得し digest を検証します。[Installation](installation.ja.md)を参照してください。
+2. **Repository attach:** target を inspect して repository-local `.ai/` state を作ります。attach は work を
+   approve せず、global Agent settings も install しません。
+3. **Calibration:** read-only profile candidate を review し、project-owned quality command を確認します。
+   [Repository profile calibration](calibration.ja.md)を参照してください。
+4. **最初の governance Work Item:** scope と authority を宣言し、preflight と checkpoint を通し、evidence を集め、
+   visible Outcome を届け、人の decision を得ます。[最初の Work Item](first-work-item.ja.md)を参照してください。
+
+[検証済みの完了例](first-work-item.ja.md#検証済みの完了例)は、verification を authorization に変えずに
+この 4 つの事実を示します。
+
 ## Reader routes
 
 - [30 秒で開始](30-second-start.ja.md) — inspect、attach、status、doctor。

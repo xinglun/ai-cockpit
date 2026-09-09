@@ -1,0 +1,23 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T07:35:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-750-p1-cognitive-benefit-current-base.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary"
+  ],
+  "predecessorContractDigest": "sha256:54ef6de9f82b2e8310178fe0816283fcb0f70c73019b5b8f0187d832304ceb10",
+  "predecessorSummaryDigest": "sha256:feb3ff119372d32646abaa02bc3b2f611b7c0e455739c91fdabd2bf07c098fb4",
+  "predecessorWorkItemId": "WI-750-p1-cognitive-benefit-current-base",
+  "reason": "Retry after finalize-plan invalidated the earlier preflight projection; preserve the prior attempt and revalidate against the current reviewed Contract and PR resource context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the finalized resource context, then complete finish and the reviewed PR lifecycle.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-750-p1-cognitive-benefit-current-base"
+}

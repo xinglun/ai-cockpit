@@ -951,24 +951,24 @@ fn preflight_work_item_internal(
         root.join(contract_path)
     };
     let contract = read_contract(&contract_path)?;
-    let git =
-        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
-            path: root.clone(),
-            message: error.to_string(),
-        })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
+    let repository_context = RepositoryExecutionContext::capture(&root)?;
+    let observation_context = repository_context.observe_phase_with_contract(
+        ObservationPhase::BeforeGovernance,
+        current_runtime,
+        &contract_path,
+    )?;
+    let snapshot = observation_context.snapshot().clone();
     let raw_decision = governance_decision_for_contract_base_internal_with_archive(
         &root,
         &contract,
         &snapshot,
         current_runtime,
         false,
+        Some(&observation_context),
     )?;
     let decision =
         apply_preflight_review_evidence(&root, &contract, &snapshot, raw_decision.clone(), false)?;
+    observation_context.validate_current()?;
 
     let active = root.join(".ai/work-items/active");
     let active_contract = active.join(format!("{}.contract.json", contract.work_item_id));
@@ -2951,6 +2951,7 @@ fn record_verification_internal(
         &refreshed_snapshot,
         None,
         false,
+        None,
     )?;
     let decision = apply_preflight_review_evidence(
         &root,

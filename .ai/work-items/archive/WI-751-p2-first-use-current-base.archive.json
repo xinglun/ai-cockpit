@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T07:48:49Z",
+  "files": {
+    "contractDigest": "sha256:cfc83fd57b0d077570250ee67396f1d7d52f91b3f2e6de4124a4fccd3210285c",
+    "contractPath": ".ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json",
+    "eventsDigest": "sha256:dbd3a853cf4e4beb468c12c9f0fcab146ca51fc283d089802a71cf357f59e1b6",
+    "eventsPath": ".ai/work-items/archive/WI-751-p2-first-use-current-base.events.jsonl",
+    "outcomeDigest": "sha256:7cb47317e4f07334171d15301b5f9fb3b82e9e7bc3fd06cd3b9f5e468ba3e59f",
+    "outcomePath": ".ai/work-items/archive/WI-751-p2-first-use-current-base.outcome.json",
+    "summaryDigest": "sha256:71fd077a495f73b53e57cd2fd28824c0b55a467b5a9338bb16d70176574857db",
+    "summaryPath": ".ai/work-items/archive/WI-751-p2-first-use-current-base.summary.json",
+    "taskReportDigest": "sha256:2626dba507ec187aa6f78f2336deb585ac2086c954520433177f5cd19c00fffc",
+    "taskReportMarkdownDigest": "sha256:a03560db936054a16725345676415dbf2f325798a6b7162093ce3ddcc353b21e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-751-p2-first-use-current-base.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-751-p2-first-use-current-base.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-751-p2-first-use-current-base"
+}
