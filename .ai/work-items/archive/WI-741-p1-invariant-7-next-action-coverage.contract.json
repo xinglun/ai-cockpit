@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "A1: crates/cockpit-repository/tests/scenario_matrix_next_action.rs exists with tests for SCN-001, SCN-002, and SCN-016 asserting exact/substring next-action text against each scenario's recorded expected.keyMessage.",
+    "A2: a guard test confirms SCN-001, SCN-002, and SCN-016 remain declared sourceType=observed and exercise invariant 7 in docs/reference/collaboration-scenario-matrix.json.",
+    "A3: cargo test -p cockpit-repository --test scenario_matrix_next_action passes; cargo fmt --check and cargo clippy -D warnings are clean for the new file."
+  ],
+  "authority": "authorized",
+  "baseRevision": "dc6493bc9c7a4ee3763c03e2b27d9d794f6358b4",
+  "createdAt": "2026-09-09T03:35:55Z",
+  "goal": "Add crates/cockpit-repository/tests/scenario_matrix_next_action.rs asserting the exact recovery/next-action text for SCN-001 (checkpoint before start), SCN-002 (start rejected on dirty worktree), and SCN-016 (finish before finalize-plan) still matches each scenario's recorded expected.keyMessage, plus a guard test that those three scenarios remain declared observed with invariant 7 in the matrix.",
+  "intent": "Close invariant 7 (displayed next step matches current Runtime state/policy), the sole remaining gap named by docs/reference/collaboration-invariant-coverage.md, with a bounded automated test tied to a subset of the collaboration-scenario-matrix.json's observed scenarios.",
+  "mode": "implementation",
+  "outOfScope": [
+    "production runtime behavior",
+    "CLI/MCP wire behavior",
+    "invariant coverage doc content"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cf2f0ddee2c14341379ee984e913a8dcf93ef4037a6fc964c1a7a8781e128fef",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-741-p1-invariant-7-next-action-coverage",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/713",
+    "worktree": "/private/tmp/ai-cockpit-wi-741-p1-invariant-7-next-action-coverage"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-741-p1-invariant-7-next-action-coverage"
+}
