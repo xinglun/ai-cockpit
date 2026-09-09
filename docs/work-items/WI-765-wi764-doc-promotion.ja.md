@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-765 — WI-764 クローズ後のドキュメント promotion"
 description: "過去のガバナンス証拠を変更せず、クローズ済み WI-764 のリリース境界ドキュメント投影を昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-765-wi764-doc-promotion
 lastVerifiedBy: WI-765-wi764-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-765-wi764-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-765-wi764-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-765-wi764-doc-promotion.finalize.60a5e15353209ac22e995c11894712c8181b817a706fad9322d5a1712fec21d5.json
+terminalDecision: .ai/decisions/WI-765-wi764-doc-promotion.close.json
 ---
 
 [English](WI-765-wi764-doc-promotion.md) · [简体中文](WI-765-wi764-doc-promotion.zh-CN.md)
