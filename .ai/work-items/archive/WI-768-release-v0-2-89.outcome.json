@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "Release source_quality executes the Contract-aware Rust gate whenever the strict release route binds a Contract and passes its receipt to run_repository_gates.py, with receipt artifacts uploaded.",
+    "Workspace version is exactly 0.2.89 and all required current release/version projections are consistent; v0.2.88 remains unchanged.",
+    "Reviewed PR hosted checks pass, including route, quality, Windows runtime, and v1 behavioral oracle, before merge.",
+    "After merge, the v0.2.89 tag is immutable and the provider Release plus all target artifacts, source-quality receipts, version-consistency, adopter installation, and upgrade acceptance evidence are bound to the merged commit and temporary roots are cleaned.",
+    "The Work Item is archived, finalized, closed, exact branch/worktree cleanup is verified, main is synchronized, and post-close documentation promotion check is current."
+  ],
+  "createdAt": "2026-09-09T21:18:03Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ce69a8c6b695297e6e442aa79a9531730104acabb9d2fe7ca846ef6a7ff38468",
+  "evidenceRefs": [
+    ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
+      "workItemId": "WI-768-release-v0-2-89"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-768-release-v0-2-89.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-768-release-v0-2-89.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-768-release-v0-2-89.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-768-release-v0-2-89.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-768-release-v0-2-89.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce and publish v0.2.89 from a reviewed PR whose hosted release workflow executes the Contract-aware Rust gate and binds its receipt to repository gates, while preserving prior v0.2.88 failure evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-768-release-v0-2-89.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-768-release-v0-2-89"
+  },
+  "taskReportDigest": "sha256:0068938710baf5499269f366e2bcfd2e5675e789601b3d87f4892a8ffb6558a5",
+  "taskReportMarkdownDigest": "sha256:24dc1a859fa8ad382ef9e167a52551b3aec6f1df3c844e1ca51b31cbe589fed4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-768-release-v0-2-89.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-768-release-v0-2-89"
+}

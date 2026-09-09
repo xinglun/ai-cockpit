@@ -1,7 +1,64 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "source_quality and Contract-aware Rust gate",
+          "path": "provider://github/actions/runs/34398190681/job/102623167065",
+          "type": "hosted-release-quality",
+          "verification": "GitHub Actions run 34398190681"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "merged commit 259156d534d05e6e73a2be13fc848cf26752bee2 and immutable v0.2.89 assets",
+          "path": "provider://github.com/xinglun/ai-cockpit/releases/tag/v0.2.89",
+          "type": "release-identity",
+          "verification": "gh release view v0.2.89"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public v0.2.89 macOS arm64 artifact, isolation.json, and close binding",
+          "path": "/tmp/wi768-public-adopter-native.tDgwWt/acceptance.json",
+          "type": "adopter-acceptance",
+          "verification": "tests/release/adopter_acceptance.sh --target aarch64-apple-darwin"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "public v0.2.87 to v0.2.89 migration and byte-identical history digest",
+          "path": "/tmp/wi768-public-upgrade-native.EW85Up/acceptance.json",
+          "type": "upgrade-acceptance",
+          "verification": "tests/release/adopter_upgrade_acceptance.sh --from-tag v0.2.87 --to-tag v0.2.89 --target aarch64-apple-darwin"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Runtime verification bound to the WI-768 Contract and merged source snapshot",
+          "path": ".ai/evidence/WI-768-release-v0-2-89.verification.json",
+          "type": "governance-lifecycle",
+          "verification": "ai-cockpit verify --repo /private/tmp/ai-cockpit-wi-768-release-v0-2-89 --work-item WI-768-release-v0-2-89"
+        }
+      ]
+    }
+  ],
   "changedPaths": [
-    ".ai/work-items/active/WI-768-release-v0-2-89.contract.json",
-    ".ai/work-items/active/WI-768-release-v0-2-89.summary.json"
+    ".ai/work-items/archive/WI-768-release-v0-2-89.contract.json",
+    ".ai/work-items/archive/WI-768-release-v0-2-89.summary.json"
   ],
   "checkpointAt": "2026-09-09T18:27:23Z",
   "checkpointContractDigest": "sha256:996a06b7b4e7092e788e0b4a5d06164853505a3fbcdb6d145ea80698a95036ea",
@@ -97,20 +154,31 @@
     "schemaVersion": 1,
     "workItemId": "WI-768-release-v0-2-89"
   },
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      ".ai/evidence/WI-768-release-v0-2-89.verification.json",
+      "provider://github/actions/runs/34398190681",
+      "/tmp/wi768-public-adopter-native.tDgwWt/acceptance.json",
+      "/tmp/wi768-public-upgrade-native.EW85Up/acceptance.json"
+    ],
+    "reason": "WI-768 release intent is fulfilled by the merged Contract-aware quality route, immutable v0.2.89 publication, hosted and local public-artifact acceptance, and preserved upgrade evidence; no performance implementation was added in this release WI.",
+    "state": "resolved"
+  },
   "mode": "change",
-  "preflightAt": "2026-09-09T19:38:55Z",
+  "preflightAt": "2026-09-09T21:17:58Z",
   "preflightContractDigest": "sha256:996a06b7b4e7092e788e0b4a5d06164853505a3fbcdb6d145ea80698a95036ea",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
       "evidence": [
         ".github/workflows/release.yml",
-        "target/release-quality-route.json",
-        "target/rust-contract-quality-gate.json"
+        "provider://github/actions/runs/34398190681/job/102623167065",
+        "provider://github/actions/artifacts/10122498802"
       ],
       "expected": "The release source_quality job evaluates the active Contract with the Rust gate and passes its receipt to the repository gate runner; missing binding fails closed.",
       "required": true,
@@ -122,8 +190,9 @@
       "evidence": [
         "Cargo.toml",
         "Cargo.lock",
-        "tests/release/version_consistency.sh",
-        ".ai/evidence/WI-768-release-v0-2-89.verification.json"
+        ".ai/evidence/WI-768-release-v0-2-89.verification.json",
+        "provider://github.com/xinglun/ai-cockpit/releases/tag/v0.2.89",
+        "provider://github/actions/runs/34398190681"
       ],
       "expected": "Cargo metadata, Cargo.lock, the reviewed merge commit, annotated v0.2.89 tag, release manifest, checksums, SBOMs, and provider Release all bind to the same source revision and version.",
       "required": true,
@@ -132,30 +201,37 @@
       "verificationPlan": "Run local version checks, merge only the reviewed PR, create the annotated v0.2.89 tag once, and validate hosted release identity and public assets."
     },
     {
+      "evidence": [
+        "/tmp/wi768-public-adopter-native.tDgwWt/acceptance.json",
+        "/tmp/wi768-public-adopter-native.tDgwWt/isolation.json",
+        "provider://github/actions/artifacts/10123743130"
+      ],
       "expected": "The downloaded immutable v0.2.89 artifact passes version, manifest, root isolation, cleanup, and Runtime identity checks without using the workspace binary.",
-      "reason": "The immutable provider Release does not exist before the reviewed v0.2.89 tag runs; this scenario is mandatory post-publication and will be re-recorded as verified from the downloaded artifact receipt before close.",
       "required": true,
       "scenario": "release artifacts pass isolated adopter installation",
-      "status": "not_applicable",
+      "status": "verified",
       "verificationPlan": "Run the public adopter acceptance harness against the provider Release asset and retain its isolation receipt and manifests."
     },
     {
+      "evidence": [
+        "/tmp/wi768-public-upgrade-native.EW85Up/acceptance.json",
+        "/tmp/wi768-public-upgrade-native.EW85Up/history-digest.json",
+        "provider://github/actions/artifacts/10124067133"
+      ],
       "expected": "An isolated adopter can upgrade from v0.2.87 to the downloaded v0.2.89 artifact while preserving governed history and proving cleanup and identity binding.",
-      "reason": "The immutable provider Release does not exist before the reviewed v0.2.89 tag runs; this scenario is mandatory post-publication and will be re-recorded as verified from the downloaded upgrade receipt before close.",
       "required": true,
       "scenario": "v0.2.89 preserves the v0.2.87 to v0.2.89 upgrade boundary",
-      "status": "not_applicable",
+      "status": "verified",
       "verificationPlan": "Run the public upgrade acceptance harness with immutable v0.2.87 and v0.2.89 artifacts and retain the receipt."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T19:39:18.195943+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T21:18:03Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:60dda9063253e6b7fc6ecabca5af001d0ea0a431259c993e5d901cffbe03e4fc",
   "workItemId": "WI-768-release-v0-2-89"
 }
