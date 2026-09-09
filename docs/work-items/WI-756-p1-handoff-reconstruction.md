@@ -4,9 +4,9 @@ title: "WI-756 — P1 Runtime-only handoff reconstruction"
 description: "Adds a bounded controlled-repository check that a fresh Agent or session can reconstruct the collaboration handoff without conversation history."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-756-p1-handoff-reconstruction
-status: implemented
+status: recovered
 authority: authorized
-lastVerifiedBy: WI-756-p1-handoff-reconstruction
+lastVerifiedBy: WI-756-p1-handoff-reconstruction-revalidation
 terminalArchive: .ai/work-items/archive/WI-756-p1-handoff-reconstruction.contract.json
 terminalVerification: .ai/evidence/WI-756-p1-handoff-reconstruction.verification.json
 terminalFinalization: .ai/decisions/WI-756-p1-handoff-reconstruction.finalize.json

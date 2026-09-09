@@ -1,0 +1,157 @@
+{
+  "acceptanceResults": [
+    "A fresh subprocess reconstructs the handoff from Runtime records without transcript input",
+    "The reconstruction includes objective, scope, completion state, evidence, authorization, and blocking reason",
+    "The test distinguishes current versus historical or missing records and does not infer benefit",
+    "Tri-language reference pages describe the evidence without external participant validation"
+  ],
+  "createdAt": "2026-09-09T09:50:00Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d4a4b5af18236cfb1970a2e025d9810373c4ef8bdd473901b452163f47933af7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0337295f13bfbf3d56b174541bb493b36373194a3ed1f772b794a6e622dcb368",
+      "workItemId": "WI-756-p1-handoff-reconstruction-revalidation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-756-p1-handoff-reconstruction.recovery-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-756-p1-handoff-reconstruction.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove a fresh Agent can reconstruct the completed handoff without transcript history"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-756-p1-handoff-reconstruction-revalidation"
+  },
+  "taskReportDigest": "sha256:99880192c9490c0868ebb1e05a6ecd54d98080f20d24a680c33009303c2edebb",
+  "taskReportMarkdownDigest": "sha256:6dd0a4cd7bb308290a64864ae2a59fc79362a64778be17ab99243d699e1ba15b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-756-p1-handoff-reconstruction-revalidation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-756-p1-handoff-reconstruction-revalidation"
+}

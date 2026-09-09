@@ -1,0 +1,8 @@
+{
+  "baseBranch": "main",
+  "baseRemote": "origin",
+  "branch": "codex/wi-756-p1-handoff-revalidation",
+  "provider": "github",
+  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/736",
+  "worktree": "/private/tmp/ai-cockpit-wi-756-p1-handoff-revalidation"
+}

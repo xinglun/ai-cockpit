@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "A fresh subprocess reconstructs the handoff from Runtime records without transcript input",
+    "The reconstruction includes objective, scope, completion state, evidence, authorization, and blocking reason",
+    "The test distinguishes current versus historical or missing records and does not infer benefit",
+    "Tri-language reference pages describe the evidence without external participant validation"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cedb0feaa1eb04f4f36b48f08a8bba5eadd5b7c8",
+  "createdAt": "2026-09-09T09:47:50Z",
+  "goal": "Prove a fresh Agent can reconstruct the completed handoff without transcript history",
+  "intent": "Revalidate handoff reconstruction from current Runtime records",
+  "mode": "verification",
+  "outOfScope": [
+    "external participant recruitment/interviews/evaluation",
+    "P2 onboarding and contribution-barrier track",
+    "production Runtime behavior and Contract/Outcome schema changes",
+    "new external authorization records"
+  ],
+  "predecessorContractDigest": "sha256:8b9aac6a77e013413c6e1a6d8b023e0396ef55ef9ac9d22db25826bc268ae763",
+  "predecessorWorkItemId": "WI-756-p1-handoff-reconstruction",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-756-p1-handoff-reconstruction.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0337295f13bfbf3d56b174541bb493b36373194a3ed1f772b794a6e622dcb368",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-756-p1-handoff-revalidation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/736",
+    "worktree": "/private/tmp/ai-cockpit-wi-756-p1-handoff-revalidation"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/tests/collaboration_handoff.rs",
+    "docs/reference/**",
+    "docs/work-items/WI-756-p1-handoff-reconstruction.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-756-p1-handoff-reconstruction-revalidation"
+}

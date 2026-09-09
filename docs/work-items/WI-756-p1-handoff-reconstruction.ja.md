@@ -4,9 +4,9 @@ title: "WI-756 — P1 Runtime のみからの引き継ぎ再構築"
 description: "新しい Agent またはセッションが会話履歴なしで協作引き継ぎを再構築できることを検査する、有界の制御リポジトリチェックを追加する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-756-p1-handoff-reconstruction
-status: implemented
+status: recovered
 authority: authorized
-lastVerifiedBy: WI-756-p1-handoff-reconstruction
+lastVerifiedBy: WI-756-p1-handoff-reconstruction-revalidation
 terminalArchive: .ai/work-items/archive/WI-756-p1-handoff-reconstruction.contract.json
 terminalVerification: .ai/evidence/WI-756-p1-handoff-reconstruction.verification.json
 terminalFinalization: .ai/decisions/WI-756-p1-handoff-reconstruction.finalize.json

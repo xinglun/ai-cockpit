@@ -1,0 +1,33 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-756-p1-handoff-reconstruction.recovery-input.json",
+    ".ai/decisions/WI-756-p1-handoff-reconstruction.recovery.json",
+    ".ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.contract.json",
+    ".ai/work-items/archive/WI-756-p1-handoff-reconstruction-revalidation.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T09:48:26Z",
+  "checkpointContractDigest": "sha256:a4b21521b4170ab893e8ba43ac64f421e3475537fb4e15e3143bef48f74ee97f",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:0337295f13bfbf3d56b174541bb493b36373194a3ed1f772b794a6e622dcb368",
+  "createdAt": "2026-09-09T09:47:50Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:8b9aac6a77e013413c6e1a6d8b023e0396ef55ef9ac9d22db25826bc268ae763",
+  "predecessorWorkItemId": "WI-756-p1-handoff-reconstruction",
+  "preflightAt": "2026-09-09T09:49:55Z",
+  "preflightContractDigest": "sha256:a4b21521b4170ab893e8ba43ac64f421e3475537fb4e15e3143bef48f74ee97f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0337295f13bfbf3d56b174541bb493b36373194a3ed1f772b794a6e622dcb368",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-756-p1-handoff-reconstruction.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T09:50:00Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-756-p1-handoff-reconstruction-revalidation"
+}
