@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "Record a paired baseline/candidate measurement for the many-historical-wi scenario from the same origin/main-derived environment, retaining raw samples, identities, environment, scenario facts, unavailable metrics, and declared percentile reliability.",
+    "Accept a candidate only if the pre-registered improvement threshold is met on the target status path: at least 5% improvement in warm status p50 and at least 5% improvement in warm status p95 on the paired many-historical-wi run; all non-target budgets must pass, and no unsupported cold-cache, p99, CPU, I/O, memory, or resident-MCP claim may be made.",
+    "Prove output, governance decision, evidence binding, error behavior, authorization boundary, and exit-code parity on clean, changed, malformed, and failure-relevant fixtures.",
+    "Keep reuse bounded to one immutable observation, invalidate or fail closed when repository, Work Item, authorization, or source facts differ, and preserve deterministic ordering.",
+    "Run the Contract-declared verification, hosted checks, reviewed PR lifecycle, Runtime finalization/close lifecycle, parity promotion, and post-close repository integrity checks."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "7ada6cd0928a877fe2bc719689abfe99bd532d7e",
+  "createdAt": "2026-09-09T00:18:32Z",
+  "goal": "Reduce the measured many-historical-wi status latency and resource cost, or retain a complete evidence-backed decline if the candidate does not cover its complexity, while preserving Calibrated Human-Agent Trust.",
+  "intent": "Optimize the measured large-history status path by reusing immutable request-scoped facts without weakening evidence validity, repository isolation, authorization, or recovery semantics.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Other agent branches and worktrees",
+    "Runtime governance protocol changes",
+    "persistent or cross-request caches",
+    "MCP coordinator integration",
+    "IncrementalMerkle reuse",
+    "large-file streaming",
+    "process wait replacement",
+    "P3 resident cache, in-process Git, or PGO",
+    "deleting or weakening checks or historical evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9cd7a5915bfc3d603f3a6ba77e531681ff992a1d5b5ba3fb2c02b8712df68d19",
+  "requiredEvidenceClasses": [
+    ".ai/evidence/external/WI-715-p1-large-history-status.*.json; .ai/evidence/WI-715-p1-large-history-status.verification.json; .ai/decisions/WI-715-p1-large-history-status.finalize.json; .ai/decisions/WI-715-p1-large-history-status.close.json; tri-language Work Item and reference-parity records"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-715-p1-large-history-status",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi715-p1-large-history-status"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/evidence/external/WI-715-p1-large-history-status.*",
+    ".ai/evidence/WI-715-p1-large-history-status.verification.json",
+    ".ai/decisions/WI-715-p1-large-history-status.*.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.*.json",
+    ".ai/work-items/archive/WI-715-p1-large-history-status.contract.json",
+    "docs/work-items/WI-715-p1-large-history-status.md",
+    "docs/work-items/WI-715-p1-large-history-status.zh-CN.md",
+    "docs/work-items/WI-715-p1-large-history-status.ja.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --check",
+    "cargo test --locked -p cockpit-repository --lib",
+    "python3 tests/performance/runtime_benchmark_stats_test.py",
+    "bash tests/performance/p0_regression_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-715-p1-large-history-status"
+}

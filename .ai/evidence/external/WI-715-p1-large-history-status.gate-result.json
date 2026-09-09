@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status",
+  "state": "failed",
+  "command": "bash tests/performance/p0_regression_gate.sh baseline.budgeted.json candidate.budgeted.json",
+  "inputs": [
+    "WI-715-p1-large-history-status.baseline.budgeted.json",
+    "WI-715-p1-large-history-status.candidate.budgeted.json"
+  ],
+  "failures": [
+    "environment_comparison_key_unavailable:baseline",
+    "environment_filesystem_unknown:baseline",
+    "environment_comparison_key_unavailable:candidate",
+    "environment_filesystem_unknown:candidate",
+    "budget_exceeded:inspect:160.144>120"
+  ],
+  "pairedOrderResult": "baseline_then_candidate did not meet the pre-registered p50/p95 threshold; candidate_then_baseline also did not meet it.",
+  "decision": "declined",
+  "evidencePolicy": "failed closed; no candidate performance claim"
+}

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status",
+  "hypothesis": "Reusing a validated close receipt within one status observation would remove a repeated read/parse on the many-historical-wi path.",
+  "target": {
+    "scenario": "many-historical-wi",
+    "metric": "status.warm",
+    "threshold": {
+      "p50ImprovementAtLeastPercent": 5,
+      "p95ImprovementAtLeastPercent": 5
+    }
+  },
+  "measurementBoundary": {
+    "warmSamplesPerRun": 20,
+    "warmupCount": 1,
+    "firstMeasurementIsTrueCold": false,
+    "p99Reliable": false,
+    "p99UnavailableReason": "20 warm samples are below the declared 100-sample floor",
+    "residentMcp": "not_measured",
+    "phaseMetrics": "unavailable with explicit reasons in each raw evidence file",
+    "resourceMetrics": "unavailable with explicit reasons in each raw evidence file"
+  },
+  "environment": {
+    "repositoryHead": "7ada6cd0928a877fe2bc719689abfe99bd532d7e",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "trackedFileCount": 10184,
+    "trackedBytes": 79626653,
+    "historicalWorkItemCount": 611,
+    "os": "Darwin 25.6.0 / macOS 26.6.2 / arm64",
+    "filesystemComparisonKey": "unavailable:filesystem_comparison",
+    "comparabilityLimit": "The portable harness cannot obtain a trustworthy filesystem type on this host; p0_regression_gate therefore fails closed."
+  },
+  "pairedRuns": [
+    {
+      "order": "baseline_then_candidate",
+      "baselineEvidence": ".ai/evidence/external/WI-715-p1-large-history-status.baseline.budgeted.json",
+      "candidateEvidence": ".ai/evidence/external/WI-715-p1-large-history-status.candidate.budgeted.json",
+      "statusBaselineWarmMs": {"p50": 3483.095, "p95": 4681.167},
+      "statusCandidateWarmMs": {"p50": 3334.552, "p95": 3478.871},
+      "candidateDeltaPercent": {"p50": -4.26, "p95": -25.68},
+      "thresholdMet": false,
+      "gate": "failed_closed:filesystem_comparison_unavailable_and_inspect_budget_exceeded"
+    },
+    {
+      "order": "candidate_then_baseline",
+      "baselineEvidence": ".ai/evidence/external/WI-715-p1-large-history-status.baseline.reverse.budgeted.json",
+      "candidateEvidence": ".ai/evidence/external/WI-715-p1-large-history-status.candidate.reverse.budgeted.json",
+      "statusBaselineWarmMs": {"p50": 3315.139, "p95": 4260.963},
+      "statusCandidateWarmMs": {"p50": 3435.055, "p95": 4453.557},
+      "candidateDeltaPercent": {"p50": 3.62, "p95": 4.52},
+      "thresholdMet": false,
+      "gate": "failed_closed:filesystem_comparison_unavailable"
+    }
+  ],
+  "additionalUnbudgetedRun": {
+    "baselineStatusWarmMs": {"p50": 3133.438, "p95": 3219.233},
+    "candidateStatusWarmMs": {"p50": 3175.85, "p95": 3517.977},
+    "candidateDeltaPercent": {"p50": 1.35, "p95": 9.28},
+    "evidence": [
+      ".ai/evidence/external/WI-715-p1-large-history-status.baseline.json",
+      ".ai/evidence/external/WI-715-p1-large-history-status.candidate.json"
+    ],
+    "use": "adverse supporting evidence only; not an acceptance run because it did not bind WI-696 budgets"
+  },
+  "correctness": {
+    "shapes": ["clean", "single_file_changed", "malformed_close_receipt"],
+    "commands": ["inspect", "status", "doctor", "observe"],
+    "comparisons": 12,
+    "exitCodeMismatches": 0,
+    "normalizedOutputMismatches": 0,
+    "normalization": "runtimeDigest fields only",
+    "behaviorEvidence": "External baseline/candidate outputs matched for all 12 comparisons."
+  },
+  "resourceObservation": {
+    "directProcessesPerBenchmark": 91,
+    "metadataGitCallsPerBenchmark": 4,
+    "internalGitCalls": "unavailable:runtime_does_not_expose_git_counters",
+    "readBytes": "unavailable:runtime_does_not_expose_io_counters",
+    "hashedBytes": "unavailable:runtime_does_not_expose_io_counters",
+    "peakMemoryBytes": "unavailable:platform_metric_unavailable",
+    "cacheInvalidationReasons": "unavailable:runtime_does_not_expose_cache_invalidation_events"
+  },
+  "decision": {
+    "state": "declined",
+    "reason": "The target threshold was not met in either budgeted execution order; the sign changed with order, the host comparison key is unavailable, and inspect exceeded the inherited non-target budget. The candidate code and test were removed; raw evidence is retained.",
+    "productionCodeMerged": false,
+    "followUp": "Do not retry this micro-optimization as an accepted performance change without a trustworthy environment comparator and a stronger phase-level measurement of the actual status bottleneck."
+  },
+  "rawEvidence": [
+    ".ai/evidence/external/WI-715-p1-large-history-status.baseline.budgeted.json",
+    ".ai/evidence/external/WI-715-p1-large-history-status.candidate.budgeted.json",
+    ".ai/evidence/external/WI-715-p1-large-history-status.baseline.reverse.budgeted.json",
+    ".ai/evidence/external/WI-715-p1-large-history-status.candidate.reverse.budgeted.json",
+    ".ai/evidence/external/WI-715-p1-large-history-status.baseline.json",
+    ".ai/evidence/external/WI-715-p1-large-history-status.candidate.json",
+    ".ai/evidence/external/WI-715-p1-large-history-status.baseline.sample.txt",
+    ".ai/evidence/external/WI-715-p1-large-history-status.baseline.fs_usage.txt"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status",
+  "result": "pass",
+  "comparisonCount": 12,
+  "commands": ["inspect", "status", "doctor", "observe"],
+  "fixtures": ["clean", "single_file_changed", "malformed_close_receipt"],
+  "exitCodeMismatches": 0,
+  "normalizedOutputMismatches": 0,
+  "normalization": "runtimeDigest fields only",
+  "baselineRuntimeEvidence": "WI-715-p1-large-history-status.baseline.json",
+  "candidateRuntimeEvidence": "WI-715-p1-large-history-status.candidate.json",
+  "failureRelevantFixture": "malformed_close_receipt",
+  "rawComparisonOutputs": "/private/tmp/ai-cockpit-wi715-behavior",
+  "note": "The candidate implementation was removed after the paired performance gate declined it; this evidence binds the tested experiment outputs and does not authorize a production change."
+}
