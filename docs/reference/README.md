@@ -27,6 +27,7 @@ separate from exact machine-facing details:
 - [Configuration reference](configuration.md) — `.ai/cockpit.toml`, profiles, and generated records.
 - [Troubleshooting and recovery](troubleshooting.md) — stop states and the next safe action.
 - [Human-facing Outcome](outcome-report.md) — the readable result, risks, evidence, and next action.
+- [Collaboration invariant coverage](collaboration-invariant-coverage.md) — maps the ten collaboration-language invariants to existing automated test coverage, citing exact tests, and names the one remaining gap.
 - [Collaboration language contract](collaboration-language-contract.md) — a cross-cutting map of communication moments (start, authorization, verification, block/recovery, merge, Outcome, hand-off) to existing Runtime facts.
 - [Collaboration scenario matrix](collaboration-scenario-matrix.md) — a state/transition-derived matrix of collaboration scenarios, with observed, documented, and designed cases distinguished.
 - [Governance profiles](governance-profiles.md) — proportional Light/Standard/Strict routing and its assurance boundary.
