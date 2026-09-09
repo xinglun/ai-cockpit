@@ -1,0 +1,78 @@
+{
+  "acceptanceCriteria": [
+    "Publish the tri-language WI-746 recovery Work Item projection and its three reference-parity rows for this bounded documentation recovery.",
+    "Commit the WI-746 documentation pages and parity rows before recording fresh verification evidence, preserving WI-745 and WI-743 historical records unchanged.",
+    "bash tests/docs/documentation_acceptance.sh, bash tests/docs/parity_status_check.sh, and python3 tests/docs/work_item_status_consistency.py --repo <repository> pass.",
+    "No production code, Runtime behavior, governance rule, historical evidence, or unrelated Work Item changes are introduced."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "f25f9b92a951889a85b0497a43d25853e66fb86a",
+  "createdAt": "2026-09-09T05:46:51Z",
+  "goal": "Redeliver the narrow WI-745 documentation recovery with a provable parity-registration-before-verification boundary.",
+  "intent": "Preserve WI-745's immutable predecessor and correct the failed same-commit parity/evidence ordering through a distinct successor.",
+  "mode": "docs",
+  "outOfScope": [
+    "Production Rust",
+    "Runtime",
+    "performance",
+    "or test implementation changes",
+    "Changing WI-743 or WI-745 archive",
+    "evidence",
+    "finalization",
+    "close",
+    "or recovery bytes",
+    "Changing PR #718",
+    "its merged commit",
+    "or any other agent's Work Item",
+    "Changing governance rules",
+    "Contract semantics",
+    "Outcome behavior",
+    "or release artifacts"
+  ],
+  "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-746-wi745-recovery-correct",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-746-wi745-recovery-correct"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-746-wi745-recovery-successor.md",
+    "docs/work-items/WI-746-wi745-recovery-successor.zh-CN.md",
+    "docs/work-items/WI-746-wi745-recovery-successor.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "docs/reference/agent-workflow.md#recovery",
+    "docs/reference/agent-workflow.md#parity-registration",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "tests/docs/work_item_status_consistency.py",
+    ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo <repository>"
+  ],
+  "workItemId": "WI-746-wi745-recovery-successor"
+}

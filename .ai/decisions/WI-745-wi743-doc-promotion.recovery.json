@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T05:39:01Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "docs/reference/agent-workflow.md#parity-registration",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "https://github.com/xinglun/ai-cockpit/pull/718"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md#recovery"
+  ],
+  "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "predecessorSummaryDigest": "sha256:6eea0c6b15aa5d7990882e3887af2a2bbf8717d4206448ad9da872a571ede1bc",
+  "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
+  "reason": "WI-745's first documentation delivery recorded its parity rows and verification evidence in the same commit, so preserve that predecessor and redeliver the same bounded documentation repair under a distinct successor with the required row-before-evidence ordering.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-746 with tri-language Work Item projections and parity rows in a commit before fresh verification evidence, then finish, archive, finalize the real PR, verify finalization, close, and promote the closed projection.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-746-wi745-recovery-successor",
+  "workItemId": "WI-745-wi743-doc-promotion"
+}
