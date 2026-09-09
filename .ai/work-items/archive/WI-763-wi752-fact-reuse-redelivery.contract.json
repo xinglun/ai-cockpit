@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "Baseline and candidate use identical scenarios and environment; raw samples, counters, unavailable metrics, and measurement method are retained.",
+    "Governance decisions, errors, evidence bindings, exit codes, and deterministic summaries remain identical; any mismatch rejects the candidate.",
+    "Fresh facts are not shared across file modifications or protected-operation boundaries.",
+    "A reuse optimization is accepted only when the declared target scenario improves without violating other budgets; otherwise the candidate is explicitly declined.",
+    "The failed WI-752 delivery remains immutable and is referenced as historical context without merging or deleting its PR, branch, or worktree.",
+    "Runtime-generated lifecycle records remain repository-bound and append-only."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "a8fa804057cad8792f56b580f665046d2d3fc52d",
+  "createdAt": "2026-09-09T14:10:45Z",
+  "goal": "Measure duplicate repository discovery, Runtime identity, Git snapshot, parsing, file read/hash, and status/outcome/doctor fact collection; accept a bounded reuse optimization only if evidence shows semantic preservation and a budgeted benefit, otherwise record a reasoned decline.",
+  "intent": "Revalidate P1 request-fact reuse from the latest main after immutable WI-752 delivery failure while preserving calibrated human-agent trust and old evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "production Runtime behavior changes",
+    "old WI-752 PR #733 branch and worktree",
+    "IncrementalMerkle changes",
+    "release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:629b387a9597d4501b2bacfe646d5dc7030d20fe6fdce5ff76074d62315da0df",
+  "requiredEvidenceClasses": [
+    "measurement raw samples and comparison",
+    "verification",
+    "documentation",
+    "governance",
+    "prearchive parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-763-wi752-fact-reuse-redelivery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/746",
+    "worktree": "/private/tmp/ai-cockpit-wi-763-wi752-fact-reuse-redelivery"
+  },
+  "risk": "normal",
+  "scope": [
+    "tests/performance/fixtures/WI-763-fact-reuse-measurement.json",
+    "docs/performance/WI-763-fact-reuse-measurement.md",
+    "docs/work-items/WI-763-wi752-fact-reuse-redelivery.md",
+    "docs/work-items/WI-763-wi752-fact-reuse-redelivery.zh-CN.md",
+    "docs/work-items/WI-763-wi752-fact-reuse-redelivery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-763-wi752-fact-reuse-redelivery"
+}

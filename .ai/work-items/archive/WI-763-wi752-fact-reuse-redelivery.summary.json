@@ -1,0 +1,64 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json",
+    ".ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T14:21:21Z",
+  "checkpointContractDigest": "sha256:26562fd46f1450235cff37c58fd9e116df9d6644baa8fe237da96cc31c01f33d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:26d40539833527324d537c360d0b539bb09f9229c81b4753005a9402750b07ed",
+      "recorded": true,
+      "recordedAt": "2026-09-09T14:21:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:34fcd50a14e278bd9c1e30c1778260e5a1e249187d7edeaf5d01606783286334",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-763-wi752-fact-reuse-redelivery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:26562fd46f1450235cff37c58fd9e116df9d6644baa8fe237da96cc31c01f33d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:26d40539833527324d537c360d0b539bb09f9229c81b4753005a9402750b07ed",
+      "previousContractHash": "sha256:26d40539833527324d537c360d0b539bb09f9229c81b4753005a9402750b07ed",
+      "reason": "The finalize-plan bound the current reviewed PR, branch, worktree, and base identity after the predecessor verification. Revalidate the measurement-only Contract against the finalized delivery identity while retaining the predecessor receipt and its audit history.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T14:25:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:34fcd50a14e278bd9c1e30c1778260e5a1e249187d7edeaf5d01606783286334",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-763-wi752-fact-reuse-redelivery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:34fcd50a14e278bd9c1e30c1778260e5a1e249187d7edeaf5d01606783286334",
+  "createdAt": "2026-09-09T14:10:45Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T14:29:28Z",
+  "preflightContractDigest": "sha256:26562fd46f1450235cff37c58fd9e116df9d6644baa8fe237da96cc31c01f33d",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:34fcd50a14e278bd9c1e30c1778260e5a1e249187d7edeaf5d01606783286334",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T14:29:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-763-wi752-fact-reuse-redelivery"
+}
