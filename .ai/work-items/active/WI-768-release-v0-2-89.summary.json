@@ -58,7 +58,7 @@
     "workItemId": "WI-768-release-v0-2-89"
   },
   "mode": "change",
-  "preflightAt": "2026-09-09T19:03:35Z",
+  "preflightAt": "2026-09-09T19:08:32Z",
   "preflightContractDigest": "sha256:04c3488469b436c03d9566b72f4692869979d151e20e3de16301054e462c1f75",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
