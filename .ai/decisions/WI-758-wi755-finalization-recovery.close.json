@@ -1,0 +1,146 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:208fb7a6cb3fd890cfb18aa0dc21c99d17ea1df749b931e20a0d9b04a08d158b",
+      "workItemId": "WI-758-wi755-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json",
+            ".ai/decisions/WI-758-wi755-finalization-recovery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit-user-authorization at 2026-09-09T09:13:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Create a fresh, repository-bound successor that records the verified WI-755 merge facts and finalization-chain limitation, preserves all predecessor bytes, and completes its own reviewed lifecycle so the predecessor recovery boundary is no longer an unclosed repository blocker."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-758-wi755-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:c67b47d79441a4734af13a2f8f0246d6f964adc99ea0f3afe592a41e3dd217dd",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:92b5edf5e8aab75fda53c86add913a2df93fa29ed1450b6072d4a90bc1b239ad",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-758-wi755-finalization-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-09T09:13:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json",
+      ".ai/decisions/WI-758-wi755-finalization-recovery.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Close WI-758 after PR #737 passed all hosted checks and merged as 2c89d31f, exact resource finalization and finalize-verify passed, and the successor recovery boundary is recorded. This is a governance closure only; it does not claim cognitive benefit validation, release approval, or new authorization.",
+    "resumeCondition": "No resume is required unless the repository-wide promotion or post-close governance checks identify a new authoritative contradiction."
+  },
+  "timestamp": "2026-09-09T09:13:22Z",
+  "workItemId": "WI-758-wi755-finalization-recovery"
+}
