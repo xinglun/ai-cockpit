@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "A1: docs/reference/collaboration-invariant-coverage.md(+zh-CN/ja) states invariants 1,2,3,4,6,9,10 as fully or partially automated, invariant 8 as automated citing bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse, invariant 5 as automated citing WI-682's cli_mcp_outcome_parity test, and invariant 7 as the sole remaining named gap.",
+    "A2: every Yes/Partial citation names a test file and function verified by direct reading of the current test source at delivery time.",
+    "A3: the document explicitly notes it supersedes the closed WI-681 draft and explains why (multi-agent number collision, plus the correction to invariant 8's assessment).",
+    "A4: docs/reference/README.md(+zh-CN/ja) gain exactly one new index entry each.",
+    "A5: WI-740 registers itself in the reference-parity ledger with the pre-archive status, added before this Work Item's own verification-evidence commit.",
+    "A6: bash tests/docs/documentation_acceptance.sh passes for all new and modified files."
+  ],
+  "authority": "authorized",
+  "baseRevision": "caa6ddffcc1847c9a1161e1d8aa414f1acabd11e",
+  "createdAt": "2026-09-09T03:07:59Z",
+  "goal": "A maintainer or reviewer can see, for each invariant, an accurate and currently-correct statement of whether automated coverage exists, without the false negatives the original WI-681 draft contained before invariants 5 and 9 were independently closed and invariant 8 coverage was found to already exist.",
+  "intent": "Redeliver the collaboration invariant coverage mapping (previously WI-681, closed due to a multi-agent WI number collision) with a correction: invariant 8 (authorization applicability across session switches) is upgraded from No-automated-test-found to Yes, citing crates/cockpit-repository/tests/preflight_review.rs::bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse, which already proves a decision receipt is accepted for checkpoint when unchanged and correctly rejected (returns to needs_human_confirmation) after the snapshot changes. Invariant 5 is upgraded to Yes citing the now-merged WI-682 (PR #679) cli_mcp_outcome_parity test. Invariant 9 is upgraded to Yes citing the now-merged WI-710 test. Per explicit repository-owner delegation to continue the AI Cockpit collaboration-language initiative.",
+  "mode": "docs",
+  "outOfScope": [
+    "writing the invariant-7 test itself (separate follow-on Work Item)",
+    "any change to CLI/MCP behavior; Contract/Outcome schema; lifecycle state machine",
+    "any change to existing test files"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5015a6604231f5c35081748c6085ed0fd20a1b65322b4a8b51a98f2ff0424eb1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-740-p1-invariant-coverage-mapping",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/712",
+    "worktree": "/private/tmp/ai-cockpit-wi-740-p1-invariant-coverage-mapping"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/collaboration-invariant-coverage.md",
+    "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+    "docs/reference/collaboration-invariant-coverage.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/work-items/WI-740-p1-invariant-coverage-mapping.md",
+    "docs/work-items/WI-740-p1-invariant-coverage-mapping.zh-CN.md",
+    "docs/work-items/WI-740-p1-invariant-coverage-mapping.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "python3 tests/docs/reference_comparison_metadata_test.py",
+    "bash tests/docs/getting_started_semantic.sh"
+  ],
+  "workItemId": "WI-740-p1-invariant-coverage-mapping"
+}

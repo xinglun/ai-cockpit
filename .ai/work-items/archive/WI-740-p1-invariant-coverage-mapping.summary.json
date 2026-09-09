@@ -1,0 +1,104 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "## Coverage table",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "## Coverage table (citations column)",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "intro paragraph beginning 'This page supersedes'",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Collaboration invariant coverage index entry",
+          "path": "docs/reference/README.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "WI-740 row",
+          "path": "docs/reference/reference-parity.md",
+          "type": "document",
+          "verification": "manual-review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "results[0]",
+          "path": ".ai/evidence/WI-740-p1-invariant-coverage-mapping.verification.json",
+          "type": "command-output",
+          "verification": "python3 tests/docs/work_item_status_consistency.py; python3 tests/docs/reference_comparison_metadata_test.py; bash tests/docs/getting_started_semantic.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-740-p1-invariant-coverage-mapping.contract.json",
+    ".ai/work-items/archive/WI-740-p1-invariant-coverage-mapping.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T03:13:57Z",
+  "checkpointContractDigest": "sha256:e2d08e2419aa55f5b6c9e0c7b569be7b28f036ffce090372212ef2203096f0ac",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d9cca57ea620f80aaae2c88032adff6618ac1c0e60a914731de54cb2faa86781",
+  "createdAt": "2026-09-09T03:07:59Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/collaboration-invariant-coverage.md cites crates/cockpit-repository/tests/preflight_review.rs::bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse for invariant 8, verified by direct reading",
+      "docs/reference/collaboration-invariant-coverage.md explicitly states it supersedes WI-681 and why"
+    ],
+    "reason": "The redelivered document corrects invariants 5, 8, and 9 to Yes with verified citations and explains the WI-681 collision and correction, matching the declared intent exactly.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-09T03:19:53Z",
+  "preflightContractDigest": "sha256:e2d08e2419aa55f5b6c9e0c7b569be7b28f036ffce090372212ef2203096f0ac",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d9cca57ea620f80aaae2c88032adff6618ac1c0e60a914731de54cb2faa86781",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T03:19:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-740-p1-invariant-coverage-mapping"
+}
