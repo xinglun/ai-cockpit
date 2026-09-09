@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "recoveryId": "WI-764-release-v0-2-88-historical-finalization-recovery",
+  "kind": "historical_finalization_recovery",
+  "historicalKind": "shared_worktree_retained",
+  "assurance": "historical_low",
+  "workItemId": "WI-764-release-v0-2-88",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorPath": ".ai/decisions/WI-764-release-v0-2-88.finalize.json",
+  "predecessorReceiptDigest": "sha256:84ba71826110470086c3c52712e5bfdea6251650e972b05bff3602475d27532b",
+  "baseRevision": "67f8df96ce9bd2ccd521a29e67542dda5c4fe0df",
+  "runtimeVersion": "0.2.88",
+  "runtimeDigest": "sha256:f6684506be3d1fa1f9a1645c9149d26c876d040cbcd958f9de9210916ccc095b",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "reason": "Classify the immutable v0.2.88 predecessor receipt with the current Runtime after the original candidate Runtime was no longer available; preserve the predecessor bytes and continue through the append-only cleanup transition.",
+  "evidenceRefs": [
+    ".ai/evidence/WI-764-release-v0-2-88.failed-release.json",
+    ".ai/decisions/WI-764-release-v0-2-88.finalize.json"
+  ],
+  "decidedAt": "2026-09-09T16:02:47Z"
+}

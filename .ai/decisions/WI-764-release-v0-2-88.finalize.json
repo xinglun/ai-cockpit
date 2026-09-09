@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cc5927d58e62d526f4913307c3d2efc759af3ab1",
+    "name": "codex/wi-764-release-v0-2-88",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:bff0c2ffd865a9f68ec3057c4c6b71c050c37a5055113d48cb90ac552cb8e632",
+  "operationId": "operation-WI-764-release-v0-2-88-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "67f8df96ce9bd2ccd521a29e67542dda5c4fe0df",
+    "headRevision": "cc5927d58e62d526f4913307c3d2efc759af3ab1",
+    "mergeCommit": "06963a2437a8aa324c4c98a9014a64a4d318c193",
+    "number": 747,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/747"
+  },
+  "reason": "Reviewed PR #747 passed all hosted checks and merged. The v0.2.88 tag then failed the immutable release source-quality gate; retain the exact branch and clean worktree until the superseded Work Item close and successor release recovery are recorded.",
+  "receiptId": "ai-cockpit-WI-764-release-v0-2-88-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-764-release-v0-2-88",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/747",
+    "worktree": "/private/tmp/ai-cockpit-wi-764-release-v0-2-88"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:af0cb652a0cf628fb25a0c14ffca0b12ad70b39b601f24914d0781791e612cba",
+  "runtimeVersion": "0.2.88",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T15:50:00Z",
+  "workItemId": "WI-764-release-v0-2-88",
+  "worktree": {
+    "branch": "codex/wi-764-release-v0-2-88",
+    "headRevision": "cc5927d58e62d526f4913307c3d2efc759af3ab1",
+    "path": "/private/tmp/ai-cockpit-wi-764-release-v0-2-88",
+    "worktreeId": "WI-764-release-v0-2-88"
+  }
+}
