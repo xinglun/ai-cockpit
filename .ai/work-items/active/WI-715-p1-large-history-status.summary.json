@@ -77,26 +77,54 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-715-p1-large-history-status"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:be4ac396bad9975757590674519781217c5c289c8d92ad74c10f8cf9b69cfbdb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5635a42596603ea988d68e1951352219de710221688ce59f271466b5e9d9affe",
+      "previousContractHash": "sha256:1a8de8c38595dec202f88cabfd20dc62be3393ed5dce9ee2e504a5e0b49e6e6a",
+      "reason": "Corrected the lifecycle-phase evidence declaration after finish failed closed because future archive/finalization/close artifacts were required before finish. External experiment evidence and tri-language parity remain acceptance-bound; the Runtime preflight class is now verification, matching the current lifecycle stage.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T00:56:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-715-p1-large-history-status"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
   "createdAt": "2026-09-09T00:18:32Z",
+  "failedGate": "finish.verification",
   "mode": "implementation",
-  "preflightAt": "2026-09-09T00:55:58Z",
-  "preflightContractDigest": "sha256:1a8de8c38595dec202f88cabfd20dc62be3393ed5dce9ee2e504a5e0b49e6e6a",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-09T00:56:40Z",
+  "preflightContractDigest": "sha256:be4ac396bad9975757590674519781217c5c289c8d92ad74c10f8cf9b69cfbdb",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
   "preflightRepositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
   "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-09T00:19:30Z",
+  "updatedAt": "2026-09-09T00:56:23Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:be4ac396bad9975757590674519781217c5c289c8d92ad74c10f8cf9b69cfbdb",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-09T00:56:40Z"
+  },
   "verificationRecoveryReconciled": "sha256:9317fd38ab5e6fc6605fa15c983eddfde010f356349cbc150ebbbabc6234e2dd",
   "workItemId": "WI-715-p1-large-history-status"
 }

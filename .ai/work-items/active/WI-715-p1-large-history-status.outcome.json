@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "Record a paired baseline/candidate measurement for the many-historical-wi scenario from the same origin/main-derived environment, retaining raw samples, identities, environment, scenario facts, unavailable metrics, and declared percentile reliability.",
+    "Accept a candidate only if the pre-registered improvement threshold is met on the target status path: at least 5% improvement in warm status p50 and at least 5% improvement in warm status p95 on the paired many-historical-wi run; all non-target budgets must pass, and no unsupported cold-cache, p99, CPU, I/O, memory, or resident-MCP claim may be made.",
+    "Prove output, governance decision, evidence binding, error behavior, authorization boundary, and exit-code parity on clean, changed, malformed, and failure-relevant fixtures.",
+    "Keep reuse bounded to one immutable observation, invalidate or fail closed when repository, Work Item, authorization, or source facts differ, and preserve deterministic ordering.",
+    "Run the Contract-declared verification, hosted checks, reviewed PR lifecycle, Runtime finalization/close lifecycle, parity promotion, and post-close repository integrity checks."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+  ],
+  "failedGate": "finish.verification",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
+      "workItemId": "WI-715-p1-large-history-status"
+    },
+    "failedGate": "finish.verification",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-715-p1-large-history-status.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-715-p1-large-history-status.contract.json"
+          ],
+          "inference": false,
+          "text": "Reduce the measured many-historical-wi status latency and resource cost, or retain a complete evidence-backed decline if the candidate does not cover its complexity, while preserving Calibrated Human-Agent Trust."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-715-p1-large-history-status.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-715-p1-large-history-status"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-715-p1-large-history-status.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-715-p1-large-history-status"
+}

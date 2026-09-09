@@ -28,7 +28,7 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:9cd7a5915bfc3d603f3a6ba77e531681ff992a1d5b5ba3fb2c02b8712df68d19",
   "requiredEvidenceClasses": [
-    ".ai/evidence/external/WI-715-p1-large-history-status.*.json; .ai/evidence/WI-715-p1-large-history-status.verification.json; .ai/decisions/WI-715-p1-large-history-status.finalize.json; .ai/decisions/WI-715-p1-large-history-status.close.json; tri-language Work Item and reference-parity records"
+    "verification"
   ],
   "resourceContext": {
     "baseBranch": "unknown",
