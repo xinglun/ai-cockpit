@@ -7,12 +7,12 @@ audience: [maintainer, reviewer, adopter]
 status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-712-wi702-finalization-recovery
-predecessorWorkItem: WI-702-p2-incremental-merkle-trust-audit
-recoveryDecision: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json
 terminalArchive: .ai/work-items/archive/WI-712-wi702-finalization-recovery.contract.json
 terminalVerification: .ai/evidence/WI-712-wi702-finalization-recovery.verification.json
 terminalFinalization: .ai/decisions/WI-712-wi702-finalization-recovery.finalize.json
 terminalDecision: .ai/decisions/WI-712-wi702-finalization-recovery.close.json
+predecessorWorkItem: WI-702-p2-incremental-merkle-trust-audit
+recoveryDecision: .ai/decisions/WI-702-p2-incremental-merkle-trust-audit.recovery.json
 ---
 
 # WI-712——WI-702 合并后 finalization 恢复
