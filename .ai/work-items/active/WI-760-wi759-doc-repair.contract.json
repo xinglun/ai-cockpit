@@ -1,12 +1,27 @@
 {
-  "acceptanceCriteria": [],
-  "authority": "unknown",
-  "baseRevision": "fe1f279e3eb84219acd0b735fbf4c237dea33bf2",
+  "acceptanceCriteria": [
+    "The three WI-759 language pages accurately bind its immutable archive, verification, merged PR #742, sequence-1 and sequence-2 finalization receipts, and the pending successor boundary.",
+    "The three WI-760 language pages and parity row are valid pre-archive documentation projections and do not claim WI-760 is terminal before its own lifecycle completes.",
+    "Documentation acceptance, work-item status consistency, governance integrity, and promote_closed_work_item --check-all pass at the applicable terminal boundary.",
+    "No product runtime, machine contract, authorization, evidence, or exit-code behavior changes."
+  ],
+  "authority": "explicit user authorization for successor documentation repair",
+  "baseRevision": "c1863e7ca81e2d92a88c9458358ddad09d1a043a",
   "createdAt": "2026-09-09T12:47:38Z",
-  "goal": "",
-  "intent": "",
+  "goal": "Add accurate WI-759 and WI-760 documentation projections and parity entries so the pending governance boundary can be closed fail-closed.",
+  "intent": "Repair the missing tri-language Work Item projection for the merged WI-759 documentation boundary without rewriting immutable evidence.",
   "mode": "implementation",
-  "outOfScope": [],
+  "outOfScope": [
+    "product runtime behavior",
+    "immutable WI-759 archive",
+    " verification evidence",
+    " and finalization receipts",
+    "governance rules",
+    " authorization semantics",
+    " source code",
+    " and unrelated Work Items",
+    "other agents branches and worktrees"
+  ],
   "predecessorContractDigest": "sha256:3b65224b13573f4e979f98813507735c61536a189706cc39e760796ca80132b0",
   "predecessorWorkItemId": "WI-759-wi754-doc-promotion",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
@@ -14,19 +29,34 @@
   "recoveryDecisionPath": ".ai/decisions/WI-759-wi754-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:073c83d0390e1dfa25a0da03d53f7c59798947c0c7152ac116a2fe1d40aa3ee6",
-  "requiredEvidenceClasses": [],
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
   "resourceContext": {
     "baseBranch": "unknown",
     "baseRemote": "unknown",
-    "branch": "main",
+    "branch": "codex/wi-760-wi759-doc-repair",
     "provider": "unknown",
     "pullRequest": "unknown",
-    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+    "worktree": "/private/tmp/ai-cockpit-wi-760-wi759-doc-repair"
   },
-  "risk": "unknown",
-  "scope": [],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-759-wi754-doc-promotion.md",
+    "docs/work-items/WI-759-wi754-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-759-wi754-doc-promotion.ja.md",
+    "docs/work-items/WI-760-wi759-doc-repair.md",
+    "docs/work-items/WI-760-wi759-doc-repair.zh-CN.md",
+    "docs/work-items/WI-760-wi759-doc-repair.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
   "sources": [],
-  "state": "not_ready",
-  "verification": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
   "workItemId": "WI-760-wi759-doc-repair"
 }
