@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-to-continue-and-recover",
+  "decidedAt": "2026-09-09T06:15:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-745-wi743-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-745-wi743-doc-promotion.summary.json",
+    ".ai/evidence/WI-745-wi743-doc-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/718",
+    ".ai/work-items/active/WI-746-wi745-terminal-recovery.contract.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "predecessorSummaryDigest": "sha256:6eea0c6b15aa5d7990882e3887af2a2bbf8717d4206448ad9da872a571ede1bc",
+  "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
+  "reason": "PR #718 merged WI-745, but its active Runtime lifecycle and verification projection were not reconciled to a complete terminal record. Authorize WI-746 from the current origin/main base to repair the bounded tri-language projections and produce auditable current-base verification while preserving every WI-745 and WI-743 predecessor byte and merge record.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-746 fresh verification, tri-language documentation repair, Runtime finish/archive/finalize/close, reviewed PR delivery, and post-close promotion checks without rewriting WI-745 or WI-743 historical evidence.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-746-wi745-terminal-recovery",
+  "workItemId": "WI-745-wi743-doc-promotion"
+}
