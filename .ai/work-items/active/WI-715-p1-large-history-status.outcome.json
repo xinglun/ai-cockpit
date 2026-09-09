@@ -1,19 +1,22 @@
 {
   "acceptanceResults": [
     "Record a paired baseline/candidate measurement for the many-historical-wi scenario from the same origin/main-derived environment, retaining raw samples, identities, environment, scenario facts, unavailable metrics, and declared percentile reliability.",
-    "Accept a candidate only if the pre-registered improvement threshold is met on the target status path: at least 5% improvement in warm status p50 and at least 5% improvement in warm status p95 on the paired many-historical-wi run; all non-target budgets must pass, and no unsupported cold-cache, p99, CPU, I/O, memory, or resident-MCP claim may be made.",
+    "Accept a candidate only if the pre-registered improvement threshold is met on the target status path; at least 5% improvement in warm status p50 and at least 5% improvement in warm status p95 on the paired many-historical-wi run; all non-target budgets must pass, and no unsupported cold-cache, p99, CPU, I/O, memory, or resident-MCP claim may be made.",
     "Prove output, governance decision, evidence binding, error behavior, authorization boundary, and exit-code parity on clean, changed, malformed, and failure-relevant fixtures.",
     "Keep reuse bounded to one immutable observation, invalidate or fail closed when repository, Work Item, authorization, or source facts differ, and preserve deterministic ordering.",
     "Run the Contract-declared verification, hosted checks, reviewed PR lifecycle, Runtime finalization/close lifecycle, parity promotion, and post-close repository integrity checks."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-09T01:17:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b067a7def1b3126ee4349866758408de2d2951d4f7bd81835cf3f57ba8346217",
   "evidenceRefs": [
     ".ai/evidence/WI-715-p1-large-history-status.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,11 +24,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -35,10 +37,8 @@
       "repositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
       "workItemId": "WI-715-p1-large-history-status"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -59,15 +59,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-715-p1-large-history-status.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -86,7 +78,7 @@
             ".ai/evidence/WI-715-p1-large-history-status.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -96,10 +88,18 @@
             ".ai/evidence/WI-715-p1-large-history-status.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-p1-large-history-status.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -120,16 +120,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-715-p1-large-history-status"
   },
+  "taskReportDigest": "sha256:d85c7bf699eb9eabeadcd86ce1f8562d64b92bcbcb0bf7aa86d7c35c9203173d",
+  "taskReportMarkdownDigest": "sha256:a8cea66c9d74dcf3a46b4e67a400924c776392177cea8509ba8bc0a30efb9b53",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-715-p1-large-history-status.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-715-p1-large-history-status"
 }

@@ -48,7 +48,7 @@
           ".ai/evidence/WI-715-p1-large-history-status.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],

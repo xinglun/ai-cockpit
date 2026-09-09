@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7f21d2dac5a9c97cdbdeaffc563ca6742745b21ddc07cf1d699b6a74e5275654",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Explicit user authorization confirms continuation of this bounded WI-715 measurement and evidence Work Item through the reviewed PR #708 after the acceptance-text parser repair, including the no-production-change decline, recovery handling, and exact finalization lifecycle.",
+  "recordedAt": "2026-09-09T01:18:20Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}

@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:cdb75d2bf02b9fe54b78d53657dc1ef3fe66cbea3e55366ae9958e7ecb836617",
-  "createdAt": "2026-09-09T01:10:38Z",
+  "contractDigest": "sha256:7f21d2dac5a9c97cdbdeaffc563ca6742745b21ddc07cf1d699b6a74e5275654",
+  "createdAt": "2026-09-09T01:16:45Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 176661,
-      "executionElapsedMs": 176361,
+      "elapsedMs": 154511,
+      "executionElapsedMs": 154134,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 176661,
-    "executionElapsedMs": 176361,
+    "elapsedMs": 154511,
+    "executionElapsedMs": 154134,
     "filesHashed": 10,
     "filesRead": 12,
     "gitCalls": 6,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 176361,
+      "executionElapsedMs": 154134,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:e69a7180357f39368840dcbd64670275dbfb1f90476066b429713648bedc94fa",
+        "outputDigest": "sha256:e4679dbf81c773f1cac58abf67668f72282dbe640393031856e4abec1a307407",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-715-p1-large-history-status"
   },
-  "receiptDigest": "sha256:8f78821146168cfeafbc93f54c6cdd849b0c08c4a1fe67558c115fec2c254a35",
+  "receiptDigest": "sha256:d55141f848a308bf3d58cb252ca6218682f0e9aaef076854650176c17dda2c55",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
