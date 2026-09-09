@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T22:32:29Z",
+  "files": {
+    "contractDigest": "sha256:3d831c5dd5116bdf9b9ac1f2344a3f46e0fb5eeb212b2998f1c88a5e851ea4ab",
+    "contractPath": ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.contract.json",
+    "eventsDigest": "sha256:93b133836bd1d11a0077723fa352e6df8b563620ba883f43d57ca282a2d68248",
+    "eventsPath": ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.events.jsonl",
+    "outcomeDigest": "sha256:0f01d69836cf1050a0400755d93d203638cb207bdf7b86c6d6a96e7f0c731501",
+    "outcomePath": ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.outcome.json",
+    "summaryDigest": "sha256:f475c0106d6b0c309d042d2f5522b32c765997344d89ed87996a633b1e3aa465",
+    "summaryPath": ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json",
+    "taskReportDigest": "sha256:09c3198d7aece9976f081d69602fcdc4bb96678b884dc48b0dba09cd4b78271e",
+    "taskReportMarkdownDigest": "sha256:03d7c907ead992ca35214def067ec2dfa0a59b2702d5d1dbaddbcf3b1f75e2a0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-713-wi703-current-base-revalidation"
+}

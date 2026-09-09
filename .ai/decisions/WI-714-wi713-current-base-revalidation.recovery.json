@@ -1,0 +1,32 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-successor-repair-authorization",
+  "decidedAt": "2026-09-09T00:13:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-714-wi713-current-base-revalidation.verification.json",
+    "docs/reference/reference-parity.md",
+    "https://github.com/xinglun/ai-cockpit/pull/706",
+    ".ai/work-items/archive/WI-714-wi712-doc-promotion.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:9f0e633d389f022fa552401852ac3e65ada7bd4de00f3d8a20e02a8462c08448",
+  "predecessorEventsDigest": "sha256:e94f7693c3918e2f6be39f05bf675a772619fa0c58aaee806a1ca7ce588eefd9",
+  "predecessorOutcomeDigest": "sha256:7f85fd9068d1a804d354988c5a0e951b7d90d33778b4b67dd1d1b03eea7bb034",
+  "predecessorSummaryDigest": "sha256:584a4cc58dcc5b81e64af0953c46a75daae21726128f28abaf631c0b11221967",
+  "predecessorWorkItemId": "WI-714-wi713-current-base-revalidation",
+  "reason": "WI-714 cannot satisfy the repository's deterministic closed-Work-Item parity projection because origin/main already contains a different closed Work Item named WI-714-wi712-doc-promotion. Preserve WI-714 and its failed finish recovery bytes immutably, then redeliver the same bounded P0-B implementation through a uniquely identified successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-715 from the synchronized current default branch, register exactly one unique parity row, rerun all declared verification, bind the actual reviewed PR before finalization, then finalize-verify, close, promote closed documentation, and prove exact cleanup.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-715-wi713-p0b-redelivery",
+  "workItemId": "WI-714-wi713-current-base-revalidation"
+}

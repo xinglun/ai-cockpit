@@ -16,8 +16,10 @@ capabilityClaims:
 # 人間向け Outcome
 
 `ai-cockpit work-item outcome --repo <repository> --id <work-item>` は既定で
-人間向けの handoff を表示します。機械処理用の安定した `OutcomeV2` が必要な
-場合は `--json` を指定します。
+読者優先の四つのセクションを持つ summary を表示します。完全な audit handoff
+は `--view full`、機械処理用の安定した `OutcomeV2` は `--json` を指定します。
+summary と full view は presentation projection であり、保存された Outcome
+や governance の意味を変更しません。
 
 先頭行は常に `Outcome: 🔴/🟡/🟢 ...` です。たとえば緑は汎用的な成功ではなく
 `Outcome: 🟢 宣言された検証済み` と表示されます。CLI stdout と MCP の
@@ -36,8 +38,24 @@ top-level の `finish`、`archive`、`close` は既存の stdout lifecycle JSON 
 `ai-cockpit work-item outcome --repo <repository> --id <work-item>` で durable handoff
 を決定的に再生できます。
 
-表示順は、結果と検証・ライフサイクル・人間の判断・ガバナンスシグナルを分けて示し、完了したこと、発見された問題、発動した停止、解決した問題、
-回避したリスク、残存リスク、不明点、人間の判断、検証と証拠、影響、次のアクションです。
+既定の summary は四つのセクションです。
+
+1. 結果：現在の検証、ライフサイクル、人間の判断、ガバナンスシグナル
+2. 主な変更：evidence-backed な完了事項
+3. 残る不確実性：blocker、リスク、制限、不明点、未宣言の効果
+4. 人間の次のアクション：必要な判断とその理由、または新しい判断が不要であること
+
+full view は audit 向けの順序を保持します。結果と検証・ライフサイクル・人間の判断・ガバナンスシグナルを分けて示し、完了したこと、発見された問題、発動した停止、解決した問題、
+回避したリスク、残存リスク、不明点、人間の判断、検証と証拠、影響、次のアクションを含みます。
+
+summary では判断に関係しない空の章を省略します。blocker、未処理の人間の判断、無効または期限切れの evidence、履歴分類、不明点は長さ制限で省略しません。
+その他の一覧を黙って切り詰めることはなく、完全な一覧が必要な場合は full view を使用します。summary の主張は evidence-bound data として扱い、元の evidence テキストを instruction や権限の出所として解釈しません。
+
+## Release note: reader-first Outcome summary
+
+今回の presentation release では、人間向け `work-item outcome` の既定 view を完全な audit report から上記の四つの summary へ変更しました。通常のタスクで空の章を読む負担を減らしつつ、検証、ライフサイクル、判断、blocker、不確実性、evidence 参照を残します。
+完全な report は `--view full` で表示でき、MCP `work_item_outcome` は `view: "summary"`（既定）または `view: "full"` を受け付けます。
+machine JSON、検証ルール、exit code、権限 semantics、永続化された evidence は変更しません。top-level の `finish`、`archive`、`close` は lifecycle error と audit context のため stderr に完全な handoff を表示し続け、`--json` は従来どおり人間向け channel を抑止します。
 
 状態マーカーは判断のシグナルであり、リリース承認ではありません。
 

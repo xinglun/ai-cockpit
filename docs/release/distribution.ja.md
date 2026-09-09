@@ -15,6 +15,12 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
+## Outcome presentation release note
+
+人間向け `work-item outcome` は、結果、主な変更、残る不確実性、人間の次のアクションから成る決定的な四つの summary を既定で表示します。
+完全な audit handoff は `--view full`（MCP は `view: "full"`）で取得できます。これは presentation-only の変更であり、machine JSON、検証、権限、exit code、永続化 evidence は変更しません。
+この release note は user study や risk reduction の効果を主張しません。
+
 現在の Release artifact は `ai-cockpit-v0.2.87-<target>.tar.gz`（Windows は対応する
 archive）という名前です。公開 Release と post-release acceptance が完了してから installation baseline になります。
 

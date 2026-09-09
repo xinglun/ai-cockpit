@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T22:15:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-703-wi669-current-base-revalidation.archive.json",
+    ".ai/evidence/WI-703-wi669-current-base-revalidation.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/703"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:76d5ebe5d44653c919197c11878a90c7f7fd708d1d851f8e32a9213b8a457f66",
+  "predecessorEventsDigest": "sha256:3d81b44d6501a4752c769ed7516c437d388b1d7c0af6447c1ec8f55153c47c7f",
+  "predecessorOutcomeDigest": "sha256:87ca3cb7249fcfb90dc8cb86eb26c9ecf05c4ba3d4e3a7fd24b5eb9e11041328",
+  "predecessorSummaryDigest": "sha256:e961132b07b2eb892e88a14108777f52076679d8812999355fda694ea9e77fca",
+  "predecessorWorkItemId": "WI-703-wi669-current-base-revalidation",
+  "reason": "PR #703 became conflicting after the reviewed delivery base advanced again to 00700d88; preserve the immutable WI-703 archive and re-deliver the same P0-B presentation scope from the latest remote default branch.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "The WI-713 successor must bind the current default base, pass fresh preflight and verification, complete reviewed hosted delivery, provider finalization, and human close before the WI-703 predecessor lineage is closed.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-713-wi703-current-base-revalidation",
+  "workItemId": "WI-703-wi669-current-base-revalidation"
+}

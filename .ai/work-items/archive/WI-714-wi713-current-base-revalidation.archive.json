@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-09-09T00:37:45Z",
+  "files": {
+    "contractDigest": "sha256:cd40a3fc73259ebe08cb2bcea72fbdc447c7dc396067490b6eea8dc49c96aba9",
+    "contractPath": ".ai/work-items/archive/WI-714-wi713-current-base-revalidation.contract.json",
+    "eventsDigest": "sha256:e94f7693c3918e2f6be39f05bf675a772619fa0c58aaee806a1ca7ce588eefd9",
+    "eventsPath": ".ai/work-items/archive/WI-714-wi713-current-base-revalidation.events.jsonl",
+    "outcomeDigest": "sha256:c582928e06e941336d892587adaae8bc8e853d14bc2a02beb9fd5cc48133c689",
+    "outcomePath": ".ai/work-items/archive/WI-714-wi713-current-base-revalidation.outcome.json",
+    "summaryDigest": "sha256:e8f0943c69c0de9a7ec3213b37947dce3ec04ce0a92e6fb3fc2d2cf9646e62d9",
+    "summaryPath": ".ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json"
+  },
+  "historicalArtifacts": [],
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-715-wi713-p0b-redelivery",
+  "supersessionDecisionPath": ".ai/decisions/WI-714-wi713-current-base-revalidation.recovery.5d40417356ed11b62ae40a69f27765ce3419b183d8b0ff9ff6d80436bc53928f.json",
+  "workItemId": "WI-714-wi713-current-base-revalidation"
+}

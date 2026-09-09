@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T18:50:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-669-p0b-outcome-summary.verification.json",
+    ".ai/work-items/active/WI-669-p0b-outcome-summary.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:f8ea55a3d0412eab9eaf039847f19544561d1656e7f4eee85f6dca1304aaa3f4",
+  "predecessorEventsDigest": "sha256:f89ac010437290f630f6ac993f54589efcf0882176261d1650c3cd024eca3e02",
+  "predecessorOutcomeDigest": "sha256:4c5edb7b69d5d7d79582c32f9f68d47b4655cfd2c4c380e4dd126d5668d95a6c",
+  "predecessorSummaryDigest": "sha256:c00d1ce2c8ac218f8ae8ce650b9ff3aabf28624bba041b64b7dc16fd398cfdd1",
+  "predecessorWorkItemId": "WI-669-p0b-outcome-summary",
+  "reason": "Retry after finalize-plan changed the Contract binding and the prior verification receipt became historical; preserve the blocked attempt and rerun current preflight and verification before finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence must match the current Contract, repository snapshot, Runtime identity, and PR finalization context before finish is retried.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-669-p0b-outcome-summary"
+}

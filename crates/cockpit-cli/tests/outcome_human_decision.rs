@@ -128,7 +128,7 @@ fn human_outcome(binary: &str, repo: &Path, language: &str) -> String {
     let output = Command::new(binary)
         .args(["work-item", "outcome", "--repo"])
         .arg(repo)
-        .args(["--id", "WI-OUTCOME-DECISION"])
+        .args(["--id", "WI-OUTCOME-DECISION", "--view", "full"])
         .env("AI_COCKPIT_LANGUAGE", language)
         .output()
         .expect("human outcome");

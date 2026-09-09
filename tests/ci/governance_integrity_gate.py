@@ -72,6 +72,36 @@ def short_id(work_item: str) -> str:
     return match.group(1).upper() if match else work_item
 
 
+def parity_work_item_id(line: str) -> str | None:
+    """Resolve a parity row's full Work Item id, with legacy short-id fallback.
+
+    Older ledgers used rows such as ``| WI-123 — ... |``.  A numeric prefix is
+    not globally unique once recovery or independently named Work Items share
+    it, so new rows may start with the complete Work Item id.  Keeping the
+    short form as a fallback preserves old projections while avoiding an
+    invented recovery relationship between unrelated records.
+    """
+    cells = [cell.strip() for cell in line.split("|")[1:-1]]
+    if not cells:
+        return None
+    match = re.match(
+        r"^(WI-[0-9]+[A-Za-z]?(?:-[A-Za-z0-9][A-Za-z0-9-]*)?)(?=\s|—|\|)",
+        cells[0],
+        re.IGNORECASE,
+    )
+    if match is None:
+        return None
+    value = match.group(1)
+    return value if re.match(r"^WI-[0-9]+[A-Za-z]?-[A-Za-z0-9]", value) else value.upper()
+
+
+def parity_rows_for_work_item(
+    rows: dict[str, dict[str, str]], work_item: str
+) -> dict[str, str]:
+    """Prefer an exact full-id row and fall back to the legacy short id."""
+    return rows.get(work_item) or rows.get(short_id(work_item), {})
+
+
 def recovery_alias_group(repo: Path, work_items: list[str]) -> bool:
     """Return true only for a complete, repository-bound recovery lineage.
 
@@ -610,11 +640,9 @@ def parity_rows(repo: Path) -> tuple[dict[str, dict[str, str]], list[dict[str, s
             )
             continue
         for line in path.read_text(encoding="utf-8").splitlines():
-            match = re.match(
-                r"^\|\s*(WI-[0-9]+[A-Za-z]?)(?=\s|—|\|)", line, re.IGNORECASE
-            )
-            if match:
-                rows.setdefault(match.group(1).upper(), {})[relative] = line
+            work_item = parity_work_item_id(line)
+            if work_item is not None:
+                rows.setdefault(work_item, {})[relative] = line
     return rows, findings
 
 
@@ -1032,13 +1060,16 @@ def validate_pending_parity_entry(
         pending_status = "进行中" if relative.endswith(".zh-CN.md") else "In progress"
         if (
             not isinstance(row, str)
-            or not row.startswith(f"| {short_id(work_item)} ")
+            or not (
+                row.startswith(f"| {work_item} ")
+                or row.startswith(f"| {short_id(work_item)} ")
+            )
             or f"| {pending_status} |" not in row
             or expected_paths["verification"] not in row
             or expected_paths["finalize"] not in row
         ):
             return False
-    return not rows.get(short_id(work_item))
+    return not parity_rows_for_work_item(rows, work_item)
 
 
 def finding(
@@ -1400,7 +1431,16 @@ def main() -> int:
     for work_item in locations:
         full_ids_by_short.setdefault(short_id(work_item), []).append(work_item)
     for registered_id, full_ids in sorted(full_ids_by_short.items()):
-        if len(full_ids) > 1 and not recovery_alias_group(repo, full_ids):
+        # A complete parity row is authoritative for that exact Work Item and
+        # keeps unrelated same-prefix records distinct.  Only fall back to
+        # short-id ambiguity when at least one member still relies on the
+        # legacy numeric projection.
+        all_have_exact_rows = all(work_item in rows for work_item in full_ids)
+        if (
+            len(full_ids) > 1
+            and not all_have_exact_rows
+            and not recovery_alias_group(repo, full_ids)
+        ):
             severity = (
                 "error"
                 if any(classifications[item].startswith("current") for item in full_ids)
@@ -1411,8 +1451,9 @@ def main() -> int:
                     finding(work_item, "ambiguous_short_id", "docs/reference", severity)
                 )
     known_short_ids = set(full_ids_by_short)
+    known_work_item_ids = set(locations)
     for registered_id, translations in rows.items():
-        if registered_id not in known_short_ids:
+        if registered_id not in known_short_ids and registered_id not in known_work_item_ids:
             path = sorted(translations)[0] if translations else "docs/reference"
             findings.append(finding(registered_id, "missing_work_item", path))
     for pending_work_item in sorted(pending_by_work_item):
@@ -1476,7 +1517,7 @@ def main() -> int:
         if location == "active" and not parity_projection:
             record["lifecycleState"] = "active_non_parity"
         elif location == "active":
-            work_item_rows = rows.get(short_id(work_item), {})
+            work_item_rows = parity_rows_for_work_item(rows, work_item)
             expected_records = (
                 f".ai/work-items/archive/{work_item}.contract.json",
                 f".ai/evidence/{work_item}.verification.json",
@@ -1766,7 +1807,7 @@ def main() -> int:
                                 decision_paths[0],
                             )
                         )
-            work_item_rows = rows.get(short_id(work_item), {})
+            work_item_rows = parity_rows_for_work_item(rows, work_item)
             pending_entry = pending_by_work_item.get(work_item)
             pending_valid = False
             if pending_entry is not None:
