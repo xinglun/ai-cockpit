@@ -1,0 +1,178 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-764-release-v0-2-88.contract.json",
+    ".ai/work-items/active/WI-764-release-v0-2-88.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T14:47:07Z",
+  "checkpointContractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:af635027dadd901921aca53c832b16210ce33f64ad2a567e9d458db4e3f5ada0",
+      "recorded": true,
+      "recordedAt": "2026-09-09T14:47:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:34fcd50a14e278bd9c1e30c1778260e5a1e249187d7edeaf5d01606783286334",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-764-release-v0-2-88"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:c33f5b30b9d0fa08bde032eece9808dd768d043c1cb9273bb31c69cae9540c27",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:af635027dadd901921aca53c832b16210ce33f64ad2a567e9d458db4e3f5ada0",
+      "previousContractHash": "sha256:af635027dadd901921aca53c832b16210ce33f64ad2a567e9d458db4e3f5ada0",
+      "reason": "The release readiness gate identified a stale terminal documentation projection for the already-closed WI-763 performance measurement. Promote only its three Work Item pages as a release prerequisite; preserve all archived evidence and keep the release scope otherwise unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T14:50:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bf39608ee3f29b04f7aedd29d23911910f24c5c3ae519312108856405afdf29d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-764-release-v0-2-88"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:9c42ea1a1fa0defa106a93e06f71c455565c65114f2bdba8bfbff46117dd75c9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:af635027dadd901921aca53c832b16210ce33f64ad2a567e9d458db4e3f5ada0",
+      "previousContractHash": "sha256:c33f5b30b9d0fa08bde032eece9808dd768d043c1cb9273bb31c69cae9540c27",
+      "reason": "The release gate found the current reference-comparison metadata still bound to v0.2.87. Add only the metadata sidecar and three current file-comparison projections so the candidate v0.2.88 Runtime identity is explicit and executable metadata validation remains fail-closed; preserve historical comparison records.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T14:58:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7db8d8de8f9f3cda1deaf1c10a3eec35da228d68d4ac3b15f2cf5452818fc9bb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-764-release-v0-2-88"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:af635027dadd901921aca53c832b16210ce33f64ad2a567e9d458db4e3f5ada0",
+      "previousContractHash": "sha256:9c42ea1a1fa0defa106a93e06f71c455565c65114f2bdba8bfbff46117dd75c9",
+      "reason": "Hosted quality correctly rejected pre-release verification evidence because it was bound to Runtime 0.2.87 while the v0.2.88 candidate gate uses the candidate Runtime identity. Add only the explicit candidate re-verification acceptance; preserve the prior evidence and require a fresh candidate-bound verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T15:20:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-764-release-v0-2-88"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
+  "createdAt": "2026-09-09T14:44:03Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "The repository owner authorized continuing the amended release Contract after reviewing the candidate-Runtime re-verification boundary, required high-risk scenarios, current main readiness, and the rule that publication must use an immutable reviewed tag and public artifact. Prior Runtime evidence remains preserved; candidate-bound verification is required before hosted quality acceptance.",
+    "recordedAt": "2026-09-09T15:20:24Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
+    "schemaVersion": 1,
+    "workItemId": "WI-764-release-v0-2-88"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/architecture/release-distribution.md",
+      "docs/work-items/WI-764-release-v0-2-88.md"
+    ],
+    "reason": "The declared Contract binds the v0.2.88 package identity, current release documentation, reviewed publication route, and immutable adopter acceptance without expanding into Runtime behavior or historical evidence.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-09T15:23:15Z",
+  "preflightContractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "The reviewed source commit, annotated v0.2.88 tag, manifest, checksums, five target archives, SBOMs, Formula, provenance, and provider Release identity bind to one source revision.",
+      "required": true,
+      "scenario": "reviewed source commit produces the v0.2.88 public release",
+      "status": "unverified",
+      "verificationPlan": "Run local source/version gates, merge the reviewed PR, synchronize main, push only the annotated tag, and inspect the hosted release workflow and public assets."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/isolation_manifest.sh"
+      ],
+      "expected": "The downloaded v0.2.88 public binary alone establishes Runtime identity, repository isolation, first-adopter not_ready semantics, lifecycle evidence, and temporary-root cleanup.",
+      "required": true,
+      "scenario": "public v0.2.88 binary governs a fresh isolated adopter",
+      "status": "unverified",
+      "verificationPlan": "Run the hosted and post-release adopter harness against the immutable public Release without a source checkout or workspace binary fallback."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "The immediately preceding public v0.2.87 binary upgrades an isolated adopter to v0.2.88 while preserving repository identity, protocol compatibility, forbidden-root isolation, and cleanup.",
+      "required": true,
+      "scenario": "v0.2.88 performs the N-1 public upgrade boundary",
+      "status": "unverified",
+      "verificationPlan": "Resolve v0.2.87 and v0.2.88 independently through the provider and run the N-1 harness using downloaded immutable artifacts only."
+    },
+    {
+      "evidence": [
+        "tests/release/source_archive_policy_test.sh",
+        "tests/release/action_runtime_policy_test.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "A source-quality, publication, provider, or adopter failure preserves immutable tag/release truth and emits auditable evidence without source fallback, tag reuse, or destructive cleanup.",
+      "required": true,
+      "scenario": "release failure and rollback truth",
+      "status": "unverified",
+      "verificationPlan": "Run release policy regression tests, inspect hosted failure-path artifacts when present, and preserve any reserved tag or public Release history exactly as emitted."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T15:23:08.933106+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:e5fd1f551271e7d503d600876d6141a8df23acbbe034cf23e698deeb6b5ca104",
+  "workItemId": "WI-764-release-v0-2-88"
+}

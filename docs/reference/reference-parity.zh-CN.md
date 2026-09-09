@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-646-release-v0-2-87
+lastVerifiedBy: WI-764-release-v0-2-88
 capabilityClaims:
   - reference_parity
 ---
@@ -34,9 +34,9 @@ capabilityClaims:
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-当前快照使用 Rust 基线 `4232bb2d1062b5376ae2b7b247c0ae906392585f`，以及经审查的
-`ai-cockpit v0.2.87` Runtime（二进制摘要
-`sha256:5cb247d6252059362fbb53d973827643a430393490a2766e48c128b647f68af8`）。
+当前快照使用 Rust 基线 `67f8df96ce9bd2ccd521a29e67542dda5c4fe0df`，以及经审查的
+`ai-cockpit v0.2.88` Runtime（二进制摘要
+`sha256:f4c4d85e60a5940aaac21c60564acb143128268ccdc9077552443f53fac8312a`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -819,4 +819,5 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-760-wi759-doc-repair——WI-759 文档修复 successor | 已恢复 | [Work Item](../work-items/WI-760-wi759-doc-repair.zh-CN.md)；immutable failed-delivery archive `.ai/work-items/archive/WI-760-wi759-doc-repair.archive.json`；verification `.ai/evidence/WI-760-wi759-doc-repair.verification.json`；recovery `.ai/decisions/WI-760-wi759-doc-repair.recovery.json`；supersede recovery `.ai/decisions/WI-760-wi759-doc-repair.recovery.59a48d37bdbc566a0dc76635fa4d5ebdcf9ea324cda33322cf0ddc566c644907.json`；close `.ai/decisions/WI-760-wi759-doc-repair.close.json`；PR #743 hosted quality failure 保留，WI-761 是已完成 successor。 |
 | WI-761-wi760-parity-order-recovery——WI-760 parity-order successor | 已实现 | [Work Item](../work-items/WI-761-wi760-parity-order-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-761-wi760-parity-order-recovery.contract.json`; verification `.ai/evidence/WI-761-wi760-parity-order-recovery.verification.json`; finalization `.ai/decisions/WI-761-wi760-parity-order-recovery.finalize.460e47bc655048e5a548b9249d2415e0ba0719a738273532b4e1f0345534fa03.json`; close `.ai/decisions/WI-761-wi760-parity-order-recovery.close.json`. |
 | WI-762-wi761-doc-promotion——WI-761 终态文档 promotion | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-762-wi761-doc-promotion.zh-CN.md)；archive `.ai/work-items/archive/WI-762-wi761-doc-promotion.contract.json`；verification `.ai/evidence/WI-762-wi761-doc-promotion.verification.json`；finalization `.ai/decisions/WI-762-wi761-doc-promotion.finalize.json`；close `.ai/decisions/WI-762-wi761-doc-promotion.close.json`。 |
-| WI-763-wi752-fact-reuse-redelivery——WI-752 P1 事实复用测量重新交付 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-763-wi752-fact-reuse-redelivery.zh-CN.md)；从最新 main 进行仅测量重新交付；不可变的失败 PR #733 保留；archive `.ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json`；verification `.ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json`；finalization `.ai/decisions/WI-763-wi752-fact-reuse-redelivery.finalize.json`；close `.ai/decisions/WI-763-wi752-fact-reuse-redelivery.close.json`。 |
+| WI-763-wi752-fact-reuse-redelivery——WI-752 P1 事实复用测量重新交付 | 已实现 | [Work Item](../work-items/WI-763-wi752-fact-reuse-redelivery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json`; verification `.ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json`; finalization `.ai/decisions/WI-763-wi752-fact-reuse-redelivery.finalize.2a7bdf19a5543e89aaf37a5df5118da6f793735afbdce643093f9b69bbd489ab.json`; close `.ai/decisions/WI-763-wi752-fact-reuse-redelivery.close.json`. |
+| WI-764——性能优化测量后的 v0.2.88 发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-764-release-v0-2-88.zh-CN.md)；发布身份、不可变公开产物、SBOM/来源证明、staged/public adopter 验收及 N-1 evidence 在发布后绑定；archive `.ai/work-items/archive/WI-764-release-v0-2-88.contract.json`；verification `.ai/evidence/WI-764-release-v0-2-88.verification.json`；finalization `.ai/decisions/WI-764-release-v0-2-88.finalize.json`；close `.ai/decisions/WI-764-release-v0-2-88.close.json`。 |

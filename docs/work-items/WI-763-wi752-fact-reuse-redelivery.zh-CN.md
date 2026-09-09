@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-763——WI-752 P1 事实复用重新交付"
 description: "从最新 main 重新验证 P1 事实复用，以原始测量和 fail-closed 决策记录优化结论。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-763-wi752-fact-reuse-redelivery
 lastVerifiedBy: WI-763-wi752-fact-reuse-redelivery
+terminalArchive: .ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json
+terminalVerification: .ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json
+terminalFinalization: .ai/decisions/WI-763-wi752-fact-reuse-redelivery.finalize.2a7bdf19a5543e89aaf37a5df5118da6f793735afbdce643093f9b69bbd489ab.json
+terminalDecision: .ai/decisions/WI-763-wi752-fact-reuse-redelivery.close.json
 ---
 
 # WI-763——WI-752 P1 事实复用重新交付

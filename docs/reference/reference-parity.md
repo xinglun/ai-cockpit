@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-646-release-v0-2-87
+lastVerifiedBy: WI-764-release-v0-2-88
 capabilityClaims:
   - reference_parity
 ---
@@ -41,9 +41,9 @@ for the rebaseline receipt and procedure.
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-The current snapshot uses Rust baseline `4232bb2d1062b5376ae2b7b247c0ae906392585f`
-and the reviewed Runtime `ai-cockpit v0.2.87` with binary digest
-`sha256:5cb247d6252059362fbb53d973827643a430393490a2766e48c128b647f68af8`.
+The current snapshot uses Rust baseline `67f8df96ce9bd2ccd521a29e67542dda5c4fe0df`
+and the reviewed Runtime `ai-cockpit v0.2.88` with binary digest
+`sha256:f4c4d85e60a5940aaac21c60564acb143128268ccdc9077552443f53fac8312a`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -980,4 +980,5 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-760-wi759-doc-repair — WI-759 documentation repair successor | Recovered | [Work Item](../work-items/WI-760-wi759-doc-repair.md); immutable failed-delivery archive `.ai/work-items/archive/WI-760-wi759-doc-repair.archive.json`; verification `.ai/evidence/WI-760-wi759-doc-repair.verification.json`; recovery `.ai/decisions/WI-760-wi759-doc-repair.recovery.json`; supersede recovery `.ai/decisions/WI-760-wi759-doc-repair.recovery.59a48d37bdbc566a0dc76635fa4d5ebdcf9ea324cda33322cf0ddc566c644907.json`; close `.ai/decisions/WI-760-wi759-doc-repair.close.json`; PR #743 hosted quality failure is preserved and WI-761 is the completed successor. |
 | WI-761-wi760-parity-order-recovery — WI-760 parity-order successor | Implemented | [Work Item](../work-items/WI-761-wi760-parity-order-recovery.md); terminal lifecycle: archive `.ai/work-items/archive/WI-761-wi760-parity-order-recovery.contract.json`; verification `.ai/evidence/WI-761-wi760-parity-order-recovery.verification.json`; finalization `.ai/decisions/WI-761-wi760-parity-order-recovery.finalize.460e47bc655048e5a548b9249d2415e0ba0719a738273532b4e1f0345534fa03.json`; close `.ai/decisions/WI-761-wi760-parity-order-recovery.close.json`. |
 | WI-762-wi761-doc-promotion — WI-761 closed documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-762-wi761-doc-promotion.md); archive `.ai/work-items/archive/WI-762-wi761-doc-promotion.contract.json`; verification `.ai/evidence/WI-762-wi761-doc-promotion.verification.json`; finalization `.ai/decisions/WI-762-wi761-doc-promotion.finalize.json`; close `.ai/decisions/WI-762-wi761-doc-promotion.close.json`. |
-| WI-763-wi752-fact-reuse-redelivery — WI-752 P1 fact-reuse measurement redelivery | In progress → Implemented after verified close | [Work Item](../work-items/WI-763-wi752-fact-reuse-redelivery.md); measurement-only redelivery from latest main; immutable failed PR #733 remains preserved; archive `.ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json`; verification `.ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json`; finalization `.ai/decisions/WI-763-wi752-fact-reuse-redelivery.finalize.json`; close `.ai/decisions/WI-763-wi752-fact-reuse-redelivery.close.json`. |
+| WI-763-wi752-fact-reuse-redelivery — WI-752 P1 fact-reuse measurement redelivery | Implemented | [Work Item](../work-items/WI-763-wi752-fact-reuse-redelivery.md); terminal lifecycle: archive `.ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json`; verification `.ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json`; finalization `.ai/decisions/WI-763-wi752-fact-reuse-redelivery.finalize.2a7bdf19a5543e89aaf37a5df5118da6f793735afbdce643093f9b69bbd489ab.json`; close `.ai/decisions/WI-763-wi752-fact-reuse-redelivery.close.json`. |
+| WI-764 — v0.2.88 release after performance optimization measurement | In progress → Implemented after verified close | [Work Item](../work-items/WI-764-release-v0-2-88.md); release identity, immutable public artifacts, SBOM/provenance, staged/public adopter acceptance, and N-1 evidence are bound after publication; archive `.ai/work-items/archive/WI-764-release-v0-2-88.contract.json`; verification `.ai/evidence/WI-764-release-v0-2-88.verification.json`; finalization `.ai/decisions/WI-764-release-v0-2-88.finalize.json`; close `.ai/decisions/WI-764-release-v0-2-88.close.json`. |
