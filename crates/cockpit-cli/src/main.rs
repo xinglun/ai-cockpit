@@ -1259,16 +1259,20 @@ fn run() -> Result<()> {
                     .context("revalidate amended Contract")?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
-            WorkItemCommand::Amend { repo, id, input, reason } => {
+            WorkItemCommand::Amend {
+                repo,
+                id,
+                input,
+                reason,
+            } => {
                 require_compatible(&repo, &runtime_context)?;
                 let input: serde_json::Value = serde_json::from_slice(
                     &std::fs::read(&input).context("read Contract amendment input")?,
                 )
                 .context("parse Contract amendment input")?;
-                let record = cockpit_repository::amend_work_item_contract(
-                    &repo, &id, &input, &reason,
-                )
-                .context("apply bounded Contract amendment")?;
+                let record =
+                    cockpit_repository::amend_work_item_contract(&repo, &id, &input, &reason)
+                        .context("apply bounded Contract amendment")?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::RevalidateArchived {

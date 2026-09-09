@@ -935,27 +935,37 @@ pub fn amend_work_item_contract(
         ("acceptanceAppend", "acceptanceCriteria"),
         ("requiredEvidenceClassesAppend", "requiredEvidenceClasses"),
     ] {
-        let Some(values) = input.get(field) else { continue };
+        let Some(values) = input.get(field) else {
+            continue;
+        };
         let values = values.as_array().ok_or_else(|| ObserverError::State {
             path: path.clone(),
             message: format!("{field} must be an array"),
         })?;
-        let existing = contract[target].as_array_mut().ok_or_else(|| ObserverError::State {
-            path: path.clone(),
-            message: format!("Contract field {target} is not an array"),
-        })?;
-        for value in values {
-            let value = value.as_str().filter(|value| !value.trim().is_empty()).ok_or_else(|| ObserverError::State {
+        let existing = contract[target]
+            .as_array_mut()
+            .ok_or_else(|| ObserverError::State {
                 path: path.clone(),
-                message: format!("{field} entries must be non-empty strings"),
+                message: format!("Contract field {target} is not an array"),
             })?;
+        for value in values {
+            let value = value
+                .as_str()
+                .filter(|value| !value.trim().is_empty())
+                .ok_or_else(|| ObserverError::State {
+                    path: path.clone(),
+                    message: format!("{field} entries must be non-empty strings"),
+                })?;
             if !existing.iter().any(|entry| entry.as_str() == Some(value)) {
                 existing.push(serde_json::json!(value));
             }
         }
     }
     if contract["scope"].as_array().is_none() {
-        return Err(ObserverError::State { path, message: "Contract scope is malformed".into() });
+        return Err(ObserverError::State {
+            path,
+            message: "Contract scope is malformed".into(),
+        });
     }
     atomic_json(&path, &contract)?;
     revalidate_contract_amendment(&root, work_item_id, reason)
