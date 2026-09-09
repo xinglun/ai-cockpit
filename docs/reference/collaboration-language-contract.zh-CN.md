@@ -122,7 +122,7 @@ lastVerifiedBy: WI-679-p0-collaboration-language-contract
 2. **空记录不代表不存在风险。** 已有记载：空白小节渲染为"未记录"/"未评估"，绝不作为正面发现（[面向人的 Outcome](outcome-report.md)）。
 3. **未知事实不能由表达层补全。** 已有记载：`unknown` 证据从不被解读为通过（[`.ai/glossary.md`](../../.ai/glossary.md)、[Decision states](../protocol/v1/specification.md)）。
 4. **历史记录不能在没有明确依据的情况下变成当前失败或当前有效证明。** 已有记载：被取代的与历史性的证据以黄色历史标记投影，绝不会被静默地当作当前结果重新验证（[面向人的 Outcome § 历史标记](outcome-report.md)）。
-5. **同一事实通过 CLI、MCP、摘要与完整报告表达时不能自相矛盾。** 设计意图已记载于[多语言语义一致性](multilingual-semantic-parity.md)以及[面向人的 Outcome](outcome-report.md)的 MCP 一节（`work_item_outcome` 返回与 CLI 打印的相同本地化交接内容）；但一项跨入口的结构化自动检查尚未建成——列为后续工作。
+5. **同一事实通过 CLI、MCP、摘要与完整报告表达时不能自相矛盾。** 设计意图已记载于[多语言语义一致性](multilingual-semantic-parity.md)以及[面向人的 Outcome](outcome-report.md)的 MCP 一节（`work_item_outcome` 返回与 CLI 打印的相同本地化交接内容）；跨进程 CLI/MCP 相等性检查已由 `crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs`（WI-682）实现。
 6. **更换语言不能改变事实、授权范围或操作后果。** 已有记载：[多语言语义一致性](multilingual-semantic-parity.md)——JSON 字段名与枚举值保持稳定，Contract 拥有的文本从不被机器翻译。
 7. **展示的下一步必须符合当前 Runtime 状态与策略。** 已有记载：下一步取自 Outcome 或 Preflight Review，绝不凭空编造（"报告从不通过推断来填补治理决定。"——[面向人的 Outcome](outcome-report.md)）。
 8. **既有授权是否适用，由规则与记录决定，不能因为更换会话而被任意丢弃或扩大。** 已就 Receipt 记载（[`.ai/glossary.md`](../../.ai/glossary.md)："只有当所有已授权的身份绑定仍然匹配时才可复用"）；并在[第七节](#七agent-或会话交接)中应用于 Agent/会话交接。针对模拟会话切换的专门交接连续性检查尚未建成——列为后续工作。
@@ -135,7 +135,6 @@ lastVerifiedBy: WI-679-p0-collaboration-language-contract
 
 - 一份由状态与转换生成的场景矩阵，覆盖合法与非法转换、证据缺陷、既有授权复用与新授权请求的区分、验证结果、归档/关闭/替代/历史查询，以及跨语言、跨入口的 Agent/会话交接。
 - 针对上述十条不变量的自动化检查，每条不变量都配有正例、反例与边界用例，在受控测试仓库中运行，而不是依赖固定字符串匹配。
-- 在受控测试仓库中端到端验证：展示的状态、用户所选的选项，与实际 Runtime 行为三者一致，包括中断与恢复；为此使用的任何模拟人工决定都必须标记为测试数据，绝不能成为真实的授权记录。
 - 一项交接完整性检查，确认新的 Agent 或会话仅凭 Runtime 本身——不依赖对话记录——就能重建目标/范围、已完成/待完成事项、有效证据及其适用范围、有效授权与待决决定，以及阻断原因。
 
 在本文档目前所覆盖的场景范围内，它力求呈现基于上述来源、前后一致且可追溯的交流语义。它并不宣称每一位读者都会正确理解；这样的宣称需要本 Work Item 并未开展的观察性验证来支撑。

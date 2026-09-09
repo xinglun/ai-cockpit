@@ -47,20 +47,20 @@ Cartesian enumeration of every state times every operation.
 | Lifecycle transition | SCN-001..005 | 4 | 0 | 0 (1 mixed: SCN-005 is an operational gotcha, not a governance rejection) |
 | Evidence | SCN-006..008 | 1 | 2 | 0 |
 | Authorization | SCN-009..012 | 1 | 3 | 0 |
-| Verification | SCN-013..015 | 2 | 1 | 0 |
+| Verification | SCN-013..015, SCN-025 | 3 | 1 | 0 |
 | Merge/close | SCN-016..019 | 3 | 1 | 0 |
 | Historical query | SCN-020 | 0 | 1 | 0 |
 | Agent/session hand-off | SCN-021..022 | 1 | 1 | 0 |
 | Multi-language/entry-point | SCN-023..024 | 0 | 2 | 0 |
 
 Most scenarios in this delivery are `observed` or `documented`; none are
-`designed`, because the repository's own canonical docs and this delivery's
-own real Runtime interactions already covered every required category.
+`designed`, because the repository's own canonical docs and the delivery's
+real Runtime interactions cover every required category.
 
 ## Full matrix
 
 See `collaboration-scenario-matrix.json` for the complete, structured
-25-scenario table (SCN-001 through SCN-024; IDs are stable and may be
+25-scenario table (SCN-001 through SCN-025; IDs are stable and may be
 extended, never renumbered, by future Work Items). A representative sample:
 
 | ID | Category | Title | Source | Result |
@@ -72,11 +72,12 @@ extended, never renumbered, by future Work Items). A representative sample:
 | SCN-017 | merge_close | Merge confirmation blocked by a platform (not Runtime) permission boundary | observed | rejected |
 | SCN-019 | merge_close | A pre-merge documentation gap is fixed by a fast-follow Work Item, not history rewriting | observed | deferred_to_successor |
 | SCN-022 | handoff | One Agent's incomplete predecessor closure structurally blocks another Agent's fresh start | observed | rejected_until_predecessor_closed |
+| SCN-025 | verification | Displayed option, selected test-data decision, interruption, and resumed Runtime transition remain consistent | observed | consistent_with_safe_retry |
 
 ## Known limitations
 
-This matrix is a docs-only, hand-curated artifact. It is not itself an
-automated test suite: turning each scenario into an executable check against
-a controlled test repository, with positive/negative/boundary cases per the
-ten semantic invariants, is explicitly out of scope here and is the next
-Work Item in this initiative.
+This matrix remains a hand-curated semantic index rather than a complete
+automated test suite. WI-753 adds one executable controlled-repository check
+for the state/option/Runtime consistency boundary, including interruption and
+resume. It does not claim exhaustive Cartesian coverage of every invariant or
+state; future Work Items may add bounded checks without renumbering scenarios.
