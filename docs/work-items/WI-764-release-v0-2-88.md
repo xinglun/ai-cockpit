@@ -4,7 +4,7 @@ title: WI-764 — v0.2.88 release
 description: Publish the next Runtime release and verify immutable public artifacts and adopter boundaries.
 audience: [adopter, maintainer, reviewer]
 workItemId: WI-764-release-v0-2-88
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-764-release-v0-2-88
 terminalArchive: .ai/work-items/archive/WI-764-release-v0-2-88.contract.json

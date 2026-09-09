@@ -4,7 +4,7 @@ title: WI-764——v0.2.88 发布
 description: 发布下一版 Runtime，并验证不可变公开产物与 adopter 边界。
 audience: [adopter, maintainer, reviewer]
 workItemId: WI-764-release-v0-2-88
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-764-release-v0-2-88
 terminalArchive: .ai/work-items/archive/WI-764-release-v0-2-88.contract.json
