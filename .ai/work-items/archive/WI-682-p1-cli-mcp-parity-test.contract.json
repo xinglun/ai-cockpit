@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "A1: crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs adds one new #[test] that spawns the real ai-cockpit binary as a subprocess for the CLI side and calls cockpit_mcp::handle_request_for_repo() in-process for the MCP side, against the identical temporary repository fixture and Work Item.",
+    "A2: the test asserts the CLI's work-item outcome --json stdout and the MCP work_item_outcome tool's structuredContent.outcome are exactly equal (serde_json::Value equality), using a RuntimeContext reconstructed to match the exact CLI binary under test so the comparison is not defeated by incidental runtime-identity differences.",
+    "A3: cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity passes.",
+    "A4: cargo fmt --check and cargo clippy --tests -- -D warnings pass for the new file.",
+    "A5: no existing test file is modified; no production source file is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8bf7a301484e78844678de32fec1aa1b5d42a56e",
+  "createdAt": "2026-09-08T13:49:49Z",
+  "goal": "A regression that makes the CLI and MCP Outcome representations diverge is caught automatically by cargo test, instead of relying on manual review to notice.",
+  "intent": "Close the invariant-5 gap named in WI-681's coverage mapping (docs/reference/collaboration-invariant-coverage.md): add one new integration test that spawns the real ai-cockpit CLI binary as a subprocess and, in the same test, calls the production MCP handler in-process against the identical repository fixture, then asserts the two Outcome representations are exactly equal. This combines two already-proven existing test patterns (subprocess spawning from outcome_handoff.rs; MCP-handler-in-process calls from rpc.rs) rather than introducing new test infrastructure, per explicit repository-owner delegation to continue the AI Cockpit collaboration-language initiative.",
+  "mode": "code",
+  "outOfScope": [
+    "any change to production code in crates/cockpit-cli/src",
+    " crates/cockpit-mcp/src",
+    " or crates/cockpit-repository/src",
+    "invariants 7",
+    " 8",
+    " and 9 test gaps (separate follow-on Work Items named in WI-681)"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:20d45d3e036c886687a0ea29fd4eafde625de9b8a2fb761e4c86469adc1b57ea",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-682-p1-cli-mcp-parity-test",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/679",
+    "worktree": "/private/tmp/ai-cockpit-wi-682-p1-cli-mcp-parity-test"
+  },
+  "risk": "low",
+  "scope": [
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "docs/work-items/WI-682-p1-cli-mcp-parity-test.md",
+    "docs/work-items/WI-682-p1-cli-mcp-parity-test.zh-CN.md",
+    "docs/work-items/WI-682-p1-cli-mcp-parity-test.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-674-p1-repository-split.md",
+    "docs/work-items/WI-674-p1-repository-split.zh-CN.md",
+    "docs/work-items/WI-674-p1-repository-split.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-682-p1-cli-mcp-parity-test"
+}

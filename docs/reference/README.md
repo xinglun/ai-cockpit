@@ -28,6 +28,7 @@ separate from exact machine-facing details:
 - [Troubleshooting and recovery](troubleshooting.md) — stop states and the next safe action.
 - [Human-facing Outcome](outcome-report.md) — the readable result, risks, evidence, and next action.
 - [Collaboration language contract](collaboration-language-contract.md) — a cross-cutting map of communication moments (start, authorization, verification, block/recovery, merge, Outcome, hand-off) to existing Runtime facts.
+- [Collaboration scenario matrix](collaboration-scenario-matrix.md) — a state/transition-derived matrix of collaboration scenarios, with observed, documented, and designed cases distinguished.
 - [Governance profiles](governance-profiles.md) — proportional Light/Standard/Strict routing and its assurance boundary.
 - [How to read Cockpit status](how-to-read-cockpit-status.md) — a person-facing reading order for colors, evidence, and next actions.
 - [Agent workflow and review boundaries](agent-workflow.md) — inherited Work Item, Outcome, release, and safety rules.

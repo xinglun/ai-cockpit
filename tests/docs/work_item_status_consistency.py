@@ -52,6 +52,29 @@ def short_id(work_item_id: str) -> str | None:
     return match.group(1).upper() if match else None
 
 
+def parity_work_item_id(line: str) -> str | None:
+    """Resolve a parity row's full id while retaining legacy short rows."""
+    cells = [cell.strip() for cell in line.split("|")[1:-1]]
+    if not cells:
+        return None
+    match = re.match(
+        r"^(WI-[0-9]+[A-Za-z]?(?:-[A-Za-z0-9][A-Za-z0-9-]*)?)(?=\s|—|\|)",
+        cells[0],
+        re.IGNORECASE,
+    )
+    if match is None:
+        return None
+    value = match.group(1)
+    return value if re.match(r"^WI-[0-9]+[A-Za-z]?-[A-Za-z0-9]", value) else value.upper()
+
+
+def parity_statuses_for_work_item(
+    rows: dict[str, list[str]], work_item_id: str
+) -> list[str]:
+    """Prefer an exact full-id projection and fall back to its short id."""
+    return rows.get(work_item_id) or rows.get(short_id(work_item_id) or "", [])
+
+
 def parity_statuses(repository: Path) -> tuple[dict[str, list[str]], list[str]]:
     rows: dict[str, list[str]] = {}
     errors: list[str] = []
@@ -62,8 +85,8 @@ def parity_statuses(repository: Path) -> tuple[dict[str, list[str]], list[str]]:
             continue
         seen: set[str] = set()
         for line in path.read_text(encoding="utf-8").splitlines():
-            match = re.match(r"^\|\s*(WI-[0-9]+[A-Za-z]?)(?=\s|—|\|)", line, re.IGNORECASE)
-            if not match:
+            work_item = parity_work_item_id(line)
+            if work_item is None:
                 continue
             cells = [cell.strip() for cell in line.split("|")[1:-1]]
             if len(cells) < 2:
@@ -92,7 +115,6 @@ def parity_statuses(repository: Path) -> tuple[dict[str, list[str]], list[str]]:
                 status = "conditional"
             if status is None:
                 continue
-            work_item = match.group(1).upper()
             if work_item in seen:
                 errors.append(f"{relative}: duplicate parity row for {work_item}")
                 continue
@@ -288,7 +310,7 @@ def check(repository: Path) -> list[str]:
         if not (has_close or has_recovery):
             continue
 
-        parity = rows.get(short, [])
+        parity = parity_statuses_for_work_item(rows, work_item_id)
         if "conditional" in parity:
             if bounded_documentation_projection(repository, work_item_id):
                 # The current documentation-promotion Work Item is itself the

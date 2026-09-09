@@ -266,6 +266,32 @@ fn explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout() {
 }
 
 #[test]
+fn outcome_command_defaults_to_summary_and_full_view_is_explicit() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-HANDOFF-SUMMARY";
+    let repo = checkpointed(binary, id, true);
+
+    let summary = run(binary, repo.path(), &["work-item", "outcome", "--id", id]);
+    assert!(summary.status.success());
+    let summary_text = String::from_utf8(summary.stdout).expect("summary UTF-8");
+    assert!(summary_text.contains("Result"));
+    assert!(summary_text.contains("Key changes"));
+    assert!(summary_text.contains("Remaining uncertainty"));
+    assert!(summary_text.contains("Human next step"));
+    assert!(!summary_text.contains("Problems found"));
+
+    let full = run(
+        binary,
+        repo.path(),
+        &["work-item", "outcome", "--id", id, "--view", "full"],
+    );
+    assert!(full.status.success());
+    let full_text = String::from_utf8(full.stdout).expect("full UTF-8");
+    assert!(full_text.contains("Problems found"));
+    assert!(full_text.contains("Evidence"));
+}
+
+#[test]
 fn blocked_finish_emits_persisted_handoff_and_remains_nonzero() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     for (language, id, prefix, unknowns, next) in [

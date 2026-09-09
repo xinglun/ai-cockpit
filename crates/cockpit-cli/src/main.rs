@@ -396,6 +396,9 @@ enum WorkItemCommand {
         /// Emit the stable machine-readable Outcome JSON instead of the human handoff.
         #[arg(long)]
         json: bool,
+        /// Select the human handoff projection. The default is the reader-first summary.
+        #[arg(long, value_enum, default_value = "summary")]
+        view: OutcomeViewArg,
     },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
@@ -585,6 +588,21 @@ enum MigrateCommand {
         #[arg(long)]
         approved: bool,
     },
+}
+
+#[derive(Clone, Debug, clap::ValueEnum)]
+enum OutcomeViewArg {
+    Summary,
+    Full,
+}
+
+impl OutcomeViewArg {
+    fn repository_view(&self) -> cockpit_repository::OutcomeRenderView {
+        match self {
+            Self::Summary => cockpit_repository::OutcomeRenderView::Summary,
+            Self::Full => cockpit_repository::OutcomeRenderView::Full,
+        }
+    }
 }
 
 /// Select the language used by the human handoff. The agent-facing dialog is
@@ -1264,7 +1282,12 @@ fn run() -> Result<()> {
                     .context("derive implementation approach")?;
                 println!("{}", serde_json::to_string_pretty(&approach)?);
             }
-            WorkItemCommand::Outcome { repo, id, json } => {
+            WorkItemCommand::Outcome {
+                repo,
+                id,
+                json,
+                view,
+            } => {
                 require_compatible(&repo, &runtime_context)?;
                 let input = cockpit_repository::outcome_render_input_with_runtime(
                     &repo,
@@ -1277,7 +1300,11 @@ fn run() -> Result<()> {
                 } else {
                     println!(
                         "{}",
-                        cockpit_repository::render_human_outcome(&input, output_language())
+                        cockpit_repository::render_human_outcome_with_view(
+                            &input,
+                            output_language(),
+                            view.repository_view(),
+                        )
                     );
                 }
             }

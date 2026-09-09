@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T21:33:58Z",
+  "files": {
+    "contractDigest": "sha256:f7a977908da89cbfbf19e800d4c60b5b1a723b3dbb2b5d46abaa146225669d8b",
+    "contractPath": ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.contract.json",
+    "eventsDigest": "sha256:739d4de0785dc6880ced6847d9362171fd34e0d76e5aadf475946eff1a4da2eb",
+    "eventsPath": ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.events.jsonl",
+    "outcomeDigest": "sha256:27beacd594be00c88380289235106191bb534ba44f6bf6769e8450045ec0acf6",
+    "outcomePath": ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.outcome.json",
+    "summaryDigest": "sha256:e2032994bd3c866ee8d4cc3ee8cc70b7b213dfe1dc70fcc2615bc3e449d30e73",
+    "summaryPath": ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.summary.json",
+    "taskReportDigest": "sha256:e06e8c9a29287183403194087f0eccb42e0246722328f1879c2663559d5af911",
+    "taskReportMarkdownDigest": "sha256:55ba35bc36429c603a15d41f85ed9ec718910ca53bd6a34e307caa23716bc0ec",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-702-p2-incremental-merkle-trust-audit.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+}

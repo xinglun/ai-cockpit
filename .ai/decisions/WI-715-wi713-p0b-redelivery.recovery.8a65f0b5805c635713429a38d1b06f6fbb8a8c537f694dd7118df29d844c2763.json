@@ -1,0 +1,32 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T01:53:26Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-715-wi713-p0b-redelivery.recovery.json",
+    ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.archive.json",
+    ".ai/decisions/WI-716-wi715-governance-scope-recovery.close.json",
+    ".ai/decisions/WI-716-wi715-governance-scope-recovery.finalize.json",
+    ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/709"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:2dd6e7f34e44c7f2b2066d539f35097f808cb203653688df5df34f472070303f",
+  "predecessorEventsDigest": "sha256:018c3af759d18b60371eb51a66622bd2e119dc6b6ffb2d20ca19e91b6f84862a",
+  "predecessorOutcomeDigest": "sha256:8d58d8221c1aa6860883beba2f89697c358506408d1e8fc146939bb63c6548c1",
+  "predecessorSummaryDigest": "sha256:e314e614011b9b6cd7ad6e8791d194ffe8e475293b7b87a31f0b7ebf0e0e954d",
+  "predecessorWorkItemId": "WI-715-wi713-p0b-redelivery",
+  "reason": "WI-716 completed the reviewed successor recovery with fresh verification, PR #709 hosted checks, merge, finalization, exact cleanup, and approved close. Supersede WI-715 as immutable historical evidence without rewriting its archived Contract, Outcome, Events, evidence, or finalization bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further action is required for WI-715; continue only from the closed WI-716 successor and retain WI-715 historical bytes.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-716-wi715-governance-scope-recovery",
+  "workItemId": "WI-715-wi713-p0b-redelivery"
+}

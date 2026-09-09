@@ -1,0 +1,402 @@
+{
+  "schemaVersion": 1,
+  "description": "Structured collaboration-language scenario matrix for AI Cockpit. Each scenario names a Runtime-real trigger, the expected agent-facing semantics, and which of the ten WI-679 semantic invariants it exercises. sourceType=observed entries were executed in this repository during WI-679/WI-680 delivery on 2026-09-08 and cite the exact command/output. sourceType=documented entries restate an existing canonical doc without new execution. sourceType=designed entries are synthetic, constructed to cover a required category with no available real record, and are explicitly not claims about proven real-world behavior beyond what the cited doc/code already states.",
+  "invariantLegend": {
+    "1": "verification pass != full acceptance/merge authorization",
+    "2": "empty record != no risk",
+    "3": "unknown fact not completed by presentation layer",
+    "4": "historical record cannot become current pass/fail without basis",
+    "5": "same fact consistent across CLI/MCP/summary/report",
+    "6": "language change does not alter facts/authorization/consequences",
+    "7": "displayed next step matches current Runtime state/policy",
+    "8": "authorization applicability is rule-and-record based across session switches",
+    "9": "every human-decision question names subject/impact/recovery condition",
+    "10": "summary may omit detail but not a blocker/key-unknown/required decision"
+  },
+  "scenarios": [
+    {
+      "id": "SCN-001",
+      "category": "lifecycle_transition",
+      "title": "checkpoint attempted before start on a not_ready scaffold",
+      "sourceType": "observed",
+      "citation": "ai-cockpit checkpoint --repo <repo> --id WI-679-... (2026-09-08)",
+      "precondition": "Work Item scaffold created via `work-item new`; Contract/Summary state is still not_ready.",
+      "action": {"entrypoint": "cli", "command": "checkpoint --repo <repo> --id <id>"},
+      "expected": {
+        "result": "rejected",
+        "decisionState": null,
+        "keyMessage": "checkpoint is invalid from state \"not_ready\"; expected implementation_active"
+      },
+      "invariantsExercised": [7],
+      "notes": "Confirms the lifecycle machine rejects out-of-order transitions structurally, not just advisorially."
+    },
+    {
+      "id": "SCN-002",
+      "category": "lifecycle_transition",
+      "title": "start rejected when the worktree has non-governance changes before activation",
+      "sourceType": "observed",
+      "citation": "ai-cockpit start ... (2026-09-08): \"lifecycle entry rejected before start: non-governance changes were present before start: docs/reference/...\"",
+      "precondition": "Implementation files were written into the worktree before running `start`.",
+      "action": {"entrypoint": "cli", "command": "start --repo <repo> --id <id> --intent ... --goal ..."},
+      "expected": {
+        "result": "rejected",
+        "decisionState": null,
+        "keyMessage": "non-governance changes were present before start"
+      },
+      "invariantsExercised": [7],
+      "notes": "Authorization must precede implementation; a worktree cannot carry pre-existing edits into activation. Recovery: stash the edits, start cleanly, restore the edits."
+    },
+    {
+      "id": "SCN-003",
+      "category": "lifecycle_transition",
+      "title": "new Work Item rejected on a synchronized default branch while a predecessor archived Work Item lacks a valid close decision",
+      "sourceType": "observed",
+      "citation": "ai-cockpit work-item new --repo <repo> --id WI-680-... (2026-09-08): \"archived Work Items pending close: WI-674-p1-repository-split\"; status --repo <repo> readiness.blockers=[\"archived_work_items_pending_close\"]",
+      "precondition": "A different Work Item's PR merged to the default branch, but that Work Item's own close (finalize-verify + human close decision) had not yet completed.",
+      "action": {"entrypoint": "cli", "command": "work-item new --repo <repo> --id <new-id> --mode <mode>"},
+      "expected": {
+        "result": "rejected",
+        "decisionState": null,
+        "keyMessage": "archived Work Items pending close: <predecessor-id>"
+      },
+      "invariantsExercised": [7, 8],
+      "notes": "A concurrency boundary case directly relevant to Agent/session hand-off: one Agent's incomplete closure blocks a different Agent's fresh start on the same repository, by design, not by race condition. The safe response is to wait or investigate the predecessor's closure, never to bypass the gate."
+    },
+    {
+      "id": "SCN-004",
+      "category": "lifecycle_transition",
+      "title": "successful activation of a not_ready scaffold into implementation_active",
+      "sourceType": "observed",
+      "citation": "ai-cockpit start ... (2026-09-08) -> {\"state\": \"implementation_active\"}",
+      "precondition": "Clean worktree; not_ready scaffold exists; full Contract fields supplied via CLI flags.",
+      "action": {"entrypoint": "cli", "command": "start --repo <repo> --id <id> --intent <text> --goal <text> --scope <path>... --authority authorized --risk low --acceptance <A1..An> --required-evidence verification"},
+      "expected": {
+        "result": "accepted",
+        "decisionState": null,
+        "keyMessage": "state: implementation_active"
+      },
+      "invariantsExercised": [],
+      "notes": "The CLI overwrites intent/goal/scope/outOfScope/risk/authority/acceptanceCriteria/requiredEvidenceClasses/verification on activation; hand-edited Contract prose written before `start` is discarded, not merged."
+    },
+    {
+      "id": "SCN-005",
+      "category": "lifecycle_transition",
+      "title": "CLI flag comma-splitting silently fragments prose containing commas",
+      "sourceType": "observed",
+      "citation": "ai-cockpit start --out-of-scope \"CLI/MCP behavior, Contract/Outcome schema, lifecycle state machine\" (2026-09-08) produced three separate outOfScope array entries, not one",
+      "precondition": "A --out-of-scope value containing literal commas is passed to `start`.",
+      "action": {"entrypoint": "cli", "command": "start --repo <repo> --id <id> ... --out-of-scope \"a, b, c\""},
+      "expected": {
+        "result": "accepted_but_misleading",
+        "decisionState": null,
+        "keyMessage": "outOfScope becomes [\"a\", \" b\", \" c\"] instead of one entry"
+      },
+      "invariantsExercised": [3],
+      "notes": "No error is raised; the exit code is 0. This is a silent-mismatch risk between intended and recorded Contract content, not a lifecycle rejection. An Agent must re-read the written Contract after any multi-value CLI flag to confirm what was actually recorded, never assume the flag text was stored verbatim."
+    },
+    {
+      "id": "SCN-006",
+      "category": "evidence",
+      "title": "finish rejected: verification evidence invalidated after the Contract changed post-verify",
+      "sourceType": "observed",
+      "citation": "ai-cockpit finish ... (2026-09-08) -> Outcome: red, \"Failed gate: finish.verification\"; error: \"verification evidence is not a valid current receipt\"",
+      "precondition": "`verify` ran and produced a passing receipt; the Contract's resourceContext was subsequently changed by `finalize-plan`, changing the Contract digest.",
+      "action": {"entrypoint": "cli", "command": "finish --repo <repo> --id <id>"},
+      "expected": {
+        "result": "rejected",
+        "decisionState": "red",
+        "keyMessage": "verification evidence is not a valid current receipt"
+      },
+      "invariantsExercised": [1, 4],
+      "notes": "Any Contract edit after verify invalidates the prior evidence binding, even an edit unrelated to the verified content. Recovery is a fresh `verify`, not an override."
+    },
+    {
+      "id": "SCN-007",
+      "category": "evidence",
+      "title": "legacy (pre-v2) evidence is projected as yellow historical, not a current failure",
+      "sourceType": "documented",
+      "citation": "docs/reference/outcome-report.md: \"A readable pre-v2 record (identified by the absence of evidenceSchemaVersion) is projected as yellow legacy_evidence_historical: it is historical input, not a current failure or a fresh green result.\"",
+      "precondition": "An older evidence record without evidenceSchemaVersion is read by the current Runtime.",
+      "action": {"entrypoint": "cli", "command": "work-item outcome --repo <repo> --id <id>"},
+      "expected": {
+        "result": "yellow",
+        "decisionState": "yellow",
+        "keyMessage": "legacy_evidence_historical"
+      },
+      "invariantsExercised": [4],
+      "notes": "Must not be misread by an Agent as either 'currently verified' or 'currently broken'."
+    },
+    {
+      "id": "SCN-008",
+      "category": "evidence",
+      "title": "tampered, foreign, or identity-mismatched evidence fails closed as red",
+      "sourceType": "documented",
+      "citation": "docs/reference/outcome-report.md: \"Tampered, malformed, identity-mismatched, or digest-inconsistent evidence is red.\"",
+      "precondition": "An evidence file exists but its identity bindings (repositoryId/workItemId/runtimeDigest) do not match the current context, or its bytes are malformed.",
+      "action": {"entrypoint": "cli", "command": "finish --repo <repo> --id <id>"},
+      "expected": {
+        "result": "rejected",
+        "decisionState": "red",
+        "keyMessage": "identity-mismatched or malformed evidence"
+      },
+      "invariantsExercised": [4],
+      "notes": "An evidence file existing on disk is never itself sufficient; identity and freshness are checked every time."
+    },
+    {
+      "id": "SCN-009",
+      "category": "authorization",
+      "title": "preflight demands human confirmation when Contract authority/scope/acceptance/intent are unset",
+      "sourceType": "observed",
+      "citation": "ai-cockpit preflight ... (2026-09-08, first attempt) -> reviewState: needs_human_confirmation; unknowns: [human_authority_missing, required_evidence_missing]; humanDecisionRequest with options/recommendation/question/resumeCondition",
+      "precondition": "A freshly scaffolded Contract with empty authority and an unrecognized requiredEvidenceClasses entry.",
+      "action": {"entrypoint": "cli", "command": "preflight --repo <repo> --contract <path>"},
+      "expected": {
+        "result": "human_decision_required",
+        "decisionState": "yellow",
+        "keyMessage": "needs_human_confirmation"
+      },
+      "invariantsExercised": [3, 9],
+      "notes": "The structured humanDecisionRequest names what happened, why it matters, options, a recommendation, the question, and a resume condition -- all four fields, not a one-line summary."
+    },
+    {
+      "id": "SCN-010",
+      "category": "authorization",
+      "title": "Receipt reuse requires exact identity-binding match, not natural-language similarity",
+      "sourceType": "documented",
+      "citation": ".ai/glossary.md: \"Receipt — content-bound verification evidence that may be reused only when all authorized identity bindings still match.\"",
+      "precondition": "A prior passing verification receipt exists for the same repository/Work Item.",
+      "action": {"entrypoint": "cli", "command": "verify --repo <repo> --work-item <id> ..."},
+      "expected": {
+        "result": "conditional_reuse",
+        "decisionState": "green_if_matched_else_rerun",
+        "keyMessage": "receipt reused only if repository/Work Item/Contract digest/snapshot digest/Runtime identity all match; otherwise a fresh run executes"
+      },
+      "invariantsExercised": [8],
+      "notes": "An Agent must never assert reuse from 'this looks like the same request'; only a verified digest match authorizes reuse."
+    },
+    {
+      "id": "SCN-011",
+      "category": "authorization",
+      "title": "a Contract or snapshot change after prior review requires a new authorization, not reuse",
+      "sourceType": "documented",
+      "citation": "docs/reference/agent-workflow.md: \"Review receipts are append-only. When a Contract or repository snapshot changes, a fresh receipt is written under a digest-suffixed decision path; the previous receipt remains historical evidence and is never overwritten.\"",
+      "precondition": "A Contract was reviewed and a decision receipt recorded; the Contract is subsequently amended.",
+      "action": {"entrypoint": "cli", "command": "preflight --repo <repo> --contract <path> (after amendment)"},
+      "expected": {
+        "result": "new_authorization_required",
+        "decisionState": "yellow",
+        "keyMessage": "fresh preflight/decision required; prior receipt kept as historical evidence"
+      },
+      "invariantsExercised": [8],
+      "notes": "Distinguishes this from SCN-010 (reuse) and SCN-012 (pure recovery): here the Contract's own meaning changed, so a genuinely new human decision is owed."
+    },
+    {
+      "id": "SCN-012",
+      "category": "authorization",
+      "title": "work-item recover (retry/successor/supersede) restores lifecycle position without granting new authorization",
+      "sourceType": "documented",
+      "citation": "docs/reference/agent-workflow.md: \"A retry decision is an explicit lifecycle transition, not a green claim. ... Other lifecycle states reject retry.\"",
+      "precondition": "A Work Item is blocked at finish_ready after a failed gate.",
+      "action": {"entrypoint": "cli", "command": "work-item recover --repo <repo> --id <id> --input <RecoveryDecisionReceipt.json>"},
+      "expected": {
+        "result": "lifecycle_restored_not_authorized",
+        "decisionState": "yellow_until_fresh_verify",
+        "keyMessage": "restores checkpointed state; a fresh verify/finish must still produce the next current Outcome"
+      },
+      "invariantsExercised": [1, 8],
+      "notes": "Pure technical recovery is explicitly not an authorization event and must never be presented as one."
+    },
+    {
+      "id": "SCN-013",
+      "category": "verification",
+      "title": "finish blocked when numbered acceptance criteria lack acceptanceEvidence/intentAlignment projections",
+      "sourceType": "observed",
+      "citation": "ai-cockpit finish ... (2026-09-08) -> Outcome: red, \"Contract/Summary governance controls are blocked: acceptance_evidence_missing, intent_alignment_missing\"",
+      "precondition": "Contract uses numbered A1:/A2:/... acceptanceCriteria; Summary has no acceptanceEvidence or intentAlignment recorded.",
+      "action": {"entrypoint": "cli", "command": "finish --repo <repo> --id <id>"},
+      "expected": {
+        "result": "rejected",
+        "decisionState": "red",
+        "keyMessage": "acceptance_evidence_missing, intent_alignment_missing"
+      },
+      "invariantsExercised": [2, 10],
+      "notes": "Recovery: `work-item controls --input <json with acceptanceEvidence[] and intentAlignment{state,reason,evidence[]}>`, then re-verify (any Contract-adjacent write invalidates prior evidence, see SCN-006)."
+    },
+    {
+      "id": "SCN-014",
+      "category": "verification",
+      "title": "finish succeeds (green) while explicitly not authorizing merge",
+      "sourceType": "observed",
+      "citation": "ai-cockpit finish ... (2026-09-08) -> \"Outcome: 🟢 Success ... Next action: Review the evidence before deciding whether to proceed; 🟢 does not authorize merge or release.\"",
+      "precondition": "Fresh passing verification, complete acceptanceEvidence/intentAlignment, non-provisional finalize-plan bound.",
+      "action": {"entrypoint": "cli", "command": "finish --repo <repo> --id <id>"},
+      "expected": {
+        "result": "accepted",
+        "decisionState": "green",
+        "keyMessage": "does not authorize merge or release"
+      },
+      "invariantsExercised": [1],
+      "notes": "The single clearest first-party confirmation of invariant 1: the tool's own green success message states the non-authorization boundary in its own text."
+    },
+    {
+      "id": "SCN-015",
+      "category": "verification",
+      "title": "a cancelled or interrupted verification leaves no receipt; retry is always safe",
+      "sourceType": "documented",
+      "citation": "docs/reference/troubleshooting.md: \"'finish' says receipt missing/stale\" -> \"Run verify --work-item <id> after the final edit; do not bypass the check.\"",
+      "precondition": "A verify run is interrupted or its process fails before writing a receipt.",
+      "action": {"entrypoint": "cli", "command": "verify --repo <repo> --work-item <id> ..."},
+      "expected": {
+        "result": "safe_retry",
+        "decisionState": null,
+        "keyMessage": "no stale or partial receipt is left in a way that could be mistaken for a pass"
+      },
+      "invariantsExercised": [3],
+      "notes": "The Work Item remains at its prior lifecycle state; nothing needs to be undone before retrying."
+    },
+    {
+      "id": "SCN-016",
+      "category": "merge_close",
+      "title": "finish rejected until finalize-plan binds a non-provisional resource finalization context",
+      "sourceType": "observed",
+      "citation": "ai-cockpit finish ... (2026-09-08) -> \"finish requires a non-provisional resource finalization plan; run finalize-plan before finish\"",
+      "precondition": "resourceContext still has unknown/pending branch/worktree/base/provider/PR fields.",
+      "action": {"entrypoint": "cli", "command": "finish --repo <repo> --id <id>"},
+      "expected": {
+        "result": "rejected",
+        "decisionState": null,
+        "keyMessage": "run finalize-plan before finish"
+      },
+      "invariantsExercised": [7],
+      "notes": "finalize-plan requires a real branch, worktree, base branch/remote, provider, and pull request reference (a 'pending:' sentinel still counts as provisional and is rejected)."
+    },
+    {
+      "id": "SCN-017",
+      "category": "merge_close",
+      "title": "merge confirmation is a genuine external human-authority boundary an Agent cannot self-grant",
+      "sourceType": "observed",
+      "citation": "gh pr merge 675 --repo xinglun/ai-cockpit (2026-09-08) -> \"GraphQL: <account> does not have the correct permissions to execute MergePullRequest\"",
+      "precondition": "A reviewed PR exists and is mergeable, but the acting identity lacks repository merge/write permission.",
+      "action": {"entrypoint": "cli", "command": "gh pr merge <n> --repo <owner>/<repo>"},
+      "expected": {
+        "result": "rejected",
+        "decisionState": null,
+        "keyMessage": "insufficient permissions to merge"
+      },
+      "invariantsExercised": [1, 9],
+      "notes": "This is not a Runtime governance rule but a platform (GitHub) authorization boundary; the two are different evidence boundaries per how-to-read-cockpit-status.md and must not be conflated. A green Outcome and a mergeable PR are both insufficient without this separate human authority."
+    },
+    {
+      "id": "SCN-018",
+      "category": "merge_close",
+      "title": "merge is not Work Item closure",
+      "sourceType": "documented",
+      "citation": "docs/reference/agent-workflow.md: \"Merge is not Work Item closure. After hosted checks pass, the exact branch and worktree are a separate resource-finalization boundary: finalize-plan -> finalize -> finalize-verify -> close.\"",
+      "precondition": "A Work Item's PR has merged.",
+      "action": {"entrypoint": "cli", "command": "work-item finalize / finalize-verify / close --repo <repo> --id <id>"},
+      "expected": {
+        "result": "additional_steps_required",
+        "decisionState": null,
+        "keyMessage": "close requires finalize-verify to accept a Deleted receipt plus an explicit --human-decision"
+      },
+      "invariantsExercised": [1, 7],
+      "notes": "A Retained finalization receipt is an intermediate observation and never authorizes close on its own."
+    },
+    {
+      "id": "SCN-019",
+      "category": "merge_close",
+      "title": "a documentation/registration gap discovered pre-merge is fixed by a fast-follow Work Item, not by rewriting pushed history",
+      "sourceType": "observed",
+      "citation": "This repository's own precedent: WI-675 -> WI-676 (docs/work-items/WI-676-wi675-doc-repair.md); reapplied for WI-679 -> WI-680 during this delivery (2026-09-08) after the reference-parity row-precedes-evidence git-history check could not be satisfied without a force-push.",
+      "precondition": "A required documentation registration (reference-parity ledger row) was omitted before archive, and the archive/evidence commits are already pushed and part of an open PR.",
+      "action": {"entrypoint": "cli", "command": "(no single command; a process decision)"},
+      "expected": {
+        "result": "deferred_to_successor",
+        "decisionState": null,
+        "keyMessage": "preserve the immutable delivery; open a narrowly scoped follow-up Work Item after merge/close rather than rewriting history"
+      },
+      "invariantsExercised": [4, 7],
+      "notes": "Rewriting already-pushed history is treated as a higher-cost, lower-default action than a small, honest, separately-tracked successor Work Item."
+    },
+    {
+      "id": "SCN-020",
+      "category": "historical_query",
+      "title": "a superseded predecessor is shown with a yellow historical marker, never a current pass or fail",
+      "sourceType": "documented",
+      "citation": "docs/reference/outcome-report.md: \"When a predecessor has an explicit supersede recovery decision, Outcome includes historicalStatus: \\\"superseded\\\", and uses a yellow historical marker.\"",
+      "precondition": "A predecessor Work Item was superseded by an explicitly bound successor.",
+      "action": {"entrypoint": "cli", "command": "work-item outcome --repo <repo> --id <predecessor-id>"},
+      "expected": {
+        "result": "yellow_historical",
+        "decisionState": "yellow",
+        "keyMessage": "historicalStatus: superseded"
+      },
+      "invariantsExercised": [4],
+      "notes": "Follow-up ownership belongs to the successor Work Item, not the superseded one."
+    },
+    {
+      "id": "SCN-021",
+      "category": "handoff",
+      "title": "a new Agent or session must reconstruct state from the Runtime alone, never from conversation memory",
+      "sourceType": "documented",
+      "citation": "docs/reference/collaboration-language-contract.md, node 7 (Agent or session hand-off), synthesizing agent-workflow.md and outcome-report.md",
+      "precondition": "A different Agent, model, or conversation resumes the same repository/Work Item with no transcript access.",
+      "action": {"entrypoint": "cli_or_mcp", "command": "status --repo <repo>; work-item outcome --repo <repo> --id <id>"},
+      "expected": {
+        "result": "state_fully_recoverable",
+        "decisionState": null,
+        "keyMessage": "goal/scope, done/pending, valid evidence and scope, recorded authorizations and open decisions, and blocking reason are all derivable from Contract/Summary/Outcome/decision records"
+      },
+      "invariantsExercised": [8],
+      "notes": "Any fact that cannot be recovered this way must be surfaced as an explicit gap, not inferred from the new Agent's own habits or a specific model's phrasing."
+    },
+    {
+      "id": "SCN-022",
+      "category": "handoff",
+      "title": "one Agent's incomplete predecessor closure structurally blocks a different Agent's fresh start on the same repository",
+      "sourceType": "observed",
+      "citation": "Same event as SCN-003, reframed for the multi-agent angle: while a 'codex' agent's WI-674 remained unclosed on the synchronized default branch, a separate 'claude' session's attempt to start WI-680 from that same default branch was rejected by the Runtime, not by any explicit coordination between the two agents.",
+      "precondition": "Two different Agents/sessions operate against the same repository's default branch at different times.",
+      "action": {"entrypoint": "cli", "command": "work-item new --repo <repo> --id <new-id> --mode <mode>"},
+      "expected": {
+        "result": "rejected_until_predecessor_closed",
+        "decisionState": null,
+        "keyMessage": "archived Work Items pending close: <predecessor-id>"
+      },
+      "invariantsExercised": [8],
+      "notes": "The Runtime enforces this boundary itself; no Agent needs to (or should) manually track what other Agents are doing to stay safe here. The safe response observed in this session was to wait, not to intervene in the other Agent's in-flight worktree."
+    },
+    {
+      "id": "SCN-023",
+      "category": "i18n_entrypoint",
+      "title": "CLI and MCP work_item_outcome return the same localized handoff content",
+      "sourceType": "documented",
+      "citation": "docs/reference/outcome-report.md, 'MCP human handoff' section: \"Its text content is the same localized handoff rendered by the CLI, not a raw JSON dump.\"",
+      "precondition": "The same Work Item's Outcome is requested once via CLI and once via the repository-bound MCP work_item_outcome tool.",
+      "action": {"entrypoint": "both", "command": "work-item outcome --repo <repo> --id <id>  |  MCP work_item_outcome({workItemId})"},
+      "expected": {
+        "result": "consistent",
+        "decisionState": null,
+        "keyMessage": "same field order, marker, and status semantics; structuredContent.outcome remains the stable OutcomeV2 object"
+      },
+      "invariantsExercised": [5],
+      "notes": "No automated cross-entry-point equality check exists yet in this repository as of WI-679/680; this scenario is documented, not verified by a test harness."
+    },
+    {
+      "id": "SCN-024",
+      "category": "i18n_entrypoint",
+      "title": "changing the presentation language does not change facts, authorization scope, or consequences",
+      "sourceType": "documented",
+      "citation": "docs/reference/multilingual-semantic-parity.md: \"JSON field names and enum values remain stable... Contract values remain in their authoring language.\"",
+      "precondition": "AI_COCKPIT_LANGUAGE (or an MCP language parameter) is switched between en/zh/ja for the same Work Item.",
+      "action": {"entrypoint": "both", "command": "work-item outcome --repo <repo> --id <id> --language <en|zh|ja>"},
+      "expected": {
+        "result": "consistent",
+        "decisionState": null,
+        "keyMessage": "labels/headings localize; decision-state colors, evidence, and Contract-owned acceptance/intent/scope text do not"
+      },
+      "invariantsExercised": [6],
+      "notes": "Contract source text is never machine-translated; only Runtime-generated presentation text is localized."
+    }
+  ]
+}

@@ -27,6 +27,7 @@ capabilityClaims:
 - [排查与恢复](troubleshooting.zh-CN.md)——停止状态和安全下一步。
 - [面向人的 Outcome](outcome-report.zh-CN.md)——可读结果、风险、证据和下一步。
 - [协作语言契约](collaboration-language-contract.zh-CN.md)——将交流节点(开始、授权、验证、阻断/恢复、合并、Outcome、交接)映射到既有 Runtime 事实的横向索引。
+- [协作场景矩阵](collaboration-scenario-matrix.zh-CN.md)——由状态与转换生成的协作场景矩阵,明确区分实际观测、既有文档与人工构造的案例。
 - [治理配置级别](governance-profiles.zh-CN.md)——与风险相称的 Light/Standard/Strict 路由及 assurance 边界。
 - [如何阅读 Cockpit 状态](how-to-read-cockpit-status.zh-CN.md)——面向人的颜色、证据和下一步阅读顺序。
 - [Agent 工作流与评审边界](agent-workflow.zh-CN.md)——Work Item、Outcome、发布与安全规则的本工程适配。

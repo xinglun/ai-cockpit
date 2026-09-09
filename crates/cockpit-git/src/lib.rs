@@ -9,11 +9,11 @@ use thiserror::Error;
 
 pub const MAX_CHANGE_TEXT_BYTES: usize = 262_144;
 
-/// A bounded, repository-local content identity cache.  It hashes only
-/// declared relative files and derives a deterministic Merkle root from their
-/// path/digest pairs.  Metadata is used solely as a cache hint; an unreadable
-/// or ambiguous path is an error rather than an authorization to reuse a
-/// stale digest.
+/// A bounded, repository-local content identity cache. It hashes only declared
+/// relative files and derives a deterministic Merkle root from their
+/// path/digest pairs. Metadata is checked around every read, but never proves
+/// that a prior digest is still current; an unreadable, ambiguous, or changing
+/// path is an error rather than an authorization to reuse a stale digest.
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct IncrementalMerkle {
     entries: BTreeMap<String, ContentIdentityEntry>,
@@ -53,6 +53,8 @@ pub enum ContentIdentityError {
         path: PathBuf,
         source: std::io::Error,
     },
+    #[error("content identity path changed while being read: {0}")]
+    ChangedDuringRead(PathBuf),
     #[error("content identity timestamp is before Unix epoch: {0}")]
     InvalidTimestamp(PathBuf),
 }
@@ -80,7 +82,7 @@ impl IncrementalMerkle {
         }
         let mut files_read = 0;
         let mut files_hashed = 0;
-        let mut files_reused = 0;
+        let files_reused = 0;
         for relative in normalized {
             let path = root.join(&relative);
             let metadata = match std::fs::symlink_metadata(&path) {
@@ -96,33 +98,15 @@ impl IncrementalMerkle {
             if !metadata.is_file() {
                 return Err(ContentIdentityError::NotAFile(path));
             }
-            let modified_ns = metadata
-                .modified()
-                .map_err(|source| ContentIdentityError::Metadata {
-                    path: path.clone(),
-                    source,
-                })?
-                .duration_since(UNIX_EPOCH)
-                .map_err(|_| ContentIdentityError::InvalidTimestamp(path.clone()))?
-                .as_nanos();
-            let unchanged = self.entries.get(&relative).is_some_and(|entry| {
-                entry.size == metadata.len() && entry.modified_ns == modified_ns
-            });
-            if unchanged {
-                files_reused += 1;
-                continue;
-            }
-            let bytes = std::fs::read(&path).map_err(|source| ContentIdentityError::Read {
-                path: path.clone(),
-                source,
-            })?;
+            let before = file_observation(&path, metadata)?;
+            let (bytes, after) = read_stable_file(&path, before)?;
             files_read += 1;
             files_hashed += 1;
             self.entries.insert(
                 relative,
                 ContentIdentityEntry {
-                    size: metadata.len(),
-                    modified_ns,
+                    size: after.size,
+                    modified_ns: after.modified_ns,
                     digest: digest(&bytes),
                 },
             );
@@ -138,6 +122,90 @@ impl IncrementalMerkle {
 
     pub fn root_digest(&self) -> Option<&str> {
         (!self.root_digest.is_empty()).then_some(self.root_digest.as_str())
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct FileObservation {
+    size: u64,
+    modified_ns: u128,
+}
+
+fn file_observation(
+    path: &Path,
+    metadata: std::fs::Metadata,
+) -> Result<FileObservation, ContentIdentityError> {
+    let modified_ns = metadata
+        .modified()
+        .map_err(|source| ContentIdentityError::Metadata {
+            path: path.to_path_buf(),
+            source,
+        })?
+        .duration_since(UNIX_EPOCH)
+        .map_err(|_| ContentIdentityError::InvalidTimestamp(path.to_path_buf()))?
+        .as_nanos();
+    Ok(FileObservation {
+        size: metadata.len(),
+        modified_ns,
+    })
+}
+
+fn read_stable_file(
+    path: &Path,
+    before: FileObservation,
+) -> Result<(Vec<u8>, FileObservation), ContentIdentityError> {
+    read_stable_file_with(path, before, |path| std::fs::read(path))
+}
+
+fn read_stable_file_with<F>(
+    path: &Path,
+    before: FileObservation,
+    read: F,
+) -> Result<(Vec<u8>, FileObservation), ContentIdentityError>
+where
+    F: FnOnce(&Path) -> std::io::Result<Vec<u8>>,
+{
+    let bytes = read(path).map_err(|source| ContentIdentityError::Read {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    let after_metadata = std::fs::symlink_metadata(path)
+        .map_err(|_| ContentIdentityError::ChangedDuringRead(path.to_path_buf()))?;
+    if !after_metadata.is_file() {
+        return Err(ContentIdentityError::ChangedDuringRead(path.to_path_buf()));
+    }
+    let after = file_observation(path, after_metadata)
+        .map_err(|_| ContentIdentityError::ChangedDuringRead(path.to_path_buf()))?;
+    if before != after {
+        return Err(ContentIdentityError::ChangedDuringRead(path.to_path_buf()));
+    }
+    Ok((bytes, after))
+}
+
+#[cfg(test)]
+mod incremental_merkle_tests {
+    use super::{ContentIdentityError, file_observation, read_stable_file_with};
+    use std::fs;
+
+    #[test]
+    fn stable_read_rejects_detectable_change_during_read() {
+        let root = tempfile::tempdir().expect("tempdir");
+        let path = root.path().join("changing.txt");
+        fs::write(&path, "before\n").expect("initial content");
+        let before = file_observation(
+            &path,
+            fs::symlink_metadata(&path).expect("initial metadata"),
+        )
+        .expect("initial observation");
+
+        let result = read_stable_file_with(&path, before, |path| {
+            fs::write(path, "after\n").expect("change during read");
+            Ok(b"before\n".to_vec())
+        });
+        assert!(matches!(
+            result,
+            Err(ContentIdentityError::ChangedDuringRead(changed)) if changed == path
+        ));
     }
 }
 

@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T00:00:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-712-wi702-finalization-recovery.verification.json",
+    ".ai/work-items/active/WI-712-wi702-finalization-recovery.contract.json",
+    "docs/reference/pending-parity-registry.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:022a11e2285aa5c381705919f147feb822d0c3dbf124976a0aca606f12fad256",
+  "predecessorSummaryDigest": "sha256:5935edb417c3042db2640f2a67962b5c165cb4ae9b629370a9a06e5bd56b094a",
+  "predecessorWorkItemId": "WI-712-wi702-finalization-recovery",
+  "reason": "Retry WI-712 after the in-scope Contract and parity amendment invalidated the prior verification binding; preserve the prior evidence and record fresh verification against the current snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, fresh verification, then continue finish, archive, successor finalization, exact cleanup, close, and documentation promotion.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-712-wi702-finalization-recovery"
+}

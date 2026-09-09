@@ -1,0 +1,69 @@
+{
+  "acceptanceCriteria": [
+    "A1: The six in-scope closed-document/parity projections reflect WI-712 state=closed and preserve WI-702 recovery truth without changing lifecycle facts.",
+    "A2: documentation_acceptance.sh, parity_status_check.sh, governance integrity, and promote_closed_work_item --check-all pass against the same repository snapshot.",
+    "A3: The dedicated PR is reviewed and merged with hosted checks, exact cleanup, finalization, close, and no production behavior or performance claim."
+  ],
+  "authority": "authorized",
+  "baseRevision": "94fec9e43ff0c046a236a100d881b032124e973e",
+  "createdAt": "2026-09-08T23:24:13Z",
+  "goal": "Make the closed-Work-Item promotion and repository governance checks pass for WI-712 by updating the six required closed-document/parity projections, registering this documentation-promotion Work Item in the required tri-language pre-archive projections, and recording independent verification.",
+  "intent": "Promote the already closed WI-712 recovery Work Item and its tri-language parity projections, while maintaining the active WI-714 documentation boundary required by repository governance, without changing governance facts or production behavior.",
+  "mode": "implementation",
+  "outOfScope": [
+    "WI-712 archived Contract",
+    " Summary",
+    " Outcome",
+    " Events",
+    " verification",
+    " finalization",
+    " and close bytes",
+    "all production code",
+    " benchmarks",
+    " governance Runtime implementation",
+    " and unrelated docs",
+    "other agents Work Items",
+    " branches",
+    " worktrees",
+    " PRs",
+    " and global configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c6b1dad134df2ede1164df2fda50ba137b0bfa3ee194d6a6e3b24bd011feb9bd",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_parity",
+    "resource_finalization"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-714-wi712-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/706",
+    "worktree": "/private/tmp/ai-cockpit-wi-714-wi712-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-712-wi702-finalization-recovery.md",
+    "docs/work-items/WI-712-wi702-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-712-wi702-finalization-recovery.ja.md",
+    "docs/work-items/WI-714-wi712-doc-promotion.md",
+    "docs/work-items/WI-714-wi712-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-714-wi712-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/active/WI-714-wi712-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-714-wi712-doc-promotion.summary.json",
+    ".ai/evidence/WI-714-wi712-doc-promotion.verification.json",
+    ".ai/decisions/WI-714-wi712-doc-promotion.finalize.json",
+    ".ai/decisions/WI-714-wi712-doc-promotion.close.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-714-wi712-doc-promotion"
+}

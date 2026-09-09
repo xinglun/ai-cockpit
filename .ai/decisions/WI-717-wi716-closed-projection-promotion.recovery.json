@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T02:07:14Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/710",
+    ".ai/evidence/WI-717-wi716-closed-projection-promotion.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:becc8a5e3e05e997cf9c36ee4e6b5c3c73cbb86881f7ac7707cb8e1a0ea30da3",
+  "predecessorEventsDigest": "sha256:197f7570b3a5b335de34469611c3155bbdf092c553206c2830d4ada45a05454e",
+  "predecessorOutcomeDigest": "sha256:0ba74940fb079936569ffb415570a1446a7f45a1b5e23205414f38e3866b0c44",
+  "predecessorSummaryDigest": "sha256:b8723f7f2c92fa018d5a9b4d92463b80c9635c298b326291f44d62d853dc4a09",
+  "predecessorWorkItemId": "WI-717-wi716-closed-projection-promotion",
+  "reason": "Runtime correctly rejected finish because WI-717 had not yet bound its real PR through finalize-plan. Retry the same Work Item after binding PR #710, then refresh verification and complete the normal lifecycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run finalize-plan before a fresh preflight and verification; then finish, archive, finalize, finalize-verify, and close WI-717.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-717-wi716-closed-projection-promotion"
+}

@@ -1,0 +1,175 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ca4d59d796278d1aedc08fec303d6f7d4c7ed00e15351729e5e62cda39338461",
+      "workItemId": "WI-715-wi713-p0b-redelivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-714-wi713-current-base-revalidation.recovery.3efe3143da8d84cb32db0877de59ee702b12034925d300b895f5449cb756d676.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-714-wi713-current-base-revalidation.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-715-wi713-p0b-redelivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-716-wi715-governance-scope-recovery.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via explicit-user-authorization at 2026-09-09T01:53:59Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-715-wi713-p0b-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改变机器契约、判定规则、退出码、授权语义或历史证据的前提下，交付共享的确定性四段式摘要和明确的完整报告入口。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-715-wi713-p0b-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-715-wi713-p0b-redelivery"
+  },
+  "finalReportDigest": "sha256:47654a8587e597dba8de57dddb773e31bd5c29172bd214ad2e7e769bc012f1bf",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-09T01:53:59Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-716-wi715-governance-scope-recovery.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:immutable-history-and-successor-recovery"
+    ],
+    "reason": "Close WI-715 as immutable historical evidence superseded by the completed and closed WI-716 successor; preserve all WI-715 bytes.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-09T01:54:05Z",
+  "workItemId": "WI-715-wi713-p0b-redelivery"
+}

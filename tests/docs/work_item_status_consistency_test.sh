@@ -58,6 +58,70 @@ done
 
 python3 "$checker" --repo "$fixture"
 
+# Distinct Work Items may share a numeric prefix without being a recovery
+# alias.  Full Work Item ids in parity rows must remain independently
+# addressable in the documentation status projection.
+full_id_fixture="$tmp/full-id-parity"
+cp -R "$fixture" "$full_id_fixture"
+python3 - "$full_id_fixture" "$checker" <<'PY'
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+checker_path = Path(sys.argv[2])
+repository_id = 'sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+first = 'WI-999-status-drift-fixture'
+second = 'WI-999-independent-recovery'
+archive = root / '.ai/work-items/archive'
+decisions = root / '.ai/decisions'
+for work_item in (first, second):
+    (archive / f'{work_item}.contract.json').write_text(
+        json.dumps({'workItemId': work_item, 'repositoryId': repository_id}) + '\n',
+        encoding='utf-8',
+    )
+    (decisions / f'{work_item}.recovery.json').write_text(
+        json.dumps({
+            'schemaVersion': 1,
+            'workItemId': work_item,
+            'predecessorWorkItemId': work_item,
+            'repositoryId': repository_id,
+            'decision': 'successor',
+            'successorWorkItemId': f'{work_item}-successor',
+        }) + '\n',
+        encoding='utf-8',
+    )
+suffixes = ('', '.zh-CN', '.ja')
+for suffix in suffixes:
+    source = root / 'docs/work-items' / f'{first}{suffix}.md'
+    text = source.read_text(encoding='utf-8').replace(
+        f'workItemId: {first}', f'workItemId: {second}'
+    )
+    (root / 'docs/work-items' / f'{second}{suffix}.md').write_text(
+        text, encoding='utf-8'
+    )
+for suffix, recovered in (('', 'Recovered'), ('.zh-CN', '已恢复'), ('.ja', 'Recovered')):
+    parity = root / 'docs/reference' / f'reference-parity{suffix}.md'
+    lines = parity.read_text(encoding='utf-8').splitlines()
+    lines[0] = lines[0].replace(f'WI-999 —', f'{first} —')
+    lines.append(
+        f'| {second} — independent recovery | {recovered} | `.ai/decisions/{second}.recovery.json` |'
+    )
+    parity.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+
+spec = importlib.util.spec_from_file_location(
+    'status_consistency', checker_path
+)
+module = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(module)
+rows, errors = module.parity_statuses(root)
+assert not errors, errors
+assert set(rows) >= {first, second}, rows
+PY
+python3 "$checker" --repo "$full_id_fixture"
+
 for document in "$fixture"/docs/work-items/$work_item*.md; do
   perl -0pi -e 's/status: recovered/status: historical/' "$document"
 done

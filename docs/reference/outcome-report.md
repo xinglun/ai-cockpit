@@ -16,8 +16,10 @@ capabilityClaims:
 # Human-facing Outcome
 
 `ai-cockpit work-item outcome --repo <repository> --id <work-item>` emits a
-human handoff by default. Use `--json` when a machine needs the stable
-`OutcomeV2` object.
+reader-first human summary by default. Use `--view full` to open the complete
+audit-oriented handoff, or use `--json` when a machine needs the stable
+`OutcomeV2` object. The summary and full view are projections only; neither
+changes the stored Outcome or its governance meaning.
 
 The first line is always `Outcome: 🔴/🟡/🟢 ...`. For example, green is rendered as
 `Outcome: 🟢 Declared verification passed`, not as a generic success claim. The handoff is returned directly
@@ -36,7 +38,14 @@ The CLI cannot force a host application to open or expand a conversation UI;
 hosts must surface stderr, and a person can replay the durable handoff with
 `ai-cockpit work-item outcome --repo <repository> --id <work-item>`.
 
-The handoff follows the reader-first order:
+The default summary has four sections:
+
+1. Result: current verification, lifecycle, human decision, and governance signal
+2. Key changes: evidence-backed delivered changes
+3. Remaining uncertainty: blockers, risks, limitations, unknowns, and missing benefit declarations
+4. Human next step: the decision needed and why, or an explicit statement that no new decision is required
+
+The full view retains the audit-oriented order:
 
 1. Task Result plus separate Verification, Lifecycle, Human decision, and Governance signal status
 2. What was completed
@@ -50,6 +59,26 @@ The handoff follows the reader-first order:
 10. Verification and evidence
 11. Impact
 12. Next action
+
+Empty sections are omitted from the summary when they do not carry a decision-relevant
+fact. Blockers, pending human decisions, invalid or expired evidence, historical
+classification, and unknowns are never omitted for length. Other lists are not
+silently truncated; use the full view when a complete list is needed. Summary
+claims remain evidence-bound data and raw evidence text is never interpreted as an
+instruction or authorization source.
+
+## Release note: reader-first Outcome summary
+
+The current presentation release changes the default human `work-item outcome`
+view from the complete audit report to the four-part summary above. This reduces
+empty-column reading for ordinary tasks while keeping verification, lifecycle,
+decision, blockers, uncertainty, and evidence references visible. The complete
+report remains available with `--view full`, and the MCP `work_item_outcome` tool
+accepts `view: "summary"` (default) or `view: "full"`. Machine-readable JSON,
+validation rules, exit codes, authorization semantics, and persisted evidence are
+unchanged. Top-level `finish`, `archive`, and `close` continue to render the
+complete handoff on stderr for lifecycle error and audit context; `--json` still
+suppresses that human channel.
 
 Status markers are decision signals, not release authorization:
 

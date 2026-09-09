@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "A1: docs/reference/collaboration-scenario-matrix.json contains a structured scenario table covering lifecycle transition, evidence, authorization, verification, merge/close, historical query, Agent/session hand-off, and multi-language/entry-point categories, each entry stating sourceType, citation, precondition, action, expected result, and exercised invariant(s).",
+    "A2: at least one third of scenarios are sourceType=observed, citing an exact command/output produced during this repository's own real Runtime use in this delivery, not fabricated.",
+    "A3: the tri-language markdown companion accurately summarizes the JSON without contradicting it, and states its own verification boundary (docs-only, not an automated test harness).",
+    "A4: docs/reference/README.md(+zh-CN/ja) gain exactly one new index entry each for the scenario matrix.",
+    "A5: docs/reference/reference-parity.md(+zh-CN/ja) register both WI-679 and WI-680 with the pre-archive 'In progress -> Implemented after verified close' status, each row's first appearance preceding this Work Item's own verification-evidence commit in git history.",
+    "A6: bash tests/docs/documentation_acceptance.sh passes for all new and modified files."
+  ],
+  "createdAt": "2026-09-08T14:16:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2a72cc64aca6351271b1c794a6491c4df89452269e4d373f6f07a19d90e54969",
+  "evidenceRefs": [
+    ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f2938f93d80f48acfbb5814d301d461ff3955ad07e4f79e56d9c89d25e0497b",
+      "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json"
+          ],
+          "inference": false,
+          "text": "A reader can see, for each required scenario category, a concrete real-or-documented example of what the Runtime actually does, with clearly marked source type (observed/documented/designed), so scenario coverage is checkable rather than aspirational."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+  },
+  "taskReportDigest": "sha256:4894a79f4a56d2973d1c7ab2b2ae754a74a565bcd9c0ec338b7fc11303d2e6af",
+  "taskReportMarkdownDigest": "sha256:8e70a7a4f3c6468d9e570b7a29f31f45255d35997d4b4f374d7d2a542008695e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+}

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-08T22:10:42Z",
+  "files": {
+    "contractDigest": "sha256:a5ed7262b7b99bea1c53895c56e54b09b4595e152f706d82f01d5d4bf40ac34b",
+    "contractPath": ".ai/work-items/archive/WI-703-wi669-current-base-revalidation.contract.json",
+    "eventsDigest": "sha256:3d81b44d6501a4752c769ed7516c437d388b1d7c0af6447c1ec8f55153c47c7f",
+    "eventsPath": ".ai/work-items/archive/WI-703-wi669-current-base-revalidation.events.jsonl",
+    "outcomeDigest": "sha256:77eea0f86b026a9b584dfb71ff04c79524b79aca23dfae4b48e80d9a4316f964",
+    "outcomePath": ".ai/work-items/archive/WI-703-wi669-current-base-revalidation.outcome.json",
+    "summaryDigest": "sha256:5aa9a3636b27fe1aad302921be3948acce258ed438a283ec8f3c928b2180811c",
+    "summaryPath": ".ai/work-items/archive/WI-703-wi669-current-base-revalidation.summary.json",
+    "taskReportDigest": "sha256:b0a698f83aa02ed6181ba32fc8269da3aa9b7292b886ebbb55117e866c4dd010",
+    "taskReportMarkdownDigest": "sha256:bfaa97285888ae571b6ee1483518939bca066ae6d058da19fa122c95adf744fb",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-703-wi669-current-base-revalidation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-703-wi669-current-base-revalidation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-703-wi669-current-base-revalidation"
+}
