@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-718 — WI-717 Work Item documentation projection"
 description: "Closed WI-717 に不足している三言語 documentation projection を補完します。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-718-wi717-doc-projection
 lastVerifiedBy: WI-718-wi717-doc-projection
+terminalArchive: .ai/work-items/archive/WI-718-wi717-doc-projection.contract.json
+terminalVerification: .ai/evidence/WI-718-wi717-doc-projection.verification.json
+terminalFinalization: .ai/decisions/WI-718-wi717-doc-projection.finalize.json
+terminalDecision: .ai/decisions/WI-718-wi717-doc-projection.close.json
 ---
 
 [English](WI-718-wi717-doc-projection.md) · [简体中文](WI-718-wi717-doc-projection.zh-CN.md)

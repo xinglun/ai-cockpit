@@ -4,9 +4,13 @@ title: "WI-740 — P1 collaboration invariant coverage mapping (redelivery)"
 description: "Redelivers WI-681's invariant coverage mapping after a multi-agent WI number collision, correcting invariant 8's assessment and reflecting invariants 5 and 9 being independently closed."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-740-p1-invariant-coverage-mapping
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-740-p1-invariant-coverage-mapping
+terminalArchive: .ai/work-items/archive/WI-740-p1-invariant-coverage-mapping.contract.json
+terminalVerification: .ai/evidence/WI-740-p1-invariant-coverage-mapping.verification.json
+terminalFinalization: .ai/decisions/WI-740-p1-invariant-coverage-mapping.finalize.json
+terminalDecision: .ai/decisions/WI-740-p1-invariant-coverage-mapping.close.json
 ---
 
 [简体中文](WI-740-p1-invariant-coverage-mapping.zh-CN.md) · [日本語](WI-740-p1-invariant-coverage-mapping.ja.md)

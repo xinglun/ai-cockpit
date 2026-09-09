@@ -4,9 +4,13 @@ title: "WI-740 — P1 協作不変量カバレッジ対応付け(再送出)"
 description: "複数エージェントのWI番号衝突後にWI-681の不変量カバレッジ対応付けを再送出し、不変量8の判定を修正し、不変量5・9が既に独立して解消済みであることを反映する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-740-p1-invariant-coverage-mapping
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-740-p1-invariant-coverage-mapping
+terminalArchive: .ai/work-items/archive/WI-740-p1-invariant-coverage-mapping.contract.json
+terminalVerification: .ai/evidence/WI-740-p1-invariant-coverage-mapping.verification.json
+terminalFinalization: .ai/decisions/WI-740-p1-invariant-coverage-mapping.finalize.json
+terminalDecision: .ai/decisions/WI-740-p1-invariant-coverage-mapping.close.json
 ---
 
 [English](WI-740-p1-invariant-coverage-mapping.md) · [简体中文](WI-740-p1-invariant-coverage-mapping.zh-CN.md)

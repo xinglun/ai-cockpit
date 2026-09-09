@@ -4,9 +4,13 @@ title: "WI-740——P1 协作不变量覆盖映射(重新交付)"
 description: "在多代理WI编号冲突后重新交付WI-681的不变量覆盖映射，修正不变量8的判断，并反映不变量5与9已被独立解决的现状。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-740-p1-invariant-coverage-mapping
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-740-p1-invariant-coverage-mapping
+terminalArchive: .ai/work-items/archive/WI-740-p1-invariant-coverage-mapping.contract.json
+terminalVerification: .ai/evidence/WI-740-p1-invariant-coverage-mapping.verification.json
+terminalFinalization: .ai/decisions/WI-740-p1-invariant-coverage-mapping.finalize.json
+terminalDecision: .ai/decisions/WI-740-p1-invariant-coverage-mapping.close.json
 ---
 
 [English](WI-740-p1-invariant-coverage-mapping.md) · [日本語](WI-740-p1-invariant-coverage-mapping.ja.md)
