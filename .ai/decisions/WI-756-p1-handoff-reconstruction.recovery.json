@@ -1,0 +1,26 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T10:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-756-p1-handoff-reconstruction.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:8b9aac6a77e013413c6e1a6d8b023e0396ef55ef9ac9d22db25826bc268ae763",
+  "predecessorEventsDigest": "sha256:476719668fc9fe7111a8a2762563ab5a8a2da1f18a2c8c6049f14ca348132b93",
+  "predecessorOutcomeDigest": "sha256:d47d770bdef2841e1257b600ad8ae5f4b11c8667bc42a3519d2fb8768b5f1c0e",
+  "predecessorSummaryDigest": "sha256:72a3681184bd421649c4f30cf83ca28e87994b5019fc8818e8693d7e08aa0bb2",
+  "predecessorWorkItemId": "WI-756-p1-handoff-reconstruction",
+  "reason": "Current Runtime rejects the historical project profile binding while preserving valid predecessor evidence; revalidate the completed handoff against the current repository through an append-only successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete fresh preflight, checkpoint, verification, finish, archive, finalization, and close for the successor before closing the predecessor.",
+  "runtimeDigest": "sha256:536a155ca6abfd80725b19fb877e96db9626a91c99cddfc320fc7c15502f491b",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-756-p1-handoff-reconstruction-revalidation",
+  "workItemId": "WI-756-p1-handoff-reconstruction"
+}
