@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d9b6074140af5d13a68a2b01376405b8c5eaae94",
+    "name": "codex/wi-745-wi743-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:90b36fbc040b5ac921f2a82ba94b9eeb1bd1dbdda8ef618718491a91aac5253e",
+  "operationId": "github-pr-718-wi745-cleanup-deleted-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bc23abd4da1ab74700b94317d55f9950c30a9bd3",
+    "headRevision": "d9b6074140af5d13a68a2b01376405b8c5eaae94",
+    "mergeCommit": "f25f9b92a951889a85b0497a43d25853e66fb86a",
+    "number": 718,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/718"
+  },
+  "reason": "PR #718 merged; the exact WI-745 branch was removed after WI-746 supersede recovery completed and its dedicated worktree was already absent.",
+  "receiptId": "github-pr-718-wi745-cleanup-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-745-wi743-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/718",
+    "worktree": "/private/tmp/ai-cockpit-wi-745-wi743-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T06:30:11Z",
+  "workItemId": "WI-745-wi743-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-745-wi743-doc-promotion",
+    "headRevision": "d9b6074140af5d13a68a2b01376405b8c5eaae94",
+    "path": "/private/tmp/ai-cockpit-wi-745-wi743-doc-promotion",
+    "worktreeId": "wt-WI-745-wi743-doc-promotion"
+  }
+}
