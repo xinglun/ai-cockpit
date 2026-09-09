@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "Publish the tri-language WI-746 recovery Work Item projection and its three reference-parity rows for this bounded documentation recovery.",
+    "Commit the WI-746 documentation pages and parity rows before recording fresh verification evidence, preserving WI-745 and WI-743 historical records unchanged.",
+    "bash tests/docs/documentation_acceptance.sh, bash tests/docs/parity_status_check.sh, and python3 tests/docs/work_item_status_consistency.py --repo <repository> pass.",
+    "No production code, Runtime behavior, governance rule, historical evidence, or unrelated Work Item changes are introduced."
+  ],
+  "createdAt": "2026-09-09T06:03:00Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:df3746304b72703eeaa65a37b56e08c59e0745e1c725664c852dc87960df1845",
+  "evidenceRefs": [
+    ".ai/evidence/WI-746-wi745-recovery-successor.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-746-wi745-recovery-successor.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-746-wi745-recovery-successor.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5cafabbe8a5dd325198012c7ba9dd4bf62d1f59da1e188f23ed02ab1980602b8",
+      "workItemId": "WI-746-wi745-recovery-successor"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-746-wi745-recovery-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-745-wi743-doc-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-746-wi745-recovery-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-746-wi745-recovery-successor.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-746-wi745-recovery-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-746-wi745-recovery-successor.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-recovery-successor.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-746-wi745-recovery-successor.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-recovery-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-recovery-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-recovery-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-746-wi745-recovery-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver the narrow WI-745 documentation recovery with a provable parity-registration-before-verification boundary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-746-wi745-recovery-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-746-wi745-recovery-successor"
+  },
+  "taskReportDigest": "sha256:7ce3924db9abac505838e2a1443d2eff808a261ee443ee1b94cb08fc4358225b",
+  "taskReportMarkdownDigest": "sha256:20922ccfdff6b9d9e94ba78dadce99a15e69f5f0a3993c582b950d3cd0766c06",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-746-wi745-recovery-successor.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-746-wi745-recovery-successor"
+}

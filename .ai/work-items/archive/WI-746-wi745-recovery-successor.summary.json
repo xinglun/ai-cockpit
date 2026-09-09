@@ -1,26 +1,32 @@
 {
   "changedPaths": [
     ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json",
-    ".ai/work-items/active/WI-746-wi745-recovery-successor.contract.json",
-    ".ai/work-items/active/WI-746-wi745-recovery-successor.summary.json"
+    ".ai/work-items/archive/WI-746-wi745-recovery-successor.contract.json",
+    ".ai/work-items/archive/WI-746-wi745-recovery-successor.summary.json"
   ],
   "checkpointAt": "2026-09-09T05:47:41Z",
-  "checkpointContractDigest": "sha256:2643667b6fb6f76552079738c93ef8507b8b5b69a5b827054f89bb269f2f2efd",
+  "checkpointContractDigest": "sha256:0c6de498c23c1b831e8b66ee9faf103803cdc2974a8d431eabe96cbf6fe7ec7b",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
+  "checkpointRepositorySnapshotDigest": "sha256:5cafabbe8a5dd325198012c7ba9dd4bf62d1f59da1e188f23ed02ab1980602b8",
   "createdAt": "2026-09-09T05:46:51Z",
   "mode": "docs",
   "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
   "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
-  "preflightAt": "2026-09-09T05:49:30Z",
+  "preflightAt": "2026-09-09T06:02:26Z",
   "preflightContractDigest": "sha256:0c6de498c23c1b831e8b66ee9faf103803cdc2974a8d431eabe96cbf6fe7ec7b",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:5cafabbe8a5dd325198012c7ba9dd4bf62d1f59da1e188f23ed02ab1980602b8",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T05:47:41Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T06:03:00Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-746-wi745-recovery-successor"
 }
