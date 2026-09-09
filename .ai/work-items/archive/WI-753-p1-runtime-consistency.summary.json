@@ -1,0 +1,112 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "displayed_option_state_and_runtime_transition_stay_consistent_through_resume",
+          "path": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+          "type": "test",
+          "verification": "cargo test -p cockpit-cli --test collaboration_consistency"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "interrupted verify and resumed verify",
+          "path": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+          "type": "test",
+          "verification": "cargo test -p cockpit-cli --test collaboration_consistency"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "TEST DATA ONLY synthetic decision fixture",
+          "path": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+          "type": "test",
+          "verification": "cargo test -p cockpit-cli --test collaboration_consistency"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "SCN-025",
+          "path": "docs/reference/collaboration-scenario-matrix.json",
+          "type": "documentation",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-09-09T07:30:08Z",
+  "checkpointContractDigest": "sha256:c3f08a81558c12a7dd812c98a154a89580f58dc0a9a2533999074ced3213d208",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:17928df20a62890e9a354ee65026aa7e96f601140a3c0a16dda4b68d0a5abaa9",
+  "createdAt": "2026-09-09T07:28:54Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-cli/tests/collaboration_consistency.rs",
+      "docs/reference/collaboration-scenario-matrix.json",
+      "docs/reference/collaboration-invariant-coverage.md"
+    ],
+    "reason": "The controlled-repository test and tri-language projections implement the bounded Section IV intent without external participant validation or production behavior changes.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T07:54:04Z",
+  "preflightContractDigest": "sha256:c3f08a81558c12a7dd812c98a154a89580f58dc0a9a2533999074ced3213d208",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:17928df20a62890e9a354ee65026aa7e96f601140a3c0a16dda4b68d0a5abaa9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/collaboration_consistency.rs"
+      ],
+      "expected": "the test-data selection confirm_review is visible in the preflight request and checkpoint accepts only after the matching fixture receipt",
+      "required": true,
+      "scenario": "displayed preflight option and checkpoint behavior",
+      "status": "verified",
+      "verificationPlan": "run collaboration_consistency test and retain its verification receipt"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/collaboration_consistency.rs"
+      ],
+      "expected": "an interrupted verification does not publish a passing evidence receipt or advance the Work Item",
+      "required": true,
+      "scenario": "verification process interruption",
+      "status": "verified",
+      "verificationPlan": "terminate the controlled verification subprocess, inspect status/outcome, and retain the test result"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/collaboration_consistency.rs"
+      ],
+      "expected": "a fresh retry after the interruption publishes current evidence and the displayed Runtime state advances accordingly",
+      "required": true,
+      "scenario": "resume after verification interruption",
+      "status": "verified",
+      "verificationPlan": "rerun the controlled verification, inspect status/outcome, and retain the test result"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T07:54:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-753-p1-runtime-consistency"
+}

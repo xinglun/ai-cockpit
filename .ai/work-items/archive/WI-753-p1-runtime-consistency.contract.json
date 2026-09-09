@@ -1,0 +1,88 @@
+{
+  "acceptanceCriteria": [
+    "A1: the controlled-repository test proves the displayed preflight state, explicitly test-data-selected option, and actual checkpoint transition agree.",
+    "A2: the test proves an interrupted verification does not create a false pass and a fresh retry/resume produces current evidence and the corresponding Runtime state.",
+    "A3: the test identifies all simulated human decisions as test data and does not write a real authorization record outside the temporary fixture.",
+    "A4: tri-language contract, scenario matrix, invariant coverage, README, Work Item, and reference-parity projections describe the new evidence without claiming external participant validation."
+  ],
+  "authority": "authorized",
+  "baseRevision": "08de2fc2aa7b9530bd1d7764475152689c4851d7",
+  "createdAt": "2026-09-09T07:28:54Z",
+  "goal": "Provide executable evidence that state/option/behavior remain aligned without external participants or production behavior changes.",
+  "intent": "Close the collaboration-language section IV gap with a controlled-repository consistency check that compares displayed state, a test-data-selected option, and actual Runtime behavior across interruption and resume.",
+  "mode": "implementation",
+  "outOfScope": [
+    "external participant recruitment/interviews/evaluation",
+    "P2 onboarding and contribution-barrier track",
+    "production Runtime behavior and Contract/Outcome schema changes",
+    "new external authorization records; simulated human decisions remain test data"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:29ed74e0a6c7238ca00ba1c05ca91b8941960c9e072709940a1d1300699a1480",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-753-p1-runtime-consistency",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/734",
+    "worktree": "/private/tmp/ai-cockpit-wi-753-runtime-consistency"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "the test-data selection confirm_review is visible in the preflight request and checkpoint accepts only after the matching fixture receipt",
+      "required": true,
+      "scenario": "displayed preflight option and checkpoint behavior",
+      "status": "unverified",
+      "verificationPlan": "run collaboration_consistency test and retain its verification receipt"
+    },
+    {
+      "evidence": [],
+      "expected": "an interrupted verification does not publish a passing evidence receipt or advance the Work Item",
+      "required": true,
+      "scenario": "verification process interruption",
+      "status": "unverified",
+      "verificationPlan": "terminate the controlled verification subprocess, inspect status/outcome, and retain the test result"
+    },
+    {
+      "evidence": [],
+      "expected": "a fresh retry after the interruption publishes current evidence and the displayed Runtime state advances accordingly",
+      "required": true,
+      "scenario": "resume after verification interruption",
+      "status": "unverified",
+      "verificationPlan": "rerun the controlled verification, inspect status/outcome, and retain the test result"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-cli/tests/collaboration_consistency.rs",
+    "docs/reference/collaboration-scenario-matrix.json",
+    "docs/reference/collaboration-scenario-matrix.md",
+    "docs/reference/collaboration-scenario-matrix.zh-CN.md",
+    "docs/reference/collaboration-scenario-matrix.ja.md",
+    "docs/reference/collaboration-language-contract.md",
+    "docs/reference/collaboration-language-contract.zh-CN.md",
+    "docs/reference/collaboration-language-contract.ja.md",
+    "docs/reference/collaboration-invariant-coverage.md",
+    "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+    "docs/reference/collaboration-invariant-coverage.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-753-p1-runtime-consistency.md",
+    "docs/work-items/WI-753-p1-runtime-consistency.zh-CN.md",
+    "docs/work-items/WI-753-p1-runtime-consistency.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-753-p1-runtime-consistency"
+}

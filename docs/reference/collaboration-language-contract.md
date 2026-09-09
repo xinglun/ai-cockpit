@@ -326,20 +326,23 @@ unless explicitly stated; see [Current unknowns](#current-unknowns-and-follow-on
    markers](outcome-report.md)).
 5. **The same fact must not contradict itself across CLI, MCP, a summary, and
    a full report.** Documented as a design intent in
-   [Multilingual semantic parity](multilingual-semantic-parity.md) and the
-   MCP section of [Human-facing Outcome](outcome-report.md) (`work_item_outcome`
-   returns the same localized handoff the CLI prints); a structural,
-   automated cross-entry-point check is not yet built — tracked as follow-on
-   work.
+  [Multilingual semantic parity](multilingual-semantic-parity.md) and the
+  MCP section of [Human-facing Outcome](outcome-report.md) (`work_item_outcome`
+  returns the same localized handoff the CLI prints). The cross-process CLI/MCP
+  equality check is implemented by
+  `crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs` (WI-682).
 6. **Changing language must not change facts, authorization scope, or
    operational consequences.** Already documented:
    [Multilingual semantic parity](multilingual-semantic-parity.md) — JSON
    field names and enum values remain stable, and Contract-owned text is
    never machine-translated.
 7. **The displayed next step must match current Runtime state and policy.**
-   Already documented: the next action is taken from the Outcome or the
-   Preflight Review, never invented ("The report never fills a governance
-   decision from inference." — [Human-facing Outcome](outcome-report.md)).
+  Already documented: the next action is taken from the Outcome or the
+  Preflight Review, never invented ("The report never fills a governance
+  decision from inference." — [Human-facing Outcome](outcome-report.md)).
+  Bounded executable coverage is provided by
+  `crates/cockpit-repository/tests/scenario_matrix_next_action.rs` and
+  `crates/cockpit-cli/tests/collaboration_consistency.rs`.
 8. **Whether an existing authorization applies is decided by rule and
    record, not discarded or broadened by switching sessions.** Already
    documented for Receipts ([`.ai/glossary.md`](../../.ai/glossary.md):
@@ -374,11 +377,6 @@ separate, later Work Items rather than folded into this one:
 - Automated checks for the ten invariants above, with positive, negative, and
   boundary cases per invariant, run against a controlled test repository
   rather than fixed-string matching.
-- End-to-end verification that a displayed state, a chosen option, and the
-  resulting Runtime behavior agree, including interruption and resume, in a
-  controlled test repository; any simulated human decision used for this
-  purpose must be marked as test data and must never become a real
-  authorization record.
 - A handoff-completeness check confirming that a new Agent or session can
   reconstruct goal/scope, done/pending, valid evidence and its scope, valid
   authorizations and open decisions, and blocking reasons from the Runtime
