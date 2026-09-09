@@ -14,8 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/work-items/active/WI-746-p2-first-use-onboarding.contract.json
-- Changed path: .ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json
+- Changed path: .ai/work-items/archive/WI-746-p2-first-use-onboarding.contract.json
+- Changed path: .ai/work-items/archive/WI-746-p2-first-use-onboarding.summary.json
 
 ## Findings
 

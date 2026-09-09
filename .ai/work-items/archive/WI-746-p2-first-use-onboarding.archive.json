@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T05:44:55Z",
+  "files": {
+    "contractDigest": "sha256:518eb9f8336c66ad86e1001ac98452f15771528a2dd01974d1e5a1a6b9e3229d",
+    "contractPath": ".ai/work-items/archive/WI-746-p2-first-use-onboarding.contract.json",
+    "eventsDigest": "sha256:a5355e3fe44cc266492066ab156bbda24fdda53130c27d129831db6cfd26db07",
+    "eventsPath": ".ai/work-items/archive/WI-746-p2-first-use-onboarding.events.jsonl",
+    "outcomeDigest": "sha256:fb5111bb616698972f8d69f373ffdee3625f8348d3a75845cba4d8052af057ea",
+    "outcomePath": ".ai/work-items/archive/WI-746-p2-first-use-onboarding.outcome.json",
+    "summaryDigest": "sha256:fc25abd2c2863e0179be3742f97fb22ebeb9f1762ee5b3e68ef1bd2d6dd30af1",
+    "summaryPath": ".ai/work-items/archive/WI-746-p2-first-use-onboarding.summary.json",
+    "taskReportDigest": "sha256:c96f9096f4e6c0b4307f53d658aedfa90db9c434305c39b09736bfebc3f7c204",
+    "taskReportMarkdownDigest": "sha256:1f468b34ba966872ba4361a3c1d6657d72db7752f33038f17177637763da37b0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-746-p2-first-use-onboarding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-746-p2-first-use-onboarding.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-746-p2-first-use-onboarding"
+}

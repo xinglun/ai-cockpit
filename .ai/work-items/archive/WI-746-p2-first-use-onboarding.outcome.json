@@ -45,17 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json"
+            ".ai/work-items/archive/WI-746-p2-first-use-onboarding.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-746-p2-first-use-onboarding.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-746-p2-first-use-onboarding.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json"
+            ".ai/work-items/archive/WI-746-p2-first-use-onboarding.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-746-p2-first-use-onboarding.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-746-p2-first-use-onboarding.contract.json"
+            ".ai/work-items/archive/WI-746-p2-first-use-onboarding.contract.json"
           ],
           "inference": false,
           "text": "Complete the first-use and README path with a verified, reproducible case that lowers onboarding reading cost without inventing benefits or governance authority."
@@ -120,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-746-p2-first-use-onboarding.contract.json"
+            ".ai/work-items/archive/WI-746-p2-first-use-onboarding.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-746-p2-first-use-onboarding"
   },
-  "taskReportDigest": "sha256:95a4423e23cd7f9dad87705402ad1114287bc5fd236a59e5bab5d5665e12a640",
-  "taskReportMarkdownDigest": "sha256:b1c637af29a3e95b1b87b2ee93798ff6ddc96b5d66ed49913f2f10d1242730ea",
+  "taskReportDigest": "sha256:c96f9096f4e6c0b4307f53d658aedfa90db9c434305c39b09736bfebc3f7c204",
+  "taskReportMarkdownDigest": "sha256:1f468b34ba966872ba4361a3c1d6657d72db7752f33038f17177637763da37b0",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

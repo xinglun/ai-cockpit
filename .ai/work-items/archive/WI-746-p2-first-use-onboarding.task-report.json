@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json"
+          ".ai/work-items/archive/WI-746-p2-first-use-onboarding.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-746-p2-first-use-onboarding.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-746-p2-first-use-onboarding.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json"
+          ".ai/work-items/archive/WI-746-p2-first-use-onboarding.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-746-p2-first-use-onboarding.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-746-p2-first-use-onboarding.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-746-p2-first-use-onboarding.contract.json"
+          ".ai/work-items/archive/WI-746-p2-first-use-onboarding.contract.json"
         ],
         "inference": false,
         "text": "Complete the first-use and README path with a verified, reproducible case that lowers onboarding reading cost without inventing benefits or governance authority."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-746-p2-first-use-onboarding.contract.json"
+          ".ai/work-items/archive/WI-746-p2-first-use-onboarding.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
