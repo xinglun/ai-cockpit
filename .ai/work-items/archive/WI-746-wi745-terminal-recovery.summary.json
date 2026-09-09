@@ -1,0 +1,153 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "tri-language WI-743 current-state projections",
+          "path": "docs/work-items/WI-743-wi715-p1-current-base-redelivery.md",
+          "type": "documentation",
+          "verification": "current-state prose matches closed WI-743 evidence and declares no benefit claim"
+        },
+        {
+          "locator": "immutable WI-743 terminal evidence",
+          "path": ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json",
+          "type": "runtime-evidence",
+          "verification": "promote_closed_work_item.py validates the predecessor terminal record"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "fresh aggregate verification receipt",
+          "path": ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json",
+          "type": "runtime-evidence",
+          "verification": "explicit aggregate command passed with outputTruncated=false and all declared checks represented"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "WI-745 recovery decision",
+          "path": ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json",
+          "type": "recovery",
+          "verification": "Runtime recorded supersede decision bound to WI-746 successor"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "tri-language WI-746 and reference-parity projections",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation",
+          "verification": "documentation acceptance and parity checks pass across all three languages"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "deterministic documentation governance aggregate",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "aggregate Runtime verification passed promotion, documentation, parity, status-consistency, and check-all commands"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-09-09T05:48:34Z",
+  "checkpointContractDigest": "sha256:97d5f188116e16cc529743e13d83117aa095d632eb2e28de60da92b9694b0aef",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bb1e7d5377ec66c5de13cc56b67777e703d8f14af0aae24162a8083b5df521e2",
+      "recorded": true,
+      "recordedAt": "2026-09-09T05:48:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-746-wi745-terminal-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:abbb78e47fe327e268f7ec926e3ad09f9780ce562da4fbbb62e816c4ba551a82",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb1e7d5377ec66c5de13cc56b67777e703d8f14af0aae24162a8083b5df521e2",
+      "previousContractHash": "sha256:bb1e7d5377ec66c5de13cc56b67777e703d8f14af0aae24162a8083b5df521e2",
+      "reason": "The first fresh verification correctly exposed that the default project route produced only one truncated stale node and did not evidence the Contract-declared documentation checks. Add the exact deterministic aggregate command that executes every declared documentation, parity, status-consistency, and check-all command and emits one compact per-command result line; preserve the prior receipt as historical and require a new checkpoint and verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T05:55:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-746-wi745-terminal-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:97d5f188116e16cc529743e13d83117aa095d632eb2e28de60da92b9694b0aef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb1e7d5377ec66c5de13cc56b67777e703d8f14af0aae24162a8083b5df521e2",
+      "previousContractHash": "sha256:abbb78e47fe327e268f7ec926e3ad09f9780ce562da4fbbb62e816c4ba551a82",
+      "reason": "Bind the actual reviewed PR #723 resource finalization context; preserve the prior verification receipt as historical and require fresh current-bound verification before finish.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T06:04:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-746-wi745-terminal-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
+  "createdAt": "2026-09-09T05:32:08Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-746-wi745-terminal-recovery.md",
+      ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json",
+      ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+    ],
+    "reason": "WI-746 repairs the WI-745 documentation and Runtime recovery projection only; it preserves WI-743 immutable evidence, changes no production behavior, and does not claim a user-visible performance benefit.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T06:05:20Z",
+  "preflightContractDigest": "sha256:97d5f188116e16cc529743e13d83117aa095d632eb2e28de60da92b9694b0aef",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T06:05:27Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-746-wi745-terminal-recovery"
+}

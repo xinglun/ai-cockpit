@@ -36,7 +36,7 @@ Predecessor の current-base experiment は同じ Runtime line の
 
 ## Current state
 
-Runtime lifecycle は `checkpointed` です。current-base verification、reviewed PR delivery、finalization、archive、human close は pending です。authoritative な current evidence は `.ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json` と Contract が列挙する predecessor external records です。
+Runtime lifecycle は `closed` です。current-base verification、PR #716 による reviewed PR delivery、finalization、archive、human close は完了しています。authoritative な evidence は `.ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json` で、Contract が列挙する terminal records と predecessor external records に bind されています。
 
 ## Decision boundary
 

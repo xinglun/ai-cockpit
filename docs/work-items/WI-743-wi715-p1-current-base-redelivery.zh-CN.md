@@ -35,7 +35,7 @@ terminalDecision: .ai/decisions/WI-743-wi715-p1-current-base-redelivery.close.js
 
 ## 当前状态
 
-Runtime lifecycle 为 `checkpointed`；当前基线验证、reviewed PR 交付、finalization、archive 和人工 close 仍待完成。当前权威验证记录将是 `.ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json`，并与 Contract 列出的前置 external records 一起使用。
+Runtime lifecycle 为 `closed`；当前基线验证、通过 PR #716 的 reviewed PR 交付、finalization、archive 和人工 close 均已完成。权威验证记录为 `.ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json`，并绑定 Contract 列出的终态记录和前置 external records。
 
 ## 决定边界
 

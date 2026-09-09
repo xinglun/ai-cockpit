@@ -1,0 +1,35 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-to-continue-and-recover",
+  "decidedAt": "2026-09-09T06:06:30Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-745-wi743-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-745-wi743-doc-promotion.summary.json",
+    ".ai/evidence/WI-745-wi743-doc-promotion.verification.json",
+    ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json",
+    ".ai/work-items/archive/WI-746-wi745-terminal-recovery.contract.json",
+    ".ai/work-items/archive/WI-746-wi745-terminal-recovery.summary.json",
+    ".ai/work-items/archive/WI-746-wi745-terminal-recovery.outcome.json",
+    ".ai/work-items/archive/WI-746-wi745-terminal-recovery.events.jsonl",
+    ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/723"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "predecessorSummaryDigest": "sha256:6eea0c6b15aa5d7990882e3887af2a2bbf8717d4206448ad9da872a571ede1bc",
+  "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
+  "reason": "WI-746 has now completed fresh verification and Runtime archive. Append an immutable successor-bound supersede decision so the merged WI-745 predecessor no longer remains an active quality-route contract; preserve all predecessor bytes and the already archived successor evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Keep WI-746's archived bytes immutable; continue provider review, merge, finalization, cleanup, close, and post-close promotion checks through the WI-746 lifecycle.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-746-wi745-terminal-recovery",
+  "workItemId": "WI-745-wi743-doc-promotion"
+}

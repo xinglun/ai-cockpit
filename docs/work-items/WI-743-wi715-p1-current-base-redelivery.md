@@ -52,11 +52,12 @@ benefit claim. The candidate implementation was not merged.
 
 ## Current state
 
-The Runtime lifecycle is `checkpointed`; current-base verification, reviewed
-PR delivery, finalization, archive, and human close remain pending. The
-authoritative current evidence will be
-`.ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json` and
-the external predecessor records listed by the Contract.
+The Runtime lifecycle is `closed`; current-base verification, reviewed PR
+delivery through PR #716, finalization, archive, and human close are complete.
+The authoritative evidence is
+`.ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json`,
+bound to the terminal records and external predecessor records listed by the
+Contract.
 
 ## Decision boundary
 

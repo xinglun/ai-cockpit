@@ -4,7 +4,7 @@ title: "WI-745 — WI-743 terminal documentation promotion"
 description: "Promote the verified WI-743 terminal documentation and repair the hosted documentation-governance projections."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-745-wi743-doc-promotion
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-745-wi743-doc-promotion
 ---
@@ -33,9 +33,9 @@ decision records, PR #716, WI-744, or the WI-742 predecessor history.
   the immutable sources for the promoted content.
 - PR #718 carries this documentation-only successor from the synchronized
   `origin/main` base.
-- The governed lifecycle is `start → preflight → checkpoint → verify →
-  finish → archive → close`; terminal paths remain planned until Runtime
-  finalization produces them.
+- The merged predecessor is retained as immutable recovered history through
+  the Runtime `supersede` decision. Follow-up ownership is WI-746; this page
+  does not claim a fresh performance or user-visible benefit.
 
 ## Acceptance
 

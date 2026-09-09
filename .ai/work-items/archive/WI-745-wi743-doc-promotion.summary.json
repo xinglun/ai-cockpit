@@ -81,8 +81,8 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-745-wi743-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-745-wi743-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-745-wi743-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-745-wi743-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-09T04:52:07Z",
   "checkpointContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
@@ -143,14 +143,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T05:08:07.341322+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T05:15:49Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:a6263af825c3c0c5203837eda8466b382d091543e176d435419b4b1c2c0b4138",
   "workItemId": "WI-745-wi743-doc-promotion"
 }
