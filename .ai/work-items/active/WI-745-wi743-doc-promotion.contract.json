@@ -1,6 +1,7 @@
 {
   "acceptanceCriteria": [
     "Promote the three WI-743 Work Item projections and three corresponding reference-parity rows from the immutable closed WI-743 archive, verification, finalization, and close evidence.",
+    "Publish the tri-language WI-745 Work Item projection and pre-archive parity rows required by the hosted documentation-governance gate, without changing the archived WI-743 evidence.",
     "The promotion helper passes for WI-743 and the resulting three-language Work Item pages and parity rows contain the exact terminal evidence bindings without changing the archived records.",
     "bash tests/docs/documentation_acceptance.sh, bash tests/docs/parity_status_check.sh, and python3 tests/docs/work_item_status_consistency.py --repo <repository> pass.",
     "No production code, governance rule, historical evidence, or unrelated Work Item changes are introduced."
@@ -38,6 +39,9 @@
     "docs/work-items/WI-743-wi715-p1-current-base-redelivery.md",
     "docs/work-items/WI-743-wi715-p1-current-base-redelivery.zh-CN.md",
     "docs/work-items/WI-743-wi715-p1-current-base-redelivery.ja.md",
+    "docs/work-items/WI-745-wi743-doc-promotion.md",
+    "docs/work-items/WI-745-wi743-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-745-wi743-doc-promotion.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md"
