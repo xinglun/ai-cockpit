@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "Contract amendment can append bounded Runtime-generated evidence paths and records a fresh binding.",
+    "Recovery computes Contract, Summary, Outcome, and verification digests using the same canonical Runtime serialization used by validators.",
+    "Foreign, stale, malformed, or mismatched recovery inputs fail closed.",
+    "Existing lifecycle, isolation, and evidence immutability tests remain passing."
+  ],
+  "authority": "authorized",
+  "baseRevision": "08de2fc2aa7b9530bd1d7764475152689c4851d7",
+  "createdAt": "2026-09-09T07:28:19Z",
+  "goal": "Enable WI-752 recovery without manual digest guessing or hand-editing generated governance records.",
+  "intent": "Repair Runtime lifecycle recovery so Contract amendment and canonical evidence digests are produced by the tool itself while preserving fail-closed identity binding, immutable history, repository isolation, and authorization boundaries.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Production performance behavior; governance weakening; evidence deletion; bypassing preflight; cross-repository state; unrelated refactors"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:29ed74e0a6c7238ca00ba1c05ca91b8941960c9e072709940a1d1300699a1480",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-754-runtime-recovery-digest",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-754-runtime-recovery-digest"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-protocol/**",
+    "tests/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-754-runtime-recovery-digest"
+}

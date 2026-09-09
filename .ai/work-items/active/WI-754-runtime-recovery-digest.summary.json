@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-754-runtime-recovery-digest.contract.json",
+    ".ai/work-items/active/WI-754-runtime-recovery-digest.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T07:28:25Z",
+  "checkpointContractDigest": "sha256:7c6b63ce026312146e9d285af503dec111743a803b22d08158b06888149a7947",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:29ed74e0a6c7238ca00ba1c05ca91b8941960c9e072709940a1d1300699a1480",
+  "createdAt": "2026-09-09T07:28:19Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T07:28:25Z",
+  "preflightContractDigest": "sha256:7c6b63ce026312146e9d285af503dec111743a803b22d08158b06888149a7947",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:29ed74e0a6c7238ca00ba1c05ca91b8941960c9e072709940a1d1300699a1480",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T07:28:25Z",
+  "workItemId": "WI-754-runtime-recovery-digest"
+}

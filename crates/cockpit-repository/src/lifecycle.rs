@@ -910,6 +910,57 @@ pub fn revalidate_contract_amendment(
     Ok(record)
 }
 
+/// Apply a bounded, append-only Contract amendment and record its revalidation.
+/// Only additive scope, out-of-scope, and acceptance entries are accepted; the
+/// Runtime never lets an amendment rewrite identity, authority, base, mode, or
+/// existing criteria.
+pub fn amend_work_item_contract(
+    root: &Path,
+    work_item_id: &str,
+    input: &serde_json::Value,
+    reason: &str,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let mut contract = read_json(&path)?;
+    for (field, target) in [
+        ("scopeAppend", "scope"),
+        ("outOfScopeAppend", "outOfScope"),
+        ("acceptanceAppend", "acceptanceCriteria"),
+        ("requiredEvidenceClassesAppend", "requiredEvidenceClasses"),
+    ] {
+        let Some(values) = input.get(field) else { continue };
+        let values = values.as_array().ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: format!("{field} must be an array"),
+        })?;
+        let existing = contract[target].as_array_mut().ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: format!("Contract field {target} is not an array"),
+        })?;
+        for value in values {
+            let value = value.as_str().filter(|value| !value.trim().is_empty()).ok_or_else(|| ObserverError::State {
+                path: path.clone(),
+                message: format!("{field} entries must be non-empty strings"),
+            })?;
+            if !existing.iter().any(|entry| entry.as_str() == Some(value)) {
+                existing.push(serde_json::json!(value));
+            }
+        }
+    }
+    if contract["scope"].as_array().is_none() {
+        return Err(ObserverError::State { path, message: "Contract scope is malformed".into() });
+    }
+    atomic_json(&path, &contract)?;
+    revalidate_contract_amendment(&root, work_item_id, reason)
+}
+
 /// Evaluate and persist the preflight decision for an active Work Item.
 ///
 /// Preflight is intentionally a repository-local receipt rather than process
