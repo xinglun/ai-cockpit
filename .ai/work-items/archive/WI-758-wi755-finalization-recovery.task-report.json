@@ -15,24 +15,24 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-758-wi755-finalization-recovery.summary.json"
+          ".ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-758-wi755-finalization-recovery.summary.json"
+          ".ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-758-wi755-finalization-recovery.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-758-wi755-finalization-recovery.summary.json"
+          ".ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-758-wi755-finalization-recovery.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
       }
     ],
     "evidence": [
@@ -88,7 +88,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-758-wi755-finalization-recovery.contract.json"
+          ".ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json"
         ],
         "inference": false,
         "text": "Create a fresh, repository-bound successor that records the verified WI-755 merge facts and finalization-chain limitation, preserves all predecessor bytes, and completes its own reviewed lifecycle so the predecessor recovery boundary is no longer an unclosed repository blocker."
@@ -97,7 +97,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-758-wi755-finalization-recovery.contract.json"
+          ".ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

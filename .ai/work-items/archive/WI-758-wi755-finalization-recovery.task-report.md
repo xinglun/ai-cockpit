@@ -15,8 +15,8 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json
-- Changed path: .ai/work-items/active/WI-758-wi755-finalization-recovery.contract.json
-- Changed path: .ai/work-items/active/WI-758-wi755-finalization-recovery.summary.json
+- Changed path: .ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json
+- Changed path: .ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json
 
 ## Findings
 
