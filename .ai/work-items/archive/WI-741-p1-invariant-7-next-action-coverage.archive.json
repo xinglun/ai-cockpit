@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T03:40:17Z",
+  "files": {
+    "contractDigest": "sha256:f79f89bc6188a795ed80bc2b98df209a302ba9ccdd514243cbcea6759c89349f",
+    "contractPath": ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.contract.json",
+    "eventsDigest": "sha256:833c6889b0f5875161040092ae8594e4aab596890b3539d45a0e2ed4935b60fc",
+    "eventsPath": ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.events.jsonl",
+    "outcomeDigest": "sha256:cac3611e0a7cf3e3698f46306e4115b367a772267bfbb4d75a3b8da5dab955cf",
+    "outcomePath": ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.outcome.json",
+    "summaryDigest": "sha256:497595c44b7d9caea15fee0966838b8ae4718408276d4a89510f921fee10bfd0",
+    "summaryPath": ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.summary.json",
+    "taskReportDigest": "sha256:bd23ad64e54c737620c266a0c7e04a68e423b9c3ccd978d1d702ce601ce7ce89",
+    "taskReportMarkdownDigest": "sha256:118e04487fad1003bea968661bc9850a265fd4ccb43b516984143682ea3a73c6",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-741-p1-invariant-7-next-action-coverage"
+}

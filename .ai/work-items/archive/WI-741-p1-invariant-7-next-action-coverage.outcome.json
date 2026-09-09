@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "A1: crates/cockpit-repository/tests/scenario_matrix_next_action.rs exists with tests for SCN-001, SCN-002, and SCN-016 asserting exact/substring next-action text against each scenario's recorded expected.keyMessage.",
+    "A2: a guard test confirms SCN-001, SCN-002, and SCN-016 remain declared sourceType=observed and exercise invariant 7 in docs/reference/collaboration-scenario-matrix.json.",
+    "A3: cargo test -p cockpit-repository --test scenario_matrix_next_action passes; cargo fmt --check and cargo clippy -D warnings are clean for the new file."
+  ],
+  "createdAt": "2026-09-09T03:40:13Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:db667baed3f80e0eee66e10b7e87457ca57d390d9c3b4ea69d84d04fb94c1f46",
+  "evidenceRefs": [
+    ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9626936e9ff276da726f8d30afcc719de7dc663b30494d63c1ce87261b9d96f4",
+      "workItemId": "WI-741-p1-invariant-7-next-action-coverage"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.contract.json"
+          ],
+          "inference": false,
+          "text": "Add crates/cockpit-repository/tests/scenario_matrix_next_action.rs asserting the exact recovery/next-action text for SCN-001 (checkpoint before start), SCN-002 (start rejected on dirty worktree), and SCN-016 (finish before finalize-plan) still matches each scenario's recorded expected.keyMessage, plus a guard test that those three scenarios remain declared observed with invariant 7 in the matrix."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-741-p1-invariant-7-next-action-coverage"
+  },
+  "taskReportDigest": "sha256:bd23ad64e54c737620c266a0c7e04a68e423b9c3ccd978d1d702ce601ce7ce89",
+  "taskReportMarkdownDigest": "sha256:118e04487fad1003bea968661bc9850a265fd4ccb43b516984143682ea3a73c6",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-741-p1-invariant-7-next-action-coverage"
+}

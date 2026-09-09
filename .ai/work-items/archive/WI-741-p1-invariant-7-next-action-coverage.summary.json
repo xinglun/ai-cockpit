@@ -1,0 +1,68 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "scn_001_checkpoint_before_start_matches_scenario_matrix_key_message, scn_002_start_rejects_pre_existing_changes_matches_scenario_matrix_key_message, scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message",
+          "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+          "type": "document",
+          "verification": "cargo test -p cockpit-repository --test scenario_matrix_next_action"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "scn_001_002_016_are_still_declared_observed_in_the_scenario_matrix",
+          "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+          "type": "document",
+          "verification": "cargo test -p cockpit-repository --test scenario_matrix_next_action"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "results[0]",
+          "path": ".ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json",
+          "type": "command-output",
+          "verification": "cargo test -p cockpit-repository --test scenario_matrix_next_action; cargo fmt --check -p cockpit-repository; cargo clippy -p cockpit-repository --test scenario_matrix_next_action -- -D warnings"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-09-09T03:38:45Z",
+  "checkpointContractDigest": "sha256:8f34a077e30ba428b0dae9a788eb7fe6d982dd16f36a5267572a0dcbc3d5e940",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9626936e9ff276da726f8d30afcc719de7dc663b30494d63c1ce87261b9d96f4",
+  "createdAt": "2026-09-09T03:35:55Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/scenario_matrix_next_action.rs asserts exact/substring next-action text for SCN-001, SCN-002, SCN-016",
+      "crates/cockpit-repository/tests/scenario_matrix_next_action.rs::scn_001_002_016_are_still_declared_observed_in_the_scenario_matrix guards against silent drift from docs/reference/collaboration-scenario-matrix.json"
+    ],
+    "reason": "The new test file asserts the exact next-action text for SCN-001/002/016 against the scenario matrix's recorded expected.keyMessage and guards those scenarios' sourceType/invariant declarations, matching the declared intent to close invariant 7 with a bounded, tractable test.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T03:40:13Z",
+  "preflightContractDigest": "sha256:8f34a077e30ba428b0dae9a788eb7fe6d982dd16f36a5267572a0dcbc3d5e940",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9626936e9ff276da726f8d30afcc719de7dc663b30494d63c1ce87261b9d96f4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T03:40:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-741-p1-invariant-7-next-action-coverage"
+}
