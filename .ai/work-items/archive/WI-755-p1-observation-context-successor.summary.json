@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-755-p1-observation-context-successor.contract.json",
-    ".ai/work-items/active/WI-755-p1-observation-context-successor.summary.json"
+    ".ai/work-items/archive/WI-755-p1-observation-context-successor.contract.json",
+    ".ai/work-items/archive/WI-755-p1-observation-context-successor.summary.json"
   ],
   "checkpointAt": "2026-09-09T07:33:13Z",
-  "checkpointContractDigest": "sha256:ff34255e05a22b5e06062af9322595d000fb1c9bc639100bc834ba54a0e68ec4",
+  "checkpointContractDigest": "sha256:a6848077610b566cd659246cc69c87815fb2208665be31b2d4cedc0800e47420",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -44,7 +44,6 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:cd5a193979c8fbc6456c567a759afb2bc329e76af27f38cc9b9885700719fa73",
   "createdAt": "2026-09-09T07:29:55Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-755-p1-observation-context-successor.md",
@@ -53,14 +52,12 @@
     "state": "resolved"
   },
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-09T07:51:45Z",
-  "preflightContractDigest": "sha256:ff34255e05a22b5e06062af9322595d000fb1c9bc639100bc834ba54a0e68ec4",
+  "preflightAt": "2026-09-09T08:04:34Z",
+  "preflightContractDigest": "sha256:a6848077610b566cd659246cc69c87815fb2208665be31b2d4cedc0800e47420",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:cd5a193979c8fbc6456c567a759afb2bc329e76af27f38cc9b9885700719fa73",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -120,14 +117,13 @@
       "verificationPlan": "Mutate the fixture after the initial context and assert phase validation rejects reuse until a fresh context is captured."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T07:56:30Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T08:04:38Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:9c08e5e13703dbccbc8d32ced07835a62f88b0c2eb5c997b1b1a481af709c151",
   "workItemId": "WI-755-p1-observation-context-successor"
 }

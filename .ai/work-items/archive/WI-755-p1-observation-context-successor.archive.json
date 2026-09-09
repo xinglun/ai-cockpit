@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T08:04:42Z",
+  "files": {
+    "contractDigest": "sha256:62ff60b9ed3e62a2bd242207e59009b2cf71c62e50a72d434815e92507290442",
+    "contractPath": ".ai/work-items/archive/WI-755-p1-observation-context-successor.contract.json",
+    "eventsDigest": "sha256:cca0820854611387fd7b4baaa9df4bf83ce608c492aca13cd86e4400f3d36b62",
+    "eventsPath": ".ai/work-items/archive/WI-755-p1-observation-context-successor.events.jsonl",
+    "outcomeDigest": "sha256:f7e04c2aa3be43211b638b456b6563f18485420c2cb5d3069567486762e7ace1",
+    "outcomePath": ".ai/work-items/archive/WI-755-p1-observation-context-successor.outcome.json",
+    "summaryDigest": "sha256:e136c7970dbbec0fb42754c5d59b1d6b2d16c14f03788241e0ed62ddb949110b",
+    "summaryPath": ".ai/work-items/archive/WI-755-p1-observation-context-successor.summary.json",
+    "taskReportDigest": "sha256:e661128f6f3a9e66a53534b37861cf321822c8c180fc0f29cbe5e127d34c5895",
+    "taskReportMarkdownDigest": "sha256:27db26d494edc4b7f3695cc262592d16b1fc0195c7473be1261be52afa33d4b6",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-755-p1-observation-context-successor.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-755-p1-observation-context-successor.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-755-p1-observation-context-successor"
+}
