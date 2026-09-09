@@ -7,14 +7,17 @@
     "Runtime-generated lifecycle records remain repository-bound and append-only.",
     "Required verification evidence is represented by the Runtime's verification class."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-09T07:47:26Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7b8bce9eb81ff9f2a12ba62bdf403c5777e7f17f2d86d1964a73f7e3fc2c68f2",
   "evidenceRefs": [
     ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -22,11 +25,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -36,27 +38,25 @@
       "repositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
       "workItemId": "WI-752-p1-fact-reuse"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+            ".ai/work-items/archive/WI-752-p1-fact-reuse.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-752-p1-fact-reuse.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-752-p1-fact-reuse.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+            ".ai/work-items/archive/WI-752-p1-fact-reuse.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-752-p1-fact-reuse.summary.json"
         }
       ],
       "evidence": [
@@ -75,15 +75,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -94,7 +86,7 @@
             ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -104,15 +96,23 @@
             ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-752-p1-fact-reuse.contract.json"
+            ".ai/work-items/archive/WI-752-p1-fact-reuse.contract.json"
           ],
           "inference": false,
           "text": "Measure and, only when supported by evidence, eliminate duplicate repository discovery, Runtime identity, Git snapshot, configuration/evidence parsing, file read/hash, status/outcome/doctor fact collection."
@@ -121,23 +121,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-752-p1-fact-reuse.contract.json"
+            ".ai/work-items/archive/WI-752-p1-fact-reuse.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-752-p1-fact-reuse"
   },
+  "taskReportDigest": "sha256:88d643d67450981ac44e3d135d7080c5e9a1779d4e9e18fdecfe6cd59b25331b",
+  "taskReportMarkdownDigest": "sha256:07afa6b57e915402cb50d81d8eaf01af27fe4d8b305a82a5df05c9df5abf83a5",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-752-p1-fact-reuse.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-752-p1-fact-reuse"
 }

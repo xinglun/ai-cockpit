@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-752-p1-fact-reuse.contract.json",
-    ".ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+    ".ai/work-items/archive/WI-752-p1-fact-reuse.contract.json",
+    ".ai/work-items/archive/WI-752-p1-fact-reuse.summary.json"
   ],
   "checkpointAt": "2026-09-09T07:01:57Z",
-  "checkpointContractDigest": "sha256:102117431153a5658fae115aa6530fe12ef8db4692c87209bb8f200254b9ab1f",
+  "checkpointContractDigest": "sha256:dfa11b8bcd0df3b673386276916585132ebfe06cf9a08d885158d7cdaea796c4",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -84,7 +84,6 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
   "createdAt": "2026-09-09T07:01:03Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       ".ai/evidence/WI-752-p1-fact-reuse.verification.json",
@@ -94,23 +93,20 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-09T07:33:33Z",
-  "preflightContractDigest": "sha256:102117431153a5658fae115aa6530fe12ef8db4692c87209bb8f200254b9ab1f",
+  "preflightAt": "2026-09-09T07:47:20Z",
+  "preflightContractDigest": "sha256:dfa11b8bcd0df3b673386276916585132ebfe06cf9a08d885158d7cdaea796c4",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T07:45:40Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T07:47:26Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:42d0ec420ea81835a8ec0e5e1040f924c060c37b8cee759d44325fd968c353cd",
   "workItemId": "WI-752-p1-fact-reuse"
 }

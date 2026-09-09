@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T07:47:31Z",
+  "files": {
+    "contractDigest": "sha256:e61187c921fcb793216d1dab3010ef7dbd5214b73e688611ff75d3caaceca94b",
+    "contractPath": ".ai/work-items/archive/WI-752-p1-fact-reuse.contract.json",
+    "eventsDigest": "sha256:a1cd303bcf6c97bd7f992315e948c9931da58b30cbf7b754bb23e9f927301766",
+    "eventsPath": ".ai/work-items/archive/WI-752-p1-fact-reuse.events.jsonl",
+    "outcomeDigest": "sha256:9a98d590b4c1763b5517cc744b2f47c1633355e78edb347a99ca43bed626e0ef",
+    "outcomePath": ".ai/work-items/archive/WI-752-p1-fact-reuse.outcome.json",
+    "summaryDigest": "sha256:67e457b236d2b3c86a649d5b59b85a228d5b3dca01326f0cc4f9a7e3cdc95b3a",
+    "summaryPath": ".ai/work-items/archive/WI-752-p1-fact-reuse.summary.json",
+    "taskReportDigest": "sha256:88d643d67450981ac44e3d135d7080c5e9a1779d4e9e18fdecfe6cd59b25331b",
+    "taskReportMarkdownDigest": "sha256:07afa6b57e915402cb50d81d8eaf01af27fe4d8b305a82a5df05c9df5abf83a5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-752-p1-fact-reuse.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-752-p1-fact-reuse.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-752-p1-fact-reuse"
+}
