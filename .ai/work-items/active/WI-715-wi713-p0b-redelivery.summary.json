@@ -10,15 +10,51 @@
     ".ai/work-items/active/WI-715-wi713-p0b-redelivery.summary.json"
   ],
   "checkpointAt": "2026-09-09T00:24:18Z",
-  "checkpointContractDigest": "sha256:184b51d3ab7dfa4b7e32f3b0272d82ead9c9964a6386e6abbd0ab35994bf2a8e",
+  "checkpointContractDigest": "sha256:2dd6e7f34e44c7f2b2066d539f35097f808cb203653688df5df34f472070303f",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:184b51d3ab7dfa4b7e32f3b0272d82ead9c9964a6386e6abbd0ab35994bf2a8e",
+      "recorded": true,
+      "recordedAt": "2026-09-09T00:24:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ca4d59d796278d1aedc08fec303d6f7d4c7ed00e15351729e5e62cda39338461",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-715-wi713-p0b-redelivery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:2dd6e7f34e44c7f2b2066d539f35097f808cb203653688df5df34f472070303f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:184b51d3ab7dfa4b7e32f3b0272d82ead9c9964a6386e6abbd0ab35994bf2a8e",
+      "previousContractHash": "sha256:184b51d3ab7dfa4b7e32f3b0272d82ead9c9964a6386e6abbd0ab35994bf2a8e",
+      "reason": "The non-provisional GitHub PR resource finalization plan bound PR #707 and its branch/worktree context in the Contract. Invalidate the pre-plan verification and rerun the declared workspace check against the final Contract before finish.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T00:30:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ca4d59d796278d1aedc08fec303d6f7d4c7ed00e15351729e5e62cda39338461",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-715-wi713-p0b-redelivery"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:ca4d59d796278d1aedc08fec303d6f7d4c7ed00e15351729e5e62cda39338461",
   "createdAt": "2026-09-09T00:16:59Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:9f0e633d389f022fa552401852ac3e65ada7bd4de00f3d8a20e02a8462c08448",
   "predecessorWorkItemId": "WI-714-wi713-current-base-revalidation",
-  "preflightAt": "2026-09-09T00:28:56Z",
-  "preflightContractDigest": "sha256:184b51d3ab7dfa4b7e32f3b0272d82ead9c9964a6386e6abbd0ab35994bf2a8e",
+  "preflightAt": "2026-09-09T00:34:39Z",
+  "preflightContractDigest": "sha256:2dd6e7f34e44c7f2b2066d539f35097f808cb203653688df5df34f472070303f",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:ca4d59d796278d1aedc08fec303d6f7d4c7ed00e15351729e5e62cda39338461",
   "preflightState": "green",
@@ -33,6 +69,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:8861301ff0946cf5eb85ec7038887a405fe0958de87efa649a62e9e4d5e9aaf4",
+  "verificationRecoveryReconciled": "sha256:79ba4fea809c5aeab99570351c96daabcad789040489b94308b58cc7bf0c7933",
   "workItemId": "WI-715-wi713-p0b-redelivery"
 }
