@@ -4,9 +4,13 @@ title: "WI-758 — WI-755 finalization recovery"
 description: "Repair the post-merge governance handoff for WI-755 without rewriting its immutable history."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-758-wi755-finalization-recovery
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-758-wi755-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-758-wi755-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-758-wi755-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-758-wi755-finalization-recovery.close.json
 ---
 
 [简体中文](WI-758-wi755-finalization-recovery.zh-CN.md) · [日本語](WI-758-wi755-finalization-recovery.ja.md)
