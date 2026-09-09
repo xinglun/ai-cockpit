@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-719-p1-streaming-hash",
+  "baseRevision": "caa6ddffcc1847c9a1161e1d8aa414f1acabd11e",
+  "scenario": "large-file-change",
+  "fixture": {
+    "changedPath": "WI-719-large-input.bin",
+    "changedPathCount": 1,
+    "sizeBytes": 16777216,
+    "repositoryHead": "caa6ddffcc1847c9a1161e1d8aa414f1acabd11e",
+    "trackedFileCount": 10331,
+    "trackedBytes": 80274774,
+    "historicalWorkItemCount": 621
+  },
+  "baseline": {
+    "runtimeVersion": "0.2.87",
+    "runtimeDigest": "sha256:e162d8e2eda8fd7cc6f8c663166bf80273bf304b784d8a1b455264fc9ef4496b",
+    "evidence": ".ai/evidence/external/WI-719-p1-streaming-hash.baseline.large-file.json"
+  },
+  "candidate": {
+    "runtimeVersion": "0.2.87",
+    "runtimeDigest": "sha256:0f5dc4953157a3646f414784eb4ec3dda2922d1dd7f90ed3dc3bcb455d6021cb",
+    "evidence": ".ai/evidence/external/WI-719-p1-streaming-hash.candidate.large-file.json"
+  },
+  "warmMeasurementsMs": {
+    "baseline": {
+      "statusP50": 2895.183,
+      "statusP95": 3346.259,
+      "inspectP50": 133.806,
+      "inspectP95": 143.756,
+      "doctorP50": 52.129,
+      "doctorP95": 54.041,
+      "observeP50": 188.036,
+      "observeP95": 204.221
+    },
+    "candidate": {
+      "statusP50": 2965.996,
+      "statusP95": 3043.153,
+      "inspectP50": 134.867,
+      "inspectP95": 139.398,
+      "doctorP50": 52.776,
+      "doctorP95": 54.804,
+      "observeP50": 186.403,
+      "observeP95": 207.658
+    },
+    "candidateDeltaPercent": {
+      "statusP50": 2.445,
+      "statusP95": -9.057,
+      "inspectP50": 0.793,
+      "inspectP95": -3.036,
+      "doctorP50": 1.241,
+      "doctorP95": 1.412,
+      "observeP50": -0.869,
+      "observeP95": 1.684
+    },
+    "sampleCount": 20,
+    "p99": "unavailable:insufficient_samples:20<100"
+  },
+  "gate": {
+    "command": "bash tests/performance/p0_regression_gate.sh baseline candidate",
+    "state": "failed_closed",
+    "failures": [
+      "environment_comparison_key_unavailable:baseline",
+      "environment_filesystem_unknown:baseline",
+      "environment_comparison_key_unavailable:candidate",
+      "environment_filesystem_unknown:candidate",
+      "budget_exceeded:status:2965.996>2739.035",
+      "budget_exceeded:doctor:52.776>51.881",
+      "budget_exceeded:observe:207.658>205.69"
+    ],
+    "budgets": "status warm p50 and p95 target at least 5 percent below source baseline; control budgets allow at most 5 percent regression"
+  },
+  "correctness": {
+    "source_baseline_candidate": "inspect,status,doctor,observe normalized outputs and exit codes identical after removing runtimeDigest/binaryDigest",
+    "candidate_focused_tests": "passed before rollback: cockpit-git repository tests 9/9 and snapshot tests 5/5",
+    "candidate_status": "rolled_back; no production behavior retained"
+  },
+  "unavailableMetrics": {
+    "actualReadBytes": "runtime_does_not_expose_io_counters",
+    "actualHashedBytes": "runtime_does_not_expose_io_counters",
+    "gitCalls": "runtime_does_not_expose_git_counters",
+    "peakMemoryBytes": "platform_metric_unavailable",
+    "filesystemType": "filesystem_type_unavailable"
+  },
+  "decision": "declined_insufficient_evidence_and_no_status_p50_gain",
+  "reason": "The candidate did not meet the Contract requirement for at least 5 percent improvement in both status warm p50 and p95, and the comparator correctly failed closed when filesystem comparability was unavailable. Candidate implementation was reverted.",
+  "capturedAt": "2026-09-09T04:20:00Z"
+}

@@ -1,0 +1,162 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-719-p1-streaming-hash.preflight-review.d94645c987df9a114b17175eb047b09696014d485daebaf82628aeee306c20ca.json",
+    ".ai/decisions/WI-719-p1-streaming-hash.preflight-review.e5b17d61c260e0dc4c4252b2b268f8fa7e0a5eb0843231caf3899435f0bcd598.json",
+    ".ai/decisions/WI-719-p1-streaming-hash.preflight-review.json",
+    ".ai/work-items/active/WI-719-p1-streaming-hash.contract.json",
+    ".ai/work-items/active/WI-719-p1-streaming-hash.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T03:15:46Z",
+  "checkpointContractDigest": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:f7e1cca3ce56ac21cef14fa59eb22f11fe425a7e6813e2bf1ff18e262119b216",
+      "recorded": true,
+      "recordedAt": "2026-09-09T03:15:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5015a6604231f5c35081748c6085ed0fd20a1b65322b4a8b51a98f2ff0424eb1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-719-p1-streaming-hash"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:6732e5ffeac02f0244f447ee69cbbe6789a817f9b79cb6224e33e5d92377feb3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f7e1cca3ce56ac21cef14fa59eb22f11fe425a7e6813e2bf1ff18e262119b216",
+      "previousContractHash": "sha256:f7e1cca3ce56ac21cef14fa59eb22f11fe425a7e6813e2bf1ff18e262119b216",
+      "reason": "Amend the performance acceptance to allow explicitly bound but different baseline/candidate Runtime identities, while requiring comparable OS, hardware, filesystem, toolchain, repository scale, complete evidence, and the existing fail-closed gate.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T03:17:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5015a6604231f5c35081748c6085ed0fd20a1b65322b4a8b51a98f2ff0424eb1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-719-p1-streaming-hash"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f7e1cca3ce56ac21cef14fa59eb22f11fe425a7e6813e2bf1ff18e262119b216",
+      "previousContractHash": "sha256:6732e5ffeac02f0244f447ee69cbbe6789a817f9b79cb6224e33e5d92377feb3",
+      "reason": "Align the large-file scenario verification plan with the authorized baseline/candidate identity rule: each source-equivalent Runtime identity remains separately bound to the same base revision and comparable environment.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T03:48:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5015a6604231f5c35081748c6085ed0fd20a1b65322b4a8b51a98f2ff0424eb1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-719-p1-streaming-hash"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+  "createdAt": "2026-09-09T03:07:32Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Explicit user authorization permits the independent P1 large-file streaming-hash experiment. This fresh receipt rebinds the amended WI-719 Contract and current repository snapshot after the failed finish attempt; it authorizes evidence refresh and bounded closure only after the candidate failed the pre-registered performance gate and was rolled back.",
+    "recordedAt": "2026-09-09T04:40:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+    "schemaVersion": 1,
+    "workItemId": "WI-719-p1-streaming-hash"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-git/src/lib.rs",
+      ".ai/evidence/external/WI-696-p0-scenario-measurement.large-file-change.budgeted2.dev-faacc6a3.json"
+    ],
+    "reason": "The Contract is limited to the measured large-file path and explicitly preserves digest, error, evidence, authorization, recovery, and publication boundaries; the candidate remains subject to paired baseline/candidate rejection gates.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-09T04:09:59Z",
+  "preflightContractDigest": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-719-p1-streaming-hash.baseline.large-file.json",
+        ".ai/evidence/external/WI-719-p1-streaming-hash.candidate.large-file.json",
+        ".ai/evidence/external/WI-719-p1-streaming-hash.experiment-summary.json"
+      ],
+      "expected": "candidate reduces target status latency or a reliably measurable resource cost without changing digest, error, evidence, or exit-code semantics",
+      "reason": "The hypothesis was measured and disproved for the Contract target: status warm p50 did not improve by 5 percent, the status budget failed, and the comparator failed closed on unavailable filesystem identity.",
+      "required": true,
+      "scenario": "large-file-change baseline/candidate",
+      "status": "verified",
+      "verificationPlan": "paired source-equivalent baseline/candidate runtime_benchmark.sh evidence with at least 20 warm samples, raw samples, explicit budgets, and separately bound Runtime identities"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-719-p1-streaming-hash.experiment-summary.json",
+        "crates/cockpit-git/tests/repository.rs"
+      ],
+      "expected": "streaming digest remains complete while text capture is bounded and incomplete capture is not reported as a complete check",
+      "reason": "The bounded candidate test and digest parity check passed before rollback; the candidate was not retained in production.",
+      "required": true,
+      "scenario": "text, binary, and capture-boundary semantics",
+      "status": "verified",
+      "verificationPlan": "candidate focused repository tests plus normalized baseline/candidate output comparison before rollback"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-719-p1-streaming-hash.experiment-summary.json"
+      ],
+      "expected": "read failure, replacement, deletion, path-type change, and metadata change preserve existing fail-closed behavior",
+      "reason": "No production candidate remains after the fail-closed performance decision; no claim is made that the unretained implementation satisfies this unrun extension matrix.",
+      "required": true,
+      "scenario": "read failure and concurrent file mutation",
+      "status": "not_applicable",
+      "verificationPlan": "focused candidate tests with injected read/metadata failures and concurrent mutation fixtures"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-719-p1-streaming-hash.experiment-summary.json",
+        "crates/cockpit-git/tests/repository.rs"
+      ],
+      "expected": "clean, single-file, multi-file, many-historical-wi, failure, repository, Work Item, and observation boundaries remain unchanged",
+      "reason": "The measured CLI governance outputs and exit codes were identical after identity normalization, and the candidate was rolled back.",
+      "required": true,
+      "scenario": "control paths and governance isolation",
+      "status": "verified",
+      "verificationPlan": "normalized baseline/candidate inspect, status, doctor, and observe output comparison plus existing cockpit-git tests"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T04:10:07Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:78f8067707df1266b38206c282f49f66c77edf88fb0ec090e12f7da86d17f180",
+  "workItemId": "WI-719-p1-streaming-hash"
+}

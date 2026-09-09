@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-719-p1-streaming-hash",
+  "command": "bash tests/docs/documentation_acceptance.sh",
+  "passedChecks": ["documentation acceptance", "work item status consistency"],
+  "blockedCheck": "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+  "state": "failed_closed_external_scope",
+  "failure": "/private/tmp/ai-cockpit-wi719-p1-streaming-hash/docs/work-items/WI-717-wi716-closed-projection-promotion.md: must be a regular non-symlink file",
+  "scope": "WI-717 closed-projection documentation promotion; not modified by WI-719",
+  "recordedAt": "2026-09-09T04:30:00Z"
+}

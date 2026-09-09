@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f61f8751ad42fa3e2ea496f6bc15a524ae85616a4b238e96bd2e21a791007963",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Explicit user authorization permits the independent P1 large-file streaming-hash experiment. This fresh receipt rebinds the amended WI-719 Contract and current repository snapshot after the failed finish attempt; it authorizes evidence refresh and bounded closure only after the candidate failed the pre-registered performance gate and was rolled back.",
+  "recordedAt": "2026-09-09T04:40:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c0f5483e86eda7e94882a605ada02d2ac501a70f44d18695c08319a5daae2c5a",
+  "schemaVersion": 1,
+  "workItemId": "WI-719-p1-streaming-hash"
+}

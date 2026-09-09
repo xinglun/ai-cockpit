@@ -1,0 +1,110 @@
+{
+  "acceptanceCriteria": [
+    "在候选实现前，使用同一 latest remote default base、同一 OS/硬件/文件系统、同一工具链和同一仓库规模，分别保存 large-file-change 与控制场景的 baseline/candidate 原始采样、首次测量、预热次数、样本数、分位数方法、环境、各自 Runtime/仓库身份和不可用指标；baseline/candidate Runtime 身份可以不同但必须各自完整绑定并通过环境可比性检查，样本不足时不得宣称不可靠分位数。",
+    "只有当 large-file-change 的 status warm p50 和 warm p95 均至少改善 5%，且 clean/single-file-change/multi-file-change/many-historical-wi 的既定预算均通过时，才允许接受候选；未达到阈值或资源收益无法可靠测量时，必须保留 baseline、记录拒绝原因并不合入生产优化。",
+    "摘要字节语义保持不变：diff digest、依赖指纹、树摘要、路径排序和 changed-file 内容状态与 baseline 一致；完整哈希必须流式完成，文本捕获明确限制为 MAX_CHANGE_TEXT_BYTES，不得因捕获截断声称完成完整检查。",
+    "读取失败、文件被替换/删除、路径类型变化、读取期间元数据变化、权限错误、二进制内容和非 UTF-8 内容保持既有错误、unknown 或 fail-closed 行为；不得用部分摘要、mtime/size 或捕获截断证明内容未变。",
+    "通过计数和行为对比证明 candidate 与 baseline 的治理判定、错误、证据绑定、退出码和序列化输出一致；覆盖小文件、大文件、文本、二进制、删除/重命名、读取失败和并发修改测试。",
+    "所有内部字节、CPU、峰值内存、Git 调用或子进程指标若 Runtime/平台不能可靠提供，必须标记 unavailable，不能填零，也不能以缓存命中率替代端到端或资源收益。",
+    "不引入跨请求、跨仓库、跨 Work Item 的缓存，不改变 IncrementalMerkle、快照边界、授权边界、恢复能力、历史证据字节、Outcome 语义或发布二进制验收规则；交付包含中、英、日 Work Item 文档、reference-parity、原始/汇总测量、正确性、限制、PR、证据和最终治理状态。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "caa6ddffcc1847c9a1161e1d8aa414f1acabd11e",
+  "createdAt": "2026-09-09T03:07:32Z",
+  "goal": "在变更大文件场景降低工作区文件整体载入的内存峰值和不必要的文本复制成本，同时保持可信治理决定、摘要字节语义及全部 fail-closed 边界。",
+  "intent": "仓库所有者已授权继续推进 AI Cockpit 性能优化。P0 large-file-change 证据与当前 cockpit-git 实现显示，变更文件仍通过整体 fs::read 载入，而文本捕获已有 256 KiB 上限；本 WI 只验证将摘要哈希改为有界流式读取，并将文本捕获限制在明确上限内的独立假设。若同环境端到端收益不足以覆盖复杂度，则明确拒绝候选。",
+  "mode": "code",
+  "outOfScope": [
+    "tests/performance/runtime_benchmark.sh 的样本分组、分位数和发布二进制规则；除非验证所需且经 Contract amendment，否则不改基准语义",
+    "短命令固定轮询/事件等待、并行读取、DAG/PhysicalSingleFlightCoordinator、请求上下文去重、常驻 MCP 缓存、进程内 Git、PGO 和 IncrementalMerkle 增量复用",
+    "跨请求、跨仓库、跨 Work Item 或跨观察周期的缓存和索引；不得把 size/mtime、文件通知或索引状态当作内容证明",
+    "Outcome、doctor、MCP 协议、授权策略、恢复协议、Runtime、全局 Agent/MCP 配置、历史证据和发布安装流程",
+    "其他 agent 的 worktree、分支、PR、Contract、archive、evidence 及 hosted provider 行为",
+    "为触发 CI 而修改无关路径、删除/弱化检查、缩小验证范围或将不可用指标填为零"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5015a6604231f5c35081748c6085ed0fd20a1b65322b4a8b51a98f2ff0424eb1",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-719-p1-streaming-hash",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi719-p1-streaming-hash"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "candidate reduces target status latency or a reliably measurable resource cost without changing digest, error, evidence, or exit-code semantics",
+      "required": true,
+      "scenario": "large-file-change baseline/candidate",
+      "status": "unverified",
+      "verificationPlan": "run paired runtime_benchmark.sh evidence with at least 20 warm samples, raw samples, explicit budgets, and source-equivalent baseline/candidate Runtime identities bound separately to the same base revision"
+    },
+    {
+      "evidence": [],
+      "expected": "streaming digest remains complete while text capture is bounded and incomplete capture is not reported as a complete check",
+      "required": true,
+      "scenario": "text, binary, and capture-boundary semantics",
+      "status": "unverified",
+      "verificationPlan": "cargo tests for small text, over-limit text, binary, invalid UTF-8, and digest parity"
+    },
+    {
+      "evidence": [],
+      "expected": "read failure, replacement, deletion, path-type change, and metadata change preserve existing fail-closed behavior",
+      "required": true,
+      "scenario": "read failure and concurrent file mutation",
+      "status": "unverified",
+      "verificationPlan": "focused repository tests with injected read/metadata failures and concurrent mutation fixtures"
+    },
+    {
+      "evidence": [],
+      "expected": "clean, single-file, multi-file, many-historical-wi, failure, repository, Work Item, and observation boundaries remain unchanged",
+      "required": true,
+      "scenario": "control paths and governance isolation",
+      "status": "unverified",
+      "verificationPlan": "paired CLI behavior comparison plus existing repository, governance, parity, and lifecycle checks"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs",
+    ".ai/evidence/external/WI-719-p1-streaming-hash.*",
+    "docs/work-items/WI-719-p1-streaming-hash.md",
+    "docs/work-items/WI-719-p1-streaming-hash.zh-CN.md",
+    "docs/work-items/WI-719-p1-streaming-hash.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "origin/main at base revision caa6ddffcc1847c9a1161e1d8aa414f1acabd11e",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs",
+    ".ai/evidence/external/WI-696-p0-scenario-measurement.large-file-change.budgeted2.dev-faacc6a3.json",
+    ".ai/evidence/external/WI-696-p0-scenario-measurement.large-file-change.json",
+    "tests/performance/runtime_benchmark.sh",
+    "Human authorization: repository owner explicitly authorized continuation and evidence preservation."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-git",
+    "cargo test --locked -p cockpit-repository --lib",
+    "python3 tests/performance/runtime_benchmark_stats_test.py",
+    "bash tests/performance/p0_regression_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "git diff --check",
+    "same-environment baseline/candidate runtime_benchmark.sh runs with raw evidence and explicit regression budgets"
+  ],
+  "workItemId": "WI-719-p1-streaming-hash"
+}
