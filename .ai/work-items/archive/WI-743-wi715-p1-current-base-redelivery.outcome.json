@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "Bind this successor to the latest origin/main base and preserve WI-715-p1-large-history-status archive, evidence, decisions, and PR #708 as immutable predecessor history.",
+    "Revalidate the already measured large-history status candidate on the current base without adding production performance behavior; preserve the evidence-backed decline when the registered threshold is not met or required metrics remain unavailable.",
+    "Record a current-base verification that output, governance decision, evidence binding, error behavior, authorization boundary, and exit-code semantics remain unchanged, and do not claim user-visible performance benefit without evidence.",
+    "Pass the Contract-declared local and hosted checks, complete reviewed PR delivery, and produce Runtime finalization, archive, and close evidence for this successor."
+  ],
+  "createdAt": "2026-09-09T04:21:29Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8ed795e99477f7d368f161a8417c13850104db31aa6df8457d208e06b6ec1ef4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c1062c1154df948a5ec8dd91ff31037f667d695ac5e19a0863f07c030310c891",
+      "workItemId": "WI-743-wi715-p1-current-base-redelivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.approach.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "Redeliver the WI-715 large-history status decision on the current default base so the measured decline and its limitations can be independently reviewed and closed without reviving the stale unmerged PR."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-743-wi715-p1-current-base-redelivery"
+  },
+  "taskReportDigest": "sha256:8a80bff4c03fea1156b912c43893741fa2f77b7b38694ef72fecb9e37fef122b",
+  "taskReportMarkdownDigest": "sha256:04df1aaf614c9bffaf06d469046eb4bf4de501f7bd57dbefb6984e9bdf938105",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-743-wi715-p1-current-base-redelivery"
+}

@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun explicit authorization to continue successor repair Work Item",
+  "decidedAt": "2026-09-09T04:20:25Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json",
+    ".ai/work-items/active/WI-743-wi715-p1-current-base-redelivery.outcome.json",
+    ".ai/work-items/active/WI-743-wi715-p1-current-base-redelivery.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/716",
+    "https://github.com/xinglun/ai-cockpit/pull/708"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:3c1b4a142fd03d90d1c17239cacf777dc4d3457d70c85f376811d933792598e3",
+  "predecessorEventsDigest": "sha256:a2479cfefa432c371ac25ed3539985950515cb3e6dcdd3607715e2f110aed612",
+  "predecessorOutcomeDigest": "sha256:3ad9c0a21abdbc9c372ba0abdd6f2340b236f937180371fe5a9d4ebc4ddeaeec",
+  "predecessorSummaryDigest": "sha256:9cdd3c844acb075f645ef9588b6a6e0cd9b989c623ec1d7eec022ed33347c0c4",
+  "predecessorWorkItemId": "WI-743-wi715-p1-current-base-redelivery",
+  "reason": "Runtime correctly stopped the first finish attempt because the real resource finalization plan was not yet bound. PR #716 and its branch/worktree/base context are now bound; authorize one fresh verification and finish retry without changing the declined performance decision or immutable WI-715 history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record this retry binding, rerun fresh verification and green preflight against PR #716, then retry finish once before archive.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-743-wi715-p1-current-base-redelivery"
+}

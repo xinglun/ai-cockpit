@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-743-wi715-p1-current-base-redelivery",
+  "predecessorWorkItemId": "WI-715-p1-large-history-status",
+  "revalidation": "current-default-base",
+  "predecessorMeasuredBase": "d1141480fb7a045979098480c3770d06002e2a87",
+  "currentBase": "838ae745511942cb55dd7ac30c319cc5bc95e74d",
+  "currentBaseTree": "ffe0aa6521360d1178f55bff4f84bf60c18c3585",
+  "predecessorMeasuredBaseTree": "6ba9da02106671725852297c953893dd304d75ac",
+  "productionSourceChangesSinceMeasuredBase": [],
+  "currentBaseChanges": [
+    "governance records",
+    "documentation",
+    "tests"
+  ],
+  "candidateImplementationMerged": false,
+  "decision": "declined",
+  "reason": "The pre-registered 5% warm status p50 threshold was missed in both orders, and both gates failed closed because the filesystem comparison key was unavailable.",
+  "forwardOrder": {
+    "warmStatusP50DeltaPercent": -1.171,
+    "warmStatusP95DeltaPercent": -23.582
+  },
+  "reverseOrder": {
+    "warmStatusP50DeltaPercent": -0.302,
+    "warmStatusP95DeltaPercent": 0.597
+  },
+  "threshold": {
+    "warmStatusP50ImprovementPercent": 5,
+    "warmStatusP95ImprovementPercent": 5,
+    "acceptance": "both directions must meet both thresholds and all gates pass"
+  },
+  "limitations": [
+    "filesystem comparison key unavailable",
+    "p99 unavailable because 20 warm samples are below the declared minimum of 100",
+    "phase timing, I/O counters, peak memory, runtime child-process, cache invalidation, and resident-MCP metrics unavailable"
+  ],
+  "interpretation": "The no-production-source-change relation supports semantic revalidation of the decline on the current base; it is not a new user-visible performance benefit claim.",
+  "predecessorEvidence": {
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/708",
+    "branch": "codex/wi-715-p1-large-history-status",
+    "contractSha256": "31f3eb9d1509b78b7250e6481f166951a9d7058e7a5b5789e3445ba732341f86",
+    "experimentSummarySha256": "47ddf007748f8f748c837c09dacde268c3517d5f59175495141c42aeac5a82b4",
+    "behaviorParitySha256": "f1ec0fa6254a97c3d26d52620643b63abc5a11fe606ad0868965a63519db2c61"
+  }
+}

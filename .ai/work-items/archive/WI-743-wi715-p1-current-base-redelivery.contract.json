@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "Bind this successor to the latest origin/main base and preserve WI-715-p1-large-history-status archive, evidence, decisions, and PR #708 as immutable predecessor history.",
+    "Revalidate the already measured large-history status candidate on the current base without adding production performance behavior; preserve the evidence-backed decline when the registered threshold is not met or required metrics remain unavailable.",
+    "Record a current-base verification that output, governance decision, evidence binding, error behavior, authorization boundary, and exit-code semantics remain unchanged, and do not claim user-visible performance benefit without evidence.",
+    "Pass the Contract-declared local and hosted checks, complete reviewed PR delivery, and produce Runtime finalization, archive, and close evidence for this successor."
+  ],
+  "authority": "authorized",
+  "baseRevision": "838ae745511942cb55dd7ac30c319cc5bc95e74d",
+  "createdAt": "2026-09-09T04:05:50Z",
+  "goal": "Redeliver the WI-715 large-history status decision on the current default base so the measured decline and its limitations can be independently reviewed and closed without reviving the stale unmerged PR.",
+  "intent": "Create an independently governed current-base successor for the archived, unmerged WI-715 performance candidate; preserve calibrated trust, evidence validity, repository isolation, authorization boundaries, and explicit unknowns.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Production runtime or performance code changes",
+    "Changing the registered performance threshold, measurement semantics, or governance rules",
+    "Rewriting or deleting WI-715-p1-large-history-status archive, evidence, decisions, events, or PR #708",
+    "Changing Outcome behavior, machine JSON/schema, exit codes, authorization semantics, or persistence layout",
+    "Other agents' branches, worktrees, PRs, or unrelated Work Items"
+  ],
+  "predecessorContractDigest": "sha256:31f3eb9d1509b78b7250e6481f166951a9d7058e7a5b5789e3445ba732341f86",
+  "predecessorWorkItemId": "WI-715-p1-large-history-status",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-715-p1-large-history-status.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fde4b03ec9f47f3ea5cbc8ad51e3e14cd899e60bc084583b126b617df877fc83",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-743-wi715-p1-current-base-redelivery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/716",
+    "worktree": "/private/tmp/ai-cockpit-wi743-wi715-p1-current-base-redelivery"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/evidence/external/WI-743-wi715-p1-current-base-redelivery.*",
+    ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json",
+    ".ai/decisions/WI-743-wi715-p1-current-base-redelivery.*.json",
+    ".ai/work-items/active/WI-743-wi715-p1-current-base-redelivery.*.json",
+    ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.*.json",
+    "docs/work-items/WI-743-wi715-p1-current-base-redelivery.md",
+    "docs/work-items/WI-743-wi715-p1-current-base-redelivery.zh-CN.md",
+    "docs/work-items/WI-743-wi715-p1-current-base-redelivery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "https://github.com/xinglun/ai-cockpit/pull/708",
+    "WI-715-p1-large-history-status predecessor archive and verification evidence on the reviewed PR head"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "git diff --check",
+    "cargo fmt --check",
+    "cargo test --locked -p cockpit-repository --lib",
+    "python3 tests/performance/runtime_benchmark_stats_test.py",
+    "bash tests/performance/p0_regression_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo <repository>"
+  ],
+  "workItemId": "WI-743-wi715-p1-current-base-redelivery"
+}

@@ -1,0 +1,27 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.approach.json"
+  ],
+  "checkpointAt": "2026-09-09T04:07:19Z",
+  "checkpointContractDigest": "sha256:3c1b4a142fd03d90d1c17239cacf777dc4d3457d70c85f376811d933792598e3",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c1062c1154df948a5ec8dd91ff31037f667d695ac5e19a0863f07c030310c891",
+  "createdAt": "2026-09-09T04:05:50Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T04:21:23Z",
+  "preflightContractDigest": "sha256:3c1b4a142fd03d90d1c17239cacf777dc4d3457d70c85f376811d933792598e3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c1062c1154df948a5ec8dd91ff31037f667d695ac5e19a0863f07c030310c891",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T04:21:29Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-743-wi715-p1-current-base-redelivery"
+}

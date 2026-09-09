@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T04:21:50Z",
+  "files": {
+    "approachDigest": "sha256:06f5326190a457ec4ead44ad5b66e7279612eb8b12239d11eeabbce4e78e8850",
+    "approachPath": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.approach.json",
+    "contractDigest": "sha256:dbbba231773e38f6fe810ba5bd2a6a47472948be416237bb4af3c4e50aebdb64",
+    "contractPath": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json",
+    "eventsDigest": "sha256:099f2f8c1285462df2c6402d0a121ceb1f828f1e8579f6bb2b2908c18cce4653",
+    "eventsPath": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.events.jsonl",
+    "outcomeDigest": "sha256:627f64c6b0c40dcdd97ae2824ccffbbf505bdb96ed27532e727a9100c4245b7c",
+    "outcomePath": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.outcome.json",
+    "summaryDigest": "sha256:831617edaf02eba17bd70c203e3df13eb346422e249d0691da30635b6a29200e",
+    "summaryPath": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.summary.json",
+    "taskReportDigest": "sha256:8a80bff4c03fea1156b912c43893741fa2f77b7b38694ef72fecb9e37fef122b",
+    "taskReportMarkdownDigest": "sha256:04df1aaf614c9bffaf06d469046eb4bf4de501f7bd57dbefb6984e9bdf938105",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-743-wi715-p1-current-base-redelivery"
+}
