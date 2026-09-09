@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:2b11f064e82ee14346e6a0579cc6b05f2fa0ea073322486f75d1aad5a5d7b365",
-  "createdAt": "2026-09-09T11:32:26Z",
+  "contractDigest": "sha256:c4d2b8c3bb464aaea0eb32882e0c7ae842903111397c92636c33cc7157dd93f8",
+  "createdAt": "2026-09-09T11:33:48Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 193,
-      "executionElapsedMs": 10,
+      "elapsedMs": 201,
+      "executionElapsedMs": 15,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 193,
-    "executionElapsedMs": 10,
+    "elapsedMs": 201,
+    "executionElapsedMs": 15,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 10,
+      "executionElapsedMs": 15,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:2536d863f4a193d09874284f0c9c762f527a64410ccd8d13d4d4bfb2968fd7f7",
+      "repositorySnapshotDigest": "sha256:cd3b291f3be739d41a58c505a7be411d4d4af5bc426740dc27c70f39862c1237",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-754-runtime-recovery-digest-revalidation"
   },
-  "receiptDigest": "sha256:e43580dd17d9a8e193d3340e7924284a7eef2da6aafc2a97c64b5f03d7181bf4",
+  "receiptDigest": "sha256:365ba922aae9178f352f7a37a27ff75c81f0a093be9f0e42b28050a53e308629",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:2536d863f4a193d09874284f0c9c762f527a64410ccd8d13d4d4bfb2968fd7f7",
+  "repositorySnapshotDigest": "sha256:cd3b291f3be739d41a58c505a7be411d4d4af5bc426740dc27c70f39862c1237",
   "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
   "runtimeVersion": "0.2.87",
   "workItemId": "WI-754-runtime-recovery-digest-revalidation"
