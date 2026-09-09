@@ -32,3 +32,14 @@ WI-759 evidence.
 - Parity rows bind local Work Item pages and the relevant immutable evidence.
 - The pre-archive documentation, governance, and status checks pass without
   claiming a terminal close before Runtime generates it.
+
+## Supersede closure
+
+WI-760 remains an immutable failed delivery: PR #743's hosted quality failure,
+archive, verification, and original recovery remain unchanged. After WI-761
+completed the bounded parity-first successor, WI-760 was superseded and closed
+through the append-only recovery and close records:
+
+- Supersede recovery: `.ai/decisions/WI-760-wi759-doc-repair.recovery.59a48d37bdbc566a0dc76635fa4d5ebdcf9ea324cda33322cf0ddc566c644907.json`
+- Close: `.ai/decisions/WI-760-wi759-doc-repair.close.json`
+- Successor: WI-761, [PR #744](https://github.com/xinglun/ai-cockpit/pull/744)

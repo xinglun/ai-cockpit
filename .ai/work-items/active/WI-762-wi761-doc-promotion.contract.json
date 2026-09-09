@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "WI-761's closed status, green Outcome, verification evidence, PR #744 hosted checks, merge commit, and cleanup receipt are referenced accurately in all three language Work Item documents.",
+    "The three reference-parity projections are updated consistently with exact current evidence paths and no invented measurements or governance claims.",
+    "The closed Work Item promotion check passes for WI-761 and no runtime/authentication/machine-contract/exit-code behavior changes.",
+    "WI-760's supersede recovery and close evidence are reflected in its three-language projection and parity row without claiming the failed PR #743 succeeded.",
+    "WI-762's own three-language pages and parity row are registered before fresh verification evidence and promoted only after terminal close."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "71a486f016520f604db3bd1eecf5a311e3349932",
+  "createdAt": "2026-09-09T13:44:13Z",
+  "goal": "Make the closed Work Item promotion check current for WI-761 and preserve the exact verified outcome, evidence, and hosted-delivery bindings.",
+  "intent": "Promote the closed WI-761 documentation and reference-parity projections without changing product or Runtime behavior.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Product/runtime source",
+    " tests",
+    " CI",
+    " governance protocol",
+    " historical evidence",
+    " other Work Items",
+    " other branches/worktrees",
+    " and any performance implementation change."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ed02901289728a3eb6cb1224dffa9bc3e146403ec186c7909ad0fad9b75410be",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "governance",
+    "promotion",
+    "prearchive parity",
+    "supersede closure"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-762-wi761-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-762-wi761-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-761-wi760-parity-order-recovery.md",
+    "docs/work-items/WI-761-wi760-parity-order-recovery.zh-CN.md",
+    "docs/work-items/WI-761-wi760-parity-order-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-760-wi759-doc-repair.md",
+    "docs/work-items/WI-760-wi759-doc-repair.zh-CN.md",
+    "docs/work-items/WI-760-wi759-doc-repair.ja.md",
+    "docs/work-items/WI-762-wi761-doc-promotion.md",
+    "docs/work-items/WI-762-wi761-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-762-wi761-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-762-wi761-doc-promotion"
+}
