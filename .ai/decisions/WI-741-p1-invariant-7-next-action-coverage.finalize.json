@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "github-pr-review-and-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "de486883e0450ff013ff9ca7198436ed9c9450dd",
+    "name": "claude/wi-741-p1-invariant-7-next-action-coverage",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f79f89bc6188a795ed80bc2b98df209a302ba9ccdd514243cbcea6759c89349f",
+  "operationId": "github-pr-713-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "dc6493bc9c7a4ee3763c03e2b27d9d794f6358b4",
+    "headRevision": "de486883e0450ff013ff9ca7198436ed9c9450dd",
+    "mergeCommit": "b2b9065e0cb4605d91ebd3ccfb741a485e2a9ef6",
+    "number": 713,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/713"
+  },
+  "reason": "PR #713 reviewed and merged by repository owner (xinglun) on GitHub after explicit merge authorization in this session; branch and worktree cleaned up after merge",
+  "receiptId": "receipt-WI-741-p1-invariant-7-next-action-coverage",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-741-p1-invariant-7-next-action-coverage",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/713",
+    "worktree": "/private/tmp/ai-cockpit-wi-741-p1-invariant-7-next-action-coverage"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T03:45:26Z",
+  "workItemId": "WI-741-p1-invariant-7-next-action-coverage",
+  "worktree": {
+    "branch": "claude/wi-741-p1-invariant-7-next-action-coverage",
+    "headRevision": "de486883e0450ff013ff9ca7198436ed9c9450dd",
+    "path": "/private/tmp/ai-cockpit-wi-741-p1-invariant-7-next-action-coverage",
+    "worktreeId": "wt-WI-741-p1-invariant-7-next-action-coverage"
+  }
+}
