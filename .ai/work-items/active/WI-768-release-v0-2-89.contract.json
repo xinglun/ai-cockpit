@@ -20,7 +20,11 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:73fc6568b5ccb46894896320f0a2c124fbc6888f282f85d4d9d50c784a801d20",
   "requiredEvidenceClasses": [
-    "Contract and Runtime lifecycle receipts; hosted PR checks and release workflow run; merged head and main synchronization; v0.2.89 tag/provider Release identity; release manifest and target artifact receipts; source-quality and Contract-gate receipts; version consistency; public adopter and upgrade acceptance receipts; exact cleanup and post-close documentation check"
+    "verification",
+    "governance",
+    "release publication",
+    "adopter acceptance",
+    "prearchive parity"
   ],
   "resourceContext": {
     "baseBranch": "unknown",

@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-768-release-v0-2-89.summary.json"
   ],
   "checkpointAt": "2026-09-09T18:27:23Z",
-  "checkpointContractDigest": "sha256:04c3488469b436c03d9566b72f4692869979d151e20e3de16301054e462c1f75",
+  "checkpointContractDigest": "sha256:8788c63be15815f0eb8e5a86de1ffceccfc970b049a3ac7820cc1c88789d7921",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,17 +40,37 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-768-release-v0-2-89"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:8788c63be15815f0eb8e5a86de1ffceccfc970b049a3ac7820cc1c88789d7921",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d911f5bd03bd8b4e742dece1dfbf8ea9cdac727bae5c932e28ddb68690c29a21",
+      "previousContractHash": "sha256:04c3488469b436c03d9566b72f4692869979d151e20e3de16301054e462c1f75",
+      "reason": "Correct the Contract requiredEvidenceClasses shape from the scaffolded prose string to the repository's explicit verification, governance, release, adopter, and prearchive classes; preserve all required evidence boundaries and require fresh preflight and verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T19:09:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-768-release-v0-2-89"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
   "createdAt": "2026-09-09T18:23:25Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:04c3488469b436c03d9566b72f4692869979d151e20e3de16301054e462c1f75",
+    "contractDigest": "sha256:8788c63be15815f0eb8e5a86de1ffceccfc970b049a3ac7820cc1c88789d7921",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-    "reason": "Explicitly confirm the amended WI-768 Contract after the fresh full workspace verification receipt was recorded and the Runtime recomputed the current governance decision. This authorizes continued release-route verification only; it does not assert that hosted checks, public artifacts, or adopter acceptance have passed.",
-    "recordedAt": "2026-09-09T19:05:00Z",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Explicitly confirm the WI-768 Contract after candidate Runtime 0.2.89 verification passed and the current decision was recomputed. This authorizes the strict release quality route and hosted PR checks only; public publication and adopter acceptance remain unverified until the immutable tag and provider Release exist.",
+    "recordedAt": "2026-09-09T19:13:30Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
@@ -58,9 +78,9 @@
     "workItemId": "WI-768-release-v0-2-89"
   },
   "mode": "change",
-  "preflightAt": "2026-09-09T19:08:32Z",
-  "preflightContractDigest": "sha256:04c3488469b436c03d9566b72f4692869979d151e20e3de16301054e462c1f75",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightAt": "2026-09-09T19:12:58Z",
+  "preflightContractDigest": "sha256:8788c63be15815f0eb8e5a86de1ffceccfc970b049a3ac7820cc1c88789d7921",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
   "preflightState": "yellow",
   "protocolVersion": 1,
@@ -109,13 +129,13 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-09T19:04:50.981475+00:00",
+  "updatedAt": "2026-09-09T19:13:28.906838+00:00",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:39c86e0432a6fd4070887bf93b38bee120532fcbee2fd597338792aef298a802",
+  "verificationRecoveryReconciled": "sha256:045750d48755cb7a59fe9cbb4a047c2ebfc62bc21d7a6320d766b01d6f9d1de6",
   "workItemId": "WI-768-release-v0-2-89"
 }
