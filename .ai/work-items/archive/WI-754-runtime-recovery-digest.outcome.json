@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "Contract amendment can append bounded Runtime-generated evidence paths and records a fresh binding.",
+    "Recovery computes Contract, Summary, Outcome, and verification digests using the same canonical Runtime serialization used by validators.",
+    "Foreign, stale, malformed, or mismatched recovery inputs fail closed.",
+    "Existing lifecycle, isolation, and evidence immutability tests remain passing."
+  ],
+  "createdAt": "2026-09-09T07:35:46Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:af1969e8d7c6fc88d32a36892f1deeabb1db7aac064fe52acd83db5231c6fa13",
+  "evidenceRefs": [
+    ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ffd5028172167577fe434fd0668845f97b0ced41f57d82f64c87115bc06d9487",
+      "workItemId": "WI-754-runtime-recovery-digest"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-754-runtime-recovery-digest.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-754-runtime-recovery-digest.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-754-runtime-recovery-digest.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-754-runtime-recovery-digest.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-754-runtime-recovery-digest.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-754-runtime-recovery-digest.contract.json"
+          ],
+          "inference": false,
+          "text": "Enable WI-752 recovery without manual digest guessing or hand-editing generated governance records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-754-runtime-recovery-digest.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-754-runtime-recovery-digest"
+  },
+  "taskReportDigest": "sha256:a7d4df24e995b33869ef31b3295db0d9a4a5dd17be65780f6ad726f413094fec",
+  "taskReportMarkdownDigest": "sha256:05517f10f97ede473cb87dbcc96254760f4852a16574ca4f245416a32c01c473",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-754-runtime-recovery-digest.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-754-runtime-recovery-digest"
+}
