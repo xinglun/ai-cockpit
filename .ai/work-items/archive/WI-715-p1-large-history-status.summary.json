@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-09T00:19:30Z",
-  "checkpointContractDigest": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
+  "checkpointContractDigest": "sha256:d54dd86d3146c7b597b617231816931bc7a4fdbe11ca74179786bee474ec269e",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -177,20 +177,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-715-p1-large-history-status"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d54dd86d3146c7b597b617231816931bc7a4fdbe11ca74179786bee474ec269e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5635a42596603ea988d68e1951352219de710221688ce59f271466b5e9d9affe",
+      "previousContractHash": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
+      "reason": "The remote default branch advanced to cf6c7b0c via PR #710 after the prior WI-715 hosted checks. Merged origin/main into the dedicated WI-715 branch, resolved only the three reference-parity document conflicts while preserving the WI-715 candidate decision and latest closed projections, and reran the affected documentation gates successfully. Rebind the Contract and subsequent evidence to the current remote default base before repeating lifecycle verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T02:37:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:77d9c1c60a78885139972930cbd055a8725ca940ba0a8ed6300d78e48d75b73c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-715-p1-large-history-status"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
+  "checkpointRepositorySnapshotDigest": "sha256:77d9c1c60a78885139972930cbd055a8725ca940ba0a8ed6300d78e48d75b73c",
   "createdAt": "2026-09-09T00:18:32Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
+    "contractDigest": "sha256:d54dd86d3146c7b597b617231816931bc7a4fdbe11ca74179786bee474ec269e",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "Explicit user authorization confirms continuation after the hosted gate exposed and the bounded Contract amendment repaired the current-base tri-language governance projection. This fresh receipt is bound to the amended WI-715 Contract and current snapshot, with runtime behavior and performance scope unchanged.",
-    "recordedAt": "2026-09-09T02:22:00Z",
+    "reason": "Explicit user authorization confirms continuation after the remote default base advanced. This fresh receipt is bound to the amended WI-715 Contract and current repository snapshot; the candidate decision, bounded performance scope, governance boundaries, and decline conclusion remain unchanged.",
+    "recordedAt": "2026-09-09T02:41:55Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
+    "repositorySnapshotDigest": "sha256:77d9c1c60a78885139972930cbd055a8725ca940ba0a8ed6300d78e48d75b73c",
     "schemaVersion": 1,
     "workItemId": "WI-715-p1-large-history-status"
   },
@@ -204,15 +224,15 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-09T02:22:48Z",
-  "preflightContractDigest": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
+  "preflightAt": "2026-09-09T02:44:18Z",
+  "preflightContractDigest": "sha256:d54dd86d3146c7b597b617231816931bc7a4fdbe11ca74179786bee474ec269e",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
+  "preflightRepositorySnapshotDigest": "sha256:77d9c1c60a78885139972930cbd055a8725ca940ba0a8ed6300d78e48d75b73c",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-09T02:22:48Z",
+  "updatedAt": "2026-09-09T02:44:22Z",
   "verification": [
     {
       "check": "project-command-0",

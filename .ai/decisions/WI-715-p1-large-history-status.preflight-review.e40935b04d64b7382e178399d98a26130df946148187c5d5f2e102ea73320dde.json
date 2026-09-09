@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d54dd86d3146c7b597b617231816931bc7a4fdbe11ca74179786bee474ec269e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Explicit user authorization confirms continuation after the remote default base advanced. This fresh receipt is bound to the amended WI-715 Contract and current repository snapshot; the candidate decision, bounded performance scope, governance boundaries, and decline conclusion remain unchanged.",
+  "recordedAt": "2026-09-09T02:41:55Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:77d9c1c60a78885139972930cbd055a8725ca940ba0a8ed6300d78e48d75b73c",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}

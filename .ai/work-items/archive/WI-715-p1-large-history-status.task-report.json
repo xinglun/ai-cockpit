@@ -4,7 +4,7 @@
       ".ai/evidence/WI-715-p1-large-history-status.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
+    "repositorySnapshotDigest": "sha256:77d9c1c60a78885139972930cbd055a8725ca940ba0a8ed6300d78e48d75b73c",
     "workItemId": "WI-715-p1-large-history-status"
   },
   "format": "ai-cockpit.task-outcome",
@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-p1-large-history-status.summary.json"
+          ".ai/work-items/archive/WI-715-p1-large-history-status.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-p1-large-history-status.contract.json"
+          ".ai/work-items/archive/WI-715-p1-large-history-status.contract.json"
         ],
         "inference": false,
         "text": "Reduce the measured many-historical-wi status latency and resource cost, or retain a complete evidence-backed decline if the candidate does not cover its complexity, while preserving Calibrated Human-Agent Trust."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-715-p1-large-history-status.contract.json"
+          ".ai/work-items/archive/WI-715-p1-large-history-status.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

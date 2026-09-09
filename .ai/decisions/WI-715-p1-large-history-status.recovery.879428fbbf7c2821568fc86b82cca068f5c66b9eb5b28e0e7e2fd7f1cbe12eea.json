@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-09T02:43:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-715-p1-large-history-status.verification.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.outcome.json",
+    ".ai/work-items/active/WI-715-p1-large-history-status.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/708"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:d54dd86d3146c7b597b617231816931bc7a4fdbe11ca74179786bee474ec269e",
+  "predecessorEventsDigest": "sha256:c26a4c7a2c27b2f1f14c2c9aa86b6a5be55c3965070d17acd3ef2faf14bde84b",
+  "predecessorOutcomeDigest": "sha256:d51bedf1b004be0c85a6b2d1aacae68c69b48a7688a035dadeb6867de80cc476",
+  "predecessorSummaryDigest": "sha256:7525960fb1c51fa75c42e14070c5a5887e7c9740069cfcffcd36af87b821912f",
+  "predecessorWorkItemId": "WI-715-p1-large-history-status",
+  "reason": "Retry WI-715 after the current-base amendment and fresh preflight correctly preserved the append-only completion event stream. The Contract is now bound to remote origin/main cf6c7b0c, all local verification and governance gates passed, and no runtime or production performance behavior changed. Preserve the prior completion event as immutable history and reopen only the bounded finalization retry.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Preserve append-only history, record this retry binding, rerun green preflight if required, and retry finish exactly once before archive.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}
