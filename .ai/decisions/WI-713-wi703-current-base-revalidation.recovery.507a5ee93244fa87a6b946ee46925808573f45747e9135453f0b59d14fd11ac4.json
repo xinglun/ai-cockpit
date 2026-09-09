@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T01:56:30Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-713-wi703-current-base-revalidation.recovery.json",
+    ".ai/decisions/WI-714-wi713-current-base-revalidation.recovery.5d40417356ed11b62ae40a69f27765ce3419b183d8b0ff9ff6d80436bc53928f.json",
+    ".ai/decisions/WI-715-wi713-p0b-redelivery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:036e518e1a9d8287593cd5aad986ceb9a388bf7b454aa4e7c5c9f6482151f8d2",
+  "predecessorEventsDigest": "sha256:93b133836bd1d11a0077723fa352e6df8b563620ba883f43d57ca282a2d68248",
+  "predecessorOutcomeDigest": "sha256:30c703c03eaa219ffa587c1895dc508b6f1d75a54e2744a85afd12772a324876",
+  "predecessorSummaryDigest": "sha256:6b664dfee520598b83f7a7f1686b505e3268351a4823721c195e75b26237566c",
+  "predecessorWorkItemId": "WI-713-wi703-current-base-revalidation",
+  "reason": "The WI-714 successor chain was superseded by WI-715, which in turn was superseded and closed through WI-716. Supersede WI-713 as immutable historical evidence without rewriting its archive or evidence bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further action is required for WI-713; continue only from the closed WI-716 lineage and retain WI-713 historical bytes.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-714-wi713-current-base-revalidation",
+  "workItemId": "WI-713-wi703-current-base-revalidation"
+}
