@@ -1,0 +1,58 @@
+{
+  "actor": "provider:github",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "provider-merge-observation",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "9b75ade0955b811626d837bce5ea97ec8b0321b4",
+    "name": "codex/wi-746-wi745-terminal-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ec24b26d69cca43dfb3fada7e1dcada7dbb77863386b39c013d8aab6fc068b7c",
+  "operationId": "github-pr-723-wi746-merge-observed-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "f25f9b92a951889a85b0497a43d25853e66fb86a",
+    "headRevision": "9b75ade0955b811626d837bce5ea97ec8b0321b4",
+    "mergeCommit": "a287c87444ba93dd84ad812c7dd8513856f28bba",
+    "number": 723,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/723"
+  },
+  "reason": "PR #723 merged after all hosted checks passed; the exact Work Item branch and clean archive worktree are retained for explicit post-merge cleanup.",
+  "receiptId": "github-pr-723-wi746-merge-observed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-746-wi745-terminal-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/723",
+    "worktree": "/private/tmp/ai-cockpit-wi-746-wi745-terminal-recovery"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T06:24:37Z",
+  "workItemId": "WI-746-wi745-terminal-recovery",
+  "worktree": {
+    "branch": "codex/wi-746-wi745-terminal-recovery",
+    "headRevision": "9b75ade0955b811626d837bce5ea97ec8b0321b4",
+    "path": "/private/tmp/ai-cockpit-wi-746-wi745-terminal-recovery",
+    "worktreeId": "wt-WI-746-wi745-terminal-recovery"
+  }
+}
