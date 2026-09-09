@@ -28,7 +28,7 @@
         "number": 735,
         "url": "https://github.com/xinglun/ai-cockpit/pull/735"
       },
-      "registryBaseRevision": "de555c419b1313f29895416bff46099b9cc7253d",
+      "registryBaseRevision": "7c0e2108f5543dffeb15f02589fbe3c81724d476",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-755-p1-observation-context-successor"
