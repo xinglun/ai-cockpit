@@ -274,11 +274,16 @@ cancellation.
   different underlying model resuming work on the same repository and Work
   Item.
 - **State to understand**: everything the previous node describes above is
-  re-derivable from the Runtime alone — `status`, `work-item outcome`, the
-  active/archived Contract, Summary, and decision records — without any
-  conversation transcript. There is currently no dedicated Runtime command
-  that packages "handoff state" into one call; the incoming Agent assembles
-  it from the same `status`/`outcome`/Contract/Summary sources named above.
+  re-derivable from the Runtime alone — `status`, the persisted active or
+  archived Outcome, the active/archived Contract, Summary, and decision
+  records — without any conversation transcript. There is currently no
+  dedicated Runtime command that packages "handoff state" into one call; the
+  incoming Agent assembles it from the same `status`/`outcome`/Contract/Summary
+  sources named above. The bounded WI-756 check
+  (`crates/cockpit-cli/tests/collaboration_handoff.rs`) proves this
+  reconstruction against a controlled repository, including a persisted
+  finish.governance block; it does not treat the transient failed command's
+  presentation as completion.
 - **Must present**: current goal and scope boundary (Contract), what is
   done versus pending (Summary `state`, `checkpointCount`), which evidence
   is valid and for what scope (`.ai/evidence/`, freshness bindings), which
@@ -348,8 +353,10 @@ unless explicitly stated; see [Current unknowns](#current-unknowns-and-follow-on
    documented for Receipts ([`.ai/glossary.md`](../../.ai/glossary.md):
    "may be reused only when all authorized identity bindings still match");
    applied to Agent/session handoff in [node 7](#7-agent-or-session-handoff)
-   above. A dedicated handoff-continuity check across a simulated session
-   switch is not yet built — tracked as follow-on work.
+   above. WI-756 adds a bounded fresh-subprocess reconstruction check that
+   carries the recorded authorization and open stop boundary forward without
+   creating a new decision. It does not claim to simulate every possible
+   caller-identity transition.
 9. **Every question that requires a human decision must name the decision
    subject, its impact, and its recovery/resume condition.** Already
    documented: the structured `humanDecisionRequest` shape
@@ -366,8 +373,9 @@ This document is a docs-only artifact verified by structural documentation
 checks (frontmatter completeness, internal link resolution, tri-language
 presence) and by maintainer/reviewer reading — **not** by an automated
 semantic check, and not by any user study. It does not claim that every
-invariant above has automated, cross-entry-point enforcement today; several
-explicitly do not yet (see invariants 5 and 8). The following are scoped as
+invariant above has automated, cross-entry-point enforcement today; invariant 5
+still has narrower entry-point boundaries beyond the cited parity check. The
+following are scoped as
 separate, later Work Items rather than folded into this one:
 
 - A state/transition-derived scenario matrix covering legal and illegal
@@ -377,10 +385,9 @@ separate, later Work Items rather than folded into this one:
 - Automated checks for the ten invariants above, with positive, negative, and
   boundary cases per invariant, run against a controlled test repository
   rather than fixed-string matching.
-- A handoff-completeness check confirming that a new Agent or session can
-  reconstruct goal/scope, done/pending, valid evidence and its scope, valid
-  authorizations and open decisions, and blocking reasons from the Runtime
-  alone, without a conversation transcript.
+- Broader handoff checks across additional lifecycle states, entry points,
+  languages, and caller identities; WI-756 is the bounded controlled-repository
+  check for the persisted-block case and does not claim exhaustive coverage.
 
 Within the scenarios this document currently covers, it aims for consistent,
 traceable communication semantics grounded in the cited sources. It does not

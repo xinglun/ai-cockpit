@@ -5,7 +5,7 @@ description: "由状态与转换生成的协作语言场景矩阵，明确区分
 audience: [adopter, contributor, maintainer, reviewer]
 status: current
 authority: canonical
-lastVerifiedBy: WI-680-p1-collaboration-scenario-matrix
+lastVerifiedBy: WI-756-p1-handoff-reconstruction
 ---
 
 # 协作场景矩阵
@@ -43,7 +43,7 @@ WI-679 合并后再补充直接链接),依据本仓库
 | 验证 | SCN-013..015、SCN-025 | 3 | 1 | 0 |
 | 合并/关闭 | SCN-016..019 | 3 | 1 | 0 |
 | 历史查询 | SCN-020 | 0 | 1 | 0 |
-| Agent/会话交接 | SCN-021..022 | 1 | 1 | 0 |
+| Agent/会话交接 | SCN-021..022、SCN-026 | 2 | 1 | 0 |
 | 多语言/多入口 | SCN-023..024 | 0 | 2 | 0 |
 
 本次交付的场景绝大多数是 `observed` 或 `documented`，没有一条是 `designed`——
@@ -52,7 +52,7 @@ WI-679 合并后再补充直接链接),依据本仓库
 
 ## 完整矩阵
 
-完整的、结构化的场景表(SCN-001 至 SCN-025;编号稳定，未来 Work Item 只能
+完整的、结构化的场景表(SCN-001 至 SCN-026;编号稳定，未来 Work Item 只能
 扩展、不能重新编号)见 `collaboration-scenario-matrix.json`。以下为代表性
 样例:
 
@@ -66,10 +66,12 @@ WI-679 合并后再补充直接链接),依据本仓库
 | SCN-019 | 合并/关闭 | 合并前发现的文档缺口由后续 Work Item 修复，而非改写历史 | 实际观测 | 推迟给后续WI |
 | SCN-022 | Agent/会话交接 | 一个 Agent 未完成的前序关闭，结构性地阻止另一个 Agent 的新起票 | 实际观测 | 待前序关闭前拒绝 |
 | SCN-025 | 验证 | 展示的选项、选择的测试数据决定、中断与恢复后的 Runtime 转换保持一致 | 实际观测 | 可安全重试的一致状态 |
+| SCN-026 | Agent/会话交接 | 新子进程仅从 Runtime 记录重建交接，不依赖会话历史 | 实际观测 | 带明确阻断的状态可完全恢复 |
 
 ## 已知局限
 
 本矩阵仍是人工整理的语义索引，而不是完整的自动化测试套件。WI-753 增加了
-一个针对状态/选项/Runtime 一致性边界的受控仓库可执行检查，包含中断与恢复。
-它不宣称覆盖每个不变量或状态组合的完整笛卡尔积；未来 Work Item 可以继续增
+一个针对状态/选项/Runtime 一致性边界的受控仓库可执行检查，包含中断与恢复；
+WI-756 增加了一个只读取 Runtime 记录并保留明确阻断的有界交接重建检查。二者
+都不宣称覆盖每个不变量或状态组合的完整笛卡尔积；未来 Work Item 可以继续增
 加有界检查，但不得重新编号已有场景。
