@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "159714e8e41b989b7858026c33bbd18fc87f9c32",
+    "name": "codex/wi-753-p1-runtime-consistency",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:56d0078b2c42fb8ec5b58b9d9c079dabca690291dce0c08817855e6e9a010cda",
+  "operationId": "github-pr-734-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "08de2fc2aa7b9530bd1d7764475152689c4851d7",
+    "headRevision": "159714e8e41b989b7858026c33bbd18fc87f9c32",
+    "mergeCommit": "98b3e04a4f617229da5fd5bf707ff9cacf4f2ea3",
+    "number": 734,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/734"
+  },
+  "reason": "PR #734 reviewed and merged with all hosted checks passed; the exact WI-753 branch, remote branch, and dedicated worktree were removed after preserving the archive and verification evidence.",
+  "receiptId": "github-pr-734-wi753-cleanup-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-753-p1-runtime-consistency",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/734",
+    "worktree": "/private/tmp/ai-cockpit-wi-753-runtime-consistency"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:536a155ca6abfd80725b19fb877e96db9626a91c99cddfc320fc7c15502f491b",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T08:01:32Z",
+  "workItemId": "WI-753-p1-runtime-consistency",
+  "worktree": {
+    "branch": "codex/wi-753-p1-runtime-consistency",
+    "headRevision": "159714e8e41b989b7858026c33bbd18fc87f9c32",
+    "path": "/private/tmp/ai-cockpit-wi-753-runtime-consistency",
+    "worktreeId": "wt-WI-753-p1-runtime-consistency"
+  }
+}
