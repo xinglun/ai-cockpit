@@ -2,7 +2,8 @@
   "acceptanceCriteria": [
     "The helper promotes only the six WI-764 documentation projections from closed Runtime evidence.",
     "Historical WI-764 archive, evidence, finalization, cleanup, and close bytes remain unchanged.",
-    "The helper --check-all reports no stale promotion for WI-764 and the repository remains clean after merge."
+    "The helper --check-all reports no stale promotion for WI-764 and the repository remains clean after merge.",
+    "The Work Item's own three-language pages and pre-archive parity entries are present before hosted verification, without changing historical WI-764 bytes."
   ],
   "authority": "authorized",
   "baseRevision": "09c10190dbc5f9d2a02881d2e6d95e44277830a9",
@@ -37,7 +38,10 @@
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md",
-    "tests/docs/promote_closed_work_item.py"
+    "tests/docs/promote_closed_work_item.py",
+    "docs/work-items/WI-765-wi764-doc-promotion.md",
+    "docs/work-items/WI-765-wi764-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-765-wi764-doc-promotion.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",

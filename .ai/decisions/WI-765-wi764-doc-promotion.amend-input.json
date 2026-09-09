@@ -1,0 +1,10 @@
+{
+  "scopeAppend": [
+    "docs/work-items/WI-765-wi764-doc-promotion.md",
+    "docs/work-items/WI-765-wi764-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-765-wi764-doc-promotion.ja.md"
+  ],
+  "acceptanceAppend": [
+    "The Work Item's own three-language pages and pre-archive parity entries are present before hosted verification, without changing historical WI-764 bytes."
+  ]
+}

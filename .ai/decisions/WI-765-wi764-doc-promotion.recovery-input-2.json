@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "retry",
+  "workItemId": "WI-765-wi764-doc-promotion",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-765-wi764-doc-promotion",
+  "predecessorContractDigest": "sha256:9060035a5cc1476fdd2cb992acf2449989f9f707c2e071e443ce4894a53e9175",
+  "predecessorSummaryDigest": "sha256:2fbefcd6a56f2d4eecc3f75091bb08332beb66a8f9b95cc297f094274af431ce",
+  "predecessorOutcomeDigest": "sha256:c707d35da6be7054320491b67aae26f1d95927a5275e1989b473ab02fb326c4c",
+  "predecessorEventsDigest": "sha256:9c8b10653274e6d3fa6de3a628a20a8ee8af45728a5f8b545fa9ed5b29f65980",
+  "runtimeVersion": "0.2.88",
+  "runtimeDigest": "sha256:f6684506be3d1fa1f9a1645c9149d26c876d040cbcd958f9de9210916ccc095b",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "reason": "After the additive Contract amendment and fresh verification, the Runtime correctly blocked a duplicate completion event on the existing stream. Retry the repaired lifecycle while preserving the prior completion and finish.lifecycle block events.",
+  "evidenceRefs": [
+    ".ai/evidence/WI-765-wi764-doc-promotion.verification.json",
+    ".ai/decisions/WI-765-wi764-doc-promotion.amend-input.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "decidedAt": "2026-09-09T16:49:04Z",
+  "resumeCondition": "Rerun preflight, finish, archive, finalize, and close after hosted PR checks pass."
+}

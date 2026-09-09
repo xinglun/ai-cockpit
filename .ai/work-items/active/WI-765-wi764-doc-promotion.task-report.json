@@ -4,7 +4,7 @@
       ".ai/evidence/WI-765-wi764-doc-promotion.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:95e7b367ad9684f706143391f1bb793c96c21a753467d5a0bff93d2773484061",
+    "repositorySnapshotDigest": "sha256:59be1e6ae21d8090c917ce4da950a6b33b45c296e09b7978a922af9decfaf003",
     "workItemId": "WI-765-wi764-doc-promotion"
   },
   "format": "ai-cockpit.task-outcome",
