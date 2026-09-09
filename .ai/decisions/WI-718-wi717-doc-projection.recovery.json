@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T02:37:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/711",
+    ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:ef3f44823b253ef379f22d4ab0bd5e4b40919bc9c38b9978104976103ae2a6df",
+  "predecessorEventsDigest": "sha256:08fe69a93cd774fb11c474c17083e86bde1249888414d944208bc481ec4ab189",
+  "predecessorOutcomeDigest": "sha256:ad1ee3e208306ae763a0266972fd5225049f4f5d9976cd5f4a46bb6b90f13be1",
+  "predecessorSummaryDigest": "sha256:1b604272bd92ac6c6a40f626b39ab308c07f7aa1dd78ec171a46e253844f0382",
+  "predecessorWorkItemId": "WI-718-wi717-doc-projection",
+  "reason": "The initial verification was recorded before finalize-plan bound PR #711 and is no longer a valid current receipt. Retry the same WI-718 after binding the real reviewed PR, then refresh verification before finish and archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification after finalize-plan; then finish, archive, finalize, finalize-verify, and close WI-718.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-718-wi717-doc-projection"
+}

@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "The three-language WI-717 Work Item pages accurately reference its immutable archive, verification, generated finalization, and generated close receipts.",
+    "WI-717 generated finalization and close receipts are persisted byte-for-byte.",
+    "WI-718 documentation and parity projections pass promote_closed_work_item.py --check-all, documentation acceptance, and governance integrity.",
+    "No product runtime, machine contract, exit-code, or authorization behavior changes."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "cf6c7b0ca2386084dbc5b6f642523fc4521b2812",
+  "createdAt": "2026-09-09T02:33:07Z",
+  "goal": "Make the closed Work Item promotion helper and governance integrity checks pass while preserving WI-717 Runtime-generated receipts byte-for-byte and changing no product behavior.",
+  "intent": "Complete the missing three-language Work Item documentation projection for the closed WI-717 governance delivery and persist its generated terminal receipts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product runtime behavior",
+    "Outcome semantics",
+    "machine JSON schema",
+    "authorization semantics",
+    "historical archive/evidence bytes",
+    "other Work Items and agent worktrees",
+    "user files"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:024c611b965f2ac70d2283a017ea8406bb69e2157dfb399ba0f41c8b26968788",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-718-wi717-doc-projection",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/711",
+    "worktree": "/private/tmp/ai-cockpit-wi-718-wi717-doc-projection"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-717-wi716-closed-projection-promotion.finalize.json",
+    ".ai/decisions/WI-717-wi716-closed-projection-promotion.close.json",
+    "docs/work-items/WI-717-wi716-closed-projection-promotion.md",
+    "docs/work-items/WI-717-wi716-closed-projection-promotion.zh-CN.md",
+    "docs/work-items/WI-717-wi716-closed-projection-promotion.ja.md",
+    "docs/work-items/WI-718-wi717-doc-projection.md",
+    "docs/work-items/WI-718-wi717-doc-projection.zh-CN.md",
+    "docs/work-items/WI-718-wi717-doc-projection.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-718-wi717-doc-projection"
+}
