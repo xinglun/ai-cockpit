@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit repository-owner authorization recorded in the user request",
+  "decidedAt": "2026-09-09T08:02:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-755-p1-observation-context-successor.outcome.json",
+    ".ai/evidence/WI-755-p1-observation-context-successor.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/735"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:a6848077610b566cd659246cc69c87815fb2208665be31b2d4cedc0800e47420",
+  "predecessorEventsDigest": "sha256:c3b926717ccccf5d39a854c62b8f59e7e9657971389745de22796cab7d4076e5",
+  "predecessorOutcomeDigest": "sha256:fbe69db394fe2e7b1b5882bde7819f05d3523bc8aea172b3437f546b6a0e693f",
+  "predecessorSummaryDigest": "sha256:ed476c4bc04b332ac97dbc704bb23146b06d6c3ec1c6798f5540aca80b1feb11",
+  "predecessorWorkItemId": "WI-755-p1-observation-context-successor",
+  "reason": "The first finish attempt was blocked only because the non-provisional PR finalization plan had not yet been bound. PR #735 is now bound by finalize-plan; retry the same Work Item without rewriting the blocked attempt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Re-run preflight and current Runtime verification after the finalize-plan contract amendment, then finish, archive, finalize, verify finalization, and close only after hosted PR checks pass.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-755-p1-observation-context-successor"
+}
