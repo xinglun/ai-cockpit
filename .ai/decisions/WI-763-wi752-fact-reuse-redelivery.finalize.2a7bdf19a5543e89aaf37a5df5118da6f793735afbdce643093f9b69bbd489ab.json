@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:1291165223da08da428162aeb506c1b62ad75e85da6eb6d1ef1b3f10ff4c652a",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "repository-owner",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "03aa08195320a12dd04f86b3d096dab5f0f6dc96",
+      "name": "codex/wi-763-wi752-fact-reuse-redelivery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:f6cc33565397d388d6abc90626ef739690fb3466614bbe254408436c1793df0e",
+    "operationId": "operation-WI-763-wi752-fact-reuse-redelivery-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "a8fa804057cad8792f56b580f665046d2d3fc52d",
+      "headRevision": "03aa08195320a12dd04f86b3d096dab5f0f6dc96",
+      "mergeCommit": "c957db84246f73913f26bd112f2a258c4771c0a4",
+      "number": 746,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/746"
+    },
+    "reason": "Exact merged WI-763 branch, remote branch, and dedicated worktree were removed after finalization verification; append cleanup transition before close.",
+    "receiptId": "ai-cockpit-WI-763-wi752-fact-reuse-redelivery-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-763-wi752-fact-reuse-redelivery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/746",
+      "worktree": "/private/tmp/ai-cockpit-wi-763-wi752-fact-reuse-redelivery"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+    "runtimeVersion": "0.2.87",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-09T14:38:00Z",
+    "workItemId": "WI-763-wi752-fact-reuse-redelivery",
+    "worktree": {
+      "branch": "codex/wi-763-wi752-fact-reuse-redelivery",
+      "headRevision": "03aa08195320a12dd04f86b3d096dab5f0f6dc96",
+      "path": "/private/tmp/ai-cockpit-wi-763-wi752-fact-reuse-redelivery",
+      "worktreeId": "WI-763-wi752-fact-reuse-redelivery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-763-wi752-fact-reuse-redelivery-resources-deleted"
+}
