@@ -5,8 +5,9 @@
     "WI-718 documentation and parity projections pass promote_closed_work_item.py --check-all, documentation acceptance, and governance integrity.",
     "No product runtime, machine contract, exit-code, or authorization behavior changes."
   ],
+  "createdAt": "2026-09-09T02:42:25Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:835f6f60905de3b30c67eb5b59e4ba3351d99e376f90f6f901ec8a58145862fa",
+  "evidenceDigest": "sha256:b693d626fa23c1aab2dc127bb388677469e4076ea41f90ac825ec4a703e86773",
   "evidenceRefs": [
     ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
   ],
@@ -24,8 +25,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -43,14 +44,14 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-718-wi717-doc-projection.summary.json"
+            ".ai/work-items/archive/WI-718-wi717-doc-projection.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-717-wi716-closed-projection-promotion.close.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-718-wi717-doc-projection.summary.json"
+            ".ai/work-items/archive/WI-718-wi717-doc-projection.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-717-wi716-closed-projection-promotion.finalize.json"
@@ -83,7 +84,7 @@
             ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -109,7 +110,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-718-wi717-doc-projection.contract.json"
+            ".ai/work-items/archive/WI-718-wi717-doc-projection.contract.json"
           ],
           "inference": false,
           "text": "Make the closed Work Item promotion helper and governance integrity checks pass while preserving WI-717 Runtime-generated receipts byte-for-byte and changing no product behavior."
@@ -118,7 +119,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-718-wi717-doc-projection.contract.json"
+            ".ai/work-items/archive/WI-718-wi717-doc-projection.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -128,8 +129,8 @@
     "status": "verified",
     "workItemId": "WI-718-wi717-doc-projection"
   },
-  "taskReportDigest": "sha256:95611987fbb123a2b5118195dbbf0643302ba247db1130f68e6c79ba37517b12",
-  "taskReportMarkdownDigest": "sha256:5af1999bad3bb0ccf68145c03c81e9ffcfb2dfb31054631ea4554f268a42194e",
+  "taskReportDigest": "sha256:75cc1f344efa7f745fd167fe446b5c98ea423e45789ae2f114e1dbaf5539ec32",
+  "taskReportMarkdownDigest": "sha256:175a38220937a1d498a65a25e3ca83f3f7ef004b338defa1b82a85b5a3b62b8a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

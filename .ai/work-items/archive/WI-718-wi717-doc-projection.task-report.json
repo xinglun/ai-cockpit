@@ -15,14 +15,14 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-718-wi717-doc-projection.summary.json"
+          ".ai/work-items/archive/WI-718-wi717-doc-projection.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-717-wi716-closed-projection-promotion.close.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-718-wi717-doc-projection.summary.json"
+          ".ai/work-items/archive/WI-718-wi717-doc-projection.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-717-wi716-closed-projection-promotion.finalize.json"
@@ -55,7 +55,7 @@
           ".ai/evidence/WI-718-wi717-doc-projection.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-718-wi717-doc-projection.contract.json"
+          ".ai/work-items/archive/WI-718-wi717-doc-projection.contract.json"
         ],
         "inference": false,
         "text": "Make the closed Work Item promotion helper and governance integrity checks pass while preserving WI-717 Runtime-generated receipts byte-for-byte and changing no product behavior."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-718-wi717-doc-projection.contract.json"
+          ".ai/work-items/archive/WI-718-wi717-doc-projection.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:ef3f44823b253ef379f22d4ab0bd5e4b40919bc9c38b9978104976103ae2a6df",
-  "createdAt": "2026-09-09T02:39:04Z",
+  "createdAt": "2026-09-09T02:42:20Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 3885,
-      "executionElapsedMs": 3661,
+      "elapsedMs": 14274,
+      "executionElapsedMs": 14048,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,11 +25,11 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 3885,
-    "executionElapsedMs": 3661,
+    "elapsedMs": 14274,
+    "executionElapsedMs": 14048,
     "filesHashed": 5,
     "filesRead": 5,
-    "gitCalls": 8,
+    "gitCalls": 7,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
     "nodesPlanned": 1,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 3661,
+      "executionElapsedMs": 14048,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-718-wi717-doc-projection"
   },
-  "receiptDigest": "sha256:0efcb4297df755daead511c0b41ef1694b8725649f33a2094d2e9259178c38c7",
+  "receiptDigest": "sha256:cbab2a805dc8f13eeacac42d9e88b02f5c2ca61e0f4e9460fdf0d102ac9ea260",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:bc2b0e5e094f97d4c5f9935afec1b03785dbc1c4867f4f1070d4940db3976568",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
