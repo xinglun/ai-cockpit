@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "70023322ffd14f62b447b9c21f1effba641a7d63",
+    "name": "codex/wi-749-wi745-parity-receipt",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:a0003e017f87ed1ce0651301ab707991acd36abd78947c42c183da653f8aea3b",
+  "operationId": "github-pr-726-wi749-cleanup-deleted-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e808b8d024640b6d55fd9099a80cd19d4ea3e496",
+    "headRevision": "70023322ffd14f62b447b9c21f1effba641a7d63",
+    "mergeCommit": "ff7a616597c3e7ea8ec057598ac3c6389b6bfc67",
+    "number": 726,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/726"
+  },
+  "reason": "PR #726 merged with all hosted checks passed; the exact WI-749 branch, remote branch, and dedicated worktree were removed after preserving the archive and verification evidence.",
+  "receiptId": "github-pr-726-wi749-cleanup-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-749-wi745-parity-receipt",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/726",
+    "worktree": "/private/tmp/ai-cockpit-wi-749-wi745-parity-receipt"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T07:10:56Z",
+  "workItemId": "WI-749-wi745-parity-receipt",
+  "worktree": {
+    "branch": "codex/wi-749-wi745-parity-receipt",
+    "headRevision": "70023322ffd14f62b447b9c21f1effba641a7d63",
+    "path": "/private/tmp/ai-cockpit-wi-749-wi745-parity-receipt",
+    "worktreeId": "wt-WI-749-wi745-parity-receipt"
+  }
+}

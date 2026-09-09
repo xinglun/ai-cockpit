@@ -4,9 +4,13 @@ title: "WI-749 — WI-745 復旧 parity receipt"
 description: "三言語の parity 投影に現在の不変な復旧決定を登録する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-749-wi745-parity-receipt
-status: in-progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-749-wi745-parity-receipt
+terminalArchive: .ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json
+terminalVerification: .ai/evidence/WI-749-wi745-parity-receipt.verification.json
+terminalFinalization: .ai/decisions/WI-749-wi745-parity-receipt.finalize.json
+terminalDecision: .ai/decisions/WI-749-wi745-parity-receipt.close.json
 ---
 
 # WI-749 — WI-745 復旧 parity receipt

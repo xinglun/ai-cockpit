@@ -4,9 +4,13 @@ title: "WI-749 — WI-745 恢复 parity receipt"
 description: "在三语言 parity 投影中登记当前不可变恢复决定。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-749-wi745-parity-receipt
-status: in-progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-749-wi745-parity-receipt
+terminalArchive: .ai/work-items/archive/WI-749-wi745-parity-receipt.contract.json
+terminalVerification: .ai/evidence/WI-749-wi745-parity-receipt.verification.json
+terminalFinalization: .ai/decisions/WI-749-wi745-parity-receipt.finalize.json
+terminalDecision: .ai/decisions/WI-749-wi745-parity-receipt.close.json
 ---
 
 # WI-749——WI-745 恢复 parity receipt
