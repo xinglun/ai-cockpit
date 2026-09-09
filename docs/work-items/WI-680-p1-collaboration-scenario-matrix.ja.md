@@ -4,9 +4,13 @@ title: "WI-680 — P1 協作場景行列"
 description: "状態と遷移から生成した協作場景行列、および reference-parity 台帳への WI-679/WI-680 の三言語登録。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-680-p1-collaboration-scenario-matrix
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-680-p1-collaboration-scenario-matrix
+terminalArchive: .ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json
+terminalVerification: .ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json
+terminalFinalization: .ai/decisions/WI-680-p1-collaboration-scenario-matrix.finalize.json
+terminalDecision: .ai/decisions/WI-680-p1-collaboration-scenario-matrix.close.json
 ---
 
 [English](WI-680-p1-collaboration-scenario-matrix.md) · [简体中文](WI-680-p1-collaboration-scenario-matrix.zh-CN.md)

@@ -4,9 +4,13 @@ title: "WI-679——P0 协作语言契约"
 description: "将七个人-Agent 交流节点映射到既有 Runtime 事实的纯文档横向索引，并附十条可检查的语义不变量。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-679-p0-collaboration-language-contract
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-679-p0-collaboration-language-contract
+terminalArchive: .ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json
+terminalVerification: .ai/evidence/WI-679-p0-collaboration-language-contract.verification.json
+terminalFinalization: .ai/decisions/WI-679-p0-collaboration-language-contract.finalize.json
+terminalDecision: .ai/decisions/WI-679-p0-collaboration-language-contract.close.json
 ---
 
 [English](WI-679-p0-collaboration-language-contract.md) · [日本語](WI-679-p0-collaboration-language-contract.ja.md)

@@ -4,9 +4,13 @@ title: "WI-680 — P1 collaboration scenario matrix"
 description: "A state/transition-derived collaboration scenario matrix, plus tri-language registration of WI-679 and WI-680 in the reference-parity ledger."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-680-p1-collaboration-scenario-matrix
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-680-p1-collaboration-scenario-matrix
+terminalArchive: .ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json
+terminalVerification: .ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json
+terminalFinalization: .ai/decisions/WI-680-p1-collaboration-scenario-matrix.finalize.json
+terminalDecision: .ai/decisions/WI-680-p1-collaboration-scenario-matrix.close.json
 ---
 
 [简体中文](WI-680-p1-collaboration-scenario-matrix.zh-CN.md) · [日本語](WI-680-p1-collaboration-scenario-matrix.ja.md)

@@ -4,9 +4,13 @@ title: "WI-680——P1 协作场景矩阵"
 description: "由状态与转换生成的协作场景矩阵，并在 reference-parity 台帳中以三语言登记 WI-679 与 WI-680。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-680-p1-collaboration-scenario-matrix
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-680-p1-collaboration-scenario-matrix
+terminalArchive: .ai/work-items/archive/WI-680-p1-collaboration-scenario-matrix.contract.json
+terminalVerification: .ai/evidence/WI-680-p1-collaboration-scenario-matrix.verification.json
+terminalFinalization: .ai/decisions/WI-680-p1-collaboration-scenario-matrix.finalize.json
+terminalDecision: .ai/decisions/WI-680-p1-collaboration-scenario-matrix.close.json
 ---
 
 [English](WI-680-p1-collaboration-scenario-matrix.md) · [日本語](WI-680-p1-collaboration-scenario-matrix.ja.md)

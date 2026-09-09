@@ -4,9 +4,13 @@ title: "WI-679 — P0 collaboration language contract"
 description: "A docs-only cross-cutting map of the seven human-Agent communication moments to existing Runtime facts, plus ten checkable semantic invariants."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-679-p0-collaboration-language-contract
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-679-p0-collaboration-language-contract
+terminalArchive: .ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json
+terminalVerification: .ai/evidence/WI-679-p0-collaboration-language-contract.verification.json
+terminalFinalization: .ai/decisions/WI-679-p0-collaboration-language-contract.finalize.json
+terminalDecision: .ai/decisions/WI-679-p0-collaboration-language-contract.close.json
 ---
 
 [简体中文](WI-679-p0-collaboration-language-contract.zh-CN.md) · [日本語](WI-679-p0-collaboration-language-contract.ja.md)

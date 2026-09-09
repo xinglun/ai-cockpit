@@ -4,9 +4,13 @@ title: "WI-679 — P0 協作言語契約"
 description: "七つの人-Agent 交流節目を既存の Runtime 事実へ対応付ける文書のみの索引に、十の検査可能な意味論的不変量を添えたもの。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-679-p0-collaboration-language-contract
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-679-p0-collaboration-language-contract
+terminalArchive: .ai/work-items/archive/WI-679-p0-collaboration-language-contract.contract.json
+terminalVerification: .ai/evidence/WI-679-p0-collaboration-language-contract.verification.json
+terminalFinalization: .ai/decisions/WI-679-p0-collaboration-language-contract.finalize.json
+terminalDecision: .ai/decisions/WI-679-p0-collaboration-language-contract.close.json
 ---
 
 [English](WI-679-p0-collaboration-language-contract.md) · [简体中文](WI-679-p0-collaboration-language-contract.zh-CN.md)

@@ -4,9 +4,13 @@ title: "WI-682——P1 CLI/MCP Outcome 一致性测试"
 description: "补齐 WI-681 指出的不变量5缺口:新增一个集成测试,启动真实 CLI 二进制并调用生产环境 MCP handler 针对同一仓库,断言二者的 Outcome 表示完全一致。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-682-p1-cli-mcp-parity-test
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-682-p1-cli-mcp-parity-test
+terminalArchive: .ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json
+terminalVerification: .ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json
+terminalFinalization: .ai/decisions/WI-682-p1-cli-mcp-parity-test.finalize.json
+terminalDecision: .ai/decisions/WI-682-p1-cli-mcp-parity-test.close.json
 ---
 
 [English](WI-682-p1-cli-mcp-parity-test.md) · [日本語](WI-682-p1-cli-mcp-parity-test.ja.md)

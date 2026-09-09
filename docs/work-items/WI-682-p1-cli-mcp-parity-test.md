@@ -4,9 +4,13 @@ title: "WI-682 — P1 CLI/MCP Outcome parity test"
 description: "Closes the invariant-5 gap named by WI-681: a new integration test spawning the real CLI binary and calling the production MCP handler against the same repository, asserting their Outcome representations are identical."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-682-p1-cli-mcp-parity-test
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-682-p1-cli-mcp-parity-test
+terminalArchive: .ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json
+terminalVerification: .ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json
+terminalFinalization: .ai/decisions/WI-682-p1-cli-mcp-parity-test.finalize.json
+terminalDecision: .ai/decisions/WI-682-p1-cli-mcp-parity-test.close.json
 ---
 
 [简体中文](WI-682-p1-cli-mcp-parity-test.zh-CN.md) · [日本語](WI-682-p1-cli-mcp-parity-test.ja.md)

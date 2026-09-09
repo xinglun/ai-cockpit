@@ -4,9 +4,13 @@ title: "WI-682 — P1 CLI/MCP Outcome 一致性テスト"
 description: "WI-681 が指摘した不変量5の欠落を埋める:実際の CLI バイナリを起動し、同一リポジトリに対して本番の MCP handler を呼び出し、両者の Outcome 表現が完全に一致することを断言する新規統合テストを追加する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-682-p1-cli-mcp-parity-test
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-682-p1-cli-mcp-parity-test
+terminalArchive: .ai/work-items/archive/WI-682-p1-cli-mcp-parity-test.contract.json
+terminalVerification: .ai/evidence/WI-682-p1-cli-mcp-parity-test.verification.json
+terminalFinalization: .ai/decisions/WI-682-p1-cli-mcp-parity-test.finalize.json
+terminalDecision: .ai/decisions/WI-682-p1-cli-mcp-parity-test.close.json
 ---
 
 [English](WI-682-p1-cli-mcp-parity-test.md) · [简体中文](WI-682-p1-cli-mcp-parity-test.zh-CN.md)
