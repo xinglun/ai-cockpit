@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "decidedAt": "2026-09-09T06:31:32Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-745-wi743-doc-promotion.archive.json",
+    ".ai/work-items/archive/WI-746-wi745-terminal-recovery.archive.json",
+    ".ai/evidence/WI-745-wi743-doc-promotion.verification.json",
+    ".ai/decisions/WI-746-wi745-terminal-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "predecessorEventsDigest": "sha256:b57b4bd6321b1cf68933edbd85498436a87b06ec2027c95a92407051457013a1",
+  "predecessorOutcomeDigest": "sha256:220490e60b230f1ed7602a8de76c0071fc7a64794c8ef5f4432faff721d7f56c",
+  "predecessorSummaryDigest": "sha256:09384059d33cf27b050b004805c71bc2177389387dc65c6a571ff7c69109cf20",
+  "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
+  "reason": "Bind the current immutable WI-745 archive projection to its already closed WI-746 recovery successor after the archive summary was normalized by Runtime; preserve all predecessor bytes and do not create another successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further action is required for WI-745 after WI-746 and this predecessor close record are verified.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-746-wi745-terminal-recovery",
+  "workItemId": "WI-745-wi743-doc-promotion"
+}

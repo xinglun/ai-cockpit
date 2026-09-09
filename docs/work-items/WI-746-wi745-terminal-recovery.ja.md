@@ -4,9 +4,13 @@ title: "WI-746 — WI-745 terminal recovery"
 description: "immutable evidence を書き換えず、merge 済み WI-745 の documentation successor を調整します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-746-wi745-terminal-recovery
-status: recovered
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-746-wi745-terminal-recovery
+terminalArchive: .ai/work-items/archive/WI-746-wi745-terminal-recovery.contract.json
+terminalVerification: .ai/evidence/WI-746-wi745-terminal-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-746-wi745-terminal-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-746-wi745-terminal-recovery.close.json
 predecessorWorkItem: WI-745-wi743-doc-promotion
 recoveryDecision: .ai/decisions/WI-745-wi743-doc-promotion.recovery.json
 ---
