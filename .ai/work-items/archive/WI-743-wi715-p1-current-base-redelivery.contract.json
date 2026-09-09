@@ -18,8 +18,11 @@
     "Changing Outcome behavior, machine JSON/schema, exit codes, authorization semantics, or persistence layout",
     "Other agents' branches, worktrees, PRs, or unrelated Work Items"
   ],
+  "predecessorContractDigest": "sha256:31f3eb9d1509b78b7250e6481f166951a9d7058e7a5b5789e3445ba732341f86",
+  "predecessorWorkItemId": "WI-715-p1-large-history-status",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-715-p1-large-history-status.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:fde4b03ec9f47f3ea5cbc8ad51e3e14cd899e60bc084583b126b617df877fc83",
   "requiredEvidenceClasses": [
@@ -30,7 +33,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-743-wi715-p1-current-base-redelivery",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/716",
     "worktree": "/private/tmp/ai-cockpit-wi743-wi715-p1-current-base-redelivery"
   },
   "risk": "normal",
@@ -65,8 +68,5 @@
     "bash tests/docs/parity_status_check.sh",
     "python3 tests/docs/work_item_status_consistency.py --repo <repository>"
   ],
-  "predecessorWorkItemId": "WI-715-p1-large-history-status",
-  "predecessorContractDigest": "sha256:31f3eb9d1509b78b7250e6481f166951a9d7058e7a5b5789e3445ba732341f86",
-  "recoveryDecisionPath": ".ai/decisions/WI-715-p1-large-history-status.recovery.json",
   "workItemId": "WI-743-wi715-p1-current-base-redelivery"
 }

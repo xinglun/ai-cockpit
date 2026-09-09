@@ -5,14 +5,17 @@
     "Record a current-base verification that output, governance decision, evidence binding, error behavior, authorization boundary, and exit-code semantics remain unchanged, and do not claim user-visible performance benefit without evidence.",
     "Pass the Contract-declared local and hosted checks, complete reviewed PR delivery, and produce Runtime finalization, archive, and close evidence for this successor."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-09T04:21:29Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8ed795e99477f7d368f161a8417c13850104db31aa6df8457d208e06b6ec1ef4",
   "evidenceRefs": [
     ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,11 +23,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -34,20 +36,18 @@
       "repositorySnapshotDigest": "sha256:c1062c1154df948a5ec8dd91ff31037f667d695ac5e19a0863f07c030310c891",
       "workItemId": "WI-743-wi715-p1-current-base-redelivery"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-743-wi715-p1-current-base-redelivery.summary.json"
+            ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-743-wi715-p1-current-base-redelivery.approach.json"
+          "text": "Changed path: .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.approach.json"
         }
       ],
       "evidence": [
@@ -66,15 +66,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -85,7 +77,7 @@
             ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -95,15 +87,23 @@
             ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-743-wi715-p1-current-base-redelivery.contract.json"
+            ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json"
           ],
           "inference": false,
           "text": "Redeliver the WI-715 large-history status decision on the current default base so the measured decline and its limitations can be independently reviewed and closed without reviving the stale unmerged PR."
@@ -112,23 +112,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-743-wi715-p1-current-base-redelivery.contract.json"
+            ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-743-wi715-p1-current-base-redelivery"
   },
+  "taskReportDigest": "sha256:8a80bff4c03fea1156b912c43893741fa2f77b7b38694ef72fecb9e37fef122b",
+  "taskReportMarkdownDigest": "sha256:04df1aaf614c9bffaf06d469046eb4bf4de501f7bd57dbefb6984e9bdf938105",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-743-wi715-p1-current-base-redelivery"
 }
