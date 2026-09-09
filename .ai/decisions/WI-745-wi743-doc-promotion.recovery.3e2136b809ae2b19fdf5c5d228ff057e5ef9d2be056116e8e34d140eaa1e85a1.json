@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-recovery",
+  "decidedAt": "2026-09-09T06:09:48Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-746-wi745-recovery-successor.archive.json",
+    ".ai/evidence/WI-746-wi745-recovery-successor.verification.json",
+    ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "predecessorEventsDigest": "sha256:12eda87eb3fa0ed2c841db0d14fa0181ac13aeb7fdea0ca3a6692b330e25f715",
+  "predecessorOutcomeDigest": "sha256:43241ec0b83eeed2719f27cc8769da177a51462ac24ccc62bcd7f17706b78467",
+  "predecessorSummaryDigest": "sha256:654f4f56a0e28467702d59908fc7a17924f0596f7a79c7576264ba36eba6308c",
+  "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
+  "reason": "WI-746 completed the bounded recovery delivery and is archived with valid verification evidence; supersede the immutable WI-745 predecessor because its historical parity registration and verification were recorded in the same commit, preserving all predecessor bytes without inventing a fresh verification or provider finalization.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further action is required for WI-745 after the WI-746 successor and predecessor close records are verified.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-746-wi745-recovery-successor",
+  "workItemId": "WI-745-wi743-doc-promotion"
+}

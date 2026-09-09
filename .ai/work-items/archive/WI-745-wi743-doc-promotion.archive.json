@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-09-09T06:10:14Z",
+  "files": {
+    "contractDigest": "sha256:90b36fbc040b5ac921f2a82ba94b9eeb1bd1dbdda8ef618718491a91aac5253e",
+    "contractPath": ".ai/work-items/archive/WI-745-wi743-doc-promotion.contract.json",
+    "eventsDigest": "sha256:12eda87eb3fa0ed2c841db0d14fa0181ac13aeb7fdea0ca3a6692b330e25f715",
+    "eventsPath": ".ai/work-items/archive/WI-745-wi743-doc-promotion.events.jsonl",
+    "outcomeDigest": "sha256:a16e21a006ae74e3795a5bc703e0321d1bae4fd7191e0bc9e62c0ff18af4e72c",
+    "outcomePath": ".ai/work-items/archive/WI-745-wi743-doc-promotion.outcome.json",
+    "summaryDigest": "sha256:5714b66097894025d411c00b968e4a74921fd751244c600509995a666d23c92f",
+    "summaryPath": ".ai/work-items/archive/WI-745-wi743-doc-promotion.summary.json"
+  },
+  "historicalArtifacts": [],
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-746-wi745-recovery-successor",
+  "supersessionDecisionPath": ".ai/decisions/WI-745-wi743-doc-promotion.recovery.3e2136b809ae2b19fdf5c5d228ff057e5ef9d2be056116e8e34d140eaa1e85a1.json",
+  "workItemId": "WI-745-wi743-doc-promotion"
+}
