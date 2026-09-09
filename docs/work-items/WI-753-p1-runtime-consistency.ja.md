@@ -4,9 +4,13 @@ title: "WI-753 — P1 中断と再開を通した Runtime の一致性"
 description: "制御されたテストリポジトリで、表示状態、選択肢、Runtime の挙動が一致することを中断と再開を含めて実行可能に検査する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-753-p1-runtime-consistency
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-753-p1-runtime-consistency
+terminalArchive: .ai/work-items/archive/WI-753-p1-runtime-consistency.contract.json
+terminalVerification: .ai/evidence/WI-753-p1-runtime-consistency.verification.json
+terminalFinalization: .ai/decisions/WI-753-p1-runtime-consistency.finalize.json
+terminalDecision: .ai/decisions/WI-753-p1-runtime-consistency.close.json
 ---
 
 [English](WI-753-p1-runtime-consistency.md) · [简体中文](WI-753-p1-runtime-consistency.zh-CN.md)

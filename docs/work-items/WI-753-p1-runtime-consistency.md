@@ -4,9 +4,13 @@ title: "WI-753 — P1 controlled Runtime consistency through interruption and re
 description: "Adds an executable controlled-repository check for displayed state, selected option, and Runtime behavior, including safe interruption and resume."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-753-p1-runtime-consistency
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-753-p1-runtime-consistency
+terminalArchive: .ai/work-items/archive/WI-753-p1-runtime-consistency.contract.json
+terminalVerification: .ai/evidence/WI-753-p1-runtime-consistency.verification.json
+terminalFinalization: .ai/decisions/WI-753-p1-runtime-consistency.finalize.json
+terminalDecision: .ai/decisions/WI-753-p1-runtime-consistency.close.json
 ---
 
 [简体中文](WI-753-p1-runtime-consistency.zh-CN.md) · [日本語](WI-753-p1-runtime-consistency.ja.md)

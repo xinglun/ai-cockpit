@@ -4,9 +4,13 @@ title: "WI-753——P1 中断与恢复过程中的 Runtime 一致性"
 description: "在受控测试仓库中增加可执行检查，验证展示状态、选择的选项与 Runtime 行为一致，并覆盖安全中断与恢复。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-753-p1-runtime-consistency
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-753-p1-runtime-consistency
+terminalArchive: .ai/work-items/archive/WI-753-p1-runtime-consistency.contract.json
+terminalVerification: .ai/evidence/WI-753-p1-runtime-consistency.verification.json
+terminalFinalization: .ai/decisions/WI-753-p1-runtime-consistency.finalize.json
+terminalDecision: .ai/decisions/WI-753-p1-runtime-consistency.close.json
 ---
 
 [English](WI-753-p1-runtime-consistency.md) · [日本語](WI-753-p1-runtime-consistency.ja.md)
