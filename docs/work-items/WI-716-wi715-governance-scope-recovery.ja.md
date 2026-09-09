@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-716 — WI-715 governance scope recovery"
 description: "不変の履歴を書き換えず、マージ済み WI-715 の scope-aware governance close を完了する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-716-wi715-governance-scope-recovery
 lastVerifiedBy: WI-716-wi715-governance-scope-recovery
+terminalArchive: .ai/work-items/archive/WI-716-wi715-governance-scope-recovery.contract.json
+terminalVerification: .ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-716-wi715-governance-scope-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-716-wi715-governance-scope-recovery.close.json
 ---
 
 [English](WI-716-wi715-governance-scope-recovery.md) · [简体中文](WI-716-wi715-governance-scope-recovery.zh-CN.md)

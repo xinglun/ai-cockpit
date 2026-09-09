@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T02:00:20Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-669-p0b-outcome-summary.recovery.19fd6109e7b826919cde18fb6bf3ec6138808dc8d4ad3579ae9cef8b5bcac23d.json",
+    ".ai/decisions/WI-703-wi669-current-base-revalidation.close.json",
+    ".ai/decisions/WI-713-wi703-current-base-revalidation.close.json",
+    ".ai/decisions/WI-715-wi713-p0b-redelivery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:f8ea55a3d0412eab9eaf039847f19544561d1656e7f4eee85f6dca1304aaa3f4",
+  "predecessorEventsDigest": "sha256:1bb1655d9930396bbe7f7cbc554188d9c66e582f71bf26a9f48515e88610d6eb",
+  "predecessorOutcomeDigest": "sha256:a6422b6e699985efc4abfa25772e8855ecf5a91fd2644e0f38956228a1ed2528",
+  "predecessorSummaryDigest": "sha256:75e08d1eea39e6e1b36e002af3c12ef827e6874de9ed860473afe97020bb53d1",
+  "predecessorWorkItemId": "WI-669-p0b-outcome-summary",
+  "reason": "WI-703 and the downstream WI-713, WI-715, and WI-716 successor lineage are now closed. Supersede WI-669 as immutable historical evidence without rewriting its archive or evidence bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further action is required for WI-669; continue only from the closed successor lineage and retain WI-669 historical bytes.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-703-wi669-current-base-revalidation",
+  "workItemId": "WI-669-p0b-outcome-summary"
+}
