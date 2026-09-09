@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun explicit authorization to continue WI-745",
+  "decidedAt": "2026-09-09T05:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json",
+    ".ai/evidence/external/WI-745-p1-cognitive-benefit-evaluation.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:9598153bad88bb04e5aa91875038f003acc495c3095c9642e6e89f7b39f393d5",
+  "predecessorSummaryDigest": "sha256:6673e9aadeed4f2f1c4e573429736886e2c81949917652bb377b8eeb5ca0b4de",
+  "predecessorWorkItemId": "WI-745-p1-cognitive-benefit-evaluation",
+  "reason": "The Contract authority declaration was corrected from an invalid non-runtime authority value to the authorized value. The prior verification receipt is preserved as immutable historical evidence with its old Contract digest; authorize one fresh verification retry against the current Contract without changing the evaluation scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh verification and preflight against the current Contract, then continue the normal finish and archive lifecycle only if the Runtime reports a non-red result.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
+}

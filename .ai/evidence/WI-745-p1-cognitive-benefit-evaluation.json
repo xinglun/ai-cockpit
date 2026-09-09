@@ -1,0 +1,373 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-745-p1-cognitive-benefit-evaluation",
+  "sourceRepositoryRevision": "bc23abd4da1ab74700b94317d55f9950c30a9bd3",
+  "runtimeBinary": "/private/tmp/ai-cockpit-wi745-p1-cognitive-benefit-evaluation/target/debug/ai-cockpit",
+  "runtimeBinaryDigest": "sha256:186b0a35955ecd641eb875c4290d28202600bba6d95006aace25e5ee30f09f55",
+  "taskSet": [
+    "normal-completion",
+    "verified-pending-human-decision",
+    "scope-exceeded",
+    "evidence-expired-or-identity-mismatch",
+    "test-weakening-signal",
+    "unverified-scope",
+    "historical-closed-task"
+  ],
+  "participants": 0,
+  "cognitiveBenefitValidated": false,
+  "cases": [
+    {
+      "id": "normal-completion",
+      "workItem": "WI-663-wi659-outcome-trust-replacement",
+      "sourceOutcome": ".ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json",
+      "sourceContract": ".ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.contract.json",
+      "sourceOutcomeDigest": "sha256:86db4c380586b4b71182cc02caa82ddef61276b74e507f6d90dee16e6c63f9d7",
+      "sourceState": "finish_ready",
+      "sourceDecisionState": "green",
+      "sourceUnknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "fixture": null,
+      "fixtureValidation": {
+        "present": false,
+        "passed": true
+      },
+      "answerKey": {
+        "verification": "stored Outcome is finish_ready/green",
+        "human_decision": "not inferred from green; inspect the explicit decision field",
+        "next_step": "review evidence before proceeding; green is not merge or release authorization",
+        "risk_boundary": "empty risk record is not evidence of no risk"
+      },
+      "summary": "Outcome: 🟡 Verification not ready — WI-663-wi659-outcome-trust-replacement\nResult\n- Verification: Verification not ready\n- Lifecycle: Historical\n- Human decision: Recorded: approved\n- Governance signal: Yellow; not a human approval\n- Historical verification evidence was not revalidated under the current Runtime; this is not a current failure.\n- Evidence refs: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json\n\nKey changes\n- Changed path: .ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/decisions/WI-659-wi658-hosted-quality-repair.recovery.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.contract.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.archive.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.events.jsonl [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.outcome.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.summary.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.md [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.archive.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.events.jsonl [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.outcome.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.task-report.json [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.task-report.md [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json]\n\nRemaining uncertainty\n- User-visible benefit is not declared by the Work Item owner. [Evidence refs: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.contract.json]\n- Remaining unknown: historical_evidence_not_revalidated [Evidence refs: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json]\n- Remaining unknown: user_visible_benefit_not_declared [Evidence refs: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json]\n- historical_evidence_not_revalidated\n- user_visible_benefit_not_declared\n- User-visible benefit has not been declared.\n- Risk findings: Not recorded; the available evidence does not declare that a risk check was completed.\n\nHuman next step\n- Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.\n- Decision: approved\n  Actor: human:repository-owner\n  Authority source: explicit-user-authorization\n  Assurance level: Unknown\n  Reason: Hosted checks passed; the repository owner explicitly authorized the PR #661 merge, GitHub does not allow the PR author to submit a self-review, finalize-verify confirmed the merged PR identity and exact branch/worktree cleanup, and the Work Item evidence remains bound without inventing a user-visible benefit.\n  Evidence refs: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json, .ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json\n  Policy refs: docs/reference/repository-workflow.md\n  Decided at: 2026-09-08T07:48:30Z\n  Resume condition: none\n- Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome.\n",
+      "full": "Outcome: 🟡 Verification not ready — WI-663-wi659-outcome-trust-replacement\nTask Result\n- Verification: Verification not ready\n- Lifecycle: Historical\n- Human decision: Recorded: approved\n- Governance signal: Yellow; not a human approval\n\nWhat was completed\n- Historical verification evidence was not revalidated under the current Runtime; this is not a current failure.\n- Changed path: .ai/decisions/WI-658-wi656-outcome-trust-repair.recovery.json\n- Changed path: .ai/decisions/WI-659-wi658-hosted-quality-repair.recovery.json\n- Changed path: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json\n- Changed path: .ai/evidence/WI-659-wi658-hosted-quality-repair.verification.json\n- Changed path: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.contract.json\n- Changed path: .ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.summary.json\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.archive.json\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.events.jsonl\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.outcome.json\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.summary.json\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.json\n- Changed path: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.task-report.md\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.archive.json\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.contract.json\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.events.jsonl\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.outcome.json\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.summary.json\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.task-report.json\n- Changed path: .ai/work-items/archive/WI-659-wi658-hosted-quality-repair.task-report.md\n- Acceptance criteria (Contract language)\n\nProblems found\n- Not recorded\n\nStops triggered\n- Not recorded\n\nProblems resolved\n- Not recorded\n\nRisks avoided\n- Not recorded\n\nRemaining risks\n- Remaining unknown: historical_evidence_not_revalidated\n- Remaining unknown: user_visible_benefit_not_declared\n- User-visible benefit is not declared by the Work Item owner.\n\nUnknowns\n- historical_evidence_not_revalidated\n- user_visible_benefit_not_declared\n\nHuman decisions\n- Decision: approved\n  Actor: human:repository-owner\n  Authority source: explicit-user-authorization\n  Assurance level: Unknown\n  Reason: Hosted checks passed; the repository owner explicitly authorized the PR #661 merge, GitHub does not allow the PR author to submit a self-review, finalize-verify confirmed the merged PR identity and exact branch/worktree cleanup, and the Work Item evidence remains bound without inventing a user-visible benefit.\n  Evidence refs: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json, .ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json\n  Policy refs: docs/reference/repository-workflow.md\n  Decided at: 2026-09-08T07:48:30Z\n  Resume condition: none\n\nVerification\n- Verification not ready: .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json\n\nImpact\n- User-visible benefit has not been declared.\n\nNext action\n- Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.\n\nEvidence\n- .ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json\n",
+      "summaryDigest": "sha256:b681e67da2b3fca96a7bb76893f271c783afe2b98c8b6dd99c59bafa8ffd447b",
+      "fullDigest": "sha256:eb633ac8ab3d638a2e6bd2ac21fa38c8cdb416949d01f5700d23b2938653a66f",
+      "summaryFields": {
+        "Verification": "Verification not ready",
+        "Lifecycle": "Historical",
+        "Human decision": "Recorded: approved",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "fullFields": {
+        "Verification": "Verification not ready",
+        "Lifecycle": "Historical",
+        "Human decision": "Recorded: approved",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "evidenceRefs": [
+        ".ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json"
+      ],
+      "consistencyViolations": [],
+      "fullViewReason": "automated summary/full consistency oracle; not a participant view"
+    },
+    {
+      "id": "verified-pending-human-decision",
+      "workItem": "WI-658-wi656-outcome-trust-repair",
+      "sourceOutcome": ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.outcome.json",
+      "sourceContract": ".ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json",
+      "sourceOutcomeDigest": "sha256:b2b9c991254cfc1c67398a62aa47994689f4668e1a4b052ca3e3ecc0ffa7a520",
+      "sourceState": "finish_ready",
+      "sourceDecisionState": "green",
+      "sourceUnknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "fixture": null,
+      "fixtureValidation": {
+        "present": false,
+        "passed": true
+      },
+      "answerKey": {
+        "verification": "stored Outcome is finish_ready/green, subject to current-runtime revalidation",
+        "human_decision": "not recorded",
+        "next_step": "review evidence and record an explicit human close decision",
+        "risk_boundary": "do not treat verification as approval"
+      },
+      "summary": "Outcome: 🟡 Verification not ready — WI-658-wi656-outcome-trust-repair\nResult\n- Verification: Verification not ready\n- Lifecycle: Historical\n- Human decision: Not recorded\n- Governance signal: Yellow; not a human approval\n- Historical verification evidence was not revalidated under the current Runtime; this is not a current failure.\n- Evidence refs: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json\n\nKey changes\n- Changed path: .ai/decisions/WI-656-outcome-trust-expression.recovery.caab1ff2630b38c362115e209d001da55813293b96a4411f6fd16979146843e4.json [Evidence refs: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.summary.json]\n\nRemaining uncertainty\n- User-visible benefit is not declared by the Work Item owner. [Evidence refs: .ai/work-items/archive/WI-658-wi656-outcome-trust-repair.contract.json]\n- Remaining unknown: historical_evidence_not_revalidated [Evidence refs: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json]\n- Remaining unknown: user_visible_benefit_not_declared [Evidence refs: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json]\n- historical_evidence_not_revalidated\n- user_visible_benefit_not_declared\n- User-visible benefit has not been declared.\n- Risk findings: Not recorded; the available evidence does not declare that a risk check was completed.\n\nHuman next step\n- Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.\n- Not recorded\n- Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome.\n",
+      "full": "Outcome: 🟡 Verification not ready — WI-658-wi656-outcome-trust-repair\nTask Result\n- Verification: Verification not ready\n- Lifecycle: Historical\n- Human decision: Not recorded\n- Governance signal: Yellow; not a human approval\n\nWhat was completed\n- Historical verification evidence was not revalidated under the current Runtime; this is not a current failure.\n- Changed path: .ai/decisions/WI-656-outcome-trust-expression.recovery.caab1ff2630b38c362115e209d001da55813293b96a4411f6fd16979146843e4.json\n- Acceptance criteria (Contract language)\n\nProblems found\n- Not recorded\n\nStops triggered\n- Not recorded\n\nProblems resolved\n- Not recorded\n\nRisks avoided\n- Not recorded\n\nRemaining risks\n- Remaining unknown: historical_evidence_not_revalidated\n- Remaining unknown: user_visible_benefit_not_declared\n- User-visible benefit is not declared by the Work Item owner.\n\nUnknowns\n- historical_evidence_not_revalidated\n- user_visible_benefit_not_declared\n\nHuman decisions\n- Not recorded\n\nVerification\n- Verification not ready: .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json\n\nImpact\n- User-visible benefit has not been declared.\n\nNext action\n- Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.\n\nEvidence\n- .ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json\n",
+      "summaryDigest": "sha256:db05bc124a6fdb6a1f559313b36cb925674e1614e0dfbb40c1d5e471bb7630da",
+      "fullDigest": "sha256:322e2c99078587fb1d6f12c0f6d4190487ce7b622cd056d3cee5465bf3358fa6",
+      "summaryFields": {
+        "Verification": "Verification not ready",
+        "Lifecycle": "Historical",
+        "Human decision": "Not recorded",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "fullFields": {
+        "Verification": "Verification not ready",
+        "Lifecycle": "Historical",
+        "Human decision": "Not recorded",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "evidenceRefs": [
+        ".ai/evidence/WI-658-wi656-outcome-trust-repair.verification.json"
+      ],
+      "consistencyViolations": [],
+      "fullViewReason": "automated summary/full consistency oracle; not a participant view"
+    },
+    {
+      "id": "scope-exceeded",
+      "workItem": "WI-714-wi713-current-base-revalidation",
+      "sourceOutcome": ".ai/work-items/archive/WI-714-wi713-current-base-revalidation.outcome.json",
+      "sourceContract": ".ai/work-items/archive/WI-714-wi713-current-base-revalidation.contract.json",
+      "sourceOutcomeDigest": "sha256:c582928e06e941336d892587adaae8bc8e853d14bc2a02beb9fd5cc48133c689",
+      "sourceState": "blocked",
+      "sourceDecisionState": "red",
+      "sourceUnknowns": [
+        "lifecycle_gate_failed"
+      ],
+      "fixture": "tests/conformance/fixtures/scope-exceeded/input.json",
+      "fixtureValidation": {
+        "present": true,
+        "passed": true
+      },
+      "answerKey": {
+        "verification": "stored Outcome is blocked; completion is not claimed",
+        "human_decision": "not recorded",
+        "next_step": "stop and repair or create a separately authorized Contract",
+        "risk_boundary": "scope evidence is a boundary, not permission to proceed"
+      },
+      "summary": "Outcome: 🟡 Superseded historical item — WI-714-wi713-current-base-revalidation\nResult\n- Verification: Superseded historical item\n- Lifecycle: Superseded historical record\n- Human decision: Not recorded\n- Governance signal: Yellow; not a human approval\n- This Work Item was explicitly superseded as a historical predecessor; original evidence was not rewritten or revalidated under the current Runtime.\n- Evidence refs: .ai/evidence/WI-714-wi713-current-base-revalidation.verification.json\n\nKey changes\n- Changed path: .ai/decisions/WI-713-wi703-current-base-revalidation.recovery.09a026473430b0e8855dabacf111b91686189e3de7c009b241c8a03ac886e5cc.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/decisions/WI-713-wi703-current-base-revalidation.recovery.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/evidence/WI-713-wi703-current-base-revalidation.verification.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.contract.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.archive.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.contract.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.events.jsonl [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.outcome.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.task-report.json [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.task-report.md [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.summary.json]\n\nRemaining uncertainty\n- User-visible benefit is not declared by the Work Item owner. [Evidence refs: .ai/work-items/archive/WI-714-wi713-current-base-revalidation.contract.json]\n- Remaining unknown: historical_evidence_not_current [Evidence refs: .ai/evidence/WI-714-wi713-current-base-revalidation.verification.json]\n- Remaining unknown: user_visible_benefit_not_declared [Evidence refs: .ai/evidence/WI-714-wi713-current-base-revalidation.verification.json]\n- historical_evidence_not_current\n- user_visible_benefit_not_declared\n- User-visible benefit has not been declared.\n- Risk findings: Not recorded; the available evidence does not declare that a risk check was completed.\n\nHuman next step\n- Preserve the historical evidence; the successor owns follow-up work, and this is not a current failure.\n- Not recorded\n- Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome.\n",
+      "full": "Outcome: 🟡 Superseded historical item — WI-714-wi713-current-base-revalidation\nTask Result\n- Verification: Superseded historical item\n- Lifecycle: Superseded historical record\n- Human decision: Not recorded\n- Governance signal: Yellow; not a human approval\n\nWhat was completed\n- This Work Item was explicitly superseded as a historical predecessor; original evidence was not rewritten or revalidated under the current Runtime.\n- Changed path: .ai/decisions/WI-713-wi703-current-base-revalidation.recovery.09a026473430b0e8855dabacf111b91686189e3de7c009b241c8a03ac886e5cc.json\n- Changed path: .ai/decisions/WI-713-wi703-current-base-revalidation.recovery.json\n- Changed path: .ai/evidence/WI-713-wi703-current-base-revalidation.verification.json\n- Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.contract.json\n- Changed path: .ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.archive.json\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.contract.json\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.events.jsonl\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.outcome.json\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.task-report.json\n- Changed path: .ai/work-items/archive/WI-713-wi703-current-base-revalidation.task-report.md\n- Acceptance criteria (Contract language)\n\nProblems found\n- Not recorded\n\nStops triggered\n- Not recorded\n\nProblems resolved\n- Not recorded\n\nRisks avoided\n- Not recorded\n\nRemaining risks\n- Remaining unknown: historical_evidence_not_current\n- Remaining unknown: user_visible_benefit_not_declared\n- User-visible benefit is not declared by the Work Item owner.\n\nUnknowns\n- historical_evidence_not_current\n- user_visible_benefit_not_declared\n\nHuman decisions\n- Not recorded\n\nVerification\n- Superseded historical item: .ai/evidence/WI-714-wi713-current-base-revalidation.verification.json\n\nImpact\n- User-visible benefit has not been declared.\n\nNext action\n- Preserve the historical evidence; the successor owns follow-up work, and this is not a current failure.\n\nEvidence\n- .ai/evidence/WI-714-wi713-current-base-revalidation.verification.json\n",
+      "summaryDigest": "sha256:acccaf026cd55cb54d2d58a3a15c9a3fff0827241b2c9cef714fd580b6b780f6",
+      "fullDigest": "sha256:aad9f474e609a6a08489fe524ea612c1b5f7ff05617a2eae3b37cde2da01d2b6",
+      "summaryFields": {
+        "Verification": "Superseded historical item",
+        "Lifecycle": "Superseded historical record",
+        "Human decision": "Not recorded",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "fullFields": {
+        "Verification": "Superseded historical item",
+        "Lifecycle": "Superseded historical record",
+        "Human decision": "Not recorded",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "evidenceRefs": [
+        ".ai/evidence/WI-714-wi713-current-base-revalidation.verification.json"
+      ],
+      "consistencyViolations": [],
+      "fullViewReason": "automated summary/full consistency oracle; not a participant view"
+    },
+    {
+      "id": "evidence-expired-or-identity-mismatch",
+      "workItem": "WI-423-ci-convergence",
+      "sourceOutcome": ".ai/work-items/archive/WI-423-ci-convergence.outcome.json",
+      "sourceContract": ".ai/work-items/archive/WI-423-ci-convergence.contract.json",
+      "sourceOutcomeDigest": "sha256:63cd5d96769a60de376ea421f88ff18d4fc0d0a0f04d33061aea22a70edcaeb3",
+      "sourceState": "blocked",
+      "sourceDecisionState": "red",
+      "sourceUnknowns": [
+        "lifecycle_gate_failed"
+      ],
+      "fixture": "tests/conformance/fixtures/contradictory-evidence/input.json",
+      "fixtureValidation": {
+        "present": true,
+        "passed": true
+      },
+      "answerKey": {
+        "verification": "foreign, stale, or mismatched evidence must not be presented as current success",
+        "human_decision": "unknown unless an identity-bound decision record exists",
+        "next_step": "remain stopped and obtain fresh, identity-matched evidence",
+        "risk_boundary": "an evidence mismatch is a stop condition, not a warning to ignore"
+      },
+      "summary": "Outcome: 🟡 Superseded historical item — WI-423-ci-convergence\nResult\n- Verification: Superseded historical item\n- Lifecycle: Superseded historical record\n- Human decision: Not recorded\n- Governance signal: Yellow; not a human approval\n- This Work Item was explicitly superseded as a historical predecessor; original evidence was not rewritten or revalidated under the current Runtime.\n- Evidence refs: .ai/evidence/WI-423-ci-convergence.verification.json\n\nKey changes\n- Changed path: .ai/work-items/active/WI-423-ci-convergence.contract.json [Evidence refs: .ai/work-items/archive/WI-423-ci-convergence.summary.json]\n- Changed path: .ai/work-items/active/WI-423-ci-convergence.summary.json [Evidence refs: .ai/work-items/archive/WI-423-ci-convergence.summary.json]\n\nRemaining uncertainty\n- User-visible benefit is not declared by the Work Item owner. [Evidence refs: .ai/work-items/archive/WI-423-ci-convergence.contract.json]\n- Remaining unknown: historical_evidence_not_current [Evidence refs: .ai/evidence/WI-423-ci-convergence.verification.json]\n- Remaining unknown: user_visible_benefit_not_declared [Evidence refs: .ai/evidence/WI-423-ci-convergence.verification.json]\n- historical_evidence_not_current\n- user_visible_benefit_not_declared\n- User-visible benefit has not been declared.\n- Risk findings: Not recorded; the available evidence does not declare that a risk check was completed.\n\nHuman next step\n- Preserve the historical evidence; the successor owns follow-up work, and this is not a current failure.\n- Not recorded\n- Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome.\n",
+      "full": "Outcome: 🟡 Superseded historical item — WI-423-ci-convergence\nTask Result\n- Verification: Superseded historical item\n- Lifecycle: Superseded historical record\n- Human decision: Not recorded\n- Governance signal: Yellow; not a human approval\n\nWhat was completed\n- This Work Item was explicitly superseded as a historical predecessor; original evidence was not rewritten or revalidated under the current Runtime.\n- Changed path: .ai/work-items/active/WI-423-ci-convergence.contract.json\n- Changed path: .ai/work-items/active/WI-423-ci-convergence.summary.json\n- Acceptance criteria (Contract language)\n\nProblems found\n- Not recorded\n\nStops triggered\n- Not recorded\n\nProblems resolved\n- Not recorded\n\nRisks avoided\n- Not recorded\n\nRemaining risks\n- Remaining unknown: historical_evidence_not_current\n- Remaining unknown: user_visible_benefit_not_declared\n- User-visible benefit is not declared by the Work Item owner.\n\nUnknowns\n- historical_evidence_not_current\n- user_visible_benefit_not_declared\n\nHuman decisions\n- Not recorded\n\nVerification\n- Superseded historical item: .ai/evidence/WI-423-ci-convergence.verification.json\n\nImpact\n- User-visible benefit has not been declared.\n\nNext action\n- Preserve the historical evidence; the successor owns follow-up work, and this is not a current failure.\n\nEvidence\n- .ai/evidence/WI-423-ci-convergence.verification.json\n",
+      "summaryDigest": "sha256:207e8640844203c9627e6beda74252b680ce6a3585d45fc7b3dbbffc5ef00bd7",
+      "fullDigest": "sha256:d98de754907726417655b6afbe08b18fd932a6ad5bc8b03093a175f847a6613b",
+      "summaryFields": {
+        "Verification": "Superseded historical item",
+        "Lifecycle": "Superseded historical record",
+        "Human decision": "Not recorded",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "fullFields": {
+        "Verification": "Superseded historical item",
+        "Lifecycle": "Superseded historical record",
+        "Human decision": "Not recorded",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "evidenceRefs": [
+        ".ai/evidence/WI-423-ci-convergence.verification.json"
+      ],
+      "consistencyViolations": [],
+      "fullViewReason": "automated summary/full consistency oracle; not a participant view"
+    },
+    {
+      "id": "test-weakening-signal",
+      "workItem": "WI-662-p0-benchmark-evidence",
+      "sourceOutcome": ".ai/work-items/archive/WI-662-p0-benchmark-evidence.outcome.json",
+      "sourceContract": ".ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json",
+      "sourceOutcomeDigest": "sha256:5d7389003bff6dec67870560e4479a41a738d13932f96812ad89d4cf0f35cb69",
+      "sourceState": "finish_ready",
+      "sourceDecisionState": "green",
+      "sourceUnknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "fixture": "tests/conformance/fixtures/test-weakening/input.json",
+      "fixtureValidation": {
+        "present": true,
+        "passed": true
+      },
+      "answerKey": {
+        "verification": "verification state and test-weakening signal are separate facts",
+        "human_decision": "not inferred from verification",
+        "next_step": "inspect the bounded weakening check and its evidence scope",
+        "risk_boundary": "no recorded risk is not the same as no weakening"
+      },
+      "summary": "Outcome: 🟡 Verification not ready — WI-662-p0-benchmark-evidence\nResult\n- Verification: Verification not ready\n- Lifecycle: Historical\n- Human decision: Recorded: approved\n- Governance signal: Yellow; not a human approval\n- Historical verification evidence was not revalidated under the current Runtime; this is not a current failure.\n- Evidence refs: .ai/evidence/WI-662-p0-benchmark-evidence.verification.json\n\nKey changes\n- Not recorded\n\nRemaining uncertainty\n- User-visible benefit is not declared by the Work Item owner. [Evidence refs: .ai/work-items/archive/WI-662-p0-benchmark-evidence.contract.json]\n- Remaining unknown: historical_evidence_not_revalidated [Evidence refs: .ai/evidence/WI-662-p0-benchmark-evidence.verification.json]\n- Remaining unknown: user_visible_benefit_not_declared [Evidence refs: .ai/evidence/WI-662-p0-benchmark-evidence.verification.json]\n- historical_evidence_not_revalidated\n- user_visible_benefit_not_declared\n- User-visible benefit has not been declared.\n- Risk findings: Not recorded; the available evidence does not declare that a risk check was completed.\n\nHuman next step\n- Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.\n- Decision: approved\n  Actor: human:repository-owner\n  Authority source: human:user-request\n  Assurance level: Unknown\n  Reason: 人类已确认并授权在 hosted checks 通过后合并；archive、provider finalization、精确 cleanup 与 finalize-verify 均已完成。\n  Evidence refs: .ai/evidence/WI-662-p0-benchmark-evidence.verification.json, .ai/decisions/WI-662-p0-benchmark-evidence.finalize.json, https://github.com/xinglun/ai-cockpit/pull/663\n  Policy refs: AGENTS.md:work-item-change-discipline, .ai/README.md:work-item-lifecycle\n  Decided at: 2026-09-08T09:22:00Z\n  Resume condition: none\n- Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome.\n",
+      "full": "Outcome: 🟡 Verification not ready — WI-662-p0-benchmark-evidence\nTask Result\n- Verification: Verification not ready\n- Lifecycle: Historical\n- Human decision: Recorded: approved\n- Governance signal: Yellow; not a human approval\n\nWhat was completed\n- Historical verification evidence was not revalidated under the current Runtime; this is not a current failure.\n- Acceptance criteria (Contract language)\n- 固定序列 120、20、22、21 先按原始顺序分组，首次样本必须为 120；样本不足时不得宣称可靠 p95/p99。\n- 证据保留原始样本、预热次数、样本数和分位数计算方法，并区分首次测量 CLI、OS 缓存预热后的独立 CLI 进程和常驻 MCP 请求。\n- baseline/candidate 允许 Runtime 身份不同，同时验证各自证据完整性及环境可比性，并保留既有 gate 的负向回归覆盖。\n- 交付场景矩阵、阶段耗时和资源指标；平台无法可靠取得的指标显式标记不可用；本 WI 不改变生产治理运行行为。\n\nProblems found\n- Not recorded\n\nStops triggered\n- Not recorded\n\nProblems resolved\n- Not recorded\n\nRisks avoided\n- Not recorded\n\nRemaining risks\n- Remaining unknown: historical_evidence_not_revalidated\n- Remaining unknown: user_visible_benefit_not_declared\n- User-visible benefit is not declared by the Work Item owner.\n\nUnknowns\n- historical_evidence_not_revalidated\n- user_visible_benefit_not_declared\n\nHuman decisions\n- Decision: approved\n  Actor: human:repository-owner\n  Authority source: human:user-request\n  Assurance level: Unknown\n  Reason: 人类已确认并授权在 hosted checks 通过后合并；archive、provider finalization、精确 cleanup 与 finalize-verify 均已完成。\n  Evidence refs: .ai/evidence/WI-662-p0-benchmark-evidence.verification.json, .ai/decisions/WI-662-p0-benchmark-evidence.finalize.json, https://github.com/xinglun/ai-cockpit/pull/663\n  Policy refs: AGENTS.md:work-item-change-discipline, .ai/README.md:work-item-lifecycle\n  Decided at: 2026-09-08T09:22:00Z\n  Resume condition: none\n\nVerification\n- Verification not ready: .ai/evidence/WI-662-p0-benchmark-evidence.verification.json\n\nImpact\n- User-visible benefit has not been declared.\n\nNext action\n- Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.\n\nEvidence\n- .ai/evidence/WI-662-p0-benchmark-evidence.verification.json\n",
+      "summaryDigest": "sha256:24125032fa4c27e1388ca735177282a46eb717ba068edcb798ab6f0d8167652e",
+      "fullDigest": "sha256:f21d79556665fd87d8476e77edf007f586b51e7802ab3046b300ed3f2d394dea",
+      "summaryFields": {
+        "Verification": "Verification not ready",
+        "Lifecycle": "Historical",
+        "Human decision": "Recorded: approved",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "fullFields": {
+        "Verification": "Verification not ready",
+        "Lifecycle": "Historical",
+        "Human decision": "Recorded: approved",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "evidenceRefs": [
+        ".ai/evidence/WI-662-p0-benchmark-evidence.verification.json"
+      ],
+      "consistencyViolations": [],
+      "fullViewReason": "automated summary/full consistency oracle; not a participant view"
+    },
+    {
+      "id": "unverified-scope",
+      "workItem": "WI-139A-preflight-review",
+      "sourceOutcome": ".ai/work-items/archive/WI-139A-preflight-review.outcome.json",
+      "sourceContract": ".ai/work-items/archive/WI-139A-preflight-review.contract.json",
+      "sourceOutcomeDigest": "sha256:3dac6fb0cd4a1282cba9ce02053f914c8f61afefec153cb568bc2a43d8c4bb0a",
+      "sourceState": "finish_ready",
+      "sourceDecisionState": "green",
+      "sourceUnknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "fixture": "tests/conformance/fixtures/repository-prompt-injection/input.json",
+      "fixtureValidation": {
+        "present": true,
+        "passed": true
+      },
+      "answerKey": {
+        "verification": "unverified scenarios remain unverified",
+        "human_decision": "unknown unless explicitly recorded",
+        "next_step": "complete the declared verification plan before claiming completion",
+        "risk_boundary": "unverified scope must remain visible in the uncertainty section"
+      },
+      "summary": "Outcome: 🔴 Verification status unknown — WI-139A-preflight-review\nResult\n- Verification: Verification status unknown\n- Lifecycle: Closed\n- Human decision: Recorded: approved\n- Governance signal: Red; stop required, not a human approval\n- Verification evidence could not be confirmed or does not match this context; the outcome is stopped.\n- Evidence refs: .ai/evidence/WI-139A-preflight-review.verification.json\n\nKey changes\n- Not recorded\n\nRemaining uncertainty\n- A required evidence or identity control failed; remain stopped.\n- Verification evidence is invalid or does not match this Work Item/repository; stopped.\n- Failed gate: evidence_or_identity_control\n- Recovery condition: Repair the failed governance condition, complete fresh checks, and retry finish.\n- User-visible benefit is not declared by the Work Item owner. [Evidence refs: .ai/work-items/archive/WI-139A-preflight-review.contract.json]\n- Remaining unknown: evidence_contradictory [Evidence refs: .ai/evidence/WI-139A-preflight-review.verification.json]\n- Remaining unknown: user_visible_benefit_not_declared [Evidence refs: .ai/evidence/WI-139A-preflight-review.verification.json]\n- evidence_contradictory\n- user_visible_benefit_not_declared\n- User-visible benefit has not been declared.\n- Risk findings: Not recorded; the available evidence does not declare that a risk check was completed.\n\nHuman next step\n- This Work Item is closed; no new human decision is required by this handoff. Do not broaden verification into another authorization.\n- Decision: approved\n  Actor: human:owner\n  Authority source: user-authorized-session\n  Assurance level: Unknown\n  Reason: WI-139A implementation and evidence reviewed; proceed to successor recovery batches.\n  Evidence refs: .ai/evidence/WI-139A-preflight-review.verification.json\n  Policy refs: docs/reference/agent-workflow.md\n  Decided at: 2026-08-23T00:00:00Z\n  Resume condition: Only continue with a separately reviewed successor Work Item for recovery and lifecycle parity.\n- Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome.\n",
+      "full": "Outcome: 🔴 Verification status unknown — WI-139A-preflight-review\nTask Result\n- Verification: Verification status unknown\n- Lifecycle: Closed\n- Human decision: Recorded: approved\n- Governance signal: Red; stop required, not a human approval\n\nWhat was completed\n- Verification evidence could not be confirmed or does not match this context; the outcome is stopped.\n- Acceptance criteria (Contract language)\n- A1: Required unverified scenarios with expectedResult and verificationPlan are implementation-ready but not verified\n- A2: Human preflight decision evidence binds repository Work Item Contract and preflight identity\n- A3: Missing malformed stale or foreign decision evidence fails closed and cannot authorize checkpoint\n- A4: Planned implementation never authorizes finish archive close or release without executed scenario evidence\n- A5: CLI and MCP expose equivalent preflight review facts and tri-language docs describe the boundary\n\nProblems found\n- Verification evidence is invalid or does not match this Work Item/repository; stopped.\n- Failed gate: evidence_or_identity_control\n\nStops triggered\n- Required verification evidence is not present; completion cannot be claimed.\n- Recovery condition: Repair the failed governance condition, complete fresh checks, and retry finish.\n\nProblems resolved\n- Not recorded\n\nRisks avoided\n- Not recorded\n\nRemaining risks\n- Remaining unknown: evidence_contradictory\n- Remaining unknown: user_visible_benefit_not_declared\n- User-visible benefit is not declared by the Work Item owner.\n\nUnknowns\n- evidence_contradictory\n- user_visible_benefit_not_declared\n\nHuman decisions\n- Decision: approved\n  Actor: human:owner\n  Authority source: user-authorized-session\n  Assurance level: Unknown\n  Reason: WI-139A implementation and evidence reviewed; proceed to successor recovery batches.\n  Evidence refs: .ai/evidence/WI-139A-preflight-review.verification.json\n  Policy refs: docs/reference/agent-workflow.md\n  Decided at: 2026-08-23T00:00:00Z\n  Resume condition: Only continue with a separately reviewed successor Work Item for recovery and lifecycle parity.\n\nVerification\n- Verification status unknown: .ai/evidence/WI-139A-preflight-review.verification.json\n\nImpact\n- User-visible benefit has not been declared.\n\nNext action\n- Repair the invalid evidence and verify again; remain stopped until then.\n\nEvidence\n- .ai/evidence/WI-139A-preflight-review.verification.json\n",
+      "summaryDigest": "sha256:3b3fb6b09765a4f83117d9120461d49224db74f24b1fe7032f2d95ba1f64e739",
+      "fullDigest": "sha256:61f840215720d83fb4f90eb128edbd370ae822e2ab34c628fdd9181ec8a99fc1",
+      "summaryFields": {
+        "Verification": "Verification status unknown",
+        "Lifecycle": "Closed",
+        "Human decision": "Recorded: approved",
+        "Governance signal": "Red; stop required, not a human approval"
+      },
+      "fullFields": {
+        "Verification": "Verification status unknown",
+        "Lifecycle": "Closed",
+        "Human decision": "Recorded: approved",
+        "Governance signal": "Red; stop required, not a human approval"
+      },
+      "evidenceRefs": [
+        ".ai/evidence/WI-139A-preflight-review.verification.json"
+      ],
+      "consistencyViolations": [],
+      "fullViewReason": "automated summary/full consistency oracle; not a participant view"
+    },
+    {
+      "id": "historical-closed-task",
+      "workItem": "WI-743-wi715-p1-current-base-redelivery",
+      "sourceOutcome": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.outcome.json",
+      "sourceContract": ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json",
+      "sourceOutcomeDigest": "sha256:627f64c6b0c40dcdd97ae2824ccffbbf505bdb96ed27532e727a9100c4245b7c",
+      "sourceState": "finish_ready",
+      "sourceDecisionState": "green",
+      "sourceUnknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "fixture": null,
+      "fixtureValidation": {
+        "present": false,
+        "passed": true
+      },
+      "answerKey": {
+        "verification": "historical evidence is not a current verification result",
+        "human_decision": "read the recorded decision and its authority source; do not upgrade assurance",
+        "next_step": "preserve history and reverify only when a current result is needed",
+        "risk_boundary": "historical or superseded is distinct from current failure"
+      },
+      "summary": "Outcome: 🟡 Verification not ready — WI-743-wi715-p1-current-base-redelivery\nResult\n- Verification: Verification not ready\n- Lifecycle: Historical\n- Human decision: Recorded: approved\n- Governance signal: Yellow; not a human approval\n- Historical verification evidence was not revalidated under the current Runtime; this is not a current failure.\n- Evidence refs: .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json\n\nKey changes\n- Changed path: .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.approach.json [Evidence refs: .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.summary.json]\n\nRemaining uncertainty\n- User-visible benefit is not declared by the Work Item owner. [Evidence refs: .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json]\n- Remaining unknown: historical_evidence_not_revalidated [Evidence refs: .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json]\n- Remaining unknown: user_visible_benefit_not_declared [Evidence refs: .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json]\n- historical_evidence_not_revalidated\n- user_visible_benefit_not_declared\n- User-visible benefit has not been declared.\n- Risk findings: Not recorded; the available evidence does not declare that a risk check was completed.\n\nHuman next step\n- Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.\n- Decision: approved\n  Actor: human:repository-owner\n  Authority source: repository-owner:xinglun-explicit-authorization\n  Assurance level: Unknown\n  Reason: Repository owner approved closure after reviewed PR #716, all hosted checks, archive integrity, Runtime finalize-verify, and exact branch/worktree cleanup; no performance benefit is claimed beyond the recorded evidence.\n  Evidence refs: .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json, .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.archive.json, .ai/decisions/WI-743-wi715-p1-current-base-redelivery.finalize.477321910af99473f1b45b38dc46c7a2ee0c1593dfe195f0bdd471bb18f537e5.json\n  Policy refs: AGENTS.md, .ai/README.md, .ai/glossary.md\n  Decided at: 2026-09-09T04:38:23Z\n  Resume condition: none\n- Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome.\n",
+      "full": "Outcome: 🟡 Verification not ready — WI-743-wi715-p1-current-base-redelivery\nTask Result\n- Verification: Verification not ready\n- Lifecycle: Historical\n- Human decision: Recorded: approved\n- Governance signal: Yellow; not a human approval\n\nWhat was completed\n- Historical verification evidence was not revalidated under the current Runtime; this is not a current failure.\n- Changed path: .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.approach.json\n- Acceptance criteria (Contract language)\n\nProblems found\n- Not recorded\n\nStops triggered\n- Not recorded\n\nProblems resolved\n- Not recorded\n\nRisks avoided\n- Not recorded\n\nRemaining risks\n- Remaining unknown: historical_evidence_not_revalidated\n- Remaining unknown: user_visible_benefit_not_declared\n- User-visible benefit is not declared by the Work Item owner.\n\nUnknowns\n- historical_evidence_not_revalidated\n- user_visible_benefit_not_declared\n\nHuman decisions\n- Decision: approved\n  Actor: human:repository-owner\n  Authority source: repository-owner:xinglun-explicit-authorization\n  Assurance level: Unknown\n  Reason: Repository owner approved closure after reviewed PR #716, all hosted checks, archive integrity, Runtime finalize-verify, and exact branch/worktree cleanup; no performance benefit is claimed beyond the recorded evidence.\n  Evidence refs: .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json, .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.archive.json, .ai/decisions/WI-743-wi715-p1-current-base-redelivery.finalize.477321910af99473f1b45b38dc46c7a2ee0c1593dfe195f0bdd471bb18f537e5.json\n  Policy refs: AGENTS.md, .ai/README.md, .ai/glossary.md\n  Decided at: 2026-09-09T04:38:23Z\n  Resume condition: none\n\nVerification\n- Verification not ready: .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json\n\nImpact\n- User-visible benefit has not been declared.\n\nNext action\n- Preserve the historical evidence; reverify with the current Runtime only when a current result is needed, and do not treat it as a current failure.\n\nEvidence\n- .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json\n",
+      "summaryDigest": "sha256:7138969a711fd2b4837d7b35a4fd47e19f44472fba83c27f0111f60e89895100",
+      "fullDigest": "sha256:dfcb3c897773554d1c100f14f2c75778c4952591b200830ed9c046b9e64ad0e2",
+      "summaryFields": {
+        "Verification": "Verification not ready",
+        "Lifecycle": "Historical",
+        "Human decision": "Recorded: approved",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "fullFields": {
+        "Verification": "Verification not ready",
+        "Lifecycle": "Historical",
+        "Human decision": "Recorded: approved",
+        "Governance signal": "Yellow; not a human approval"
+      },
+      "evidenceRefs": [
+        ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json"
+      ],
+      "consistencyViolations": [],
+      "fullViewReason": "automated summary/full consistency oracle; not a participant view"
+    }
+  ],
+  "languageChecks": [
+    {
+      "language": "zh",
+      "workItem": "WI-663-wi659-outcome-trust-replacement",
+      "outputDigest": "sha256:d19c5b0632acd1496cd5241c5b27c879cec1feb06a8ed8c9624bff32bfe44811",
+      "requiredHeadings": [
+        "结果",
+        "关键变化",
+        "剩余不确定性",
+        "人的下一步"
+      ],
+      "missingHeadings": [],
+      "passed": true
+    },
+    {
+      "language": "ja",
+      "workItem": "WI-663-wi659-outcome-trust-replacement",
+      "outputDigest": "sha256:63a7deded75eb9477c3b904ae4f8e1fb6d148a9f763632f6b8094f60e541de2b",
+      "requiredHeadings": [
+        "結果",
+        "主な変更",
+        "残る不確実性",
+        "人間の次のアクション"
+      ],
+      "missingHeadings": [],
+      "passed": true
+    }
+  ],
+  "metrics": {
+    "correctStateAndNextStepTime": "not_measured",
+    "erroneousReleaseCount": "not_measured",
+    "keyRiskOmissionCount": "not_measured",
+    "greenMisunderstandingCount": "not_measured",
+    "fullEvidenceViewsByParticipants": "not_measured",
+    "full_view_invocations": 14,
+    "full_view_invocation_reason": "automated summary/full consistency oracle",
+    "summary_full_consistency_violations": 0,
+    "critical_visibility_failures": 0
+  },
+  "limits": [
+    "No real participants were supplied.",
+    "No external adopter or repository data was read or written.",
+    "Automated full-view calls are not human reading observations.",
+    "The result cannot establish a cognitive benefit, reading-time reduction, or risk-interception rate."
+  ]
+}

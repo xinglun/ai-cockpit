@@ -1,0 +1,65 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-09T04:48:56Z",
+  "checkpointContractDigest": "sha256:01aea5f3ec21ad1bf04b66a77d9bbdcd3bc4a1cb26f8d56edd12c0871553a5d3",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:9598153bad88bb04e5aa91875038f003acc495c3095c9642e6e89f7b39f393d5",
+      "recorded": true,
+      "recordedAt": "2026-09-09T04:48:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5bdf5327e24be04c0cd2c5f526d8c462b51c8bbfab92f7eae65ced3206083dc8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:01aea5f3ec21ad1bf04b66a77d9bbdcd3bc4a1cb26f8d56edd12c0871553a5d3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9598153bad88bb04e5aa91875038f003acc495c3095c9642e6e89f7b39f393d5",
+      "previousContractHash": "sha256:9598153bad88bb04e5aa91875038f003acc495c3095c9642e6e89f7b39f393d5",
+      "reason": "Correct the Contract evidence-class declaration: Runtime recognizes verification as a required evidence class; the evaluation answer key, fixtures, comparison report, and final Outcome remain explicit required evidence artifacts in the Contract evidence plan and documents.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T05:14:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5bdf5327e24be04c0cd2c5f526d8c462b51c8bbfab92f7eae65ced3206083dc8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:5bdf5327e24be04c0cd2c5f526d8c462b51c8bbfab92f7eae65ced3206083dc8",
+  "createdAt": "2026-09-09T04:47:33Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-09T05:15:11Z",
+  "preflightContractDigest": "sha256:01aea5f3ec21ad1bf04b66a77d9bbdcd3bc4a1cb26f8d56edd12c0871553a5d3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5bdf5327e24be04c0cd2c5f526d8c462b51c8bbfab92f7eae65ced3206083dc8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T05:15:50Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:c275486a3ac17f2550558861c8503c759c53d2d8e9c0fa00cd3a6643f220f74e",
+  "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
+}

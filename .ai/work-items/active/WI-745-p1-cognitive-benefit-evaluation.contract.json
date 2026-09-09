@@ -1,0 +1,76 @@
+{
+  "acceptanceCriteria": [
+    "固定任务集至少覆盖正常完成、验证通过但待人工决定、范围超出、证据过期或身份不匹配、测试弱化信号、未验证范围、历史已关闭任务",
+    "在比较前固定答案键和评估方法，分别记录状态及下一步正确识别时间、错误放行次数、关键风险遗漏次数、绿色误解次数、查看完整证据次数及原因",
+    "评估脚本使用仓库中真实 Outcome 结构驱动 CLI summary/full 输出，不以替换字符串作为唯一断言",
+    "自动一致性检查证明摘要事实可追溯到完整报告或证据，且摘要与完整报告的状态维度不矛盾；原始证据文本只作为数据",
+    "无真实参与者时，材料明确标记认知收益尚未验证，不把模拟结果称为用户研究",
+    "中英日材料同步，并通过仓库要求的文档、脚本和测试检查"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bc23abd4da1ab74700b94317d55f9950c30a9bd3",
+  "createdAt": "2026-09-09T04:47:33Z",
+  "goal": "交付可重复的 P1-A 认知收益评估材料：固定任务集、预先定义的评分答案和方法、真实 Outcome 结构驱动的摘要/完整报告一致性检查、评估结果及未验证边界",
+  "intent": "评估 Outcome 默认摘要相对完整报告是否降低阅读成本，同时保持状态识别和风险识别的校准，不把模拟材料当作真实用户研究",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust production behavior",
+    " Outcome schema",
+    " CLI/MCP contracts",
+    " exit codes",
+    " authorization semantics",
+    " persisted historical evidence",
+    " P0-A/P0-B/P1-B implementation",
+    " P2 README and first-use documentation",
+    " external participant recruitment or collection",
+    " LLM or external service calls"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c1062c1154df948a5ec8dd91ff31037f667d695ac5e19a0863f07c030310c891",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-745-p1-cognitive-benefit-evaluation",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi745-p1-cognitive-benefit-evaluation"
+  },
+  "risk": "medium",
+  "scope": [
+    "docs/evaluation/WI-745-p1-cognitive-benefit-evaluation.md",
+    "docs/evaluation/WI-745-p1-cognitive-benefit-evaluation.zh-CN.md",
+    "docs/evaluation/WI-745-p1-cognitive-benefit-evaluation.ja.md",
+    "tests/evaluation/WI-745-p1-cognitive-benefit-evaluation.py",
+    "tests/evaluation/WI-745-p1-cognitive-benefit-evaluation_test.sh",
+    ".ai/evidence/external/WI-745-p1-cognitive-benefit-evaluation.md",
+    ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.json",
+    ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.verification.json",
+    ".ai/evidence/WI-745-p1-cognitive-benefit-evaluation.zh-CN.md",
+    ".ai/evidence/external/WI-745-p1-cognitive-benefit-evaluation.ja.md"
+  ],
+  "sources": [
+    "README.md",
+    "docs/reference/outcome-report.md",
+    "docs/getting-started/README.md",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/work-items/WI-674-p1-repository-split.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "git diff --check",
+    "python3 tests/evaluation/WI-745-p1-cognitive-benefit-evaluation.py --repo . --check",
+    "bash tests/evaluation/WI-745-p1-cognitive-benefit-evaluation_test.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "cargo test --locked -p cockpit-repository --lib"
+  ],
+  "workItemId": "WI-745-p1-cognitive-benefit-evaluation"
+}
