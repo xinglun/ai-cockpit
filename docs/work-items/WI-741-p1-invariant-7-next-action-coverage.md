@@ -4,9 +4,13 @@ title: "WI-741 — P1 invariant 7 (next-action correctness) coverage"
 description: "Closes the invariant-7 gap named by docs/reference/collaboration-invariant-coverage.md with a bounded test tied to a subset of the collaboration scenario matrix's observed scenarios."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-741-p1-invariant-7-next-action-coverage
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-741-p1-invariant-7-next-action-coverage
+terminalArchive: .ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.contract.json
+terminalVerification: .ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json
+terminalFinalization: .ai/decisions/WI-741-p1-invariant-7-next-action-coverage.finalize.json
+terminalDecision: .ai/decisions/WI-741-p1-invariant-7-next-action-coverage.close.json
 ---
 
 [简体中文](WI-741-p1-invariant-7-next-action-coverage.zh-CN.md) · [日本語](WI-741-p1-invariant-7-next-action-coverage.ja.md)

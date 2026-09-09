@@ -4,9 +4,13 @@ title: "WI-741 — P1 不变量7(下一步动作正确性)覆盖"
 description: "以绑定协作场景矩阵一部分实际观测场景的有界测试,弥补 docs/reference/collaboration-invariant-coverage.md 指出的不变量7缺口。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-741-p1-invariant-7-next-action-coverage
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-741-p1-invariant-7-next-action-coverage
+terminalArchive: .ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.contract.json
+terminalVerification: .ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json
+terminalFinalization: .ai/decisions/WI-741-p1-invariant-7-next-action-coverage.finalize.json
+terminalDecision: .ai/decisions/WI-741-p1-invariant-7-next-action-coverage.close.json
 ---
 
 [English](WI-741-p1-invariant-7-next-action-coverage.md) · [日本語](WI-741-p1-invariant-7-next-action-coverage.ja.md)

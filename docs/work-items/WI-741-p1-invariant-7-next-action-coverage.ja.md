@@ -4,9 +4,13 @@ title: "WI-741 — P1 不変量7(次アクションの正しさ)カバレッジ"
 description: "協作場景行列の実観測場景の一部に結びついた境界の明確なテストで、docs/reference/collaboration-invariant-coverage.md が示す不変量7の欠落を解消する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-741-p1-invariant-7-next-action-coverage
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-741-p1-invariant-7-next-action-coverage
+terminalArchive: .ai/work-items/archive/WI-741-p1-invariant-7-next-action-coverage.contract.json
+terminalVerification: .ai/evidence/WI-741-p1-invariant-7-next-action-coverage.verification.json
+terminalFinalization: .ai/decisions/WI-741-p1-invariant-7-next-action-coverage.finalize.json
+terminalDecision: .ai/decisions/WI-741-p1-invariant-7-next-action-coverage.close.json
 ---
 
 [English](WI-741-p1-invariant-7-next-action-coverage.md) · [简体中文](WI-741-p1-invariant-7-next-action-coverage.zh-CN.md)
