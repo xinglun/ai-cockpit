@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T05:24:05Z",
+  "files": {
+    "contractDigest": "sha256:e63865f1f1d11110eb206449401ea0cc6d6ed94bc42ad14e548aee8992c11a38",
+    "contractPath": ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.contract.json",
+    "eventsDigest": "sha256:ea453b9b757b4faf14ae72630bc74b91864406785bb1ebd83212f6db85c6b45a",
+    "eventsPath": ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.events.jsonl",
+    "outcomeDigest": "sha256:3a64073cb00b12e343ccb04ab4d8a7cbb551acdc0db61be24b4b92ae2dcd391e",
+    "outcomePath": ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.outcome.json",
+    "summaryDigest": "sha256:6bbb0f337afb56952241d376d1ac0aa64e7871f9ec6b2c275e581cbe26ca4bf4",
+    "summaryPath": ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json",
+    "taskReportDigest": "sha256:0f41e9006cb869911723b11222d1f908d8b0321cc32ff414712758d101ec3211",
+    "taskReportMarkdownDigest": "sha256:35b4baba076c34410191bf09faae8909c342cc127695d3ffb76a35881c14d5b2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-744-wi742-reference-parity-repair"
+}

@@ -74,8 +74,8 @@
     ".ai/decisions/WI-742-p1-invariant-7-doc-promotion.recovery.93b3d1fdc6287fe50cdfac89827096a6b4b6a691c57a0f246aa15091167a6538.json",
     ".ai/decisions/WI-742-p1-invariant-7-doc-promotion.recovery.json",
     ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json",
-    ".ai/work-items/active/WI-744-wi742-reference-parity-repair.contract.json",
-    ".ai/work-items/active/WI-744-wi742-reference-parity-repair.summary.json",
+    ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.contract.json",
+    ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json",
     ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.archive.json",
     ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.contract.json",
     ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.events.jsonl",
@@ -85,7 +85,7 @@
     ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.task-report.md"
   ],
   "checkpointAt": "2026-09-09T04:39:16Z",
-  "checkpointContractDigest": "sha256:c05cc33d1cfac7a67b76e6d8ca5fd223b08a3936a7eda7789531bf6d2a1616a6",
+  "checkpointContractDigest": "sha256:a62645d272ec0a3d14e436d3a6c4f6a6b14e60b111ecbb3ffa26f1e4041844db",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -141,9 +141,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-744-wi742-reference-parity-repair"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a62645d272ec0a3d14e436d3a6c4f6a6b14e60b111ecbb3ffa26f1e4041844db",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6fb46d8747e9795aef95417b50c01eb82211d5034d3647ba59d95013737350e8",
+      "previousContractHash": "sha256:d1fb668fcbde230e674dbff3add60039c7fd9d9a034d8bd296492d0303d94eb6",
+      "reason": "Rebind the same bounded WI-744 documentation projection to the reviewed WI-745 merge commit f25f9b92 and its current repository snapshot; no scope, authority, or verification command change.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T05:22:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6cca4891279f59112fd0428237a24b44cdcfa411dc29a7d0f9ff9c9e5b509629",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-744-wi742-reference-parity-repair"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:1e9b2eb930a32ecbd964bb6d6ff0593aaeaf2c19f29ea6154f29b7a3e7dc07d4",
+  "checkpointRepositorySnapshotDigest": "sha256:6cca4891279f59112fd0428237a24b44cdcfa411dc29a7d0f9ff9c9e5b509629",
   "createdAt": "2026-09-09T04:34:28Z",
   "intentAlignment": {
     "evidence": [
@@ -163,22 +183,21 @@
   "mode": "docs",
   "predecessorContractDigest": "sha256:da259332475de8ba51bb65d6cac89b6f8ae5d78a52fb7df910028cf462d1f193",
   "predecessorWorkItemId": "WI-742-p1-invariant-7-doc-promotion",
-  "preflightAt": "2026-09-09T05:06:15Z",
-  "preflightContractDigest": "sha256:c05cc33d1cfac7a67b76e6d8ca5fd223b08a3936a7eda7789531bf6d2a1616a6",
+  "preflightAt": "2026-09-09T05:23:45Z",
+  "preflightContractDigest": "sha256:a62645d272ec0a3d14e436d3a6c4f6a6b14e60b111ecbb3ffa26f1e4041844db",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:1e9b2eb930a32ecbd964bb6d6ff0593aaeaf2c19f29ea6154f29b7a3e7dc07d4",
+  "preflightRepositorySnapshotDigest": "sha256:6cca4891279f59112fd0428237a24b44cdcfa411dc29a7d0f9ff9c9e5b509629",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-742-p1-invariant-7-doc-promotion.recovery.93b3d1fdc6287fe50cdfac89827096a6b4b6a691c57a0f246aa15091167a6538.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T04:44:31.867325+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T05:23:59Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:c3a4cdd7dae59034e8d76d36dda954a7cf6b1ce89c7b6ba6f35097327b6c70d2",
   "workItemId": "WI-744-wi742-reference-parity-repair"
 }

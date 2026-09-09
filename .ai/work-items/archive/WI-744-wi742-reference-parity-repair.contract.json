@@ -6,7 +6,7 @@
     "No out-of-scope paths change."
   ],
   "authority": "Repository-owner handoff and Runtime successor recovery from WI-742",
-  "baseRevision": "bc23abd4da1ab74700b94317d55f9950c30a9bd3",
+  "baseRevision": "f25f9b92a951889a85b0497a43d25853e66fb86a",
   "createdAt": "2026-09-09T04:34:28Z",
   "goal": "Add one WI-742 parity row to each of docs/reference/reference-parity.md, docs/reference/reference-parity.zh-CN.md, and docs/reference/reference-parity.ja.md, preserving the established evidence links and status vocabulary.",
   "intent": "Register the archived WI-742 coverage-document changes in the tri-language reference-parity projections required by the docs governance gate.",
@@ -28,7 +28,7 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-742-p1-invariant-7-doc-promotion.recovery.93b3d1fdc6287fe50cdfac89827096a6b4b6a691c57a0f246aa15091167a6538.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:d185a3652601e35f0eccd3f61ae7469e1a92e3b562ae016719591d0c99cb651e",
+  "repositorySnapshotDigest": "sha256:6cca4891279f59112fd0428237a24b44cdcfa411dc29a7d0f9ff9c9e5b509629",
   "requiredEvidenceClasses": [
     "verification"
   ],

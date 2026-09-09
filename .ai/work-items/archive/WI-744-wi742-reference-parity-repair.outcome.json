@@ -1,0 +1,213 @@
+{
+  "acceptanceResults": [
+    "All three reference-parity pages contain exactly one WI-742-p1-invariant-7-doc-promotion entry with the corresponding language-specific Work Item link and the archived WI-742 evidence bindings.",
+    "The tri-language WI-744 Work Item projections exist with the repository-bound workItemId and describe the bounded documentation-only successor.",
+    "bash tests/docs/parity_status_check.sh passes and bash tests/docs/documentation_acceptance.sh passes.",
+    "No out-of-scope paths change."
+  ],
+  "createdAt": "2026-09-09T05:23:59Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:06398591117e6332298a3f428a35fc105f406f225f6a349d861dbcc187ff2c74",
+  "evidenceRefs": [
+    ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6cca4891279f59112fd0428237a24b44cdcfa411dc29a7d0f9ff9c9e5b509629",
+      "workItemId": "WI-744-wi742-reference-parity-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-742-p1-invariant-7-doc-promotion.recovery.93b3d1fdc6287fe50cdfac89827096a6b4b6a691c57a0f246aa15091167a6538.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-742-p1-invariant-7-doc-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-744-wi742-reference-parity-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Add one WI-742 parity row to each of docs/reference/reference-parity.md, docs/reference/reference-parity.zh-CN.md, and docs/reference/reference-parity.ja.md, preserving the established evidence links and status vocabulary."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-744-wi742-reference-parity-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-744-wi742-reference-parity-repair"
+  },
+  "taskReportDigest": "sha256:0f41e9006cb869911723b11222d1f908d8b0321cc32ff414712758d101ec3211",
+  "taskReportMarkdownDigest": "sha256:35b4baba076c34410191bf09faae8909c342cc127695d3ffb76a35881c14d5b2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-744-wi742-reference-parity-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-744-wi742-reference-parity-repair"
+}
