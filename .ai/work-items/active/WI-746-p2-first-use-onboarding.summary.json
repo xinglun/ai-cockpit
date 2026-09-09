@@ -52,14 +52,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T05:33:05Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T05:44:32Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:10e767bbdde74a5d7698ae9031326b4fce413faf404c4941aabf7d097677b91c",
   "workItemId": "WI-746-p2-first-use-onboarding"
 }
