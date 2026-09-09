@@ -35,6 +35,8 @@ repository renderer の facts を使い、測定済みの認知効果や実ユ�
 - Successor: WI-715。別 scope の closed Work Item がすでに WI-714 を使用しているため、WI-715 が一意な再配信を担当します。
 - WI-714 recovery decision: `.ai/decisions/WI-714-wi713-current-base-revalidation.recovery.3efe3143da8d84cb32db0877de59ee702b12034925d300b895f5449cb756d676.json`。
 
+このページは superseded predecessor の immutable recovery history を保持します。predecessor が redelivery を完了したことを示すものではありません。
+
 ## Acceptance
 
 - CLI/MCP の既定 handoff は四つの reader-first section を使います。

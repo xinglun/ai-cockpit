@@ -34,6 +34,8 @@ lastVerifiedBy: WI-714-wi713-current-base-revalidation
 - 后继项：WI-715；由于仓库已将 WI-714 用于另一条已关闭 scope，WI-715 负责唯一编号的重新交付。
 - WI-714 恢复决定：`.ai/decisions/WI-714-wi713-current-base-revalidation.recovery.3efe3143da8d84cb32db0877de59ee702b12034925d300b895f5449cb756d676.json`。
 
+本页保留不可变的恢复历史，记录已被替代的前序项；这不表示前序项已经完成重新交付。
+
 ## 验收
 
 - CLI/MCP 默认人工输出采用四段式读者优先摘要。

@@ -518,11 +518,17 @@ def promoted_parity(
     label: str,
     evidence: TerminalEvidence,
 ) -> str:
+    full_pattern = re.compile(
+        rf"^\|\s*{re.escape(evidence.work_item_id)}(?=\s|—|\|).*$",
+        re.IGNORECASE,
+    )
     short = evidence.work_item_id.split("-", 2)[:2]
     short_id = "-".join(short)
-    pattern = re.compile(rf"^\|\s*{re.escape(short_id)}(?=\s|—|\|).*$", re.IGNORECASE)
+    short_pattern = re.compile(rf"^\|\s*{re.escape(short_id)}(?=\s|—|\|).*$", re.IGNORECASE)
     lines = text.splitlines(keepends=True)
-    indexes = [index for index, line in enumerate(lines) if pattern.match(line.rstrip("\n"))]
+    indexes = [index for index, line in enumerate(lines) if full_pattern.match(line.rstrip("\n"))]
+    if not indexes:
+        indexes = [index for index, line in enumerate(lines) if short_pattern.match(line.rstrip("\n"))]
     require(len(indexes) == 1, f"expected exactly one parity row for {short_id}")
     index = indexes[0]
     cells = [cell.strip() for cell in lines[index].rstrip("\n").split("|")[1:-1]]
@@ -684,9 +690,18 @@ def self_projection_pending(
         else:
             current_lines = current.splitlines(keepends=True)
             expected_lines = expected.splitlines(keepends=True)
+            full_pattern = re.compile(
+                rf"^\|\s*{re.escape(work_item_id)}(?=\s|—|\|)",
+                re.IGNORECASE,
+            )
             short_id = "-".join(work_item_id.split("-", 2)[:2])
-            row_pattern = re.compile(rf"^\|\s*{re.escape(short_id)}(?=\s|—|\|)", re.IGNORECASE)
-            indexes = [index for index, line in enumerate(current_lines) if row_pattern.match(line)]
+            short_pattern = re.compile(
+                rf"^\|\s*{re.escape(short_id)}(?=\s|—|\|)",
+                re.IGNORECASE,
+            )
+            indexes = [index for index, line in enumerate(current_lines) if full_pattern.match(line)]
+            if not indexes:
+                indexes = [index for index, line in enumerate(current_lines) if short_pattern.match(line)]
             if len(indexes) != 1 or len(expected_lines) != len(current_lines):
                 return False
             index = indexes[0]

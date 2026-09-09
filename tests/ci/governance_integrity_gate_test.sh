@@ -161,6 +161,41 @@ assert module.recovery_alias_group(repo, [predecessor, successor])
 assert not module.recovery_alias_group(repo, [predecessor, "WI-901-unrelated"])
 PY
 printf 'governance recovery short-id alias regression passed\n'
+
+# Distinct Work Items may share a numeric prefix without being a recovery
+# alias.  Full Work Item ids in parity rows must bind each record separately
+# instead of collapsing both rows into one ambiguous short id.
+python3 - "$tmp/full-id-parity" "$gate" <<'PY'
+import importlib.util
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+gate_path = Path(sys.argv[2])
+(repo / "docs/reference").mkdir(parents=True)
+rows = {
+    "docs/reference/reference-parity.md": "Implemented",
+    "docs/reference/reference-parity.zh-CN.md": "已实现",
+    "docs/reference/reference-parity.ja.md": "Implemented",
+}
+for relative, status in rows.items():
+    (repo / relative).write_text(
+        f"| WI-714-wi712-doc-promotion — documentation | {status} | evidence |\n"
+        f"| WI-714-wi713-current-base-revalidation — redelivery | {status} | evidence |\n",
+        encoding="utf-8",
+    )
+spec = importlib.util.spec_from_file_location("governance_gate", gate_path)
+module = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(module)
+parsed, errors = module.parity_rows(repo)
+assert not errors, errors
+assert set(parsed) == {
+    "WI-714-wi712-doc-promotion",
+    "WI-714-wi713-current-base-revalidation",
+}, parsed
+PY
+printf 'governance full-id parity regression passed\n'
 run_case invalid-outcome 1 invalid_outcome
 run_case archive-timestamp-current 0 none
 run_case awaiting-merge-close 0 none

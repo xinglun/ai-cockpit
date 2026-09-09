@@ -36,6 +36,8 @@ measured cognitive benefit or a real user study.
 - Successor: WI-715, which owns the uniquely identified redelivery after the repository already used WI-714 for a different closed scope.
 - WI-714 recovery decision: `.ai/decisions/WI-714-wi713-current-base-revalidation.recovery.3efe3143da8d84cb32db0877de59ee702b12034925d300b895f5449cb756d676.json`.
 
+This page preserves immutable recovery history for the superseded predecessor; it does not claim that the predecessor delivered the redelivery.
+
 ## Acceptance
 
 - Default CLI/MCP human output uses the four reader-first sections.
