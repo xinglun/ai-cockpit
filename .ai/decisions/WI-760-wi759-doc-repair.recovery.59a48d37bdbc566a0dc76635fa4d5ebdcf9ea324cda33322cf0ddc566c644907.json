@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T13:42:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-760-wi759-doc-repair.recovery.json",
+    ".ai/evidence/WI-760-wi759-doc-repair.verification.json",
+    ".ai/evidence/WI-761-wi760-parity-order-recovery.verification.json",
+    ".ai/decisions/WI-761-wi760-parity-order-recovery.close.json",
+    "https://github.com/xinglun/ai-cockpit/pull/744"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:Work Item change discipline"
+  ],
+  "predecessorContractDigest": "sha256:23845b7d5b57efebffb41b5915a6aae219a3e4e3dbb2449a38c351883c57b189",
+  "predecessorEventsDigest": "sha256:1c9bcbc28571cf0bc3f412fd1e29f1bfc70537c80f55f226daeec85c0a7e32e5",
+  "predecessorOutcomeDigest": "sha256:ae1011ec578999e2f134e3df999a4ebc13153b19a85db5c9e407bba8a01f4162",
+  "predecessorSummaryDigest": "sha256:c5f4165ab46f08b536fbdd7a99aa432a489b7980f823b269b77703c853d5e992",
+  "predecessorWorkItemId": "WI-760-wi759-doc-repair",
+  "reason": "WI-761 completed the bounded parity-first redelivery with fresh verification, reviewed hosted checks, merge, finalization, close, and exact cleanup. Supersede WI-760 as an immutable failed delivery without rewriting PR #743 or its evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further WI-760 action; its immutable failed PR #743 and evidence remain historical, while WI-761 is the completed successor.",
+  "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-761-wi760-parity-order-recovery",
+  "workItemId": "WI-760-wi759-doc-repair"
+}
