@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-09T00:19:30Z",
-  "checkpointContractDigest": "sha256:be4ac396bad9975757590674519781217c5c289c8d92ad74c10f8cf9b69cfbdb",
+  "checkpointContractDigest": "sha256:cdb75d2bf02b9fe54b78d53657dc1ef3fe66cbea3e55366ae9958e7ecb836617",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -97,29 +97,76 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-715-p1-large-history-status"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:7f21d2dac5a9c97cdbdeaffc563ca6742745b21ddc07cf1d699b6a74e5275654",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5635a42596603ea988d68e1951352219de710221688ce59f271466b5e9d9affe",
+      "previousContractHash": "sha256:be4ac396bad9975757590674519781217c5c289c8d92ad74c10f8cf9b69cfbdb",
+      "reason": "Replaced a prose colon in the second unnumbered acceptance criterion with a semicolon after the Runtime validator misclassified the sentence prefix as a numbered acceptance ID and blocked finish. Acceptance meaning and evidence scope are unchanged; no synthetic acceptance ID was added.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T01:13:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-715-p1-large-history-status"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
   "createdAt": "2026-09-09T00:18:32Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:cdb75d2bf02b9fe54b78d53657dc1ef3fe66cbea3e55366ae9958e7ecb836617",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Explicit user authorization confirms continuation of this bounded WI-715 measurement and evidence Work Item through the reviewed PR #708, including the no-production-change decline, recovery handling, and exact finalization lifecycle.",
+    "recordedAt": "2026-09-09T01:12:30Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
+    "schemaVersion": 1,
+    "workItemId": "WI-715-p1-large-history-status"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-715-p1-large-history-status.md",
+      ".ai/evidence/external/WI-715-p1-large-history-status.experiment-summary.json",
+      ".ai/evidence/external/WI-715-p1-large-history-status.behavior-parity.json"
+    ],
+    "reason": "The measured candidate was bounded to one immutable status observation, preserved repository and authorization boundaries, matched baseline behavior on 12 comparisons, and was declined because the pre-registered performance threshold and environment gate were not satisfied.",
+    "state": "resolved"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-09-09T01:01:14Z",
-  "preflightContractDigest": "sha256:be4ac396bad9975757590674519781217c5c289c8d92ad74c10f8cf9b69cfbdb",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-09T01:13:03Z",
+  "preflightContractDigest": "sha256:cdb75d2bf02b9fe54b78d53657dc1ef3fe66cbea3e55366ae9958e7ecb836617",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:f25f29b547637e4f526a403ae05acd95bc8ce163559bfa8bc1483a8b4d56a965",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
-  "recoveryRetryDecisionDigest": "sha256:2bed261f4512d213a817b6728fea4021a842fd8a602b353b8918036a820caec5",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-715-p1-large-history-status.recovery.json",
-  "recoveryRetryPending": true,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-09T01:01:19Z",
+  "updatedAt": "2026-09-09T01:13:03Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:d56fd2548f8283e2ecdcae74cee5ad8181547198bc18cc7af549da95bb61906c",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:7f21d2dac5a9c97cdbdeaffc563ca6742745b21ddc07cf1d699b6a74e5275654",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-09T01:13:45Z"
+  },
+  "verificationRecoveryReconciled": "sha256:c6dee408590b29e6d140768b366db3febc195ac94555915322dc55e8117f450a",
   "workItemId": "WI-715-p1-large-history-status"
 }

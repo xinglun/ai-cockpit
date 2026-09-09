@@ -1,7 +1,7 @@
 {
   "acceptanceCriteria": [
     "Record a paired baseline/candidate measurement for the many-historical-wi scenario from the same origin/main-derived environment, retaining raw samples, identities, environment, scenario facts, unavailable metrics, and declared percentile reliability.",
-    "Accept a candidate only if the pre-registered improvement threshold is met on the target status path: at least 5% improvement in warm status p50 and at least 5% improvement in warm status p95 on the paired many-historical-wi run; all non-target budgets must pass, and no unsupported cold-cache, p99, CPU, I/O, memory, or resident-MCP claim may be made.",
+    "Accept a candidate only if the pre-registered improvement threshold is met on the target status path; at least 5% improvement in warm status p50 and at least 5% improvement in warm status p95 on the paired many-historical-wi run; all non-target budgets must pass, and no unsupported cold-cache, p99, CPU, I/O, memory, or resident-MCP claim may be made.",
     "Prove output, governance decision, evidence binding, error behavior, authorization boundary, and exit-code parity on clean, changed, malformed, and failure-relevant fixtures.",
     "Keep reuse bounded to one immutable observation, invalidate or fail closed when repository, Work Item, authorization, or source facts differ, and preserve deterministic ordering.",
     "Run the Contract-declared verification, hosted checks, reviewed PR lifecycle, Runtime finalization/close lifecycle, parity promotion, and post-close repository integrity checks."
