@@ -1,0 +1,89 @@
+{
+  "acceptanceCriteria": [
+    "A1: docs/reference/collaboration-language-contract.md(+zh-CN/ja) covers the seven communication nodes with trigger/source, state, must-present info, human-decision need, options' effect/authorization scope, next step/stop boundary, and missing-info/misunderstanding/cancellation handling.",
+    "A2: preserves existing Outcome/decision-state/Receipt/block-recovery meanings from glossary.md, protocol spec, and outcome-report.md; introduces no new state/marker/command; any clarification is labeled as such.",
+    "A3: explicitly distinguishes authorization reuse (identity-binding match) vs new authorization (Contract/snapshot changed) vs pure technical recovery (retry/successor/supersede).",
+    "A4: states ten checkable semantic invariants, each citing current evidence and naming any automated-check gap explicitly.",
+    "A5: marks its own verification boundary (doc-structure checks and reviewer reading only; no automated cross-entry-point check, no user study) and lists follow-on Work Items rather than claiming them delivered.",
+    "A6: docs/reference/README.md, README.zh-CN.md, README.ja.md each gain exactly one new index entry; no other entry altered.",
+    "A7: tests/docs/documentation_acceptance.sh passes for the new and modified files."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c1f1f1d9f17ec2242a59f287a4368bd6bda5993e",
+  "createdAt": "2026-09-08T12:41:43Z",
+  "goal": "A new user or contributor can read one page to understand current state, authorization scope, and stop boundaries at each collaboration moment, and hand off to another Agent/session without losing that understanding.",
+  "intent": "Deliver a docs-only cross-cutting collaboration-language contract mapping the seven communication moments (task start/scope, authorization, verification, block/recovery, merge confirmation, Outcome, Agent/session hand-off) to existing Runtime facts, per explicit repository-owner delegation to complete the AI Cockpit collaboration-language initiative via the Work Item process. Excludes external participant recruitment/evaluation; reuses and cites existing canonical docs (outcome-report.md, how-to-read-cockpit-status.md, agent-workflow.md, troubleshooting.md, glossary.md, protocol spec) rather than duplicating them.",
+  "mode": "docs",
+  "outOfScope": [
+    "CLI/MCP behavior; Contract/Outcome schema; lifecycle state machine",
+    "existing reference docs' meaning beyond citation",
+    "state/transition scenario matrix (follow-on Work Item)",
+    "automated invariant checks / test-repo harness (follow-on Work Item)",
+    "handoff-completeness automated check (follow-on Work Item)",
+    "external participant recruitment, invitation, interview, or evaluation",
+    "performance-initiative and architecture-responsibility-map documents (WI-651/WI-652 successor chains; not yet merged to main, cited conditionally only)"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:538e1b19464e0e0b9c03e789513d9f812354d37d544dd8beca8f2c9d7327aa98",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "claude/wi-679-p0-collaboration-language-contract",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/675",
+    "worktree": "/private/tmp/ai-cockpit-wi-679-p0-collaboration-language-contract"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/reference/collaboration-language-contract.md",
+    "docs/reference/collaboration-language-contract.zh-CN.md",
+    "docs/reference/collaboration-language-contract.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md"
+  ],
+  "sources": [
+    {
+      "path": ".ai/glossary.md",
+      "reason": "authoritative terminology for Outcome, Receipt, Pause Rule, Human Decision, decision states"
+    },
+    {
+      "path": "docs/protocol/v1/specification.md",
+      "reason": "authoritative Decision states and Contract envelope definitions"
+    },
+    {
+      "path": "docs/reference/outcome-report.md",
+      "reason": "authoritative Outcome field order, marker semantics, and evidence rules"
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.md",
+      "reason": "authoritative reading order and color meanings"
+    },
+    {
+      "path": "docs/reference/agent-workflow.md",
+      "reason": "authoritative Preflight Review, humanDecisionRequest, and lifecycle rules"
+    },
+    {
+      "path": "docs/reference/troubleshooting.md",
+      "reason": "authoritative recovery/next-action mapping"
+    },
+    {
+      "path": "docs/reference/multilingual-semantic-parity.md",
+      "reason": "authoritative cross-language invariant"
+    },
+    {
+      "path": "docs/work-items/WI-663-wi659-outcome-trust-replacement.md",
+      "reason": "confirms the Outcome trust-expression P0 work is already closed on main and must be cited, not duplicated"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-679-p0-collaboration-language-contract"
+}
