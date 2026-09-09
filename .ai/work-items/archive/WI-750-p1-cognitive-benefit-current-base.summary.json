@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-750-p1-cognitive-benefit-current-base.contract.json",
-    ".ai/work-items/active/WI-750-p1-cognitive-benefit-current-base.summary.json"
+    ".ai/work-items/archive/WI-750-p1-cognitive-benefit-current-base.contract.json",
+    ".ai/work-items/archive/WI-750-p1-cognitive-benefit-current-base.summary.json"
   ],
   "checkpointAt": "2026-09-09T06:55:56Z",
   "checkpointContractDigest": "sha256:54ef6de9f82b2e8310178fe0816283fcb0f70c73019b5b8f0187d832304ceb10",
@@ -112,14 +112,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T06:55:56Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T07:48:43Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:62d97ba0d37ba49a0a767f874c12212237d3aaafc79ddb7dec40a77d6e524476",
   "workItemId": "WI-750-p1-cognitive-benefit-current-base"
 }
