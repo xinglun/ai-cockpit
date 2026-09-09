@@ -1,0 +1,145 @@
+{
+  "acceptanceResults": [
+    "Baseline and candidate use identical scenarios and environment; raw samples, counters, unavailable metrics, and measurement method are retained.",
+    "Governance decisions, errors, evidence bindings, exit codes, and deterministic summaries remain identical; any mismatch rejects the candidate.",
+    "Fresh facts are not shared across file modifications or protected-operation boundaries.",
+    "A reuse optimization is accepted only when the declared target scenario improves without violating other budgets; otherwise the candidate is explicitly declined.",
+    "The failed WI-752 delivery remains immutable and is referenced as historical context without merging or deleting its PR, branch, or worktree.",
+    "Runtime-generated lifecycle records remain repository-bound and append-only."
+  ],
+  "createdAt": "2026-09-09T14:29:46Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5fcb8d9ee5a8b40ae3f626e9c2bd19f7a063e3cc4c3c8af68f28838e35b3f1af",
+  "evidenceRefs": [
+    ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:34fcd50a14e278bd9c1e30c1778260e5a1e249187d7edeaf5d01606783286334",
+      "workItemId": "WI-763-wi752-fact-reuse-redelivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "Measure duplicate repository discovery, Runtime identity, Git snapshot, parsing, file read/hash, and status/outcome/doctor fact collection; accept a bounded reuse optimization only if evidence shows semantic preservation and a budgeted benefit, otherwise record a reasoned decline."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-763-wi752-fact-reuse-redelivery"
+  },
+  "taskReportDigest": "sha256:3d2ed0ac75015decb0d4cd63310858ce05aaaa66e7519a0fdbb02e3b51eff190",
+  "taskReportMarkdownDigest": "sha256:bdd6e07cf9202f23a8330cbbd349f76c0db5f32f41d73b24b3f78d5ec90eb9cb",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-763-wi752-fact-reuse-redelivery"
+}

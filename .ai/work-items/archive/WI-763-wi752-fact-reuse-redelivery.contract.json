@@ -31,11 +31,11 @@
     "prearchive parity"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-763-wi752-fact-reuse-redelivery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/746",
     "worktree": "/private/tmp/ai-cockpit-wi-763-wi752-fact-reuse-redelivery"
   },
   "risk": "normal",
