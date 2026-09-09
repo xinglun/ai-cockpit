@@ -1,0 +1,137 @@
+{
+  "acceptanceResults": [
+    "WI-761's closed status, green Outcome, verification evidence, PR #744 hosted checks, merge commit, and cleanup receipt are referenced accurately in all three language Work Item documents.",
+    "The three reference-parity projections are updated consistently with exact current evidence paths and no invented measurements or governance claims.",
+    "The closed Work Item promotion check passes for WI-761 and no runtime/authentication/machine-contract/exit-code behavior changes.",
+    "WI-760's supersede recovery and close evidence are reflected in its three-language projection and parity row without claiming the failed PR #743 succeeded.",
+    "WI-762's own three-language pages and parity row are registered before fresh verification evidence and promoted only after terminal close."
+  ],
+  "createdAt": "2026-09-09T13:57:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:441af6c5d8bb32e92a1d77b94035f20225020173cbd364a1ba59b6d16edbcf66",
+  "evidenceRefs": [
+    ".ai/evidence/WI-762-wi761-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-762-wi761-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-762-wi761-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:629b387a9597d4501b2bacfe646d5dc7030d20fe6fdce5ff76074d62315da0df",
+      "workItemId": "WI-762-wi761-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-762-wi761-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-762-wi761-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-762-wi761-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-762-wi761-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-762-wi761-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-762-wi761-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-762-wi761-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the closed Work Item promotion check current for WI-761 and preserve the exact verified outcome, evidence, and hosted-delivery bindings."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-762-wi761-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-762-wi761-doc-promotion"
+  },
+  "taskReportDigest": "sha256:1a47809f4c035e8f448c17908b3063c92ee89be1c5a0f43af968cdb9d35edd39",
+  "taskReportMarkdownDigest": "sha256:328b88f01dd85669e3c00637cc36ae8bae5ed31d323eeecc4127779667d2b867",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-762-wi761-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-762-wi761-doc-promotion"
+}

@@ -35,11 +35,11 @@
     "supersede closure"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-762-wi761-doc-promotion",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/745",
     "worktree": "/private/tmp/ai-cockpit-wi-762-wi761-doc-promotion"
   },
   "risk": "normal",

@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-09T13:48:40Z",
-  "checkpointContractDigest": "sha256:47821e1c36d78e7f546dea8e6b94a5e3fec43e84408a7a2f177be3cad0e4e8da",
+  "checkpointContractDigest": "sha256:15692965109ac807b11397aba8dd54982847f034f897d4ebbaaba0e12b5b0da8",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -39,22 +39,23 @@
       "workItemId": "WI-762-wi761-doc-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:092ec7828af06a78c88d4fb23a5e7415462a121c11820ad14183e3bef0b53bd8",
+  "checkpointRepositorySnapshotDigest": "sha256:629b387a9597d4501b2bacfe646d5dc7030d20fe6fdce5ff76074d62315da0df",
   "createdAt": "2026-09-09T13:44:13Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-09T13:48:34Z",
-  "preflightContractDigest": "sha256:47821e1c36d78e7f546dea8e6b94a5e3fec43e84408a7a2f177be3cad0e4e8da",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:092ec7828af06a78c88d4fb23a5e7415462a121c11820ad14183e3bef0b53bd8",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-09T13:53:13Z",
+  "preflightContractDigest": "sha256:15692965109ac807b11397aba8dd54982847f034f897d4ebbaaba0e12b5b0da8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:629b387a9597d4501b2bacfe646d5dc7030d20fe6fdce5ff76074d62315da0df",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T13:48:40Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:94396f45649581d50b0e52047f62575978ba15552806ac925ae9bf658a639f7e",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-09T13:49:47Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T13:57:44Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-762-wi761-doc-promotion"
 }
