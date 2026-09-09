@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-09T00:19:30Z",
-  "checkpointContractDigest": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
+  "checkpointContractDigest": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -157,20 +157,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-715-p1-large-history-status"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5635a42596603ea988d68e1951352219de710221688ce59f271466b5e9d9affe",
+      "previousContractHash": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
+      "reason": "Hosted repository gates exposed a current-base governance defect in the already-authorized tri-language parity boundary: the merged historical WI-715-wi713-p0b-redelivery projection retained in_progress/conditional status and shared the WI-715 numeric prefix. Add only its three Work Item documentation paths to this Contract so the exact historical recovery status and full-id parity binding can be repaired without changing runtime or performance scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T02:17:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-715-p1-large-history-status"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
+  "checkpointRepositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
   "createdAt": "2026-09-09T00:18:32Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
+    "contractDigest": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "Explicit user authorization confirms continuation after the remote default branch advanced to 7274ac90; this fresh receipt is bounded to the amended WI-715 Contract and current repository snapshot, including the no-production-change experiment decision, recovery handling, and reviewed PR #708 lifecycle.",
-    "recordedAt": "2026-09-09T02:07:00Z",
+    "reason": "Explicit user authorization confirms continuation after the hosted gate exposed and the bounded Contract amendment repaired the current-base tri-language governance projection. This fresh receipt is bound to the amended WI-715 Contract and current snapshot, with runtime behavior and performance scope unchanged.",
+    "recordedAt": "2026-09-09T02:22:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
+    "repositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
     "schemaVersion": 1,
     "workItemId": "WI-715-p1-large-history-status"
   },
@@ -184,15 +204,15 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-09T02:09:22Z",
-  "preflightContractDigest": "sha256:06c61bca737dc49395d5b422459dd7856f5f5db1ff2b955041216b84647792af",
+  "preflightAt": "2026-09-09T02:22:48Z",
+  "preflightContractDigest": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
+  "preflightRepositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-09T02:09:27Z",
+  "updatedAt": "2026-09-09T02:22:48Z",
   "verification": [
     {
       "check": "project-command-0",

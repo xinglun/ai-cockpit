@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-715 — WI-713 P0-B uniquely identified redelivery"
 description: "最新の default base から、一意な Work Item identity で決定的な Outcome summary と完全な evidence view を再配信します。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: human:repository-owner
 workItemId: WI-715-wi713-p0b-redelivery
 lastVerifiedBy: WI-715-wi713-p0b-redelivery

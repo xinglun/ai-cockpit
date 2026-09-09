@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f6e15570755102ce782b99801d6ea586e6f83ef632bb4ba67a7b546094095544",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Explicit user authorization confirms continuation after the hosted gate exposed and the bounded Contract amendment repaired the current-base tri-language governance projection. This fresh receipt is bound to the amended WI-715 Contract and current snapshot, with runtime behavior and performance scope unchanged.",
+  "recordedAt": "2026-09-09T02:22:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
+  "schemaVersion": 1,
+  "workItemId": "WI-715-p1-large-history-status"
+}

@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-715——WI-713 P0-B 唯一编号重新交付"
 description: "从最新默认分支重新交付确定性的 Outcome 摘要和明确的完整证据查看，并使用唯一 Work Item 标识。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: human:repository-owner
 workItemId: WI-715-wi713-p0b-redelivery
 lastVerifiedBy: WI-715-wi713-p0b-redelivery

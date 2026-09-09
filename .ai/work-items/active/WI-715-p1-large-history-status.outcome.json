@@ -6,9 +6,9 @@
     "Keep reuse bounded to one immutable observation, invalidate or fail closed when repository, Work Item, authorization, or source facts differ, and preserve deterministic ordering.",
     "Run the Contract-declared verification, hosted checks, reviewed PR lifecycle, Runtime finalization/close lifecycle, parity promotion, and post-close repository integrity checks."
   ],
-  "createdAt": "2026-09-09T02:09:27Z",
+  "createdAt": "2026-09-09T02:22:48Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:8729ed9443c38af42431307da95aa5f16351eefd0b963ba8245fe9f47590bb1d",
+  "evidenceDigest": "sha256:840d44285a81f44aea06ffcba191ef6ecb7e46eb6132c3d2d3c4a68774124a57",
   "evidenceRefs": [
     ".ai/evidence/WI-715-p1-large-history-status.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-715-p1-large-history-status.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:47b5988e191d55d6d9d8f980f85d93803034a25cc12f119ad9f86ebb3e655fde",
+      "repositorySnapshotDigest": "sha256:c88fb87ca2ee97b6a029c4e5496173efd187d6859f95967f1248a5f46cb98f90",
       "workItemId": "WI-715-p1-large-history-status"
     },
     "format": "ai-cockpit.task-outcome",
@@ -123,7 +123,7 @@
     "status": "verified",
     "workItemId": "WI-715-p1-large-history-status"
   },
-  "taskReportDigest": "sha256:06556dc8e6b0e6fc1f5e1b9338853c43982b72edaa28562413215242766b0f1f",
+  "taskReportDigest": "sha256:6ed16f81c3f4bbdf110c9311faae6f4bc8eb416933e54ee6fa1f4850434d3b9f",
   "taskReportMarkdownDigest": "sha256:a8cea66c9d74dcf3a46b4e67a400924c776392177cea8509ba8bc0a30efb9b53",
   "unknowns": [
     "user_visible_benefit_not_declared"
