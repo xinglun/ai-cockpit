@@ -1,0 +1,137 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-714-wi712-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:84e4375772d4e6a9bf49d89e30eaf588118620cfbd6566234f0def3201eaf83a",
+      "workItemId": "WI-714-wi712-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-714-wi712-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-714-wi712-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-714-wi712-doc-promotion.verification.json",
+            ".ai/decisions/WI-714-wi712-doc-promotion.finalize.json",
+            ".ai/work-items/archive/WI-714-wi712-doc-promotion.archive.json",
+            "https://github.com/xinglun/ai-cockpit/pull/706"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-09T00:03:36Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-714-wi712-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-714-wi712-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-714-wi712-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-714-wi712-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-714-wi712-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the closed-Work-Item promotion and repository governance checks pass for WI-712 by updating the six required closed-document/parity projections, registering this documentation-promotion Work Item in the required tri-language pre-archive projections, and recording independent verification."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-714-wi712-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-714-wi712-doc-promotion"
+  },
+  "finalReportDigest": "sha256:25329d7558a8d81bb2cfeb602101792cb565e1991a07fbe7783ee3cc71173d04",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:6d9b3a1877e882f6c5753250c349d4335a975e6a8ba6028adfb6fd7cffb08d31",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-714-wi712-doc-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-09T00:03:36Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-714-wi712-doc-promotion.verification.json",
+      ".ai/decisions/WI-714-wi712-doc-promotion.finalize.json",
+      ".ai/work-items/archive/WI-714-wi712-doc-promotion.archive.json",
+      "https://github.com/xinglun/ai-cockpit/pull/706"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "Approve WI-714 closure after PR #706 review and hosted checks, merge synchronization, exact branch/worktree cleanup, finalize-verify, and the documented WI-712 promotion checks all passed; preserve the documentation-only scope and make no production or performance claim.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-09T00:05:49Z",
+  "workItemId": "WI-714-wi712-doc-promotion"
+}
