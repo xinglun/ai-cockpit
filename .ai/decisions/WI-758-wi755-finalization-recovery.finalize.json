@@ -1,0 +1,58 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "20cad51323b117cb8a44249040f52b332d671e72",
+    "name": "codex/wi-758-wi755-finalization-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:3c61c721ec3ea65b86bb7c36c9a17b97098bdeb0d0f727c5622ac9ec93e31ab4",
+  "operationId": "github-pr-737-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c0a7ef7540cd9146315df53dc19286caac7da04c",
+    "headRevision": "20cad51323b117cb8a44249040f52b332d671e72",
+    "mergeCommit": "2c89d31f169b5b388572c0aad23576bd3095b6a5",
+    "number": 737,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/737"
+  },
+  "reason": "PR #737 passed all hosted checks and merged as 2c89d31f169b5b388572c0aad23576bd3095b6a5. This receipt binds the reviewed head 20cad513, the immutable Contract base c0a7ef75, and exact cleanup of the WI-758 branch and worktree; it makes no user-visible benefit, release, or authorization claim.",
+  "receiptId": "github-pr-737-wi758-cleanup-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-758-wi755-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/737",
+    "worktree": "/private/tmp/ai-cockpit-wi-758-finalization-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T09:11:38Z",
+  "workItemId": "WI-758-wi755-finalization-recovery",
+  "worktree": {
+    "branch": "codex/wi-758-wi755-finalization-recovery",
+    "headRevision": "20cad51323b117cb8a44249040f52b332d671e72",
+    "path": "/private/tmp/ai-cockpit-wi-758-finalization-recovery",
+    "worktreeId": "WI-758-wi755-finalization-recovery"
+  }
+}
