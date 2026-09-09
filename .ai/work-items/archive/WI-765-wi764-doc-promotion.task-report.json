@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-765-wi764-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-765-wi764-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-765-wi764-doc-promotion.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-765-wi764-doc-promotion.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-765-wi764-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-765-wi764-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-765-wi764-doc-promotion.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-765-wi764-doc-promotion.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-765-wi764-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-765-wi764-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "Promote the verified closed WI-764 release-boundary documentation and reference-parity projections to their terminal historical state without changing historical governance or release evidence."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-765-wi764-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-765-wi764-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
