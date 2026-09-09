@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "5a033862a4e2e22b7a87250987654960e44481e1",
+    "name": "codex/wi-752-p1-fact-reuse",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e61187c921fcb793216d1dab3010ef7dbd5214b73e688611ff75d3caaceca94b",
+  "operationId": "operation-WI-752-p1-fact-reuse-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "64391e9609ee82da7a3eb08ea98ea33f72311ad9",
+    "headRevision": "5a033862a4e2e22b7a87250987654960e44481e1",
+    "number": 733,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/733"
+  },
+  "reason": "awaiting_merge_close: PR #733 is open and the exact reviewed branch and worktree must be retained",
+  "receiptId": "ai-cockpit-WI-752-p1-fact-reuse-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-752-p1-fact-reuse",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/733",
+    "worktree": "/private/tmp/ai-cockpit-wi-752-p1-fact-reuse"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:636bb1fbd6f8289da4ea7790297da39fc69975d4a3876445ff2646ac71efdc16",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T10:10:00Z",
+  "workItemId": "WI-752-p1-fact-reuse",
+  "worktree": {
+    "branch": "codex/wi-752-p1-fact-reuse",
+    "headRevision": "5a033862a4e2e22b7a87250987654960e44481e1",
+    "path": "/private/tmp/ai-cockpit-wi-752-p1-fact-reuse",
+    "worktreeId": "WI-752-p1-fact-reuse"
+  }
+}
