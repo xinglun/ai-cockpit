@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:6c3de23669a60c9e37ddcd32f29b01da0841247ef892bfae262e4724982812fb",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "repository-owner",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "9ceb24ea5c0a1e99d1c4b296d5031357367ebfca",
+      "name": "codex/wi-761-wi760-parity-order-recovery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:30f39a630e79c8f47809031ab7f41fd346b2299622ddac177d05f35dd7780e0f",
+    "operationId": "operation-WI-761-wi760-parity-order-recovery-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "c1863e7ca81e2d92a88c9458358ddad09d1a043a",
+      "headRevision": "9ceb24ea5c0a1e99d1c4b296d5031357367ebfca",
+      "mergeCommit": "f2a2989aca6d0a1bdefeb7f9f8746f3f55e7f254",
+      "number": 744,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/744"
+    },
+    "reason": "Exact merged WI-761 branch and dedicated worktree were removed after reviewed PR merge; append cleanup transition before close.",
+    "receiptId": "ai-cockpit-WI-761-wi760-parity-order-recovery-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-761-wi760-parity-order-recovery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/744",
+      "worktree": "/private/tmp/ai-cockpit-wi-761-wi760-parity-order-recovery"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+    "runtimeVersion": "0.2.87",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-09T13:36:00Z",
+    "workItemId": "WI-761-wi760-parity-order-recovery",
+    "worktree": {
+      "branch": "codex/wi-761-wi760-parity-order-recovery",
+      "headRevision": "9ceb24ea5c0a1e99d1c4b296d5031357367ebfca",
+      "path": "/private/tmp/ai-cockpit-wi-761-wi760-parity-order-recovery",
+      "worktreeId": "WI-761-wi760-parity-order-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-761-wi760-parity-order-recovery-resources-deleted"
+}
