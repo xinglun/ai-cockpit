@@ -4,14 +4,17 @@
     "Documentation acceptance, Work Item status consistency, governance integrity, and closed-Work-Item promotion checks pass on the same base.",
     "The WI-745 and WI-746 pages name the valid current terminal receipts and make no unproven user-visible benefit claim."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-09T06:54:39Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:664dbee8bf9859fc90aff7c73886eccd83335775e2171d272b03a5e39f948900",
   "evidenceRefs": [
     ".ai/evidence/WI-750-wi745-parity-repair.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-750-wi745-parity-repair.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -19,11 +22,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -33,10 +35,8 @@
       "repositorySnapshotDigest": "sha256:bca71a1e6f6c76dab791eb5e27caaf675e76583132936889484a615904193e61",
       "workItemId": "WI-750-wi745-parity-repair"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -57,22 +57,14 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-750-wi745-parity-repair.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-750-wi745-parity-repair.summary.json"
+            ".ai/work-items/archive/WI-750-wi745-parity-repair.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -84,7 +76,7 @@
             ".ai/evidence/WI-750-wi745-parity-repair.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -94,15 +86,23 @@
             ".ai/evidence/WI-750-wi745-parity-repair.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-750-wi745-parity-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-750-wi745-parity-repair.contract.json"
+            ".ai/work-items/archive/WI-750-wi745-parity-repair.contract.json"
           ],
           "inference": false,
           "text": "Make the current parity and Work Item documentation projections agree with the valid supersede, finalization, and close receipts on origin/main."
@@ -111,23 +111,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-750-wi745-parity-repair.contract.json"
+            ".ai/work-items/archive/WI-750-wi745-parity-repair.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-750-wi745-parity-repair"
   },
+  "taskReportDigest": "sha256:d3e6ce187caeec1e6a6dd39036f4816ea3827ff388cee1dec7927577cf40902c",
+  "taskReportMarkdownDigest": "sha256:7812136de394de8a8c4b74ef7c1119eca058578def98fe9c727b726f0f3210b0",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-750-wi745-parity-repair.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-750-wi745-parity-repair"
 }

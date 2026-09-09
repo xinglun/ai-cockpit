@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T06:54:44Z",
+  "files": {
+    "contractDigest": "sha256:3e737e1fde3399b28091aea6909075ad752c8e52fb74ad9460233f2021787222",
+    "contractPath": ".ai/work-items/archive/WI-750-wi745-parity-repair.contract.json",
+    "eventsDigest": "sha256:cd5648dae2d6944ff87911f8b336c21374eabdc08626f7d79bc652ae01c80b6f",
+    "eventsPath": ".ai/work-items/archive/WI-750-wi745-parity-repair.events.jsonl",
+    "outcomeDigest": "sha256:0c6f90b9bc380a2306b80a4938d5b6ee6ed3e08b745d9507c0c61b0cae3520e8",
+    "outcomePath": ".ai/work-items/archive/WI-750-wi745-parity-repair.outcome.json",
+    "summaryDigest": "sha256:8634d560501f7ce127f052d203284de0a80b024572c7816ed55495f6bab38441",
+    "summaryPath": ".ai/work-items/archive/WI-750-wi745-parity-repair.summary.json",
+    "taskReportDigest": "sha256:d3e6ce187caeec1e6a6dd39036f4816ea3827ff388cee1dec7927577cf40902c",
+    "taskReportMarkdownDigest": "sha256:7812136de394de8a8c4b74ef7c1119eca058578def98fe9c727b726f0f3210b0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-750-wi745-parity-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-750-wi745-parity-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-750-wi745-parity-repair"
+}

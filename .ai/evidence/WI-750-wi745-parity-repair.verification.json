@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:428011ed5eb50d4355cc077dd58b4a48983075f7946ca513b9d8cb547c2afbd8",
-  "createdAt": "2026-09-09T06:51:55Z",
+  "contractDigest": "sha256:8fcbf60fa0822a618b1e843d90bb7b8629b67ff2c1ac5513835cfaecd7205e62",
+  "createdAt": "2026-09-09T06:54:23Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 4827,
-      "executionElapsedMs": 4600,
+      "elapsedMs": 4702,
+      "executionElapsedMs": 4471,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 4827,
-    "executionElapsedMs": 4600,
-    "filesHashed": 29,
-    "filesRead": 29,
+    "elapsedMs": 4702,
+    "executionElapsedMs": 4471,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,20 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/reference/reference-parity.ja.md",
-        "docs/reference/reference-parity.md",
-        "docs/reference/reference-parity.zh-CN.md",
-        "docs/work-items/WI-745-wi743-doc-promotion.ja.md",
-        "docs/work-items/WI-745-wi743-doc-promotion.md",
-        "docs/work-items/WI-745-wi743-doc-promotion.zh-CN.md",
-        "docs/work-items/WI-746-wi745-terminal-recovery.ja.md",
-        "docs/work-items/WI-746-wi745-terminal-recovery.md",
-        "docs/work-items/WI-746-wi745-terminal-recovery.zh-CN.md",
-        "docs/work-items/WI-750-wi745-parity-repair.ja.md",
-        "docs/work-items/WI-750-wi745-parity-repair.md",
-        "docs/work-items/WI-750-wi745-parity-repair.zh-CN.md"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "e808b8d024640b6d55fd9099a80cd19d4ea3e496",
       "dependencyConfidence": "unknown",
@@ -57,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 4600,
+      "executionElapsedMs": 4471,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -105,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "WI-750-wi745-parity-repair"
   },
-  "receiptDigest": "sha256:d1ed38382d3bc3d46046b4d6f455c68014915ed39766eeedbbad8086b7492132",
+  "receiptDigest": "sha256:e0c2f0cbb8cc5c52c5ed52926c6820a1bb105d5d948494de435005f8b0849c75",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:bca71a1e6f6c76dab791eb5e27caaf675e76583132936889484a615904193e61",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

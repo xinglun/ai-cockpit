@@ -26,11 +26,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
-    "branch": "codex/wi-750-prestart",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-750-wi745-parity-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/728",
     "worktree": "/private/tmp/ai-cockpit-wi-747-doc-promotion-v2"
   },
   "risk": "normal",

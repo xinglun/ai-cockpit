@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-09T06:46:00Z",
-  "checkpointContractDigest": "sha256:428011ed5eb50d4355cc077dd58b4a48983075f7946ca513b9d8cb547c2afbd8",
+  "checkpointContractDigest": "sha256:8fcbf60fa0822a618b1e843d90bb7b8629b67ff2c1ac5513835cfaecd7205e62",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -57,29 +57,45 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-750-wi745-parity-repair"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:8fcbf60fa0822a618b1e843d90bb7b8629b67ff2c1ac5513835cfaecd7205e62",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b8ebd8cf1896c702c0915c89071c837d0cde6722d9f99cbd009e09c6f3f20640",
+      "previousContractHash": "sha256:428011ed5eb50d4355cc077dd58b4a48983075f7946ca513b9d8cb547c2afbd8",
+      "reason": "The finalize-plan binding changed the Contract digest; explicitly invalidate the pre-binding verification and rerun every declared gate against the PR-bound Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T06:53:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bca71a1e6f6c76dab791eb5e27caaf675e76583132936889484a615904193e61",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-750-wi745-parity-repair"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:bca71a1e6f6c76dab791eb5e27caaf675e76583132936889484a615904193e61",
   "createdAt": "2026-09-09T06:45:50Z",
-  "failedGate": "finish.governance",
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-09T06:52:00Z",
-  "preflightContractDigest": "sha256:428011ed5eb50d4355cc077dd58b4a48983075f7946ca513b9d8cb547c2afbd8",
+  "preflightAt": "2026-09-09T06:54:28Z",
+  "preflightContractDigest": "sha256:8fcbf60fa0822a618b1e843d90bb7b8629b67ff2c1ac5513835cfaecd7205e62",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:bca71a1e6f6c76dab791eb5e27caaf675e76583132936889484a615904193e61",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T06:52:10Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T06:54:39Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:8fe77babea54484422a40067c0f6fe7a3e623bffd1adb39a7f8a19f17cbdf261",
   "workItemId": "WI-750-wi745-parity-repair"
 }
