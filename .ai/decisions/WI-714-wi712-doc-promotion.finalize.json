@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "github-pr-review-and-merge",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "4d560af37f440193c82f2e1086b31ee7f1615a52",
+    "name": "codex/wi-714-wi712-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:86e656d4fbd1a52ed1954e4223612109f24bec78d092d30e1134853a863fdbe6",
+  "operationId": "github-pr-706-finalization-20260909",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "94fec9e43ff0c046a236a100d881b032124e973e",
+    "headRevision": "4d560af37f440193c82f2e1086b31ee7f1615a52",
+    "mergeCommit": "f5faae8bfc7ef4fba08ba54020be5627593e6956",
+    "number": 706,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/706"
+  },
+  "reason": "PR #706 passed all hosted checks and merged as f5faae8bfc7ef4fba08ba54020be5627593e6956; origin/main was fast-forward synchronized, the remote Work Item branch was proven absent, and the exact dedicated worktree and local branch were removed.",
+  "receiptId": "github-pr-706-finalization-20260909",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-714-wi712-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/706",
+    "worktree": "/private/tmp/ai-cockpit-wi-714-wi712-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T00:02:09Z",
+  "workItemId": "WI-714-wi712-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-714-wi712-doc-promotion",
+    "headRevision": "4d560af37f440193c82f2e1086b31ee7f1615a52",
+    "path": "/private/tmp/ai-cockpit-wi-714-wi712-doc-promotion",
+    "worktreeId": "wt-WI-714-wi712-doc-promotion"
+  }
+}
