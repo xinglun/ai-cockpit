@@ -1,0 +1,71 @@
+{
+  "acceptanceCriteria": [
+    "默认人工 Outcome 包含结果、关键变化、剩余不确定性、人的下一步四个阅读优先部分，并在结果中分开表达验证、生命周期和人工决定。",
+    "摘要仅基于现有 OutcomeV2 和 TaskOutcomeReport 数据按确定性规则生成，不调用 LLM 或外部服务。",
+    "CLI 与 MCP 共用摘要逻辑，对相同输入表达相同事实；机器 JSON 契约保持不变。",
+    "完整报告保留审计信息并有明确查看方式；阻断项、待人工决定、证据无效或过期状态不得因摘要长度被隐藏；可截断的其他列表显示省略数量和完整查看方式。",
+    "原始证据文本只作为数据处理，不能成为摘要指令或授权来源。",
+    "使用真实 Outcome 结构覆盖普通完成、阻断项、多列表、多语言、缺失收益、历史/已替代、过期/无效证据。",
+    "文档与发布说明明确记录默认行为变化，并保留 WI-703 的不可变 archive/evidence 与 successor lineage。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d97159a3f70e5ad59328b0d4e5249edf7931e84e",
+  "createdAt": "2026-09-08T22:15:29Z",
+  "goal": "在不改变机器契约、判定规则、退出码、授权语义或历史证据的前提下，交付共享的确定性四段式摘要和明确的完整报告入口。",
+  "intent": "从当前远程默认分支重新交付 P0-B Outcome 摘要与完整证据下钻，降低默认阅读成本并保持校准信任边界。",
+  "mode": "implementation",
+  "outOfScope": [
+    "协议 schema、机器 JSON 字段和序列化格式",
+    "验证规则、退出码、授权语义、持久化布局和历史证据重写",
+    "P1-A 认知收益实证、P1-B 架构拆分、P2 首次使用路径",
+    "LLM、外部服务、网络依赖以及其他 agent 的 Work Item、worktree、分支和 PR"
+  ],
+  "predecessorContractDigest": "sha256:76d5ebe5d44653c919197c11878a90c7f7fd708d1d851f8e32a9213b8a457f66",
+  "predecessorWorkItemId": "WI-703-wi669-current-base-revalidation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-703-wi669-current-base-revalidation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:db28a094bd1632610951cf9fa8066807553b6e86d973eb6bc35ea10b737d9135",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-713-wi703-current-base-revalidation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/704",
+    "worktree": "/private/tmp/ai-cockpit-wi-713-wi703-current-base-revalidation"
+  },
+  "risk": "medium",
+  "scope": [
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-713-wi703-current-base-revalidation.md",
+    "docs/work-items/WI-713-wi703-current-base-revalidation.zh-CN.md",
+    "docs/work-items/WI-713-wi703-current-base-revalidation.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-713-wi703-current-base-revalidation"
+}

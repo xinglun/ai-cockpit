@@ -1,0 +1,81 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-713-wi703-current-base-revalidation.recovery.09a026473430b0e8855dabacf111b91686189e3de7c009b241c8a03ac886e5cc.json",
+    ".ai/decisions/WI-713-wi703-current-base-revalidation.recovery.json",
+    ".ai/evidence/WI-713-wi703-current-base-revalidation.verification.json",
+    ".ai/work-items/active/WI-714-wi713-current-base-revalidation.contract.json",
+    ".ai/work-items/active/WI-714-wi713-current-base-revalidation.summary.json",
+    ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.archive.json",
+    ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.contract.json",
+    ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.events.jsonl",
+    ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.outcome.json",
+    ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.summary.json",
+    ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.task-report.json",
+    ".ai/work-items/archive/WI-713-wi703-current-base-revalidation.task-report.md"
+  ],
+  "checkpointAt": "2026-09-08T23:55:30Z",
+  "checkpointContractDigest": "sha256:9f0e633d389f022fa552401852ac3e65ada7bd4de00f3d8a20e02a8462c08448",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:97a9789900588b1c9821f7f4a44009468c07c97050f01612db2925388353c271",
+      "recorded": true,
+      "recordedAt": "2026-09-08T23:55:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa6825ee457580c8ebc79c1a34781f7ae7cddcf2fa202f56ead2ffe8a0103873",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-714-wi713-current-base-revalidation"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:9f0e633d389f022fa552401852ac3e65ada7bd4de00f3d8a20e02a8462c08448",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:97a9789900588b1c9821f7f4a44009468c07c97050f01612db2925388353c271",
+      "previousContractHash": "sha256:97a9789900588b1c9821f7f4a44009468c07c97050f01612db2925388353c271",
+      "reason": "Fresh documentation acceptance on the current base found that the already-closed WI-712 recovery still had conditional parity projections. Amend WI-714 with the narrow current-base documentation-promotion boundary; preserve WI-712 archive, evidence, finalization, close, branch, and worktree bytes, and invalidate pre-amendment verification before rerunning it.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T00:00:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e1458ed9ee320a7930bb239cf9ca0afcc55efbda10a5334897ea7094597ca1c8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-714-wi713-current-base-revalidation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:36901b472748baebe5d3eeaab87d1540903885c8f5cdba3f36b6c56b66c3df18",
+  "createdAt": "2026-09-08T23:49:44Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:036e518e1a9d8287593cd5aad986ceb9a388bf7b454aa4e7c5c9f6482151f8d2",
+  "predecessorWorkItemId": "WI-713-wi703-current-base-revalidation",
+  "preflightAt": "2026-09-09T00:10:05Z",
+  "preflightContractDigest": "sha256:9f0e633d389f022fa552401852ac3e65ada7bd4de00f3d8a20e02a8462c08448",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:0c1936407b6ed6240846611b4dcb826b07c08d7211ae813a0433803ea35e4186",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryDecisionPath": ".ai/decisions/WI-713-wi703-current-base-revalidation.recovery.09a026473430b0e8855dabacf111b91686189e3de7c009b241c8a03ac886e5cc.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T00:07:03Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:9595846371cf92949f915a159066c52731c0dab3b2bdc4f9689689283eaa746b",
+  "workItemId": "WI-714-wi713-current-base-revalidation"
+}

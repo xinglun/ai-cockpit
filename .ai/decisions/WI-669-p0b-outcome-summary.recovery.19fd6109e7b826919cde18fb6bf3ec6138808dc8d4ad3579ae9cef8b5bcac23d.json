@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-08T21:46:55Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-669-p0b-outcome-summary.archive.json",
+    ".ai/evidence/WI-669-p0b-outcome-summary.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/668"
+  ],
+  "policyRefs": [
+    "AGENTS.md:canonical-delivery-order",
+    "docs/reference/agent-workflow.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:f8ea55a3d0412eab9eaf039847f19544561d1656e7f4eee85f6dca1304aaa3f4",
+  "predecessorEventsDigest": "sha256:1bb1655d9930396bbe7f7cbc554188d9c66e582f71bf26a9f48515e88610d6eb",
+  "predecessorOutcomeDigest": "sha256:a6422b6e699985efc4abfa25772e8855ecf5a91fd2644e0f38956228a1ed2528",
+  "predecessorSummaryDigest": "sha256:75e08d1eea39e6e1b36e002af3c12ef827e6874de9ed860473afe97020bb53d1",
+  "predecessorWorkItemId": "WI-669-p0b-outcome-summary",
+  "reason": "PR #668 is conflicting because the reviewed delivery base advanced after WI-669 was archived; preserve the immutable WI-669 archive and re-deliver the same P0-B presentation scope from the current remote default branch.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "The WI-703 successor must bind the current default base, pass fresh preflight and verification, complete reviewed hosted delivery, provider finalization, and human close before the WI-669 predecessor lineage is closed.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-703-wi669-current-base-revalidation",
+  "workItemId": "WI-669-p0b-outcome-summary"
+}
