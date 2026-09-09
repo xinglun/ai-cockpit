@@ -1,0 +1,85 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-751-p2-first-use-current-base.contract.json",
+    ".ai/work-items/active/WI-751-p2-first-use-current-base.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T06:55:56Z",
+  "checkpointContractDigest": "sha256:82fecd947d4cb30dcf6cb8d5afd05d7e4dd2185900eb5f02760a58a358cacdd1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:e1132ef1ae2433d9c9b7b87272e76994f0bdf3eee03e936f993d4af482af2283",
+      "recorded": true,
+      "recordedAt": "2026-09-09T06:55:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d8c41a66465deabfd594f98017a75c092fd2f0ee2b6d52c540a3dc3408e5f7b0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-751-p2-first-use-current-base"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ba4a68602b43371971fd13d3d2f27e19aabb2f4e8d7ffa39cb1021e7fa71a4c6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e1132ef1ae2433d9c9b7b87272e76994f0bdf3eee03e936f993d4af482af2283",
+      "previousContractHash": "sha256:e1132ef1ae2433d9c9b7b87272e76994f0bdf3eee03e936f993d4af482af2283",
+      "reason": "Rebind the active Contract baseRevision to latest origin/main 64391e9 after reviewed WI-749 parity integration; scope and acceptance are unchanged and prior verification is regenerated.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T07:03:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a66ecfd682ba0d7b46394381585c87d35167df734cf274aaebe1066f000eea38",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-751-p2-first-use-current-base"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:82fecd947d4cb30dcf6cb8d5afd05d7e4dd2185900eb5f02760a58a358cacdd1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e1132ef1ae2433d9c9b7b87272e76994f0bdf3eee03e936f993d4af482af2283",
+      "previousContractHash": "sha256:ba4a68602b43371971fd13d3d2f27e19aabb2f4e8d7ffa39cb1021e7fa71a4c6",
+      "reason": "Rebind the active Contract baseRevision to the latest reviewed origin/main 08de2fc after WI-749 closure integration; scope and acceptance remain unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T07:22:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f14b37b1213ba11450d44cf29e136792df7caba65c07cc9c03972186c9914c8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-751-p2-first-use-current-base"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:6f14b37b1213ba11450d44cf29e136792df7caba65c07cc9c03972186c9914c8",
+  "createdAt": "2026-09-09T06:49:25Z",
+  "mode": "code",
+  "preflightAt": "2026-09-09T07:29:42Z",
+  "preflightContractDigest": "sha256:82fecd947d4cb30dcf6cb8d5afd05d7e4dd2185900eb5f02760a58a358cacdd1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6f14b37b1213ba11450d44cf29e136792df7caba65c07cc9c03972186c9914c8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T06:55:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fa1a1864d7c9d72c9cec3b844068fe4bdd57e3b6960f8278e582c0fae495b4fd",
+  "workItemId": "WI-751-p2-first-use-current-base"
+}

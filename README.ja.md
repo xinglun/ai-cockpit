@@ -51,6 +51,39 @@ ai-cockpit status --repo /path/to/repository
 最初の governed Work Item は[機能と境界](docs/capabilities.ja.md)を、
 install と検証は[Release と配布](docs/release/distribution.ja.md)を参照してください。
 
+## 検証済みの完了例
+
+実際の、範囲を限定した handoff の完了例は[WI-663 Outcome](.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)
+です。これはこの repository の governance record に関する evidence であり、普遍的な安全性や
+product performance の主張ではありません。
+
+- **結果:** Archive record は `state=finish_ready`、`decisionState=green`、
+  `verification.status=verified` を記録しています。別の[close decision](.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)
+  は repository owner の approval を記録します。検証通過と approval は同じ事実ではありません。
+- **主な変更:** Input は明示された base と bounded scope に対する Outcome presentation-layer
+  repair でした。記録された finding は verification、lifecycle、human decision を分離し、
+  historical、stale、missing、superseded evidence の違いも保持しています。
+- **Evidence boundary:** [verification evidence](.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)
+  は declared check と repository/Work Item binding を支えます。[finalization receipt](.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
+  は記録された merge と cleanup の事実を支えます。どちらも release、普遍的な安全性、user-visible
+  benefit を証明しません。
+- **残る不確実性:** `user_visible_benefit_not_declared` は明示的に残ります。Current Runtime
+  から historical record を見ると、historical evidence が再検証されていないと表示されることも
+  あります。これは freshness の制限であり、current test failure ではありません。
+- **人の次の一歩:** Archive の green verification から新しい authorization は推論できません。
+  Current decision に evidence を使う場合は、current Runtime で再検証し、人が明示的に decision を行います。
+
+Checkout から read-only handoff lookup を繰り返すには、placeholder を実際の repository path に置き換えます。
+
+```bash
+repo=/path/to/ai-cockpit
+ai-cockpit work-item outcome --repo "$repo" \
+  --id WI-663-wi659-outcome-trust-replacement
+```
+
+[最初の Work Item walkthrough](docs/getting-started/first-work-item.ja.md)では、同じ case を input と
+scope から evidence、Outcome、human decision、cleanup まで対応付けます。
+
 ## Shared Runtime と repository isolation
 
 各 target repository を個別に attach します。

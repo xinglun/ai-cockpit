@@ -134,4 +134,29 @@ condition. Never delete or rewrite records to make the lifecycle look green.
 The [Agent workflow reference](../reference/agent-workflow.md) defines the
 provider/resource evidence boundary used by the receipt files above.
 
+## Verified complete case
+
+The real [WI-663 archived Outcome](../../.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)
+is a compact example of the same route. Its input was a presentation-layer
+Outcome repair on a declared base and bounded scope. The archived record reports
+`state=finish_ready`, `decisionState=green`, and `verification.status=verified`.
+The separate [close decision](../../.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)
+records the repository owner's approval, while the [finalization receipt](../../.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
+records the provider merge and exact cleanup facts. These are separate facts:
+verification did not become approval, and approval did not become a release claim.
+
+The [task report](../../.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.task-report.md)
+and [verification evidence](../../.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)
+show the evidence boundary. The checks support the declared repository and
+Work Item result; they do not prove universal safety, a user-visible benefit, or
+that historical evidence is fresh under every later Runtime. The remaining
+unknown `user_visible_benefit_not_declared` is intentionally preserved.
+
+To inspect the historical handoff from a checkout, use the read-only lookup shown
+on the [AI Cockpit home page](../../README.md). The current Runtime may label the
+historical evidence as needing revalidation. That is a freshness limitation, not
+a current test failure. If the record is needed for a current decision, revalidate
+it and make the human decision explicitly; no authorization is inferred from the
+archived green verification.
+
 [Standard adoption guide](standard-adoption-guide.md) | [中文](first-work-item.zh-CN.md) | [日本語](first-work-item.ja.md)
