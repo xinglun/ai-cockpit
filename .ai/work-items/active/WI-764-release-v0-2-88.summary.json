@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-764-release-v0-2-88.summary.json"
   ],
   "checkpointAt": "2026-09-09T14:47:07Z",
-  "checkpointContractDigest": "sha256:ab2ad3825fe51d21dac7c72ad32b25441628d3f393b1cadf8a8f60d2c74285bd",
+  "checkpointContractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -60,17 +60,37 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-764-release-v0-2-88"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:af635027dadd901921aca53c832b16210ce33f64ad2a567e9d458db4e3f5ada0",
+      "previousContractHash": "sha256:9c42ea1a1fa0defa106a93e06f71c455565c65114f2bdba8bfbff46117dd75c9",
+      "reason": "Hosted quality correctly rejected pre-release verification evidence because it was bound to Runtime 0.2.87 while the v0.2.88 candidate gate uses the candidate Runtime identity. Add only the explicit candidate re-verification acceptance; preserve the prior evidence and require a fresh candidate-bound verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T15:20:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-764-release-v0-2-88"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
   "createdAt": "2026-09-09T14:44:03Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:ab2ad3825fe51d21dac7c72ad32b25441628d3f393b1cadf8a8f60d2c74285bd",
+    "contractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-    "reason": "The repository owner authorized continuing the amended release Contract after reviewing the added WI-763 terminal-documentation promotion boundary, required high-risk scenarios, current main readiness, and the rule that publication must use an immutable reviewed tag and public artifact. Required release evidence will be collected before finish and close.",
-    "recordedAt": "2026-09-09T14:52:00Z",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "The repository owner authorized continuing the amended release Contract after reviewing the candidate-Runtime re-verification boundary, required high-risk scenarios, current main readiness, and the rule that publication must use an immutable reviewed tag and public artifact. Prior Runtime evidence remains preserved; candidate-bound verification is required before hosted quality acceptance.",
+    "recordedAt": "2026-09-09T15:20:24Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
@@ -88,11 +108,11 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-09T15:10:02Z",
-  "preflightContractDigest": "sha256:ab2ad3825fe51d21dac7c72ad32b25441628d3f393b1cadf8a8f60d2c74285bd",
+  "preflightAt": "2026-09-09T15:23:15Z",
+  "preflightContractDigest": "sha256:1f04694e885b90e2643115ce769c69ead38a4c821097bb690fa3afa900decd4f",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:d68154ce747062e04ba1e490b3f0612441d017ef9e58d118569a908c9f9bacc1",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -146,13 +166,13 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-09T15:07:53.271863+00:00",
+  "updatedAt": "2026-09-09T15:23:08.933106+00:00",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:79576a5eea119885c27707a81260c270bd0bdf0a209b27e3d0a5a045aaa2648e",
+  "verificationRecoveryReconciled": "sha256:e5fd1f551271e7d503d600876d6141a8df23acbbe034cf23e698deeb6b5ca104",
   "workItemId": "WI-764-release-v0-2-88"
 }

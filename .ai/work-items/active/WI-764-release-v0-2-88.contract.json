@@ -8,7 +8,8 @@
     "Public adopter and N-1 upgrade acceptance complete with isolation cleanup evidence; Runtime inspect/status/doctor on the downloaded binary pass and the repository returns to ready_on_base.",
     "Historical governance and release evidence remain byte-preserved, and all Runtime lifecycle records are repository-bound and append-only.",
     "Closed performance Work Item documentation and parity projections are promoted to terminal status before release verification; the Runtime helper reports no stale promotion for WI-763.",
-    "Reference-comparison metadata and its six current projection pages bind the candidate v0.2.88 Runtime identity, preserve the pinned reference commit and ledger counts, and pass the executable metadata check."
+    "Reference-comparison metadata and its six current projection pages bind the candidate v0.2.88 Runtime identity, preserve the pinned reference commit and ledger counts, and pass the executable metadata check.",
+    "Before hosted quality acceptance, the candidate v0.2.88 Runtime independently re-runs the declared workspace verification and the resulting evidence binds the candidate Runtime version and digest; prior pre-release evidence from another Runtime identity remains preserved and is not reused."
   ],
   "authority": "human:repository-owner",
   "baseRevision": "67f8df96ce9bd2ccd521a29e67542dda5c4fe0df",
