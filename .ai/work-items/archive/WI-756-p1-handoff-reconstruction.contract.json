@@ -1,0 +1,77 @@
+{
+  "acceptanceCriteria": [
+    "A1: a fresh subprocess reconstructs the handoff from Contract, Summary, status, Outcome, decision/evidence records, and no transcript input",
+    "A2: the reconstruction includes goal, scope, done/pending state, valid evidence and binding, valid authorization, and the persisted blocking reason",
+    "A3: the test distinguishes current evidence and authorization from historical or missing records and does not infer a benefit or clear a blocker",
+    "A4: tri-language contract, matrix, coverage, README, Work Item, and reference-parity pages describe this evidence without external participant validation"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b30b56dcc11978079dcdf6855ee1f915670107e6",
+  "createdAt": "2026-09-09T08:06:02Z",
+  "goal": "rebuild objective, scope, completion state, valid evidence, valid authorization, and blocking reason without conversation history",
+  "intent": "prove a new Agent or session can reconstruct the Work Item from Runtime records alone",
+  "mode": "implementation",
+  "outOfScope": [
+    "external participant recruitment/interviews/evaluation",
+    "P2 onboarding and contribution-barrier track",
+    "production Runtime behavior and Contract/Outcome schema changes",
+    "new external authorization records"
+  ],
+  "projectProfileDigest": "sha256:2633e4cb7a5e04c7a671ab7a2776e59d1a6766d1a42f75216c42b9868aac23e6",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:90824d6ef92aff47606d0e86f296186d723197b3fa1fa8fb6353fb7f1253ba6c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-756-p1-handoff-reconstruction",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/736",
+    "worktree": "/private/tmp/ai-cockpit-wi-756-handoff-reconstruction"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/collaboration_handoff.rs::new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history",
+        "docs/reference/collaboration-scenario-matrix.json#SCN-026"
+      ],
+      "expected": "a fresh subprocess reconstructs objective, scope, completion state, current evidence, authorization, and the persisted blocking reason without conversation input",
+      "required": true,
+      "scenario": "Runtime-only handoff reconstruction",
+      "status": "verified",
+      "verificationPlan": "cargo test -p cockpit-cli --test collaboration_handoff new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-cli/tests/collaboration_handoff.rs",
+    "docs/reference/collaboration-language-contract.md",
+    "docs/reference/collaboration-language-contract.zh-CN.md",
+    "docs/reference/collaboration-language-contract.ja.md",
+    "docs/reference/collaboration-scenario-matrix.json",
+    "docs/reference/collaboration-scenario-matrix.md",
+    "docs/reference/collaboration-scenario-matrix.zh-CN.md",
+    "docs/reference/collaboration-scenario-matrix.ja.md",
+    "docs/reference/collaboration-invariant-coverage.md",
+    "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+    "docs/reference/collaboration-invariant-coverage.ja.md",
+    "docs/reference/README.md",
+    "docs/reference/README.zh-CN.md",
+    "docs/reference/README.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-756-p1-handoff-reconstruction.md",
+    "docs/work-items/WI-756-p1-handoff-reconstruction.zh-CN.md",
+    "docs/work-items/WI-756-p1-handoff-reconstruction.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-756-p1-handoff-reconstruction"
+}
