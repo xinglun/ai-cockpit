@@ -16,7 +16,7 @@
         },
         {
           "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-755-p1-observation-context-successor——P1 观察上下文边界 | 进行中 | [Work Item](../work-items/WI-755-p1-observation-context-successor.zh-CN.md)；归档 `.ai/work-items/archive/WI-755-p1-observation-context-successor.contract.json`；验证 `.ai/evidence/WI-755-p1-observation-context-successor.verification.json`；最终化 `.ai/decisions/WI-755-p1-observation-context-successor.finalize.json`；关闭 `.ai/decisions/WI-755-p1-observation-context-successor.close.json`。 |"
+          "row": "| WI-755-p1-observation-context-successor —— P1 观察上下文边界 | 进行中 | [Work Item](../work-items/WI-755-p1-observation-context-successor.zh-CN.md)；归档 `.ai/work-items/archive/WI-755-p1-observation-context-successor.contract.json`；验证 `.ai/evidence/WI-755-p1-observation-context-successor.verification.json`；最终化 `.ai/decisions/WI-755-p1-observation-context-successor.finalize.json`；关闭 `.ai/decisions/WI-755-p1-observation-context-successor.close.json`。 |"
         },
         {
           "path": "docs/reference/reference-parity.ja.md",
@@ -28,7 +28,7 @@
         "number": 735,
         "url": "https://github.com/xinglun/ai-cockpit/pull/735"
       },
-      "registryBaseRevision": "7c0e2108f5543dffeb15f02589fbe3c81724d476",
+      "registryBaseRevision": "2d678b19be8c43bf1a3be8ab3de84fbced8de09c",
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "state": "in_progress",
       "workItemId": "WI-755-p1-observation-context-successor"
