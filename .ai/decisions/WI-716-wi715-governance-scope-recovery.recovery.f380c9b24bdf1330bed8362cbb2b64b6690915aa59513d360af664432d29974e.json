@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-09T01:37:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/709",
+    ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:5768e39f715e717118a26116d7547d7380f2435d6427ddc045c76a9d0de5c647",
+  "predecessorEventsDigest": "sha256:471170cb7b80de4a095b91920759d9c67665c08000b44548772fa176dab6aaf3",
+  "predecessorOutcomeDigest": "sha256:0f266fe45da960cebfeda5297758806d4e26d58bd8c55ebe6c5f666545acb122",
+  "predecessorSummaryDigest": "sha256:74b44f2769ba8b338237ac48c778c5a3301e5b42dc88ac1ed024aeb80b9b7e9a",
+  "predecessorWorkItemId": "WI-716-wi715-governance-scope-recovery",
+  "reason": "The first retry was recorded before finalize-plan changed the Contract binding. Record a second append-only retry against the finalized Contract and current Summary so the Runtime can validate the recovery boundary without rewriting either prior receipt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification after this retry binding; then finish, archive, finalize, finalize-verify, and close WI-716.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-716-wi715-governance-scope-recovery"
+}

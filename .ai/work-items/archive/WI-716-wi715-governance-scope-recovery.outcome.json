@@ -1,0 +1,157 @@
+{
+  "acceptanceResults": [
+    "WI-715 的 supersede/successor recovery、finalization 和历史证据保持可验证且不被改写。",
+    "治理 gate、三语言 parity 和 Work Item status consistency 对同一完整 Work Item ID 保持确定性，不再按数字短 ID 合并无关记录。",
+    "CLI/MCP 与 Rust workspace 验证通过，机器契约和产品运行时行为无变化。",
+    "WI-716 文档和 parity 投影明确记录 recovery 原因、证据边界、完成状态及 successor close 事实。"
+  ],
+  "createdAt": "2026-09-09T01:42:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:623bd8629c486b299d7fdd016e3e0f62b560c12723e99220ea68ea8c222e00bb",
+  "evidenceRefs": [
+    ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0ac1999198db75726a0cf8cdb8c72d897a2c622002e772f9bf84c2cb91cf2699",
+      "workItemId": "WI-716-wi715-governance-scope-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-715-wi713-p0b-redelivery.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-715-wi713-p0b-redelivery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-716-wi715-governance-scope-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-716-wi715-governance-scope-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在不重写 WI-715 历史、不改变产品判定或机器契约的前提下，记录并验证 parity/gate scope 修复，完成 successor 的 reviewed delivery 与治理关闭。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-716-wi715-governance-scope-recovery"
+  },
+  "taskReportDigest": "sha256:6dbbbfab28d88b3e55f70a369608eb568358da65761126c86b053dee0962b601",
+  "taskReportMarkdownDigest": "sha256:c0d2cd99e0b1dfebba2f6e6d771255b7316ef1ca3defcc2c1b50ad18ff9ad909",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-716-wi715-governance-scope-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-716-wi715-governance-scope-recovery"
+}

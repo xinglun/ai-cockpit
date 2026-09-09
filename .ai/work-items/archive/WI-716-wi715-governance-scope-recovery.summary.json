@@ -1,0 +1,33 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-715-wi713-p0b-redelivery.finalize.json",
+    ".ai/decisions/WI-715-wi713-p0b-redelivery.recovery.json",
+    ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.contract.json",
+    ".ai/work-items/archive/WI-716-wi715-governance-scope-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T01:24:05Z",
+  "checkpointContractDigest": "sha256:5768e39f715e717118a26116d7547d7380f2435d6427ddc045c76a9d0de5c647",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:0ac1999198db75726a0cf8cdb8c72d897a2c622002e772f9bf84c2cb91cf2699",
+  "createdAt": "2026-09-09T01:22:01Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:2dd6e7f34e44c7f2b2066d539f35097f808cb203653688df5df34f472070303f",
+  "predecessorWorkItemId": "WI-715-wi713-p0b-redelivery",
+  "preflightAt": "2026-09-09T01:42:34Z",
+  "preflightContractDigest": "sha256:5768e39f715e717118a26116d7547d7380f2435d6427ddc045c76a9d0de5c647",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:0ac1999198db75726a0cf8cdb8c72d897a2c622002e772f9bf84c2cb91cf2699",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-715-wi713-p0b-redelivery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T01:42:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-716-wi715-governance-scope-recovery"
+}
