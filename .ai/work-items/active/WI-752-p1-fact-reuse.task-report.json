@@ -1,0 +1,102 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
+    "workItemId": "WI-752-p1-fact-reuse"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-752-p1-fact-reuse.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-752-p1-fact-reuse.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-752-p1-fact-reuse.contract.json"
+        ],
+        "inference": false,
+        "text": "Measure and, only when supported by evidence, eliminate duplicate repository discovery, Runtime identity, Git snapshot, configuration/evidence parsing, file read/hash, status/outcome/doctor fact collection."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-752-p1-fact-reuse.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-752-p1-fact-reuse"
+}

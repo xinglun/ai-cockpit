@@ -1,0 +1,116 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-752-p1-fact-reuse.contract.json",
+    ".ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T07:01:57Z",
+  "checkpointContractDigest": "sha256:102117431153a5658fae115aa6530fe12ef8db4692c87209bb8f200254b9ab1f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3d06d84ae9212cd8d52dde78cffc283ea198bb50326cdcdc3b1c4e0bd5c7ab79",
+      "recorded": true,
+      "recordedAt": "2026-09-09T07:01:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-752-p1-fact-reuse"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:2347619f2e56e4cb579d1d16e680a04b577a337fa5b3ecc37c7827e4a1e19fd3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3d06d84ae9212cd8d52dde78cffc283ea198bb50326cdcdc3b1c4e0bd5c7ab79",
+      "previousContractHash": "sha256:3d06d84ae9212cd8d52dde78cffc283ea198bb50326cdcdc3b1c4e0bd5c7ab79",
+      "reason": "Include bounded Runtime-generated evidence paths required by the authorized performance measurement and preserve append-only recovery.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T07:30:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc0c0d33653537566629bbc4b2f4336db423432284a9cf0d4e3ce341adf4ce25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-752-p1-fact-reuse"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c8612d8b96212ef4c16cc2ec5550952935180485d2992faa668b7c8c23506016",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3d06d84ae9212cd8d52dde78cffc283ea198bb50326cdcdc3b1c4e0bd5c7ab79",
+      "previousContractHash": "sha256:2347619f2e56e4cb579d1d16e680a04b577a337fa5b3ecc37c7827e4a1e19fd3",
+      "reason": "Bind the exact active Contract and Summary paths in addition to bounded Runtime evidence directories.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T07:31:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc0c0d33653537566629bbc4b2f4336db423432284a9cf0d4e3ce341adf4ce25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-752-p1-fact-reuse"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:102117431153a5658fae115aa6530fe12ef8db4692c87209bb8f200254b9ab1f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3d06d84ae9212cd8d52dde78cffc283ea198bb50326cdcdc3b1c4e0bd5c7ab79",
+      "previousContractHash": "sha256:c8612d8b96212ef4c16cc2ec5550952935180485d2992faa668b7c8c23506016",
+      "reason": "Correct the malformed required evidence class using the bounded Runtime amendment path; preserve all prior evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T07:33:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-752-p1-fact-reuse"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
+  "createdAt": "2026-09-09T07:01:03Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-752-p1-fact-reuse.verification.json",
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-cli/src/main.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-09T07:33:33Z",
+  "preflightContractDigest": "sha256:102117431153a5658fae115aa6530fe12ef8db4692c87209bb8f200254b9ab1f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T07:45:40Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:42d0ec420ea81835a8ec0e5e1040f924c060c37b8cee759d44325fd968c353cd",
+  "workItemId": "WI-752-p1-fact-reuse"
+}

@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "Baseline and candidate use identical scenarios and environment; duplicate call counters decrease or candidate is rejected.",
+    "Governance decisions, errors, evidence bindings, exit codes, and deterministic summaries remain identical.",
+    "Fresh facts are not shared across file modifications or protected-operation boundaries.",
+    "All required evidence, verification commands, and raw measurements are retained.",
+    "Runtime-generated lifecycle records remain repository-bound and append-only.",
+    "Required verification evidence is represented by the Runtime's verification class."
+  ],
+  "authority": "authorized",
+  "baseRevision": "64391e9609ee82da7a3eb08ea98ea33f72311ad9",
+  "createdAt": "2026-09-09T07:01:03Z",
+  "goal": "Measure and, only when supported by evidence, eliminate duplicate repository discovery, Runtime identity, Git snapshot, configuration/evidence parsing, file read/hash, status/outcome/doctor fact collection.",
+  "intent": "Reduce request-path latency and resource cost by reusing immutable facts within one observation cycle while preserving governance semantics, repository isolation, authorization boundaries, evidence binding, and recovery.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Governance rule weakening",
+    " evidence deletion",
+    " unrelated refactors",
+    " cache trust expansion",
+    " cross-repository context sharing",
+    " protected-operation boundary removal"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:66f75a02abb7668ef0d160efe54d888e88e8b16515adccab088427bd3dd4a9e3",
+  "requiredEvidenceClasses": [
+    "P0 benchmark artifacts and raw samples; call-count and behavior comparison; Runtime preflight/checkpoint/verify/finish/archive/close receipts",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-752-p1-fact-reuse",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-752-p1-fact-reuse"
+  },
+  "risk": "normal",
+  "scope": [
+    "src/**",
+    "tests/**",
+    "docs/work-items/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "src/**",
+    "tests/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**",
+    ".ai/decisions/**",
+    ".ai/work-items/active/WI-752-p1-fact-reuse.contract.json",
+    ".ai/work-items/active/WI-752-p1-fact-reuse.summary.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-752-p1-fact-reuse"
+}
