@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-766 — WI-765 terminal documentation promotion"
 description: "検証済みでクローズされた WI-765 のドキュメント投影を終端状態へ昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-766-wi765-doc-promotion
 lastVerifiedBy: WI-766-wi765-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-766-wi765-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-766-wi765-doc-promotion.verification.json
+terminalFinalization: .ai/decisions/WI-766-wi765-doc-promotion.finalize.f46dd4dba8e4a0017793479963bf476447609f71e73f8b0f85e7502312775bad.json
+terminalDecision: .ai/decisions/WI-766-wi765-doc-promotion.close.json
 ---
 
 [English](WI-766-wi765-doc-promotion.md) · [简体中文](WI-766-wi765-doc-promotion.zh-CN.md)
