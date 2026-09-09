@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-767-wi766-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-767-wi766-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-767-wi766-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-767-wi766-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-09T17:30:38Z",
   "checkpointContractDigest": "sha256:2dabfaf8a297526a3972d13daa5727f6c0a91c65e925dc9cd66bb943567efb57",
