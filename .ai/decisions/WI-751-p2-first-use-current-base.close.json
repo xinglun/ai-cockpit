@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f14b37b1213ba11450d44cf29e136792df7caba65c07cc9c03972186c9914c8",
+      "workItemId": "WI-751-p2-first-use-current-base"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-751-p2-first-use-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-751-p2-first-use-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-751-p2-first-use-current-base.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json",
+            ".ai/decisions/WI-751-p2-first-use-current-base.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit-user-authorization at 2026-09-09T08:26:02Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the first-use and README path with a verified, reproducible case that lowers onboarding reading cost without inventing benefits or governance authority"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-751-p2-first-use-current-base"
+  },
+  "finalReportDigest": "sha256:662a0fdf190a977b36a4504a6d9b8ee8f8c94aecf8db42ed92586dd3bb80c5f6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:a2606e2c9e5c7baea78bf8e868ec4757a22adff651d621775787219fcaba9950",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-751-p2-first-use-current-base.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-09T08:26:02Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-751-p2-first-use-current-base.verification.json",
+      ".ai/decisions/WI-751-p2-first-use-current-base.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      ".ai/glossary.md"
+    ],
+    "reason": "Repository owner xinglun explicitly authorized continuation; close records the reviewed PR delivery, current Runtime finalization verification, exact branch/worktree cleanup, and the verified first-use case. It does not claim onboarding time savings, risk interception, release approval, or broader authorization.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-09T08:26:09Z",
+  "workItemId": "WI-751-p2-first-use-current-base"
+}
