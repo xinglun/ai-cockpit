@@ -1,0 +1,93 @@
+{
+  "acceptanceCriteria": [
+    "Release source_quality executes the Contract-aware Rust gate whenever the strict release route binds a Contract and passes its receipt to run_repository_gates.py, with receipt artifacts uploaded.",
+    "Workspace version is exactly 0.2.89 and all required current release/version projections are consistent; v0.2.88 remains unchanged.",
+    "Reviewed PR hosted checks pass, including route, quality, Windows runtime, and v1 behavioral oracle, before merge.",
+    "After merge, the v0.2.89 tag is immutable and the provider Release plus all target artifacts, source-quality receipts, version-consistency, adopter installation, and upgrade acceptance evidence are bound to the merged commit and temporary roots are cleaned.",
+    "The Work Item is archived, finalized, closed, exact branch/worktree cleanup is verified, main is synchronized, and post-close documentation promotion check is current."
+  ],
+  "authority": "authorized",
+  "baseRevision": "54e243e5099d46ac5eefb6dfe419d6e6e3841b2b",
+  "createdAt": "2026-09-09T18:23:25Z",
+  "goal": "Produce and publish v0.2.89 from a reviewed PR whose hosted release workflow executes the Contract-aware Rust gate and binds its receipt to repository gates, while preserving prior v0.2.88 failure evidence.",
+  "intent": "Recover the failed v0.2.88 release path and publish a new immutable v0.2.89 release with strict Contract-aware source quality evidence.",
+  "mode": "change",
+  "outOfScope": [
+    "Runtime production implementation; performance optimization implementation; changing historical WI-764/v0.2.88 evidence; deleting or reusing v0.2.88 tag; weakening or skipping repository gates; unrelated documentation or refactors; global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:73fc6568b5ccb46894896320f0a2c124fbc6888f282f85d4d9d50c784a801d20",
+  "requiredEvidenceClasses": [
+    "verification",
+    "governance",
+    "release publication",
+    "adopter acceptance",
+    "prearchive parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-768-release-v0-2-89",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/751",
+    "worktree": "/private/tmp/ai-cockpit-wi-768-release-v0-2-89"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "target/rust-contract-quality-gate.json"
+      ],
+      "expected": "The release source_quality job evaluates the active Contract with the Rust gate and passes its receipt to the repository gate runner; missing binding fails closed.",
+      "required": true,
+      "scenario": "strict release route binds the Contract-aware Rust gate",
+      "status": "unverified",
+      "verificationPlan": "Run the release workflow on the reviewed v0.2.89 tag and inspect the source-quality and Contract-gate receipts and hosted job logs."
+    },
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Cargo metadata, Cargo.lock, the reviewed merge commit, annotated v0.2.89 tag, release manifest, checksums, SBOMs, and provider Release all bind to the same source revision and version.",
+      "required": true,
+      "scenario": "reviewed source commit produces one immutable v0.2.89 identity",
+      "status": "unverified",
+      "verificationPlan": "Run local version checks, merge only the reviewed PR, create the annotated v0.2.89 tag once, and validate hosted release identity and public assets."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/isolation_manifest.sh"
+      ],
+      "expected": "The downloaded immutable v0.2.89 artifact passes version, manifest, root isolation, cleanup, and Runtime identity checks without using the workspace binary.",
+      "required": true,
+      "scenario": "release artifacts pass isolated adopter installation",
+      "status": "unverified",
+      "verificationPlan": "Run the public adopter acceptance harness against the provider Release asset and retain its isolation receipt and manifests."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "An isolated adopter can upgrade from v0.2.87 to the downloaded v0.2.89 artifact while preserving governed history and proving cleanup and identity binding.",
+      "required": true,
+      "scenario": "v0.2.89 preserves the v0.2.87 to v0.2.89 upgrade boundary",
+      "status": "unverified",
+      "verificationPlan": "Run the public upgrade acceptance harness with immutable v0.2.87 and v0.2.89 artifacts and retain the receipt."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml; Cargo.toml; Cargo.lock; current release/version documentation and tri-language parity entries required by the repository; WI-768 governance evidence and release/adopter acceptance evidence"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-768-release-v0-2-89"
+}

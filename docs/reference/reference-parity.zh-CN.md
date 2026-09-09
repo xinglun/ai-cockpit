@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-764-release-v0-2-88
+lastVerifiedBy: WI-768-release-v0-2-89
 capabilityClaims:
   - reference_parity
 ---
@@ -34,9 +34,9 @@ capabilityClaims:
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-当前快照使用 Rust 基线 `67f8df96ce9bd2ccd521a29e67542dda5c4fe0df`，以及经审查的
-`ai-cockpit v0.2.88` Runtime（二进制摘要
-`sha256:f4c4d85e60a5940aaac21c60564acb143128268ccdc9077552443f53fac8312a`）。
+当前快照使用 Rust 基线 `54e243e5099d46ac5eefb6dfe419d6e6e3841b2b`，以及经审查的
+`ai-cockpit v0.2.89` Runtime（二进制摘要
+`sha256:e79ac0e2b36e3c0c5e976052aba62a1224d210bfc16b9f106b3dcc987c23dc2f`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -824,3 +824,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-765-wi764-doc-promotion——WI-764 关闭后文档 promotion | 已实现 | [Work Item](../work-items/WI-765-wi764-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-765-wi764-doc-promotion.contract.json`; verification `.ai/evidence/WI-765-wi764-doc-promotion.verification.json`; finalization `.ai/decisions/WI-765-wi764-doc-promotion.finalize.60a5e15353209ac22e995c11894712c8181b817a706fad9322d5a1712fec21d5.json`; close `.ai/decisions/WI-765-wi764-doc-promotion.close.json`. |
 | WI-766-wi765-doc-promotion——WI-765 终态文档 promotion | 已实现 | [Work Item](../work-items/WI-766-wi765-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-766-wi765-doc-promotion.contract.json`; verification `.ai/evidence/WI-766-wi765-doc-promotion.verification.json`; finalization `.ai/decisions/WI-766-wi765-doc-promotion.finalize.f46dd4dba8e4a0017793479963bf476447609f71e73f8b0f85e7502312775bad.json`; close `.ai/decisions/WI-766-wi765-doc-promotion.close.json`. |
 | WI-767-wi766-doc-promotion——WI-766 终态文档 promotion | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-767-wi766-doc-promotion.zh-CN.md)；archive `.ai/work-items/archive/WI-767-wi766-doc-promotion.contract.json`；verification `.ai/evidence/WI-767-wi766-doc-promotion.verification.json`；finalization `.ai/decisions/WI-767-wi766-doc-promotion.finalize.json`；close `.ai/decisions/WI-767-wi766-doc-promotion.close.json`。 |
+| WI-768-release-v0-2-89——WI-764 source-quality 失败后的 v0.2.89 发布恢复 | 进行中 | [Work Item](../work-items/WI-768-release-v0-2-89.zh-CN.md)；Contract-aware release quality gate 修复、新的 v0.2.89 identity 以及不可变公开/adopter evidence 待验证。 |

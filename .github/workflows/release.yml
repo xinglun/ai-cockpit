@@ -147,6 +147,22 @@ jobs:
           )
           if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
           python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+      - name: Evaluate Rust Contract-aware quality gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          contract_path="$(jq -r '.contractPath // empty' target/release-quality-route.json)"
+          profile="$(jq -er '.selectedProfile' target/release-quality-route.json)"
+          if [[ "$profile" != light && -n "$contract_path" ]]; then
+            cargo run --locked --package cockpit-cli -- \
+              gate \
+              --repo "$GITHUB_WORKSPACE" \
+              --contract "$contract_path" \
+              --stage release \
+              --runner hosted \
+              --base-revision "$(jq -er '.baseRevision' target/release-quality-route.json)" \
+              --report target/rust-contract-quality-gate.json
+          fi
       - name: Run source quality gates
         shell: bash
         run: |
@@ -154,11 +170,19 @@ jobs:
           cargo metadata --locked --format-version 1 > /tmp/cargo-metadata.json
           version="$(jq -er '.packages[] | select(.name == "cockpit-cli") | .version' /tmp/cargo-metadata.json)"
           jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' /tmp/cargo-metadata.json
-          python3 tests/ci/run_repository_gates.py \
+          gate_args=(
+            python3 tests/ci/run_repository_gates.py \
             --repo "$GITHUB_WORKSPACE" \
             --manifest tests/ci/repository_gate_manifest.json \
             --route-receipt target/release-quality-route.json \
             --report target/repository-gates.json
+          )
+          contract_path="$(jq -r '.contractPath // empty' target/release-quality-route.json)"
+          profile="$(jq -er '.selectedProfile' target/release-quality-route.json)"
+          if [[ "$profile" != light && -n "$contract_path" ]]; then
+            gate_args+=(--contract-gate-report target/rust-contract-quality-gate.json)
+          fi
+          "${gate_args[@]}"
       - name: Upload source gate receipts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
@@ -168,6 +192,14 @@ jobs:
             target/release-quality-route.json
             target/repository-gates.json
             target/workspace-package-coverage.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload Rust Contract gate receipt
+        if: hashFiles('target/rust-contract-quality-gate.json') != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: rust-contract-quality-gate
+          path: target/rust-contract-quality-gate.json
           if-no-files-found: error
           retention-days: 7
 

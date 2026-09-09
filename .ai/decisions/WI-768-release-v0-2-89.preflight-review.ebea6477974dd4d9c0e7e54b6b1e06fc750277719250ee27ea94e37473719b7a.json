@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8788c63be15815f0eb8e5a86de1ffceccfc970b049a3ac7820cc1c88789d7921",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Explicitly confirm the WI-768 Contract after candidate Runtime 0.2.89 verification passed and the current decision was recomputed. This authorizes the strict release quality route and hosted PR checks only; public publication and adopter acceptance remain unverified until the immutable tag and provider Release exist.",
+  "recordedAt": "2026-09-09T19:13:30Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b21cb13bb3cf02d979c488784f0a943b8e213fa8b4b33f3ab7d0901c17ec0f1d",
+  "schemaVersion": 1,
+  "workItemId": "WI-768-release-v0-2-89"
+}

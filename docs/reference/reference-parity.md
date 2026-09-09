@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-764-release-v0-2-88
+lastVerifiedBy: WI-768-release-v0-2-89
 capabilityClaims:
   - reference_parity
 ---
@@ -41,9 +41,9 @@ for the rebaseline receipt and procedure.
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-The current snapshot uses Rust baseline `67f8df96ce9bd2ccd521a29e67542dda5c4fe0df`
-and the reviewed Runtime `ai-cockpit v0.2.88` with binary digest
-`sha256:f4c4d85e60a5940aaac21c60564acb143128268ccdc9077552443f53fac8312a`.
+The current snapshot uses Rust baseline `54e243e5099d46ac5eefb6dfe419d6e6e3841b2b`
+and the reviewed Runtime `ai-cockpit v0.2.89` with binary digest
+`sha256:e79ac0e2b36e3c0c5e976052aba62a1224d210bfc16b9f106b3dcc987c23dc2f`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -985,3 +985,4 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-765-wi764-doc-promotion — WI-764 closed documentation promotion | Implemented | [Work Item](../work-items/WI-765-wi764-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-765-wi764-doc-promotion.contract.json`; verification `.ai/evidence/WI-765-wi764-doc-promotion.verification.json`; finalization `.ai/decisions/WI-765-wi764-doc-promotion.finalize.60a5e15353209ac22e995c11894712c8181b817a706fad9322d5a1712fec21d5.json`; close `.ai/decisions/WI-765-wi764-doc-promotion.close.json`. |
 | WI-766-wi765-doc-promotion — WI-765 terminal documentation promotion | Implemented | [Work Item](../work-items/WI-766-wi765-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-766-wi765-doc-promotion.contract.json`; verification `.ai/evidence/WI-766-wi765-doc-promotion.verification.json`; finalization `.ai/decisions/WI-766-wi765-doc-promotion.finalize.f46dd4dba8e4a0017793479963bf476447609f71e73f8b0f85e7502312775bad.json`; close `.ai/decisions/WI-766-wi765-doc-promotion.close.json`. |
 | WI-767-wi766-doc-promotion — WI-766 terminal documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-767-wi766-doc-promotion.md); archive `.ai/work-items/archive/WI-767-wi766-doc-promotion.contract.json`; verification `.ai/evidence/WI-767-wi766-doc-promotion.verification.json`; finalization `.ai/decisions/WI-767-wi766-doc-promotion.finalize.json`; close `.ai/decisions/WI-767-wi766-doc-promotion.close.json`. |
+| WI-768-release-v0-2-89 — v0.2.89 release recovery after WI-764 source-quality failure | In progress | [Work Item](../work-items/WI-768-release-v0-2-89.md); Contract-aware release quality gate repair, fresh v0.2.89 identity, and immutable public/adopter evidence are pending verification. |
