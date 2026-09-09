@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit repository-owner authorization recorded in the user request",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "251c3867c75d1395b4aa203057174fe1c9b1cb52",
+    "name": "codex/wi-755-p1-observation-context-successor",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:62ff60b9ed3e62a2bd242207e59009b2cf71c62e50a72d434815e92507290442",
+  "operationId": "github-pr-735-wi755-awaiting-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "08de2fc2aa7b9530bd1d7764475152689c4851d7",
+    "headRevision": "251c3867c75d1395b4aa203057174fe1c9b1cb52",
+    "number": 735,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/735"
+  },
+  "reason": "PR #735 is archived and hosted checks are being completed; provider finalization remains blocked until the reviewed PR is merged.",
+  "receiptId": "github-pr-735-wi755-awaiting-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-755-p1-observation-context-successor",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/735",
+    "worktree": "/private/tmp/ai-cockpit-wi-755-p1-observation-context-successor"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T08:12:00Z",
+  "workItemId": "WI-755-p1-observation-context-successor",
+  "worktree": {
+    "branch": "codex/wi-755-p1-observation-context-successor",
+    "headRevision": "251c3867c75d1395b4aa203057174fe1c9b1cb52",
+    "path": "/private/tmp/ai-cockpit-wi-755-p1-observation-context-successor",
+    "worktreeId": "wt-WI-755-p1-observation-context-successor"
+  }
+}
