@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "English, Simplified Chinese, and Japanese homepages show the same verified complete case with reproducible input and scope, observed findings, evidence boundary, human decision, and remaining unknowns",
+    "The first-use route explicitly separates installation, repository attach, calibration, and the first governance Work Item, with deterministic links and commands",
+    "The example can be repeated from a source checkout or an attached repository using documented commands and placeholders; it makes no unverified time-saving, safety, or risk-interception claim",
+    "The First Work Item pages explain how the real archived case maps from input to evidence, Outcome, human decision, and cleanup, while preserving the Runtime lifecycle and authorization boundaries",
+    "The tri-language documentation passes the repository parity, getting-started semantic, and documentation acceptance checks once the independent active Work Item is closed"
+  ],
+  "createdAt": "2026-09-09T07:48:43Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:40f51fd1f8a859d96ebf3423bed6abffba0a26d326cb9f9e55ca387f53b8cf33",
+  "evidenceRefs": [
+    ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f14b37b1213ba11450d44cf29e136792df7caba65c07cc9c03972186c9914c8",
+      "workItemId": "WI-751-p2-first-use-current-base"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-751-p2-first-use-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-751-p2-first-use-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-751-p2-first-use-current-base.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-751-p2-first-use-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the first-use and README path with a verified, reproducible case that lowers onboarding reading cost without inventing benefits or governance authority"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-751-p2-first-use-current-base"
+  },
+  "taskReportDigest": "sha256:2626dba507ec187aa6f78f2336deb585ac2086c954520433177f5cd19c00fffc",
+  "taskReportMarkdownDigest": "sha256:a03560db936054a16725345676415dbf2f325798a6b7162093ce3ddcc353b21e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-751-p2-first-use-current-base.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-751-p2-first-use-current-base"
+}

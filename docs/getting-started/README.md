@@ -28,6 +28,24 @@ Installation is a shared Runtime operation. Repository attachment is explicit an
 creates repository-local `.ai/` state; one Runtime can serve many repositories without
 sharing their Work Items, evidence, or active context.
 
+## Keep the four first-use stages separate
+
+The first-use route has four different decisions. Do not treat a successful earlier
+stage as approval for a later one:
+
+1. **Installation:** obtain an immutable public Release and verify its digest; see
+   [Installation](installation.md).
+2. **Repository attach:** inspect the target and create its repository-local `.ai/`
+   state; attach does not approve work or install global Agent settings.
+3. **Calibration:** review the read-only profile candidate and confirm the
+   project-owned quality command; see [Repository profile calibration](calibration.md).
+4. **First governance Work Item:** declare scope and authority, pass preflight and
+   checkpoint, collect evidence, deliver the visible Outcome, and obtain the human
+   decision; see [First Work Item](first-work-item.md).
+
+The [verified complete case](first-work-item.md#verified-complete-case) shows these
+facts without turning verification into authorization.
+
 ## Reader routes
 
 - [30-second start](30-second-start.md) — inspect, attach, status, and doctor.

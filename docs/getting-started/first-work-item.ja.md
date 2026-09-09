@@ -127,4 +127,25 @@ Lifecycle を green に見せるため record を削除・書換してはいけ�
 [Agent workflow reference](../reference/agent-workflow.ja.md)は上記 receipt file が使う
 provider/resource evidence boundary を定義します。
 
+## 検証済みの完了例
+
+実際の [WI-663 archived Outcome](../../.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)
+は同じ route の簡潔な例です。Input は明示された base と bounded scope に対する Outcome presentation-layer
+repair でした。Archive record は `state=finish_ready`、`decisionState=green`、`verification.status=verified`
+を記録しています。別の[close decision](../../.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)
+は repository owner の approval を記録し、[finalization receipt](../../.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
+は provider merge と exact cleanup の事実を記録します。これは別の事実であり、verification は approval にならず、
+approval も release の主張にはなりません。
+
+[Task report](../../.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.task-report.md)と
+[verification evidence](../../.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)が evidence
+boundary を示します。Check は declared repository と Work Item result を支えますが、普遍的な安全性、user-visible
+benefit、または後続のすべての Runtime で historical evidence が fresh であることを証明しません。
+残る unknown `user_visible_benefit_not_declared` は意図的に保持されています。
+
+Checkout から historical handoff を確認するには、[AI Cockpit home page](../../README.ja.md)にある read-only lookup
+を使用します。Current Runtime は historical evidence を再検証が必要と表示することがあります。これは freshness の
+制限であり、current test failure ではありません。Current decision に使う場合は再検証し、人が明示的に decision を行います。
+Archived green verification から authorization を推論してはいけません。
+
 [Standard adoption guide](standard-adoption-guide.ja.md) | [English](first-work-item.md) | [中文](first-work-item.zh-CN.md)

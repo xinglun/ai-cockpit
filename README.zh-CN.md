@@ -47,6 +47,35 @@ ai-cockpit status --repo /path/to/repository
 先读[功能与边界](docs/capabilities.zh-CN.md)了解第一个受治理 Work Item，
 再读[发布与分发](docs/release/distribution.zh-CN.md)了解安装和验证。
 
+## 一个经过验证的完整案例
+
+真实的、范围明确的完整交接案例见[WI-663 Outcome](.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)。
+它是本 repository 治理记录的证据，不是关于普遍安全性或产品性能的声明。
+
+- **结果：** 归档记录报告 `state=finish_ready`、`decisionState=green` 和
+  `verification.status=verified`。[关闭决定](.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)
+  单独记录了 repository owner 的批准；验证通过和获得批准不是同一事实。
+- **关键变化：** 输入是有明确 base 和边界范围的 Outcome 展示层修复。记录的发现保留了
+  验证、生命周期和人工决定的区别，也保留历史、过期、缺失和已替代证据的区别。
+- **证据边界：** [验证证据](.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)
+  支持已声明的检查以及 repository/Work Item 绑定；[收尾 receipt](.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
+  支持记录的合并和 cleanup 事实。两者都不能证明已经发布、普遍安全或产生了用户可见收益。
+- **剩余不确定性：** `user_visible_benefit_not_declared` 保持显式存在。通过当前 Runtime
+  查看历史记录时，还可能显示历史证据尚未重新验证；这是新鲜度限制，不是当前测试失败。
+- **人的下一步：** 归档验证为 green 不会产生新的授权。如果要依据这些证据作出当前决定，
+  应在当前 Runtime 下重新验证，并由人明确作出决定。
+
+从 checkout 重复执行只读交接查询时，将占位路径替换为实际 repository 路径：
+
+```bash
+repo=/path/to/ai-cockpit
+ai-cockpit work-item outcome --repo "$repo" \
+  --id WI-663-wi659-outcome-trust-replacement
+```
+
+[首个 Work Item 路线](docs/getting-started/first-work-item.zh-CN.md)进一步把同一案例从输入、
+范围映射到证据、Outcome、人工决定和 cleanup。
+
 ## 共享 Runtime，隔离 repository
 
 分别 attach 每个目标 repository：
