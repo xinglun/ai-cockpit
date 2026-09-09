@@ -1,0 +1,132 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata reports exactly v0.2.88 for cockpit-cli and all workspace packages, with Cargo.lock consistent under --locked.",
+    "Current release, architecture, versioning, and trilingual Work Item documentation consistently names v0.2.88; historical failed/public releases remain explicitly historical and are not rewritten.",
+    "The reviewed PR is based on the latest remote main, all required hosted checks pass for its exact head, and main is synchronized before tagging.",
+    "An annotated v0.2.88 tag points to the reviewed main commit; the release workflow completes source quality, five-target builds, manifest/checksum, SBOM/provenance, smoke, and staged acceptance gates.",
+    "The stable public v0.2.88 Release is independently downloaded and its manifest, checksums, archive contents, binary version, and target identity match the tag and source commit; no source checkout or workspace binary substitutes for it.",
+    "Public adopter and N-1 upgrade acceptance complete with isolation cleanup evidence; Runtime inspect/status/doctor on the downloaded binary pass and the repository returns to ready_on_base.",
+    "Historical governance and release evidence remain byte-preserved, and all Runtime lifecycle records are repository-bound and append-only.",
+    "Closed performance Work Item documentation and parity projections are promoted to terminal status before release verification; the Runtime helper reports no stale promotion for WI-763.",
+    "Reference-comparison metadata and its six current projection pages bind the candidate v0.2.88 Runtime identity, preserve the pinned reference commit and ledger counts, and pass the executable metadata check."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "67f8df96ce9bd2ccd521a29e67542dda5c4fe0df",
+  "createdAt": "2026-09-09T14:44:03Z",
+  "goal": "Update the Runtime package identity and current trilingual release projections to v0.2.88, merge them through the reviewed PR path, publish the annotated v0.2.88 tag, and bind the public release and adopter evidence back to this Work Item.",
+  "intent": "Publish the next reserved patch release v0.2.88 from the latest reviewed main after the AI Cockpit performance measurement program, and prove the immutable public artifacts, provenance, installation boundary, and isolated adopter acceptance without weakening governance or rewriting historical evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "historical .ai archive",
+    " evidence",
+    " decision",
+    " and release bytes",
+    "global Agent or MCP configuration",
+    "reference source checkout or object repository",
+    "performance optimization implementation beyond the completed measurement WIs",
+    "provider Release pre-creation or tag reuse"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:34fcd50a14e278bd9c1e30c1778260e5a1e249187d7edeaf5d01606783286334",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation",
+    "governance",
+    "release publication",
+    "adopter acceptance",
+    "prearchive parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-764-release-v0-2-88",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-764-release-v0-2-88"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "The reviewed source commit, annotated v0.2.88 tag, manifest, checksums, five target archives, SBOMs, Formula, provenance, and provider Release identity bind to one source revision.",
+      "required": true,
+      "scenario": "reviewed source commit produces the v0.2.88 public release",
+      "status": "unverified",
+      "verificationPlan": "Run local source/version gates, merge the reviewed PR, synchronize main, push only the annotated tag, and inspect the hosted release workflow and public assets."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/isolation_manifest.sh"
+      ],
+      "expected": "The downloaded v0.2.88 public binary alone establishes Runtime identity, repository isolation, first-adopter not_ready semantics, lifecycle evidence, and temporary-root cleanup.",
+      "required": true,
+      "scenario": "public v0.2.88 binary governs a fresh isolated adopter",
+      "status": "unverified",
+      "verificationPlan": "Run the hosted and post-release adopter harness against the immutable public Release without a source checkout or workspace binary fallback."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "The immediately preceding public v0.2.87 binary upgrades an isolated adopter to v0.2.88 while preserving repository identity, protocol compatibility, forbidden-root isolation, and cleanup.",
+      "required": true,
+      "scenario": "v0.2.88 performs the N-1 public upgrade boundary",
+      "status": "unverified",
+      "verificationPlan": "Resolve v0.2.87 and v0.2.88 independently through the provider and run the N-1 harness using downloaded immutable artifacts only."
+    },
+    {
+      "evidence": [
+        "tests/release/source_archive_policy_test.sh",
+        "tests/release/action_runtime_policy_test.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "A source-quality, publication, provider, or adopter failure preserves immutable tag/release truth and emits auditable evidence without source fallback, tag reuse, or destructive cleanup.",
+      "required": true,
+      "scenario": "release failure and rollback truth",
+      "status": "unverified",
+      "verificationPlan": "Run release policy regression tests, inspect hosted failure-path artifacts when present, and preserve any reserved tag or public Release history exactly as emitted."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/work-items/WI-764-release-v0-2-88.md",
+    "docs/work-items/WI-764-release-v0-2-88.ja.md",
+    "docs/work-items/WI-764-release-v0-2-88.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-763-wi752-fact-reuse-redelivery.md",
+    "docs/work-items/WI-763-wi752-fact-reuse-redelivery.zh-CN.md",
+    "docs/work-items/WI-763-wi752-fact-reuse-redelivery.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-764-release-v0-2-88"
+}

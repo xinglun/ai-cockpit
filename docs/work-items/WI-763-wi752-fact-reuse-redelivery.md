@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-763 — WI-752 P1 fact-reuse redelivery"
 description: "Revalidate P1 fact reuse from the latest main with raw measurements and a fail-closed optimization decision."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-763-wi752-fact-reuse-redelivery
 lastVerifiedBy: WI-763-wi752-fact-reuse-redelivery
+terminalArchive: .ai/work-items/archive/WI-763-wi752-fact-reuse-redelivery.contract.json
+terminalVerification: .ai/evidence/WI-763-wi752-fact-reuse-redelivery.verification.json
+terminalFinalization: .ai/decisions/WI-763-wi752-fact-reuse-redelivery.finalize.2a7bdf19a5543e89aaf37a5df5118da6f793735afbdce643093f9b69bbd489ab.json
+terminalDecision: .ai/decisions/WI-763-wi752-fact-reuse-redelivery.close.json
 ---
 
 # WI-763 — WI-752 P1 fact-reuse redelivery
