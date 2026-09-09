@@ -68,7 +68,7 @@
     ".ai/work-items/active/WI-745-wi743-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-09T04:52:07Z",
-  "checkpointContractDigest": "sha256:8b5baaf5ef357d8caa2c76df60aae3716d7cb250717c26f2fb5d49a3e7c6abad",
+  "checkpointContractDigest": "sha256:ad27bf8083e7c779e7a6a3270f994f72c3f1d251a18da1443e9d136f338aaf08",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:8734d3bf6efebae0567a47e1f459cd628578d82c0bb57df537dfa91ef5e2ae95",
   "createdAt": "2026-09-09T04:47:58Z",
@@ -84,8 +84,8 @@
     "state": "resolved"
   },
   "mode": "docs",
-  "preflightAt": "2026-09-09T04:54:06Z",
-  "preflightContractDigest": "sha256:8b5baaf5ef357d8caa2c76df60aae3716d7cb250717c26f2fb5d49a3e7c6abad",
+  "preflightAt": "2026-09-09T04:55:23Z",
+  "preflightContractDigest": "sha256:ad27bf8083e7c779e7a6a3270f994f72c3f1d251a18da1443e9d136f338aaf08",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:8734d3bf6efebae0567a47e1f459cd628578d82c0bb57df537dfa91ef5e2ae95",
   "preflightState": "green",

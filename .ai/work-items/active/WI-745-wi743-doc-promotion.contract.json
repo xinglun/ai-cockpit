@@ -30,7 +30,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-745-wi743-doc-promotion",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/718",
     "worktree": "/private/tmp/ai-cockpit-wi-745-wi743-doc-promotion"
   },
   "risk": "normal",
