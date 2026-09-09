@@ -1,0 +1,111 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history",
+          "path": "crates/cockpit-cli/tests/collaboration_handoff.rs",
+          "type": "test",
+          "verification": "focused cargo test passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "reconstruct_handoff and persisted finish.governance assertions",
+          "path": "crates/cockpit-cli/tests/collaboration_handoff.rs",
+          "type": "test",
+          "verification": "focused cargo test passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "current evidence freshness, unknown benefit, and explicit block assertions",
+          "path": "crates/cockpit-cli/tests/collaboration_handoff.rs",
+          "type": "test",
+          "verification": "focused cargo test passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Agent or session handoff and bounded WI-756 evidence",
+          "path": "docs/reference/collaboration-language-contract.md",
+          "type": "documentation",
+          "verification": "documentation_acceptance.sh passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/project.json",
+    ".ai/work-items/archive/WI-756-p1-handoff-reconstruction.contract.json",
+    ".ai/work-items/archive/WI-756-p1-handoff-reconstruction.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T08:10:43Z",
+  "checkpointContractDigest": "sha256:8b9aac6a77e013413c6e1a6d8b023e0396ef55ef9ac9d22db25826bc268ae763",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c2a768ae9fec5aef89063bded223e9cde6366fbc4df5eebcf37dac32f4883c6c",
+  "createdAt": "2026-09-09T08:06:02Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:8b9aac6a77e013413c6e1a6d8b023e0396ef55ef9ac9d22db25826bc268ae763",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Repository owner authorized continuation after the current post-finalize-plan verification confirmed the PR-bound Section V evidence.",
+    "recordedAt": "2026-09-09T08:52:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c2a768ae9fec5aef89063bded223e9cde6366fbc4df5eebcf37dac32f4883c6c",
+    "schemaVersion": 1,
+    "workItemId": "WI-756-p1-handoff-reconstruction"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-cli/tests/collaboration_handoff.rs",
+      "docs/reference/collaboration-language-contract.md",
+      "docs/reference/collaboration-scenario-matrix.json"
+    ],
+    "reason": "The implementation is limited to Section V Runtime-only handoff reconstruction; external participants and the separately approved P2 track remain out of scope.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-09T08:32:00Z",
+  "preflightContractDigest": "sha256:8b9aac6a77e013413c6e1a6d8b023e0396ef55ef9ac9d22db25826bc268ae763",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c2a768ae9fec5aef89063bded223e9cde6366fbc4df5eebcf37dac32f4883c6c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/collaboration_handoff.rs::new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history",
+        "docs/reference/collaboration-scenario-matrix.json#SCN-026"
+      ],
+      "expected": "a fresh subprocess reconstructs objective, scope, completion state, current evidence, authorization, and the persisted blocking reason without conversation input",
+      "required": true,
+      "scenario": "Runtime-only handoff reconstruction",
+      "status": "verified",
+      "verificationPlan": "cargo test -p cockpit-cli --test collaboration_handoff new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T08:32:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-756-p1-handoff-reconstruction"
+}

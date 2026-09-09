@@ -5,7 +5,7 @@ description: "A state/transition-derived scenario matrix for collaboration-langu
 audience: [adopter, contributor, maintainer, reviewer]
 status: current
 authority: canonical
-lastVerifiedBy: WI-680-p1-collaboration-scenario-matrix
+lastVerifiedBy: WI-756-p1-handoff-reconstruction
 ---
 
 # Collaboration scenario matrix
@@ -50,7 +50,7 @@ Cartesian enumeration of every state times every operation.
 | Verification | SCN-013..015, SCN-025 | 3 | 1 | 0 |
 | Merge/close | SCN-016..019 | 3 | 1 | 0 |
 | Historical query | SCN-020 | 0 | 1 | 0 |
-| Agent/session hand-off | SCN-021..022 | 1 | 1 | 0 |
+| Agent/session hand-off | SCN-021..022, SCN-026 | 2 | 1 | 0 |
 | Multi-language/entry-point | SCN-023..024 | 0 | 2 | 0 |
 
 Most scenarios in this delivery are `observed` or `documented`; none are
@@ -60,7 +60,7 @@ real Runtime interactions cover every required category.
 ## Full matrix
 
 See `collaboration-scenario-matrix.json` for the complete, structured
-25-scenario table (SCN-001 through SCN-025; IDs are stable and may be
+26-scenario table (SCN-001 through SCN-026; IDs are stable and may be
 extended, never renumbered, by future Work Items). A representative sample:
 
 | ID | Category | Title | Source | Result |
@@ -73,11 +73,14 @@ extended, never renumbered, by future Work Items). A representative sample:
 | SCN-019 | merge_close | A pre-merge documentation gap is fixed by a fast-follow Work Item, not history rewriting | observed | deferred_to_successor |
 | SCN-022 | handoff | One Agent's incomplete predecessor closure structurally blocks another Agent's fresh start | observed | rejected_until_predecessor_closed |
 | SCN-025 | verification | Displayed option, selected test-data decision, interruption, and resumed Runtime transition remain consistent | observed | consistent_with_safe_retry |
+| SCN-026 | handoff | A fresh subprocess reconstructs the handoff from Runtime records without conversation history | observed | state_fully_recoverable_with_explicit_block |
 
 ## Known limitations
 
 This matrix remains a hand-curated semantic index rather than a complete
 automated test suite. WI-753 adds one executable controlled-repository check
 for the state/option/Runtime consistency boundary, including interruption and
-resume. It does not claim exhaustive Cartesian coverage of every invariant or
-state; future Work Items may add bounded checks without renumbering scenarios.
+resume. WI-756 adds one bounded handoff-reconstruction check that reads only
+Runtime records and preserves an explicit block. Neither check claims
+exhaustive Cartesian coverage of every invariant or state; future Work Items
+may add bounded checks without renumbering scenarios.

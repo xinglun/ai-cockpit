@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "description": "Structured collaboration-language scenario matrix for AI Cockpit. Each scenario names a Runtime-real trigger, the expected agent-facing semantics, and which of the ten WI-679 semantic invariants it exercises. sourceType=observed entries were executed in this repository during WI-679/WI-680 delivery on 2026-09-08 and WI-753 delivery on 2026-09-09, and cite the exact command/output. sourceType=documented entries restate an existing canonical doc without new execution. sourceType=designed entries are synthetic, constructed to cover a required category with no available real record, and are explicitly not claims about proven real-world behavior beyond what the cited doc/code already states.",
+  "description": "Structured collaboration-language scenario matrix for AI Cockpit. Each scenario names a Runtime-real trigger, the expected agent-facing semantics, and which of the ten WI-679 semantic invariants it exercises. sourceType=observed entries were executed in this repository during WI-679/WI-680 delivery on 2026-09-08, WI-753 delivery on 2026-09-09, and WI-756 delivery on 2026-09-09, and cite the exact command/output. sourceType=documented entries restate an existing canonical doc without new execution. sourceType=designed entries are synthetic, constructed to cover a required category with no available real record, and are explicitly not claims about proven real-world behavior beyond what the cited doc/code already states.",
   "invariantLegend": {
     "1": "verification pass != full acceptance/merge authorization",
     "2": "empty record != no risk",
@@ -413,6 +413,25 @@
       },
       "invariantsExercised": [7, 8, 9, 10],
       "notes": "The human decision is explicitly marked TEST DATA ONLY and is written only inside the temporary fixture. The test does not create an authorization record in this source repository."
+    },
+    {
+      "id": "SCN-026",
+      "category": "handoff",
+      "title": "a fresh subprocess reconstructs the handoff from Runtime records without conversation history",
+      "sourceType": "observed",
+      "citation": "cargo test -p cockpit-cli --test collaboration_handoff new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history (WI-756, 2026-09-09)",
+      "precondition": "A temporary controlled repository has a verified Work Item whose finish is blocked by a persisted governance gate.",
+      "action": {
+        "entrypoint": "cli",
+        "command": "fresh subprocess reads Contract, Summary, status, active Outcome, and verification evidence"
+      },
+      "expected": {
+        "result": "state_fully_recoverable_with_explicit_block",
+        "decisionState": "blocked_until_governance_repaired",
+        "keyMessage": "goal/scope, done/pending state, current evidence bindings, authorization, unknown benefit, and the persisted finish.governance recovery condition are reconstructed without transcript input"
+      },
+      "invariantsExercised": [3, 4, 7, 8, 10],
+      "notes": "The test uses only temporary controlled-repository records and explicitly reads the persisted Outcome rather than treating the transient failed command's presentation as completion. It does not recruit, interview, or evaluate external participants."
     }
   ]
 }

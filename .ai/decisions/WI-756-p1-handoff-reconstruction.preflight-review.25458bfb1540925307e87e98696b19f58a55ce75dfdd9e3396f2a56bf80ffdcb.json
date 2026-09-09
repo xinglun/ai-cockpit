@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8b9aac6a77e013413c6e1a6d8b023e0396ef55ef9ac9d22db25826bc268ae763",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Repository owner authorized continuation after the current post-finalize-plan verification confirmed the PR-bound Section V evidence.",
+  "recordedAt": "2026-09-09T08:52:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c2a768ae9fec5aef89063bded223e9cde6366fbc4df5eebcf37dac32f4883c6c",
+  "schemaVersion": 1,
+  "workItemId": "WI-756-p1-handoff-reconstruction"
+}

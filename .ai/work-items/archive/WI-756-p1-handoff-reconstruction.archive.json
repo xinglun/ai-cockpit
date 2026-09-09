@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T08:32:09Z",
+  "files": {
+    "contractDigest": "sha256:ec648c253a38616501c8e5ce55b9ffd6fe836d83232b3481e3044de5e3dc1032",
+    "contractPath": ".ai/work-items/archive/WI-756-p1-handoff-reconstruction.contract.json",
+    "eventsDigest": "sha256:476719668fc9fe7111a8a2762563ab5a8a2da1f18a2c8c6049f14ca348132b93",
+    "eventsPath": ".ai/work-items/archive/WI-756-p1-handoff-reconstruction.events.jsonl",
+    "outcomeDigest": "sha256:6a515cf2c485bcd266cff1ecf0847aa1a81bd23721119eb135f2d6c3bc2d0197",
+    "outcomePath": ".ai/work-items/archive/WI-756-p1-handoff-reconstruction.outcome.json",
+    "summaryDigest": "sha256:6f735bee27ef3e45de87a469c252d7ef2551a2959d30ae9faf79318882e0525e",
+    "summaryPath": ".ai/work-items/archive/WI-756-p1-handoff-reconstruction.summary.json",
+    "taskReportDigest": "sha256:e1968233a2416a88e7d27928183f48b957cee334a5496f6e78f58e85c032a6c2",
+    "taskReportMarkdownDigest": "sha256:1b2c2a2a375d3bcbc8e1ac3a8dd66269178d78bb79e10edb404cc5d4eb5c8036",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-756-p1-handoff-reconstruction.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-756-p1-handoff-reconstruction.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-756-p1-handoff-reconstruction"
+}
