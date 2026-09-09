@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-751——P2 首次使用引导"
 description: "记录经过验证、可重复的首次使用和 README 引导路径。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:xinglun
 workItemId: WI-751-p2-first-use-current-base
 lastVerifiedBy: WI-751-p2-first-use-current-base
+terminalArchive: .ai/work-items/archive/WI-751-p2-first-use-current-base.contract.json
+terminalVerification: .ai/evidence/WI-751-p2-first-use-current-base.verification.json
+terminalFinalization: .ai/decisions/WI-751-p2-first-use-current-base.finalize.json
+terminalDecision: .ai/decisions/WI-751-p2-first-use-current-base.close.json
 ---
 
 [English](WI-751-p2-first-use-current-base.md) · [日本語](WI-751-p2-first-use-current-base.ja.md)

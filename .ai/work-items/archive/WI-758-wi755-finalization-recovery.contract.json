@@ -1,0 +1,76 @@
+{
+  "acceptanceCriteria": [
+    "The WI-755 successor recovery decision remains bound to the exact immutable predecessor Contract, Summary, Outcome, Events, repository identity, and Runtime identity.",
+    "The tri-language WI-758 documentation and reference parity entries describe the intermediate-head mismatch, the merged PR evidence, the no-history-rewrite boundary, and the successor resolution without unsupported approval or safety claims.",
+    "The tri-language WI-755 projections and pending-parity registry are updated to the explicit recovered state and identify WI-758 as the successor-owned terminal boundary.",
+    "Fresh verification proves the merged WI-755 implementation is present at PR #735 merge commit 8dcac7ec and that WI-755 predecessor bytes are unchanged.",
+    "WI-758 completes reviewed PR, exact resource finalization, finalize-verify, structured close, and post-close documentation promotion checks."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c0a7ef7540cd9146315df53dc19286caac7da04c",
+  "createdAt": "2026-09-09T08:40:24Z",
+  "goal": "Create a fresh, repository-bound successor that records the verified WI-755 merge facts and finalization-chain limitation, preserves all predecessor bytes, and completes its own reviewed lifecycle so the predecessor recovery boundary is no longer an unclosed repository blocker.",
+  "intent": "Repair the post-merge governance handoff for WI-755 through an immutable successor.",
+  "mode": "code",
+  "outOfScope": [
+    "WI-755 archived Contract, Summary, Outcome, Events, verification evidence, finalization receipts, recovery decisions, source code, and merged PR #735",
+    "Outcome rendering, protocol schemas, authorization semantics, unrelated Work Items, and other agents’ branches or worktrees"
+  ],
+  "predecessorContractDigest": "sha256:a6848077610b566cd659246cc69c87815fb2208665be31b2d4cedc0800e47420",
+  "predecessorWorkItemId": "WI-755-p1-observation-context-successor",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:92bef0af72fa9d36500e33daf980dbde9c7172182f5a4c57743d7ced0cd6c2c1",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-758-wi755-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/737",
+    "worktree": "/private/tmp/ai-cockpit-wi-758-finalization-recovery"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-758-wi755-finalization-recovery.md",
+    "docs/work-items/WI-758-wi755-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-758-wi755-finalization-recovery.ja.md",
+    "docs/work-items/WI-755-p1-observation-context-successor.md",
+    "docs/work-items/WI-755-p1-observation-context-successor.zh-CN.md",
+    "docs/work-items/WI-755-p1-observation-context-successor.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/pending-parity-registry.json",
+    ".ai/decisions/WI-758-wi755-finalization-recovery.*.json",
+    ".ai/evidence/WI-758-wi755-finalization-recovery.verification.json",
+    ".ai/work-items/active/WI-758-wi755-finalization-recovery.*",
+    ".ai/work-items/archive/WI-758-wi755-finalization-recovery.*"
+  ],
+  "sources": [
+    "origin/main at base revision c0a7ef7540cd9146315df53dc19286caac7da04c",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    ".ai/decisions/WI-755-p1-observation-context-successor.recovery.json",
+    ".ai/decisions/WI-755-p1-observation-context-successor.finalize.json",
+    ".ai/evidence/WI-755-p1-observation-context-successor.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/735",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/parity_status_check.sh .",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-758-wi755-finalization-recovery --check",
+    "git diff --check"
+  ],
+  "workItemId": "WI-758-wi755-finalization-recovery"
+}

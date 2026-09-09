@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json",
+    ".ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-758-wi755-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T08:47:53Z",
+  "checkpointContractDigest": "sha256:064721bedb4af9fa7a6e164f152fd960059ab513332669106a8d789203c9447d",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:208fb7a6cb3fd890cfb18aa0dc21c99d17ea1df749b931e20a0d9b04a08d158b",
+  "createdAt": "2026-09-09T08:40:24Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:a6848077610b566cd659246cc69c87815fb2208665be31b2d4cedc0800e47420",
+  "predecessorWorkItemId": "WI-755-p1-observation-context-successor",
+  "preflightAt": "2026-09-09T08:52:27Z",
+  "preflightContractDigest": "sha256:064721bedb4af9fa7a6e164f152fd960059ab513332669106a8d789203c9447d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:208fb7a6cb3fd890cfb18aa0dc21c99d17ea1df749b931e20a0d9b04a08d158b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-755-p1-observation-context-successor.recovery.ccd6ce5cf8f1c2a563578437cc313079462d08a88b04fb8b61b734f54bf237a2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T08:52:41Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-758-wi755-finalization-recovery"
+}
