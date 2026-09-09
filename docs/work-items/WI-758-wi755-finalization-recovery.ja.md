@@ -4,9 +4,13 @@ title: "WI-758 — WI-755 finalization recovery"
 description: "不変の履歴を書き換えずに WI-755 の merge 後 governance handoff を修復する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-758-wi755-finalization-recovery
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-758-wi755-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-758-wi755-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-758-wi755-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-758-wi755-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-758-wi755-finalization-recovery.close.json
 ---
 
 [English](WI-758-wi755-finalization-recovery.md) · [简体中文](WI-758-wi755-finalization-recovery.zh-CN.md)
