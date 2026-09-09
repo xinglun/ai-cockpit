@@ -4,9 +4,13 @@ title: WI-768——v0.2.89 发布恢复
 description: 修复严格发布质量边界，并在保留 v0.2.88 失败历史后发布新的不可变版本。
 audience: [adopter, maintainer, reviewer]
 workItemId: WI-768-release-v0-2-89
-status: in_progress
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-768-release-v0-2-89
+terminalArchive: .ai/work-items/archive/WI-768-release-v0-2-89.contract.json
+terminalVerification: .ai/evidence/WI-768-release-v0-2-89.verification.json
+terminalFinalization: .ai/decisions/WI-768-release-v0-2-89.finalize.86a820e81c9c76239ad451ff19b9e778b0384f32ca9aae60af518f936bac8280.json
+terminalDecision: .ai/decisions/WI-768-release-v0-2-89.close.json
 capabilityClaims: [release_distribution, adopter_acceptance, governance_evidence]
 ---
 
