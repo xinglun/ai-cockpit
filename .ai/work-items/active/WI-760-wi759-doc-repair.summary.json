@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-759-wi754-doc-promotion.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-09T12:47:38Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:3b65224b13573f4e979f98813507735c61536a189706cc39e760796ca80132b0",
+  "predecessorWorkItemId": "WI-759-wi754-doc-promotion",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-759-wi754-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-09-09T12:47:38Z",
+  "workItemId": "WI-760-wi759-doc-repair"
+}
