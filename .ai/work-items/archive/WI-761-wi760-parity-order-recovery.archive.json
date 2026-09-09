@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T13:26:11Z",
+  "files": {
+    "contractDigest": "sha256:30f39a630e79c8f47809031ab7f41fd346b2299622ddac177d05f35dd7780e0f",
+    "contractPath": ".ai/work-items/archive/WI-761-wi760-parity-order-recovery.contract.json",
+    "eventsDigest": "sha256:3daea4c0e3cda4e70a0ee483475b5b7d76fbd0346f785b8a2c5026261bbb919b",
+    "eventsPath": ".ai/work-items/archive/WI-761-wi760-parity-order-recovery.events.jsonl",
+    "outcomeDigest": "sha256:0911c6f15279bf7e83cf054ee73c4c856c7afbd84b52a86c098f731f2abefc90",
+    "outcomePath": ".ai/work-items/archive/WI-761-wi760-parity-order-recovery.outcome.json",
+    "summaryDigest": "sha256:b12d8321f859c9dcd7541de0c83cc25a22b6be5f86bf6e569e3af07efa3f82f5",
+    "summaryPath": ".ai/work-items/archive/WI-761-wi760-parity-order-recovery.summary.json",
+    "taskReportDigest": "sha256:4f8b9fcbfa669b6522ea13378d728f14c918afc6d614f7f99365bb6ead5af016",
+    "taskReportMarkdownDigest": "sha256:04a582e75cbdca18f814bdc4aea82923ff69defdefdc41b7327ff1fcd6712aa4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-761-wi760-parity-order-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-761-wi760-parity-order-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-761-wi760-parity-order-recovery"
+}

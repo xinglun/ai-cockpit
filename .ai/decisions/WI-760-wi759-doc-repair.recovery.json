@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-for-successor-after-hosted-quality-failure",
+  "decidedAt": "2026-09-09T13:14:35Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.archive.json",
+    ".ai/evidence/WI-760-wi759-doc-repair.verification.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.task-report.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34354863962"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:Work Item change discipline"
+  ],
+  "predecessorContractDigest": "sha256:23845b7d5b57efebffb41b5915a6aae219a3e4e3dbb2449a38c351883c57b189",
+  "predecessorEventsDigest": "sha256:1c9bcbc28571cf0bc3f412fd1e29f1bfc70537c80f55f226daeec85c0a7e32e5",
+  "predecessorOutcomeDigest": "sha256:ae1011ec578999e2f134e3df999a4ebc13153b19a85db5c9e407bba8a01f4162",
+  "predecessorSummaryDigest": "sha256:c5f4165ab46f08b536fbdd7a99aa432a489b7980f823b269b77703c853d5e992",
+  "predecessorWorkItemId": "WI-760-wi759-doc-repair",
+  "reason": "WI-760 PR #743 is preserved as an immutable failed delivery because hosted docs governance found parity registration and verification evidence in the same commit; WI-761 redelivers the bounded documentation projection from the latest default branch with parity committed before fresh verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-761 with a parity-first commit, fresh verification evidence, reviewed hosted checks, merge, finalization, close, and exact cleanup; then close WI-760 as superseded without rewriting its failed PR evidence.",
+  "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-761-wi760-parity-order-recovery",
+  "workItemId": "WI-760-wi759-doc-repair"
+}

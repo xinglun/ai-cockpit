@@ -1,0 +1,42 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-760-wi759-doc-repair.recovery.json",
+    ".ai/evidence/WI-760-wi759-doc-repair.verification.json",
+    ".ai/work-items/active/WI-760-wi759-doc-repair.contract.json",
+    ".ai/work-items/active/WI-760-wi759-doc-repair.summary.json",
+    ".ai/work-items/archive/WI-761-wi760-parity-order-recovery.contract.json",
+    ".ai/work-items/archive/WI-761-wi760-parity-order-recovery.summary.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.archive.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.contract.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.events.jsonl",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.outcome.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.summary.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.task-report.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.task-report.md"
+  ],
+  "checkpointAt": "2026-09-09T13:18:31Z",
+  "checkpointContractDigest": "sha256:724727d31d3932f8eb6e083cf6986b82b5c45fc6b3bffc626fd9e60aed2726fc",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ed02901289728a3eb6cb1224dffa9bc3e146403ec186c7909ad0fad9b75410be",
+  "createdAt": "2026-09-09T13:15:42Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:23845b7d5b57efebffb41b5915a6aae219a3e4e3dbb2449a38c351883c57b189",
+  "predecessorWorkItemId": "WI-760-wi759-doc-repair",
+  "preflightAt": "2026-09-09T13:23:30Z",
+  "preflightContractDigest": "sha256:724727d31d3932f8eb6e083cf6986b82b5c45fc6b3bffc626fd9e60aed2726fc",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:ed02901289728a3eb6cb1224dffa9bc3e146403ec186c7909ad0fad9b75410be",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-760-wi759-doc-repair.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T13:26:00Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-761-wi760-parity-order-recovery"
+}

@@ -1,0 +1,72 @@
+{
+  "acceptanceCriteria": [
+    "WI-760's failed hosted quality delivery, PR #743, recovery decision, archive, evidence, and exact failure reason remain immutable and linked.",
+    "WI-759 and WI-760 have accurate three-language documentation and parity projections without inventing terminal evidence.",
+    "WI-761 parity registration is committed before fresh verification evidence, and hosted quality passes on the exact PR head.",
+    "No product Runtime, authorization, machine contract, exit-code, or historical evidence behavior changes."
+  ],
+  "authority": "explicit user authorization for successor after hosted quality failure",
+  "baseRevision": "c1863e7ca81e2d92a88c9458358ddad09d1a043a",
+  "createdAt": "2026-09-09T13:15:42Z",
+  "goal": "Preserve WI-760's immutable hosted quality failure and complete a clean, parity-first successor delivery for the WI-759 documentation boundary.",
+  "intent": "Redeliver the WI-760 documentation projection with parity registration committed before fresh verification evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product runtime behavior",
+    "source code",
+    "governance rule implementation",
+    "unrelated Work Items",
+    "other agents branches and worktrees"
+  ],
+  "predecessorContractDigest": "sha256:23845b7d5b57efebffb41b5915a6aae219a3e4e3dbb2449a38c351883c57b189",
+  "predecessorWorkItemId": "WI-760-wi759-doc-repair",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-760-wi759-doc-repair.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:073c83d0390e1dfa25a0da03d53f7c59798947c0c7152ac116a2fe1d40aa3ee6",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-761-wi760-parity-order-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/744",
+    "worktree": "/private/tmp/ai-cockpit-wi-761-wi760-parity-order-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-760-wi759-doc-repair.recovery.json",
+    ".ai/evidence/WI-760-wi759-doc-repair.verification.json",
+    ".ai/work-items/active/WI-760-wi759-doc-repair.contract.json",
+    ".ai/work-items/active/WI-760-wi759-doc-repair.summary.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.archive.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.contract.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.events.jsonl",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.outcome.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.summary.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.task-report.json",
+    ".ai/work-items/archive/WI-760-wi759-doc-repair.task-report.md",
+    "docs/work-items/WI-759-wi754-doc-promotion.md",
+    "docs/work-items/WI-759-wi754-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-759-wi754-doc-promotion.ja.md",
+    "docs/work-items/WI-760-wi759-doc-repair.md",
+    "docs/work-items/WI-760-wi759-doc-repair.zh-CN.md",
+    "docs/work-items/WI-760-wi759-doc-repair.ja.md",
+    "docs/work-items/WI-761-wi760-parity-order-recovery.md",
+    "docs/work-items/WI-761-wi760-parity-order-recovery.zh-CN.md",
+    "docs/work-items/WI-761-wi760-parity-order-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-761-wi760-parity-order-recovery"
+}
