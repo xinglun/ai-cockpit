@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-743——WI-715 当前基线性能决定重新交付"
 description: "从最新默认分支重新验证 WI-715 被拒绝的大历史候选，不恢复过期的未合并 PR。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-743-wi715-p1-current-base-redelivery
 lastVerifiedBy: WI-743-wi715-p1-current-base-redelivery
+terminalArchive: .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json
+terminalVerification: .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json
+terminalFinalization: .ai/decisions/WI-743-wi715-p1-current-base-redelivery.finalize.477321910af99473f1b45b38dc46c7a2ee0c1593dfe195f0bdd471bb18f537e5.json
+terminalDecision: .ai/decisions/WI-743-wi715-p1-current-base-redelivery.close.json
 ---
 
 [English](WI-743-wi715-p1-current-base-redelivery.md) · [日本語](WI-743-wi715-p1-current-base-redelivery.ja.md)

@@ -1,0 +1,104 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "six deterministic WI-743 documentation projections",
+          "path": "docs/work-items/WI-743-wi715-p1-current-base-redelivery.md",
+          "type": "documentation-promotion",
+          "verification": "promote_closed_work_item.py --work-item WI-743..."
+        },
+        {
+          "locator": "three-language reference parity rows",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation-promotion",
+          "verification": "promote_closed_work_item.py --check"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "immutable WI-743 terminal evidence binding",
+          "path": ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json",
+          "type": "runtime-evidence",
+          "verification": "promotion helper validates archive, verification, finalization, and close"
+        },
+        {
+          "locator": "promotion check",
+          "path": "tests/docs/promote_closed_work_item.py",
+          "type": "test",
+          "verification": "python3 tests/docs/promote_closed_work_item.py --work-item WI-743... --check"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "documentation acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "ai-cockpit verify passed"
+        },
+        {
+          "locator": "parity and status consistency",
+          "path": "tests/docs/parity_status_check.sh",
+          "type": "test",
+          "verification": "direct local checks passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "bounded documentation-only diff",
+          "path": "docs/reference/reference-parity.md",
+          "type": "diff",
+          "verification": "git diff --check and scoped path review"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-745-wi743-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-745-wi743-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T04:52:07Z",
+  "checkpointContractDigest": "sha256:8b5baaf5ef357d8caa2c76df60aae3716d7cb250717c26f2fb5d49a3e7c6abad",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8734d3bf6efebae0567a47e1f459cd628578d82c0bb57df537dfa91ef5e2ae95",
+  "createdAt": "2026-09-09T04:47:58Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/docs/promote_closed_work_item.py",
+      ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json",
+      ".ai/decisions/WI-743-wi715-p1-current-base-redelivery.close.json",
+      "docs/work-items/WI-743-wi715-p1-current-base-redelivery.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The Work Item is limited to deterministic documentation projection of the already merged and closed WI-743 delivery; it does not alter historical evidence, Runtime behavior, or another Work Item.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-09T04:54:06Z",
+  "preflightContractDigest": "sha256:8b5baaf5ef357d8caa2c76df60aae3716d7cb250717c26f2fb5d49a3e7c6abad",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:8734d3bf6efebae0567a47e1f459cd628578d82c0bb57df537dfa91ef5e2ae95",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T04:53:13.846782+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:ed9a7f2f09e5c3c6d2e52709a1e460539927b33bc7e5c756833e8def8143ef5a",
+  "workItemId": "WI-745-wi743-doc-promotion"
+}

@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "Promote the three WI-743 Work Item projections and three corresponding reference-parity rows from the immutable closed WI-743 archive, verification, finalization, and close evidence.",
+    "The promotion helper passes for WI-743 and the resulting three-language Work Item pages and parity rows contain the exact terminal evidence bindings without changing the archived records.",
+    "bash tests/docs/documentation_acceptance.sh, bash tests/docs/parity_status_check.sh, and python3 tests/docs/work_item_status_consistency.py --repo <repository> pass.",
+    "No production code, governance rule, historical evidence, or unrelated Work Item changes are introduced."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "bc23abd4da1ab74700b94317d55f9950c30a9bd3",
+  "createdAt": "2026-09-09T04:47:58Z",
+  "goal": "Repair the post-close documentation projections for WI-743 using only its immutable terminal evidence so the repository documentation gates reflect the already completed performance delivery.",
+  "intent": "Deliver a narrowly scoped documentation-promotion successor for WI-743 after documentation acceptance identified that its terminal pages still retained conditional parity status.",
+  "mode": "docs",
+  "outOfScope": [
+    "Production runtime, performance, or test code",
+    "Changing WI-743 archive, evidence, finalization, close, or recovery records",
+    "Changing PR #716, its merged commit, or any other PR or branch",
+    "Changing WI-744 or the WI-742 predecessor recovery records",
+    "Changing governance rules, Contract semantics, Outcome behavior, or release artifacts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c1062c1154df948a5ec8dd91ff31037f667d695ac5e19a0863f07c030310c891",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-745-wi743-doc-promotion",
+    "provider": "github",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-745-wi743-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-743-wi715-p1-current-base-redelivery.md",
+    "docs/work-items/WI-743-wi715-p1-current-base-redelivery.zh-CN.md",
+    "docs/work-items/WI-743-wi715-p1-current-base-redelivery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/docs/promote_closed_work_item.py",
+    ".ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json",
+    ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json",
+    ".ai/decisions/WI-743-wi715-p1-current-base-redelivery.finalize.json",
+    ".ai/decisions/WI-743-wi715-p1-current-base-redelivery.close.json",
+    "https://github.com/xinglun/ai-cockpit/pull/716"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --work-item WI-743-wi715-p1-current-base-redelivery",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --work-item WI-743-wi715-p1-current-base-redelivery --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/docs/work_item_status_consistency.py --repo <repository>"
+  ],
+  "workItemId": "WI-745-wi743-doc-promotion"
+}

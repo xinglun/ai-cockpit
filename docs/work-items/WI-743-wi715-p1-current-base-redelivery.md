@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-743 — WI-715 current-base performance decision redelivery"
 description: "Revalidate the declined WI-715 large-history candidate from the latest default base without reviving its stale unmerged PR."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-743-wi715-p1-current-base-redelivery
 lastVerifiedBy: WI-743-wi715-p1-current-base-redelivery
+terminalArchive: .ai/work-items/archive/WI-743-wi715-p1-current-base-redelivery.contract.json
+terminalVerification: .ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json
+terminalFinalization: .ai/decisions/WI-743-wi715-p1-current-base-redelivery.finalize.477321910af99473f1b45b38dc46c7a2ee0c1593dfe195f0bdd471bb18f537e5.json
+terminalDecision: .ai/decisions/WI-743-wi715-p1-current-base-redelivery.close.json
 ---
 
 [简体中文](WI-743-wi715-p1-current-base-redelivery.zh-CN.md) · [日本語](WI-743-wi715-p1-current-base-redelivery.ja.md)
