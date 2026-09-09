@@ -4,9 +4,9 @@ title: "WI-756——P1 仅凭 Runtime 的交接重建"
 description: "在受控测试仓库中增加有界检查，验证新的 Agent 或会话无需对话历史即可重建协作交接。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-756-p1-handoff-reconstruction
-status: implemented
+status: recovered
 authority: authorized
-lastVerifiedBy: WI-756-p1-handoff-reconstruction
+lastVerifiedBy: WI-756-p1-handoff-reconstruction-revalidation
 terminalArchive: .ai/work-items/archive/WI-756-p1-handoff-reconstruction.contract.json
 terminalVerification: .ai/evidence/WI-756-p1-handoff-reconstruction.verification.json
 terminalFinalization: .ai/decisions/WI-756-p1-handoff-reconstruction.finalize.json
