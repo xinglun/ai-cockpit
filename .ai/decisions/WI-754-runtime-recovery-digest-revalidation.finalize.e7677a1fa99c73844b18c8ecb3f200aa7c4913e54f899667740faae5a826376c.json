@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:711e9e25f73c207d49c845618901550594e687de060dcfb53cc15161e7ea3c3c",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "repository-owner",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "2851e7fe3f219e7e502ed6fcab6e7bf6684c7304",
+      "name": "codex/wi-754-post-merge-revalidation",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:5af2959daab1ffe00dcc3688a217a4a6c0327004a29dcbffeab5f1f305f45335",
+    "operationId": "operation-WI-754-runtime-recovery-digest-revalidation-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "c6562c0998cab1d54e4274b90464048634bf5ebc",
+      "headRevision": "2851e7fe3f219e7e502ed6fcab6e7bf6684c7304",
+      "mergeCommit": "599b0edca879991958e9eb9db29f3a3f05dad10e",
+      "number": 740,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/740"
+    },
+    "reason": "Exact merged WI-754 successor branch and dedicated worktree were removed after reviewed PR merge; append cleanup transition before close.",
+    "receiptId": "ai-cockpit-WI-754-runtime-recovery-digest-revalidation-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-754-post-merge-revalidation",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/740",
+      "worktree": "/private/tmp/ai-cockpit-wi-754-post-merge-revalidation"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:6e16f0896e51f4baf46e747d199706dba35571d5816bb5d44abc906d3b860386",
+    "runtimeVersion": "0.2.87",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-09T11:59:06Z",
+    "workItemId": "WI-754-runtime-recovery-digest-revalidation",
+    "worktree": {
+      "branch": "codex/wi-754-post-merge-revalidation",
+      "headRevision": "2851e7fe3f219e7e502ed6fcab6e7bf6684c7304",
+      "path": "/private/tmp/ai-cockpit-wi-754-post-merge-revalidation",
+      "worktreeId": "WI-754-runtime-recovery-digest-revalidation"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "WI-754-runtime-recovery-digest-revalidation-resources-deleted"
+}
