@@ -4,7 +4,7 @@ title: "WI-745——WI-743 终态文档晋级"
 description: "晋级已验证的 WI-743 终态文档并修复 hosted documentation-governance 投影。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-745-wi743-doc-promotion
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-745-wi743-doc-promotion
 ---

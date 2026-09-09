@@ -4,7 +4,7 @@ title: "WI-746——WI-745 终态恢复"
 description: "在不改写历史证据的前提下协调已合并 WI-745 文档 successor。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-746-wi745-terminal-recovery
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-746-wi745-terminal-recovery
 predecessorWorkItem: WI-745-wi743-doc-promotion

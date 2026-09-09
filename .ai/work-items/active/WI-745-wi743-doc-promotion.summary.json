@@ -125,6 +125,7 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
   "createdAt": "2026-09-09T04:47:58Z",
+  "failedGate": "finish.preflight",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-745-wi743-doc-promotion.md",
@@ -136,15 +137,17 @@
     "state": "resolved"
   },
   "mode": "docs",
-  "preflightAt": "2026-09-09T05:09:04Z",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-09T06:08:12Z",
   "preflightContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
-  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
-  "preflightState": "green",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "preflightRepositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
+  "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-09T05:08:07.341322+00:00",
+  "updatedAt": "2026-09-09T06:08:07Z",
   "verification": [
     {
       "check": "project-command-0",

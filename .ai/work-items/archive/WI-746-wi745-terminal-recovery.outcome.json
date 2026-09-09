@@ -6,14 +6,17 @@
     "Keep WI-745 and WI-746 three-language documentation and reference-parity rows consistent with the actual lifecycle state.",
     "All declared documentation, parity, status-consistency, and workspace governance checks pass on the same current base; no production behavior changes."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-09T06:05:27Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9ff6b3bcf81974bff4e772e7f96b89fc49a53278cd91110919eb5fc3839cb84e",
   "evidenceRefs": [
     ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,11 +24,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -35,10 +37,8 @@
       "repositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
       "workItemId": "WI-746-wi745-terminal-recovery"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -59,22 +59,14 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-746-wi745-terminal-recovery.summary.json"
+            ".ai/work-items/archive/WI-746-wi745-terminal-recovery.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -86,7 +78,7 @@
             ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -96,15 +88,23 @@
             ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-746-wi745-terminal-recovery.contract.json"
+            ".ai/work-items/archive/WI-746-wi745-terminal-recovery.contract.json"
           ],
           "inference": false,
           "text": "Correct the merged WI-745 documentation projections, bind fresh current-base verification evidence, and close the predecessor so dependent Work Items can proceed."
@@ -113,23 +113,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-746-wi745-terminal-recovery.contract.json"
+            ".ai/work-items/archive/WI-746-wi745-terminal-recovery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-746-wi745-terminal-recovery"
   },
+  "taskReportDigest": "sha256:98bad8ea9f34690dc343a702f87de45d0cdcb37695c3c35c2aa4e6a5734a831e",
+  "taskReportMarkdownDigest": "sha256:2a503e928ecfba5280717d64cbaa4c190786f0d9df682c1cb9a91ef62aa726ce",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-746-wi745-terminal-recovery.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-746-wi745-terminal-recovery"
 }

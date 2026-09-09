@@ -4,7 +4,7 @@ title: "WI-745 — WI-743 終端ドキュメント昇格"
 description: "検証済み WI-743 の終端ドキュメントを昇格し、hosted documentation-governance 投影を修復する。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-745-wi743-doc-promotion
-status: in_progress
+status: recovered
 authority: human:repository-owner
 lastVerifiedBy: WI-745-wi743-doc-promotion
 ---

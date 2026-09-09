@@ -26,8 +26,11 @@
     "WI-744 and WI-742 predecessor records",
     "Any other Work Item branch or PR"
   ],
+  "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
   "requiredEvidenceClasses": [
@@ -38,7 +41,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-746-wi745-terminal-recovery",
     "provider": "github",
-    "pullRequest": "unknown",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/723",
     "worktree": "/private/tmp/ai-cockpit-wi-746-wi745-terminal-recovery"
   },
   "risk": "normal",
@@ -74,9 +77,6 @@
     ".ai/work-items/archive/WI-745-wi743-doc-promotion.archive.json",
     ".ai/decisions/WI-745-wi743-doc-promotion.close.json"
   ],
-  "predecessorWorkItemId": "WI-745-wi743-doc-promotion",
-  "predecessorContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
-  "recoveryDecisionPath": ".ai/decisions/WI-745-wi743-doc-promotion.recovery.json",
   "sources": [
     "AGENTS.md",
     ".ai/README.md",

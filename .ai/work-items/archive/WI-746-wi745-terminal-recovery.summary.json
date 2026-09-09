@@ -64,7 +64,7 @@
   ],
   "changedPaths": [],
   "checkpointAt": "2026-09-09T05:48:34Z",
-  "checkpointContractDigest": "sha256:abbb78e47fe327e268f7ec926e3ad09f9780ce562da4fbbb62e816c4ba551a82",
+  "checkpointContractDigest": "sha256:97d5f188116e16cc529743e13d83117aa095d632eb2e28de60da92b9694b0aef",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -100,11 +100,30 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-746-wi745-terminal-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:97d5f188116e16cc529743e13d83117aa095d632eb2e28de60da92b9694b0aef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb1e7d5377ec66c5de13cc56b67777e703d8f14af0aae24162a8083b5df521e2",
+      "previousContractHash": "sha256:abbb78e47fe327e268f7ec926e3ad09f9780ce562da4fbbb62e816c4ba551a82",
+      "reason": "Bind the actual reviewed PR #723 resource finalization context; preserve the prior verification receipt as historical and require fresh current-bound verification before finish.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T06:04:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-746-wi745-terminal-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
   "createdAt": "2026-09-09T05:32:08Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-746-wi745-terminal-recovery.md",
@@ -115,23 +134,20 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-09T06:03:23Z",
-  "preflightContractDigest": "sha256:abbb78e47fe327e268f7ec926e3ad09f9780ce562da4fbbb62e816c4ba551a82",
+  "preflightAt": "2026-09-09T06:05:20Z",
+  "preflightContractDigest": "sha256:97d5f188116e16cc529743e13d83117aa095d632eb2e28de60da92b9694b0aef",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:179a43553c5aeb49330e11fc43c68ee29038661c0d4496836620b454ff6ce06c",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-09T06:02:35.719565+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T06:05:27Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:9547349804cc75e47b454964db1c366899ba967c59112d426d8d715090a4e60d",
   "workItemId": "WI-746-wi745-terminal-recovery"
 }
