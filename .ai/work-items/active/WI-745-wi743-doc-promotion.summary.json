@@ -1,0 +1,156 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "six deterministic WI-743 documentation projections",
+          "path": "docs/work-items/WI-743-wi715-p1-current-base-redelivery.md",
+          "type": "documentation-promotion",
+          "verification": "promote_closed_work_item.py --work-item WI-743..."
+        },
+        {
+          "locator": "three-language reference parity rows",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation-promotion",
+          "verification": "promote_closed_work_item.py --check"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "immutable WI-743 terminal evidence binding",
+          "path": ".ai/evidence/WI-743-wi715-p1-current-base-redelivery.verification.json",
+          "type": "runtime-evidence",
+          "verification": "promotion helper validates archive, verification, finalization, and close"
+        },
+        {
+          "locator": "promotion check",
+          "path": "tests/docs/promote_closed_work_item.py",
+          "type": "test",
+          "verification": "python3 tests/docs/promote_closed_work_item.py --work-item WI-743... --check"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "documentation acceptance",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "ai-cockpit verify passed"
+        },
+        {
+          "locator": "parity and status consistency",
+          "path": "tests/docs/parity_status_check.sh",
+          "type": "test",
+          "verification": "direct local checks passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "bounded documentation-only diff",
+          "path": "docs/reference/reference-parity.md",
+          "type": "diff",
+          "verification": "git diff --check and scoped path review"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "hosted documentation-governance pre-archive projection",
+          "path": "docs/work-items/WI-745-wi743-doc-promotion.md",
+          "type": "documentation-promotion",
+          "verification": "docs_governance_integrity hosted failure was repaired with tri-language Work Item pages and parity rows"
+        },
+        {
+          "locator": "tri-language pre-archive parity registration",
+          "path": "docs/reference/reference-parity.md",
+          "type": "documentation-promotion",
+          "verification": "bash tests/docs/documentation_acceptance.sh and bash tests/docs/parity_status_check.sh"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-745-wi743-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-745-wi743-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T04:52:07Z",
+  "checkpointContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ad27bf8083e7c779e7a6a3270f994f72c3f1d251a18da1443e9d136f338aaf08",
+      "recorded": true,
+      "recordedAt": "2026-09-09T04:52:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8734d3bf6efebae0567a47e1f459cd628578d82c0bb57df537dfa91ef5e2ae95",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-745-wi743-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ad27bf8083e7c779e7a6a3270f994f72c3f1d251a18da1443e9d136f338aaf08",
+      "previousContractHash": "sha256:ad27bf8083e7c779e7a6a3270f994f72c3f1d251a18da1443e9d136f338aaf08",
+      "reason": "Hosted docs_governance_integrity reported that this active documentation successor must include its own tri-language Work Item pages and pre-archive parity rows; the amended scope remains documentation-only and preserves all WI-743 terminal evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T05:05:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8734d3bf6efebae0567a47e1f459cd628578d82c0bb57df537dfa91ef5e2ae95",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-745-wi743-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
+  "createdAt": "2026-09-09T04:47:58Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-745-wi743-doc-promotion.md",
+      "docs/reference/reference-parity.md",
+      ".ai/work-items/active/WI-745-wi743-doc-promotion.contract.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/34312868808"
+    ],
+    "reason": "The amendment is limited to the exact documentation projections required by the hosted docs governance finding; it does not alter WI-743 terminal evidence, Runtime behavior, or unrelated Work Items.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-09T05:09:04Z",
+  "preflightContractDigest": "sha256:75cc0f40df75637b0d915299e8661001fb6364197216e98dbce87b816bd80142",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:d571aa0b421df73070618a602d128f00871d37b535646b117b0fcc9f2da2bb1e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-09T05:08:07.341322+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:a6263af825c3c0c5203837eda8466b382d091543e176d435419b4b1c2c0b4138",
+  "workItemId": "WI-745-wi743-doc-promotion"
+}
