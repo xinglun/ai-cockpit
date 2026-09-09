@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "All three language pages mark invariant 7 as directly covered and cite crates/cockpit-repository/tests/scenario_matrix_next_action.rs with its SCN-001 SCN-002 SCN-016 assertions and observed-scenario guard.",
+    "All three language pages remove or revise the claim that invariant 7 is the sole remaining named gap and accurately state the remaining partial-coverage limitations for invariants 3 and 10.",
+    "The three pages remain content-aligned across languages and no out-of-scope repository paths change.",
+    "bash tests/docs/documentation_acceptance.sh passes and the focused WI-741 regression test remains passing."
+  ],
+  "createdAt": "2026-09-09T04:04:39Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c995872a96b80f4e1dc42447e3549843b795018831e07798a09b34add10d15c6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f62bae6a7fa952053d13c9fd5dad3ee01118b1327a1a83dd6880de948bee6712",
+      "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Synchronize the English Simplified Chinese and Japanese invariant coverage pages with crates/cockpit-repository/tests/scenario_matrix_next_action.rs while preserving the existing ten-invariant scope and evidence wording."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+  },
+  "taskReportDigest": "sha256:05ffa05de511bbe1aa30d8fabe6877f55665533a7db394f39980d5c4e04eab78",
+  "taskReportMarkdownDigest": "sha256:ab70cbd606ccdf2a461e23ddbeb97be036ab06f432906e211aa942ab8260ae72",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+}

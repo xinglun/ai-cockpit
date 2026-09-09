@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-handoff",
+  "decidedAt": "2026-09-09T04:03:40Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-742-p1-invariant-7-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-742-p1-invariant-7-doc-promotion.summary.json",
+    ".ai/work-items/active/WI-742-p1-invariant-7-doc-promotion.outcome.json",
+    ".ai/work-items/active/WI-742-p1-invariant-7-doc-promotion.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md:current-work-item-defect-and-recovery",
+    "AGENTS.md:preflight-before-verification"
+  ],
+  "predecessorContractDigest": "sha256:da259332475de8ba51bb65d6cac89b6f8ae5d78a52fb7df910028cf462d1f193",
+  "predecessorEventsDigest": "sha256:c5ec32bf663d265ee45e1f3ea76d255f8b5345fd36840a828902b3b258d16c8d",
+  "predecessorOutcomeDigest": "sha256:a901dbbf8500a342c9a27b37edde18d782e07e99c3074df22f4b807f16cba771",
+  "predecessorSummaryDigest": "sha256:f087966d9c07e48dd6e41e72f8344a1cf6100a76859443d20506e9a37726b5ab",
+  "predecessorWorkItemId": "WI-742-p1-invariant-7-doc-promotion",
+  "reason": "The first finish attempt made the verification receipt contradictory by binding the finalization plan after verification. Preserve that failed outcome and retry the same bounded Work Item with a fresh preflight and verification receipt after the finalization context is stable.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh non-red preflight and both declared verification commands, then finish, archive, finalize, finalize-verify, and close the same Work Item against PR #714.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+}

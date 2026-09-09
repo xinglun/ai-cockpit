@@ -1,0 +1,177 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "coverage table row 7",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "document",
+          "verification": "manual-review and documentation acceptance"
+        },
+        {
+          "locator": "coverage table row 7",
+          "path": "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+          "type": "document",
+          "verification": "manual-review and documentation acceptance"
+        },
+        {
+          "locator": "coverage table row 7",
+          "path": "docs/reference/collaboration-invariant-coverage.ja.md",
+          "type": "document",
+          "verification": "manual-review and documentation acceptance"
+        },
+        {
+          "locator": "SCN-001 SCN-002 SCN-016 assertions and observed-scenario guard",
+          "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+          "type": "test",
+          "verification": "cargo test -p cockpit-repository --test scenario_matrix_next_action"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "coverage update and remaining limitations section",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "document",
+          "verification": "manual-review and documentation acceptance"
+        },
+        {
+          "locator": "coverage update and remaining limitations section",
+          "path": "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+          "type": "document",
+          "verification": "manual-review and documentation acceptance"
+        },
+        {
+          "locator": "coverage update and remaining limitations section",
+          "path": "docs/reference/collaboration-invariant-coverage.ja.md",
+          "type": "document",
+          "verification": "manual-review and documentation acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "scoped three-file diff",
+          "path": "docs/reference/collaboration-invariant-coverage.md",
+          "type": "diff",
+          "verification": "git diff --check and documentation acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "documentation acceptance output",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "test",
+          "verification": "bash tests/docs/documentation_acceptance.sh"
+        },
+        {
+          "locator": "focused regression output",
+          "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+          "type": "test",
+          "verification": "cargo test -p cockpit-repository --test scenario_matrix_next_action"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-742-p1-invariant-7-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-09T03:52:27Z",
+  "checkpointContractDigest": "sha256:da259332475de8ba51bb65d6cac89b6f8ae5d78a52fb7df910028cf462d1f193",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:22a46bd3ef8656a85a5c834a30ce9ede22a7b94ed8adf39fa06b0dbc44e69883",
+      "recorded": true,
+      "recordedAt": "2026-09-09T03:52:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fde4b03ec9f47f3ea5cbc8ad51e3e14cd899e60bc084583b126b617df877fc83",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:251b94f8e8a7d557c886abe33ed76e7fd476ac8571aa52234a1047a22aba1e2d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:22a46bd3ef8656a85a5c834a30ce9ede22a7b94ed8adf39fa06b0dbc44e69883",
+      "previousContractHash": "sha256:22a46bd3ef8656a85a5c834a30ce9ede22a7b94ed8adf39fa06b0dbc44e69883",
+      "reason": "Correct the human-owned Contract scope from an accidental semicolon-joined literal to a glob covering the three declared language pages, narrow required evidence to verification, and declare the source and verification paths before implementation.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T03:53:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fde4b03ec9f47f3ea5cbc8ad51e3e14cd899e60bc084583b126b617df877fc83",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:b5746b66eb401edd1febc1736cb4ed5c2daa30d5c71267b60f1a68d09cdbd2f1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:22a46bd3ef8656a85a5c834a30ce9ede22a7b94ed8adf39fa06b0dbc44e69883",
+      "previousContractHash": "sha256:251b94f8e8a7d557c886abe33ed76e7fd476ac8571aa52234a1047a22aba1e2d",
+      "reason": "Use exact declared paths for the three language coverage pages because the Runtime scope gate treats the previous wildcard expression as non-matching.",
+      "recorded": true,
+      "recordedAt": "2026-09-09T03:59:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f62bae6a7fa952053d13c9fd5dad3ee01118b1327a1a83dd6880de948bee6712",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f62bae6a7fa952053d13c9fd5dad3ee01118b1327a1a83dd6880de948bee6712",
+  "createdAt": "2026-09-09T03:51:36Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/collaboration-invariant-coverage.md",
+      "docs/reference/collaboration-invariant-coverage.zh-CN.md",
+      "docs/reference/collaboration-invariant-coverage.ja.md",
+      "docs/work-items/WI-741-p1-invariant-7-next-action-coverage.md",
+      "crates/cockpit-repository/tests/scenario_matrix_next_action.rs"
+    ],
+    "reason": "The three language coverage pages now project the merged WI-741 test evidence for invariant 7, preserve the bounded observed-scenario limitation, and retain the partial limitations for invariants 3 and 10 without widening the collaboration-language scope.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-09T04:04:18Z",
+  "preflightContractDigest": "sha256:da259332475de8ba51bb65d6cac89b6f8ae5d78a52fb7df910028cf462d1f193",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:f62bae6a7fa952053d13c9fd5dad3ee01118b1327a1a83dd6880de948bee6712",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T04:04:39Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-742-p1-invariant-7-doc-promotion"
+}
