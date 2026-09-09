@@ -34,11 +34,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-750-p1-current-base-revalidation",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/730",
     "worktree": "/private/tmp/ai-cockpit-wi-750-p1-current-base"
   },
   "risk": "medium",

@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-750-p1-cognitive-benefit-current-base.summary.json"
   ],
   "checkpointAt": "2026-09-09T06:55:56Z",
-  "checkpointContractDigest": "sha256:bcae2f268cfb9bcc316fb313f2dc65b15c2e5f5e01f4e792ae05df8a0a8c42fb",
+  "checkpointContractDigest": "sha256:54ef6de9f82b2e8310178fe0816283fcb0f70c73019b5b8f0187d832304ceb10",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -105,8 +105,8 @@
   "checkpointRepositorySnapshotDigest": "sha256:402ef0c61f4a05dd7db974fa3ebceb380cedcf8c89e607c6ca897253093edaa3",
   "createdAt": "2026-09-09T06:49:25Z",
   "mode": "code",
-  "preflightAt": "2026-09-09T07:29:41Z",
-  "preflightContractDigest": "sha256:bcae2f268cfb9bcc316fb313f2dc65b15c2e5f5e01f4e792ae05df8a0a8c42fb",
+  "preflightAt": "2026-09-09T07:43:36Z",
+  "preflightContractDigest": "sha256:54ef6de9f82b2e8310178fe0816283fcb0f70c73019b5b8f0187d832304ceb10",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:402ef0c61f4a05dd7db974fa3ebceb380cedcf8c89e607c6ca897253093edaa3",
   "preflightState": "green",
@@ -120,6 +120,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:029989246fe8597458c9ecba298c92912eae668e14f5fbe17a213a5990737480",
+  "verificationRecoveryReconciled": "sha256:62d97ba0d37ba49a0a767f874c12212237d3aaafc79ddb7dec40a77d6e524476",
   "workItemId": "WI-750-p1-cognitive-benefit-current-base"
 }

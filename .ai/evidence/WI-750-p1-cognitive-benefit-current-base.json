@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "workItemId": "WI-750-p1-cognitive-benefit-current-base",
-  "sourceRepositoryRevision": "08de2fc2aa7b9530bd1d7764475152689c4851d7",
+  "sourceRepositoryRevision": "958bb91a63bfaf7056dbcb847bcb5d4518c2b5ea",
   "runtimeBinary": "/private/tmp/ai-cockpit-wi-750-p1-current-base/target/debug/ai-cockpit",
   "runtimeBinaryDigest": "sha256:6100af97bc825c7037f2b2e14b8e8b0e93a2e48526afa532873946ba5d5ff220",
   "taskSet": [
