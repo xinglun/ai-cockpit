@@ -32,11 +32,11 @@
     "Provider finalization receipt finalize-verify result and structured close decision."
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-779-abandoned-finalization-repair",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/762",
     "worktree": "/private/tmp/ai-cockpit-wi-779-abandoned-finalization-repair"
   },
   "risk": "normal",
