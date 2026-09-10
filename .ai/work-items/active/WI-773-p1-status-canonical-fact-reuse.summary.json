@@ -79,13 +79,13 @@
       "workItemId": "WI-773-p1-status-canonical-fact-reuse"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:fdc14ee317aee135c6686471785af4930976ae10bcf2b05eced5d1e27e8ce311",
+  "checkpointRepositorySnapshotDigest": "sha256:23ae35e8daf6faa7906d06893627a391e89ec10a178d5548cb193c019a73326e",
   "createdAt": "2026-09-10T02:02:39Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-10T03:13:47Z",
+  "preflightAt": "2026-09-10T03:29:43Z",
   "preflightContractDigest": "sha256:63cc17632eb7fbb52d5ddb7b48a5fffa5e877491a01e88c726f1751c397a3e2c",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:fdc14ee317aee135c6686471785af4930976ae10bcf2b05eced5d1e27e8ce311",
+  "preflightRepositorySnapshotDigest": "sha256:23ae35e8daf6faa7906d06893627a391e89ec10a178d5548cb193c019a73326e",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
