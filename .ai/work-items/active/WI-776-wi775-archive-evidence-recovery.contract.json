@@ -37,11 +37,11 @@
     "documentation"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-776-wi775-archive-evidence-recovery-final",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/759",
     "worktree": "/private/tmp/ai-cockpit-wi-776-wi775-archive-evidence-recovery-final"
   },
   "risk": "normal",
