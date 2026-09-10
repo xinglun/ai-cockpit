@@ -1,26 +1,61 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-10T18:20:03Z",
-  "checkpointContractDigest": "sha256:4a2c92adbd25836a5251e0ea34256713750be2315fa9237f0a75c5e80f0f7900",
+  "checkpointContractDigest": "sha256:6435b93defc87c46333b269a649c94fd1eac574fc30f20255568b07242b01c18",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:4a2c92adbd25836a5251e0ea34256713750be2315fa9237f0a75c5e80f0f7900",
+      "recorded": true,
+      "recordedAt": "2026-09-10T18:20:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b35e780afcb7ed608155016cd249dc5a10a59673b6350d605f58c28f4cf2eadd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-791-doc-promotion"
+    },
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:6435b93defc87c46333b269a649c94fd1eac574fc30f20255568b07242b01c18",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4a2c92adbd25836a5251e0ea34256713750be2315fa9237f0a75c5e80f0f7900",
+      "previousContractHash": "sha256:4a2c92adbd25836a5251e0ea34256713750be2315fa9237f0a75c5e80f0f7900",
+      "reason": "Bind the archived Work Item to GitHub PR #769 and its exact dedicated branch/worktree for finalization.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T18:28:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b35e780afcb7ed608155016cd249dc5a10a59673b6350d605f58c28f4cf2eadd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-791-doc-promotion"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:b35e780afcb7ed608155016cd249dc5a10a59673b6350d605f58c28f4cf2eadd",
   "createdAt": "2026-09-10T18:17:33Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-10T18:26:28Z",
-  "preflightContractDigest": "sha256:4a2c92adbd25836a5251e0ea34256713750be2315fa9237f0a75c5e80f0f7900",
+  "preflightAt": "2026-09-10T18:33:05Z",
+  "preflightContractDigest": "sha256:6435b93defc87c46333b269a649c94fd1eac574fc30f20255568b07242b01c18",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:b35e780afcb7ed608155016cd249dc5a10a59673b6350d605f58c28f4cf2eadd",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T18:20:03Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T18:33:05Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:8b0559e839d7ee92f16094f8d410aa61ac79d2e63213e4019d0b7032f8f03e56",
   "workItemId": "WI-791-doc-promotion"
 }
