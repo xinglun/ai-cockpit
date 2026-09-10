@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T06:36:58Z",
+  "files": {
+    "contractDigest": "sha256:f7c916939355618ed99ab14633d4bf2dcfbb29c4a8b18349a26a4290076ecc48",
+    "contractPath": ".ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json",
+    "eventsDigest": "sha256:cfd497500ad92e57572fbad81bbbe18af97f164a83e3871225abbc4e7595a747",
+    "eventsPath": ".ai/work-items/archive/WI-777-unmerged-failed-finalization.events.jsonl",
+    "outcomeDigest": "sha256:74e1fc917a785e1c71e3beed9e283c739bf95fd2c45b3c1ca0c537e3956430de",
+    "outcomePath": ".ai/work-items/archive/WI-777-unmerged-failed-finalization.outcome.json",
+    "summaryDigest": "sha256:563cf35b9770f93b92634d0492559abfcd000a37b8dd91ae3e3776c3edabd406",
+    "summaryPath": ".ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json",
+    "taskReportDigest": "sha256:278101c220fe0a286c67b1148f35239767386afdcbd8d49047653a7e9277621b",
+    "taskReportMarkdownDigest": "sha256:3fa5190f1f913267d7783dc00b240ac41fbc32b80843af0cbf2e35373c24f03e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-777-unmerged-failed-finalization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-777-unmerged-failed-finalization.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-777-unmerged-failed-finalization"
+}

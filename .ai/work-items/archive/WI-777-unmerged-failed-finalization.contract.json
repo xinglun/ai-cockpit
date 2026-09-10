@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "An unmerged failed delivery can record an abandoned finalization only when the PR is explicitly closed, branch/worktree cleanup is proven, failure code unmerged_pull_request is bound, and no mergeCommit is present.",
+    "Merged PR finalization remains unchanged and abandoned receipts cannot authorize a successful or merged governance projection.",
+    "finalize-verify, close, and promote_closed_work_item.py --check-all accept the new terminal state with preserved failure evidence.",
+    "Existing resource finalization and repository governance tests remain green.",
+    "Tri-language reference rules distinguish abandoned unmerged cleanup from successful merged deletion and preserve fail-closed retained/blocked/unknown behavior."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bdb8a721dd95ba218ac7554b52674ee9fa3975c7",
+  "createdAt": "2026-09-10T06:03:08Z",
+  "goal": "Add a truthful, identity-bound abandoned finalization state for cleaned unmerged failed deliveries, validate it fail-closed, project it through close and documentation audits, and preserve all existing merged-resource semantics.",
+  "intent": "Repair the Runtime finalization protocol so an explicitly closed unmerged failed PR can be finalized and closed without being represented as merged.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Performance implementation",
+    " product Runtime behavior",
+    " authorization policy changes",
+    " rewriting historical Contract/evidence/Outcome/archive bytes",
+    " merging failed PRs",
+    " and unrelated refactoring."
+  ],
+  "predecessorContractDigest": "sha256:a5ec1bc5b2fef9814989b2eadba54bfd03a80e2568aea3ffb326b5fd804d3778",
+  "predecessorWorkItemId": "WI-776-wi775-archive-evidence-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-776-wi775-archive-evidence-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8c6bcef6c56202683a43fe127e3facb44af13882ba716900e0bdfe42782bf608",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-777-unmerged-failed-finalization",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/760",
+    "worktree": "/private/tmp/ai-cockpit-wi-777-unmerged-failed-finalization"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/resource_finalization.rs",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "crates/cockpit-repository/src/lib.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-777-unmerged-failed-finalization"
+}

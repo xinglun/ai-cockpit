@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "An unmerged failed delivery can record an abandoned finalization only when the PR is explicitly closed, branch/worktree cleanup is proven, failure code unmerged_pull_request is bound, and no mergeCommit is present.",
+    "Merged PR finalization remains unchanged and abandoned receipts cannot authorize a successful or merged governance projection.",
+    "finalize-verify, close, and promote_closed_work_item.py --check-all accept the new terminal state with preserved failure evidence.",
+    "Existing resource finalization and repository governance tests remain green.",
+    "Tri-language reference rules distinguish abandoned unmerged cleanup from successful merged deletion and preserve fail-closed retained/blocked/unknown behavior."
+  ],
+  "createdAt": "2026-09-10T06:36:53Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f743580ced1ab33d20c6ddfb5a344a2b906a54d329ec581d511f01e0d7797e4f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dbb6a0207da2f8eba88cadeeae610082c1d6918a2187609e1e332524fffd784b",
+      "workItemId": "WI-777-unmerged-failed-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-776-wi775-archive-evidence-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Add a truthful, identity-bound abandoned finalization state for cleaned unmerged failed deliveries, validate it fail-closed, project it through close and documentation audits, and preserve all existing merged-resource semantics."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-777-unmerged-failed-finalization"
+  },
+  "taskReportDigest": "sha256:278101c220fe0a286c67b1148f35239767386afdcbd8d49047653a7e9277621b",
+  "taskReportMarkdownDigest": "sha256:3fa5190f1f913267d7783dc00b240ac41fbc32b80843af0cbf2e35373c24f03e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-777-unmerged-failed-finalization"
+}

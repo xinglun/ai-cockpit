@@ -1,0 +1,88 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-776-wi775-archive-evidence-recovery.recovery.json",
+    ".ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json",
+    ".ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T06:05:24Z",
+  "checkpointContractDigest": "sha256:54c7dc41364420982d4b2a4a7a8e3ae6385c1329466463bd0054187fe7c9cea4",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:dd783c4e2dd9cad38eb44284046a84be543cf619b8e4888558031e7efdd26ec4",
+      "recorded": true,
+      "recordedAt": "2026-09-10T06:05:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c6bcef6c56202683a43fe127e3facb44af13882ba716900e0bdfe42782bf608",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-777-unmerged-failed-finalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d67c62ae8f75ef5f0ffb6f0f51007005ef8f4a8f36cd4cd327f4009c8b4ccfe5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dd783c4e2dd9cad38eb44284046a84be543cf619b8e4888558031e7efdd26ec4",
+      "previousContractHash": "sha256:dd783c4e2dd9cad38eb44284046a84be543cf619b8e4888558031e7efdd26ec4",
+      "reason": "Bind the implemented repository finalization path and align tri-language lifecycle rules with the new truthful abandoned terminal.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T06:17:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:69beb2b43c33c327d5710269035643483736008f933292d325d255f7b5d11cbe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-777-unmerged-failed-finalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:54c7dc41364420982d4b2a4a7a8e3ae6385c1329466463bd0054187fe7c9cea4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dd783c4e2dd9cad38eb44284046a84be543cf619b8e4888558031e7efdd26ec4",
+      "previousContractHash": "sha256:d67c62ae8f75ef5f0ffb6f0f51007005ef8f4a8f36cd4cd327f4009c8b4ccfe5",
+      "reason": "Revalidate verification after binding the reviewed pull request finalization context.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T06:33:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dbb6a0207da2f8eba88cadeeae610082c1d6918a2187609e1e332524fffd784b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-777-unmerged-failed-finalization"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:dbb6a0207da2f8eba88cadeeae610082c1d6918a2187609e1e332524fffd784b",
+  "createdAt": "2026-09-10T06:03:08Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:a5ec1bc5b2fef9814989b2eadba54bfd03a80e2568aea3ffb326b5fd804d3778",
+  "predecessorWorkItemId": "WI-776-wi775-archive-evidence-recovery",
+  "preflightAt": "2026-09-10T06:36:47Z",
+  "preflightContractDigest": "sha256:54c7dc41364420982d4b2a4a7a8e3ae6385c1329466463bd0054187fe7c9cea4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:dbb6a0207da2f8eba88cadeeae610082c1d6918a2187609e1e332524fffd784b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-776-wi775-archive-evidence-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T06:36:53Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-777-unmerged-failed-finalization"
+}

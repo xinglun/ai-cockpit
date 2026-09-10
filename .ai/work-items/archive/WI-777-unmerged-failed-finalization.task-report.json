@@ -1,0 +1,109 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:dbb6a0207da2f8eba88cadeeae610082c1d6918a2187609e1e332524fffd784b",
+    "workItemId": "WI-777-unmerged-failed-finalization"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-776-wi775-archive-evidence-recovery.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-777-unmerged-failed-finalization.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json"
+        ],
+        "inference": false,
+        "text": "Add a truthful, identity-bound abandoned finalization state for cleaned unmerged failed deliveries, validate it fail-closed, project it through close and documentation audits, and preserve all existing merged-resource semantics."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-777-unmerged-failed-finalization"
+}

@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-10T06:25:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.archive.json",
+    ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json",
+    ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.outcome.json",
+    ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json",
+    ".ai/decisions/WI-776-wi775-archive-evidence-recovery.close.json",
+    "https://github.com/xinglun/ai-cockpit/pull/759"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:Work Item change discipline",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:a5ec1bc5b2fef9814989b2eadba54bfd03a80e2568aea3ffb326b5fd804d3778",
+  "predecessorEventsDigest": "sha256:b85e164b1d10e3408e08db35de9b8c18d101d5c35ca90b58a79ab0a0744e1377",
+  "predecessorOutcomeDigest": "sha256:28c283ba70f9eb1f539a5abeca16402cf2d2e708da034f5b347d78bdc91ba0de",
+  "predecessorSummaryDigest": "sha256:64956fc4632035eef3cabe638ef4fff88d637dabbfe9a86f6ca551ff23db47ef",
+  "predecessorWorkItemId": "WI-776-wi775-archive-evidence-recovery",
+  "reason": "WI-776 closed the recovery chain but the repository close audit exposed a distinct Runtime protocol gap for unmerged failed deliveries WI-774/WI-775. Preserve WI-776 immutable bytes; WI-777 adds a truthful abandoned finalization state and its compatibility tests so the failed predecessors can be closed without claiming a merge.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the bounded Runtime protocol change and reviewed delivery, then finalize and close the unmerged failed predecessor records and run the full closed-projection audit.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-777-unmerged-failed-finalization",
+  "workItemId": "WI-776-wi775-archive-evidence-recovery"
+}
