@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-774 — WI-773 terminal documentation promotion"
 description: "close 済み WI-773 experiment を必要な三言語 documentation と parity boundary に反映する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: authorized
 workItemId: WI-774-wi773-doc-promotion
 lastVerifiedBy: WI-774-wi773-doc-promotion
@@ -15,18 +15,27 @@ lastVerifiedBy: WI-774-wi773-doc-promotion
 
 ## Intent と boundary
 
-この Work Item は close 済みの WI-773 performance experiment を terminal な三言語
-Work Item と reference-parity projection に反映する。WI-773 の immutable Contract、
-benchmark evidence、Outcome、finalization、close、candidate 却下判断を保持し、production
-behavior や performance benefit claim は追加しない。
+WI-774 は immutable な documentation delivery failure として保持する。hosted PR #757 は
+parity registration と verification evidence が同一 commit で導入されたため
+`docs_governance_integrity` に失敗した。WI-775 が最新 default branch からこの projection を
+ordered に再配信する bounded successor である。WI-773 の immutable Contract、benchmark
+evidence、Outcome、finalization、close、candidate 却下判断は変更しない。
 
 ## Scope
 
-- WI-773 の verified close 後に English、Simplified Chinese、Japanese と parity の六つの
-  projection を promotion する。
-- この documentation-promotion Work Item 自身の三言語 page と prearchive parity row を
-  登録し、projection を bounded かつ auditable にする。
+- WI-774 の archive、verification evidence、recovery decision、hosted failure binding を
+  保持し、historical bytes は書き換えない。
+- ordered redelivery は WI-775 が担当し、parity registration を fresh verification evidence
+  より先に commit する。
 - Runtime-generated record、historical evidence、governance rule、他の Work Item は変更しない。
+
+## Immutable recovery binding
+
+- archive: `.ai/work-items/archive/WI-774-wi773-doc-promotion.archive.json`
+- verification: `.ai/evidence/WI-774-wi773-doc-promotion.verification.json`
+- recovery: `.ai/decisions/WI-774-wi773-doc-promotion.recovery.json`
+- failed delivery: [PR #757](https://github.com/xinglun/ai-cockpit/pull/757)
+- successor: WI-775 parity-order recovery
 
 ## Acceptance と verification boundary
 

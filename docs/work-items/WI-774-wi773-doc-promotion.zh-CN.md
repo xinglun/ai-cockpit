@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-774——WI-773 终态文档 promotion"
 description: "将已关闭的 WI-773 实验纳入所需的三语文档与 parity 边界。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: authorized
 workItemId: WI-774-wi773-doc-promotion
 lastVerifiedBy: WI-774-wi773-doc-promotion
@@ -15,16 +15,25 @@ lastVerifiedBy: WI-774-wi773-doc-promotion
 
 ## 意图与边界
 
-本 Work Item 将已关闭的 WI-773 性能实验投影到终态三语 Work Item 和
-reference-parity 记录。保留 WI-773 不可变的 Contract、benchmark evidence、Outcome、
-finalization、close 和候选拒绝判断；不引入生产行为或性能收益声明。
+WI-774 作为不可变的失败文档交付被保留。其 hosted PR #757 因 parity 注册与验证证据在同一
+提交中产生而未通过 `docs_governance_integrity`。WI-775 是从最新默认分支重新交付该投影的
+有界 successor。WI-773 的不可变 Contract、benchmark evidence、Outcome、finalization、
+close 和候选拒绝判断保持不变。
 
 ## 范围
 
-- 在 WI-773 已验证关闭后，promotion 其英文、简体中文、日文和 parity 六项投影。
-- 登记本 documentation-promotion Work Item 自身的三语页面与 prearchive parity 行，
-  保持投影有界且可审计。
+- 保留 WI-774 的 archive、verification evidence、recovery decision 和 hosted failure 绑定，
+  不重写历史字节。
+- 由 WI-775 负责有序重新交付，并确保 parity 注册先于新鲜 verification evidence。
 - 不修改 Runtime 生成记录、历史证据、治理规则或其他 Work Item。
+
+## 不可变 recovery 绑定
+
+- archive：`.ai/work-items/archive/WI-774-wi773-doc-promotion.archive.json`
+- verification：`.ai/evidence/WI-774-wi773-doc-promotion.verification.json`
+- recovery：`.ai/decisions/WI-774-wi773-doc-promotion.recovery.json`
+- 失败交付：[PR #757](https://github.com/xinglun/ai-cockpit/pull/757)
+- successor：WI-775 parity-order recovery
 
 ## 验收与验证边界
 
