@@ -1,0 +1,277 @@
+{
+  "acceptanceResults": [
+    "WI-775 PR #758, stale archive, failed verification state, recovery decision, and all predecessor bytes remain immutable and linked.",
+    "English, Simplified Chinese, and Japanese WI-775/WI-776 documentation and reference-parity projections match Runtime state without claiming WI-776 terminal evidence before close.",
+    "Parity registration is committed before fresh WI-776 verification evidence, and hosted quality passes on the exact reviewed PR head.",
+    "WI-776 changes documentation and governance projection only; no product Runtime, authorization, machine contract, exit-code, performance, or historical evidence behavior changes.",
+    "WI-776 completes start, preflight, checkpoint, verify, finish, archive, finalize, finalize-verify, close, exact cleanup, synchronized main, and promote_closed_work_item.py --check-all."
+  ],
+  "createdAt": "2026-09-10T05:38:42Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a44ee537b8bf6011087760d35084b1ea02d0ce179e0a37e25c4c122db6233548",
+  "evidenceRefs": [
+    ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c6bcef6c56202683a43fe127e3facb44af13882ba716900e0bdfe42782bf608",
+      "workItemId": "WI-776-wi775-archive-evidence-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-774-wi773-doc-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-775-wi774-parity-order-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-775-wi774-parity-order-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-774-wi773-doc-promotion.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-774-wi773-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-774-wi773-doc-promotion.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-774-wi773-doc-promotion.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-774-wi773-doc-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-774-wi773-doc-promotion.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-774-wi773-doc-promotion.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-775-wi774-parity-order-recovery.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-775-wi774-parity-order-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-775-wi774-parity-order-recovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-775-wi774-parity-order-recovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-775-wi774-parity-order-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-775-wi774-parity-order-recovery.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-775-wi774-parity-order-recovery.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the bounded WI-775 governance recovery from the latest remote default lineage, preserving all predecessor bytes and producing a clean evidence-bound terminal lifecycle."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-776-wi775-archive-evidence-recovery"
+  },
+  "taskReportDigest": "sha256:656b0915add710f7dc1aae9095fd5a2904913ff1fadb7f401ec631b28f13693e",
+  "taskReportMarkdownDigest": "sha256:1ae28f25b23d1d077426aa1f2ae0fe0aeca92c59f254e4ce0b4d17d54c9730fc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-776-wi775-archive-evidence-recovery"
+}
