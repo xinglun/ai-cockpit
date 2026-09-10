@@ -4,7 +4,7 @@
       ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a84c7d53269759b1751c25b48be506459dc73c047131590cad24c6e2c78871ff",
+    "repositorySnapshotDigest": "sha256:fdc14ee317aee135c6686471785af4930976ae10bcf2b05eced5d1e27e8ce311",
     "workItemId": "WI-773-p1-status-canonical-fact-reuse"
   },
   "format": "ai-cockpit.task-outcome",

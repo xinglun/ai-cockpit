@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-10T02:09:00Z",
-  "checkpointContractDigest": "sha256:26f6a75d34a26937c1db00979762befd38583caa722d4135415e336da91aff2b",
+  "checkpointContractDigest": "sha256:63cc17632eb7fbb52d5ddb7b48a5fffa5e877491a01e88c726f1751c397a3e2c",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -57,15 +57,35 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:63cc17632eb7fbb52d5ddb7b48a5fffa5e877491a01e88c726f1751c397a3e2c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e22e978a2bf991d49d3a4204e2532e38e40cf2c91d18671b4e869301195b7de9",
+      "previousContractHash": "sha256:7986ec966f4a14e874c7a61b5810d867c959b3e5fcf5bf262a73ed55bff08331",
+      "reason": "Record the required three-language reference-parity projection so hosted documentation acceptance can recognize the active verified WI-773 evidence and declined-candidate boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T02:57:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a84c7d53269759b1751c25b48be506459dc73c047131590cad24c6e2c78871ff",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-773-p1-status-canonical-fact-reuse"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a84c7d53269759b1751c25b48be506459dc73c047131590cad24c6e2c78871ff",
+  "checkpointRepositorySnapshotDigest": "sha256:fdc14ee317aee135c6686471785af4930976ae10bcf2b05eced5d1e27e8ce311",
   "createdAt": "2026-09-10T02:02:39Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-10T02:49:51Z",
-  "preflightContractDigest": "sha256:26f6a75d34a26937c1db00979762befd38583caa722d4135415e336da91aff2b",
+  "preflightAt": "2026-09-10T03:13:47Z",
+  "preflightContractDigest": "sha256:63cc17632eb7fbb52d5ddb7b48a5fffa5e877491a01e88c726f1751c397a3e2c",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a84c7d53269759b1751c25b48be506459dc73c047131590cad24c6e2c78871ff",
+  "preflightRepositorySnapshotDigest": "sha256:fdc14ee317aee135c6686471785af4930976ae10bcf2b05eced5d1e27e8ce311",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -77,6 +97,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:ba827b2dcc795a26445b31d63859a778ee84dd26d5c9c9156871533bc8d51115",
+  "verificationRecoveryReconciled": "sha256:ae58708a0bca9d9e79a6d4debbff8542b4fb85b6924c3ab47bc3612d3ffdef35",
   "workItemId": "WI-773-p1-status-canonical-fact-reuse"
 }

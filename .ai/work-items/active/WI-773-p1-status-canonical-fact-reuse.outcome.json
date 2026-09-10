@@ -6,10 +6,11 @@
     "The candidate is accepted only if the pre-registered status improvement threshold is met and non-target scenario budgets remain within Contract; otherwise it is declined and the experiment evidence is retained without production behavior change.",
     "Declared focused tests, cargo fmt, cargo clippy --locked --all-targets --all-features -- -D warnings, cargo test --locked --workspace, and Runtime verification complete successfully.",
     "Before candidate execution, accept only if the measured large-history status path improves warm independent-CLI p50 and p95 by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent.",
-    "The pre-registered status threshold is binding for this Work Item: warm independent-CLI p50 and p95 must each improve by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent."
+    "The pre-registered status threshold is binding for this Work Item: warm independent-CLI p50 and p95 must each improve by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent.",
+    "The three-language reference-parity index records WI-773 with its current active status, Work Item links, verification evidence, and declined-candidate boundary without claiming an accepted production performance change."
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:ba827b2dcc795a26445b31d63859a778ee84dd26d5c9c9156871533bc8d51115",
+  "evidenceDigest": "sha256:ae58708a0bca9d9e79a6d4debbff8542b4fb85b6924c3ab47bc3612d3ffdef35",
   "evidenceRefs": [
     ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
   ],
@@ -35,7 +36,7 @@
         ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a84c7d53269759b1751c25b48be506459dc73c047131590cad24c6e2c78871ff",
+      "repositorySnapshotDigest": "sha256:fdc14ee317aee135c6686471785af4930976ae10bcf2b05eced5d1e27e8ce311",
       "workItemId": "WI-773-p1-status-canonical-fact-reuse"
     },
     "format": "ai-cockpit.task-outcome",
@@ -124,7 +125,7 @@
     "status": "verified",
     "workItemId": "WI-773-p1-status-canonical-fact-reuse"
   },
-  "taskReportDigest": "sha256:727e0a3995a3c6cce0228ffed3ac9c101d5f205face9105b68fad9ee9ea998ee",
+  "taskReportDigest": "sha256:c612b6f5a06563b14ce36a1ad07d0ca5e2b75d663625a6f2dea594e4ff131742",
   "taskReportMarkdownDigest": "sha256:0cfff5f5b810ea49b07fe05e414c20d69fdb8148091cb1c0b76e355ae4f099e5",
   "unknowns": [
     "user_visible_benefit_not_declared"
