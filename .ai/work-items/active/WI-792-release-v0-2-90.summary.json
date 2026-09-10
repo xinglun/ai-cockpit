@@ -1,0 +1,29 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-10T18:49:34Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:4d8c776217b6a412bbb6f099ece8cd30191829a9930e61be17252fcd11fa52b5",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+    "reason": "The explicit user authorization permits bounded continuation to collect and validate the release evidence; this decision does not assert that source checks, hosted checks, public Release assets, or adopter acceptance have passed.",
+    "recordedAt": "2026-09-10T18:54:12Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:b35e780afcb7ed608155016cd249dc5a10a59673b6350d605f58c28f4cf2eadd",
+    "schemaVersion": 1,
+    "workItemId": "WI-792-release-v0-2-90"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-10T18:54:20Z",
+  "preflightContractDigest": "sha256:4d8c776217b6a412bbb6f099ece8cd30191829a9930e61be17252fcd11fa52b5",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "preflightRepositorySnapshotDigest": "sha256:b35e780afcb7ed608155016cd249dc5a10a59673b6350d605f58c28f4cf2eadd",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-10T18:54:20.670898+00:00",
+  "workItemId": "WI-792-release-v0-2-90"
+}

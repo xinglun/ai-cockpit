@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-768-release-v0-2-89
+lastVerifiedBy: WI-792-release-v0-2-90
 capabilityClaims:
   - reference_parity
 ---
@@ -34,9 +34,9 @@ capabilityClaims:
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-当前快照使用 Rust 基线 `54e243e5099d46ac5eefb6dfe419d6e6e3841b2b`，以及经审查的
-`ai-cockpit v0.2.89` Runtime（二进制摘要
-`sha256:e79ac0e2b36e3c0c5e976052aba62a1224d210bfc16b9f106b3dcc987c23dc2f`）。
+当前快照使用 Rust 基线 `446ec82c0e8c0b55094c4654f9e6a098bb75f179`，以及经审查的
+`ai-cockpit v0.2.90` Runtime（二进制摘要
+`sha256:4ef144434dc27c40a8b6d0de7988fb1bc914fa10a9d2b7a2b7b0b9ed036f957c`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -843,3 +843,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-786-parity-registration-repair——恢复态 parity 注册修复 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-786-parity-registration-repair.zh-CN.md); parity decision/evidence 路径修复的有界 successor；不可变 archive `.ai/work-items/archive/WI-786-parity-registration-repair.contract.json`；verification `.ai/evidence/WI-786-parity-registration-repair.verification.json`；保留的 finalization `.ai/decisions/WI-786-parity-registration-repair.finalize.json`；successor recovery `.ai/decisions/WI-786-parity-registration-repair.recovery.json` 与 applied candidate `.ai/decisions/WI-786-parity-registration-repair.recovery.96b7c5cd733a2b74247c4c2520191ba28e86d0a8c3b7ea4793821dec2df42c24.json`；close `.ai/decisions/WI-786-parity-registration-repair.close.json`；WI-787 负责 finalization 与 close。 |
 | WI-787-parity-finalization-recovery——WI-786 finalization 恢复 successor | 已实现 | [Work Item](../work-items/WI-787-parity-finalization-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-787-parity-finalization-recovery.contract.json`; verification `.ai/evidence/WI-787-parity-finalization-recovery.verification.json`; finalization `.ai/decisions/WI-787-parity-finalization-recovery.finalize.f576ded8ac4fb558512fcbb75a01b48932ab4d7004ee9c46ae2ee1786e7e71e1.json`; close `.ai/decisions/WI-787-parity-finalization-recovery.close.json`. |
 | WI-791-doc-promotion——WI-785 与 WI-787 文档投影 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-791-doc-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-791-doc-promotion.contract.json`; verification `.ai/evidence/WI-791-doc-promotion.verification.json`; finalization `.ai/decisions/WI-791-doc-promotion.finalize.json`; close `.ai/decisions/WI-791-doc-promotion.close.json`。 |
+| WI-792-release-v0-2-90——集成信任诊断后的下一补丁发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-792-release-v0-2-90.zh-CN.md)；source version consistency、hosted PR checks、annotated tag/公开 Release identity、下载产物 adopter acceptance 和受治理的 release close 仍待验证。计划终态路径：`.ai/work-items/archive/WI-792-release-v0-2-90.contract.json`；`.ai/evidence/WI-792-release-v0-2-90.verification.json`；`.ai/decisions/WI-792-release-v0-2-90.finalize.json`；`.ai/decisions/WI-792-release-v0-2-90.close.json`。 |

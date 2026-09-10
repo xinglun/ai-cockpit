@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-768-release-v0-2-89
+lastVerifiedBy: WI-792-release-v0-2-90
 capabilityClaims:
   - reference_parity
 ---
@@ -37,9 +37,9 @@ parity check に network source や source content の copy は必要ありま�
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-Current snapshot は Rust baseline `54e243e5099d46ac5eefb6dfe419d6e6e3841b2b` と、
-review 済み `ai-cockpit v0.2.89`（binary digest
-`sha256:e79ac0e2b36e3c0c5e976052aba62a1224d210bfc16b9f106b3dcc987c23dc2f`）を使用します。
+Current snapshot は Rust baseline `446ec82c0e8c0b55094c4654f9e6a098bb75f179` と、
+review 済み `ai-cockpit v0.2.90`（binary digest
+`sha256:4ef144434dc27c40a8b6d0de7988fb1bc914fa10a9d2b7a2b7b0b9ed036f957c`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -869,3 +869,4 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-786-parity-registration-repair — recovered parity-registration repair | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-786-parity-registration-repair.ja.md); parity decision/evidence path 修復の bounded successor; immutable archive `.ai/work-items/archive/WI-786-parity-registration-repair.contract.json`; verification `.ai/evidence/WI-786-parity-registration-repair.verification.json`; retained finalization `.ai/decisions/WI-786-parity-registration-repair.finalize.json`; successor recovery `.ai/decisions/WI-786-parity-registration-repair.recovery.json` と applied candidate `.ai/decisions/WI-786-parity-registration-repair.recovery.96b7c5cd733a2b74247c4c2520191ba28e86d0a8c3b7ea4793821dec2df42c24.json`; close `.ai/decisions/WI-786-parity-registration-repair.close.json`; WI-787 が finalization と close を担当します。 |
 | WI-787-parity-finalization-recovery — WI-786 finalization recovery successor | Implemented | [Work Item](../work-items/WI-787-parity-finalization-recovery.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-787-parity-finalization-recovery.contract.json`; verification `.ai/evidence/WI-787-parity-finalization-recovery.verification.json`; finalization `.ai/decisions/WI-787-parity-finalization-recovery.finalize.f576ded8ac4fb558512fcbb75a01b48932ab4d7004ee9c46ae2ee1786e7e71e1.json`; close `.ai/decisions/WI-787-parity-finalization-recovery.close.json`. |
 | WI-791-doc-promotion — WI-785 と WI-787 のドキュメント投影 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-791-doc-promotion.ja.md); archive `.ai/work-items/archive/WI-791-doc-promotion.contract.json`; verification `.ai/evidence/WI-791-doc-promotion.verification.json`; finalization `.ai/decisions/WI-791-doc-promotion.finalize.json`; close `.ai/decisions/WI-791-doc-promotion.close.json`. |
+| WI-792-release-v0-2-90 — 統合済み trust diagnostics 後の次の patch release | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-792-release-v0-2-90.ja.md); source version consistency、hosted PR check、annotated tag/public Release identity、download artifact の adopter acceptance、governed release close は未検証です。planned terminal paths: `.ai/work-items/archive/WI-792-release-v0-2-90.contract.json`; `.ai/evidence/WI-792-release-v0-2-90.verification.json`; `.ai/decisions/WI-792-release-v0-2-90.finalize.json`; `.ai/decisions/WI-792-release-v0-2-90.close.json`. |
