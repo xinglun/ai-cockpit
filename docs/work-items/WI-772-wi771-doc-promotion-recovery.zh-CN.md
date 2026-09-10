@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-772——WI-771 文档恢复重验证"
 description: "在不可变 recovery decision 后，从当前默认分支重新验证已合并的 WI-771 文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: human:repository-owner
 workItemId: WI-772-wi771-doc-promotion-recovery
 lastVerifiedBy: WI-772-wi771-doc-promotion-recovery
+terminalArchive: .ai/work-items/archive/WI-772-wi771-doc-promotion-recovery.contract.json
+terminalVerification: .ai/evidence/WI-772-wi771-doc-promotion-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-772-wi771-doc-promotion-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-772-wi771-doc-promotion-recovery.close.json
 recoveryDecision: .ai/decisions/WI-771-wi770-doc-promotion.recovery.json
 ---
 
