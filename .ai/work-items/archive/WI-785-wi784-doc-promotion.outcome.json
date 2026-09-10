@@ -1,0 +1,186 @@
+{
+  "acceptanceResults": [
+    "WI-784 immutable failed finish evidence and its successor recovery decision remain preserved and bound to WI-785.",
+    "English, Simplified Chinese, and Japanese WI-783 terminal pages and parity rows remain semantically equivalent and bind the actual WI-783 evidence.",
+    "WI-785 own planning pages and parity rows stay in the bounded pre-close shape and are deterministically promotable after verified close.",
+    "The promotion helper and documentation acceptance checks pass without rewriting immutable evidence.",
+    "The final Work Item uses the Runtime-supported verification evidence class and a reviewed PR before archive and close."
+  ],
+  "createdAt": "2026-09-10T16:18:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8f2d8be24f012a294e2f549463e5fd1cdae1119a981484d8f852221908488732",
+  "evidenceRefs": [
+    ".ai/evidence/WI-785-wi784-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-785-wi784-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-785-wi784-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3ca9f2e3d5d65e477665fbdcf2b6c479416bc97e901902b296d9598ace327cde",
+      "workItemId": "WI-785-wi784-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-784-wi783-doc-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-784-wi783-doc-promotion.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-784-wi783-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-784-wi783-doc-promotion.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-784-wi783-doc-promotion.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-784-wi783-doc-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-785-wi784-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-785-wi784-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-785-wi784-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-785-wi784-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-785-wi784-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-785-wi784-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Finish the WI-783 terminal documentation promotion with a Runtime-valid successor Contract, reviewed PR, close evidence, and current documentation gate."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-785-wi784-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-785-wi784-doc-promotion"
+  },
+  "taskReportDigest": "sha256:54ab66e5db28dbc7c9f79fec95d78577d336438603e5e08b83bd5f18162c7826",
+  "taskReportMarkdownDigest": "sha256:f920ba04a4da0377e80507bd23f285a996f85d2733f37adc9b918ccbf25a63a0",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-785-wi784-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-785-wi784-doc-promotion"
+}
