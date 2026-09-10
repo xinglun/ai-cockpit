@@ -1,0 +1,138 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "cargo test passes"
+    ],
+    "createdAt": "2026-09-10T23:28:09Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:8f27fa27d4bf69ed266809aeec7b19356c25e26fd69315393259a033702dd424",
+    "evidenceRefs": [
+      ".ai/evidence/n-minus-one-lifecycle.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/n-minus-one-lifecycle.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:9d8a2656971267004c49013a26192e64d690e454d11db74e5e5d94b1c8e2066f",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/n-minus-one-lifecycle.verification.json"
+        ],
+        "repositoryId": "sha256:9d8a2656971267004c49013a26192e64d690e454d11db74e5e5d94b1c8e2066f",
+        "repositorySnapshotDigest": "sha256:a824c69e76e8b98517a31ea4ac260e201c4484e3cffe6262de2029e8b234c9ad",
+        "workItemId": "n-minus-one-lifecycle"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/n-minus-one-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/n-minus-one-lifecycle.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-lifecycle.summary.json"
+            ],
+            "inference": false,
+            "text": "No repository paths were observed as changed by the current Summary."
+          }
+        ],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/n-minus-one-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/n-minus-one-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/n-minus-one-lifecycle.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-lifecycle.contract.json"
+            ],
+            "inference": false,
+            "text": "Prove N-1 compatibility and explicit migration."
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/n-minus-one-lifecycle.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "workItemId": "n-minus-one-lifecycle"
+    },
+    "taskReportDigest": "sha256:8315ea34cf97d05d5158775b5e1760c6473508b7dc4d459ddd35f66837308f1f",
+    "taskReportMarkdownDigest": "sha256:1388a19a22641b8044084e8a0d42d23a0275df6fb0cea9e5b14b270cdcde5c3a",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/n-minus-one-lifecycle.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "n-minus-one-lifecycle"
+  },
+  "state": "closed",
+  "timestamp": "2026-09-10T23:28:10Z",
+  "workItemId": "n-minus-one-lifecycle"
+}

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "validated": true,
+  "workItemId": "n-minus-one-post-migration",
+  "repositoryId": "sha256:9d8a2656971267004c49013a26192e64d690e454d11db74e5e5d94b1c8e2066f",
+  "decisionPath": ".ai/decisions/n-minus-one-post-migration.close.json",
+  "artifactPath": "work-items/n-minus-one-post-migration.close.json",
+  "decisionDigest": "sha256:7260fe086acded6e71cd9f44e7f7f8d1676f3f0017b3afc02b0f6b9da9c0674e"
+}

@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "cargo test passes for the adopter change"
+  ],
+  "authority": "authorized",
+  "baseRevision": "f7b98f9d22471b332cfb984c5f5ed78632277d65",
+  "createdAt": "2026-09-10T23:15:44Z",
+  "goal": "Demonstrate an auditable Work Item lifecycle using only the pinned public Release binary.",
+  "intent": "Validate the published Runtime against a real adopter change.",
+  "mode": "implementation",
+  "outOfScope": [
+    "target"
+  ],
+  "projectProfileDigest": "sha256:5f64ff1109310349efcc4fc867d2c47580185f74b674df136e7b0596e611f94a",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:87528786bffb750f87878e2d33ad97e904de5ef7e9862f4d338c5921df200fa2",
+  "repositorySnapshotDigest": "sha256:d4c5db3afbf61ed8ebeab1b35119b7f13d63ccc69ff12244515c09f228b4f31f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "release-adopter-lifecycle",
+    "baseRemote": "local",
+    "branch": "release-adopter-lifecycle",
+    "provider": "release-adopter-harness",
+    "pullRequest": "acceptance://v0.2.90/release-adopter-lifecycle",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.ZIc6Zt/adopter"
+  },
+  "risk": "normal",
+  "scope": [
+    "src/lib.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "release-adopter-lifecycle"
+}

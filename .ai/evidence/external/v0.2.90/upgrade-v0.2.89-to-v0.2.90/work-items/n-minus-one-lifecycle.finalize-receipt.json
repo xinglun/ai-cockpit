@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-upgrade-n-minus-one-lifecycle",
+  "operationId": "delete-n-minus-one-lifecycle",
+  "repositoryId": "sha256:9d8a2656971267004c49013a26192e64d690e454d11db74e5e5d94b1c8e2066f",
+  "workItemId": "n-minus-one-lifecycle",
+  "runtimeVersion": "0.2.89",
+  "runtimeDigest": "sha256:671a0d7bb239ecbabf53d63d1d534a0f9c52f4c78dfcd2e6e83f26c709a6188e",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.89/n-minus-one-lifecycle",
+    "headRevision": "e576b6c2be412ef1a3c7c1a7a69131c721d3ce94",
+    "baseBranch": "release-adopter-n-minus-one",
+    "baseRemote": "local",
+    "baseRevision": "85a670c847578080c9efc685ce0100ca496696b0",
+    "mergeCommit": "e576b6c2be412ef1a3c7c1a7a69131c721d3ce94"
+  },
+  "branch": {
+    "name": "release-adopter-n-minus-one",
+    "remote": "local",
+    "headRevision": "e576b6c2be412ef1a3c7c1a7a69131c721d3ce94"
+  },
+  "worktree": {
+    "worktreeId": "n-minus-one-lifecycle",
+    "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.7sBYS1/adopter",
+    "branch": "release-adopter-n-minus-one",
+    "headRevision": "e576b6c2be412ef1a3c7c1a7a69131c721d3ce94"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter-upgrade",
+  "authoritySource": "release-adopter-upgrade-acceptance",
+  "reason": "The isolated N-1 lifecycle branch and worktree were removed before close.",
+  "timestamp": "2026-09-10T23:28:10Z",
+  "contractDigest": "sha256:f23b16214845783e6755d5ccc6330a2109fc0f907ead0a2539ab6eff2fc79c60",
+  "resourceContext": {
+    "branch": "release-adopter-n-minus-one",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.7sBYS1/adopter",
+    "baseBranch": "release-adopter-n-minus-one",
+    "baseRemote": "local",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.89/n-minus-one-lifecycle"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "release-adopter-upgrade-n-minus-one-post-migration",
+  "operationId": "delete-n-minus-one-post-migration",
+  "repositoryId": "sha256:9d8a2656971267004c49013a26192e64d690e454d11db74e5e5d94b1c8e2066f",
+  "workItemId": "n-minus-one-post-migration",
+  "runtimeVersion": "0.2.90",
+  "runtimeDigest": "sha256:e820fdd89c2f4d675707abaf6ce84437edf7fc93282344ca26b5176411f75908",
+  "provider": "release-adopter-upgrade-harness",
+  "pullRequest": {
+    "number": 1,
+    "url": "acceptance://v0.2.90/n-minus-one-post-migration",
+    "headRevision": "be8ca2c544e5a07d73b20d542f18ccacb2616f16",
+    "baseBranch": "release-adopter-post-migration",
+    "baseRemote": "local",
+    "baseRevision": "494e9929febb9757a75e620ea769eaee5e2221b7",
+    "mergeCommit": "be8ca2c544e5a07d73b20d542f18ccacb2616f16"
+  },
+  "branch": {
+    "name": "release-adopter-post-migration",
+    "remote": "local",
+    "headRevision": "be8ca2c544e5a07d73b20d542f18ccacb2616f16"
+  },
+  "worktree": {
+    "worktreeId": "n-minus-one-post-migration",
+    "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.7sBYS1/old-control",
+    "branch": "release-adopter-post-migration",
+    "headRevision": "be8ca2c544e5a07d73b20d542f18ccacb2616f16"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "harness:release-adopter-upgrade",
+  "authoritySource": "release-adopter-upgrade-acceptance",
+  "reason": "The post-migration lifecycle branch and worktree were removed before close.",
+  "timestamp": "2026-09-10T23:28:12Z",
+  "contractDigest": "sha256:bf305770b6e9b4fe2cefea15fd1a7e469c5f6ba3930e2749c3fa6d2589536666",
+  "resourceContext": {
+    "branch": "release-adopter-post-migration",
+    "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.7sBYS1/old-control",
+    "baseBranch": "release-adopter-post-migration",
+    "baseRemote": "local",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": "acceptance://v0.2.90/n-minus-one-post-migration"
+  }
+}

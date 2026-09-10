@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": "",
+  "sourceAfterStatus": "",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:4462c2d60890bd302a7991c0740d90f88869ed0ebbf50281bf0a7b0490bc035f",
+    "afterDigest": "sha256:4462c2d60890bd302a7991c0740d90f88869ed0ebbf50281bf0a7b0490bc035f"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-adopter-acceptance.ZIc6Zt/adopter-control",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:2a5cdbd5fa17030da54159c0f7702cc4d0414450c19bcc9eee45d7cf204bb008",
+      "afterDigest": "sha256:3aaa6f98873a0a20c6c19a10fbfeb0df8ff796d861fde7172115504cf03b6983",
+      "symlinkTargetsContained": true
+    }
+  }
+}
