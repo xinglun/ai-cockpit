@@ -34,4 +34,3 @@ WI-774/WI-775/WI-776 の immutable record は変更しない。
 promotion check は次のとおり。
 
 `python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-776-wi775-archive-evidence-recovery --check`
-

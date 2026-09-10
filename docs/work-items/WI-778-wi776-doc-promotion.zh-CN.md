@@ -32,4 +32,3 @@ finalization 和 close 记录投影到英文、简体中文、日文 Work Item �
 文档专用 promotion 检查为：
 
 `python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-776-wi775-archive-evidence-recovery --check`
-

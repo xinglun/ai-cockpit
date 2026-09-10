@@ -37,4 +37,3 @@ The declared workspace verification is `cargo test --locked --workspace`.
 The documentation-specific promotion check is:
 
 `python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-776-wi775-archive-evidence-recovery --check`
-
