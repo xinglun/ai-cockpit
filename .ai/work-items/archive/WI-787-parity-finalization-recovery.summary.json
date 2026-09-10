@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-786-parity-registration-repair.recovery.96b7c5cd733a2b74247c4c2520191ba28e86d0a8c3b7ea4793821dec2df42c24.json",
+    ".ai/work-items/archive/WI-787-parity-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-787-parity-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T17:11:25Z",
+  "checkpointContractDigest": "sha256:1e417b4c8845382eb5410f8e96efc44dcd24ff201821dd7097017d911617f1e4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:801da5c39f2a2ff8579c507b5eaffa869f0e4af455306aa25f4364d0e3b131c3",
+  "createdAt": "2026-09-10T16:59:38Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:f0e83a7828ab8a2c41cd47047d833b93aa779343520c4413f81be0eba87424c9",
+  "predecessorWorkItemId": "WI-786-parity-registration-repair",
+  "preflightAt": "2026-09-10T17:16:34Z",
+  "preflightContractDigest": "sha256:1e417b4c8845382eb5410f8e96efc44dcd24ff201821dd7097017d911617f1e4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:801da5c39f2a2ff8579c507b5eaffa869f0e4af455306aa25f4364d0e3b131c3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-786-parity-registration-repair.recovery.96b7c5cd733a2b74247c4c2520191ba28e86d0a8c3b7ea4793821dec2df42c24.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T17:16:57Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-787-parity-finalization-recovery"
+}

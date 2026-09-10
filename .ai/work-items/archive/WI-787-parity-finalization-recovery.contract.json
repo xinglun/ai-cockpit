@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "The three reference-parity ledgers bind the immutable WI-786 recovery and the WI-787 successor finalization evidence without rewriting predecessor bytes.",
+    "English, Simplified Chinese, and Japanese pages remain semantically equivalent and preserve the same facts, authorization scope, and operational consequences.",
+    "The repository parity-status and documentation acceptance checks pass, and verification is recorded against the current Contract and repository snapshot.",
+    "The reviewed PR is merged and Runtime records exact provider finalization, cleanup, finalize-verify, and structured close for WI-787.",
+    "WI-786 is closed only through the documented successor recovery path after WI-787 reaches its terminal verified close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4981bb18a2bbbc2dfb435da2fd6c6ef41f2128cb",
+  "createdAt": "2026-09-10T16:59:38Z",
+  "goal": "Bind the exact successor PR context before verification, preserve predecessor records, pass repository documentation and parity checks, and complete provider merge, exact cleanup, finalize-verify, and structured close.",
+  "intent": "Complete the bounded Runtime finalization recovery for WI-786 through an independent audited successor delivery.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Product/runtime behavior",
+    " release versioning and publication",
+    " predecessor archive/evidence/Outcome/decision bytes",
+    " unrelated documentation",
+    " and any branch/worktree other than this Work Item."
+  ],
+  "predecessorContractDigest": "sha256:f0e83a7828ab8a2c41cd47047d833b93aa779343520c4413f81be0eba87424c9",
+  "predecessorWorkItemId": "WI-786-parity-registration-repair",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-786-parity-registration-repair.recovery.96b7c5cd733a2b74247c4c2520191ba28e86d0a8c3b7ea4793821dec2df42c24.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ac4b3fd4744dcadf9770ea61289dd2757309f64ca93c4bfc36b1677d724c6540",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-787-parity-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/767",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-787-parity-finalization-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-787-parity-finalization-recovery.md",
+    "docs/work-items/WI-787-parity-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-787-parity-finalization-recovery.ja.md",
+    ".ai/decisions/WI-786-parity-registration-repair.recovery.96b7c5cd733a2b74247c4c2520191ba28e86d0a8c3b7ea4793821dec2df42c24.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-787-parity-finalization-recovery"
+}
