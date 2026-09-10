@@ -89,14 +89,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T02:34:24Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T03:36:20Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:ae58708a0bca9d9e79a6d4debbff8542b4fb85b6924c3ab47bc3612d3ffdef35",
   "workItemId": "WI-773-p1-status-canonical-fact-reuse"
 }

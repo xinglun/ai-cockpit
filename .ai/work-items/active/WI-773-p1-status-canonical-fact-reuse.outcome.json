@@ -9,8 +9,9 @@
     "The pre-registered status threshold is binding for this Work Item: warm independent-CLI p50 and p95 must each improve by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent.",
     "The three-language reference-parity index records WI-773 with its current active status, Work Item links, verification evidence, and declined-candidate boundary without claiming an accepted production performance change."
   ],
+  "createdAt": "2026-09-10T03:36:20Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:ae58708a0bca9d9e79a6d4debbff8542b4fb85b6924c3ab47bc3612d3ffdef35",
+  "evidenceDigest": "sha256:cdf39825eb470a736dfec9cdb619a2f051c240f1ba8ceaa5505cb1809ae8094e",
   "evidenceRefs": [
     ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
   ],
@@ -28,15 +29,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:fdc14ee317aee135c6686471785af4930976ae10bcf2b05eced5d1e27e8ce311",
+      "repositorySnapshotDigest": "sha256:23ae35e8daf6faa7906d06893627a391e89ec10a178d5548cb193c019a73326e",
       "workItemId": "WI-773-p1-status-canonical-fact-reuse"
     },
     "format": "ai-cockpit.task-outcome",
@@ -80,7 +81,7 @@
             ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -125,8 +126,8 @@
     "status": "verified",
     "workItemId": "WI-773-p1-status-canonical-fact-reuse"
   },
-  "taskReportDigest": "sha256:c612b6f5a06563b14ce36a1ad07d0ca5e2b75d663625a6f2dea594e4ff131742",
-  "taskReportMarkdownDigest": "sha256:0cfff5f5b810ea49b07fe05e414c20d69fdb8148091cb1c0b76e355ae4f099e5",
+  "taskReportDigest": "sha256:f1dbdf5c46eddfab625cae84697ece20c3a457b9d8cd9f263cdb6f9a66e2b545",
+  "taskReportMarkdownDigest": "sha256:1265d5f7ff83d86ce986ffd2e900f11ff20c545eecc008cbc2bff7dfca72d08a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

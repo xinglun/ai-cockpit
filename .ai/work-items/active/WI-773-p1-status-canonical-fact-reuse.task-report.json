@@ -4,7 +4,7 @@
       ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:fdc14ee317aee135c6686471785af4930976ae10bcf2b05eced5d1e27e8ce311",
+    "repositorySnapshotDigest": "sha256:23ae35e8daf6faa7906d06893627a391e89ec10a178d5548cb193c019a73326e",
     "workItemId": "WI-773-p1-status-canonical-fact-reuse"
   },
   "format": "ai-cockpit.task-outcome",
@@ -48,7 +48,7 @@
           ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
