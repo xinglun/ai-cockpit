@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-10T15:18:26Z",
+  "checkpointContractDigest": "sha256:a77b1e45e7a893aa87987e574b9b33e777b5236a20bd6b3dfe7d2d07bae9de0b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:02cb8961be9f3b700d98b9ab5ebccd0a2d20ab01a2ec990ee22ed797bbf67811",
+      "recorded": true,
+      "recordedAt": "2026-09-10T15:18:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9dcd9f629d1da176cc4ecc78121a963de8baede837be32c94dc9ebeee1062709",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-783-parity-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a77b1e45e7a893aa87987e574b9b33e777b5236a20bd6b3dfe7d2d07bae9de0b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:02cb8961be9f3b700d98b9ab5ebccd0a2d20ab01a2ec990ee22ed797bbf67811",
+      "previousContractHash": "sha256:02cb8961be9f3b700d98b9ab5ebccd0a2d20ab01a2ec990ee22ed797bbf67811",
+      "reason": "Finalize-plan bound the successor to the real PR, branch, worktree, and GitHub provider; revalidate the checkpoint before collecting verification evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T15:18:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9dcd9f629d1da176cc4ecc78121a963de8baede837be32c94dc9ebeee1062709",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-783-parity-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9dcd9f629d1da176cc4ecc78121a963de8baede837be32c94dc9ebeee1062709",
+  "createdAt": "2026-09-10T15:17:08Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:17532ba338a1688d10e8410cc1c19079275c43a351e5c9de13305e247aaaab6d",
+  "predecessorWorkItemId": "WI-782-finalization-head-recovery",
+  "preflightAt": "2026-09-10T15:22:46Z",
+  "preflightContractDigest": "sha256:a77b1e45e7a893aa87987e574b9b33e777b5236a20bd6b3dfe7d2d07bae9de0b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9dcd9f629d1da176cc4ecc78121a963de8baede837be32c94dc9ebeee1062709",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-782-finalization-head-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T15:22:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-783-parity-finalization-recovery"
+}
