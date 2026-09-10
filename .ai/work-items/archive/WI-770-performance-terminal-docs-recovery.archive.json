@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T00:50:07Z",
+  "files": {
+    "contractDigest": "sha256:73531307725011344cb71db15dbcd7ef7a5975e0f5ba640b9ffe2df28a3b2ad3",
+    "contractPath": ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json",
+    "eventsDigest": "sha256:4299021f9e5c589aacfc3ee00a3be653e8d26b7a359e6a5ccf05f22bede8b635",
+    "eventsPath": ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.events.jsonl",
+    "outcomeDigest": "sha256:9c9c76414c81380b4d1efc4c668c4464d465562429dbaa1df227aed9f0f9db3d",
+    "outcomePath": ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.outcome.json",
+    "summaryDigest": "sha256:fc52fd1938b93807730ebfb2c1c39ab6f9a8414eb683000e2a738ae99a8cd77b",
+    "summaryPath": ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.summary.json",
+    "taskReportDigest": "sha256:8892dbcdbc21a6be0b2856b291bd62b366ed2bbbf86924631f32a5dd7118f2b9",
+    "taskReportMarkdownDigest": "sha256:4090be0a3a179acf5cc947f15b8bceb18cc46875f5f6710e81793af1f921aafb",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-770-performance-terminal-docs-recovery"
+}

@@ -4,9 +4,9 @@ title: "WI-769——性能终态文档修正"
 description: "修正三语性能 Work Item 报告中过期的终态表述，不改变证据或 Runtime 行为。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-769-performance-terminal-docs
-status: in_progress
+status: recovered
 authority: human:repository-owner
-lastVerifiedBy: WI-769-performance-terminal-docs
+lastVerifiedBy: WI-770-performance-terminal-docs-recovery
 ---
 
 [English](WI-769-performance-terminal-docs.md) · [日本語](WI-769-performance-terminal-docs.ja.md)
@@ -40,5 +40,6 @@ projection 与 Runtime 生成的 WI-769 生命周期记录发生变化。任何�
 
 ## 当前状态
 
-Runtime 生命周期与终态证据记录在 WI-769 Contract 下。在评审后的 PR 和 close 完成前，本页保持
-`in_progress`。
+WI-769 是不可变的 recovered 前置项，其评审后的 PR #753 已合并；新后继 WI-770 负责新鲜的恢复验证
+与终态关闭。因此本页为 `recovered`，而后继项在自身 Runtime 证据、finalization 和 close 完成前仍处于
+verification-pending。
