@@ -1,0 +1,59 @@
+{
+  "actor": "github:xinglun",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-successor-pre-merge-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f026d915696f813a081406a798a52dcc99825b98",
+    "name": "codex/wi-781-trust-diagnostics",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:693c0b657690800ffd85334d56b3dad3d49422d27f4ea2afae6b3db2d4f7b285",
+  "operationId": "github-pr-763-successor-pre-merge-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "264dcb50eb5b09c9a62604a99edc7afb4bd3c403",
+    "headRevision": "f026d915696f813a081406a798a52dcc99825b98",
+    "number": 763,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/763"
+  },
+  "reason": "WI-782 is the explicit successor for the immutable WI-781 recovery; the corrected PR branch is clean and unmerged while the provider review and hosted checks are pending.",
+  "receiptId": "ai-cockpit-WI-782-finalization-head-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-781-trust-diagnostics",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/763",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:28f34ac8e88f33df4ec9b8cc86133f0679ae9e38f8d610edceb618c879bd9bd8",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T15:08:04Z",
+  "workItemId": "WI-782-finalization-head-recovery",
+  "worktree": {
+    "branch": "codex/wi-781-trust-diagnostics",
+    "headRevision": "f026d915696f813a081406a798a52dcc99825b98",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics",
+    "worktreeId": "WI-782-finalization-head-recovery"
+  }
+}
