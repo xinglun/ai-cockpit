@@ -30,8 +30,11 @@ checkout，同时分支与干净 worktree 仍被保留时，才会只读推导
 `historical_low`；外部 provider、linked worktree、缺少 context 或拓扑不明确时仍然
 fail-closed。无法确定时请使用 `finalize-recovery-plan` 和显式 recovery receipt。
 
-新的 Work Item 仍要求当前 finalization head 的 disposition 必须是 `deleted`；
-`retained`、`blocked` 或 `unknown` 的 head 会在写入 close decision 前停止。唯一的窄兼容
+新的 Work Item 对成功合并的交付仍要求当前 finalization head 的 disposition 是
+`deleted`。明确关闭但未合并的失败交付可以使用 `abandoned`，但 receipt 必须证明
+branch 与 worktree 已删除，且唯一 failure code 是 `unmerged_pull_request`、没有
+merge commit。`abandoned` 是失败终态记录，不是成功或已合并的治理投影。`retained`、
+`blocked` 或 `unknown` 的 head 会在写入 close decision 前停止。唯一的窄兼容
 例外是已经验证的历史 `shared_worktree_retained` 或 `direct_merge_no_pr` receipt：它可以
 保留主 worktree，但必须是 `assurance=historical_low`、有明确人工授权且 Git 事实绑定到本
 repository。该例外不适用于新 Work Item，也不会把历史 evidence 升级为 provider assurance。

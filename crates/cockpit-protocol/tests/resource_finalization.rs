@@ -223,6 +223,58 @@ fn blocked_unmerged_receipt_can_advance_to_merged_deleted_transition() {
 }
 
 #[test]
+fn abandoned_unmerged_cleanup_receipt_is_a_truthful_terminal_state() {
+    let mut value = serde_json::to_value(receipt()).unwrap();
+    value["pullRequest"]["mergeCommit"] = serde_json::Value::Null;
+    value["before"] = serde_json::json!({
+        "pullRequest": "unmerged",
+        "branch": "present",
+        "worktree": "clean"
+    });
+    value["after"] = serde_json::json!({
+        "pullRequest": "unmerged",
+        "branch": "deleted",
+        "worktree": "removed"
+    });
+    value["result"] = serde_json::json!({
+        "disposition": "abandoned",
+        "failureCodes": ["unmerged_pull_request"],
+        "unknownCodes": []
+    });
+
+    let receipt: ResourceFinalizationReceipt = serde_json::from_value(value).unwrap();
+    validate_resource_finalization_receipt(&receipt).unwrap();
+}
+
+#[test]
+fn abandoned_receipt_rejects_merge_claims_and_wrong_failure_codes() {
+    let mut value = serde_json::to_value(receipt()).unwrap();
+    value["pullRequest"]["mergeCommit"] = serde_json::Value::Null;
+    value["before"] = serde_json::json!({
+        "pullRequest": "unmerged",
+        "branch": "present",
+        "worktree": "clean"
+    });
+    value["after"] = serde_json::json!({
+        "pullRequest": "merged",
+        "branch": "deleted",
+        "worktree": "removed"
+    });
+    value["result"] = serde_json::json!({
+        "disposition": "abandoned",
+        "failureCodes": ["unmerged_pull_request"],
+        "unknownCodes": []
+    });
+    let merge_claim: ResourceFinalizationReceipt = serde_json::from_value(value.clone()).unwrap();
+    assert!(validate_resource_finalization_receipt(&merge_claim).is_err());
+
+    value["after"]["pullRequest"] = "unmerged".into();
+    value["result"]["failureCodes"] = serde_json::json!(["dirty_worktree"]);
+    let wrong_failure: ResourceFinalizationReceipt = serde_json::from_value(value).unwrap();
+    assert!(validate_resource_finalization_receipt(&wrong_failure).is_err());
+}
+
+#[test]
 fn transition_rejects_stale_predecessor_and_identity_drift() {
     let previous = receipt();
     let mut next = transition(&previous);
