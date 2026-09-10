@@ -6996,13 +6996,13 @@ pub fn record_resource_finalization(
     }
     if matches!(
         receipt.result.disposition,
-        ResourceFinalizationDisposition::Deleted
+        ResourceFinalizationDisposition::Deleted | ResourceFinalizationDisposition::Abandoned
     ) && !local_resources_deleted(&root, &receipt)?
     {
         return Err(ObserverError::State {
             path: receipt_path.into(),
             message:
-                "deleted finalization receipt does not match local branch/worktree postconditions"
+                "finalization receipt does not match local branch/worktree cleanup postconditions"
                     .into(),
         });
     }
@@ -7366,12 +7366,12 @@ fn verify_resource_finalization_internal(
     };
     if matches!(
         receipt.result.disposition,
-        ResourceFinalizationDisposition::Deleted
+        ResourceFinalizationDisposition::Deleted | ResourceFinalizationDisposition::Abandoned
     ) && !local_resources_deleted(&root, &receipt)?
     {
         return Err(ObserverError::State {
             path,
-            message: "resource finalization postconditions are not satisfied".into(),
+            message: "resource finalization cleanup postconditions are not satisfied".into(),
         });
     }
     let mut result = serde_json::json!({
@@ -7831,11 +7831,11 @@ fn require_resource_finalization_for_close(
             || recovered_historical_kind == Some("shared_worktree_retained")
             || historical_kind == Some("direct_merge_no_pr")
             || recovered_historical_kind == Some("contract_amendment_revalidation"));
-    if disposition != "deleted" && !historical_retained {
+    if !matches!(disposition, "deleted" | "abandoned") && !historical_retained {
         return Err(ObserverError::State {
             path: resource_finalization_decision_path(root, work_item_id),
             message: format!(
-                "close requires resource finalization disposition deleted; retained resources require cleanup before close, got {disposition}"
+                "close requires resource finalization disposition deleted or abandoned; retained resources require cleanup before close, got {disposition}"
             ),
         });
     }

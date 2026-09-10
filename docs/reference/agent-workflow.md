@@ -196,8 +196,12 @@ checks.
 
 New Work Items must complete provider-side branch and worktree cleanup before
 `close`: a `retained`, `blocked`, or `unknown` finalization result is not a
-terminal success. The Runtime rejects that ordering in both the legacy library
-entry point and the Runtime-bound CLI path. For immutable historical records
+terminal success. An explicitly closed unmerged failed delivery may use
+`abandoned` only when its failure code is `unmerged_pull_request`, its branch
+and worktree are removed, and no merge commit is claimed; this remains a
+terminal failure record rather than a merged success. The Runtime rejects that
+ordering in both the legacy library entry point and the Runtime-bound CLI path.
+For immutable historical records
 created by an older Runtime, `work-item finalize` may append one identity-bound
 deleted transition after close. This is a bounded reconciliation only: it
 must bind the closed root digest, preserve the original close bytes, and prove

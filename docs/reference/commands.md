@@ -35,8 +35,13 @@ ambiguous topology remains fail-closed. Use `finalize-recovery-plan` and the
 explicit recovery receipt when those facts cannot be derived.
 
 New Work Items still require the current finalization head to have disposition
-`deleted`; a retained, blocked, or unknown head stops the operation before a
-close decision is written. A verified historical `shared_worktree_retained` or
+`deleted` for a successful merged delivery. An explicitly closed, unmerged
+failed delivery may instead use `abandoned`, but only when the receipt proves
+the branch and worktree were removed, carries exactly
+`unmerged_pull_request`, and has no merge commit. `abandoned` is a terminal
+failure record, not a successful or merged governance projection. A retained,
+blocked, or unknown head stops the operation before a close decision is
+written. A verified historical `shared_worktree_retained` or
 `direct_merge_no_pr` receipt is the narrow compatibility exception: it may keep
 the primary worktree and close only with `assurance=historical_low`, explicit
 human authority, and repository-bound Git facts. This exception never applies

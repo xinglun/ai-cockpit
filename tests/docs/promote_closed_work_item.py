@@ -253,30 +253,59 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         before = root_receipt.get("before")
         after = root_receipt.get("after")
         pull_request = root_receipt.get("pullRequest")
-        require(
-            isinstance(result, dict) and result.get("disposition") == "deleted",
-            "direct terminal finalization must be deleted",
-        )
-        require(
-            isinstance(before, dict)
-            and before.get("pullRequest") == "merged"
-            and before.get("branch") == "present"
-            and before.get("worktree") == "clean",
-            "direct terminal finalization before-state is incomplete",
-        )
-        require(
-            isinstance(after, dict)
-            and after.get("pullRequest") == "merged"
-            and after.get("branch") == "deleted"
-            and after.get("worktree") == "removed",
-            "direct terminal finalization after-state is incomplete",
-        )
-        require(
-            isinstance(pull_request, dict)
-            and isinstance(pull_request.get("mergeCommit"), str)
-            and bool(pull_request["mergeCommit"]),
-            "direct terminal finalization merge commit is missing",
-        )
+        require(isinstance(result, dict), "direct terminal finalization result is missing")
+        disposition = result.get("disposition")
+        if disposition == "deleted":
+            require(
+                isinstance(before, dict)
+                and before.get("pullRequest") == "merged"
+                and before.get("branch") == "present"
+                and before.get("worktree") == "clean",
+                "direct terminal finalization before-state is incomplete",
+            )
+            require(
+                isinstance(after, dict)
+                and after.get("pullRequest") == "merged"
+                and after.get("branch") == "deleted"
+                and after.get("worktree") == "removed",
+                "direct terminal finalization after-state is incomplete",
+            )
+            require(
+                isinstance(pull_request, dict)
+                and isinstance(pull_request.get("mergeCommit"), str)
+                and bool(pull_request["mergeCommit"]),
+                "direct terminal finalization merge commit is missing",
+            )
+        elif disposition == "abandoned":
+            require(
+                isinstance(result.get("failureCodes"), list)
+                and result.get("failureCodes") == ["unmerged_pull_request"]
+                and result.get("unknownCodes") == [],
+                "abandoned terminal finalization failure binding is incomplete",
+            )
+            require(
+                isinstance(before, dict)
+                and before.get("pullRequest") == "unmerged"
+                and before.get("branch") == "present"
+                and before.get("worktree") == "clean",
+                "abandoned terminal finalization before-state is incomplete",
+            )
+            require(
+                isinstance(after, dict)
+                and after.get("pullRequest") == "unmerged"
+                and after.get("branch") == "deleted"
+                and after.get("worktree") == "removed",
+                "abandoned terminal finalization after-state is incomplete",
+            )
+            require(
+                isinstance(pull_request, dict)
+                and not pull_request.get("mergeCommit"),
+                "abandoned terminal finalization cannot claim a merge commit",
+            )
+        else:
+            raise PromotionError(
+                "direct terminal finalization must be deleted or abandoned"
+            )
         finalization_sequence = 0
         finalization_path = root_path.relative_to(repository).as_posix()
         finalization_digest = canonical_digest(root_receipt)

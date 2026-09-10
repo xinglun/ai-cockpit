@@ -32,8 +32,12 @@ branch と clean worktree が retained のままの場合に限り、receipt を
 引き続き fail-closed です。事実を導出できない場合は `finalize-recovery-plan` と明示的な
 recovery receipt を使ってください。
 
-新しい Work Item では current finalization head の disposition が `deleted` でなければ
-なりません。`retained`、`blocked`、`unknown` の head は close decision を書く前に停止
+新しい Work Item で成功した merge delivery を表す current finalization head は
+`deleted` でなければなりません。明示的に close された未 merge の失敗 delivery は、
+branch と worktree の削除、唯一の failure code `unmerged_pull_request`、merge commit
+がないことを receipt が証明する場合に限り `abandoned` を使えます。`abandoned` は
+失敗の terminal record であり、成功または merge 済みの governance projection では
+ありません。`retained`、`blocked`、`unknown` の head は close decision を書く前に停止
 します。唯一の狭い互換例外は、検証済みの歴史 `shared_worktree_retained` または
 `direct_merge_no_pr` receipt です。これは primary worktree を保持できますが、
 `assurance=historical_low`、明示的な human authority、repository に束縛された Git facts

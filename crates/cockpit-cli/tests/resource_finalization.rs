@@ -544,6 +544,202 @@ fn runtime_close_requires_explicit_resource_finalization_receipt() {
 }
 
 #[test]
+fn runtime_accepts_explicitly_abandoned_unmerged_cleanup() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let repo = repository();
+    let root = repo.path();
+    let id = "WI-ABANDONED-FINALIZATION";
+    assert_success(&run(binary, &["attach"], root), "attach");
+    assert_success(
+        &run(
+            binary,
+            &[
+                "start",
+                "--id",
+                id,
+                "--intent",
+                "record failed delivery cleanup",
+                "--goal",
+                "preserve truthful non-merge outcome",
+                "--scope",
+                "src/**",
+                "--authority",
+                "authorized",
+            ],
+            root,
+        ),
+        "start",
+    );
+    let context_file = tempfile::NamedTempFile::new().expect("context temp file");
+    let context_path = context_file.path().to_owned();
+    fs::write(
+        &context_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "branch": "feature/abandoned-finalization",
+            "worktree": "/tmp/removed-abandoned-finalization",
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "provider": "github",
+            "pullRequest": "https://github.com/example/ai-cockpit/pull/160"
+        }))
+        .expect("context JSON"),
+    )
+    .expect("write context");
+    let plan = run_json(
+        binary,
+        &[
+            "work-item",
+            "finalize-plan",
+            "--id",
+            id,
+            "--input",
+            context_path.to_string_lossy().as_ref(),
+        ],
+        root,
+    );
+    let contract_digest = plan["contractDigest"].as_str().unwrap().to_owned();
+    assert_success(
+        &run(
+            binary,
+            &[
+                "preflight",
+                "--contract",
+                &format!(".ai/work-items/active/{id}.contract.json"),
+            ],
+            root,
+        ),
+        "preflight",
+    );
+    assert_success(
+        &run(binary, &["checkpoint", "--id", id], root),
+        "checkpoint",
+    );
+    assert_success(
+        &run(
+            binary,
+            &["verify", "--work-item", id, "--command", "true"],
+            root,
+        ),
+        "verify",
+    );
+    assert_success(&run(binary, &["finish", "--id", id], root), "finish");
+    assert_success(&run(binary, &["archive", "--id", id], root), "archive");
+
+    let repository_id = run_json(binary, &["status"], root)["repositoryId"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let archived_contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/work-items/archive/{id}.contract.json")))
+            .expect("archived contract"),
+    )
+    .expect("archived contract JSON");
+    let receipt_file = tempfile::NamedTempFile::new().expect("receipt temp file");
+    let receipt = serde_json::json!({
+        "schemaVersion": 1,
+        "receiptId": "receipt-abandoned-finalization",
+        "operationId": "operation-abandoned-finalization",
+        "repositoryId": repository_id,
+        "workItemId": id,
+        "runtimeVersion": env!("CARGO_PKG_VERSION"),
+        "runtimeDigest": runtime_digest(binary),
+        "provider": "github",
+        "pullRequest": {
+            "number": 160,
+            "url": "https://github.com/example/ai-cockpit/pull/160",
+            "headRevision": "abcdef2",
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "baseRevision": archived_contract["baseRevision"],
+            "mergeCommit": null
+        },
+        "branch": {
+            "name": "feature/abandoned-finalization",
+            "remote": "origin",
+            "headRevision": "abcdef2"
+        },
+        "worktree": {
+            "worktreeId": "removed-abandoned-finalization",
+            "path": "/tmp/removed-abandoned-finalization",
+            "branch": "feature/abandoned-finalization",
+            "headRevision": "abcdef2"
+        },
+        "before": {
+            "pullRequest": "unmerged",
+            "branch": "present",
+            "worktree": "clean"
+        },
+        "after": {
+            "pullRequest": "unmerged",
+            "branch": "deleted",
+            "worktree": "removed"
+        },
+        "result": {
+            "disposition": "abandoned",
+            "failureCodes": ["unmerged_pull_request"],
+            "unknownCodes": []
+        },
+        "actor": "human:test",
+        "authoritySource": "test-policy",
+        "reason": "reviewed failed delivery was explicitly closed without merge",
+        "timestamp": "2026-08-23T00:00:00Z",
+        "contractDigest": contract_digest,
+        "resourceContext": {
+            "branch": "feature/abandoned-finalization",
+            "worktree": "/tmp/removed-abandoned-finalization",
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "provider": "github",
+            "pullRequest": "https://github.com/example/ai-cockpit/pull/160"
+        }
+    });
+    fs::write(
+        receipt_file.path(),
+        serde_json::to_vec_pretty(&receipt).expect("receipt JSON"),
+    )
+    .expect("write receipt");
+    let finalized = run_json(
+        binary,
+        &[
+            "work-item",
+            "finalize",
+            "--id",
+            id,
+            "--input",
+            receipt_file.path().to_string_lossy().as_ref(),
+        ],
+        root,
+    );
+    assert_eq!(finalized["state"], "recorded");
+    assert_eq!(finalized["disposition"], "abandoned");
+
+    let verified = run_json(binary, &["work-item", "finalize-verify", "--id", id], root);
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["disposition"], "abandoned");
+
+    let closed = run(
+        binary,
+        &[
+            "close",
+            "--id",
+            id,
+            "--human-decision",
+            "superseded_failed_delivery",
+            "--actor",
+            "human:test",
+            "--authority-source",
+            "test-policy",
+            "--reason",
+            "reviewed failed delivery was cleaned without merge",
+            "--decided-at",
+            "2026-08-23T00:00:00Z",
+        ],
+        root,
+    );
+    assert_success(&closed, "close abandoned finalization");
+}
+
+#[test]
 fn cli_appends_governance_bound_merge_observation_and_cleanup() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let repo = repository();

@@ -1,0 +1,67 @@
+{
+  "acceptanceCriteria": [
+    "ResourceFinalizationDisposition::Abandoned is strictly limited to an explicitly unmerged closed PR with exactly unmerged_pull_request failure code no merge commit and deleted branch/worktree.",
+    "Runtime record and verify enforce abandoned cleanup while preserving successful merged deleted and retained blocked unknown behavior.",
+    "close and documentation promotion recognize abandoned as a terminal failed delivery without projecting it as merged success.",
+    "Tri-language workflow command Work Item and parity documentation describe the boundary with matching evidence paths.",
+    "Focused protocol repository CLI and documentation regression tests pass together with cargo test --locked --workspace.",
+    "No immutable historical records or release truth are rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ecd0b973e0fb72f570da925b16a41c130d78e65d",
+  "createdAt": "2026-09-10T08:49:47Z",
+  "goal": "Implement and verify the abandoned finalization disposition, its repository and documentation projections, and the regression coverage needed to close the WI-777 class of failed delivery from current main.",
+  "intent": "Repair the Runtime resource-finalization lifecycle so an explicitly closed unmerged failed delivery has a truthful abandoned terminal state without weakening merged deletion or retained/blocked/unknown semantics.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product behavior unrelated to Work Item finalization",
+    "performance implementation or measurement",
+    "release publication and version/tag changes",
+    "immutable WI-774 WI-775 WI-776 and WI-778 records",
+    "reviving or merging closed PR #760 or its historical branch",
+    "provider API changes and user-benefit claims"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-779-abandoned-finalization-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/762",
+    "worktree": "/private/tmp/ai-cockpit-wi-779-abandoned-finalization-repair"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-cli/tests/resource_finalization.rs",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/work-items/WI-779-abandoned-finalization-repair.md",
+    "docs/work-items/WI-779-abandoned-finalization-repair.zh-CN.md",
+    "docs/work-items/WI-779-abandoned-finalization-repair.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-779-abandoned-finalization-repair"
+}

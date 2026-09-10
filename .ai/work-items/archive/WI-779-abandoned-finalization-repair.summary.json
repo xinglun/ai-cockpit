@@ -1,0 +1,129 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-779-abandoned-finalization-repair.contract.json",
+    ".ai/work-items/archive/WI-779-abandoned-finalization-repair.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T08:50:46Z",
+  "checkpointContractDigest": "sha256:4cae595002d721f6ea72bf4ea92ec45354ddcf0adf0ca9b7a0b036ca9f21e3c9",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
+      "recorded": true,
+      "recordedAt": "2026-09-10T08:50:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-779-abandoned-finalization-repair"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4cae595002d721f6ea72bf4ea92ec45354ddcf0adf0ca9b7a0b036ca9f21e3c9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
+      "previousContractHash": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
+      "reason": "Normalize requiredEvidenceClasses to the Runtime-supported verification class; preserve concrete hosted quality, tri-language documentation, finalization, and close obligations in acceptance criteria and scenario evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T10:43:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-779-abandoned-finalization-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
+  "createdAt": "2026-09-10T08:49:47Z",
+  "intentAlignment": {
+    "evidence": [
+      "https://github.com/xinglun/ai-cockpit/pull/760",
+      "crates/cockpit-protocol/src/lib.rs",
+      "crates/cockpit-repository/src/lib.rs",
+      "docs/reference/commands.md"
+    ],
+    "reason": "WI-779 ports only the independently verified Runtime abandoned-finalization semantics and its bounded tests/docs from the failed PR #760 attempt; it starts from current main and leaves all immutable historical records untouched.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-10T10:47:41Z",
+  "preflightContractDigest": "sha256:4cae595002d721f6ea72bf4ea92ec45354ddcf0adf0ca9b7a0b036ca9f21e3c9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json",
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/resource_finalization.rs"
+      ],
+      "reason": "Fresh Runtime-bound workspace verification passed, and the focused protocol, repository, and CLI tests cover the valid abandoned unmerged cleanup path.",
+      "required": true,
+      "scenario": "valid abandoned unmerged cleanup",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json",
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "reason": "Fresh workspace verification passed, and focused negative protocol and documentation-promotion fixtures reject merge claims, wrong failure codes, unknown state, and retained resources.",
+      "required": true,
+      "scenario": "invalid abandoned receipt remains fail-closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "reason": "Fresh workspace verification passed; documentation acceptance, parity, governance-integrity, and status-consistency checks all passed for the matching English, Simplified Chinese, and Japanese projections.",
+      "required": true,
+      "scenario": "tri-language terminal projection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-774-wi773-doc-promotion.contract.json",
+        ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.contract.json",
+        ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json",
+        ".ai/work-items/archive/WI-778-wi776-doc-promotion.contract.json"
+      ],
+      "reason": "The current Work Item starts from current main and preserves the immutable predecessor records; the current diff contains only WI-779 implementation, tests, documentation, and its own active governance artifacts.",
+      "required": true,
+      "scenario": "immutable history preservation",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T10:54:24Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-779-abandoned-finalization-repair"
+}

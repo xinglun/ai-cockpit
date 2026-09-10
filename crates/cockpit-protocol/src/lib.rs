@@ -967,6 +967,10 @@ pub struct DelegatedEvidenceReceipt {
 #[serde(rename_all = "snake_case")]
 pub enum ResourceFinalizationDisposition {
     Deleted,
+    /// The provider-side PR was explicitly closed without merging, and the
+    /// failed delivery's branch/worktree were cleaned without claiming a
+    /// successful merge.
+    Abandoned,
     Retained,
     Blocked,
     Unknown,
@@ -1581,6 +1585,42 @@ pub fn validate_resource_finalization_receipt(
             {
                 return Err(ResourceFinalizationError::InvalidDisposition(
                     "deleted result requires clean merged resources or an idempotent deleted replay",
+                ));
+            }
+        }
+        ResourceFinalizationDisposition::Abandoned => {
+            let unmerged_failure = receipt.result.failure_codes.len() == 1
+                && receipt.result.failure_codes[0]
+                    == RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST;
+            let cleaned_unmerged = |state: &ResourceFinalizationState| {
+                matches!(
+                    state.pull_request,
+                    ResourceFinalizationPullRequestState::Unmerged
+                ) && matches!(state.branch, ResourceFinalizationBranchState::Deleted)
+                    && matches!(state.worktree, ResourceFinalizationWorktreeState::Removed)
+            };
+            let fresh_unmerged_cleanup = matches!(
+                receipt.before.pull_request,
+                ResourceFinalizationPullRequestState::Unmerged
+            ) && matches!(
+                receipt.before.branch,
+                ResourceFinalizationBranchState::Present
+            ) && matches!(
+                receipt.before.worktree,
+                ResourceFinalizationWorktreeState::Clean
+            );
+            if !unmerged_failure
+                || !receipt.result.unknown_codes.is_empty()
+                || receipt.pull_request.merge_commit.is_some()
+                || !matches!(
+                    receipt.after.pull_request,
+                    ResourceFinalizationPullRequestState::Unmerged
+                )
+                || !cleaned_unmerged(&receipt.after)
+                || (!fresh_unmerged_cleanup && !cleaned_unmerged(&receipt.before))
+            {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "abandoned result requires an explicitly unmerged, cleaned failed delivery",
                 ));
             }
         }

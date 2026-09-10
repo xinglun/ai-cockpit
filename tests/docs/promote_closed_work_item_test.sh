@@ -485,6 +485,62 @@ grep -Fq 'promotion required' "$tmp/pre-close-cleanup.err"
 python3 "$helper" --repo "$tmp/pre-close-cleanup" --work-item WI-999-closed-docs-fixture
 python3 "$helper" --repo "$tmp/pre-close-cleanup" --work-item WI-999-closed-docs-fixture --check
 
+# An explicitly closed, unmerged failed delivery may have a truthful terminal
+# abandoned receipt after its branch and worktree are removed.  Promotion must
+# accept that non-merge terminal without projecting it as a successful merge.
+cp -R "$tmp/unpromoted" "$tmp/abandoned-terminal"
+python3 - "$tmp/abandoned-terminal" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+decision_dir = root / ".ai/decisions"
+
+def canonical_digest(value: object) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+def write_json(path: Path, value: object) -> None:
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+root_path = decision_dir / f"{work_item}.finalize.json"
+root_receipt = json.loads(root_path.read_text(encoding="utf-8"))
+root_receipt["before"] = {"branch": "present", "pullRequest": "unmerged", "worktree": "clean"}
+root_receipt["after"] = {"branch": "deleted", "pullRequest": "unmerged", "worktree": "removed"}
+root_receipt["pullRequest"]["mergeCommit"] = None
+root_receipt["result"] = {
+    "disposition": "abandoned",
+    "failureCodes": ["unmerged_pull_request"],
+    "unknownCodes": [],
+}
+write_json(root_path, root_receipt)
+for path in decision_dir.glob(f"{work_item}.finalize.*.json"):
+    path.unlink()
+
+close_path = decision_dir / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+finalization_path = f".ai/decisions/{work_item}.finalize.json"
+close["resourceFinalizationSequence"] = 0
+close["resourceFinalizationHeadPath"] = finalization_path
+close["resourceFinalizationHeadDigest"] = canonical_digest(root_receipt)
+close["structuredDecision"]["evidenceRefs"] = [
+    f".ai/evidence/{work_item}.verification.json",
+    finalization_path,
+]
+write_json(close_path, close)
+PY
+if python3 "$helper" --repo "$tmp/abandoned-terminal" --work-item WI-999-closed-docs-fixture --check \
+  >"$tmp/abandoned-terminal.out" 2>"$tmp/abandoned-terminal.err"; then
+  echo 'promotion check accepted stale abandoned-terminal documentation' >&2
+  exit 1
+fi
+grep -Fq 'promotion required' "$tmp/abandoned-terminal.err"
+python3 "$helper" --repo "$tmp/abandoned-terminal" --work-item WI-999-closed-docs-fixture
+python3 "$helper" --repo "$tmp/abandoned-terminal" --work-item WI-999-closed-docs-fixture --check
+
 # A valid recovery receipt makes an immutable predecessor historical rather
 # than normally promotable.  An invalid/non-canonical close may remain for
 # audit purposes, but check-all must skip that predecessor and never demand an

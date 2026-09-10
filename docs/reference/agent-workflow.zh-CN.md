@@ -136,8 +136,11 @@ Checkpoint 快照具有明确的时间语义。有效的 `before_edit` 或 amend
 ## 资源收尾边界
 
 新的 Work Item 必须在 `close` 前完成 provider 侧 branch 与 worktree 清理；
-`retained`、`blocked` 或 `unknown` 的 finalization 结果都不是终态成功。Runtime
-在 legacy library entry point 和 Runtime-bound CLI 路径都会拒绝这种顺序。对于
+`retained`、`blocked` 或 `unknown` 的 finalization 结果都不是终态成功。明确关闭但
+未合并的失败交付只有在 failure code 为 `unmerged_pull_request`、branch 与 worktree
+已删除且没有声称 merge commit 时才能使用 `abandoned`；它仍是失败终态记录，不是
+已合并成功。Runtime 在 legacy library entry point 和 Runtime-bound CLI 路径都会拒绝
+不满足这些条件的顺序。对于
 旧 Runtime 已经写入的不可变历史记录，`work-item finalize` 可以在 close 后追加一条
 绑定 identity 的 deleted transition。这只是一条有界 reconciliation：必须绑定已关闭
 root 的 digest，保留原始 close 字节，并证明 PR 已合并、branch 已删除、worktree 已
